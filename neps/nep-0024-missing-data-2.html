@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    
+    <title>NEP 24 — Missing Data Functionality - Alternative 1 to NEP 12 &mdash; NumPy Enhancement Proposals</title>
+    
+    <link rel="stylesheet" type="text/css" href="_static/css/spc-bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="_static/css/spc-extend.css">
+    <link rel="stylesheet" href="_static/scipy.css" type="text/css" >
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" >
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <script type="text/javascript" src="_static/js/copybutton.js"></script>
+    <link rel="index" title="Index" href="genindex.html" >
+    <link rel="search" title="Search" href="search.html" >
+    <link rel="top" title="NumPy Enhancement Proposals" href="index.html" >
+    <link rel="next" title="NEP 25 — NA support via special dtypes" href="nep-0025-missing-data-3.html" >
+    <link rel="prev" title="NEP 12 — Missing Data Functionality in NumPy" href="nep-0012-missing-data.html" > 
+  </head>
+  <body>
+
+<div class="container">
+  <div class="top-scipy-org-logo-header">
+    <a href="index.html">
+      <img style="border: 0;" alt="SciPy" src="_static/img/scipy_org_logo.gif"></a>
+    </div>
+  </div>
+</div>
+
+
+    <div class="container">
+      <div class="main">
+        
+	<div class="row-fluid">
+	  <div class="span12">
+	    <div class="spc-navbar">
+              
+    <ul class="nav nav-pills pull-left">
+        <li class="active"><a href="https://scipy.org/">Scipy.org</a></li>
+        <li class="active"><a href="https://docs.scipy.org/">Docs</a></li>
+        
+        <li class="active"><a href="index.html">NumPy Enhancement Proposals</a></li>
+        
+ 
+    </ul>
+              
+              
+    <ul class="nav nav-pills pull-right">
+      <li class="active">
+        <a href="genindex.html" title="General Index"
+           accesskey="I">index</a>
+      </li>
+      <li class="active">
+        <a href="nep-0025-missing-data-3.html" title="NEP 25 — NA support via special dtypes"
+           accesskey="N">next</a>
+      </li>
+      <li class="active">
+        <a href="nep-0012-missing-data.html" title="NEP 12 — Missing Data Functionality in NumPy"
+           accesskey="P">previous</a>
+      </li>
+    </ul>
+              
+	    </div>
+	  </div>
+	</div>
+        
+
+	<div class="row-fluid">
+          <div class="span9">
+            
+        <div class="bodywrapper">
+          <div class="body" id="spc-section-body">
+            
+  <div class="section" id="nep-24-missing-data-functionality-alternative-1-to-nep-12">
+<h1>NEP 24 — Missing Data Functionality - Alternative 1 to NEP 12<a class="headerlink" href="#nep-24-missing-data-functionality-alternative-1-to-nep-12" title="Permalink to this headline">¶</a></h1>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Author:</th><td class="field-body">Nathaniel J. Smith &lt;<a class="reference external" href="mailto:njs&#37;&#52;&#48;pobox&#46;com">njs<span>&#64;</span>pobox<span>&#46;</span>com</a>&gt;, Matthew Brett &lt;<a class="reference external" href="mailto:matthew&#46;brett&#37;&#52;&#48;gmail&#46;com">matthew<span>&#46;</span>brett<span>&#64;</span>gmail<span>&#46;</span>com</a>&gt;</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Status:</th><td class="field-body">Deferred</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Standards Track</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Created:</th><td class="field-body">2011-06-30</td>
+</tr>
+</tbody>
+</table>
+<div class="section" id="abstract">
+<h2>Abstract<a class="headerlink" href="#abstract" title="Permalink to this headline">¶</a></h2>
+<p><em>Context: this NEP was written as an alternative to NEP 12, which at the time of writing
+had an implementation that was merged into the NumPy master branch.</em></p>
+<p>The principle of this NEP is to separate the APIs for masking and for missing values, according to</p>
+<ul class="simple">
+<li>The current implementation of masked arrays (NEP 12)</li>
+<li>This proposal.</li>
+</ul>
+<p>This discussion is only of the API, and not of the implementation.</p>
+</div>
+<div class="section" id="detailed-description">
+<h2>Detailed description<a class="headerlink" href="#detailed-description" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="rationale">
+<h3>Rationale<a class="headerlink" href="#rationale" title="Permalink to this headline">¶</a></h3>
+<p>The purpose of this aNEP is to define two interfaces – one for handling
+‘missing values’, and one for handling ‘masked arrays’.</p>
+<p>An ordinary value is something like an integer or a floating point number. A
+<em>missing</em> value is a placeholder for an ordinary value that is for some
+reason unavailable. For example, in working with statistical data, we often
+build tables in which each row represents one item, and each column
+represents properties of that item. For instance, we might take a group of
+people and for each one record height, age, education level, and income, and
+then stick these values into a table. But then we discover that our research
+assistant screwed up and forgot to record the age of one of our individuals.
+We could throw out the rest of their data as well, but this would be
+wasteful; even such an incomplete row is still perfectly usable for some
+analyses (e.g., we can compute the correlation of height and income). The
+traditional way to handle this would be to stick some particular meaningless
+value in for the missing data, e.g., recording this person’s age as 0. But
+this is very error prone; we may later forget about these special values
+while running other analyses, and discover to our surprise that babies have
+higher incomes than teenagers. (In this case, the solution would be to just
+leave out all the items where we have no age recorded, but this isn’t a
+general solution; many analyses require something more clever to handle
+missing values.) So instead of using an ordinary value like 0, we define a
+special “missing” value, written “NA” for “not available”.</p>
+<p>Therefore, missing values have the following properties: Like any other
+value, they must be supported by your array’s dtype – you can’t store a
+floating point number in an array with dtype=int32, and you can’t store an NA
+in it either. You need an array with dtype=NAint32 or something (exact syntax
+to be determined). Otherwise, they act exactly like any other values. In
+particular, you can apply arithmetic functions and so forth to them. By
+default, any function which takes an NA as an argument always returns an NA
+as well, regardless of the values of the other arguments. This ensures that
+if we try to compute the correlation of income with age, we will get “NA”,
+meaning “given that some of the entries could be anything, the answer could
+be anything as well”. This reminds us to spend a moment thinking about how we
+should rephrase our question to be more meaningful. And as a convenience for
+those times when you do decide that you just want the correlation between the
+known ages and income, then you can enable this behavior by adding a single
+argument to your function call.</p>
+<p>For floating point computations, NAs and NaNs have (almost?) identical
+behavior. But they represent different things – NaN an invalid computation
+like 0/0, NA a value that is not available – and distinguishing between
+these things is useful because in some situations they should be treated
+differently. (For example, an imputation procedure should replace NAs with
+imputed values, but probably should leave NaNs alone.) And anyway, we can’t
+use NaNs for integers, or strings, or booleans, so we need NA anyway, and
+once we have NA support for all these types, we might as well support it for
+floating point too for consistency.</p>
+<p>A masked array is, conceptually, an ordinary rectangular numpy array, which
+has had an arbitrarily-shaped mask placed over it. The result is,
+essentially, a non-rectangular view of a rectangular array. In principle,
+anything you can accomplish with a masked array could also be accomplished by
+explicitly keeping a regular array and a boolean mask array and using numpy
+indexing to combine them for each operation, but combining them into a single
+structure is much more convenient when you need to perform complex operations
+on the masked view of an array, while still being able to manipulate the mask
+in the usual ways. Therefore, masks are preserved through indexing, and
+functions generally treat masked-out values as if they were not even part of
+the array in the first place. (Maybe this is a good heuristic: a length-4
+array in which the last value has been masked out behaves just like an
+ordinary length-3 array, so long as you don’t change the mask.) Except, of
+course, that you are free to manipulate the mask in arbitrary ways whenever
+you like; it’s just a standard numpy array.</p>
+<p>There are some simple situations where one could use either of these tools to
+get the job done – or other tools entirely, like using designated surrogate
+values (age=0), separate mask arrays, etc. But missing values are designed to
+be particularly helpful in situations where the missingness is an intrinsic
+feature of the data – where there’s a specific value that <strong>should</strong> exist,
+if it did exist we’d it’d mean something specific, but it <strong>doesn’t</strong>. Masked
+arrays are designed to be particularly helpful in situations where we just
+want to temporarily ignore some data that does exist, or generally when we
+need to work with data that has a non-rectangular shape (e.g., if you make
+some measurement at each point on a grid laid over a circular agar dish, then
+the points that fall outside the dish aren’t missing measurements, they’re
+just meaningless).</p>
+</div>
+<div class="section" id="initialization">
+<h3>Initialization<a class="headerlink" href="#initialization" title="Permalink to this headline">¶</a></h3>
+<p>First, missing values can be set and be displayed as <code class="docutils literal notranslate"><span class="pre">np.NA,</span> <span class="pre">NA</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">NA</span><span class="p">,</span> <span class="mf">7.0</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;NA[f8]&#39;</span><span class="p">)</span>
+<span class="go">array([1., 2., NA, 7.], dtype=&#39;NA[&lt;f8]&#39;)</span>
+</pre></div>
+</div>
+<p>As the initialization is not ambiguous, this can be written without the NA
+dtype:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">NA</span><span class="p">,</span> <span class="mf">7.0</span><span class="p">])</span>
+<span class="go">array([1., 2., NA, 7.], dtype=&#39;NA[&lt;f8]&#39;)</span>
+</pre></div>
+</div>
+<p>Masked values can be set and be displayed as <code class="docutils literal notranslate"><span class="pre">np.IGNORE,</span> <span class="pre">IGNORE</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">IGNORE</span><span class="p">,</span> <span class="mf">7.0</span><span class="p">],</span> <span class="n">masked</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="go">array([1., 2., IGNORE, 7.], masked=True)</span>
+</pre></div>
+</div>
+<p>As the initialization is not ambiguous, this can be written without
+<code class="docutils literal notranslate"><span class="pre">masked=True</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">IGNORE</span><span class="p">,</span> <span class="mf">7.0</span><span class="p">])</span>
+<span class="go">array([1., 2., IGNORE, 7.], masked=True)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="ufuncs">
+<h3>Ufuncs<a class="headerlink" href="#ufuncs" title="Permalink to this headline">¶</a></h3>
+<p>By default, NA values propagate:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">na_arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">NA</span><span class="p">,</span> <span class="mf">7.0</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">na_arr</span><span class="p">)</span>
+<span class="go">NA(&#39;float64&#39;)</span>
+</pre></div>
+</div>
+<p>unless the <code class="docutils literal notranslate"><span class="pre">skipna</span></code> flag is set:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">na_arr</span><span class="p">,</span> <span class="n">skipna</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="go">10.0</span>
+</pre></div>
+</div>
+<p>By default, masking does not propagate:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">masked_arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">IGNORE</span><span class="p">,</span> <span class="mf">7.0</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">masked_arr</span><span class="p">)</span>
+<span class="go">10.0</span>
+</pre></div>
+</div>
+<p>unless the <code class="docutils literal notranslate"><span class="pre">propmask</span></code> flag is set:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">masked_arr</span><span class="p">,</span> <span class="n">propmask</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="go">IGNORE</span>
+</pre></div>
+</div>
+<p>An array can be masked, and contain NA values:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">both_arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">IGNORE</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">NA</span><span class="p">,</span> <span class="mf">7.0</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>In the default case, the behavior is obvious:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">both_arr</span><span class="p">)</span>
+<span class="go">NA(&#39;float64&#39;)</span>
+</pre></div>
+</div>
+<p>It’s also obvious what to do with <code class="docutils literal notranslate"><span class="pre">skipna=True</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">both_arr</span><span class="p">,</span> <span class="n">skipna</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="go">10.0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">both_arr</span><span class="p">,</span> <span class="n">skipna</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">propmask</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="go">IGNORE</span>
+</pre></div>
+</div>
+<p>To break the tie between NA and MSK, NAs propagate harder:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">both_arr</span><span class="p">,</span> <span class="n">propmask</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="go">NA(&#39;float64&#39;)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="assignment">
+<h3>Assignment<a class="headerlink" href="#assignment" title="Permalink to this headline">¶</a></h3>
+<p>is obvious in the NA case:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">7.0</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">arr</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">NA</span>
+<span class="go">TypeError(&#39;dtype does not support NA&#39;)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">na_arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">7.0</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;NA[f8]&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">na_arr</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">NA</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">na_arr</span>
+<span class="go">array([1., 2., NA], dtype=&#39;NA[&lt;f8]&#39;)</span>
+</pre></div>
+</div>
+<p>Direct assignnent in the masked case is magic and confusing, and so happens only
+via the mask:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">masked_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">7.0</span><span class="p">],</span> <span class="n">masked</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">masked_arr</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">NA</span>
+<span class="go">TypeError(&#39;dtype does not support NA&#39;)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">masked_arr</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">IGNORE</span>
+<span class="go">TypeError(&#39;float() argument must be a string or a number&#39;)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">masked_arr</span><span class="o">.</span><span class="n">visible</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">masked_arr</span>
+<span class="go">array([1., 2., IGNORE], masked=True)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="copyright">
+<h2>Copyright<a class="headerlink" href="#copyright" title="Permalink to this headline">¶</a></h2>
+<p>This document has been placed in the public domain.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+          </div>
+      <div class="spc-rightsidebar span3">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">NEP 24 — Missing Data Functionality - Alternative 1 to NEP 12</a><ul>
+<li><a class="reference internal" href="#abstract">Abstract</a></li>
+<li><a class="reference internal" href="#detailed-description">Detailed description</a><ul>
+<li><a class="reference internal" href="#rationale">Rationale</a></li>
+<li><a class="reference internal" href="#initialization">Initialization</a></li>
+<li><a class="reference internal" href="#ufuncs">Ufuncs</a></li>
+<li><a class="reference internal" href="#assignment">Assignment</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#copyright">Copyright</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="nep-0012-missing-data.html"
+                        title="previous chapter">NEP 12 — Missing Data Functionality in NumPy</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="nep-0025-missing-data-3.html"
+                        title="next chapter">NEP 25 — NA support via special dtypes</a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h4>Quick search</h4>
+    <div>
+    <form class="search" action="search.html" method="get">
+      <input type="text" style="width: inherit;" name="q" />
+      <input type="submit" value="search" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container container-navbar-bottom">
+      <div class="spc-navbar">
+        
+      </div>
+    </div>
+    <div class="container">
+    <div class="footer">
+    <div class="row-fluid">
+    <ul class="inline pull-left">
+      <li>
+        &copy; Copyright 2017-2018, NumPy Developers.
+      </li>
+      <li>
+      Last updated on Jul 06, 2019.
+      </li>
+      <li>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.5.
+      </li>
+    </ul>
+    </div>
+    </div>
+    </div>
+  </body>
+</html>

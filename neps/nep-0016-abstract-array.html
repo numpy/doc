@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    
+    <title>NEP 16 — An abstract base class for identifying “duck arrays” &mdash; NumPy Enhancement Proposals</title>
+    
+    <link rel="stylesheet" type="text/css" href="_static/css/spc-bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="_static/css/spc-extend.css">
+    <link rel="stylesheet" href="_static/scipy.css" type="text/css" >
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" >
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <script type="text/javascript" src="_static/js/copybutton.js"></script>
+    <link rel="index" title="Index" href="genindex.html" >
+    <link rel="search" title="Search" href="search.html" >
+    <link rel="top" title="NumPy Enhancement Proposals" href="index.html" >
+    <link rel="next" title="NEP 17 — Split Out Masked Arrays" href="nep-0017-split-out-maskedarray.html" >
+    <link rel="prev" title="NEP 26 — Summary of Missing Data NEPs and discussion" href="nep-0026-missing-data-summary.html" > 
+  </head>
+  <body>
+
+<div class="container">
+  <div class="top-scipy-org-logo-header">
+    <a href="index.html">
+      <img style="border: 0;" alt="SciPy" src="_static/img/scipy_org_logo.gif"></a>
+    </div>
+  </div>
+</div>
+
+
+    <div class="container">
+      <div class="main">
+        
+	<div class="row-fluid">
+	  <div class="span12">
+	    <div class="spc-navbar">
+              
+    <ul class="nav nav-pills pull-left">
+        <li class="active"><a href="https://scipy.org/">Scipy.org</a></li>
+        <li class="active"><a href="https://docs.scipy.org/">Docs</a></li>
+        
+        <li class="active"><a href="index.html">NumPy Enhancement Proposals</a></li>
+        
+ 
+    </ul>
+              
+              
+    <ul class="nav nav-pills pull-right">
+      <li class="active">
+        <a href="genindex.html" title="General Index"
+           accesskey="I">index</a>
+      </li>
+      <li class="active">
+        <a href="nep-0017-split-out-maskedarray.html" title="NEP 17 — Split Out Masked Arrays"
+           accesskey="N">next</a>
+      </li>
+      <li class="active">
+        <a href="nep-0026-missing-data-summary.html" title="NEP 26 — Summary of Missing Data NEPs and discussion"
+           accesskey="P">previous</a>
+      </li>
+    </ul>
+              
+	    </div>
+	  </div>
+	</div>
+        
+
+	<div class="row-fluid">
+          <div class="span9">
+            
+        <div class="bodywrapper">
+          <div class="body" id="spc-section-body">
+            
+  <div class="section" id="nep-16-an-abstract-base-class-for-identifying-duck-arrays">
+<h1>NEP 16 — An abstract base class for identifying “duck arrays”<a class="headerlink" href="#nep-16-an-abstract-base-class-for-identifying-duck-arrays" title="Permalink to this headline">¶</a></h1>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Author:</th><td class="field-body">Nathaniel J. Smith &lt;<a class="reference external" href="mailto:njs&#37;&#52;&#48;pobox&#46;com">njs<span>&#64;</span>pobox<span>&#46;</span>com</a>&gt;</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Status:</th><td class="field-body">Withdrawn</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Standards Track</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Created:</th><td class="field-body">2018-03-06</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Resolution:</th><td class="field-body"><a class="reference external" href="https://github.com/numpy/numpy/pull/12174">https://github.com/numpy/numpy/pull/12174</a></td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This NEP has been withdrawn in favor of the protocol based approach
+described in
+<a class="reference external" href="nep-0022-ndarray-duck-typing-overview.html">NEP 22</a></p>
+</div>
+<div class="section" id="abstract">
+<h2>Abstract<a class="headerlink" href="#abstract" title="Permalink to this headline">¶</a></h2>
+<p>We propose to add an abstract base class <code class="docutils literal notranslate"><span class="pre">AbstractArray</span></code> so that
+third-party classes can declare their ability to “quack like” an
+<code class="docutils literal notranslate"><span class="pre">ndarray</span></code>, and an <code class="docutils literal notranslate"><span class="pre">asabstractarray</span></code> function that performs
+similarly to <code class="docutils literal notranslate"><span class="pre">asarray</span></code> except that it passes through
+<code class="docutils literal notranslate"><span class="pre">AbstractArray</span></code> instances unchanged.</p>
+</div>
+<div class="section" id="detailed-description">
+<h2>Detailed description<a class="headerlink" href="#detailed-description" title="Permalink to this headline">¶</a></h2>
+<p>Many functions, in NumPy and in third-party packages, start with some
+code like:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">myfunc</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+    <span class="o">...</span>
+</pre></div>
+</div>
+<p>This ensures that <code class="docutils literal notranslate"><span class="pre">a</span></code> and <code class="docutils literal notranslate"><span class="pre">b</span></code> are <code class="docutils literal notranslate"><span class="pre">np.ndarray</span></code> objects, so
+<code class="docutils literal notranslate"><span class="pre">myfunc</span></code> can carry on assuming that they’ll act like ndarrays both
+semantically (at the Python level), and also in terms of how they’re
+stored in memory (at the C level). But many of these functions only
+work with arrays at the Python level, which means that they don’t
+actually need <code class="docutils literal notranslate"><span class="pre">ndarray</span></code> objects <em>per se</em>: they could work just as
+well with any Python object that “quacks like” an ndarray, such as
+sparse arrays, dask’s lazy arrays, or xarray’s labeled arrays.</p>
+<p>However, currently, there’s no way for these libraries to express that
+their objects can quack like an ndarray, and there’s no way for
+functions like <code class="docutils literal notranslate"><span class="pre">myfunc</span></code> to express that they’d be happy with
+anything that quacks like an ndarray. The purpose of this NEP is to
+provide those two features.</p>
+<p>Sometimes people suggest using <code class="docutils literal notranslate"><span class="pre">np.asanyarray</span></code> for this purpose, but
+unfortunately its semantics are exactly backwards: it guarantees that
+the object it returns uses the same memory layout as an <code class="docutils literal notranslate"><span class="pre">ndarray</span></code>,
+but tells you nothing at all about its semantics, which makes it
+essentially impossible to use safely in practice. Indeed, the two
+<code class="docutils literal notranslate"><span class="pre">ndarray</span></code> subclasses distributed with NumPy – <code class="docutils literal notranslate"><span class="pre">np.matrix</span></code> and
+<code class="docutils literal notranslate"><span class="pre">np.ma.masked_array</span></code> – do have incompatible semantics, and if they
+were passed to a function like <code class="docutils literal notranslate"><span class="pre">myfunc</span></code> that doesn’t check for them
+as a special-case, then it may silently return incorrect results.</p>
+<div class="section" id="declaring-that-an-object-can-quack-like-an-array">
+<h3>Declaring that an object can quack like an array<a class="headerlink" href="#declaring-that-an-object-can-quack-like-an-array" title="Permalink to this headline">¶</a></h3>
+<p>There are two basic approaches we could use for checking whether an
+object quacks like an array. We could check for a special attribute on
+the class:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">quacks_like_array</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
+    <span class="k">return</span> <span class="nb">bool</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">obj</span><span class="p">),</span> <span class="s2">&quot;__quacks_like_array__&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>Or, we could define an <a class="reference external" href="https://docs.python.org/3/library/collections.abc.html">abstract base class (ABC)</a>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">quacks_like_array</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
+    <span class="k">return</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">AbstractArray</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>If you look at how ABCs work, this is essentially equivalent to
+keeping a global set of types that have been declared to implement the
+<code class="docutils literal notranslate"><span class="pre">AbstractArray</span></code> interface, and then checking it for membership.</p>
+<p>Between these, the ABC approach seems to have a number of advantages:</p>
+<ul class="simple">
+<li>It’s Python’s standard, “one obvious way” of doing this.</li>
+<li>ABCs can be introspected (e.g. <code class="docutils literal notranslate"><span class="pre">help(np.AbstractArray)</span></code> does
+something useful).</li>
+<li>ABCs can provide useful mixin methods.</li>
+<li>ABCs integrate with other features like mypy type-checking,
+<code class="docutils literal notranslate"><span class="pre">functools.singledispatch</span></code>, etc.</li>
+</ul>
+<p>One obvious thing to check is whether this choice affects speed. Using
+the attached benchmark script on a CPython 3.7 prerelease (revision
+c4d77a661138d, self-compiled, no PGO), on a Thinkpad T450s running
+Linux, we find:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">ndarray_obj</span><span class="p">)</span>      <span class="mi">330</span> <span class="n">ns</span>
+<span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([])</span>              <span class="mi">1400</span> <span class="n">ns</span>
+
+<span class="n">Attribute</span> <span class="n">check</span><span class="p">,</span> <span class="n">success</span>      <span class="mi">80</span> <span class="n">ns</span>
+<span class="n">Attribute</span> <span class="n">check</span><span class="p">,</span> <span class="n">failure</span>      <span class="mi">80</span> <span class="n">ns</span>
+
+<span class="n">ABC</span><span class="p">,</span> <span class="n">success</span> <span class="n">via</span> <span class="n">subclass</span>    <span class="mi">340</span> <span class="n">ns</span>
+<span class="n">ABC</span><span class="p">,</span> <span class="n">success</span> <span class="n">via</span> <span class="n">register</span><span class="p">()</span>  <span class="mi">700</span> <span class="n">ns</span>
+<span class="n">ABC</span><span class="p">,</span> <span class="n">failure</span>                 <span class="mi">370</span> <span class="n">ns</span>
+</pre></div>
+</div>
+<p>Notes:</p>
+<ul>
+<li><p class="first">The first two lines are included to put the other lines in context.</p>
+</li>
+<li><p class="first">This used 3.7 because both <code class="docutils literal notranslate"><span class="pre">getattr</span></code> and ABCs are receiving
+substantial optimizations in this release, and it’s more
+representative of the long-term future of Python. (Failed
+<code class="docutils literal notranslate"><span class="pre">getattr</span></code> doesn’t necessarily construct an exception object
+anymore, and ABCs were reimplemented in C.)</p>
+</li>
+<li><p class="first">The “success” lines refer to cases where <code class="docutils literal notranslate"><span class="pre">quacks_like_array</span></code> would
+return True. The “failure” lines are cases where it would return
+False.</p>
+</li>
+<li><p class="first">The first measurement for ABCs is subclasses defined like:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">MyArray</span><span class="p">(</span><span class="n">AbstractArray</span><span class="p">):</span>
+    <span class="o">...</span>
+</pre></div>
+</div>
+<p>The second is for subclasses defined like:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">MyArray</span><span class="p">:</span>
+    <span class="o">...</span>
+
+<span class="n">AbstractArray</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">MyArray</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>I don’t know why there’s such a large difference between these.</p>
+</li>
+</ul>
+<p>In practice, either way we’d only do the full test after first
+checking for well-known types like <code class="docutils literal notranslate"><span class="pre">ndarray</span></code>, <code class="docutils literal notranslate"><span class="pre">list</span></code>, etc. <a class="reference external" href="https://github.com/numpy/numpy/blob/master/numpy/core/src/private/get_attr_string.h">This
+is how NumPy currently checks for other double-underscore attributes</a>
+and the same idea applies here to either approach. So these numbers
+won’t affect the common case, just the case where we actually have an
+<code class="docutils literal notranslate"><span class="pre">AbstractArray</span></code>, or else another third-party object that will end up
+going through <code class="docutils literal notranslate"><span class="pre">__array__</span></code> or <code class="docutils literal notranslate"><span class="pre">__array_interface__</span></code> or end up as an
+object array.</p>
+<p>So in summary, using an ABC will be slightly slower than using an
+attribute, but this doesn’t affect the most common paths, and the
+magnitude of slowdown is fairly small (~250 ns on an operation that
+already takes longer than that). Furthermore, we can potentially
+optimize this further (e.g. by keeping a tiny LRU cache of types that
+are known to be AbstractArray subclasses, on the assumption that most
+code will only use one or two of these types at a time), and it’s very
+unclear that this even matters – if the speed of <code class="docutils literal notranslate"><span class="pre">asarray</span></code> no-op
+pass-throughs were a bottleneck that showed up in profiles, then
+probably we would have made them faster already! (It would be trivial
+to fast-path this, but we don’t.)</p>
+<p>Given the semantic and usability advantages of ABCs, this seems like
+an acceptable trade-off.</p>
+</div>
+<div class="section" id="specification-of-asabstractarray">
+<h3>Specification of <code class="docutils literal notranslate"><span class="pre">asabstractarray</span></code><a class="headerlink" href="#specification-of-asabstractarray" title="Permalink to this headline">¶</a></h3>
+<p>Given <code class="docutils literal notranslate"><span class="pre">AbstractArray</span></code>, the definition of <code class="docutils literal notranslate"><span class="pre">asabstractarray</span></code> is simple:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">asabstractarray</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">AbstractArray</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">dtype</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">dtype</span> <span class="o">!=</span> <span class="n">a</span><span class="o">.</span><span class="n">dtype</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">a</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">dtype</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">a</span>
+    <span class="k">return</span> <span class="n">asarray</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Things to note:</p>
+<ul>
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">asarray</span></code> also accepts an <code class="docutils literal notranslate"><span class="pre">order=</span></code> argument, but we don’t
+include that here because it’s about details of memory
+representation, and the whole point of this function is that you use
+it to declare that you don’t care about details of memory
+representation.</p>
+</li>
+<li><p class="first">Using the <code class="docutils literal notranslate"><span class="pre">astype</span></code> method allows the <code class="docutils literal notranslate"><span class="pre">a</span></code> object to decide how to
+implement casting for its particular type.</p>
+</li>
+<li><p class="first">For strict compatibility with <code class="docutils literal notranslate"><span class="pre">asarray</span></code>, we skip calling
+<code class="docutils literal notranslate"><span class="pre">astype</span></code> when the dtype is already correct. Compare:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+
+<span class="go"># astype() always returns a view:</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span> <span class="ow">is</span> <span class="n">a</span>
+<span class="go">False</span>
+
+<span class="go"># asarray() returns the original object if possible:</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">a</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span> <span class="ow">is</span> <span class="n">a</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<div class="section" id="what-exactly-are-you-promising-if-you-inherit-from-abstractarray">
+<h3>What exactly are you promising if you inherit from <code class="docutils literal notranslate"><span class="pre">AbstractArray</span></code>?<a class="headerlink" href="#what-exactly-are-you-promising-if-you-inherit-from-abstractarray" title="Permalink to this headline">¶</a></h3>
+<p>This will presumably be refined over time. The ideal of course is that
+your class should be indistinguishable from a real <code class="docutils literal notranslate"><span class="pre">ndarray</span></code>, but
+nothing enforces that except the expectations of users. In practice,
+declaring that your class implements the <code class="docutils literal notranslate"><span class="pre">AbstractArray</span></code> interface
+simply means that it will start passing through <code class="docutils literal notranslate"><span class="pre">asabstractarray</span></code>,
+and so by subclassing it you’re saying that if some code works for
+<code class="docutils literal notranslate"><span class="pre">ndarray</span></code>s but breaks for your class, then you’re willing to accept
+bug reports on that.</p>
+<p>To start with, we should declare <code class="docutils literal notranslate"><span class="pre">__array_ufunc__</span></code> to be an abstract
+method, and add the <code class="docutils literal notranslate"><span class="pre">NDArrayOperatorsMixin</span></code> methods as mixin
+methods.</p>
+<p>Declaring <code class="docutils literal notranslate"><span class="pre">astype</span></code> as an <code class="docutils literal notranslate"><span class="pre">&#64;abstractmethod</span></code> probably makes sense as
+well, since it’s used by <code class="docutils literal notranslate"><span class="pre">asabstractarray</span></code>. We might also want to go
+ahead and add some basic attributes like <code class="docutils literal notranslate"><span class="pre">ndim</span></code>, <code class="docutils literal notranslate"><span class="pre">shape</span></code>,
+<code class="docutils literal notranslate"><span class="pre">dtype</span></code>.</p>
+<p>Adding new abstract methods will be a bit tricky, because ABCs enforce
+these at subclass time; therefore, simply adding a new
+<cite>&#64;abstractmethod</cite> will be a backwards compatibility break. If this
+becomes a problem then we can use some hacks to implement an
+<cite>&#64;upcoming_abstractmethod</cite> decorator that only issues a warning if the
+method is missing, and treat it like a regular deprecation cycle. (In
+this case, the thing we’d be deprecating is “support for abstract
+arrays that are missing feature X”.)</p>
+</div>
+<div class="section" id="naming">
+<h3>Naming<a class="headerlink" href="#naming" title="Permalink to this headline">¶</a></h3>
+<p>The name of the ABC doesn’t matter too much, because it will only be
+referenced rarely and in relatively specialized situations. The name
+of the function matters a lot, because most existing instances of
+<code class="docutils literal notranslate"><span class="pre">asarray</span></code> should be replaced by this, and in the future it’s what
+everyone should be reaching for by default unless they have a specific
+reason to use <code class="docutils literal notranslate"><span class="pre">asarray</span></code> instead. This suggests that its name really
+should be <em>shorter</em> and <em>more memorable</em> than <code class="docutils literal notranslate"><span class="pre">asarray</span></code>… which
+is difficult. I’ve used <code class="docutils literal notranslate"><span class="pre">asabstractarray</span></code> in this draft, but I’m not
+really happy with it, because it’s too long and people are unlikely to
+start using it by habit without endless exhortations.</p>
+<p>One option would be to actually change <code class="docutils literal notranslate"><span class="pre">asarray</span></code>’s semantics so
+that <em>it</em> passes through <code class="docutils literal notranslate"><span class="pre">AbstractArray</span></code> objects unchanged. But I’m
+worried that there may be a lot of code out there that calls
+<code class="docutils literal notranslate"><span class="pre">asarray</span></code> and then passes the result into some C function that
+doesn’t do any further type checking (because it knows that its caller
+has already used <code class="docutils literal notranslate"><span class="pre">asarray</span></code>). If we allow <code class="docutils literal notranslate"><span class="pre">asarray</span></code> to return
+<code class="docutils literal notranslate"><span class="pre">AbstractArray</span></code> objects, and then someone calls one of these C
+wrappers and passes it an <code class="docutils literal notranslate"><span class="pre">AbstractArray</span></code> object like a sparse
+array, then they’ll get a segfault. Right now, in the same situation,
+<code class="docutils literal notranslate"><span class="pre">asarray</span></code> will instead invoke the object’s <code class="docutils literal notranslate"><span class="pre">__array__</span></code> method, or
+use the buffer interface to make a view, or pass through an array with
+object dtype, or raise an error, or similar. Probably none of these
+outcomes are actually desirable in most cases, so maybe making it a
+segfault instead would be OK? But it’s dangerous given that we don’t
+know how common such code is. OTOH, if we were starting from scratch
+then this would probably be the ideal solution.</p>
+<p>We can’t use <code class="docutils literal notranslate"><span class="pre">asanyarray</span></code> or <code class="docutils literal notranslate"><span class="pre">array</span></code>, since those are already
+taken.</p>
+<p>Any other ideas? <code class="docutils literal notranslate"><span class="pre">np.cast</span></code>, <code class="docutils literal notranslate"><span class="pre">np.coerce</span></code>?</p>
+</div>
+</div>
+<div class="section" id="implementation">
+<h2>Implementation<a class="headerlink" href="#implementation" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic simple">
+<li>Rename <code class="docutils literal notranslate"><span class="pre">NDArrayOperatorsMixin</span></code> to <code class="docutils literal notranslate"><span class="pre">AbstractArray</span></code> (leaving
+behind an alias for backwards compatibility) and make it an ABC.</li>
+<li>Add <code class="docutils literal notranslate"><span class="pre">asabstractarray</span></code> (or whatever we end up calling it), and
+probably a C API equivalent.</li>
+<li>Begin migrating NumPy internal functions to using
+<code class="docutils literal notranslate"><span class="pre">asabstractarray</span></code> where appropriate.</li>
+</ol>
+</div>
+<div class="section" id="backward-compatibility">
+<h2>Backward compatibility<a class="headerlink" href="#backward-compatibility" title="Permalink to this headline">¶</a></h2>
+<p>This is purely a new feature, so there are no compatibility issues.
+(Unless we decide to change the semantics of <code class="docutils literal notranslate"><span class="pre">asarray</span></code> itself.)</p>
+</div>
+<div class="section" id="rejected-alternatives">
+<h2>Rejected alternatives<a class="headerlink" href="#rejected-alternatives" title="Permalink to this headline">¶</a></h2>
+<p>One suggestion that has come up is to define multiple abstract classes
+for different subsets of the array interface. Nothing in this proposal
+stops either NumPy or third-parties from doing this in the future, but
+it’s very difficult to guess ahead of time which subsets would be
+useful. Also, “the full ndarray interface” is something that existing
+libraries are written to expect (because they work with actual
+ndarrays) and test (because they test with actual ndarrays), so it’s
+by far the easiest place to start.</p>
+</div>
+<div class="section" id="links-to-discussion">
+<h2>Links to discussion<a class="headerlink" href="#links-to-discussion" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><a class="reference external" href="https://mail.python.org/pipermail/numpy-discussion/2018-March/077767.html">https://mail.python.org/pipermail/numpy-discussion/2018-March/077767.html</a></li>
+</ul>
+</div>
+<div class="section" id="appendix-benchmark-script">
+<h2>Appendix: Benchmark script<a class="headerlink" href="#appendix-benchmark-script" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">perf</span>
+<span class="kn">import</span> <span class="nn">abc</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="k">class</span> <span class="nc">NotArray</span><span class="p">:</span>
+    <span class="k">pass</span>
+
+<span class="k">class</span> <span class="nc">AttrArray</span><span class="p">:</span>
+    <span class="n">__array_implementer__</span> <span class="o">=</span> <span class="kc">True</span>
+
+<span class="k">class</span> <span class="nc">ArrayBase</span><span class="p">(</span><span class="n">abc</span><span class="o">.</span><span class="n">ABC</span><span class="p">):</span>
+    <span class="k">pass</span>
+
+<span class="k">class</span> <span class="nc">ABCArray1</span><span class="p">(</span><span class="n">ArrayBase</span><span class="p">):</span>
+    <span class="k">pass</span>
+
+<span class="k">class</span> <span class="nc">ABCArray2</span><span class="p">:</span>
+    <span class="k">pass</span>
+
+<span class="n">ArrayBase</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">ABCArray2</span><span class="p">)</span>
+
+<span class="n">not_array</span> <span class="o">=</span> <span class="n">NotArray</span><span class="p">()</span>
+<span class="n">attr_array</span> <span class="o">=</span> <span class="n">AttrArray</span><span class="p">()</span>
+<span class="n">abc_array_1</span> <span class="o">=</span> <span class="n">ABCArray1</span><span class="p">()</span>
+<span class="n">abc_array_2</span> <span class="o">=</span> <span class="n">ABCArray2</span><span class="p">()</span>
+
+<span class="c1"># Make sure ABC cache is primed</span>
+<span class="nb">isinstance</span><span class="p">(</span><span class="n">not_array</span><span class="p">,</span> <span class="n">ArrayBase</span><span class="p">)</span>
+<span class="nb">isinstance</span><span class="p">(</span><span class="n">abc_array_1</span><span class="p">,</span> <span class="n">ArrayBase</span><span class="p">)</span>
+<span class="nb">isinstance</span><span class="p">(</span><span class="n">abc_array_2</span><span class="p">,</span> <span class="n">ArrayBase</span><span class="p">)</span>
+
+<span class="n">runner</span> <span class="o">=</span> <span class="n">perf</span><span class="o">.</span><span class="n">Runner</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">t</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">statement</span><span class="p">):</span>
+    <span class="n">runner</span><span class="o">.</span><span class="n">timeit</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">statement</span><span class="p">,</span> <span class="nb">globals</span><span class="o">=</span><span class="nb">globals</span><span class="p">())</span>
+
+<span class="n">t</span><span class="p">(</span><span class="s2">&quot;np.asarray([])&quot;</span><span class="p">,</span> <span class="s2">&quot;np.asarray([])&quot;</span><span class="p">)</span>
+<span class="n">arrobj</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span>
+<span class="n">t</span><span class="p">(</span><span class="s2">&quot;np.asarray(arrobj)&quot;</span><span class="p">,</span> <span class="s2">&quot;np.asarray(arrobj)&quot;</span><span class="p">)</span>
+
+<span class="n">t</span><span class="p">(</span><span class="s2">&quot;attr, False&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;getattr(not_array, &#39;__array_implementer__&#39;, False)&quot;</span><span class="p">)</span>
+<span class="n">t</span><span class="p">(</span><span class="s2">&quot;attr, True&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;getattr(attr_array, &#39;__array_implementer__&#39;, False)&quot;</span><span class="p">)</span>
+
+<span class="n">t</span><span class="p">(</span><span class="s2">&quot;ABC, False&quot;</span><span class="p">,</span> <span class="s2">&quot;isinstance(not_array, ArrayBase)&quot;</span><span class="p">)</span>
+<span class="n">t</span><span class="p">(</span><span class="s2">&quot;ABC, True, via inheritance&quot;</span><span class="p">,</span> <span class="s2">&quot;isinstance(abc_array_1, ArrayBase)&quot;</span><span class="p">)</span>
+<span class="n">t</span><span class="p">(</span><span class="s2">&quot;ABC, True, via register&quot;</span><span class="p">,</span> <span class="s2">&quot;isinstance(abc_array_2, ArrayBase)&quot;</span><span class="p">)</span>
+
+</pre></div>
+</div>
+</div>
+<div class="section" id="copyright">
+<h2>Copyright<a class="headerlink" href="#copyright" title="Permalink to this headline">¶</a></h2>
+<p>This document has been placed in the public domain.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+          </div>
+      <div class="spc-rightsidebar span3">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">NEP 16 — An abstract base class for identifying “duck arrays”</a><ul>
+<li><a class="reference internal" href="#abstract">Abstract</a></li>
+<li><a class="reference internal" href="#detailed-description">Detailed description</a><ul>
+<li><a class="reference internal" href="#declaring-that-an-object-can-quack-like-an-array">Declaring that an object can quack like an array</a></li>
+<li><a class="reference internal" href="#specification-of-asabstractarray">Specification of <code class="docutils literal notranslate"><span class="pre">asabstractarray</span></code></a></li>
+<li><a class="reference internal" href="#what-exactly-are-you-promising-if-you-inherit-from-abstractarray">What exactly are you promising if you inherit from <code class="docutils literal notranslate"><span class="pre">AbstractArray</span></code>?</a></li>
+<li><a class="reference internal" href="#naming">Naming</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#implementation">Implementation</a></li>
+<li><a class="reference internal" href="#backward-compatibility">Backward compatibility</a></li>
+<li><a class="reference internal" href="#rejected-alternatives">Rejected alternatives</a></li>
+<li><a class="reference internal" href="#links-to-discussion">Links to discussion</a></li>
+<li><a class="reference internal" href="#appendix-benchmark-script">Appendix: Benchmark script</a></li>
+<li><a class="reference internal" href="#copyright">Copyright</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="nep-0026-missing-data-summary.html"
+                        title="previous chapter">NEP 26 — Summary of Missing Data NEPs and discussion</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="nep-0017-split-out-maskedarray.html"
+                        title="next chapter">NEP 17 — Split Out Masked Arrays</a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h4>Quick search</h4>
+    <div>
+    <form class="search" action="search.html" method="get">
+      <input type="text" style="width: inherit;" name="q" />
+      <input type="submit" value="search" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container container-navbar-bottom">
+      <div class="spc-navbar">
+        
+      </div>
+    </div>
+    <div class="container">
+    <div class="footer">
+    <div class="row-fluid">
+    <ul class="inline pull-left">
+      <li>
+        &copy; Copyright 2017-2018, NumPy Developers.
+      </li>
+      <li>
+      Last updated on Jul 06, 2019.
+      </li>
+      <li>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.5.
+      </li>
+    </ul>
+    </div>
+    </div>
+    </div>
+  </body>
+</html>

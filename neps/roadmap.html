@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    
+    <title>NumPy Roadmap &mdash; NumPy Enhancement Proposals</title>
+    
+    <link rel="stylesheet" type="text/css" href="_static/css/spc-bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="_static/css/spc-extend.css">
+    <link rel="stylesheet" href="_static/scipy.css" type="text/css" >
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" >
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <script type="text/javascript" src="_static/js/copybutton.js"></script>
+    <link rel="index" title="Index" href="genindex.html" >
+    <link rel="search" title="Search" href="search.html" >
+    <link rel="top" title="NumPy Enhancement Proposals" href="index.html" >
+    <link rel="next" title="NEP 0 — Purpose and Process" href="nep-0000.html" >
+    <link rel="prev" title="Scope of NumPy" href="scope.html" > 
+  </head>
+  <body>
+
+<div class="container">
+  <div class="top-scipy-org-logo-header">
+    <a href="index.html">
+      <img style="border: 0;" alt="SciPy" src="_static/img/scipy_org_logo.gif"></a>
+    </div>
+  </div>
+</div>
+
+
+    <div class="container">
+      <div class="main">
+        
+	<div class="row-fluid">
+	  <div class="span12">
+	    <div class="spc-navbar">
+              
+    <ul class="nav nav-pills pull-left">
+        <li class="active"><a href="https://scipy.org/">Scipy.org</a></li>
+        <li class="active"><a href="https://docs.scipy.org/">Docs</a></li>
+        
+        <li class="active"><a href="index.html">NumPy Enhancement Proposals</a></li>
+        
+ 
+    </ul>
+              
+              
+    <ul class="nav nav-pills pull-right">
+      <li class="active">
+        <a href="genindex.html" title="General Index"
+           accesskey="I">index</a>
+      </li>
+      <li class="active">
+        <a href="nep-0000.html" title="NEP 0 — Purpose and Process"
+           accesskey="N">next</a>
+      </li>
+      <li class="active">
+        <a href="scope.html" title="Scope of NumPy"
+           accesskey="P">previous</a>
+      </li>
+    </ul>
+              
+	    </div>
+	  </div>
+	</div>
+        
+
+	<div class="row-fluid">
+          <div class="span9">
+            
+        <div class="bodywrapper">
+          <div class="body" id="spc-section-body">
+            
+  <div class="section" id="numpy-roadmap">
+<h1>NumPy Roadmap<a class="headerlink" href="#numpy-roadmap" title="Permalink to this headline">¶</a></h1>
+<p>This is a live snapshot of tasks and features we will be investing resources
+in. It may be used to encourage and inspire developers and to search for
+funding.</p>
+<div class="section" id="interoperability">
+<h2>Interoperability<a class="headerlink" href="#interoperability" title="Permalink to this headline">¶</a></h2>
+<p>We aim to make it easier to interoperate with NumPy. There are many NumPy-like
+packages that add interesting new capabilities to the Python ecosystem, as well
+as many libraries that extend NumPy’s model in various ways.  Work in NumPy to
+facilitate interoperability with all such packages, and the code that uses them,
+may include (among other things) interoperability protocols, better duck typing
+support and ndarray subclass handling.</p>
+<ul class="simple">
+<li>The <code class="docutils literal notranslate"><span class="pre">__array_function__</span></code> protocol is currently experimental and needs to be
+matured. See <a class="reference external" href="https://www.numpy.org/neps/nep-0018-array-function-protocol.html">NEP 18</a> for details.</li>
+<li>New protocols for overriding other functionality in NumPy may be needed.</li>
+<li>Array duck typing, or handling “duck arrays”, needs improvements.  See
+<a class="reference external" href="http://www.numpy.org/neps/nep-0022-ndarray-duck-typing-overview.html">NEP 22</a> for details.</li>
+</ul>
+</div>
+<div class="section" id="extensibility">
+<h2>Extensibility<a class="headerlink" href="#extensibility" title="Permalink to this headline">¶</a></h2>
+<p>We aim to make it much easier to extend NumPy. The primary topic here is to
+improve the dtype system.</p>
+<ul class="simple">
+<li>Easier custom dtypes:<ul>
+<li>Simplify and/or wrap the current C-API</li>
+<li>More consistent support for dtype metadata</li>
+<li>Support for writing a dtype in Python</li>
+</ul>
+</li>
+<li>New string dtype(s):<ul>
+<li>Encoded strings with fixed-width storage (utf8, latin1, …) and/or</li>
+<li>Variable length strings (could share implementation with dtype=object,
+but are explicitly type-checked)</li>
+<li>One of these should probably be the default for text data. The current
+behavior on Python 3 is neither efficient nor user friendly.</li>
+</ul>
+</li>
+<li><cite>np.int</cite> should not be platform dependent</li>
+<li>Better coercion for string + number</li>
+</ul>
+</div>
+<div class="section" id="performance">
+<h2>Performance<a class="headerlink" href="#performance" title="Permalink to this headline">¶</a></h2>
+<p>We want to further improve NumPy’s performance, through:</p>
+<ul class="simple">
+<li>Better use of SIMD instructions, also on platforms other than x86.</li>
+<li>Reducing ufunc overhead.</li>
+<li>Optimizations in individual functions.</li>
+</ul>
+<p>Furthermore we would like to improve the benchmarking system, in terms of coverage,
+easy of use, and publication of the results (now
+<a class="reference external" href="https://pv.github.io/numpy-bench">here</a>) as part of the docs or website.</p>
+</div>
+<div class="section" id="website-and-documentation">
+<h2>Website and documentation<a class="headerlink" href="#website-and-documentation" title="Permalink to this headline">¶</a></h2>
+<p>Our website (<a class="reference external" href="https://numpy.org">https://numpy.org</a>) is in very poor shape and needs to be rewritten
+completely.</p>
+<p>The NumPy <a class="reference external" href="https://www.numpy.org/devdocs/user/index.html">documentation</a> is
+of varying quality - in particular the User Guide needs major improvements.</p>
+</div>
+<div class="section" id="random-number-generation-policy-rewrite">
+<h2>Random number generation policy &amp; rewrite<a class="headerlink" href="#random-number-generation-policy-rewrite" title="Permalink to this headline">¶</a></h2>
+<p>A new random number generation framework with higher performance generators is
+close to completion, see <a class="reference external" href="https://www.numpy.org/neps/nep-0019-rng-policy.html">NEP 19</a> and <a class="reference external" href="https://github.com/numpy/numpy/pull/13163">PR 13163</a>.</p>
+</div>
+<div class="section" id="indexing">
+<h2>Indexing<a class="headerlink" href="#indexing" title="Permalink to this headline">¶</a></h2>
+<p>We intend to add new indexing modes for “vectorized indexing” and “outer indexing”,
+see <a class="reference external" href="https://www.numpy.org/neps/nep-0021-advanced-indexing.html">NEP 21</a>.</p>
+</div>
+<div class="section" id="continuous-integration">
+<h2>Continuous Integration<a class="headerlink" href="#continuous-integration" title="Permalink to this headline">¶</a></h2>
+<p>We depend on CI to discover problems as we continue to develop NumPy before the
+code reaches downstream users.</p>
+<ul class="simple">
+<li>CI for more exotic platforms (if available as a service).</li>
+<li>Multi-package testing</li>
+<li>Add an official channel for numpy dev builds for CI usage by other projects so
+they may confirm new builds do not break their package.</li>
+</ul>
+</div>
+<div class="section" id="other-functionality">
+<h2>Other functionality<a class="headerlink" href="#other-functionality" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">MaskedArray</span></code> needs to be improved, ideas include:<ul>
+<li>Rewrite masked arrays to not be a ndarray subclass – maybe in a separate project?</li>
+<li>MaskedArray as a duck-array type, and/or</li>
+<li>dtypes that support missing values</li>
+</ul>
+</li>
+<li>A backend system for <code class="docutils literal notranslate"><span class="pre">numpy.fft</span></code> (so that e.g. <code class="docutils literal notranslate"><span class="pre">fft-mkl</span></code> doesn’t need to monkeypatch numpy)</li>
+<li>Write a strategy on how to deal with overlap between NumPy and SciPy for <code class="docutils literal notranslate"><span class="pre">linalg</span></code>
+and <code class="docutils literal notranslate"><span class="pre">fft</span></code> (and implement it).</li>
+<li>Deprecate <code class="docutils literal notranslate"><span class="pre">np.matrix</span></code> (very slowly)</li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+          </div>
+      <div class="spc-rightsidebar span3">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">NumPy Roadmap</a><ul>
+<li><a class="reference internal" href="#interoperability">Interoperability</a></li>
+<li><a class="reference internal" href="#extensibility">Extensibility</a></li>
+<li><a class="reference internal" href="#performance">Performance</a></li>
+<li><a class="reference internal" href="#website-and-documentation">Website and documentation</a></li>
+<li><a class="reference internal" href="#random-number-generation-policy-rewrite">Random number generation policy &amp; rewrite</a></li>
+<li><a class="reference internal" href="#indexing">Indexing</a></li>
+<li><a class="reference internal" href="#continuous-integration">Continuous Integration</a></li>
+<li><a class="reference internal" href="#other-functionality">Other functionality</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="scope.html"
+                        title="previous chapter">Scope of NumPy</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="nep-0000.html"
+                        title="next chapter">NEP 0 — Purpose and Process</a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h4>Quick search</h4>
+    <div>
+    <form class="search" action="search.html" method="get">
+      <input type="text" style="width: inherit;" name="q" />
+      <input type="submit" value="search" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container container-navbar-bottom">
+      <div class="spc-navbar">
+        
+      </div>
+    </div>
+    <div class="container">
+    <div class="footer">
+    <div class="row-fluid">
+    <ul class="inline pull-left">
+      <li>
+        &copy; Copyright 2017-2018, NumPy Developers.
+      </li>
+      <li>
+      Last updated on Jul 06, 2019.
+      </li>
+      <li>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.5.
+      </li>
+    </ul>
+    </div>
+    </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,1057 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    
+    <title>NEP 18 — A dispatch mechanism for NumPy’s high level array functions &mdash; NumPy Enhancement Proposals</title>
+    
+    <link rel="stylesheet" type="text/css" href="_static/css/spc-bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="_static/css/spc-extend.css">
+    <link rel="stylesheet" href="_static/scipy.css" type="text/css" >
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" >
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <script type="text/javascript" src="_static/js/copybutton.js"></script>
+    <link rel="index" title="Index" href="genindex.html" >
+    <link rel="search" title="Search" href="search.html" >
+    <link rel="top" title="NumPy Enhancement Proposals" href="index.html" >
+    <link rel="next" title="NEP 14 — Plan for dropping Python 2.7 support" href="nep-0014-dropping-python2.7-proposal.html" >
+    <link rel="prev" title="NEP Template and Instructions" href="nep-template.html" > 
+  </head>
+  <body>
+
+<div class="container">
+  <div class="top-scipy-org-logo-header">
+    <a href="index.html">
+      <img style="border: 0;" alt="SciPy" src="_static/img/scipy_org_logo.gif"></a>
+    </div>
+  </div>
+</div>
+
+
+    <div class="container">
+      <div class="main">
+        
+	<div class="row-fluid">
+	  <div class="span12">
+	    <div class="spc-navbar">
+              
+    <ul class="nav nav-pills pull-left">
+        <li class="active"><a href="https://scipy.org/">Scipy.org</a></li>
+        <li class="active"><a href="https://docs.scipy.org/">Docs</a></li>
+        
+        <li class="active"><a href="index.html">NumPy Enhancement Proposals</a></li>
+        
+ 
+    </ul>
+              
+              
+    <ul class="nav nav-pills pull-right">
+      <li class="active">
+        <a href="genindex.html" title="General Index"
+           accesskey="I">index</a>
+      </li>
+      <li class="active">
+        <a href="nep-0014-dropping-python2.7-proposal.html" title="NEP 14 — Plan for dropping Python 2.7 support"
+           accesskey="N">next</a>
+      </li>
+      <li class="active">
+        <a href="nep-template.html" title="NEP Template and Instructions"
+           accesskey="P">previous</a>
+      </li>
+    </ul>
+              
+	    </div>
+	  </div>
+	</div>
+        
+
+	<div class="row-fluid">
+          <div class="span9">
+            
+        <div class="bodywrapper">
+          <div class="body" id="spc-section-body">
+            
+  <div class="section" id="nep-18-a-dispatch-mechanism-for-numpy-s-high-level-array-functions">
+<h1>NEP 18 — A dispatch mechanism for NumPy’s high level array functions<a class="headerlink" href="#nep-18-a-dispatch-mechanism-for-numpy-s-high-level-array-functions" title="Permalink to this headline">¶</a></h1>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Author:</th><td class="field-body">Stephan Hoyer &lt;<a class="reference external" href="mailto:shoyer&#37;&#52;&#48;google&#46;com">shoyer<span>&#64;</span>google<span>&#46;</span>com</a>&gt;</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Author:</th><td class="field-body">Matthew Rocklin &lt;<a class="reference external" href="mailto:mrocklin&#37;&#52;&#48;gmail&#46;com">mrocklin<span>&#64;</span>gmail<span>&#46;</span>com</a>&gt;</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Author:</th><td class="field-body">Marten van Kerkwijk &lt;<a class="reference external" href="mailto:mhvk&#37;&#52;&#48;astro&#46;utoronto&#46;ca">mhvk<span>&#64;</span>astro<span>&#46;</span>utoronto<span>&#46;</span>ca</a>&gt;</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Author:</th><td class="field-body">Hameer Abbasi &lt;<a class="reference external" href="mailto:hameerabbasi&#37;&#52;&#48;yahoo&#46;com">hameerabbasi<span>&#64;</span>yahoo<span>&#46;</span>com</a>&gt;</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Author:</th><td class="field-body">Eric Wieser &lt;<a class="reference external" href="mailto:wieser&#46;eric&#37;&#52;&#48;gmail&#46;com">wieser<span>&#46;</span>eric<span>&#64;</span>gmail<span>&#46;</span>com</a>&gt;</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Status:</th><td class="field-body">Provisional</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Standards Track</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Created:</th><td class="field-body">2018-05-29</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Updated:</th><td class="field-body">2019-05-25</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Resolution:</th><td class="field-body"><a class="reference external" href="https://mail.python.org/pipermail/numpy-discussion/2018-August/078493.html">https://mail.python.org/pipermail/numpy-discussion/2018-August/078493.html</a></td>
+</tr>
+</tbody>
+</table>
+<div class="section" id="abstact">
+<h2>Abstact<a class="headerlink" href="#abstact" title="Permalink to this headline">¶</a></h2>
+<p>We propose the <code class="docutils literal notranslate"><span class="pre">__array_function__</span></code> protocol, to allow arguments of NumPy
+functions to define how that function operates on them. This will allow
+using NumPy as a high level API for efficient multi-dimensional array
+operations, even with array implementations that differ greatly from
+<code class="docutils literal notranslate"><span class="pre">numpy.ndarray</span></code>.</p>
+</div>
+<div class="section" id="detailed-description">
+<h2>Detailed description<a class="headerlink" href="#detailed-description" title="Permalink to this headline">¶</a></h2>
+<p>NumPy’s high level ndarray API has been implemented several times
+outside of NumPy itself for different architectures, such as for GPU
+arrays (CuPy), Sparse arrays (scipy.sparse, pydata/sparse) and parallel
+arrays (Dask array) as well as various NumPy-like implementations in the
+deep learning frameworks, like TensorFlow and PyTorch.</p>
+<p>Similarly there are many projects that build on top of the NumPy API
+for labeled and indexed arrays (XArray), automatic differentiation
+(Autograd, Tangent), masked arrays (numpy.ma), physical units (astropy.units,
+pint, unyt), etc. that add additional functionality on top of the NumPy API.
+Most of these project also implement a close variation of NumPy’s level high
+API.</p>
+<p>We would like to be able to use these libraries together, for example we
+would like to be able to place a CuPy array within XArray, or perform
+automatic differentiation on Dask array code. This would be easier to
+accomplish if code written for NumPy ndarrays could also be used by
+other NumPy-like projects.</p>
+<p>For example, we would like for the following code example to work
+equally well with any NumPy-like array object:</p>
+<div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">tensordot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">y</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>Some of this is possible today with various protocol mechanisms within
+NumPy.</p>
+<ul class="simple">
+<li>The <code class="docutils literal notranslate"><span class="pre">np.exp</span></code> function checks the <code class="docutils literal notranslate"><span class="pre">__array_ufunc__</span></code> protocol</li>
+<li>The <code class="docutils literal notranslate"><span class="pre">.T</span></code> method works using Python’s method dispatch</li>
+<li>The <code class="docutils literal notranslate"><span class="pre">np.mean</span></code> function explicitly checks for a <code class="docutils literal notranslate"><span class="pre">.mean</span></code> method on
+the argument</li>
+</ul>
+<p>However other functions, like <code class="docutils literal notranslate"><span class="pre">np.tensordot</span></code> do not dispatch, and
+instead are likely to coerce to a NumPy array (using the <code class="docutils literal notranslate"><span class="pre">__array__</span></code>)
+protocol, or err outright. To achieve enough coverage of the NumPy API
+to support downstream projects like XArray and autograd we want to
+support <em>almost all</em> functions within NumPy, which calls for a more
+reaching protocol than just <code class="docutils literal notranslate"><span class="pre">__array_ufunc__</span></code>. We would like a
+protocol that allows arguments of a NumPy function to take control and
+divert execution to another function (for example a GPU or parallel
+implementation) in a way that is safe and consistent across projects.</p>
+</div>
+<div class="section" id="implementation">
+<h2>Implementation<a class="headerlink" href="#implementation" title="Permalink to this headline">¶</a></h2>
+<p>We propose adding support for a new protocol in NumPy,
+<code class="docutils literal notranslate"><span class="pre">__array_function__</span></code>.</p>
+<p>This protocol is intended to be a catch-all for NumPy functionality that
+is not covered by the <code class="docutils literal notranslate"><span class="pre">__array_ufunc__</span></code> protocol for universal functions
+(like <code class="docutils literal notranslate"><span class="pre">np.exp</span></code>). The semantics are very similar to <code class="docutils literal notranslate"><span class="pre">__array_ufunc__</span></code>, except
+the operation is specified by an arbitrary callable object rather than a ufunc
+instance and method.</p>
+<p>A prototype implementation can be found in
+<a class="reference external" href="https://nbviewer.jupyter.org/gist/shoyer/1f0a308a06cd96df20879a1ddb8f0006">this notebook</a>.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">The <code class="docutils literal notranslate"><span class="pre">__array_function__</span></code> protocol, and its use on particular functions,
+is <em>experimental</em>. We plan to retain an interface that makes it possible
+to override NumPy functions, but the way to do so for particular functions
+<strong>can and will change</strong> with little warning. If such reduced backwards
+compatibility guarantees are not accepted to you, do not rely upon overrides
+of NumPy functions for non-NumPy arrays. See “Non-goals” below for more
+details.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>Dispatch with the <code class="docutils literal notranslate"><span class="pre">__array_function__</span></code> protocol has been implemented but is
+not yet enabled by default:</p>
+<ul class="last simple">
+<li>In NumPy 1.16, you need to set the environment variable
+<code class="docutils literal notranslate"><span class="pre">NUMPY_EXPERIMENTAL_ARRAY_FUNCTION=1</span></code> before importing NumPy to test
+NumPy function overrides.</li>
+<li>In NumPy 1.17, the protocol will be enabled by default, but can be disabled
+with <code class="docutils literal notranslate"><span class="pre">NUMPY_EXPERIMENTAL_ARRAY_FUNCTION=0</span></code>.</li>
+<li>Eventually, expect to <code class="docutils literal notranslate"><span class="pre">__array_function__</span></code> to always be enabled.</li>
+</ul>
+</div>
+<div class="section" id="the-interface">
+<h3>The interface<a class="headerlink" href="#the-interface" title="Permalink to this headline">¶</a></h3>
+<p>We propose the following signature for implementations of
+<code class="docutils literal notranslate"><span class="pre">__array_function__</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">__array_function__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">,</span> <span class="n">types</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">)</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">func</span></code> is an arbitrary callable exposed by NumPy’s public API,
+which was called in the form <code class="docutils literal notranslate"><span class="pre">func(*args,</span> <span class="pre">**kwargs)</span></code>.</li>
+<li><code class="docutils literal notranslate"><span class="pre">types</span></code> is a <a class="reference external" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Collection">collection</a>
+of unique argument types from the original NumPy function call that
+implement <code class="docutils literal notranslate"><span class="pre">__array_function__</span></code>.</li>
+<li>The tuple <code class="docutils literal notranslate"><span class="pre">args</span></code> and dict <code class="docutils literal notranslate"><span class="pre">kwargs</span></code> are directly passed on from the
+original call.</li>
+</ul>
+<p>Unlike <code class="docutils literal notranslate"><span class="pre">__array_ufunc__</span></code>, there are no high-level guarantees about the
+type of <code class="docutils literal notranslate"><span class="pre">func</span></code>, or about which of <code class="docutils literal notranslate"><span class="pre">args</span></code> and <code class="docutils literal notranslate"><span class="pre">kwargs</span></code> may contain objects
+implementing the array API.</p>
+<p>As a convenience for <code class="docutils literal notranslate"><span class="pre">__array_function__</span></code> implementors, <code class="docutils literal notranslate"><span class="pre">types</span></code> provides all
+argument types with an <code class="docutils literal notranslate"><span class="pre">'__array_function__'</span></code> attribute. This
+allows implementors to quickly identify cases where they should defer to
+<code class="docutils literal notranslate"><span class="pre">__array_function__</span></code> implementations on other arguments.
+The type of <code class="docutils literal notranslate"><span class="pre">types</span></code> is intentionally vague:
+<code class="docutils literal notranslate"><span class="pre">frozenset</span></code> would most closely match intended use, but we may use <code class="docutils literal notranslate"><span class="pre">tuple</span></code>
+instead for performance reasons. In any case, <code class="docutils literal notranslate"><span class="pre">__array_function__</span></code>
+implementations should not rely on the iteration order of <code class="docutils literal notranslate"><span class="pre">types</span></code>, which
+would violate a well-defined “Type casting hierarchy” (as described in
+<a class="reference external" href="https://www.numpy.org/neps/nep-0013-ufunc-overrides.html">NEP-13</a>).</p>
+</div>
+<div class="section" id="example-for-a-project-implementing-the-numpy-api">
+<h3>Example for a project implementing the NumPy API<a class="headerlink" href="#example-for-a-project-implementing-the-numpy-api" title="Permalink to this headline">¶</a></h3>
+<p>Most implementations of <code class="docutils literal notranslate"><span class="pre">__array_function__</span></code> will start with two
+checks:</p>
+<ol class="arabic simple">
+<li>Is the given function something that we know how to overload?</li>
+<li>Are all arguments of a type that we know how to handle?</li>
+</ol>
+<p>If these conditions hold, <code class="docutils literal notranslate"><span class="pre">__array_function__</span></code> should return
+the result from calling its implementation for <code class="docutils literal notranslate"><span class="pre">func(*args,</span> <span class="pre">**kwargs)</span></code>.
+Otherwise, it should return the sentinel value <code class="docutils literal notranslate"><span class="pre">NotImplemented</span></code>, indicating
+that the function is not implemented by these types. This is preferable to
+raising <code class="docutils literal notranslate"><span class="pre">TypeError</span></code> directly, because it gives <em>other</em> arguments the
+opportunity to define the operations.</p>
+<p>There are no general requirements on the return value from
+<code class="docutils literal notranslate"><span class="pre">__array_function__</span></code>, although most sensible implementations should probably
+return array(s) with the same type as one of the function’s arguments.
+If/when Python gains
+<a class="reference external" href="https://www.python.org/dev/peps/pep-0544/">typing support for protocols</a>
+and NumPy adds static type annotations, the <code class="docutils literal notranslate"><span class="pre">&#64;overload</span></code> implementation
+for <code class="docutils literal notranslate"><span class="pre">SupportsArrayFunction</span></code> will indicate a return type of <code class="docutils literal notranslate"><span class="pre">Any</span></code>.</p>
+<p>It may also be convenient to define a custom decorators (<code class="docutils literal notranslate"><span class="pre">implements</span></code> below)
+for registering <code class="docutils literal notranslate"><span class="pre">__array_function__</span></code> implementations.</p>
+<div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">HANDLED_FUNCTIONS</span> <span class="o">=</span> <span class="p">{}</span>
+
+<span class="k">class</span> <span class="nc">MyArray</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">__array_function__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">,</span> <span class="n">types</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">func</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">HANDLED_FUNCTIONS</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">NotImplemented</span>
+        <span class="c1"># Note: this allows subclasses that don&#39;t override</span>
+        <span class="c1"># __array_function__ to handle MyArray objects</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">all</span><span class="p">(</span><span class="nb">issubclass</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">MyArray</span><span class="p">)</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">types</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">NotImplemented</span>
+        <span class="k">return</span> <span class="n">HANDLED_FUNCTIONS</span><span class="p">[</span><span class="n">func</span><span class="p">](</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">implements</span><span class="p">(</span><span class="n">numpy_function</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Register an __array_function__ implementation for MyArray objects.&quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">decorator</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+        <span class="n">HANDLED_FUNCTIONS</span><span class="p">[</span><span class="n">numpy_function</span><span class="p">]</span> <span class="o">=</span> <span class="n">func</span>
+        <span class="k">return</span> <span class="n">func</span>
+    <span class="k">return</span> <span class="n">decorator</span>
+
+<span class="nd">@implements</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">concatenate</span><span class="p">(</span><span class="n">arrays</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="o">...</span>  <span class="c1"># implementation of concatenate for MyArray objects</span>
+
+<span class="nd">@implements</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">broadcast_to</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">broadcast_to</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="n">shape</span><span class="p">):</span>
+    <span class="o">...</span>  <span class="c1"># implementation of broadcast_to for MyArray objects</span>
+</pre></div>
+</div>
+<p>Note that it is not required for <code class="docutils literal notranslate"><span class="pre">__array_function__</span></code> implementations to
+include <em>all</em> of the corresponding NumPy function’s optional arguments
+(e.g., <code class="docutils literal notranslate"><span class="pre">broadcast_to</span></code> above omits the irrelevant <code class="docutils literal notranslate"><span class="pre">subok</span></code> argument).
+Optional arguments are only passed in to <code class="docutils literal notranslate"><span class="pre">__array_function__</span></code> if they
+were explicitly used in the NumPy function call.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Just like the case for builtin special methods like <code class="docutils literal notranslate"><span class="pre">__add__</span></code>, properly
+written <code class="docutils literal notranslate"><span class="pre">__array_function__</span></code> methods should always return
+<code class="docutils literal notranslate"><span class="pre">NotImplemented</span></code> when an unknown type is encountered. Otherwise, it will
+be impossible to correctly override NumPy functions from another object
+if the operation also includes one of your objects.</p>
+</div>
+</div>
+<div class="section" id="necessary-changes-within-the-numpy-codebase-itself">
+<h3>Necessary changes within the NumPy codebase itself<a class="headerlink" href="#necessary-changes-within-the-numpy-codebase-itself" title="Permalink to this headline">¶</a></h3>
+<p>This will require two changes within the NumPy codebase:</p>
+<ol class="arabic">
+<li><p class="first">A function to inspect available inputs, look for the
+<code class="docutils literal notranslate"><span class="pre">__array_function__</span></code> attribute on those inputs, and call those
+methods appropriately until one succeeds.  This needs to be fast in the
+common all-NumPy case, and have acceptable performance (no worse than
+linear time) even if the number of overloaded inputs is large (e.g.,
+as might be the case for <cite>np.concatenate</cite>).</p>
+<p>This is one additional function of moderate complexity.</p>
+</li>
+<li><p class="first">Calling this function within all relevant NumPy functions.</p>
+<p>This affects many parts of the NumPy codebase, although with very low
+complexity.</p>
+</li>
+</ol>
+<div class="section" id="finding-and-calling-the-right-array-function">
+<h4>Finding and calling the right <code class="docutils literal notranslate"><span class="pre">__array_function__</span></code><a class="headerlink" href="#finding-and-calling-the-right-array-function" title="Permalink to this headline">¶</a></h4>
+<p>Given a NumPy function, <code class="docutils literal notranslate"><span class="pre">*args</span></code> and <code class="docutils literal notranslate"><span class="pre">**kwargs</span></code> inputs, we need to
+search through <code class="docutils literal notranslate"><span class="pre">*args</span></code> and <code class="docutils literal notranslate"><span class="pre">**kwargs</span></code> for all appropriate inputs
+that might have the <code class="docutils literal notranslate"><span class="pre">__array_function__</span></code> attribute. Then we need to
+select among those possible methods and execute the right one.
+Negotiating between several possible implementations can be complex.</p>
+<div class="section" id="finding-arguments">
+<h5>Finding arguments<a class="headerlink" href="#finding-arguments" title="Permalink to this headline">¶</a></h5>
+<p>Valid arguments may be directly in the <code class="docutils literal notranslate"><span class="pre">*args</span></code> and <code class="docutils literal notranslate"><span class="pre">**kwargs</span></code>, such
+as in the case for <code class="docutils literal notranslate"><span class="pre">np.tensordot(left,</span> <span class="pre">right,</span> <span class="pre">out=out)</span></code>, or they may
+be nested within lists or dictionaries, such as in the case of
+<code class="docutils literal notranslate"><span class="pre">np.concatenate([x,</span> <span class="pre">y,</span> <span class="pre">z])</span></code>. This can be problematic for two reasons:</p>
+<ol class="arabic simple">
+<li>Some functions are given long lists of values, and traversing them
+might be prohibitively expensive.</li>
+<li>Some functions may have arguments that we don’t want to inspect, even
+if they have the <code class="docutils literal notranslate"><span class="pre">__array_function__</span></code> method.</li>
+</ol>
+<p>To resolve these issues, NumPy functions should explicitly indicate which
+of their arguments may be overloaded, and how these arguments should be
+checked. As a rule, this should include all arguments documented as either
+<code class="docutils literal notranslate"><span class="pre">array_like</span></code> or <code class="docutils literal notranslate"><span class="pre">ndarray</span></code>.</p>
+<p>We propose to do so by writing “dispatcher” functions for each overloaded
+NumPy function:</p>
+<ul class="simple">
+<li>These functions will be called with the exact same arguments that were passed
+into the NumPy function (i.e., <code class="docutils literal notranslate"><span class="pre">dispatcher(*args,</span> <span class="pre">**kwargs)</span></code>), and should
+return an iterable of arguments to check for overrides.</li>
+<li>Dispatcher functions are required to share the exact same positional,
+optional and keyword-only arguments as their corresponding NumPy functions.
+Otherwise, valid invocations of a NumPy function could result in an error when
+calling its dispatcher.</li>
+<li>Because default <em>values</em> for keyword arguments do not have
+<code class="docutils literal notranslate"><span class="pre">__array_function__</span></code> attributes, by convention we set all default argument
+values to <code class="docutils literal notranslate"><span class="pre">None</span></code>. This reduces the likelihood of signatures falling out
+of sync, and minimizes extraneous information in the dispatcher.
+The only exception should be cases where the argument value in some way
+effects dispatching, which should be rare.</li>
+</ul>
+<p>An example of the dispatcher for <code class="docutils literal notranslate"><span class="pre">np.concatenate</span></code> may be instructive:</p>
+<div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">_concatenate_dispatcher</span><span class="p">(</span><span class="n">arrays</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">array</span> <span class="ow">in</span> <span class="n">arrays</span><span class="p">:</span>
+        <span class="k">yield</span> <span class="n">array</span>
+    <span class="k">if</span> <span class="n">out</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">yield</span> <span class="n">out</span>
+</pre></div>
+</div>
+<p>The concatenate dispatcher is written as generator function, which allows it
+to potentially include the value of the optional <code class="docutils literal notranslate"><span class="pre">out</span></code> argument without
+needing to create a new sequence with the (potentially long) list of objects
+to be concatenated.</p>
+</div>
+<div class="section" id="trying-array-function-methods-until-the-right-one-works">
+<h5>Trying <code class="docutils literal notranslate"><span class="pre">__array_function__</span></code> methods until the right one works<a class="headerlink" href="#trying-array-function-methods-until-the-right-one-works" title="Permalink to this headline">¶</a></h5>
+<p>Many arguments may implement the <code class="docutils literal notranslate"><span class="pre">__array_function__</span></code> protocol. Some
+of these may decide that, given the available inputs, they are unable to
+determine the correct result. How do we call the right one? If several
+are valid then which has precedence?</p>
+<p>For the most part, the rules for dispatch with <code class="docutils literal notranslate"><span class="pre">__array_function__</span></code>
+match those for <code class="docutils literal notranslate"><span class="pre">__array_ufunc__</span></code> (see
+<a class="reference external" href="https://www.numpy.org/neps/nep-0013-ufunc-overrides.html">NEP-13</a>).
+In particular:</p>
+<ul class="simple">
+<li>NumPy will gather implementations of <code class="docutils literal notranslate"><span class="pre">__array_function__</span></code> from all
+specified inputs and call them in order: subclasses before
+superclasses, and otherwise left to right. Note that in some edge cases
+involving subclasses, this differs slightly from the
+<a class="reference external" href="https://bugs.python.org/issue30140">current behavior</a> of Python.</li>
+<li>Implementations of <code class="docutils literal notranslate"><span class="pre">__array_function__</span></code> indicate that they can
+handle the operation by returning any value other than
+<code class="docutils literal notranslate"><span class="pre">NotImplemented</span></code>.</li>
+<li>If all <code class="docutils literal notranslate"><span class="pre">__array_function__</span></code> methods return <code class="docutils literal notranslate"><span class="pre">NotImplemented</span></code>,
+NumPy will raise <code class="docutils literal notranslate"><span class="pre">TypeError</span></code>.</li>
+</ul>
+<p>If no <code class="docutils literal notranslate"><span class="pre">__array_function__</span></code> methods exist, NumPy will default to calling its
+own implementation, intended for use on NumPy arrays. This case arises, for
+example, when all array-like arguments are Python numbers or lists.
+(NumPy arrays do have a <code class="docutils literal notranslate"><span class="pre">__array_function__</span></code> method, given below, but it
+always returns <code class="docutils literal notranslate"><span class="pre">NotImplemented</span></code> if any argument other than a NumPy array
+subclass implements <code class="docutils literal notranslate"><span class="pre">__array_function__</span></code>.)</p>
+<p>One deviation from the current behavior of <code class="docutils literal notranslate"><span class="pre">__array_ufunc__</span></code> is that NumPy
+will only call <code class="docutils literal notranslate"><span class="pre">__array_function__</span></code> on the <em>first</em> argument of each unique
+type. This matches Python’s
+<a class="reference external" href="https://docs.python.org/3/reference/datamodel.html#object.__ror__">rule for calling reflected methods</a>,
+and this ensures that checking overloads has acceptable performance even when
+there are a large number of overloaded arguments. To avoid long-term divergence
+between these two dispatch protocols, we should
+<a class="reference external" href="https://github.com/numpy/numpy/issues/11306">also update</a>
+<code class="docutils literal notranslate"><span class="pre">__array_ufunc__</span></code> to match this behavior.</p>
+</div>
+<div class="section" id="the-array-function-method-on-numpy-ndarray">
+<h5>The <code class="docutils literal notranslate"><span class="pre">__array_function__</span></code> method on <code class="docutils literal notranslate"><span class="pre">numpy.ndarray</span></code><a class="headerlink" href="#the-array-function-method-on-numpy-ndarray" title="Permalink to this headline">¶</a></h5>
+<p>The use cases for subclasses with <code class="docutils literal notranslate"><span class="pre">__array_function__</span></code> are the same as those
+with <code class="docutils literal notranslate"><span class="pre">__array_ufunc__</span></code>, so <code class="docutils literal notranslate"><span class="pre">numpy.ndarray</span></code> also defines a
+<code class="docutils literal notranslate"><span class="pre">__array_function__</span></code> method:</p>
+<div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">__array_function__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">,</span> <span class="n">types</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">all</span><span class="p">(</span><span class="nb">issubclass</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">ndarray</span><span class="p">)</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">types</span><span class="p">):</span>
+        <span class="c1"># Defer to any non-subclasses that implement __array_function__</span>
+        <span class="k">return</span> <span class="bp">NotImplemented</span>
+
+    <span class="c1"># Use NumPy&#39;s private implementation without __array_function__</span>
+    <span class="c1"># dispatching</span>
+    <span class="k">return</span> <span class="n">func</span><span class="o">.</span><span class="n">_implementation</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This method matches NumPy’s dispatching rules, so for most part it is
+possible to pretend that <code class="docutils literal notranslate"><span class="pre">ndarray.__array_function__</span></code> does not exist.
+The private <code class="docutils literal notranslate"><span class="pre">_implementation</span></code> attribute, defined below in the
+<code class="docutils literal notranslate"><span class="pre">array_function_dispatch</span></code> decorator, allows us to avoid the special cases for
+NumPy arrays that were needed in the <code class="docutils literal notranslate"><span class="pre">__array_ufunc__</span></code> protocol.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">__array_function__</span></code> protocol always calls subclasses before
+superclasses, so if any <code class="docutils literal notranslate"><span class="pre">ndarray</span></code> subclasses are involved in an operation,
+they will get the chance to override it, just as if any other argument
+overrides <code class="docutils literal notranslate"><span class="pre">__array_function__</span></code>. But the default behavior in an operation
+that combines a base NumPy array and a subclass is different: if the subclass
+returns <code class="docutils literal notranslate"><span class="pre">NotImplemented</span></code>, NumPy’s implementation of the function will be
+called instead of raising an exception. This is appropriate since subclasses
+are <a class="reference external" href="https://en.wikipedia.org/wiki/Liskov_substitution_principle">expected to be substitutable</a>.</p>
+<p>We still caution authors of subclasses to exercise caution when relying
+upon details of NumPy’s internal implementations. It is not always possible to
+write a perfectly substitutable ndarray subclass, e.g., in cases involving the
+creation of new arrays, not least because NumPy makes use of internal
+optimizations specialized to base NumPy arrays, e.g., code written in C. Even
+if NumPy’s implementation happens to work today, it may not work in the future.
+In these cases, your recourse is to re-implement top-level NumPy functions via
+<code class="docutils literal notranslate"><span class="pre">__array_function__</span></code> on your subclass.</p>
+</div>
+</div>
+<div class="section" id="changes-within-numpy-functions">
+<h4>Changes within NumPy functions<a class="headerlink" href="#changes-within-numpy-functions" title="Permalink to this headline">¶</a></h4>
+<p>Given a function defining the above behavior, for now call it
+<code class="docutils literal notranslate"><span class="pre">implement_array_function</span></code>, we now need to call that
+function from within every relevant NumPy function. This is a pervasive change,
+but of fairly simple and innocuous code that should complete quickly and
+without effect if no arguments implement the <code class="docutils literal notranslate"><span class="pre">__array_function__</span></code>
+protocol.</p>
+<p>To achieve this, we define a <code class="docutils literal notranslate"><span class="pre">array_function_dispatch</span></code> decorator to rewrite
+NumPy functions. The basic implementation is as follows:</p>
+<div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">array_function_dispatch</span><span class="p">(</span><span class="n">dispatcher</span><span class="p">,</span> <span class="n">module</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Wrap a function for dispatch with the __array_function__ protocol.&quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">decorator</span><span class="p">(</span><span class="n">implementation</span><span class="p">):</span>
+        <span class="nd">@functools</span><span class="o">.</span><span class="n">wraps</span><span class="p">(</span><span class="n">implementation</span><span class="p">)</span>
+        <span class="k">def</span> <span class="nf">public_api</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+            <span class="n">relevant_args</span> <span class="o">=</span> <span class="n">dispatcher</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">implement_array_function</span><span class="p">(</span>
+                <span class="n">implementation</span><span class="p">,</span> <span class="n">public_api</span><span class="p">,</span> <span class="n">relevant_args</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">module</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">public_api</span><span class="o">.</span><span class="vm">__module__</span> <span class="o">=</span> <span class="n">module</span>
+        <span class="c1"># for ndarray.__array_function__</span>
+        <span class="n">public_api</span><span class="o">.</span><span class="n">_implementation</span> <span class="o">=</span> <span class="n">implementation</span>
+        <span class="k">return</span> <span class="n">public_api</span>
+    <span class="k">return</span> <span class="n">decorator</span>
+
+<span class="c1"># example usage</span>
+<span class="k">def</span> <span class="nf">_broadcast_to_dispatcher</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="n">shape</span><span class="p">,</span> <span class="n">subok</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">array</span><span class="p">,)</span>
+
+<span class="nd">@array_function_dispatch</span><span class="p">(</span><span class="n">_broadcast_to_dispatcher</span><span class="p">,</span> <span class="n">module</span><span class="o">=</span><span class="s1">&#39;numpy&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">broadcast_to</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="n">shape</span><span class="p">,</span> <span class="n">subok</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="o">...</span>  <span class="c1"># existing definition of np.broadcast_to</span>
+</pre></div>
+</div>
+<p>Using a decorator is great! We don’t need to change the definitions of
+existing NumPy functions, and only need to write a few additional lines
+for the dispatcher function. We could even reuse a single dispatcher for
+families of functions with the same signature (e.g., <code class="docutils literal notranslate"><span class="pre">sum</span></code> and <code class="docutils literal notranslate"><span class="pre">prod</span></code>).
+For such functions, the largest change could be adding a few lines to the
+docstring to note which arguments are checked for overloads.</p>
+<p>It’s particularly worth calling out the decorator’s use of
+<code class="docutils literal notranslate"><span class="pre">functools.wraps</span></code>:</p>
+<ul class="simple">
+<li>This ensures that the wrapped function has the same name and docstring as
+the wrapped NumPy function.</li>
+<li>On Python 3, it also ensures that the decorator function copies the original
+function signature, which is important for introspection based tools such as
+auto-complete.</li>
+<li>Finally, it ensures that the wrapped function
+<a class="reference external" href="http://gael-varoquaux.info/programming/decoration-in-python-done-right-decorating-and-pickling.html">can be pickled</a>.</li>
+</ul>
+<p>The example usage illustrates several best practices for writing dispatchers
+relevant to NumPy contributors:</p>
+<ul>
+<li><p class="first">We passed the <code class="docutils literal notranslate"><span class="pre">module</span></code> argument, which in turn sets the  <code class="docutils literal notranslate"><span class="pre">__module__</span></code>
+attribute on the generated function. This is for the benefit of better error
+messages, here for errors raised internally by NumPy when no implementation
+is found, e.g.,
+<code class="docutils literal notranslate"><span class="pre">TypeError:</span> <span class="pre">no</span> <span class="pre">implementation</span> <span class="pre">found</span> <span class="pre">for</span> <span class="pre">'numpy.broadcast_to'</span></code>. Setting
+<code class="docutils literal notranslate"><span class="pre">__module__</span></code> to the canonical location in NumPy’s public API encourages
+users to use NumPy’s public API for identifying functions in
+<code class="docutils literal notranslate"><span class="pre">__array_function__</span></code>.</p>
+</li>
+<li><p class="first">The dispatcher is a function that returns a tuple, rather than an equivalent
+(and equally valid) generator using <code class="docutils literal notranslate"><span class="pre">yield</span></code>:</p>
+<div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># example usage</span>
+<span class="k">def</span> <span class="nf">broadcast_to</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="n">shape</span><span class="p">,</span> <span class="n">subok</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">yield</span> <span class="n">array</span>
+</pre></div>
+</div>
+<p>This is no accident: NumPy’s implementation of dispatch for
+<code class="docutils literal notranslate"><span class="pre">__array_function__</span></code> is fastest when dispatcher functions return a builtin
+sequence type (<code class="docutils literal notranslate"><span class="pre">tuple</span></code> or <code class="docutils literal notranslate"><span class="pre">list</span></code>).</p>
+<p>On a related note, it’s perfectly fine for dispatchers to return arguments
+even if in some cases you <em>know</em> that they cannot have an
+<code class="docutils literal notranslate"><span class="pre">__array_function__</span></code> method. This can arise for functions with default
+arguments (e.g., <code class="docutils literal notranslate"><span class="pre">None</span></code>) or complex signatures. NumPy’s dispatching logic
+sorts out these cases very quickly, so it generally is not worth the trouble
+of parsing them on your own.</p>
+</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The code for <code class="docutils literal notranslate"><span class="pre">array_function_dispatch</span></code> above has been updated from the
+original version of this NEP to match the actual
+<a class="reference external" href="https://github.com/numpy/numpy/blob/e104f03ac8f65ae5b92a9b413b0fa639f39e6de2/numpy/core/overrides.py">implementation in NumPy</a>.</p>
+</div>
+</div>
+</div>
+<div class="section" id="extensibility">
+<h3>Extensibility<a class="headerlink" href="#extensibility" title="Permalink to this headline">¶</a></h3>
+<p>An important virtue of this approach is that it allows for adding new
+optional arguments to NumPy functions without breaking code that already
+relies on <code class="docutils literal notranslate"><span class="pre">__array_function__</span></code>.</p>
+<p>This is not a theoretical concern. NumPy’s older, haphazard implementation of
+overrides <em>within</em> functions like <code class="docutils literal notranslate"><span class="pre">np.sum()</span></code> necessitated some awkward
+gymnastics when we decided to add new optional arguments, e.g., the new
+<code class="docutils literal notranslate"><span class="pre">keepdims</span></code> argument is only passed in cases where it is used:</p>
+<div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">sum</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">_NoValue</span><span class="p">):</span>
+    <span class="n">kwargs</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">if</span> <span class="n">keepdims</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">_NoValue</span><span class="p">:</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;keepdims&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">keepdims</span>
+    <span class="k">return</span> <span class="n">array</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>For <code class="docutils literal notranslate"><span class="pre">__array_function__</span></code> implementors, this also means that it is possible
+to implement even existing optional arguments incrementally, and only in cases
+where it makes sense. For example, a library implementing immutable arrays
+would not be required to explicitly include an unsupported <code class="docutils literal notranslate"><span class="pre">out</span></code> argument in
+the function signature. This can be somewhat onerous to implement properly,
+e.g.,</p>
+<div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">my_sum</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">out</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;out argument is not supported&#39;</span><span class="p">)</span>
+    <span class="o">...</span>
+</pre></div>
+</div>
+<p>We thus avoid encouraging the tempting shortcut of adding catch-all
+<code class="docutils literal notranslate"><span class="pre">**ignored_kwargs</span></code> to the signatures of functions called by NumPy, which fails
+silently for misspelled or ignored arguments.</p>
+</div>
+<div class="section" id="performance">
+<h3>Performance<a class="headerlink" href="#performance" title="Permalink to this headline">¶</a></h3>
+<p>Performance is always a concern with NumPy, even though NumPy users have
+already prioritized usability over pure speed with their choice of the Python
+language itself. It’s important that this new <code class="docutils literal notranslate"><span class="pre">__array_function__</span></code> protocol
+not impose a significant cost in the typical case of NumPy functions acting
+on NumPy arrays.</p>
+<p>Our <a class="reference external" href="https://nbviewer.jupyter.org/gist/shoyer/1f0a308a06cd96df20879a1ddb8f0006">microbenchmark results</a>
+show that a pure Python implementation of the override machinery described
+above adds roughly 2-3 microseconds of overhead to each NumPy function call
+without any overloaded arguments. For context, typical NumPy functions on small
+arrays have a runtime of 1-10 microseconds, mostly determined by what fraction
+of the function’s logic is written in C. For example, one microsecond is about
+the difference in speed between the <code class="docutils literal notranslate"><span class="pre">ndarray.sum()</span></code> method (1.6 us) and
+<code class="docutils literal notranslate"><span class="pre">numpy.sum()</span></code> function (2.6 us).</p>
+<p>Fortunately, we expect significantly less overhead with a C implementation of
+<code class="docutils literal notranslate"><span class="pre">implement_array_function</span></code>, which is where the bulk of the
+runtime is. This would leave the <code class="docutils literal notranslate"><span class="pre">array_function_dispatch</span></code> decorator and
+dispatcher function on their own adding about 0.5 microseconds of overhead,
+for perhaps ~1 microsecond of overhead in the typical case.</p>
+<p>In our view, this level of overhead is reasonable to accept for code written
+in Python. We’re pretty sure that the vast majority of NumPy users aren’t
+concerned about performance differences measured in microsecond(s) on NumPy
+functions, because it’s difficult to do <em>anything</em> in Python in less than a
+microsecond.</p>
+</div>
+<div class="section" id="use-outside-of-numpy">
+<h3>Use outside of NumPy<a class="headerlink" href="#use-outside-of-numpy" title="Permalink to this headline">¶</a></h3>
+<p>Nothing about this protocol that is particular to NumPy itself. Should
+we encourage use of the same <code class="docutils literal notranslate"><span class="pre">__array_function__</span></code> protocol third-party
+libraries for overloading non-NumPy functions, e.g., for making
+array-implementation generic functionality in SciPy?</p>
+<p>This would offer significant advantages (SciPy wouldn’t need to invent
+its own dispatch system) and no downsides that we can think of, because
+every function that dispatches with <code class="docutils literal notranslate"><span class="pre">__array_function__</span></code> already needs
+to be explicitly recognized. Libraries like Dask, CuPy, and Autograd
+already wrap a limited subset of SciPy functionality (e.g.,
+<code class="docutils literal notranslate"><span class="pre">scipy.linalg</span></code>) similarly to how they wrap NumPy.</p>
+<p>If we want to do this, we should expose at least the decorator
+<code class="docutils literal notranslate"><span class="pre">array_function_dispatch()</span></code> and possibly also the lower level
+<code class="docutils literal notranslate"><span class="pre">implement_array_function()</span></code> as part of NumPy’s public API.</p>
+</div>
+</div>
+<div class="section" id="non-goals">
+<h2>Non-goals<a class="headerlink" href="#non-goals" title="Permalink to this headline">¶</a></h2>
+<p>We are aiming for basic strategy that can be relatively mechanistically
+applied to almost all functions in NumPy’s API in a relatively short
+period of time, the development cycle of a single NumPy release.</p>
+<p>We hope to get both the <code class="docutils literal notranslate"><span class="pre">__array_function__</span></code> protocol and all specific
+overloads right on the first try, but our explicit aim here is to get
+something that mostly works (and can be iterated upon), rather than to
+wait for an optimal implementation. The price of moving fast is that for
+now <strong>this protocol should be considered strictly experimental</strong>. We
+reserve the right to change the details of this protocol and how
+specific NumPy functions use it at any time in the future – even in
+otherwise bug-fix only releases of NumPy. In practice, once initial
+issues with <code class="docutils literal notranslate"><span class="pre">__array_function__</span></code> are worked out, we will use abbreviated
+deprecation cycles as short as a single major NumPy release (e.g., as
+little as four months).</p>
+<p>In particular, we don’t plan to write additional NEPs that list all
+specific functions to overload, with exactly how they should be
+overloaded. We will leave this up to the discretion of committers on
+individual pull requests, trusting that they will surface any
+controversies for discussion by interested parties.</p>
+<p>However, we already know several families of functions that should be
+explicitly exclude from <code class="docutils literal notranslate"><span class="pre">__array_function__</span></code>. These will need their
+own protocols:</p>
+<ul class="simple">
+<li>universal functions, which already have their own protocol.</li>
+<li><code class="docutils literal notranslate"><span class="pre">array</span></code> and <code class="docutils literal notranslate"><span class="pre">asarray</span></code>, because they are explicitly intended for
+coercion to actual <code class="docutils literal notranslate"><span class="pre">numpy.ndarray</span></code> object.</li>
+<li>dispatch for methods of any kind, e.g., methods on
+<code class="docutils literal notranslate"><span class="pre">np.random.RandomState</span></code> objects.</li>
+</ul>
+<p>We also expect that the mechanism for overriding specific functions
+that will initially use the <code class="docutils literal notranslate"><span class="pre">__array_function__</span></code> protocol can and will
+change in the future. As a concrete example of how we expect to break
+behavior in the future, some functions such as <code class="docutils literal notranslate"><span class="pre">np.where</span></code> are currently
+not NumPy universal functions, but conceivably could become universal
+functions in the future. When/if this happens, we will change such overloads
+from using <code class="docutils literal notranslate"><span class="pre">__array_function__</span></code> to the more specialized <code class="docutils literal notranslate"><span class="pre">__array_ufunc__</span></code>.</p>
+</div>
+<div class="section" id="backward-compatibility">
+<h2>Backward compatibility<a class="headerlink" href="#backward-compatibility" title="Permalink to this headline">¶</a></h2>
+<p>This proposal does not change existing semantics, except for those arguments
+that currently have <code class="docutils literal notranslate"><span class="pre">__array_function__</span></code> attributes, which should be rare.</p>
+</div>
+<div class="section" id="alternatives">
+<h2>Alternatives<a class="headerlink" href="#alternatives" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="specialized-protocols">
+<h3>Specialized protocols<a class="headerlink" href="#specialized-protocols" title="Permalink to this headline">¶</a></h3>
+<p>We could (and should) continue to develop protocols like
+<code class="docutils literal notranslate"><span class="pre">__array_ufunc__</span></code> for cohesive subsets of NumPy functionality.</p>
+<p>As mentioned above, if this means that some functions that we overload
+with <code class="docutils literal notranslate"><span class="pre">__array_function__</span></code> should switch to a new protocol instead,
+that is explicitly OK for as long as <code class="docutils literal notranslate"><span class="pre">__array_function__</span></code> retains its
+experimental status.</p>
+<p>Switching to a new protocol should use an abbreviated version of NumPy’s
+normal deprecation cycle:</p>
+<ul class="simple">
+<li>For a single major release, after checking for any new protocols, NumPy
+should still check for <code class="docutils literal notranslate"><span class="pre">__array_function__</span></code> methods that implement the
+given function. If any argument returns a value other than
+<code class="docutils literal notranslate"><span class="pre">NotImplemented</span></code> from <code class="docutils literal notranslate"><span class="pre">__array_function__</span></code>, a descriptive
+<code class="docutils literal notranslate"><span class="pre">FutureWarning</span></code> should be issued.</li>
+<li>In the next major release, the checks for <code class="docutils literal notranslate"><span class="pre">__array_function__</span></code> will be
+removed.</li>
+</ul>
+</div>
+<div class="section" id="separate-namespace">
+<h3>Separate namespace<a class="headerlink" href="#separate-namespace" title="Permalink to this headline">¶</a></h3>
+<p>A separate namespace for overloaded functions is another possibility,
+either inside or outside of NumPy.</p>
+<p>This has the advantage of alleviating any possible concerns about
+backwards compatibility and would provide the maximum freedom for quick
+experimentation. In the long term, it would provide a clean abstraction
+layer, separating NumPy’s high level API from default implementations on
+<code class="docutils literal notranslate"><span class="pre">numpy.ndarray</span></code> objects.</p>
+<p>The downsides are that this would require an explicit opt-in from all
+existing code, e.g., <code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">numpy.api</span> <span class="pre">as</span> <span class="pre">np</span></code>, and in the long term
+would result in the maintenance of two separate NumPy APIs. Also, many
+functions from <code class="docutils literal notranslate"><span class="pre">numpy</span></code> itself are already overloaded (but
+inadequately), so confusion about high vs. low level APIs in NumPy would
+still persist.</p>
+<p>Alternatively, a separate namespace, e.g., <code class="docutils literal notranslate"><span class="pre">numpy.array_only</span></code>, could be
+created for a non-overloaded version of NumPy’s high level API, for cases
+where performance with NumPy arrays is a critical concern. This has most
+of the same downsides as the separate namespace.</p>
+</div>
+<div class="section" id="multiple-dispatch">
+<h3>Multiple dispatch<a class="headerlink" href="#multiple-dispatch" title="Permalink to this headline">¶</a></h3>
+<p>An alternative to our suggestion of the <code class="docutils literal notranslate"><span class="pre">__array_function__</span></code> protocol
+would be implementing NumPy’s core functions as
+<a class="reference external" href="https://en.wikipedia.org/wiki/Multiple_dispatch">multi-methods</a>.
+Although one of us wrote a <a class="reference external" href="https://github.com/mrocklin/multipledispatch">multiple dispatch
+library</a> for Python, we
+don’t think this approach makes sense for NumPy in the near term.</p>
+<p>The main reason is that NumPy already has a well-proven dispatching
+mechanism with <code class="docutils literal notranslate"><span class="pre">__array_ufunc__</span></code>, based on Python’s own dispatching
+system for arithmetic, and it would be confusing to add another
+mechanism that works in a very different way. This would also be more
+invasive change to NumPy itself, which would need to gain a multiple
+dispatch implementation.</p>
+<p>It is possible that multiple dispatch implementation for NumPy’s high
+level API could make sense in the future. Fortunately,
+<code class="docutils literal notranslate"><span class="pre">__array_function__</span></code> does not preclude this possibility, because it
+would be straightforward to write a shim for a default
+<code class="docutils literal notranslate"><span class="pre">__array_function__</span></code> implementation in terms of multiple dispatch.</p>
+</div>
+<div class="section" id="implementations-in-terms-of-a-limited-core-api">
+<h3>Implementations in terms of a limited core API<a class="headerlink" href="#implementations-in-terms-of-a-limited-core-api" title="Permalink to this headline">¶</a></h3>
+<p>The internal implementation of some NumPy functions is extremely simple.
+For example:</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">np.stack()</span></code> is implemented in only a few lines of code by combining
+indexing with <code class="docutils literal notranslate"><span class="pre">np.newaxis</span></code>, <code class="docutils literal notranslate"><span class="pre">np.concatenate</span></code> and the <code class="docutils literal notranslate"><span class="pre">shape</span></code> attribute.</li>
+<li><code class="docutils literal notranslate"><span class="pre">np.mean()</span></code> is implemented internally in terms of <code class="docutils literal notranslate"><span class="pre">np.sum()</span></code>,
+<code class="docutils literal notranslate"><span class="pre">np.divide()</span></code>, <code class="docutils literal notranslate"><span class="pre">.astype()</span></code> and <code class="docutils literal notranslate"><span class="pre">.shape</span></code>.</li>
+</ul>
+<p>This suggests the possibility of defining a minimal “core” ndarray
+interface, and relying upon it internally in NumPy to implement the full
+API. This is an attractive option, because it could significantly reduce
+the work required for new array implementations.</p>
+<p>However, this also comes with several downsides:</p>
+<ol class="arabic simple">
+<li>The details of how NumPy implements a high-level function in terms of
+overloaded functions now becomes an implicit part of NumPy’s public API. For
+example, refactoring <code class="docutils literal notranslate"><span class="pre">stack</span></code> to use <code class="docutils literal notranslate"><span class="pre">np.block()</span></code> instead of
+<code class="docutils literal notranslate"><span class="pre">np.concatenate()</span></code> internally would now become a breaking change.</li>
+<li>Array libraries may prefer to implement high level functions differently than
+NumPy. For example, a library might prefer to implement a fundamental
+operations like <code class="docutils literal notranslate"><span class="pre">mean()</span></code> directly rather than relying on <code class="docutils literal notranslate"><span class="pre">sum()</span></code> followed
+by division. More generally, it’s not clear yet what exactly qualifies as
+core functionality, and figuring this out could be a large project.</li>
+<li>We don’t yet have an overloading system for attributes and methods on array
+objects, e.g., for accessing <code class="docutils literal notranslate"><span class="pre">.dtype</span></code> and <code class="docutils literal notranslate"><span class="pre">.shape</span></code>. This should be the
+subject of a future NEP, but until then we should be reluctant to rely on
+these properties.</li>
+</ol>
+<p>Given these concerns, we think it’s valuable to support explicit overloading of
+nearly every public function in NumPy’s API. This does not preclude the future
+possibility of rewriting NumPy functions in terms of simplified core
+functionality with <code class="docutils literal notranslate"><span class="pre">__array_function__</span></code> and a protocol and/or base class for
+ensuring that arrays expose methods and properties like <code class="docutils literal notranslate"><span class="pre">numpy.ndarray</span></code>.
+However, to work well this would require the possibility of implementing
+<em>some</em> but not all functions with <code class="docutils literal notranslate"><span class="pre">__array_function__</span></code>, e.g., as described
+in the next section.</p>
+</div>
+<div class="section" id="partial-implementation-of-numpy-s-api">
+<h3>Partial implementation of NumPy’s API<a class="headerlink" href="#partial-implementation-of-numpy-s-api" title="Permalink to this headline">¶</a></h3>
+<p>With the current design, classes that implement <code class="docutils literal notranslate"><span class="pre">__array_function__</span></code>
+to overload at least one function implicitly declare an intent to
+implement the entire NumPy API. It’s not possible to implement <em>only</em>
+<code class="docutils literal notranslate"><span class="pre">np.concatenate()</span></code> on a type, but fall back to NumPy’s default
+behavior of casting with <code class="docutils literal notranslate"><span class="pre">np.asarray()</span></code> for all other functions.</p>
+<p>This could present a backwards compatibility concern that would
+discourage libraries from adopting <code class="docutils literal notranslate"><span class="pre">__array_function__</span></code> in an
+incremental fashion. For example, currently most numpy functions will
+implicitly convert <code class="docutils literal notranslate"><span class="pre">pandas.Series</span></code> objects into NumPy arrays, behavior
+that assuredly many pandas users rely on. If pandas implemented
+<code class="docutils literal notranslate"><span class="pre">__array_function__</span></code> only for <code class="docutils literal notranslate"><span class="pre">np.concatenate</span></code>, unrelated NumPy
+functions like <code class="docutils literal notranslate"><span class="pre">np.nanmean</span></code> would suddenly break on pandas objects by
+raising TypeError.</p>
+<p>Even libraries that reimplement most of NumPy’s public API sometimes rely upon
+using utility functions from NumPy without a wrapper. For example, both CuPy
+and JAX simply <a class="reference external" href="https://github.com/numpy/numpy/issues/12974">use an alias</a> to
+<code class="docutils literal notranslate"><span class="pre">np.result_type</span></code>, which already supports duck-types with a <code class="docutils literal notranslate"><span class="pre">dtype</span></code>
+attribute.</p>
+<p>With <code class="docutils literal notranslate"><span class="pre">__array_ufunc__</span></code>, it’s possible to alleviate this concern by
+casting all arguments to numpy arrays and re-calling the ufunc, but the
+heterogeneous function signatures supported by <code class="docutils literal notranslate"><span class="pre">__array_function__</span></code>
+make it impossible to implement this generic fallback behavior for
+<code class="docutils literal notranslate"><span class="pre">__array_function__</span></code>.</p>
+<p>We considered three possible ways to resolve this issue, but none were
+entirely satisfactory:</p>
+<ol class="arabic">
+<li><p class="first">Change the meaning of all arguments returning <code class="docutils literal notranslate"><span class="pre">NotImplemented</span></code> from
+<code class="docutils literal notranslate"><span class="pre">__array_function__</span></code> to indicate that all arguments should be coerced to
+NumPy arrays and the operation should be retried. However, many array
+libraries (e.g., scipy.sparse) really don’t want implicit conversions to
+NumPy arrays, and often avoid implementing <code class="docutils literal notranslate"><span class="pre">__array__</span></code> for exactly this
+reason. Implicit conversions can result in silent bugs and performance
+degradation.</p>
+<p>Potentially, we could enable this behavior only for types that implement
+<code class="docutils literal notranslate"><span class="pre">__array__</span></code>, which would resolve the most problematic cases like
+scipy.sparse. But in practice, a large fraction of classes that present a
+high level API like NumPy arrays already implement <code class="docutils literal notranslate"><span class="pre">__array__</span></code>. This would
+preclude reliable use of NumPy’s high level API on these objects.</p>
+</li>
+<li><p class="first">Use another sentinel value of some sort, e.g.,
+<code class="docutils literal notranslate"><span class="pre">np.NotImplementedButCoercible</span></code>, to indicate that a class implementing
+part of NumPy’s higher level array API is coercible as a fallback. If all
+arguments return <code class="docutils literal notranslate"><span class="pre">NotImplementedButCoercible</span></code>, arguments would be coerced
+and the operation would be retried.</p>
+<p>Unfortunately, correct behavior after encountering
+<code class="docutils literal notranslate"><span class="pre">NotImplementedButCoercible</span></code> is not always obvious. Particularly
+challenging is the “mixed” case where some arguments return
+<code class="docutils literal notranslate"><span class="pre">NotImplementedButCoercible</span></code> and others return <code class="docutils literal notranslate"><span class="pre">NotImplemented</span></code>.
+Would dispatching be retried after only coercing the “coercible” arguments?
+If so, then conceivably we could end up looping through the dispatching
+logic an arbitrary number of times. Either way, the dispatching rules would
+definitely get more complex and harder to reason about.</p>
+</li>
+<li><p class="first">Allow access to NumPy’s implementation of functions, e.g., in the form of
+a publicly exposed <code class="docutils literal notranslate"><span class="pre">__skip_array_function__</span></code> attribute on the NumPy
+functions. This would allow for falling back to NumPy’s implementation by
+using <code class="docutils literal notranslate"><span class="pre">func.__skip_array_function__</span></code> inside <code class="docutils literal notranslate"><span class="pre">__array_function__</span></code>
+methods, and could also potentially be used to be used to avoid the
+overhead of dispatching. However, it runs the risk of potentially exposing
+details of NumPy’s implementations for NumPy functions that do not call
+<code class="docutils literal notranslate"><span class="pre">np.asarray()</span></code> internally. See
+<a class="reference external" href="https://mail.python.org/pipermail/numpy-discussion/2019-May/079541.html">this note</a>
+for a summary of the full discussion.</p>
+</li>
+</ol>
+<p>These solutions would solve real use cases, but at the cost of additional
+complexity. We would like to gain experience with how <code class="docutils literal notranslate"><span class="pre">__array_function__</span></code> is
+actually used before making decisions that would be difficult to roll back.</p>
+</div>
+<div class="section" id="a-magic-decorator-that-inspects-type-annotations">
+<h3>A magic decorator that inspects type annotations<a class="headerlink" href="#a-magic-decorator-that-inspects-type-annotations" title="Permalink to this headline">¶</a></h3>
+<p>In principle, Python 3 type annotations contain sufficient information to
+automatically create most <code class="docutils literal notranslate"><span class="pre">dispatcher</span></code> functions. It would be convenient to
+use these annotations to dispense with the need for manually writing
+dispatchers, e.g.,</p>
+<div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nd">@array_function_dispatch</span>
+<span class="k">def</span> <span class="nf">broadcast_to</span><span class="p">(</span><span class="n">array</span><span class="p">:</span> <span class="n">ArrayLike</span>
+                 <span class="n">shape</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span>
+                 <span class="n">subok</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+    <span class="o">...</span>  <span class="c1"># existing definition of np.broadcast_to</span>
+</pre></div>
+</div>
+<p>This would require some form of automatic code generation, either at compile or
+import time.</p>
+<p>We think this is an interesting possible extension to consider in the future. We
+don’t think it makes sense to do so now, because code generation involves
+tradeoffs and NumPy’s experience with type annotations is still
+<a class="reference external" href="https://github.com/numpy/numpy-stubs">quite limited</a>. Even if NumPy
+was Python 3 only (which will happen
+<a class="reference external" href="http://www.numpy.org/neps/nep-0014-dropping-python2.7-proposal.html">sometime in 2019</a>),
+we aren’t ready to annotate NumPy’s codebase directly yet.</p>
+</div>
+<div class="section" id="support-for-implementation-specific-arguments">
+<h3>Support for implementation-specific arguments<a class="headerlink" href="#support-for-implementation-specific-arguments" title="Permalink to this headline">¶</a></h3>
+<p>We could allow <code class="docutils literal notranslate"><span class="pre">__array_function__</span></code> implementations to add their own
+optional keyword arguments by including <code class="docutils literal notranslate"><span class="pre">**ignored_kwargs</span></code> in dispatcher
+functions, e.g.,</p>
+<div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">_concatenate_dispatcher</span><span class="p">(</span><span class="n">arrays</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">ignored_kwargs</span><span class="p">):</span>
+    <span class="o">...</span>  <span class="c1"># same implementation of _concatenate_dispatcher as above</span>
+</pre></div>
+</div>
+<p>Implementation-specific arguments are somewhat common in libraries that
+otherwise emulate NumPy’s higher level API (e.g., <code class="docutils literal notranslate"><span class="pre">dask.array.sum()</span></code> adds
+<code class="docutils literal notranslate"><span class="pre">split_every</span></code> and <code class="docutils literal notranslate"><span class="pre">tensorflow.reduce_sum()</span></code> adds <code class="docutils literal notranslate"><span class="pre">name</span></code>). Supporting
+them in NumPy would be particularly useful for libraries that implement new
+high-level array functions on top of NumPy functions, e.g.,</p>
+<div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">mean_squared_error</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">x</span> <span class="o">-</span> <span class="n">y</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Otherwise, we would need separate versions of <code class="docutils literal notranslate"><span class="pre">mean_squared_error</span></code> for each
+array implementation in order to pass implementation-specific arguments to
+<code class="docutils literal notranslate"><span class="pre">mean()</span></code>.</p>
+<p>We wouldn’t allow adding optional positional arguments, because these are
+reserved for future use by NumPy itself, but conflicts between keyword arguments
+should be relatively rare.</p>
+<p>However, this flexibility would come with a cost. In particular, it implicitly
+adds <code class="docutils literal notranslate"><span class="pre">**kwargs</span></code> to the signature for all wrapped NumPy functions without
+actually including it (because we use <code class="docutils literal notranslate"><span class="pre">functools.wraps</span></code>). This means it is
+unlikely to work well with static analysis tools, which could report invalid
+arguments. Likewise, there is a price in readability: these optional arguments
+won’t be included in the docstrings for NumPy functions.</p>
+<p>It’s not clear that this tradeoff is worth it, so we propose to leave this out
+for now. Adding implementation-specific arguments will require using those
+libraries directly.</p>
+</div>
+<div class="section" id="other-possible-choices-for-the-protocol">
+<h3>Other possible choices for the protocol<a class="headerlink" href="#other-possible-choices-for-the-protocol" title="Permalink to this headline">¶</a></h3>
+<p>The array function <code class="docutils literal notranslate"><span class="pre">__array_function__</span></code> includes only two arguments, <code class="docutils literal notranslate"><span class="pre">func</span></code>
+and <code class="docutils literal notranslate"><span class="pre">types</span></code>, that provide information about the context of the function call.</p>
+<p><code class="docutils literal notranslate"><span class="pre">func</span></code> is part of the protocol because there is no way to avoid it:
+implementations need to be able to dispatch by matching a function to NumPy’s
+public API.</p>
+<p><code class="docutils literal notranslate"><span class="pre">types</span></code> is included because we can compute it almost for free as part of
+collecting <code class="docutils literal notranslate"><span class="pre">__array_function__</span></code> implementations to call in
+<code class="docutils literal notranslate"><span class="pre">implement_array_function</span></code>. We also think it will be used
+by many <code class="docutils literal notranslate"><span class="pre">__array_function__</span></code> methods, which otherwise would need to extract
+this information themselves. It would be equivalently easy to provide single
+instances of each type, but providing only types seemed cleaner.</p>
+<p>Taking this even further, it was suggested that <code class="docutils literal notranslate"><span class="pre">__array_function__</span></code> should be
+a <code class="docutils literal notranslate"><span class="pre">classmethod</span></code>. We agree that it would be a little cleaner to remove the
+redundant <code class="docutils literal notranslate"><span class="pre">self</span></code> argument, but feel that this minor clean-up would not be
+worth breaking from the precedence of <code class="docutils literal notranslate"><span class="pre">__array_ufunc__</span></code>.</p>
+<p>There are two other arguments that we think <em>might</em> be important to pass to
+<code class="docutils literal notranslate"><span class="pre">__array_ufunc__</span></code> implementations:</p>
+<ul class="simple">
+<li>Access to the non-dispatched implementation (i.e., before wrapping with
+<code class="docutils literal notranslate"><span class="pre">array_function_dispatch</span></code>) in <code class="docutils literal notranslate"><span class="pre">ndarray.__array_function__</span></code> would allow
+us to drop special case logic for that method from
+<code class="docutils literal notranslate"><span class="pre">implement_array_function</span></code>.</li>
+<li>Access to the <code class="docutils literal notranslate"><span class="pre">dispatcher</span></code> function passed into
+<code class="docutils literal notranslate"><span class="pre">array_function_dispatch()</span></code> would allow <code class="docutils literal notranslate"><span class="pre">__array_function__</span></code>
+implementations to determine the list of “array-like” arguments in a generic
+way by calling <code class="docutils literal notranslate"><span class="pre">dispatcher(*args,</span> <span class="pre">**kwargs)</span></code>. This <em>could</em> be useful for
+<code class="docutils literal notranslate"><span class="pre">__array_function__</span></code> implementations that dispatch based on the value of an
+array attribute (e.g., <code class="docutils literal notranslate"><span class="pre">dtype</span></code> or <code class="docutils literal notranslate"><span class="pre">units</span></code>) rather than directly on the
+array type.</li>
+</ul>
+<p>We have left these out for now, because we don’t know that they are necessary.
+If we want to include them in the future, the easiest way to do so would be to
+update the <code class="docutils literal notranslate"><span class="pre">array_function_dispatch</span></code> decorator to add them as function
+attributes.</p>
+</div>
+<div class="section" id="callable-objects-generated-at-runtime">
+<h3>Callable objects generated at runtime<a class="headerlink" href="#callable-objects-generated-at-runtime" title="Permalink to this headline">¶</a></h3>
+<p>NumPy has some APIs that define callable objects <em>dynamically</em>, such as
+<code class="docutils literal notranslate"><span class="pre">vectorize</span></code> and methods on <code class="docutils literal notranslate"><span class="pre">random.RandomState</span></code> object. Examples can
+also be found in other core libraries in the scientific Python stack, e.g.,
+distribution objects in scipy.stats and model objects in scikit-learn. It would
+be nice to be able to write overloads for such callables, too. This presents a
+challenge for the <code class="docutils literal notranslate"><span class="pre">__array_function__</span></code> protocol, because unlike the case for
+functions there is no public object in the <code class="docutils literal notranslate"><span class="pre">numpy</span></code> namespace to pass into
+the <code class="docutils literal notranslate"><span class="pre">func</span></code> argument.</p>
+<p>We could potentially handle this by establishing an alternative convention
+for how the <code class="docutils literal notranslate"><span class="pre">func</span></code> argument could be inspected, e.g., by using
+<code class="docutils literal notranslate"><span class="pre">func.__self__</span></code> to obtain the class object and <code class="docutils literal notranslate"><span class="pre">func.__func__</span></code> to return
+the unbound function object. However, some caution is in order, because
+this would immesh what are currently implementation details as a permanent
+features of the interface, such as the fact that <code class="docutils literal notranslate"><span class="pre">vectorize</span></code> is implemented as a
+class rather than closure, or whether a method is implemented directly or using
+a descriptor.</p>
+<p>Given the complexity and the limited use cases, we are also deferring on this
+issue for now, but we are confident that <code class="docutils literal notranslate"><span class="pre">__array_function__</span></code> could be
+expanded to accommodate these use cases in the future if need be.</p>
+</div>
+</div>
+<div class="section" id="discussion">
+<h2>Discussion<a class="headerlink" href="#discussion" title="Permalink to this headline">¶</a></h2>
+<p>Various alternatives to this proposal were discussed in a few GitHub issues:</p>
+<ol class="arabic simple">
+<li><a class="reference external" href="https://github.com/pydata/sparse/issues/1">pydata/sparse #1</a></li>
+<li><a class="reference external" href="https://github.com/numpy/numpy/issues/11129">numpy/numpy #11129</a></li>
+</ol>
+<p>Additionally it was the subject of <a class="reference external" href="http://matthewrocklin.com/blog/work/2018/05/27/beyond-numpy">a blogpost</a>. Following this
+it was discussed at a <a class="reference external" href="https://scisprints.github.io/#may-numpy-developer-sprint">NumPy developer sprint</a> at the <a class="reference external" href="https://bids.berkeley.edu/">UC
+Berkeley Institute for Data Science (BIDS)</a>.</p>
+<p>Detailed discussion of this proposal itself can be found on the
+<a class="reference external" href="https://mail.python.org/pipermail/numpy-discussion/2018-June/078127.html">the mailing list</a> and relevant pull requests
+(<a class="reference external" href="https://github.com/numpy/numpy/pull/11189">1</a>,
+<a class="reference external" href="https://github.com/numpy/numpy/pull/11303#issuecomment-396638175">2</a>,
+<a class="reference external" href="https://github.com/numpy/numpy/pull/11374">3</a>)</p>
+</div>
+<div class="section" id="copyright">
+<h2>Copyright<a class="headerlink" href="#copyright" title="Permalink to this headline">¶</a></h2>
+<p>This document has been placed in the public domain.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+          </div>
+      <div class="spc-rightsidebar span3">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">NEP 18 — A dispatch mechanism for NumPy’s high level array functions</a><ul>
+<li><a class="reference internal" href="#abstact">Abstact</a></li>
+<li><a class="reference internal" href="#detailed-description">Detailed description</a></li>
+<li><a class="reference internal" href="#implementation">Implementation</a><ul>
+<li><a class="reference internal" href="#the-interface">The interface</a></li>
+<li><a class="reference internal" href="#example-for-a-project-implementing-the-numpy-api">Example for a project implementing the NumPy API</a></li>
+<li><a class="reference internal" href="#necessary-changes-within-the-numpy-codebase-itself">Necessary changes within the NumPy codebase itself</a><ul>
+<li><a class="reference internal" href="#finding-and-calling-the-right-array-function">Finding and calling the right <code class="docutils literal notranslate"><span class="pre">__array_function__</span></code></a><ul>
+<li><a class="reference internal" href="#finding-arguments">Finding arguments</a></li>
+<li><a class="reference internal" href="#trying-array-function-methods-until-the-right-one-works">Trying <code class="docutils literal notranslate"><span class="pre">__array_function__</span></code> methods until the right one works</a></li>
+<li><a class="reference internal" href="#the-array-function-method-on-numpy-ndarray">The <code class="docutils literal notranslate"><span class="pre">__array_function__</span></code> method on <code class="docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#changes-within-numpy-functions">Changes within NumPy functions</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#extensibility">Extensibility</a></li>
+<li><a class="reference internal" href="#performance">Performance</a></li>
+<li><a class="reference internal" href="#use-outside-of-numpy">Use outside of NumPy</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#non-goals">Non-goals</a></li>
+<li><a class="reference internal" href="#backward-compatibility">Backward compatibility</a></li>
+<li><a class="reference internal" href="#alternatives">Alternatives</a><ul>
+<li><a class="reference internal" href="#specialized-protocols">Specialized protocols</a></li>
+<li><a class="reference internal" href="#separate-namespace">Separate namespace</a></li>
+<li><a class="reference internal" href="#multiple-dispatch">Multiple dispatch</a></li>
+<li><a class="reference internal" href="#implementations-in-terms-of-a-limited-core-api">Implementations in terms of a limited core API</a></li>
+<li><a class="reference internal" href="#partial-implementation-of-numpy-s-api">Partial implementation of NumPy’s API</a></li>
+<li><a class="reference internal" href="#a-magic-decorator-that-inspects-type-annotations">A magic decorator that inspects type annotations</a></li>
+<li><a class="reference internal" href="#support-for-implementation-specific-arguments">Support for implementation-specific arguments</a></li>
+<li><a class="reference internal" href="#other-possible-choices-for-the-protocol">Other possible choices for the protocol</a></li>
+<li><a class="reference internal" href="#callable-objects-generated-at-runtime">Callable objects generated at runtime</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#discussion">Discussion</a></li>
+<li><a class="reference internal" href="#copyright">Copyright</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="nep-template.html"
+                        title="previous chapter">NEP Template and Instructions</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="nep-0014-dropping-python2.7-proposal.html"
+                        title="next chapter">NEP 14 — Plan for dropping Python 2.7 support</a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h4>Quick search</h4>
+    <div>
+    <form class="search" action="search.html" method="get">
+      <input type="text" style="width: inherit;" name="q" />
+      <input type="submit" value="search" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container container-navbar-bottom">
+      <div class="spc-navbar">
+        
+      </div>
+    </div>
+    <div class="container">
+    <div class="footer">
+    <div class="row-fluid">
+    <ul class="inline pull-left">
+      <li>
+        &copy; Copyright 2017-2018, NumPy Developers.
+      </li>
+      <li>
+      Last updated on Jul 06, 2019.
+      </li>
+      <li>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.5.
+      </li>
+    </ul>
+    </div>
+    </div>
+    </div>
+  </body>
+</html>

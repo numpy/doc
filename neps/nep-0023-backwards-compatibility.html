@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    
+    <title>NEP 23 — Backwards compatibility and deprecation policy &mdash; NumPy Enhancement Proposals</title>
+    
+    <link rel="stylesheet" type="text/css" href="_static/css/spc-bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="_static/css/spc-extend.css">
+    <link rel="stylesheet" href="_static/scipy.css" type="text/css" >
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" >
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <script type="text/javascript" src="_static/js/copybutton.js"></script>
+    <link rel="index" title="Index" href="genindex.html" >
+    <link rel="search" title="Search" href="search.html" >
+    <link rel="top" title="NumPy Enhancement Proposals" href="index.html" >
+    <link rel="next" title="NEP Template and Instructions" href="nep-template.html" >
+    <link rel="prev" title="NEP 0 — Purpose and Process" href="nep-0000.html" > 
+  </head>
+  <body>
+
+<div class="container">
+  <div class="top-scipy-org-logo-header">
+    <a href="index.html">
+      <img style="border: 0;" alt="SciPy" src="_static/img/scipy_org_logo.gif"></a>
+    </div>
+  </div>
+</div>
+
+
+    <div class="container">
+      <div class="main">
+        
+	<div class="row-fluid">
+	  <div class="span12">
+	    <div class="spc-navbar">
+              
+    <ul class="nav nav-pills pull-left">
+        <li class="active"><a href="https://scipy.org/">Scipy.org</a></li>
+        <li class="active"><a href="https://docs.scipy.org/">Docs</a></li>
+        
+        <li class="active"><a href="index.html">NumPy Enhancement Proposals</a></li>
+        
+ 
+    </ul>
+              
+              
+    <ul class="nav nav-pills pull-right">
+      <li class="active">
+        <a href="genindex.html" title="General Index"
+           accesskey="I">index</a>
+      </li>
+      <li class="active">
+        <a href="nep-template.html" title="NEP Template and Instructions"
+           accesskey="N">next</a>
+      </li>
+      <li class="active">
+        <a href="nep-0000.html" title="NEP 0 — Purpose and Process"
+           accesskey="P">previous</a>
+      </li>
+    </ul>
+              
+	    </div>
+	  </div>
+	</div>
+        
+
+	<div class="row-fluid">
+          <div class="span9">
+            
+        <div class="bodywrapper">
+          <div class="body" id="spc-section-body">
+            
+  <div class="section" id="nep-23-backwards-compatibility-and-deprecation-policy">
+<h1>NEP 23 — Backwards compatibility and deprecation policy<a class="headerlink" href="#nep-23-backwards-compatibility-and-deprecation-policy" title="Permalink to this headline">¶</a></h1>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Author:</th><td class="field-body">Ralf Gommers &lt;<a class="reference external" href="mailto:ralf&#46;gommers&#37;&#52;&#48;gmail&#46;com">ralf<span>&#46;</span>gommers<span>&#64;</span>gmail<span>&#46;</span>com</a>&gt;</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Status:</th><td class="field-body">Draft</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Process</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Created:</th><td class="field-body">2018-07-14</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Resolution:</th><td class="field-body">&lt;url&gt; (required for Accepted | Rejected | Withdrawn)</td>
+</tr>
+</tbody>
+</table>
+<div class="section" id="abstract">
+<h2>Abstract<a class="headerlink" href="#abstract" title="Permalink to this headline">¶</a></h2>
+<p>In this NEP we describe NumPy’s approach to backwards compatibility,
+its deprecation and removal policy, and the trade-offs and decision
+processes for individual cases where breaking backwards compatibility
+is considered.</p>
+</div>
+<div class="section" id="detailed-description">
+<h2>Detailed description<a class="headerlink" href="#detailed-description" title="Permalink to this headline">¶</a></h2>
+<p>NumPy has a very large user base.  Those users rely on NumPy being stable
+and the code they write that uses NumPy functionality to keep working.
+NumPy is also actively maintained and improved – and sometimes improvements
+require, or are made much easier, by breaking backwards compatibility.
+Finally, there are trade-offs in stability for existing users vs. avoiding
+errors or having a better user experience for new users.  These competing
+needs often give rise to heated debates and delays in accepting or rejecting
+contributions.  This NEP tries to address that by providing a policy as well
+as examples and rationales for when it is or isn’t a good idea to break
+backwards compatibility.</p>
+<p>General principles:</p>
+<ul class="simple">
+<li>Aim not to break users’ code unnecessarily.</li>
+<li>Aim never to change code in ways that can result in users silently getting
+incorrect results from their previously working code.</li>
+<li>Backwards incompatible changes can be made, provided the benefits outweigh
+the costs.</li>
+<li>When assessing the costs, keep in mind that most users do not read the mailing
+list, do not look at deprecation warnings, and sometimes wait more than one or
+two years before upgrading from their old version.  And that NumPy has
+many hundreds of thousands or even a couple of million users, so “no one will
+do or use this” is very likely incorrect.</li>
+<li>Benefits include improved functionality, usability and performance (in order
+of importance), as well as lower maintenance cost and improved future
+extensibility.</li>
+<li>Bug fixes are exempt from the backwards compatibility policy.  However in case
+of serious impact on users (e.g. a downstream library doesn’t build anymore),
+even bug fixes may have to be delayed for one or more releases.</li>
+<li>The Python API and the C API will be treated in the same way.</li>
+</ul>
+<div class="section" id="examples">
+<h3>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h3>
+<p>We now discuss a number of concrete examples to illustrate typical issues
+and trade-offs.</p>
+<p><strong>Changing the behavior of a function</strong></p>
+<p><code class="docutils literal notranslate"><span class="pre">np.histogram</span></code> is probably the most infamous example.
+First, a new keyword <code class="docutils literal notranslate"><span class="pre">new=False</span></code> was introduced, this was then switched
+over to None one release later, and finally it was removed again.
+Also, it has a <code class="docutils literal notranslate"><span class="pre">normed</span></code> keyword that had behavior that could be considered
+either suboptimal or broken (depending on ones opinion on the statistics).
+A new keyword <code class="docutils literal notranslate"><span class="pre">density</span></code> was introduced to replace it; <code class="docutils literal notranslate"><span class="pre">normed</span></code> started giving
+<code class="docutils literal notranslate"><span class="pre">DeprecationWarning</span></code> only in v.1.15.0.  Evolution of <code class="docutils literal notranslate"><span class="pre">histogram</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">histogram</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="nb">range</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">normed</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>  <span class="c1"># v1.0.0</span>
+
+<span class="k">def</span> <span class="nf">histogram</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="nb">range</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">normed</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">new</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>  <span class="c1">#v1.1.0</span>
+
+<span class="k">def</span> <span class="nf">histogram</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="nb">range</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">normed</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">new</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>  <span class="c1">#v1.2.0</span>
+
+<span class="k">def</span> <span class="nf">histogram</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="nb">range</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">normed</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>  <span class="c1">#v1.5.0</span>
+
+<span class="k">def</span> <span class="nf">histogram</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="nb">range</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">normed</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">density</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>  <span class="c1">#v1.6.0</span>
+
+<span class="k">def</span> <span class="nf">histogram</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="nb">range</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">normed</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">density</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>  <span class="c1">#v1.15.0</span>
+    <span class="c1"># v1.15.0 was the first release where `normed` started emitting</span>
+    <span class="c1"># DeprecationWarnings</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">new</span></code> keyword was planned from the start to be temporary.  Such a plan
+forces users to change their code more than once, which is almost never the
+right thing to do.  Instead, a better approach here would have been to
+deprecate <code class="docutils literal notranslate"><span class="pre">histogram</span></code> and introduce a new function <code class="docutils literal notranslate"><span class="pre">hist</span></code> in its place.</p>
+<p><strong>Returning a view rather than a copy</strong></p>
+<p>The <code class="docutils literal notranslate"><span class="pre">ndarray.diag</span></code> method used to return a copy.  A view would be better for
+both performance and design consistency.  This change was warned about
+(<code class="docutils literal notranslate"><span class="pre">FutureWarning</span></code>) in v.8.0, and in v1.9.0 <code class="docutils literal notranslate"><span class="pre">diag</span></code> was changed to return
+a <em>read-only</em> view.  The planned change to a writeable view in v1.10.0 was
+postponed due to backwards compatibility concerns, and is still an open issue
+(gh-7661).</p>
+<p>What should have happened instead: nothing.  This change resulted in a lot of
+discussions and wasted effort, did not achieve its final goal, and was not that
+important in the first place.  Finishing the change to a <em>writeable</em> view in
+the future is not desired, because it will result in users silently getting
+different results if they upgraded multiple versions or simply missed the
+warnings.</p>
+<p><strong>Disallowing indexing with floats</strong></p>
+<p>Indexing an array with floats is asking for something ambiguous, and can be a
+sign of a bug in user code.  After some discussion, it was deemed a good idea
+to deprecate indexing with floats.  This was first tried for the v1.8.0
+release, however in pre-release testing it became clear that this would break
+many libraries that depend on NumPy.  Therefore it was reverted before release,
+to give those libraries time to fix their code first.  It was finally
+introduced for v1.11.0 and turned into a hard error for v1.12.0.</p>
+<p>This change was disruptive, however it did catch real bugs in, e.g., SciPy and
+scikit-learn.  Overall the change was worth the cost, and introducing it in
+master first to allow testing, then removing it again before a release, is a
+useful strategy.</p>
+<p>Similar recent deprecations also look like good examples of
+cleanups/improvements:</p>
+<ul class="simple">
+<li>removing deprecated boolean indexing (gh-8312)</li>
+<li>deprecating truth testing on empty arrays (gh-9718)</li>
+<li>deprecating <code class="docutils literal notranslate"><span class="pre">np.sum(generator)</span></code> (gh-10670, one issue with this one is that
+its warning message is wrong - this should error in the future).</li>
+</ul>
+<p><strong>Removing the financial functions</strong></p>
+<p>The financial functions (e.g. <code class="docutils literal notranslate"><span class="pre">np.pmt</span></code>) are badly named, are present in the
+main NumPy namespace, and don’t really fit well within NumPy’s scope.
+They were added in 2008 after
+<a class="reference external" href="https://mail.python.org/pipermail/numpy-discussion/2008-April/032353.html">a discussion</a>
+on the mailing list where opinion was divided (but a majority in favor).
+At the moment these functions don’t cause a lot of overhead, however there are
+multiple issues and PRs a year for them which cost maintainer time to deal
+with.  And they clutter up the <code class="docutils literal notranslate"><span class="pre">numpy</span></code> namespace.  Discussion in 2013 happened
+on removing them again (gh-2880).</p>
+<p>This case is borderline, but given that they’re clearly out of scope,
+deprecation and removal out of at least the main <code class="docutils literal notranslate"><span class="pre">numpy</span></code> namespace can be
+proposed.  Alternatively, document clearly that new features for financial
+functions are unwanted, to keep the maintenance costs to a minimum.</p>
+<p><strong>Examples of features not added because of backwards compatibility</strong></p>
+<p>TODO: do we have good examples here? Possibly subclassing related?</p>
+</div>
+<div class="section" id="removing-complete-submodules">
+<h3>Removing complete submodules<a class="headerlink" href="#removing-complete-submodules" title="Permalink to this headline">¶</a></h3>
+<p>This year there have been suggestions to consider removing some or all of
+<code class="docutils literal notranslate"><span class="pre">numpy.distutils</span></code>, <code class="docutils literal notranslate"><span class="pre">numpy.f2py</span></code>, <code class="docutils literal notranslate"><span class="pre">numpy.linalg</span></code>, and <code class="docutils literal notranslate"><span class="pre">numpy.random</span></code>.
+The motivation was that all these cost maintenance effort, and that they slow
+down work on the core of Numpy (ndarrays, dtypes and ufuncs).</p>
+<p>The impact on downstream libraries and users would be very large, and
+maintenance of these modules would still have to happen.  Therefore this is
+simply not a good idea; removing these submodules should not happen even for
+a new major version of NumPy.</p>
+</div>
+<div class="section" id="subclassing-of-ndarray">
+<h3>Subclassing of ndarray<a class="headerlink" href="#subclassing-of-ndarray" title="Permalink to this headline">¶</a></h3>
+<p>Subclassing of <code class="docutils literal notranslate"><span class="pre">ndarray</span></code> is a pain point.  <code class="docutils literal notranslate"><span class="pre">ndarray</span></code> was not (or at least
+not well) designed to be subclassed.  Despite that, a lot of subclasses have
+been created even within the NumPy code base itself, and some of those (e.g.
+<code class="docutils literal notranslate"><span class="pre">MaskedArray</span></code>, <code class="docutils literal notranslate"><span class="pre">astropy.units.Quantity</span></code>) are quite popular.  The main
+problems with subclasses are:</p>
+<ul class="simple">
+<li>They make it hard to change <code class="docutils literal notranslate"><span class="pre">ndarray</span></code> in ways that would otherwise be
+backwards compatible.</li>
+<li>Some of them change the behavior of ndarray methods, making it difficult to
+write code that accepts array duck-types.</li>
+</ul>
+<p>Subclassing <code class="docutils literal notranslate"><span class="pre">ndarray</span></code> has been officially discouraged for a long time.  Of
+the most important subclasses, <code class="docutils literal notranslate"><span class="pre">np.matrix</span></code> will be deprecated (see gh-10142)
+and <code class="docutils literal notranslate"><span class="pre">MaskedArray</span></code> will be kept in NumPy (<a class="reference external" href="http://www.numpy.org/neps/nep-0017-split-out-maskedarray.html">NEP 17</a>).
+<code class="docutils literal notranslate"><span class="pre">MaskedArray</span></code> will ideally be rewritten in a way such that it uses only
+public NumPy APIs.  For subclasses outside of NumPy, more work is needed to
+provide alternatives (e.g. mixins, see gh-9016 and gh-10446) or better support
+for custom dtypes (see gh-2899).  Until that is done, subclasses need to be
+taken into account when making change to the NumPy code base.  A future change
+in NumPy to not support subclassing will certainly need a major version
+increase.</p>
+</div>
+</div>
+<div class="section" id="policy">
+<h2>Policy<a class="headerlink" href="#policy" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic simple">
+<li>Code changes that have the potential to silently change the results of a users’
+code must never be made (except in the case of clear bugs).</li>
+<li>Code changes that break users’ code (i.e. the user will see a clear exception)
+can be made, <em>provided the benefit is worth the cost</em> and suitable deprecation
+warnings have been raised first.</li>
+<li>Deprecation warnings are in all cases warnings that functionality will be removed.
+If there is no intent to remove functionlity, then deprecation in documentation
+only or other types of warnings shall be used.</li>
+<li>Deprecations for stylistic reasons (e.g. consistency between functions) are
+strongly discouraged.</li>
+</ol>
+<p>Deprecations:</p>
+<ul class="simple">
+<li>shall include the version numbers of both when the functionality was deprecated
+and when it will be removed (either two releases after the warning is
+introduced, or in the next major version).</li>
+<li>shall include information on alternatives to the deprecated functionality, or a
+reason for the deprecation if no clear alternative is available.</li>
+<li>shall use <code class="docutils literal notranslate"><span class="pre">VisibleDeprecationWarning</span></code> rather than <code class="docutils literal notranslate"><span class="pre">DeprecationWarning</span></code>
+for cases of relevance to end users (as opposed to cases only relevant to
+libraries building on top of NumPy).</li>
+<li>shall be listed in the release notes of the release where the deprecation happened.</li>
+</ul>
+<p>Removal of deprecated functionality:</p>
+<ul class="simple">
+<li>shall be done after 2 releases (assuming a 6-monthly release cycle; if that changes,
+there shall be at least 1 year between deprecation and removal), unless the
+impact of the removal is such that a major version number increase is
+warranted.</li>
+<li>shall be listed in the release notes of the release where the removal happened.</li>
+</ul>
+<p>Versioning:</p>
+<ul class="simple">
+<li>removal of deprecated code can be done in any minor (but not bugfix) release.</li>
+<li>for heavily used functionality (e.g. removal of <code class="docutils literal notranslate"><span class="pre">np.matrix</span></code>, of a whole submodule,
+or significant changes to behavior for subclasses) the major version number shall
+be increased.</li>
+</ul>
+<p>In concrete cases where this policy needs to be applied, decisions are made according
+to the <a class="reference external" href="https://docs.scipy.org/doc/numpy/dev/governance/index.html">NumPy governance model</a>.</p>
+<p>Functionality with more strict policies:</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">numpy.random</span></code> has its own backwards compatibility policy,
+see <a class="reference external" href="http://www.numpy.org/neps/nep-0019-rng-policy.html">NEP 19</a>.</li>
+<li>The file format for <code class="docutils literal notranslate"><span class="pre">.npy</span></code> and <code class="docutils literal notranslate"><span class="pre">.npz</span></code> files must not be changed in a backwards
+incompatible way.</li>
+</ul>
+</div>
+<div class="section" id="alternatives">
+<h2>Alternatives<a class="headerlink" href="#alternatives" title="Permalink to this headline">¶</a></h2>
+<p><strong>Being more aggressive with deprecations.</strong></p>
+<p>The goal of being more aggressive is to allow NumPy to move forward faster.
+This would avoid others inventing their own solutions (often in multiple
+places), as well as be a benefit to users without a legacy code base.  We
+reject this alternative because of the place NumPy has in the scientific Python
+ecosystem - being fairly conservative is required in order to not increase the
+extra maintenance for downstream libraries and end users to an unacceptable
+level.</p>
+<p><strong>Semantic versioning.</strong></p>
+<p>This would change the versioning scheme for code removals; those could then
+only be done when the major version number is increased.  Rationale for
+rejection: semantic versioning is relatively common in software engineering,
+however it is not at all common in the Python world.  Also, it would mean that
+NumPy’s version number simply starts to increase faster, which would be more
+confusing than helpful. gh-10156 contains more discussion on this alternative.</p>
+</div>
+<div class="section" id="discussion">
+<h2>Discussion<a class="headerlink" href="#discussion" title="Permalink to this headline">¶</a></h2>
+<p>TODO</p>
+<p>This section may just be a bullet list including links to any discussions
+regarding the NEP:</p>
+<ul class="simple">
+<li>This includes links to mailing list threads or relevant GitHub issues.</li>
+</ul>
+</div>
+<div class="section" id="references-and-footnotes">
+<h2>References and Footnotes<a class="headerlink" href="#references-and-footnotes" title="Permalink to this headline">¶</a></h2>
+<table class="docutils footnote" frame="void" id="id1" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id2">[1]</a></td><td>TODO</td></tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="copyright">
+<h2>Copyright<a class="headerlink" href="#copyright" title="Permalink to this headline">¶</a></h2>
+<p>This document has been placed in the public domain. <a class="footnote-reference" href="#id1" id="id2">[1]</a></p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+          </div>
+      <div class="spc-rightsidebar span3">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">NEP 23 — Backwards compatibility and deprecation policy</a><ul>
+<li><a class="reference internal" href="#abstract">Abstract</a></li>
+<li><a class="reference internal" href="#detailed-description">Detailed description</a><ul>
+<li><a class="reference internal" href="#examples">Examples</a></li>
+<li><a class="reference internal" href="#removing-complete-submodules">Removing complete submodules</a></li>
+<li><a class="reference internal" href="#subclassing-of-ndarray">Subclassing of ndarray</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#policy">Policy</a></li>
+<li><a class="reference internal" href="#alternatives">Alternatives</a></li>
+<li><a class="reference internal" href="#discussion">Discussion</a></li>
+<li><a class="reference internal" href="#references-and-footnotes">References and Footnotes</a></li>
+<li><a class="reference internal" href="#copyright">Copyright</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="nep-0000.html"
+                        title="previous chapter">NEP 0 — Purpose and Process</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="nep-template.html"
+                        title="next chapter">NEP Template and Instructions</a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h4>Quick search</h4>
+    <div>
+    <form class="search" action="search.html" method="get">
+      <input type="text" style="width: inherit;" name="q" />
+      <input type="submit" value="search" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container container-navbar-bottom">
+      <div class="spc-navbar">
+        
+      </div>
+    </div>
+    <div class="container">
+    <div class="footer">
+    <div class="row-fluid">
+    <ul class="inline pull-left">
+      <li>
+        &copy; Copyright 2017-2018, NumPy Developers.
+      </li>
+      <li>
+      Last updated on Jul 06, 2019.
+      </li>
+      <li>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.5.
+      </li>
+    </ul>
+    </div>
+    </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    
+    <title>NEP 22 — Duck typing for NumPy arrays – high level overview &mdash; NumPy Enhancement Proposals</title>
+    
+    <link rel="stylesheet" type="text/css" href="_static/css/spc-bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="_static/css/spc-extend.css">
+    <link rel="stylesheet" href="_static/scipy.css" type="text/css" >
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" >
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <script type="text/javascript" src="_static/js/copybutton.js"></script>
+    <link rel="index" title="Index" href="genindex.html" >
+    <link rel="search" title="Search" href="search.html" >
+    <link rel="top" title="NumPy Enhancement Proposals" href="index.html" >
+    <link rel="next" title="NEP 27 — Zero Rank Arrays" href="nep-0027-zero-rank-arrarys.html" >
+    <link rel="prev" title="NEP 20 — Expansion of Generalized Universal Function Signatures" href="nep-0020-gufunc-signature-enhancement.html" > 
+  </head>
+  <body>
+
+<div class="container">
+  <div class="top-scipy-org-logo-header">
+    <a href="index.html">
+      <img style="border: 0;" alt="SciPy" src="_static/img/scipy_org_logo.gif"></a>
+    </div>
+  </div>
+</div>
+
+
+    <div class="container">
+      <div class="main">
+        
+	<div class="row-fluid">
+	  <div class="span12">
+	    <div class="spc-navbar">
+              
+    <ul class="nav nav-pills pull-left">
+        <li class="active"><a href="https://scipy.org/">Scipy.org</a></li>
+        <li class="active"><a href="https://docs.scipy.org/">Docs</a></li>
+        
+        <li class="active"><a href="index.html">NumPy Enhancement Proposals</a></li>
+        
+ 
+    </ul>
+              
+              
+    <ul class="nav nav-pills pull-right">
+      <li class="active">
+        <a href="genindex.html" title="General Index"
+           accesskey="I">index</a>
+      </li>
+      <li class="active">
+        <a href="nep-0027-zero-rank-arrarys.html" title="NEP 27 — Zero Rank Arrays"
+           accesskey="N">next</a>
+      </li>
+      <li class="active">
+        <a href="nep-0020-gufunc-signature-enhancement.html" title="NEP 20 — Expansion of Generalized Universal Function Signatures"
+           accesskey="P">previous</a>
+      </li>
+    </ul>
+              
+	    </div>
+	  </div>
+	</div>
+        
+
+	<div class="row-fluid">
+          <div class="span9">
+            
+        <div class="bodywrapper">
+          <div class="body" id="spc-section-body">
+            
+  <div class="section" id="nep-22-duck-typing-for-numpy-arrays-high-level-overview">
+<h1>NEP 22 — Duck typing for NumPy arrays – high level overview<a class="headerlink" href="#nep-22-duck-typing-for-numpy-arrays-high-level-overview" title="Permalink to this headline">¶</a></h1>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Author:</th><td class="field-body">Stephan Hoyer &lt;<a class="reference external" href="mailto:shoyer&#37;&#52;&#48;google&#46;com">shoyer<span>&#64;</span>google<span>&#46;</span>com</a>&gt;, Nathaniel J. Smith &lt;<a class="reference external" href="mailto:njs&#37;&#52;&#48;pobox&#46;com">njs<span>&#64;</span>pobox<span>&#46;</span>com</a>&gt;</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Status:</th><td class="field-body">Final</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Informational</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Created:</th><td class="field-body">2018-03-22</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Resolution:</th><td class="field-body"><a class="reference external" href="https://mail.python.org/pipermail/numpy-discussion/2018-September/078752.html">https://mail.python.org/pipermail/numpy-discussion/2018-September/078752.html</a></td>
+</tr>
+</tbody>
+</table>
+<div class="section" id="abstract">
+<h2>Abstract<a class="headerlink" href="#abstract" title="Permalink to this headline">¶</a></h2>
+<p>We outline a high-level vision for how NumPy will approach handling
+“duck arrays”. This is an Informational-class NEP; it doesn’t
+prescribe full details for any particular implementation. In brief, we
+propose developing a number of new protocols for defining
+implementations of multi-dimensional arrays with high-level APIs
+matching NumPy.</p>
+</div>
+<div class="section" id="detailed-description">
+<h2>Detailed description<a class="headerlink" href="#detailed-description" title="Permalink to this headline">¶</a></h2>
+<p>Traditionally, NumPy’s <code class="docutils literal notranslate"><span class="pre">ndarray</span></code> objects have provided two things: a
+high level API for expression operations on homogenously-typed,
+arbitrary-dimensional, array-structured data, and a concrete
+implementation of the API based on strided in-RAM storage. The API is
+powerful, fairly general, and used ubiquitously across the scientific
+Python stack. The concrete implementation, on the other hand, is
+suitable for a wide range of uses, but has limitations: as data sets
+grow and NumPy becomes used in a variety of new environments, there
+are increasingly cases where the strided in-RAM storage strategy is
+inappropriate, and users find they need sparse arrays, lazily
+evaluated arrays (as in dask), compressed arrays (as in blosc), arrays
+stored in GPU memory, arrays stored in alternative formats such as
+Arrow, and so forth – yet users still want to work with these arrays
+using the familiar NumPy APIs, and re-use existing code with minimal
+(ideally zero) porting overhead. As a working shorthand, we call these
+“duck arrays”, by analogy with Python’s “duck typing”: a “duck array”
+is a Python object which “quacks like” a numpy array in the sense that
+it has the same or similar Python API, but doesn’t share the C-level
+implementation.</p>
+<p>This NEP doesn’t propose any specific changes to NumPy or other
+projects; instead, it gives an overview of how we hope to extend NumPy
+to support a robust ecosystem of projects implementing and relying
+upon its high level API.</p>
+<div class="section" id="terminology">
+<h3>Terminology<a class="headerlink" href="#terminology" title="Permalink to this headline">¶</a></h3>
+<p>“Duck array” works fine as a placeholder for now, but it’s pretty
+jargony and may confuse new users, so we may want to pick something
+else for the actual API functions. Unfortunately, “array-like” is
+already taken for the concept of “anything that can be coerced into an
+array” (including e.g. list objects), and “anyarray” is already taken
+for the concept of “something that shares ndarray’s implementation,
+but has different semantics”, which is the opposite of a duck array
+(e.g., np.matrix is an “anyarray”, but is not a “duck array”). This is
+a classic bike-shed so for now we’re just using “duck array”. Some
+possible options though include: arrayish, pseudoarray, nominalarray,
+ersatzarray, arraymimic, …</p>
+</div>
+<div class="section" id="general-approach">
+<h3>General approach<a class="headerlink" href="#general-approach" title="Permalink to this headline">¶</a></h3>
+<p>At a high level, duck array support requires working through each of
+the API functions provided by NumPy, and figuring out how it can be
+extended to work with duck array objects. In some cases this is easy
+(e.g., methods/attributes on ndarray itself); in other cases it’s more
+difficult. Here are some principles we’ve found useful so far:</p>
+<div class="section" id="principle-1-focus-on-full-duck-arrays-but-dont-rule-out-partial-duck-arrays">
+<h4>Principle 1: Focus on “full” duck arrays, but don’t rule out “partial” duck arrays<a class="headerlink" href="#principle-1-focus-on-full-duck-arrays-but-dont-rule-out-partial-duck-arrays" title="Permalink to this headline">¶</a></h4>
+<p>We can distinguish between two classes:</p>
+<ul class="simple">
+<li>“full” duck arrays, which aspire to fully implement np.ndarray’s
+Python-level APIs and work essentially anywhere that np.ndarray
+works</li>
+<li>“partial” duck arrays, which intentionally implement only a subset
+of np.ndarray’s API.</li>
+</ul>
+<p>Full duck arrays are, well, kind of boring. They have exactly the same
+semantics as ndarray, with differences being restricted to
+under-the-hood decisions about how the data is actually stored. The
+kind of people that are excited about making numpy more extensible are
+also, unsurprisingly, excited about changing or extending numpy’s
+semantics. So there’s been a lot of discussion of how to best support
+partial duck arrays. We’ve been guilty of this ourself.</p>
+<p>At this point though, we think the best general strategy is to focus
+our efforts primarily on supporting full duck arrays, and only worry
+about partial duck arrays as much as we need to to make sure we don’t
+accidentally rule them out for no reason.</p>
+<p>Why focus on full duck arrays? Several reasons:</p>
+<p>First, there are lots of very clear use cases. Potential consumers of
+the full duck array interface include almost every package that uses
+numpy (scipy, sklearn, astropy, …), and in particular packages that
+provide array-wrapping-classes that handle multiple types of arrays,
+such as xarray and dask.array. Potential implementers of the full duck
+array interface include: distributed arrays, sparse arrays, masked
+arrays, arrays with units (unless they switch to using dtypes),
+labeled arrays, and so forth. Clear use cases lead to good and
+relevant APIs.</p>
+<p>Second, the Anna Karenina principle applies here: full duck arrays are
+all alike, but every partial duck array is partial in its own way:</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">xarray.DataArray</span></code> is mostly a duck array, but has incompatible
+broadcasting semantics.</li>
+<li><code class="docutils literal notranslate"><span class="pre">xarray.Dataset</span></code> wraps multiple arrays in one object; it still
+implements some array interfaces like <code class="docutils literal notranslate"><span class="pre">__array_ufunc__</span></code>, but
+certainly not all of them.</li>
+<li><code class="docutils literal notranslate"><span class="pre">pandas.Series</span></code> has methods with similar behavior to numpy, but
+unique null-skipping behavior.</li>
+<li>scipy’s <code class="docutils literal notranslate"><span class="pre">LinearOperator</span></code>s support matrix multiplication and nothing else</li>
+<li>h5py and similar libraries for accessing array storage have objects
+that support numpy-like slicing and conversion into a full array,
+but not computation.</li>
+<li>Some classes may be similar to ndarray, but without supporting the
+full indexing semantics.</li>
+</ul>
+<p>And so forth.</p>
+<p>Despite our best attempts, we haven’t found any clear, unique way of
+slicing up the ndarray API into a hierarchy of related types that
+captures these distinctions; in fact, it’s unlikely that any single
+person even understands all the distinctions. And this is important,
+because we have a <em>lot</em> of APIs that we need to add duck array support
+to (both in numpy and in all the projects that depend on numpy!). By
+definition, these already work for <code class="docutils literal notranslate"><span class="pre">ndarray</span></code>, so hopefully getting
+them to work for full duck arrays shouldn’t be so hard, since by
+definition full duck arrays act like <code class="docutils literal notranslate"><span class="pre">ndarray</span></code>. It’d be very
+cumbersome to have to go through each function and identify the exact
+subset of the ndarray API that it needs, then figure out which partial
+array types can/should support it. Once we have things working for
+full duck arrays, we can go back later and refine the APIs needed
+further as needed. Focusing on full duck arrays allows us to start
+making progress immediately.</p>
+<p>In the future, it might be useful to identify specific use cases for
+duck arrays and standardize narrower interfaces targeted just at those
+use cases. For example, it might make sense to have a standard “array
+loader” interface that file access libraries like h5py, netcdf, pydap,
+zarr, … all implement, to make it easy to switch between these
+libraries. But that’s something that we can do as we go, and it
+doesn’t necessarily have to involve the NumPy devs at all. For an
+example of what this might look like, see the documentation for
+<a class="reference external" href="http://dask.pydata.org/en/latest/array-api.html#dask.array.from_array">dask.array.from_array</a>.</p>
+</div>
+<div class="section" id="principle-2-take-advantage-of-duck-typing">
+<h4>Principle 2: Take advantage of duck typing<a class="headerlink" href="#principle-2-take-advantage-of-duck-typing" title="Permalink to this headline">¶</a></h4>
+<p><code class="docutils literal notranslate"><span class="pre">ndarray</span></code> has a very large API surface area:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">1</span><span class="p">]:</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="nb">dir</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">))</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="nb">dir</span><span class="p">(</span><span class="nb">object</span><span class="p">)))</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span> <span class="mi">138</span>
+</pre></div>
+</div>
+<p>And this is a huge <strong>under</strong>estimate, because there are also many
+free-standing functions in NumPy and other libraries which currently
+use the NumPy C API and thus only work on <code class="docutils literal notranslate"><span class="pre">ndarray</span></code> objects. In type
+theory, a type is defined by the operations you can perform on an
+object; thus, the actual type of <code class="docutils literal notranslate"><span class="pre">ndarray</span></code> includes not just its
+methods and attributes, but <em>all</em> of these functions. For duck arrays
+to be successful, they’ll need to implement a large proportion of the
+<code class="docutils literal notranslate"><span class="pre">ndarray</span></code> API – but not all of it. (For example,
+<code class="docutils literal notranslate"><span class="pre">dask.array.Array</span></code> does not provide an equivalent to the
+<code class="docutils literal notranslate"><span class="pre">ndarray.ptp</span></code> method, presumably because no-one has ever noticed or
+cared about its absence. But this doesn’t seem to have stopped people
+from using dask.)</p>
+<p>This means that realistically, we can’t hope to define the whole duck
+array API up front, or that anyone will be able to implement it all in
+one go; this will be an incremental process. It also means that even
+the so-called “full” duck array interface is somewhat fuzzily defined
+at the borders; there are parts of the <code class="docutils literal notranslate"><span class="pre">np.ndarray</span></code> API that duck
+arrays won’t have to implement, but we aren’t entirely sure what those
+are.</p>
+<p>And ultimately, it isn’t really up to the NumPy developers to define
+what does or doesn’t qualify as a duck array. If we want scikit-learn
+functions to work on dask arrays (for example), then that’s going to
+require negotiation between those two projects to discover
+incompatibilities, and when an incompatibility is discovered it will
+be up to them to negotiate who should change and how. The NumPy
+project can provide technical tools and general advice to help resolve
+these disagreements, but we can’t force one group or another to take
+responsibility for any given bug.</p>
+<p>Therefore, even though we’re focusing on “full” duck arrays, we
+<em>don’t</em> attempt to define a normative “array ABC” – maybe this will be
+useful someday, but right now, it’s not. And as a convenient
+side-effect, the lack of a normative definition leaves partial duck
+arrays room to experiment.</p>
+<p>But, we do provide some more detailed advice for duck array
+implementers and consumers below.</p>
+</div>
+<div class="section" id="principle-3-focus-on-protocols">
+<h4>Principle 3: Focus on protocols<a class="headerlink" href="#principle-3-focus-on-protocols" title="Permalink to this headline">¶</a></h4>
+<p>Historically, numpy has had lots of success at interoperating with
+third-party objects by defining <em>protocols</em>, like <code class="docutils literal notranslate"><span class="pre">__array__</span></code> (asks
+an arbitrary object to convert itself into an array),
+<code class="docutils literal notranslate"><span class="pre">__array_interface__</span></code> (a precursor to Python’s buffer protocol), and
+<code class="docutils literal notranslate"><span class="pre">__array_ufunc__</span></code> (allows third-party objects to support ufuncs like
+<code class="docutils literal notranslate"><span class="pre">np.exp</span></code>).</p>
+<p><a class="reference external" href="https://github.com/numpy/numpy/pull/10706">NEP 16</a> took a
+different approach: we need a duck-array equivalent of
+<code class="docutils literal notranslate"><span class="pre">asarray</span></code>, and it proposed to do this by defining a version of
+<code class="docutils literal notranslate"><span class="pre">asarray</span></code> that would let through objects which implemented a new
+AbstractArray ABC. As noted above, we now think that trying to define
+an ABC is a bad idea for other reasons. But when this NEP was
+discussed on the mailing list, we realized that even on its own
+merits, this idea is not so great. A better approach is to define a
+<em>method</em> that can be called on an arbitrary object to ask it to
+convert itself into a duck array, and then define a version of
+<code class="docutils literal notranslate"><span class="pre">asarray</span></code> that calls this method.</p>
+<p>This is strictly more powerful: if an object is already a duck array,
+it can simply <code class="docutils literal notranslate"><span class="pre">return</span> <span class="pre">self</span></code>. It allows more correct semantics: NEP
+16 assumed that <code class="docutils literal notranslate"><span class="pre">asarray(obj,</span> <span class="pre">dtype=X)</span></code> is the same as
+<code class="docutils literal notranslate"><span class="pre">asarray(obj).astype(X)</span></code>, but this isn’t true. And it supports more
+use cases: if h5py supported sparse arrays, it might want to provide
+an object which is not itself a sparse array, but which can be
+automatically converted into a sparse array. See NEP &lt;XX, to be
+written&gt; for full details.</p>
+<p>The protocol approach is also more consistent with core Python
+conventions: for example, see the <code class="docutils literal notranslate"><span class="pre">__iter__</span></code> method for coercing
+objects to iterators, or the <code class="docutils literal notranslate"><span class="pre">__index__</span></code> protocol for safe integer
+coercion. And finally, focusing on protocols leaves the door open for
+partial duck arrays, which can pick and choose which subset of the
+protocols they want to participate in, each of which have well-defined
+semantics.</p>
+<p>Conclusion: protocols are one honking great idea – let’s do more of
+those.</p>
+</div>
+<div class="section" id="principle-4-reuse-existing-methods-when-possible">
+<h4>Principle 4: Reuse existing methods when possible<a class="headerlink" href="#principle-4-reuse-existing-methods-when-possible" title="Permalink to this headline">¶</a></h4>
+<p>It’s tempting to try to define cleaned up versions of ndarray methods
+with a more minimal interface to allow for easier implementation. For
+example, <code class="docutils literal notranslate"><span class="pre">__array_reshape__</span></code> could drop some of the strange
+arguments accepted by <code class="docutils literal notranslate"><span class="pre">reshape</span></code> and <code class="docutils literal notranslate"><span class="pre">__array_basic_getitem__</span></code>
+could drop all the <a class="reference external" href="http://www.numpy.org/neps/nep-0021-advanced-indexing.html">strange edge cases</a> of
+NumPy’s advanced indexing.</p>
+<p>But as discussed above, we don’t really know what APIs we need for
+duck-typing ndarray. We would inevitably end up with a very long list
+of new special methods. In contrast, existing methods like <code class="docutils literal notranslate"><span class="pre">reshape</span></code>
+and <code class="docutils literal notranslate"><span class="pre">__getitem__</span></code> have the advantage of already being widely
+used/exercised by libraries that use duck arrays, and in practice, any
+serious duck array type is going to have to implement them anyway.</p>
+</div>
+<div class="section" id="principle-5-make-it-easy-to-do-the-right-thing">
+<h4>Principle 5: Make it easy to do the right thing<a class="headerlink" href="#principle-5-make-it-easy-to-do-the-right-thing" title="Permalink to this headline">¶</a></h4>
+<p>Making duck arrays work well is going to be a community effort.
+Documentation helps, but only goes so far. We want to make it easy to
+implement duck arrays that do the right thing.</p>
+<p>One way NumPy can help is by providing mixin classes for implementing
+large groups of related functionality at once.
+<code class="docutils literal notranslate"><span class="pre">NDArrayOperatorsMixin</span></code> is a good example: it allows for
+implementing arithmetic operators implicitly via the
+<code class="docutils literal notranslate"><span class="pre">__array_ufunc__</span></code> method. It’s not complete, and we’ll want more
+helpers like that (e.g. for reductions).</p>
+<p>(We initially thought that the importance of these mixins might be an
+argument for providing an array ABC, since that’s the standard way to
+do mixins in modern Python. But in discussion around NEP 16 we
+realized that partial duck arrays also wanted to take advantage of
+these mixins in some cases, so even if we did have an array ABC then
+the mixins would still need some sort of separate existence. So never
+mind that argument.)</p>
+</div>
+</div>
+<div class="section" id="tentative-duck-array-guidelines">
+<h3>Tentative duck array guidelines<a class="headerlink" href="#tentative-duck-array-guidelines" title="Permalink to this headline">¶</a></h3>
+<p>As a general rule, libraries using duck arrays should insist upon the
+minimum possible requirements, and libraries implementing duck arrays
+should provide as complete of an API as possible. This will ensure
+maximum compatibility. For example, users should prefer to rely on
+<code class="docutils literal notranslate"><span class="pre">.transpose()</span></code> rather than <code class="docutils literal notranslate"><span class="pre">.swapaxes()</span></code> (which can be implemented
+in terms of transpose), but duck array authors should ideally
+implement both.</p>
+<p>If you are trying to implement a duck array, then you should strive to
+implement everything. You certainly need <code class="docutils literal notranslate"><span class="pre">.shape</span></code>, <code class="docutils literal notranslate"><span class="pre">.ndim</span></code> and
+<code class="docutils literal notranslate"><span class="pre">.dtype</span></code>, but also your dtype attribute should actually be a
+<code class="docutils literal notranslate"><span class="pre">numpy.dtype</span></code> object, weird fancy indexing edge cases should ideally
+work, etc. Only details related to NumPy’s specific <code class="docutils literal notranslate"><span class="pre">np.ndarray</span></code>
+implementation (e.g., <code class="docutils literal notranslate"><span class="pre">strides</span></code>, <code class="docutils literal notranslate"><span class="pre">data</span></code>, <code class="docutils literal notranslate"><span class="pre">view</span></code>) are explicitly
+out of scope.</p>
+</div>
+<div class="section" id="a-very-rough-sketch-of-future-plans">
+<h3>A (very) rough sketch of future plans<a class="headerlink" href="#a-very-rough-sketch-of-future-plans" title="Permalink to this headline">¶</a></h3>
+<p>The proposals discussed so far – <code class="docutils literal notranslate"><span class="pre">__array_ufunc__</span></code> and some kind of
+<code class="docutils literal notranslate"><span class="pre">asarray</span></code> protocol – are clearly necessary but not sufficient for
+full duck typing support. We expect the need for additional protocols
+to support (at least) these features:</p>
+<ul class="simple">
+<li><strong>Concatenating</strong> duck arrays, which would be used internally by other
+array combining methods like stack/vstack/hstack. The implementation
+of concatenate will need to be negotiated among the list of array
+arguments. We expect to use an <code class="docutils literal notranslate"><span class="pre">__array_concatenate__</span></code> protocol
+like <code class="docutils literal notranslate"><span class="pre">__array_ufunc__</span></code> instead of multiple dispatch.</li>
+<li><strong>Ufunc-like functions</strong> that currently aren’t ufuncs. Many NumPy
+functions like median, percentile, sort, where and clip could be
+written as generalized ufuncs but currently aren’t. Either these
+functions should be written as ufuncs, or we should consider adding
+another generic wrapper mechanism that works similarly to ufuncs but
+makes fewer guarantees about how the implementation is done.</li>
+<li><strong>Random number generation</strong> with duck arrays, e.g.,
+<code class="docutils literal notranslate"><span class="pre">np.random.randn()</span></code>. For example, we might want to add new APIs
+like <code class="docutils literal notranslate"><span class="pre">random_like()</span></code> for generating new arrays with a matching
+shape <em>and</em> type – though we’ll need to look at some real examples
+of how these functions are used to figure out what would be helpful.</li>
+<li><strong>Miscellaneous other functions</strong> such as <code class="docutils literal notranslate"><span class="pre">np.einsum</span></code>,
+<code class="docutils literal notranslate"><span class="pre">np.zeros_like</span></code>, and <code class="docutils literal notranslate"><span class="pre">np.broadcast_to</span></code> that don’t fall into any
+of the above categories.</li>
+<li><strong>Checking mutability</strong> on duck arrays, which would imply that they
+support assignment with <code class="docutils literal notranslate"><span class="pre">__setitem__</span></code> and the out argument to
+ufuncs. Many otherwise fine duck arrays are not easily mutable (for
+example, because they use some kinds of sparse or compressed
+storage, or are in read-only shared memory), and it turns out that
+frequently-used code like the default implementation of <code class="docutils literal notranslate"><span class="pre">np.mean</span></code>
+needs to check this (to decide whether it can re-use temporary
+arrays).</li>
+</ul>
+<p>We intentionally do not describe exactly how to add support for these
+types of duck arrays here. These will be the subject of future NEPs.</p>
+</div>
+</div>
+<div class="section" id="copyright">
+<h2>Copyright<a class="headerlink" href="#copyright" title="Permalink to this headline">¶</a></h2>
+<p>This document has been placed in the public domain.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+          </div>
+      <div class="spc-rightsidebar span3">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">NEP 22 — Duck typing for NumPy arrays – high level overview</a><ul>
+<li><a class="reference internal" href="#abstract">Abstract</a></li>
+<li><a class="reference internal" href="#detailed-description">Detailed description</a><ul>
+<li><a class="reference internal" href="#terminology">Terminology</a></li>
+<li><a class="reference internal" href="#general-approach">General approach</a><ul>
+<li><a class="reference internal" href="#principle-1-focus-on-full-duck-arrays-but-dont-rule-out-partial-duck-arrays">Principle 1: Focus on “full” duck arrays, but don’t rule out “partial” duck arrays</a></li>
+<li><a class="reference internal" href="#principle-2-take-advantage-of-duck-typing">Principle 2: Take advantage of duck typing</a></li>
+<li><a class="reference internal" href="#principle-3-focus-on-protocols">Principle 3: Focus on protocols</a></li>
+<li><a class="reference internal" href="#principle-4-reuse-existing-methods-when-possible">Principle 4: Reuse existing methods when possible</a></li>
+<li><a class="reference internal" href="#principle-5-make-it-easy-to-do-the-right-thing">Principle 5: Make it easy to do the right thing</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#tentative-duck-array-guidelines">Tentative duck array guidelines</a></li>
+<li><a class="reference internal" href="#a-very-rough-sketch-of-future-plans">A (very) rough sketch of future plans</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#copyright">Copyright</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="nep-0020-gufunc-signature-enhancement.html"
+                        title="previous chapter">NEP 20 — Expansion of Generalized Universal Function Signatures</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="nep-0027-zero-rank-arrarys.html"
+                        title="next chapter">NEP 27 — Zero Rank Arrays</a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h4>Quick search</h4>
+    <div>
+    <form class="search" action="search.html" method="get">
+      <input type="text" style="width: inherit;" name="q" />
+      <input type="submit" value="search" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container container-navbar-bottom">
+      <div class="spc-navbar">
+        
+      </div>
+    </div>
+    <div class="container">
+    <div class="footer">
+    <div class="row-fluid">
+    <ul class="inline pull-left">
+      <li>
+        &copy; Copyright 2017-2018, NumPy Developers.
+      </li>
+      <li>
+      Last updated on Jul 06, 2019.
+      </li>
+      <li>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.5.
+      </li>
+    </ul>
+    </div>
+    </div>
+    </div>
+  </body>
+</html>
