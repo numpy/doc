@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    
+    <title>SFC64 Small Fast Chaotic PRNG &mdash; NumPy v1.17rc1 Manual</title>
+    
+    <link rel="stylesheet" type="text/css" href="../../../_static/css/spc-bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="../../../_static/css/spc-extend.css">
+    <link rel="stylesheet" href="../../../_static/scipy.css" type="text/css" >
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" >
+    <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" >
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '1.17.0rc1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../_static/language_data.js"></script>
+    <script type="text/javascript" src="../../../_static/js/copybutton.js"></script>
+    <link rel="author" title="About these documents" href="../../../about.html" >
+    <link rel="index" title="Index" href="../../../genindex.html" >
+    <link rel="search" title="Search" href="../../../search.html" >
+    <link rel="top" title="NumPy v1.17rc1 Manual" href="../../../index.html" >
+    <link rel="up" title="Bit Generators" href="index.html" >
+    <link rel="next" title="numpy.random.sfc64.SFC64.state" href="generated/numpy.random.sfc64.SFC64.state.html" >
+    <link rel="prev" title="numpy.random.philox.Philox.ctypes" href="generated/numpy.random.philox.Philox.ctypes.html" > 
+  </head>
+  <body>
+
+  <div class="container">
+    <div class="header">
+    </div>
+  </div>
+
+
+    <div class="container">
+      <div class="main">
+        
+	<div class="row-fluid">
+	  <div class="span12">
+	    <div class="spc-navbar">
+              
+    <ul class="nav nav-pills pull-left">
+        
+        <li class="active"><a href="../../../index.html">NumPy v1.17rc1 Manual</a></li>
+        
+
+          <li class="active"><a href="../../index.html" >NumPy Reference</a></li>
+          <li class="active"><a href="../../routines.html" >Routines</a></li>
+          <li class="active"><a href="../index.html" >Random sampling (<code class="docutils literal notranslate"><span class="pre">numpy.random</span></code>)</a></li>
+          <li class="active"><a href="index.html" accesskey="U">Bit Generators</a></li> 
+    </ul>
+              
+              
+    <ul class="nav nav-pills pull-right">
+      <li class="active">
+        <a href="../../../genindex.html" title="General Index"
+           accesskey="I">index</a>
+      </li>
+      <li class="active">
+        <a href="generated/numpy.random.sfc64.SFC64.state.html" title="numpy.random.sfc64.SFC64.state"
+           accesskey="N">next</a>
+      </li>
+      <li class="active">
+        <a href="generated/numpy.random.philox.Philox.ctypes.html" title="numpy.random.philox.Philox.ctypes"
+           accesskey="P">previous</a>
+      </li>
+    </ul>
+              
+	    </div>
+	  </div>
+	</div>
+        
+
+	<div class="row-fluid">
+      <div class="spc-rightsidebar span3">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../../../contents.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">SFC64 Small Fast Chaotic PRNG</a><ul>
+<li><a class="reference internal" href="#state">State</a></li>
+<li><a class="reference internal" href="#extending">Extending</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="generated/numpy.random.philox.Philox.ctypes.html"
+                        title="previous chapter">numpy.random.philox.Philox.ctypes</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="generated/numpy.random.sfc64.SFC64.state.html"
+                        title="next chapter">numpy.random.sfc64.SFC64.state</a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h4>Quick search</h4>
+    <div>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" style="width: inherit;" name="q" />
+      <input type="submit" value="search" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+          <div class="span9">
+            
+        <div class="bodywrapper">
+          <div class="body" id="spc-section-body">
+            
+  <div class="section" id="module-numpy.random.sfc64">
+<span id="sfc64-small-fast-chaotic-prng"></span><h1>SFC64 Small Fast Chaotic PRNG<a class="headerlink" href="#module-numpy.random.sfc64" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="numpy.random.sfc64.SFC64">
+<em class="property">class </em><code class="descclassname">numpy.random.sfc64.</code><code class="descname">SFC64</code><span class="sig-paren">(</span><em>seed=None</em><span class="sig-paren">)</span><a class="headerlink" href="#numpy.random.sfc64.SFC64" title="Permalink to this definition">¶</a></dt>
+<dd><p>BitGenerator for Chris Doty-Humphrey’s Small Fast Chaotic PRNG.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>seed</strong> <span class="classifier-delimiter">:</span> <span class="classifier">{None, int, array_like[ints], ISeedSequence}, optional</span></dt>
+<dd><p class="first last">A seed to initialize the <em class="xref py py-obj">BitGenerator</em>. If None, then fresh,
+unpredictable entropy will be pulled from the OS. If an <code class="docutils literal notranslate"><span class="pre">int</span></code> or
+<code class="docutils literal notranslate"><span class="pre">array_like[ints]</span></code> is passed, then it will be passed to
+<em class="xref py py-obj">SeedSequence</em> to derive the initial <em class="xref py py-obj">BitGenerator</em> state. One may also
+pass in an implementor of the <em class="xref py py-obj">ISeedSequence</em> interface like
+<em class="xref py py-obj">SeedSequence</em>.</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p><code class="docutils literal notranslate"><span class="pre">SFC64</span></code> is a 256-bit implementation of Chris Doty-Humphrey’s Small Fast
+Chaotic PRNG (<a class="reference internal" href="#r472b8cf99685-1" id="id1">[1]</a>). <code class="docutils literal notranslate"><span class="pre">SFC64</span></code> has a few different cycles that one might be
+on, depending on the seed; the expected period will be about
+<img class="math" src="../../../_images/math/0544d05b3d9e6b2d060443b7d56e9f3d458221fe.svg" alt="2^{255}"/> (<a class="reference internal" href="#r472b8cf99685-2" id="id2">[2]</a>). <code class="docutils literal notranslate"><span class="pre">SFC64</span></code> incorporates a 64-bit counter which means
+that the absolute minimum cycle length is <img class="math" src="../../../_images/math/35a5844e58da255d6c258648f3abcd8ddfd1986b.svg" alt="2^{64}"/> and that distinct
+seeds will not run into each other for at least <img class="math" src="../../../_images/math/35a5844e58da255d6c258648f3abcd8ddfd1986b.svg" alt="2^{64}"/> iterations.</p>
+<p><code class="docutils literal notranslate"><span class="pre">SFC64</span></code> provides a capsule containing function pointers that produce
+doubles, and unsigned 32 and 64- bit integers. These are not
+directly consumable in Python and must be consumed by a <code class="docutils literal notranslate"><span class="pre">Generator</span></code>
+or similar object that supports low-level access.</p>
+<p><strong>State and Seeding</strong></p>
+<p>The <code class="docutils literal notranslate"><span class="pre">SFC64</span></code> state vector consists of 4 unsigned 64-bit values. The last
+is a 64-bit counter that increments by 1 each iteration.</p>
+<p>The input seed is processed by <em class="xref py py-obj">SeedSequence</em> to generate the first
+3 values, then the <code class="docutils literal notranslate"><span class="pre">SFC64</span></code> algorithm is iterated a small number of times
+to mix.</p>
+<p><strong>Compatibility Guarantee</strong></p>
+<p><code class="docutils literal notranslate"><span class="pre">SFC64</span></code> makes a guarantee that a fixed seed will always produce the same
+random integer stream.</p>
+<p class="rubric">References</p>
+<table class="docutils citation" frame="void" id="r472b8cf99685-1" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td><a class="reference external" href="http://pracrand.sourceforge.net/RNG_engines.txt">“PractRand”</a></td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="r472b8cf99685-2" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id2">[2]</a></td><td><a class="reference external" href="http://www.pcg-random.org/posts/random-invertible-mapping-statistics.html">“Random Invertible Mapping Statistics”</a></td></tr>
+</tbody>
+</table>
+</dd></dl>
+
+<div class="section" id="state">
+<h2>State<a class="headerlink" href="#state" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="generated/numpy.random.sfc64.SFC64.state.html#numpy.random.sfc64.SFC64.state" title="numpy.random.sfc64.SFC64.state"><code class="xref py py-obj docutils literal notranslate"><span class="pre">state</span></code></a></td>
+<td>Get or set the PRNG state</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="extending">
+<h2>Extending<a class="headerlink" href="#extending" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="generated/numpy.random.sfc64.SFC64.cffi.html#numpy.random.sfc64.SFC64.cffi" title="numpy.random.sfc64.SFC64.cffi"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cffi</span></code></a></td>
+<td>CFFI interface</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="generated/numpy.random.sfc64.SFC64.ctypes.html#numpy.random.sfc64.SFC64.ctypes" title="numpy.random.sfc64.SFC64.ctypes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ctypes</span></code></a></td>
+<td>ctypes interface</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+          </div>
+        </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container container-navbar-bottom">
+      <div class="spc-navbar">
+        
+      </div>
+    </div>
+    <div class="container">
+    <div class="footer">
+    <div class="row-fluid">
+    <ul class="inline pull-left">
+      <li>
+        &copy; Copyright 2008-2019, The SciPy community.
+      </li>
+      <li>
+      Last updated on Jul 12, 2019.
+      </li>
+      <li>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.5.
+      </li>
+    </ul>
+    </div>
+    </div>
+    </div>
+  </body>
+</html>

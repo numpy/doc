@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    
+    <title>Mersenne Twister (MT19937) &mdash; NumPy v1.17rc1 Manual</title>
+    
+    <link rel="stylesheet" type="text/css" href="../../../_static/css/spc-bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="../../../_static/css/spc-extend.css">
+    <link rel="stylesheet" href="../../../_static/scipy.css" type="text/css" >
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" >
+    <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" >
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '1.17.0rc1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../_static/language_data.js"></script>
+    <script type="text/javascript" src="../../../_static/js/copybutton.js"></script>
+    <link rel="author" title="About these documents" href="../../../about.html" >
+    <link rel="index" title="Index" href="../../../genindex.html" >
+    <link rel="search" title="Search" href="../../../search.html" >
+    <link rel="top" title="NumPy v1.17rc1 Manual" href="../../../index.html" >
+    <link rel="up" title="Bit Generators" href="index.html" >
+    <link rel="next" title="numpy.random.mt19937.MT19937.state" href="generated/numpy.random.mt19937.MT19937.state.html" >
+    <link rel="prev" title="numpy.random.bit_generator.BitGenerator.random_raw" href="generated/numpy.random.bit_generator.BitGenerator.random_raw.html" > 
+  </head>
+  <body>
+
+  <div class="container">
+    <div class="header">
+    </div>
+  </div>
+
+
+    <div class="container">
+      <div class="main">
+        
+	<div class="row-fluid">
+	  <div class="span12">
+	    <div class="spc-navbar">
+              
+    <ul class="nav nav-pills pull-left">
+        
+        <li class="active"><a href="../../../index.html">NumPy v1.17rc1 Manual</a></li>
+        
+
+          <li class="active"><a href="../../index.html" >NumPy Reference</a></li>
+          <li class="active"><a href="../../routines.html" >Routines</a></li>
+          <li class="active"><a href="../index.html" >Random sampling (<code class="docutils literal notranslate"><span class="pre">numpy.random</span></code>)</a></li>
+          <li class="active"><a href="index.html" accesskey="U">Bit Generators</a></li> 
+    </ul>
+              
+              
+    <ul class="nav nav-pills pull-right">
+      <li class="active">
+        <a href="../../../genindex.html" title="General Index"
+           accesskey="I">index</a>
+      </li>
+      <li class="active">
+        <a href="generated/numpy.random.mt19937.MT19937.state.html" title="numpy.random.mt19937.MT19937.state"
+           accesskey="N">next</a>
+      </li>
+      <li class="active">
+        <a href="generated/numpy.random.bit_generator.BitGenerator.random_raw.html" title="numpy.random.bit_generator.BitGenerator.random_raw"
+           accesskey="P">previous</a>
+      </li>
+    </ul>
+              
+	    </div>
+	  </div>
+	</div>
+        
+
+	<div class="row-fluid">
+      <div class="spc-rightsidebar span3">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../../../contents.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Mersenne Twister (MT19937)</a><ul>
+<li><a class="reference internal" href="#state">State</a></li>
+<li><a class="reference internal" href="#parallel-generation">Parallel generation</a></li>
+<li><a class="reference internal" href="#extending">Extending</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="generated/numpy.random.bit_generator.BitGenerator.random_raw.html"
+                        title="previous chapter">numpy.random.bit_generator.BitGenerator.random_raw</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="generated/numpy.random.mt19937.MT19937.state.html"
+                        title="next chapter">numpy.random.mt19937.MT19937.state</a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h4>Quick search</h4>
+    <div>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" style="width: inherit;" name="q" />
+      <input type="submit" value="search" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+          <div class="span9">
+            
+        <div class="bodywrapper">
+          <div class="body" id="spc-section-body">
+            
+  <div class="section" id="module-numpy.random.mt19937">
+<span id="mersenne-twister-mt19937"></span><h1>Mersenne Twister (MT19937)<a class="headerlink" href="#module-numpy.random.mt19937" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="numpy.random.mt19937.MT19937">
+<em class="property">class </em><code class="descclassname">numpy.random.mt19937.</code><code class="descname">MT19937</code><span class="sig-paren">(</span><em>seed=None</em><span class="sig-paren">)</span><a class="headerlink" href="#numpy.random.mt19937.MT19937" title="Permalink to this definition">¶</a></dt>
+<dd><p>Container for the Mersenne Twister pseudo-random number generator.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>seed</strong> <span class="classifier-delimiter">:</span> <span class="classifier">{None, int, array_like[ints], ISeedSequence}, optional</span></dt>
+<dd><p class="first last">A seed to initialize the <em class="xref py py-obj">BitGenerator</em>. If None, then fresh,
+unpredictable entropy will be pulled from the OS. If an <code class="docutils literal notranslate"><span class="pre">int</span></code> or
+<code class="docutils literal notranslate"><span class="pre">array_like[ints]</span></code> is passed, then it will be passed to
+<em class="xref py py-obj">SeedSequence</em> to derive the initial <em class="xref py py-obj">BitGenerator</em> state. One may also
+pass in an implementor of the <em class="xref py py-obj">ISeedSequence</em> interface like
+<em class="xref py py-obj">SeedSequence</em>.</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p><code class="docutils literal notranslate"><span class="pre">MT19937</span></code> provides a capsule containing function pointers that produce
+doubles, and unsigned 32 and 64- bit integers <a class="reference internal" href="#ra5b7335575d7-1" id="id1">[1]</a>. These are not
+directly consumable in Python and must be consumed by a <code class="docutils literal notranslate"><span class="pre">Generator</span></code>
+or similar object that supports low-level access.</p>
+<p>The Python stdlib module “random” also contains a Mersenne Twister
+pseudo-random number generator.</p>
+<p><strong>State and Seeding</strong></p>
+<p>The <code class="docutils literal notranslate"><span class="pre">MT19937</span></code> state vector consists of a 624-element array of
+32-bit unsigned integers plus a single integer value between 0 and 624
+that indexes the current position within the main array.</p>
+<p>The input seed is processed by <em class="xref py py-obj">SeedSequence</em> to fill the whole state. The
+first element is reset such that only its most significant bit is set.</p>
+<p><strong>Parallel Features</strong></p>
+<p>The preferred way to use a BitGenerator in parallel applications is to use
+the <em class="xref py py-obj">SeedSequence.spawn</em> method to obtain entropy values, and to use these
+to generate new BitGenerators:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">numpy.random</span> <span class="k">import</span> <span class="n">Generator</span><span class="p">,</span> <span class="n">MT19937</span><span class="p">,</span> <span class="n">SeedSequence</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sg</span> <span class="o">=</span> <span class="n">SeedSequence</span><span class="p">(</span><span class="mi">1234</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rg</span> <span class="o">=</span> <span class="p">[</span><span class="n">Generator</span><span class="p">(</span><span class="n">MT19937</span><span class="p">(</span><span class="n">s</span><span class="p">))</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">sg</span><span class="o">.</span><span class="n">spawn</span><span class="p">(</span><span class="mi">10</span><span class="p">)]</span>
+</pre></div>
+</div>
+<p>Another method is to use <a class="reference internal" href="generated/numpy.random.mt19937.MT19937.jumped.html#numpy.random.mt19937.MT19937.jumped" title="numpy.random.mt19937.MT19937.jumped"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MT19937.jumped</span></code></a> which advances the state as-if
+<img class="math" src="../../../_images/math/919aaef4104e7d1dc8a3f24ae20681484ba9aa78.svg" alt="2^{128}"/> random numbers have been generated (<a class="reference internal" href="#ra5b7335575d7-1" id="id2">[1]</a>, <a class="reference internal" href="#ra5b7335575d7-2" id="id3">[2]</a>). This
+allows the original sequence to be split so that distinct segments can be
+used in each worker process. All generators should be chained to ensure
+that the segments come from the same sequence.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">numpy.random</span> <span class="k">import</span> <span class="n">Generator</span><span class="p">,</span> <span class="n">MT19937</span><span class="p">,</span> <span class="n">SeedSequence</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sg</span> <span class="o">=</span> <span class="n">SeedSequence</span><span class="p">(</span><span class="mi">1234</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">bit_generator</span> <span class="o">=</span> <span class="n">MT19937</span><span class="p">(</span><span class="n">sg</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rg</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+<span class="gp">... </span>   <span class="n">rg</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Generator</span><span class="p">(</span><span class="n">bit_generator</span><span class="p">))</span>
+<span class="gp">... </span>   <span class="c1"># Chain the BitGenerators</span>
+<span class="gp">... </span>   <span class="n">bit_generator</span> <span class="o">=</span> <span class="n">bit_generator</span><span class="o">.</span><span class="n">jumped</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><strong>Compatibility Guarantee</strong></p>
+<p><code class="docutils literal notranslate"><span class="pre">MT19937</span></code> makes a guarantee that a fixed seed and will always produce
+the same random integer stream.</p>
+<p class="rubric">References</p>
+<table class="docutils citation" frame="void" id="ra5b7335575d7-1" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[1]</td><td><em>(<a class="fn-backref" href="#id1">1</a>, <a class="fn-backref" href="#id2">2</a>)</em> Hiroshi Haramoto, Makoto Matsumoto, and Pierre L’Ecuyer, “A Fast
+Jump Ahead Algorithm for Linear Recurrences in a Polynomial Space”,
+Sequences and Their Applications - SETA, 290–298, 2008.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="ra5b7335575d7-2" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id3">[2]</a></td><td>Hiroshi Haramoto, Makoto Matsumoto, Takuji Nishimura, François
+Panneton, Pierre L’Ecuyer, “Efficient Jump Ahead for F2-Linear
+Random Number Generators”, INFORMS JOURNAL ON COMPUTING, Vol. 20,
+No. 3, Summer 2008, pp. 385-390.</td></tr>
+</tbody>
+</table>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Attributes:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>lock: threading.Lock</strong></dt>
+<dd><p class="first last">Lock instance that is shared so that the same bit git generator can
+be used in multiple Generators without corrupting the state. Code that
+generates values from a bit generator should hold the bit generator’s
+lock.</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<div class="section" id="state">
+<h2>State<a class="headerlink" href="#state" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="generated/numpy.random.mt19937.MT19937.state.html#numpy.random.mt19937.MT19937.state" title="numpy.random.mt19937.MT19937.state"><code class="xref py py-obj docutils literal notranslate"><span class="pre">state</span></code></a></td>
+<td>Get or set the PRNG state</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="parallel-generation">
+<h2>Parallel generation<a class="headerlink" href="#parallel-generation" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="generated/numpy.random.mt19937.MT19937.jumped.html#numpy.random.mt19937.MT19937.jumped" title="numpy.random.mt19937.MT19937.jumped"><code class="xref py py-obj docutils literal notranslate"><span class="pre">jumped</span></code></a>([jumps])</td>
+<td>Returns a new bit generator with the state jumped</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="extending">
+<h2>Extending<a class="headerlink" href="#extending" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="generated/numpy.random.mt19937.MT19937.cffi.html#numpy.random.mt19937.MT19937.cffi" title="numpy.random.mt19937.MT19937.cffi"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cffi</span></code></a></td>
+<td>CFFI interface</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="generated/numpy.random.mt19937.MT19937.ctypes.html#numpy.random.mt19937.MT19937.ctypes" title="numpy.random.mt19937.MT19937.ctypes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ctypes</span></code></a></td>
+<td>ctypes interface</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+          </div>
+        </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container container-navbar-bottom">
+      <div class="spc-navbar">
+        
+      </div>
+    </div>
+    <div class="container">
+    <div class="footer">
+    <div class="row-fluid">
+    <ul class="inline pull-left">
+      <li>
+        &copy; Copyright 2008-2019, The SciPy community.
+      </li>
+      <li>
+      Last updated on Jul 12, 2019.
+      </li>
+      <li>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.5.
+      </li>
+    </ul>
+    </div>
+    </div>
+    </div>
+  </body>
+</html>

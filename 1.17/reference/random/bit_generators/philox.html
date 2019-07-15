@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    
+    <title>Philox Counter-based RNG &mdash; NumPy v1.17rc1 Manual</title>
+    
+    <link rel="stylesheet" type="text/css" href="../../../_static/css/spc-bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="../../../_static/css/spc-extend.css">
+    <link rel="stylesheet" href="../../../_static/scipy.css" type="text/css" >
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" >
+    <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" >
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '1.17.0rc1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../_static/language_data.js"></script>
+    <script type="text/javascript" src="../../../_static/js/copybutton.js"></script>
+    <link rel="author" title="About these documents" href="../../../about.html" >
+    <link rel="index" title="Index" href="../../../genindex.html" >
+    <link rel="search" title="Search" href="../../../search.html" >
+    <link rel="top" title="NumPy v1.17rc1 Manual" href="../../../index.html" >
+    <link rel="up" title="Bit Generators" href="index.html" >
+    <link rel="next" title="numpy.random.philox.Philox.state" href="generated/numpy.random.philox.Philox.state.html" >
+    <link rel="prev" title="numpy.random.pcg64.PCG64.ctypes" href="generated/numpy.random.pcg64.PCG64.ctypes.html" > 
+  </head>
+  <body>
+
+  <div class="container">
+    <div class="header">
+    </div>
+  </div>
+
+
+    <div class="container">
+      <div class="main">
+        
+	<div class="row-fluid">
+	  <div class="span12">
+	    <div class="spc-navbar">
+              
+    <ul class="nav nav-pills pull-left">
+        
+        <li class="active"><a href="../../../index.html">NumPy v1.17rc1 Manual</a></li>
+        
+
+          <li class="active"><a href="../../index.html" >NumPy Reference</a></li>
+          <li class="active"><a href="../../routines.html" >Routines</a></li>
+          <li class="active"><a href="../index.html" >Random sampling (<code class="docutils literal notranslate"><span class="pre">numpy.random</span></code>)</a></li>
+          <li class="active"><a href="index.html" accesskey="U">Bit Generators</a></li> 
+    </ul>
+              
+              
+    <ul class="nav nav-pills pull-right">
+      <li class="active">
+        <a href="../../../genindex.html" title="General Index"
+           accesskey="I">index</a>
+      </li>
+      <li class="active">
+        <a href="generated/numpy.random.philox.Philox.state.html" title="numpy.random.philox.Philox.state"
+           accesskey="N">next</a>
+      </li>
+      <li class="active">
+        <a href="generated/numpy.random.pcg64.PCG64.ctypes.html" title="numpy.random.pcg64.PCG64.ctypes"
+           accesskey="P">previous</a>
+      </li>
+    </ul>
+              
+	    </div>
+	  </div>
+	</div>
+        
+
+	<div class="row-fluid">
+      <div class="spc-rightsidebar span3">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../../../contents.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Philox Counter-based RNG</a><ul>
+<li><a class="reference internal" href="#state">State</a></li>
+<li><a class="reference internal" href="#parallel-generation">Parallel generation</a></li>
+<li><a class="reference internal" href="#extending">Extending</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="generated/numpy.random.pcg64.PCG64.ctypes.html"
+                        title="previous chapter">numpy.random.pcg64.PCG64.ctypes</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="generated/numpy.random.philox.Philox.state.html"
+                        title="next chapter">numpy.random.philox.Philox.state</a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h4>Quick search</h4>
+    <div>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" style="width: inherit;" name="q" />
+      <input type="submit" value="search" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+          <div class="span9">
+            
+        <div class="bodywrapper">
+          <div class="body" id="spc-section-body">
+            
+  <div class="section" id="module-numpy.random.philox">
+<span id="philox-counter-based-rng"></span><h1>Philox Counter-based RNG<a class="headerlink" href="#module-numpy.random.philox" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="numpy.random.philox.Philox">
+<em class="property">class </em><code class="descclassname">numpy.random.philox.</code><code class="descname">Philox</code><span class="sig-paren">(</span><em>seed=None</em>, <em>counter=None</em>, <em>key=None</em><span class="sig-paren">)</span><a class="headerlink" href="#numpy.random.philox.Philox" title="Permalink to this definition">¶</a></dt>
+<dd><p>Container for the Philox (4x64) pseudo-random number generator.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>seed</strong> <span class="classifier-delimiter">:</span> <span class="classifier">{None, int, array_like[ints], ISeedSequence}, optional</span></dt>
+<dd><p class="first last">A seed to initialize the <em class="xref py py-obj">BitGenerator</em>. If None, then fresh,
+unpredictable entropy will be pulled from the OS. If an <code class="docutils literal notranslate"><span class="pre">int</span></code> or
+<code class="docutils literal notranslate"><span class="pre">array_like[ints]</span></code> is passed, then it will be passed to
+<em class="xref py py-obj">SeedSequence</em> to derive the initial <em class="xref py py-obj">BitGenerator</em> state. One may also
+pass in an implementor of the <em class="xref py py-obj">ISeedSequence</em> interface like
+<em class="xref py py-obj">SeedSequence</em>.</p>
+</dd>
+<dt><strong>counter</strong> <span class="classifier-delimiter">:</span> <span class="classifier">{None, int, array_like}, optional</span></dt>
+<dd><p class="first last">Counter to use in the Philox state. Can be either
+a Python int (long in 2.x) in [0, 2**256) or a 4-element uint64 array.
+If not provided, the RNG is initialized at 0.</p>
+</dd>
+<dt><strong>key</strong> <span class="classifier-delimiter">:</span> <span class="classifier">{None, int, array_like}, optional</span></dt>
+<dd><p class="first last">Key to use in the Philox state.  Unlike seed, the value in key is
+directly set. Can be either a Python int in [0, 2**128) or a 2-element
+uint64 array. <em class="xref py py-obj">key</em> and <em class="xref py py-obj">seed</em> cannot both be used.</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>Philox is a 64-bit PRNG that uses a counter-based design based on weaker
+(and faster) versions of cryptographic functions <a class="reference internal" href="#r93ff7825f9d9-1" id="id1">[1]</a>. Instances using
+different values of the key produce independent sequences.  Philox has a
+period of <img class="math" src="../../../_images/math/b3c2c61d4aa9fe820b4a8b1a26f79ca50e2cd4a9.svg" alt="2^{256} - 1"/> and supports arbitrary advancing and jumping
+the sequence in increments of <img class="math" src="../../../_images/math/919aaef4104e7d1dc8a3f24ae20681484ba9aa78.svg" alt="2^{128}"/>. These features allow
+multiple non-overlapping sequences to be generated.</p>
+<p><code class="docutils literal notranslate"><span class="pre">Philox</span></code> provides a capsule containing function pointers that produce
+doubles, and unsigned 32 and 64- bit integers. These are not
+directly consumable in Python and must be consumed by a <code class="docutils literal notranslate"><span class="pre">Generator</span></code>
+or similar object that supports low-level access.</p>
+<p><strong>State and Seeding</strong></p>
+<p>The <code class="docutils literal notranslate"><span class="pre">Philox</span></code> state vector consists of a 256-bit value encoded as
+a 4-element uint64 array and a 128-bit value encoded as a 2-element uint64
+array. The former is a counter which is incremented by 1 for every 4 64-bit
+randoms produced. The second is a key which determined the sequence
+produced. Using different keys produces independent sequences.</p>
+<p>The input seed is processed by <em class="xref py py-obj">SeedSequence</em> to generate the key. The
+counter is set to 0.</p>
+<p>Alternately, one can omit the seed parameter and set the <code class="docutils literal notranslate"><span class="pre">key</span></code> and
+<code class="docutils literal notranslate"><span class="pre">counter</span></code> directly.</p>
+<p><strong>Parallel Features</strong></p>
+<p>The preferred way to use a BitGenerator in parallel applications is to use
+the <em class="xref py py-obj">SeedSequence.spawn</em> method to obtain entropy values, and to use these
+to generate new BitGenerators:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">numpy.random</span> <span class="k">import</span> <span class="n">Generator</span><span class="p">,</span> <span class="n">Philox</span><span class="p">,</span> <span class="n">SeedSequence</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sg</span> <span class="o">=</span> <span class="n">SeedSequence</span><span class="p">(</span><span class="mi">1234</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rg</span> <span class="o">=</span> <span class="p">[</span><span class="n">Generator</span><span class="p">(</span><span class="n">Philox</span><span class="p">(</span><span class="n">s</span><span class="p">))</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">sg</span><span class="o">.</span><span class="n">spawn</span><span class="p">(</span><span class="mi">10</span><span class="p">)]</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Philox</span></code> can be used in parallel applications by calling the <code class="docutils literal notranslate"><span class="pre">jumped</span></code>
+method  to advances the state as-if <img class="math" src="../../../_images/math/919aaef4104e7d1dc8a3f24ae20681484ba9aa78.svg" alt="2^{128}"/> random numbers have
+been generated. Alternatively, <code class="docutils literal notranslate"><span class="pre">advance</span></code> can be used to advance the
+counter for any positive step in [0, 2**256). When using <code class="docutils literal notranslate"><span class="pre">jumped</span></code>, all
+generators should be chained to ensure that the segments come from the same
+sequence.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">numpy.random</span> <span class="k">import</span> <span class="n">Generator</span><span class="p">,</span> <span class="n">Philox</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">bit_generator</span> <span class="o">=</span> <span class="n">Philox</span><span class="p">(</span><span class="mi">1234</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rg</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+<span class="gp">... </span>   <span class="n">rg</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Generator</span><span class="p">(</span><span class="n">bit_generator</span><span class="p">))</span>
+<span class="gp">... </span>   <span class="n">bit_generator</span> <span class="o">=</span> <span class="n">bit_generator</span><span class="o">.</span><span class="n">jumped</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Alternatively, <code class="docutils literal notranslate"><span class="pre">Philox</span></code> can be used in parallel applications by using
+a sequence of distinct keys where each instance uses different key.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">key</span> <span class="o">=</span> <span class="mi">2</span><span class="o">**</span><span class="mi">96</span> <span class="o">+</span> <span class="mi">2</span><span class="o">**</span><span class="mi">33</span> <span class="o">+</span> <span class="mi">2</span><span class="o">**</span><span class="mi">17</span> <span class="o">+</span> <span class="mi">2</span><span class="o">**</span><span class="mi">9</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rg</span> <span class="o">=</span> <span class="p">[</span><span class="n">Generator</span><span class="p">(</span><span class="n">Philox</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="n">key</span><span class="o">+</span><span class="n">i</span><span class="p">))</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)]</span>
+</pre></div>
+</div>
+<p><strong>Compatibility Guarantee</strong></p>
+<p><code class="docutils literal notranslate"><span class="pre">Philox</span></code> makes a guarantee that a fixed seed will always produce
+the same random integer stream.</p>
+<p class="rubric">References</p>
+<table class="docutils citation" frame="void" id="r93ff7825f9d9-1" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td>John K. Salmon, Mark A. Moraes, Ron O. Dror, and David E. Shaw,
+“Parallel Random Numbers: As Easy as 1, 2, 3,” Proceedings of
+the International Conference for High Performance Computing,
+Networking, Storage and Analysis (SC11), New York, NY: ACM, 2011.</td></tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">numpy.random</span> <span class="k">import</span> <span class="n">Generator</span><span class="p">,</span> <span class="n">Philox</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rg</span> <span class="o">=</span> <span class="n">Generator</span><span class="p">(</span><span class="n">Philox</span><span class="p">(</span><span class="mi">1234</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rg</span><span class="o">.</span><span class="n">standard_normal</span><span class="p">()</span>
+<span class="go">0.123  # random</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Attributes:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>lock: threading.Lock</strong></dt>
+<dd><p class="first last">Lock instance that is shared so that the same bit git generator can
+be used in multiple Generators without corrupting the state. Code that
+generates values from a bit generator should hold the bit generator’s
+lock.</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<div class="section" id="state">
+<h2>State<a class="headerlink" href="#state" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="generated/numpy.random.philox.Philox.state.html#numpy.random.philox.Philox.state" title="numpy.random.philox.Philox.state"><code class="xref py py-obj docutils literal notranslate"><span class="pre">state</span></code></a></td>
+<td>Get or set the PRNG state</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="parallel-generation">
+<h2>Parallel generation<a class="headerlink" href="#parallel-generation" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="generated/numpy.random.philox.Philox.advance.html#numpy.random.philox.Philox.advance" title="numpy.random.philox.Philox.advance"><code class="xref py py-obj docutils literal notranslate"><span class="pre">advance</span></code></a>(delta)</td>
+<td>Advance the underlying RNG as-if delta draws have occurred.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="generated/numpy.random.philox.Philox.jumped.html#numpy.random.philox.Philox.jumped" title="numpy.random.philox.Philox.jumped"><code class="xref py py-obj docutils literal notranslate"><span class="pre">jumped</span></code></a>([jumps])</td>
+<td>Returns a new bit generator with the state jumped</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="extending">
+<h2>Extending<a class="headerlink" href="#extending" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="generated/numpy.random.philox.Philox.cffi.html#numpy.random.philox.Philox.cffi" title="numpy.random.philox.Philox.cffi"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cffi</span></code></a></td>
+<td>CFFI interface</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="generated/numpy.random.philox.Philox.ctypes.html#numpy.random.philox.Philox.ctypes" title="numpy.random.philox.Philox.ctypes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ctypes</span></code></a></td>
+<td>ctypes interface</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+          </div>
+        </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container container-navbar-bottom">
+      <div class="spc-navbar">
+        
+      </div>
+    </div>
+    <div class="container">
+    <div class="footer">
+    <div class="row-fluid">
+    <ul class="inline pull-left">
+      <li>
+        &copy; Copyright 2008-2019, The SciPy community.
+      </li>
+      <li>
+      Last updated on Jul 12, 2019.
+      </li>
+      <li>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.5.
+      </li>
+    </ul>
+    </div>
+    </div>
+    </div>
+  </body>
+</html>
