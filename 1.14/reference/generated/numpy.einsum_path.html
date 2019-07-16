@@ -4,18 +4,17 @@
   <head>
     <meta charset="utf-8">
     
-    <title>numpy.einsum_path &mdash; NumPy v1.14.dev0 Manual</title>
+    <title>numpy.einsum_path &mdash; NumPy v1.14 Manual</title>
     
     <link rel="stylesheet" type="text/css" href="../../_static/css/spc-bootstrap.css">
     <link rel="stylesheet" type="text/css" href="../../_static/css/spc-extend.css">
     <link rel="stylesheet" href="../../_static/scipy.css" type="text/css" >
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" >
-    <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" >
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '1.14.7.dev0+7175dec',
+        VERSION:     '1.14.5',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  false
@@ -24,12 +23,11 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <script type="text/javascript" src="../../_static/language_data.js"></script>
     <script type="text/javascript" src="../../_static/js/copybutton.js"></script>
     <link rel="author" title="About these documents" href="../../about.html" >
     <link rel="index" title="Index" href="../../genindex.html" >
     <link rel="search" title="Search" href="../../search.html" >
-    <link rel="top" title="NumPy v1.14.dev0 Manual" href="../../index.html" >
+    <link rel="top" title="NumPy v1.14 Manual" href="../../index.html" >
     <link rel="up" title="Linear algebra (numpy.linalg)" href="../routines.linalg.html" >
     <link rel="next" title="numpy.linalg.matrix_power" href="numpy.linalg.matrix_power.html" >
     <link rel="prev" title="numpy.einsum" href="numpy.einsum.html" > 
@@ -51,7 +49,7 @@
               
     <ul class="nav nav-pills pull-left">
         
-        <li class="active"><a href="../../index.html">NumPy v1.14.dev0 Manual</a></li>
+        <li class="active"><a href="../../index.html">NumPy v1.14 Manual</a></li>
         
 
           <li class="active"><a href="../index.html" >NumPy Reference</a></li>
@@ -100,22 +98,24 @@
 <h1>numpy.einsum_path<a class="headerlink" href="#numpy-einsum-path" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="numpy.einsum_path">
-<code class="descclassname">numpy.</code><code class="descname">einsum_path</code><span class="sig-paren">(</span><em>subscripts</em>, <em>*operands</em>, <em>optimize='greedy'</em><span class="sig-paren">)</span><a class="reference external" href="http://github.com/numpy/numpy/blob/master/numpy/core/einsumfunc.py#L542-L820"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#numpy.einsum_path" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">numpy.</code><code class="descname">einsum_path</code><span class="sig-paren">(</span><em>subscripts</em>, <em>*operands</em>, <em>optimize='greedy'</em><span class="sig-paren">)</span><a class="reference external" href="http://github.com/numpy/numpy/blob/v1.14.5/numpy/core/einsumfunc.py#L542-L820"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#numpy.einsum_path" title="Permalink to this definition">¶</a></dt>
 <dd><p>Evaluates the lowest cost contraction order for an einsum expression by
 considering the creation of intermediate arrays.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
-<dt><strong>subscripts</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
-<dd><p class="first last">Specifies the subscripts for summation.</p>
-</dd>
-<dt><strong>*operands</strong> <span class="classifier-delimiter">:</span> <span class="classifier">list of array_like</span></dt>
-<dd><p class="first last">These are the arrays for the operation.</p>
-</dd>
-<dt><strong>optimize</strong> <span class="classifier-delimiter">:</span> <span class="classifier">{bool, list, tuple, ‘greedy’, ‘optimal’}</span></dt>
-<dd><p class="first">Choose the type of path. If a tuple is provided, the second argument is
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>subscripts</strong> : str</p>
+<blockquote>
+<div><p>Specifies the subscripts for summation.</p>
+</div></blockquote>
+<p><strong>*operands</strong> : list of array_like</p>
+<blockquote>
+<div><p>These are the arrays for the operation.</p>
+</div></blockquote>
+<p><strong>optimize</strong> : {bool, list, tuple, ‘greedy’, ‘optimal’}</p>
+<blockquote>
+<div><p>Choose the type of path. If a tuple is provided, the second argument is
 assumed to be the maximum intermediate size created. If only a single
 argument is provided the largest input or output array size is used
 as a maximum intermediate size.</p>
@@ -134,19 +134,18 @@ Hadamard, and then outer products at each step. Scales cubically with
 the number of terms in the contraction. Equivalent to the ‘optimal’
 path for most contractions.</li>
 </ul>
-<p class="last">Default is ‘greedy’.</p>
-</dd>
-</dl>
+<p>Default is ‘greedy’.</p>
+</div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>path</strong> <span class="classifier-delimiter">:</span> <span class="classifier">list of tuples</span></dt>
-<dd><p class="first last">A list representation of the einsum path.</p>
-</dd>
-<dt><strong>string_repr</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
-<dd><p class="first last">A printable representation of the einsum path.</p>
-</dd>
-</dl>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>path</strong> : list of tuples</p>
+<blockquote>
+<div><p>A list representation of the einsum path.</p>
+</div></blockquote>
+<p><strong>string_repr</strong> : str</p>
+<blockquote class="last">
+<div><p>A printable representation of the einsum path.</p>
+</div></blockquote>
 </td>
 </tr>
 </tbody>
@@ -238,10 +237,10 @@ completed.</p>
         &copy; Copyright 2008-2017, The SciPy community.
       </li>
       <li>
-      Last updated on Jul 06, 2019.
+      Last updated on Jun 12, 2018.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.5.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.7.2.
       </li>
     </ul>
     </div>

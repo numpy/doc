@@ -4,18 +4,17 @@
   <head>
     <meta charset="utf-8">
     
-    <title>numpy.piecewise &mdash; NumPy v1.14.dev0 Manual</title>
+    <title>numpy.piecewise &mdash; NumPy v1.14 Manual</title>
     
     <link rel="stylesheet" type="text/css" href="../../_static/css/spc-bootstrap.css">
     <link rel="stylesheet" type="text/css" href="../../_static/css/spc-extend.css">
     <link rel="stylesheet" href="../../_static/scipy.css" type="text/css" >
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" >
-    <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" >
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '1.14.7.dev0+7175dec',
+        VERSION:     '1.14.5',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  false
@@ -24,12 +23,11 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <script type="text/javascript" src="../../_static/language_data.js"></script>
     <script type="text/javascript" src="../../_static/js/copybutton.js"></script>
     <link rel="author" title="About these documents" href="../../about.html" >
     <link rel="index" title="Index" href="../../genindex.html" >
     <link rel="search" title="Search" href="../../search.html" >
-    <link rel="top" title="NumPy v1.14.dev0 Manual" href="../../index.html" >
+    <link rel="top" title="NumPy v1.14 Manual" href="../../index.html" >
     <link rel="up" title="Functional programming" href="../routines.functional.html" >
     <link rel="next" title="NumPy-specific help functions" href="../routines.help.html" >
     <link rel="prev" title="numpy.frompyfunc" href="numpy.frompyfunc.html" > 
@@ -51,7 +49,7 @@
               
     <ul class="nav nav-pills pull-left">
         
-        <li class="active"><a href="../../index.html">NumPy v1.14.dev0 Manual</a></li>
+        <li class="active"><a href="../../index.html">NumPy v1.14 Manual</a></li>
         
 
           <li class="active"><a href="../index.html" >NumPy Reference</a></li>
@@ -100,7 +98,7 @@
 <h1>numpy.piecewise<a class="headerlink" href="#numpy-piecewise" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="numpy.piecewise">
-<code class="descclassname">numpy.</code><code class="descname">piecewise</code><span class="sig-paren">(</span><em>x</em>, <em>condlist</em>, <em>funclist</em>, <em>*args</em>, <em>**kw</em><span class="sig-paren">)</span><a class="reference external" href="http://github.com/numpy/numpy/blob/master/numpy/lib/function_base.py#L1237-L1355"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#numpy.piecewise" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">numpy.</code><code class="descname">piecewise</code><span class="sig-paren">(</span><em>x</em>, <em>condlist</em>, <em>funclist</em>, <em>*args</em>, <em>**kw</em><span class="sig-paren">)</span><a class="reference external" href="http://github.com/numpy/numpy/blob/v1.14.5/numpy/lib/function_base.py#L1237-L1355"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#numpy.piecewise" title="Permalink to this definition">¶</a></dt>
 <dd><p>Evaluate a piecewise-defined function.</p>
 <p>Given a set of conditions and corresponding functions, evaluate each
 function on the input data wherever its condition is true.</p>
@@ -108,49 +106,51 @@ function on the input data wherever its condition is true.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
-<dt><strong>x</strong> <span class="classifier-delimiter">:</span> <span class="classifier">ndarray or scalar</span></dt>
-<dd><p class="first last">The input domain.</p>
-</dd>
-<dt><strong>condlist</strong> <span class="classifier-delimiter">:</span> <span class="classifier">list of bool arrays or bool scalars</span></dt>
-<dd><p class="first">Each boolean array corresponds to a function in <em class="xref py py-obj">funclist</em>.  Wherever
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>x</strong> : ndarray or scalar</p>
+<blockquote>
+<div><p>The input domain.</p>
+</div></blockquote>
+<p><strong>condlist</strong> : list of bool arrays or bool scalars</p>
+<blockquote>
+<div><p>Each boolean array corresponds to a function in <em class="xref py py-obj">funclist</em>.  Wherever
 <em class="xref py py-obj">condlist[i]</em> is True, <em class="xref py py-obj">funclist[i](x)</em> is used as the output value.</p>
 <p>Each boolean array in <em class="xref py py-obj">condlist</em> selects a piece of <em class="xref py py-obj">x</em>,
 and should therefore be of the same shape as <em class="xref py py-obj">x</em>.</p>
-<p class="last">The length of <em class="xref py py-obj">condlist</em> must correspond to that of <em class="xref py py-obj">funclist</em>.
+<p>The length of <em class="xref py py-obj">condlist</em> must correspond to that of <em class="xref py py-obj">funclist</em>.
 If one extra function is given, i.e. if
 <code class="docutils literal notranslate"><span class="pre">len(funclist)</span> <span class="pre">==</span> <span class="pre">len(condlist)</span> <span class="pre">+</span> <span class="pre">1</span></code>, then that extra function
 is the default value, used wherever all conditions are false.</p>
-</dd>
-<dt><strong>funclist</strong> <span class="classifier-delimiter">:</span> <span class="classifier">list of callables, f(x,*args,**kw), or scalars</span></dt>
-<dd><p class="first last">Each function is evaluated over <em class="xref py py-obj">x</em> wherever its corresponding
+</div></blockquote>
+<p><strong>funclist</strong> : list of callables, f(x,*args,**kw), or scalars</p>
+<blockquote>
+<div><p>Each function is evaluated over <em class="xref py py-obj">x</em> wherever its corresponding
 condition is True.  It should take a 1d array as input and give an 1d
 array or a scalar value as output.  If, instead of a callable,
 a scalar is provided then a constant function (<code class="docutils literal notranslate"><span class="pre">lambda</span> <span class="pre">x:</span> <span class="pre">scalar</span></code>) is
 assumed.</p>
-</dd>
-<dt><strong>args</strong> <span class="classifier-delimiter">:</span> <span class="classifier">tuple, optional</span></dt>
-<dd><p class="first last">Any further arguments given to <a class="reference internal" href="#numpy.piecewise" title="numpy.piecewise"><code class="xref py py-obj docutils literal notranslate"><span class="pre">piecewise</span></code></a> are passed to the functions
+</div></blockquote>
+<p><strong>args</strong> : tuple, optional</p>
+<blockquote>
+<div><p>Any further arguments given to <a class="reference internal" href="#numpy.piecewise" title="numpy.piecewise"><code class="xref py py-obj docutils literal notranslate"><span class="pre">piecewise</span></code></a> are passed to the functions
 upon execution, i.e., if called <code class="docutils literal notranslate"><span class="pre">piecewise(...,</span> <span class="pre">...,</span> <span class="pre">1,</span> <span class="pre">'a')</span></code>, then
 each function is called as <code class="docutils literal notranslate"><span class="pre">f(x,</span> <span class="pre">1,</span> <span class="pre">'a')</span></code>.</p>
-</dd>
-<dt><strong>kw</strong> <span class="classifier-delimiter">:</span> <span class="classifier">dict, optional</span></dt>
-<dd><p class="first last">Keyword arguments used in calling <a class="reference internal" href="#numpy.piecewise" title="numpy.piecewise"><code class="xref py py-obj docutils literal notranslate"><span class="pre">piecewise</span></code></a> are passed to the
+</div></blockquote>
+<p><strong>kw</strong> : dict, optional</p>
+<blockquote>
+<div><p>Keyword arguments used in calling <a class="reference internal" href="#numpy.piecewise" title="numpy.piecewise"><code class="xref py py-obj docutils literal notranslate"><span class="pre">piecewise</span></code></a> are passed to the
 functions upon execution, i.e., if called
 <code class="docutils literal notranslate"><span class="pre">piecewise(...,</span> <span class="pre">...,</span> <span class="pre">alpha=1)</span></code>, then each function is called as
 <code class="docutils literal notranslate"><span class="pre">f(x,</span> <span class="pre">alpha=1)</span></code>.</p>
-</dd>
-</dl>
+</div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>out</strong> <span class="classifier-delimiter">:</span> <span class="classifier">ndarray</span></dt>
-<dd><p class="first last">The output is the same shape and type as x and is found by
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>out</strong> : ndarray</p>
+<blockquote class="last">
+<div><p>The output is the same shape and type as x and is found by
 calling the functions in <em class="xref py py-obj">funclist</em> on the appropriate portions of <em class="xref py py-obj">x</em>,
 as defined by the boolean arrays in <em class="xref py py-obj">condlist</em>.  Portions not covered
 by any condition have a default value of 0.</p>
-</dd>
-</dl>
+</div></blockquote>
 </td>
 </tr>
 </tbody>
@@ -216,10 +216,10 @@ evaluated on elements of <em class="xref py py-obj">x</em> that satisfy the corr
         &copy; Copyright 2008-2017, The SciPy community.
       </li>
       <li>
-      Last updated on Jul 06, 2019.
+      Last updated on Jun 12, 2018.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.5.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.7.2.
       </li>
     </ul>
     </div>

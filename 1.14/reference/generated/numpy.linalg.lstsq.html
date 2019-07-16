@@ -4,18 +4,17 @@
   <head>
     <meta charset="utf-8">
     
-    <title>numpy.linalg.lstsq &mdash; NumPy v1.14.dev0 Manual</title>
+    <title>numpy.linalg.lstsq &mdash; NumPy v1.14 Manual</title>
     
     <link rel="stylesheet" type="text/css" href="../../_static/css/spc-bootstrap.css">
     <link rel="stylesheet" type="text/css" href="../../_static/css/spc-extend.css">
     <link rel="stylesheet" href="../../_static/scipy.css" type="text/css" >
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" >
-    <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" >
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '1.14.7.dev0+7175dec',
+        VERSION:     '1.14.5',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  false
@@ -24,12 +23,11 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <script type="text/javascript" src="../../_static/language_data.js"></script>
     <script type="text/javascript" src="../../_static/js/copybutton.js"></script>
     <link rel="author" title="About these documents" href="../../about.html" >
     <link rel="index" title="Index" href="../../genindex.html" >
     <link rel="search" title="Search" href="../../search.html" >
-    <link rel="top" title="NumPy v1.14.dev0 Manual" href="../../index.html" >
+    <link rel="top" title="NumPy v1.14 Manual" href="../../index.html" >
     <link rel="up" title="Linear algebra (numpy.linalg)" href="../routines.linalg.html" >
     <link rel="next" title="numpy.linalg.inv" href="numpy.linalg.inv.html" >
     <link rel="prev" title="numpy.linalg.tensorsolve" href="numpy.linalg.tensorsolve.html" > 
@@ -51,7 +49,7 @@
               
     <ul class="nav nav-pills pull-left">
         
-        <li class="active"><a href="../../index.html">NumPy v1.14.dev0 Manual</a></li>
+        <li class="active"><a href="../../index.html">NumPy v1.14 Manual</a></li>
         
 
           <li class="active"><a href="../index.html" >NumPy Reference</a></li>
@@ -100,7 +98,7 @@
 <h1>numpy.linalg.lstsq<a class="headerlink" href="#numpy-linalg-lstsq" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="numpy.linalg.lstsq">
-<code class="descclassname">numpy.linalg.</code><code class="descname">lstsq</code><span class="sig-paren">(</span><em>a</em>, <em>b</em>, <em>rcond='warn'</em><span class="sig-paren">)</span><a class="reference external" href="http://github.com/numpy/numpy/blob/master/numpy/linalg/linalg.py#L1880-L2072"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#numpy.linalg.lstsq" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">numpy.linalg.</code><code class="descname">lstsq</code><span class="sig-paren">(</span><em>a</em>, <em>b</em>, <em>rcond='warn'</em><span class="sig-paren">)</span><a class="reference external" href="http://github.com/numpy/numpy/blob/v1.14.5/numpy/linalg/linalg.py#L1880-L2072"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#numpy.linalg.lstsq" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the least-squares solution to a linear matrix equation.</p>
 <p>Solves the equation <em class="xref py py-obj">a x = b</em> by computing a vector <em class="xref py py-obj">x</em> that
 minimizes the Euclidean 2-norm <em class="xref py py-obj">|| b - a x ||^2</em>.  The equation may
@@ -113,57 +111,59 @@ the “exact” solution of the equation.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
-<dt><strong>a</strong> <span class="classifier-delimiter">:</span> <span class="classifier">(M, N) array_like</span></dt>
-<dd><p class="first last">“Coefficient” matrix.</p>
-</dd>
-<dt><strong>b</strong> <span class="classifier-delimiter">:</span> <span class="classifier">{(M,), (M, K)} array_like</span></dt>
-<dd><p class="first last">Ordinate or “dependent variable” values. If <em class="xref py py-obj">b</em> is two-dimensional,
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>a</strong> : (M, N) array_like</p>
+<blockquote>
+<div><p>“Coefficient” matrix.</p>
+</div></blockquote>
+<p><strong>b</strong> : {(M,), (M, K)} array_like</p>
+<blockquote>
+<div><p>Ordinate or “dependent variable” values. If <em class="xref py py-obj">b</em> is two-dimensional,
 the least-squares solution is calculated for each of the <em class="xref py py-obj">K</em> columns
 of <em class="xref py py-obj">b</em>.</p>
-</dd>
-<dt><strong>rcond</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float, optional</span></dt>
-<dd><p class="first">Cut-off ratio for small singular values of <em class="xref py py-obj">a</em>.
+</div></blockquote>
+<p><strong>rcond</strong> : float, optional</p>
+<blockquote>
+<div><p>Cut-off ratio for small singular values of <em class="xref py py-obj">a</em>.
 For the purposes of rank determination, singular values are treated
 as zero if they are smaller than <em class="xref py py-obj">rcond</em> times the largest singular
 value of <em class="xref py py-obj">a</em>.</p>
-<div class="last versionchanged">
+<div class="versionchanged">
 <p><span class="versionmodified">Changed in version 1.14.0: </span>If not set, a FutureWarning is given. The previous default
 of <code class="docutils literal notranslate"><span class="pre">-1</span></code> will use the machine precision as <em class="xref py py-obj">rcond</em> parameter,
 the new default will use the machine precision times <em class="xref py py-obj">max(M, N)</em>.
 To silence the warning and use the new default, use <code class="docutils literal notranslate"><span class="pre">rcond=None</span></code>,
 to keep using the old behavior, use <code class="docutils literal notranslate"><span class="pre">rcond=-1</span></code>.</p>
 </div>
-</dd>
-</dl>
+</div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first docutils">
-<dt><strong>x</strong> <span class="classifier-delimiter">:</span> <span class="classifier">{(N,), (N, K)} ndarray</span></dt>
-<dd><p class="first last">Least-squares solution. If <em class="xref py py-obj">b</em> is two-dimensional,
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>x</strong> : {(N,), (N, K)} ndarray</p>
+<blockquote>
+<div><p>Least-squares solution. If <em class="xref py py-obj">b</em> is two-dimensional,
 the solutions are in the <em class="xref py py-obj">K</em> columns of <em class="xref py py-obj">x</em>.</p>
-</dd>
-<dt><strong>residuals</strong> <span class="classifier-delimiter">:</span> <span class="classifier">{(1,), (K,), (0,)} ndarray</span></dt>
-<dd><p class="first last">Sums of residuals; squared Euclidean 2-norm for each column in
+</div></blockquote>
+<p><strong>residuals</strong> : {(1,), (K,), (0,)} ndarray</p>
+<blockquote>
+<div><p>Sums of residuals; squared Euclidean 2-norm for each column in
 <code class="docutils literal notranslate"><span class="pre">b</span> <span class="pre">-</span> <span class="pre">a*x</span></code>.
 If the rank of <em class="xref py py-obj">a</em> is &lt; N or M &lt;= N, this is an empty array.
 If <em class="xref py py-obj">b</em> is 1-dimensional, this is a (1,) shape array.
 Otherwise the shape is (K,).</p>
-</dd>
-<dt><strong>rank</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
-<dd><p class="first last">Rank of matrix <em class="xref py py-obj">a</em>.</p>
-</dd>
-<dt><strong>s</strong> <span class="classifier-delimiter">:</span> <span class="classifier">(min(M, N),) ndarray</span></dt>
-<dd><p class="first last">Singular values of <em class="xref py py-obj">a</em>.</p>
-</dd>
-</dl>
+</div></blockquote>
+<p><strong>rank</strong> : int</p>
+<blockquote>
+<div><p>Rank of matrix <em class="xref py py-obj">a</em>.</p>
+</div></blockquote>
+<p><strong>s</strong> : (min(M, N),) ndarray</p>
+<blockquote>
+<div><p>Singular values of <em class="xref py py-obj">a</em>.</p>
+</div></blockquote>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>LinAlgError</strong></dt>
-<dd><p class="first last">If computation does not converge.</p>
-</dd>
-</dl>
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><p class="first"><strong>LinAlgError</strong></p>
+<blockquote class="last">
+<div><p>If computation does not converge.</p>
+</div></blockquote>
 </td>
 </tr>
 </tbody>
@@ -229,10 +229,10 @@ and <code class="docutils literal notranslate"><span class="pre">p</span> <span 
         &copy; Copyright 2008-2017, The SciPy community.
       </li>
       <li>
-      Last updated on Jul 06, 2019.
+      Last updated on Jun 12, 2018.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.5.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.7.2.
       </li>
     </ul>
     </div>

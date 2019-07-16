@@ -4,18 +4,17 @@
   <head>
     <meta charset="utf-8">
     
-    <title>numpy.finfo &mdash; NumPy v1.14.dev0 Manual</title>
+    <title>numpy.finfo &mdash; NumPy v1.14 Manual</title>
     
     <link rel="stylesheet" type="text/css" href="../../_static/css/spc-bootstrap.css">
     <link rel="stylesheet" type="text/css" href="../../_static/css/spc-extend.css">
     <link rel="stylesheet" href="../../_static/scipy.css" type="text/css" >
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" >
-    <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" >
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '1.14.7.dev0+7175dec',
+        VERSION:     '1.14.5',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  false
@@ -24,12 +23,11 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <script type="text/javascript" src="../../_static/language_data.js"></script>
     <script type="text/javascript" src="../../_static/js/copybutton.js"></script>
     <link rel="author" title="About these documents" href="../../about.html" >
     <link rel="index" title="Index" href="../../genindex.html" >
     <link rel="search" title="Search" href="../../search.html" >
-    <link rel="top" title="NumPy v1.14.dev0 Manual" href="../../index.html" >
+    <link rel="top" title="NumPy v1.14 Manual" href="../../index.html" >
     <link rel="up" title="Data type routines" href="../routines.dtype.html" >
     <link rel="next" title="numpy.iinfo" href="numpy.iinfo.html" >
     <link rel="prev" title="numpy.format_parser" href="numpy.format_parser.html" > 
@@ -51,7 +49,7 @@
               
     <ul class="nav nav-pills pull-left">
         
-        <li class="active"><a href="../../index.html">NumPy v1.14.dev0 Manual</a></li>
+        <li class="active"><a href="../../index.html">NumPy v1.14 Manual</a></li>
         
 
           <li class="active"><a href="../index.html" >NumPy Reference</a></li>
@@ -100,17 +98,16 @@
 <h1>numpy.finfo<a class="headerlink" href="#numpy-finfo" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="numpy.finfo">
-<em class="property">class </em><code class="descclassname">numpy.</code><code class="descname">finfo</code><span class="sig-paren">(</span><em>dtype</em><span class="sig-paren">)</span><a class="reference external" href="http://github.com/numpy/numpy/blob/master/numpy/core/getlimits.py#L305-L452"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#numpy.finfo" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">numpy.</code><code class="descname">finfo</code><span class="sig-paren">(</span><em>dtype</em><span class="sig-paren">)</span><a class="reference external" href="http://github.com/numpy/numpy/blob/v1.14.5/numpy/core/getlimits.py#L305-L452"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#numpy.finfo" title="Permalink to this definition">¶</a></dt>
 <dd><p>Machine limits for floating point types.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>dtype</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float, dtype, or instance</span></dt>
-<dd><p class="first last">Kind of floating point data-type about which to get information.</p>
-</dd>
-</dl>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>dtype</strong> : float, dtype, or instance</p>
+<blockquote class="last">
+<div><p>Kind of floating point data-type about which to get information.</p>
+</div></blockquote>
 </td>
 </tr>
 </tbody>
@@ -129,70 +126,60 @@
 The initial calculation of these parameters is expensive and negatively
 impacts import times.  These objects are cached, so calling <code class="docutils literal notranslate"><span class="pre">finfo()</span></code>
 repeatedly inside your functions is not a problem.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
+<p class="rubric">Attributes</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="9%" />
+<col width="91%" />
+</colgroup>
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Attributes:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>bits</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
-<dd><p class="first last">The number of bits occupied by the type.</p>
-</dd>
-<dt><strong>eps</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
-<dd><p class="first last">The smallest representable positive number such that
-<code class="docutils literal notranslate"><span class="pre">1.0</span> <span class="pre">+</span> <span class="pre">eps</span> <span class="pre">!=</span> <span class="pre">1.0</span></code>.  Type of <em class="xref py py-obj">eps</em> is an appropriate floating
-point type.</p>
-</dd>
-<dt><strong>epsneg</strong> <span class="classifier-delimiter">:</span> <span class="classifier">floating point number of the appropriate type</span></dt>
-<dd><p class="first last">The smallest representable positive number such that
-<code class="docutils literal notranslate"><span class="pre">1.0</span> <span class="pre">-</span> <span class="pre">epsneg</span> <span class="pre">!=</span> <span class="pre">1.0</span></code>.</p>
-</dd>
-<dt><strong>iexp</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
-<dd><p class="first last">The number of bits in the exponent portion of the floating point
-representation.</p>
-</dd>
-<dt><strong>machar</strong> <span class="classifier-delimiter">:</span> <span class="classifier">MachAr</span></dt>
-<dd><p class="first last">The object which calculated these parameters and holds more
-detailed information.</p>
-</dd>
-<dt><strong>machep</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
-<dd><p class="first last">The exponent that yields <em class="xref py py-obj">eps</em>.</p>
-</dd>
-<dt><strong>max</strong> <span class="classifier-delimiter">:</span> <span class="classifier">floating point number of the appropriate type</span></dt>
-<dd><p class="first last">The largest representable number.</p>
-</dd>
-<dt><strong>maxexp</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
-<dd><p class="first last">The smallest positive power of the base (2) that causes overflow.</p>
-</dd>
-<dt><strong>min</strong> <span class="classifier-delimiter">:</span> <span class="classifier">floating point number of the appropriate type</span></dt>
-<dd><p class="first last">The smallest representable number, typically <code class="docutils literal notranslate"><span class="pre">-max</span></code>.</p>
-</dd>
-<dt><strong>minexp</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
-<dd><p class="first last">The most negative power of the base (2) consistent with there
-being no leading 0’s in the mantissa.</p>
-</dd>
-<dt><strong>negep</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
-<dd><p class="first last">The exponent that yields <em class="xref py py-obj">epsneg</em>.</p>
-</dd>
-<dt><strong>nexp</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
-<dd><p class="first last">The number of bits in the exponent including its sign and bias.</p>
-</dd>
-<dt><strong>nmant</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
-<dd><p class="first last">The number of bits in the mantissa.</p>
-</dd>
-<dt><strong>precision</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
-<dd><p class="first last">The approximate number of decimal digits to which this kind of
-float is precise.</p>
-</dd>
-<dt><strong>resolution</strong> <span class="classifier-delimiter">:</span> <span class="classifier">floating point number of the appropriate type</span></dt>
-<dd><p class="first last">The approximate decimal resolution of this type, i.e.,
-<code class="docutils literal notranslate"><span class="pre">10**-precision</span></code>.</p>
-</dd>
-<dt><strong>tiny</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
-<dd><p class="first last">The smallest positive usable number.  Type of <em class="xref py py-obj">tiny</em> is an
-appropriate floating point type.</p>
-</dd>
-</dl>
-</td>
+<tr class="row-odd"><td><strong>bits</strong></td>
+<td>(int) The number of bits occupied by the type.</td>
+</tr>
+<tr class="row-even"><td><strong>eps</strong></td>
+<td>(float) The smallest representable positive number such that <code class="docutils literal notranslate"><span class="pre">1.0</span> <span class="pre">+</span> <span class="pre">eps</span> <span class="pre">!=</span> <span class="pre">1.0</span></code>.  Type of <em class="xref py py-obj">eps</em> is an appropriate floating point type.</td>
+</tr>
+<tr class="row-odd"><td><strong>epsneg</strong></td>
+<td>(floating point number of the appropriate type) The smallest representable positive number such that <code class="docutils literal notranslate"><span class="pre">1.0</span> <span class="pre">-</span> <span class="pre">epsneg</span> <span class="pre">!=</span> <span class="pre">1.0</span></code>.</td>
+</tr>
+<tr class="row-even"><td><strong>iexp</strong></td>
+<td>(int) The number of bits in the exponent portion of the floating point representation.</td>
+</tr>
+<tr class="row-odd"><td><strong>machar</strong></td>
+<td>(MachAr) The object which calculated these parameters and holds more detailed information.</td>
+</tr>
+<tr class="row-even"><td><strong>machep</strong></td>
+<td>(int) The exponent that yields <em class="xref py py-obj">eps</em>.</td>
+</tr>
+<tr class="row-odd"><td><strong>max</strong></td>
+<td>(floating point number of the appropriate type) The largest representable number.</td>
+</tr>
+<tr class="row-even"><td><strong>maxexp</strong></td>
+<td>(int) The smallest positive power of the base (2) that causes overflow.</td>
+</tr>
+<tr class="row-odd"><td><strong>min</strong></td>
+<td>(floating point number of the appropriate type) The smallest representable number, typically <code class="docutils literal notranslate"><span class="pre">-max</span></code>.</td>
+</tr>
+<tr class="row-even"><td><strong>minexp</strong></td>
+<td>(int) The most negative power of the base (2) consistent with there being no leading 0’s in the mantissa.</td>
+</tr>
+<tr class="row-odd"><td><strong>negep</strong></td>
+<td>(int) The exponent that yields <em class="xref py py-obj">epsneg</em>.</td>
+</tr>
+<tr class="row-even"><td><strong>nexp</strong></td>
+<td>(int) The number of bits in the exponent including its sign and bias.</td>
+</tr>
+<tr class="row-odd"><td><strong>nmant</strong></td>
+<td>(int) The number of bits in the mantissa.</td>
+</tr>
+<tr class="row-even"><td><strong>precision</strong></td>
+<td>(int) The approximate number of decimal digits to which this kind of float is precise.</td>
+</tr>
+<tr class="row-odd"><td><strong>resolution</strong></td>
+<td>(floating point number of the appropriate type) The approximate decimal resolution of this type, i.e., <code class="docutils literal notranslate"><span class="pre">10**-precision</span></code>.</td>
+</tr>
+<tr class="row-even"><td><strong>tiny</strong></td>
+<td>(float) The smallest positive usable number.  Type of <em class="xref py py-obj">tiny</em> is an appropriate floating point type.</td>
 </tr>
 </tbody>
 </table>
@@ -221,10 +208,10 @@ appropriate floating point type.</p>
         &copy; Copyright 2008-2017, The SciPy community.
       </li>
       <li>
-      Last updated on Jul 06, 2019.
+      Last updated on Jun 12, 2018.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.5.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.7.2.
       </li>
     </ul>
     </div>

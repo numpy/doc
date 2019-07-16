@@ -4,18 +4,17 @@
   <head>
     <meta charset="utf-8">
     
-    <title>numpy.seterr &mdash; NumPy v1.14.dev0 Manual</title>
+    <title>numpy.seterr &mdash; NumPy v1.14 Manual</title>
     
     <link rel="stylesheet" type="text/css" href="../../_static/css/spc-bootstrap.css">
     <link rel="stylesheet" type="text/css" href="../../_static/css/spc-extend.css">
     <link rel="stylesheet" href="../../_static/scipy.css" type="text/css" >
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" >
-    <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" >
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '1.14.7.dev0+7175dec',
+        VERSION:     '1.14.5',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  false
@@ -24,12 +23,11 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <script type="text/javascript" src="../../_static/language_data.js"></script>
     <script type="text/javascript" src="../../_static/js/copybutton.js"></script>
     <link rel="author" title="About these documents" href="../../about.html" >
     <link rel="index" title="Index" href="../../genindex.html" >
     <link rel="search" title="Search" href="../../search.html" >
-    <link rel="top" title="NumPy v1.14.dev0 Manual" href="../../index.html" >
+    <link rel="top" title="NumPy v1.14 Manual" href="../../index.html" >
     <link rel="up" title="Universal functions (ufunc)" href="../ufuncs.html" >
     <link rel="next" title="numpy.seterrcall" href="numpy.seterrcall.html" >
     <link rel="prev" title="numpy.setbufsize" href="numpy.setbufsize.html" > 
@@ -51,7 +49,7 @@
               
     <ul class="nav nav-pills pull-left">
         
-        <li class="active"><a href="../../index.html">NumPy v1.14.dev0 Manual</a></li>
+        <li class="active"><a href="../../index.html">NumPy v1.14 Manual</a></li>
         
 
           <li class="active"><a href="../index.html" >NumPy Reference</a></li>
@@ -99,7 +97,7 @@
 <h1>numpy.seterr<a class="headerlink" href="#numpy-seterr" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="numpy.seterr">
-<code class="descclassname">numpy.</code><code class="descname">seterr</code><span class="sig-paren">(</span><em>all=None</em>, <em>divide=None</em>, <em>over=None</em>, <em>under=None</em>, <em>invalid=None</em><span class="sig-paren">)</span><a class="reference external" href="http://github.com/numpy/numpy/blob/master/numpy/core/numeric.py#L2460-L2557"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#numpy.seterr" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">numpy.</code><code class="descname">seterr</code><span class="sig-paren">(</span><em>all=None</em>, <em>divide=None</em>, <em>over=None</em>, <em>under=None</em>, <em>invalid=None</em><span class="sig-paren">)</span><a class="reference external" href="http://github.com/numpy/numpy/blob/v1.14.5/numpy/core/numeric.py#L2460-L2557"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#numpy.seterr" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set how floating-point errors are handled.</p>
 <p>Note that operations on integer scalar types (such as <code class="xref py py-obj docutils literal notranslate"><span class="pre">int16</span></code>) are
 handled like floating point, and are affected by these settings.</p>
@@ -107,39 +105,41 @@ handled like floating point, and are affected by these settings.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
-<dt><strong>all</strong> <span class="classifier-delimiter">:</span> <span class="classifier">{‘ignore’, ‘warn’, ‘raise’, ‘call’, ‘print’, ‘log’}, optional</span></dt>
-<dd><p class="first">Set treatment for all types of floating-point errors at once:</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>all</strong> : {‘ignore’, ‘warn’, ‘raise’, ‘call’, ‘print’, ‘log’}, optional</p>
+<blockquote>
+<div><p>Set treatment for all types of floating-point errors at once:</p>
 <ul class="simple">
 <li>ignore: Take no action when the exception occurs.</li>
-<li>warn: Print a <em class="xref py py-obj">RuntimeWarning</em> (via the Python <a class="reference external" href="https://docs.python.org/dev/library/warnings.html#module-warnings" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">warnings</span></code></a> module).</li>
+<li>warn: Print a <em class="xref py py-obj">RuntimeWarning</em> (via the Python <a class="reference external" href="https://docs.python.org/dev/library/warnings.html#module-warnings" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">warnings</span></code></a> module).</li>
 <li>raise: Raise a <em class="xref py py-obj">FloatingPointError</em>.</li>
 <li>call: Call a function specified using the <a class="reference internal" href="numpy.seterrcall.html#numpy.seterrcall" title="numpy.seterrcall"><code class="xref py py-obj docutils literal notranslate"><span class="pre">seterrcall</span></code></a> function.</li>
 <li>print: Print a warning directly to <code class="docutils literal notranslate"><span class="pre">stdout</span></code>.</li>
 <li>log: Record error in a Log object specified by <a class="reference internal" href="numpy.seterrcall.html#numpy.seterrcall" title="numpy.seterrcall"><code class="xref py py-obj docutils literal notranslate"><span class="pre">seterrcall</span></code></a>.</li>
 </ul>
-<p class="last">The default is not to change the current behavior.</p>
-</dd>
-<dt><strong>divide</strong> <span class="classifier-delimiter">:</span> <span class="classifier">{‘ignore’, ‘warn’, ‘raise’, ‘call’, ‘print’, ‘log’}, optional</span></dt>
-<dd><p class="first last">Treatment for division by zero.</p>
-</dd>
-<dt><strong>over</strong> <span class="classifier-delimiter">:</span> <span class="classifier">{‘ignore’, ‘warn’, ‘raise’, ‘call’, ‘print’, ‘log’}, optional</span></dt>
-<dd><p class="first last">Treatment for floating-point overflow.</p>
-</dd>
-<dt><strong>under</strong> <span class="classifier-delimiter">:</span> <span class="classifier">{‘ignore’, ‘warn’, ‘raise’, ‘call’, ‘print’, ‘log’}, optional</span></dt>
-<dd><p class="first last">Treatment for floating-point underflow.</p>
-</dd>
-<dt><strong>invalid</strong> <span class="classifier-delimiter">:</span> <span class="classifier">{‘ignore’, ‘warn’, ‘raise’, ‘call’, ‘print’, ‘log’}, optional</span></dt>
-<dd><p class="first last">Treatment for invalid floating-point operation.</p>
-</dd>
-</dl>
+<p>The default is not to change the current behavior.</p>
+</div></blockquote>
+<p><strong>divide</strong> : {‘ignore’, ‘warn’, ‘raise’, ‘call’, ‘print’, ‘log’}, optional</p>
+<blockquote>
+<div><p>Treatment for division by zero.</p>
+</div></blockquote>
+<p><strong>over</strong> : {‘ignore’, ‘warn’, ‘raise’, ‘call’, ‘print’, ‘log’}, optional</p>
+<blockquote>
+<div><p>Treatment for floating-point overflow.</p>
+</div></blockquote>
+<p><strong>under</strong> : {‘ignore’, ‘warn’, ‘raise’, ‘call’, ‘print’, ‘log’}, optional</p>
+<blockquote>
+<div><p>Treatment for floating-point underflow.</p>
+</div></blockquote>
+<p><strong>invalid</strong> : {‘ignore’, ‘warn’, ‘raise’, ‘call’, ‘print’, ‘log’}, optional</p>
+<blockquote>
+<div><p>Treatment for invalid floating-point operation.</p>
+</div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>old_settings</strong> <span class="classifier-delimiter">:</span> <span class="classifier">dict</span></dt>
-<dd><p class="first last">Dictionary containing the old settings.</p>
-</dd>
-</dl>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>old_settings</strong> : dict</p>
+<blockquote class="last">
+<div><p>Dictionary containing the old settings.</p>
+</div></blockquote>
 </td>
 </tr>
 </tbody>
@@ -162,10 +162,10 @@ was lost.</li>
 <li>Invalid operation: result is not an expressible number, typically
 indicates that a NaN was produced.</li>
 </ul>
-<table class="docutils citation" frame="void" id="r4cab4292821f-1" rules="none">
+<table class="docutils citation" frame="void" id="r290" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label">[1]</td><td><a class="reference external" href="http://en.wikipedia.org/wiki/IEEE_754">http://en.wikipedia.org/wiki/IEEE_754</a></td></tr>
+<tr><td class="label">[R290]</td><td><a class="reference external" href="http://en.wikipedia.org/wiki/IEEE_754">http://en.wikipedia.org/wiki/IEEE_754</a></td></tr>
 </tbody>
 </table>
 <p class="rubric">Examples</p>
@@ -219,10 +219,10 @@ indicates that a NaN was produced.</li>
         &copy; Copyright 2008-2017, The SciPy community.
       </li>
       <li>
-      Last updated on Jul 06, 2019.
+      Last updated on Jun 12, 2018.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.5.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.7.2.
       </li>
     </ul>
     </div>

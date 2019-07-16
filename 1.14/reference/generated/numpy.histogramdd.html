@@ -4,18 +4,17 @@
   <head>
     <meta charset="utf-8">
     
-    <title>numpy.histogramdd &mdash; NumPy v1.14.dev0 Manual</title>
+    <title>numpy.histogramdd &mdash; NumPy v1.14 Manual</title>
     
     <link rel="stylesheet" type="text/css" href="../../_static/css/spc-bootstrap.css">
     <link rel="stylesheet" type="text/css" href="../../_static/css/spc-extend.css">
     <link rel="stylesheet" href="../../_static/scipy.css" type="text/css" >
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" >
-    <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" >
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '1.14.7.dev0+7175dec',
+        VERSION:     '1.14.5',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  false
@@ -24,12 +23,11 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <script type="text/javascript" src="../../_static/language_data.js"></script>
     <script type="text/javascript" src="../../_static/js/copybutton.js"></script>
     <link rel="author" title="About these documents" href="../../about.html" >
     <link rel="index" title="Index" href="../../genindex.html" >
     <link rel="search" title="Search" href="../../search.html" >
-    <link rel="top" title="NumPy v1.14.dev0 Manual" href="../../index.html" >
+    <link rel="top" title="NumPy v1.14 Manual" href="../../index.html" >
     <link rel="up" title="Statistics" href="../routines.statistics.html" >
     <link rel="next" title="numpy.bincount" href="numpy.bincount.html" >
     <link rel="prev" title="numpy.histogram2d" href="numpy.histogram2d.html" > 
@@ -51,7 +49,7 @@
               
     <ul class="nav nav-pills pull-left">
         
-        <li class="active"><a href="../../index.html">NumPy v1.14.dev0 Manual</a></li>
+        <li class="active"><a href="../../index.html">NumPy v1.14 Manual</a></li>
         
 
           <li class="active"><a href="../index.html" >NumPy Reference</a></li>
@@ -100,53 +98,56 @@
 <h1>numpy.histogramdd<a class="headerlink" href="#numpy-histogramdd" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="numpy.histogramdd">
-<code class="descclassname">numpy.</code><code class="descname">histogramdd</code><span class="sig-paren">(</span><em>sample</em>, <em>bins=10</em>, <em>range=None</em>, <em>normed=False</em>, <em>weights=None</em><span class="sig-paren">)</span><a class="reference external" href="http://github.com/numpy/numpy/blob/master/numpy/lib/function_base.py#L847-L1041"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#numpy.histogramdd" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">numpy.</code><code class="descname">histogramdd</code><span class="sig-paren">(</span><em>sample</em>, <em>bins=10</em>, <em>range=None</em>, <em>normed=False</em>, <em>weights=None</em><span class="sig-paren">)</span><a class="reference external" href="http://github.com/numpy/numpy/blob/v1.14.5/numpy/lib/function_base.py#L847-L1041"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#numpy.histogramdd" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compute the multidimensional histogram of some data.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
-<dt><strong>sample</strong> <span class="classifier-delimiter">:</span> <span class="classifier">array_like</span></dt>
-<dd><p class="first last">The data to be histogrammed. It must be an (N,D) array or data
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>sample</strong> : array_like</p>
+<blockquote>
+<div><p>The data to be histogrammed. It must be an (N,D) array or data
 that can be converted to such. The rows of the resulting array
 are the coordinates of points in a D dimensional polytope.</p>
-</dd>
-<dt><strong>bins</strong> <span class="classifier-delimiter">:</span> <span class="classifier">sequence or int, optional</span></dt>
-<dd><p class="first">The bin specification:</p>
-<ul class="last simple">
+</div></blockquote>
+<p><strong>bins</strong> : sequence or int, optional</p>
+<blockquote>
+<div><p>The bin specification:</p>
+<ul class="simple">
 <li>A sequence of arrays describing the bin edges along each dimension.</li>
 <li>The number of bins for each dimension (nx, ny, … =bins)</li>
 <li>The number of bins for all dimensions (nx=ny=…=bins).</li>
 </ul>
-</dd>
-<dt><strong>range</strong> <span class="classifier-delimiter">:</span> <span class="classifier">sequence, optional</span></dt>
-<dd><p class="first last">A sequence of lower and upper bin edges to be used if the edges are
+</div></blockquote>
+<p><strong>range</strong> : sequence, optional</p>
+<blockquote>
+<div><p>A sequence of lower and upper bin edges to be used if the edges are
 not given explicitly in <em class="xref py py-obj">bins</em>. Defaults to the minimum and maximum
 values along each dimension.</p>
-</dd>
-<dt><strong>normed</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool, optional</span></dt>
-<dd><p class="first last">If False, returns the number of samples in each bin. If True,
+</div></blockquote>
+<p><strong>normed</strong> : bool, optional</p>
+<blockquote>
+<div><p>If False, returns the number of samples in each bin. If True,
 returns the bin density <code class="docutils literal notranslate"><span class="pre">bin_count</span> <span class="pre">/</span> <span class="pre">sample_count</span> <span class="pre">/</span> <span class="pre">bin_volume</span></code>.</p>
-</dd>
-<dt><strong>weights</strong> <span class="classifier-delimiter">:</span> <span class="classifier">(N,) array_like, optional</span></dt>
-<dd><p class="first last">An array of values <em class="xref py py-obj">w_i</em> weighing each sample <em class="xref py py-obj">(x_i, y_i, z_i, …)</em>.
+</div></blockquote>
+<p><strong>weights</strong> : (N,) array_like, optional</p>
+<blockquote>
+<div><p>An array of values <em class="xref py py-obj">w_i</em> weighing each sample <em class="xref py py-obj">(x_i, y_i, z_i, …)</em>.
 Weights are normalized to 1 if normed is True. If normed is False,
 the values of the returned histogram are equal to the sum of the
 weights belonging to the samples falling into each bin.</p>
-</dd>
-</dl>
+</div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>H</strong> <span class="classifier-delimiter">:</span> <span class="classifier">ndarray</span></dt>
-<dd><p class="first last">The multidimensional histogram of sample x. See normed and weights
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>H</strong> : ndarray</p>
+<blockquote>
+<div><p>The multidimensional histogram of sample x. See normed and weights
 for the different possible semantics.</p>
-</dd>
-<dt><strong>edges</strong> <span class="classifier-delimiter">:</span> <span class="classifier">list</span></dt>
-<dd><p class="first last">A list of D arrays describing the bin edges for each dimension.</p>
-</dd>
-</dl>
+</div></blockquote>
+<p><strong>edges</strong> : list</p>
+<blockquote class="last">
+<div><p>A list of D arrays describing the bin edges for each dimension.</p>
+</div></blockquote>
 </td>
 </tr>
 </tbody>
@@ -192,10 +193,10 @@ for the different possible semantics.</p>
         &copy; Copyright 2008-2017, The SciPy community.
       </li>
       <li>
-      Last updated on Jul 06, 2019.
+      Last updated on Jun 12, 2018.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.5.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.7.2.
       </li>
     </ul>
     </div>

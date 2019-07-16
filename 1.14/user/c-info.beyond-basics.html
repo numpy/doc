@@ -4,18 +4,17 @@
   <head>
     <meta charset="utf-8">
     
-    <title>Beyond the Basics &mdash; NumPy v1.14.dev0 Manual</title>
+    <title>Beyond the Basics &mdash; NumPy v1.14 Manual</title>
     
     <link rel="stylesheet" type="text/css" href="../_static/css/spc-bootstrap.css">
     <link rel="stylesheet" type="text/css" href="../_static/css/spc-extend.css">
     <link rel="stylesheet" href="../_static/scipy.css" type="text/css" >
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" >
-    <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" >
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '1.14.7.dev0+7175dec',
+        VERSION:     '1.14.5',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  false
@@ -24,12 +23,11 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="../_static/language_data.js"></script>
     <script type="text/javascript" src="../_static/js/copybutton.js"></script>
     <link rel="author" title="About these documents" href="../about.html" >
     <link rel="index" title="Index" href="../genindex.html" >
     <link rel="search" title="Search" href="../search.html" >
-    <link rel="top" title="NumPy v1.14.dev0 Manual" href="../index.html" >
+    <link rel="top" title="NumPy v1.14 Manual" href="../index.html" >
     <link rel="up" title="Using NumPy C-API" href="c-info.html" >
     <link rel="next" title="NumPy Reference" href="../reference/index.html" >
     <link rel="prev" title="Writing your own ufunc" href="c-info.ufunc-tutorial.html" > 
@@ -51,7 +49,7 @@
               
     <ul class="nav nav-pills pull-left">
         
-        <li class="active"><a href="../index.html">NumPy v1.14.dev0 Manual</a></li>
+        <li class="active"><a href="../index.html">NumPy v1.14 Manual</a></li>
         
 
           <li class="active"><a href="index.html" >NumPy User Guide</a></li>
@@ -82,7 +80,7 @@
 	<div class="row-fluid">
       <div class="spc-rightsidebar span3">
         <div class="sphinxsidebarwrapper">
-  <h3><a href="../contents.html">Table of Contents</a></h3>
+  <h3><a href="../contents.html">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Beyond the Basics</a><ul>
 <li><a class="reference internal" href="#iterating-over-elements-in-the-array">Iterating over elements in the array</a><ul>
@@ -276,7 +274,7 @@ each array is for PyArray_ITER_NEXT to be called for each of the inputs. This
 incrementing is automatically performed by
 <a class="reference internal" href="../reference/c-api.array.html#c.PyArray_MultiIter_NEXT" title="PyArray_MultiIter_NEXT"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyArray_MultiIter_NEXT</span></code></a> ( <code class="docutils literal notranslate"><span class="pre">obj</span></code> ) macro (which can handle a
 multiterator <code class="docutils literal notranslate"><span class="pre">obj</span></code> as either a <code class="xref c c-type docutils literal notranslate"><span class="pre">PyArrayMultiObject</span> <span class="pre">*</span></code> or a
-<a class="reference external" href="https://docs.python.org/dev/c-api/structures.html#c.PyObject" title="(in Python v3.9)"><code class="xref c c-type docutils literal notranslate"><span class="pre">PyObject</span> <span class="pre">*</span></code></a>). The data from input number <code class="docutils literal notranslate"><span class="pre">i</span></code> is available using
+<a class="reference external" href="https://docs.python.org/dev/c-api/structures.html#c.PyObject" title="(in Python v3.8)"><code class="xref c c-type docutils literal notranslate"><span class="pre">PyObject</span> <span class="pre">*</span></code></a>). The data from input number <code class="docutils literal notranslate"><span class="pre">i</span></code> is available using
 <a class="reference internal" href="../reference/c-api.array.html#c.PyArray_MultiIter_DATA" title="PyArray_MultiIter_DATA"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyArray_MultiIter_DATA</span></code></a> ( <code class="docutils literal notranslate"><span class="pre">obj</span></code>, <code class="docutils literal notranslate"><span class="pre">i</span></code> ) and the total (broadcasted)
 size as <code class="xref c c-func docutils literal notranslate"><span class="pre">PyArray_MultiIter_SIZE</span></code> ( <code class="docutils literal notranslate"><span class="pre">obj</span></code>). An example of using this
 feature follows.</p>
@@ -477,7 +475,7 @@ a restriction on Python sub-types is that they have a binary
 compatible memory layout. Perhaps for this reason, it is somewhat
 easier to sub-type from a single parent type.</p>
 <p id="index-5">All C-structures corresponding to Python objects must begin with
-<a class="reference external" href="https://docs.python.org/dev/c-api/structures.html#c.PyObject_HEAD" title="(in Python v3.9)"><code class="xref c c-macro docutils literal notranslate"><span class="pre">PyObject_HEAD</span></code></a> (or <a class="reference external" href="https://docs.python.org/dev/c-api/structures.html#c.PyObject_VAR_HEAD" title="(in Python v3.9)"><code class="xref c c-macro docutils literal notranslate"><span class="pre">PyObject_VAR_HEAD</span></code></a>). In the same
+<a class="reference external" href="https://docs.python.org/dev/c-api/structures.html#c.PyObject_HEAD" title="(in Python v3.8)"><code class="xref c c-macro docutils literal notranslate"><span class="pre">PyObject_HEAD</span></code></a> (or <a class="reference external" href="https://docs.python.org/dev/c-api/structures.html#c.PyObject_VAR_HEAD" title="(in Python v3.8)"><code class="xref c c-macro docutils literal notranslate"><span class="pre">PyObject_VAR_HEAD</span></code></a>). In the same
 way, any sub-type must have a C-structure that begins with exactly the
 same memory layout as the parent type (or all of the parent types in
 the case of multiple-inheritance). The reason for this is that Python
@@ -487,7 +485,7 @@ pointer to the parent structure and then dereference one of it’s
 members). If the memory layouts are not compatible, then this attempt
 will cause unpredictable behavior (eventually leading to a memory
 violation and program crash).</p>
-<p>One of the elements in <a class="reference external" href="https://docs.python.org/dev/c-api/structures.html#c.PyObject_HEAD" title="(in Python v3.9)"><code class="xref c c-macro docutils literal notranslate"><span class="pre">PyObject_HEAD</span></code></a> is a pointer to a
+<p>One of the elements in <a class="reference external" href="https://docs.python.org/dev/c-api/structures.html#c.PyObject_HEAD" title="(in Python v3.8)"><code class="xref c c-macro docutils literal notranslate"><span class="pre">PyObject_HEAD</span></code></a> is a pointer to a
 type-object structure. A new Python type is created by creating a new
 type-object structure and populating it with functions and pointers to
 describe the desired behavior of the type. Typically, a new
@@ -497,14 +495,14 @@ information needed for each object of the type as well. For example,
 while a <a class="reference internal" href="../reference/c-api.types-and-structures.html#c.PyArrayObject" title="PyArrayObject"><code class="xref c c-type docutils literal notranslate"><span class="pre">PyArrayObject</span> <span class="pre">*</span></code></a> variable is a pointer to a particular instance
 of an ndarray (one of the members of the ndarray structure is, in
 turn, a pointer to the type- object table <a class="reference internal" href="../reference/c-api.types-and-structures.html#c.PyArray_Type" title="PyArray_Type"><code class="xref c c-data docutils literal notranslate"><span class="pre">&amp;PyArray_Type</span></code></a>). Finally
-<a class="reference external" href="https://docs.python.org/dev/c-api/type.html#c.PyType_Ready" title="(in Python v3.9)"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyType_Ready</span></code></a> (&lt;pointer_to_type_object&gt;) must be called for
+<a class="reference external" href="https://docs.python.org/dev/c-api/type.html#c.PyType_Ready" title="(in Python v3.8)"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyType_Ready</span></code></a> (&lt;pointer_to_type_object&gt;) must be called for
 every new Python type.</p>
 <div class="section" id="creating-sub-types">
 <h3>Creating sub-types<a class="headerlink" href="#creating-sub-types" title="Permalink to this headline">¶</a></h3>
 <p>To create a sub-type, a similar procedure must be followed except
 only behaviors that are different require new entries in the type-
 object structure. All other entries can be NULL and will be filled in
-by <a class="reference external" href="https://docs.python.org/dev/c-api/type.html#c.PyType_Ready" title="(in Python v3.9)"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyType_Ready</span></code></a> with appropriate functions from the parent
+by <a class="reference external" href="https://docs.python.org/dev/c-api/type.html#c.PyType_Ready" title="(in Python v3.8)"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyType_Ready</span></code></a> with appropriate functions from the parent
 type(s). In particular, to create a sub-type in C follow these steps:</p>
 <ol class="arabic">
 <li><p class="first">If needed create a new C-structure to handle each instance of your
@@ -531,7 +529,7 @@ parent objects in the order they should be used to define inheritance.
 Remember, all parent-types must have the same C-structure for multiple
 inheritance to work properly.</p>
 </li>
-<li><p class="first">Call <a class="reference external" href="https://docs.python.org/dev/c-api/type.html#c.PyType_Ready" title="(in Python v3.9)"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyType_Ready</span></code></a> (&lt;pointer_to_new_type&gt;). If this function
+<li><p class="first">Call <a class="reference external" href="https://docs.python.org/dev/c-api/type.html#c.PyType_Ready" title="(in Python v3.8)"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyType_Ready</span></code></a> (&lt;pointer_to_new_type&gt;). If this function
 returns a negative number, a failure occurred and the type is not
 initialized. Otherwise, the type is ready to be used. It is
 generally important to place a reference to the new type into the
@@ -638,10 +636,10 @@ works with any type with <a class="reference internal" href="../reference/arrays
         &copy; Copyright 2008-2017, The SciPy community.
       </li>
       <li>
-      Last updated on Jul 06, 2019.
+      Last updated on Jun 12, 2018.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.5.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.7.2.
       </li>
     </ul>
     </div>

@@ -1,4 +1,4 @@
-# From Dalgaard page 83 [R755c9bae090e-1]_, suppose the daily energy intake for 11
+# From Dalgaard page 83 [R276]_, suppose the daily energy intake for 11
 # women in Kj is:
 
 intake = np.array([5260., 5470, 5640, 6180, 6390, 6515, 6805, 7515, \

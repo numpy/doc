@@ -4,18 +4,17 @@
   <head>
     <meta charset="utf-8">
     
-    <title>numpy.load &mdash; NumPy v1.14.dev0 Manual</title>
+    <title>numpy.load &mdash; NumPy v1.14 Manual</title>
     
     <link rel="stylesheet" type="text/css" href="../../_static/css/spc-bootstrap.css">
     <link rel="stylesheet" type="text/css" href="../../_static/css/spc-extend.css">
     <link rel="stylesheet" href="../../_static/scipy.css" type="text/css" >
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" >
-    <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" >
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '1.14.7.dev0+7175dec',
+        VERSION:     '1.14.5',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  false
@@ -24,12 +23,11 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <script type="text/javascript" src="../../_static/language_data.js"></script>
     <script type="text/javascript" src="../../_static/js/copybutton.js"></script>
     <link rel="author" title="About these documents" href="../../about.html" >
     <link rel="index" title="Index" href="../../genindex.html" >
     <link rel="search" title="Search" href="../../search.html" >
-    <link rel="top" title="NumPy v1.14.dev0 Manual" href="../../index.html" >
+    <link rel="top" title="NumPy v1.14 Manual" href="../../index.html" >
     <link rel="up" title="Input and output" href="../routines.io.html" >
     <link rel="next" title="numpy.save" href="numpy.save.html" >
     <link rel="prev" title="Input and output" href="../routines.io.html" > 
@@ -51,7 +49,7 @@
               
     <ul class="nav nav-pills pull-left">
         
-        <li class="active"><a href="../../index.html">NumPy v1.14.dev0 Manual</a></li>
+        <li class="active"><a href="../../index.html">NumPy v1.14 Manual</a></li>
         
 
           <li class="active"><a href="../index.html" >NumPy Reference</a></li>
@@ -100,65 +98,67 @@
 <h1>numpy.load<a class="headerlink" href="#numpy-load" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="numpy.load">
-<code class="descclassname">numpy.</code><code class="descname">load</code><span class="sig-paren">(</span><em>file</em>, <em>mmap_mode=None</em>, <em>allow_pickle=True</em>, <em>fix_imports=True</em>, <em>encoding='ASCII'</em><span class="sig-paren">)</span><a class="reference external" href="http://github.com/numpy/numpy/blob/master/numpy/lib/npyio.py#L268-L434"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#numpy.load" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">numpy.</code><code class="descname">load</code><span class="sig-paren">(</span><em>file</em>, <em>mmap_mode=None</em>, <em>allow_pickle=True</em>, <em>fix_imports=True</em>, <em>encoding='ASCII'</em><span class="sig-paren">)</span><a class="reference external" href="http://github.com/numpy/numpy/blob/v1.14.5/numpy/lib/npyio.py#L268-L434"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#numpy.load" title="Permalink to this definition">¶</a></dt>
 <dd><p>Load arrays or pickled objects from <code class="docutils literal notranslate"><span class="pre">.npy</span></code>, <code class="docutils literal notranslate"><span class="pre">.npz</span></code> or pickled files.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
-<dt><strong>file</strong> <span class="classifier-delimiter">:</span> <span class="classifier">file-like object, string, or pathlib.Path</span></dt>
-<dd><p class="first last">The file to read. File-like objects must support the
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>file</strong> : file-like object, string, or pathlib.Path</p>
+<blockquote>
+<div><p>The file to read. File-like objects must support the
 <code class="docutils literal notranslate"><span class="pre">seek()</span></code> and <code class="docutils literal notranslate"><span class="pre">read()</span></code> methods. Pickled files require that the
 file-like object support the <code class="docutils literal notranslate"><span class="pre">readline()</span></code> method as well.</p>
-</dd>
-<dt><strong>mmap_mode</strong> <span class="classifier-delimiter">:</span> <span class="classifier">{None, ‘r+’, ‘r’, ‘w+’, ‘c’}, optional</span></dt>
-<dd><p class="first last">If not None, then memory-map the file, using the given mode (see
+</div></blockquote>
+<p><strong>mmap_mode</strong> : {None, ‘r+’, ‘r’, ‘w+’, ‘c’}, optional</p>
+<blockquote>
+<div><p>If not None, then memory-map the file, using the given mode (see
 <a class="reference internal" href="numpy.memmap.html#numpy.memmap" title="numpy.memmap"><code class="xref py py-obj docutils literal notranslate"><span class="pre">numpy.memmap</span></code></a> for a detailed description of the modes).  A
 memory-mapped array is kept on disk. However, it can be accessed
 and sliced like any ndarray.  Memory mapping is especially useful
 for accessing small fragments of large files without reading the
 entire file into memory.</p>
-</dd>
-<dt><strong>allow_pickle</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool, optional</span></dt>
-<dd><p class="first last">Allow loading pickled object arrays stored in npy files. Reasons for
+</div></blockquote>
+<p><strong>allow_pickle</strong> : bool, optional</p>
+<blockquote>
+<div><p>Allow loading pickled object arrays stored in npy files. Reasons for
 disallowing pickles include security, as loading pickled data can
 execute arbitrary code. If pickles are disallowed, loading object
 arrays will fail.
 Default: True</p>
-</dd>
-<dt><strong>fix_imports</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool, optional</span></dt>
-<dd><p class="first last">Only useful when loading Python 2 generated pickled files on Python 3,
+</div></blockquote>
+<p><strong>fix_imports</strong> : bool, optional</p>
+<blockquote>
+<div><p>Only useful when loading Python 2 generated pickled files on Python 3,
 which includes npy/npz files containing object arrays. If <em class="xref py py-obj">fix_imports</em>
 is True, pickle will try to map the old Python 2 names to the new names
 used in Python 3.</p>
-</dd>
-<dt><strong>encoding</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str, optional</span></dt>
-<dd><p class="first last">What encoding to use when reading Python 2 strings. Only useful when
+</div></blockquote>
+<p><strong>encoding</strong> : str, optional</p>
+<blockquote>
+<div><p>What encoding to use when reading Python 2 strings. Only useful when
 loading Python 2 generated pickled files in Python 3, which includes
 npy/npz files containing object arrays. Values other than ‘latin1’,
 ‘ASCII’, and ‘bytes’ are not allowed, as they can corrupt numerical
 data. Default: ‘ASCII’</p>
-</dd>
-</dl>
+</div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first docutils">
-<dt><strong>result</strong> <span class="classifier-delimiter">:</span> <span class="classifier">array, tuple, dict, etc.</span></dt>
-<dd><p class="first last">Data stored in the file. For <code class="docutils literal notranslate"><span class="pre">.npz</span></code> files, the returned instance
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>result</strong> : array, tuple, dict, etc.</p>
+<blockquote>
+<div><p>Data stored in the file. For <code class="docutils literal notranslate"><span class="pre">.npz</span></code> files, the returned instance
 of NpzFile class must be closed to avoid leaking file descriptors.</p>
-</dd>
-</dl>
+</div></blockquote>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>IOError</strong></dt>
-<dd><p class="first last">If the input file does not exist or cannot be read.</p>
-</dd>
-<dt><strong>ValueError</strong></dt>
-<dd><p class="first last">The file contains an object array, but allow_pickle=False given.</p>
-</dd>
-</dl>
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><p class="first"><strong>IOError</strong></p>
+<blockquote>
+<div><p>If the input file does not exist or cannot be read.</p>
+</div></blockquote>
+<p><strong>ValueError</strong></p>
+<blockquote class="last">
+<div><p>The file contains an object array, but allow_pickle=False given.</p>
+</div></blockquote>
 </td>
 </tr>
 </tbody>
@@ -247,10 +247,10 @@ directly from disk:</p>
         &copy; Copyright 2008-2017, The SciPy community.
       </li>
       <li>
-      Last updated on Jul 06, 2019.
+      Last updated on Jun 12, 2018.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.5.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.7.2.
       </li>
     </ul>
     </div>

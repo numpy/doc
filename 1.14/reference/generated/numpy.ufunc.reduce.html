@@ -4,18 +4,17 @@
   <head>
     <meta charset="utf-8">
     
-    <title>numpy.ufunc.reduce &mdash; NumPy v1.14.dev0 Manual</title>
+    <title>numpy.ufunc.reduce &mdash; NumPy v1.14 Manual</title>
     
     <link rel="stylesheet" type="text/css" href="../../_static/css/spc-bootstrap.css">
     <link rel="stylesheet" type="text/css" href="../../_static/css/spc-extend.css">
     <link rel="stylesheet" href="../../_static/scipy.css" type="text/css" >
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" >
-    <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" >
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '1.14.7.dev0+7175dec',
+        VERSION:     '1.14.5',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  false
@@ -24,12 +23,11 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <script type="text/javascript" src="../../_static/language_data.js"></script>
     <script type="text/javascript" src="../../_static/js/copybutton.js"></script>
     <link rel="author" title="About these documents" href="../../about.html" >
     <link rel="index" title="Index" href="../../genindex.html" >
     <link rel="search" title="Search" href="../../search.html" >
-    <link rel="top" title="NumPy v1.14.dev0 Manual" href="../../index.html" >
+    <link rel="top" title="NumPy v1.14 Manual" href="../../index.html" >
     <link rel="up" title="Universal functions (ufunc)" href="../ufuncs.html" >
     <link rel="next" title="numpy.ufunc.accumulate" href="numpy.ufunc.accumulate.html" >
     <link rel="prev" title="numpy.ufunc.signature" href="numpy.ufunc.signature.html" > 
@@ -51,7 +49,7 @@
               
     <ul class="nav nav-pills pull-left">
         
-        <li class="active"><a href="../../index.html">NumPy v1.14.dev0 Manual</a></li>
+        <li class="active"><a href="../../index.html">NumPy v1.14 Manual</a></li>
         
 
           <li class="active"><a href="../index.html" >NumPy Reference</a></li>
@@ -117,12 +115,13 @@ For a one-dimensional array, reduce produces results equivalent to:</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
-<dt><strong>a</strong> <span class="classifier-delimiter">:</span> <span class="classifier">array_like</span></dt>
-<dd><p class="first last">The array to act on.</p>
-</dd>
-<dt><strong>axis</strong> <span class="classifier-delimiter">:</span> <span class="classifier">None or int or tuple of ints, optional</span></dt>
-<dd><p class="first">Axis or axes along which a reduction is performed.
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>a</strong> : array_like</p>
+<blockquote>
+<div><p>The array to act on.</p>
+</div></blockquote>
+<p><strong>axis</strong> : None or int or tuple of ints, optional</p>
+<blockquote>
+<div><p>Axis or axes along which a reduction is performed.
 The default (<em class="xref py py-obj">axis</em> = 0) is perform a reduction over the first
 dimension of the input array. <em class="xref py py-obj">axis</em> may be negative, in
 which case it counts from the last to the first axis.</p>
@@ -132,41 +131,42 @@ which case it counts from the last to the first axis.</p>
 <p>If this is <em class="xref py py-obj">None</em>, a reduction is performed over all the axes.
 If this is a tuple of ints, a reduction is performed on multiple
 axes, instead of a single axis or all the axes as before.</p>
-<p class="last">For operations which are either not commutative or not associative,
+<p>For operations which are either not commutative or not associative,
 doing a reduction over multiple axes is not well-defined. The
 ufuncs do not currently raise an exception in this case, but will
 likely do so in the future.</p>
-</dd>
-<dt><strong>dtype</strong> <span class="classifier-delimiter">:</span> <span class="classifier">data-type code, optional</span></dt>
-<dd><p class="first last">The type used to represent the intermediate results. Defaults
+</div></blockquote>
+<p><strong>dtype</strong> : data-type code, optional</p>
+<blockquote>
+<div><p>The type used to represent the intermediate results. Defaults
 to the data-type of the output array if this is provided, or
 the data-type of the input array if no output array is provided.</p>
-</dd>
-<dt><strong>out</strong> <span class="classifier-delimiter">:</span> <span class="classifier">ndarray, None, or tuple of ndarray and None, optional</span></dt>
-<dd><p class="first">A location into which the result is stored. If not provided or <em class="xref py py-obj">None</em>,
+</div></blockquote>
+<p><strong>out</strong> : ndarray, None, or tuple of ndarray and None, optional</p>
+<blockquote>
+<div><p>A location into which the result is stored. If not provided or <em class="xref py py-obj">None</em>,
 a freshly-allocated array is returned. For consistency with
 <span class="xref std std-ref">ufunc.__call__</span>, if given as a keyword, this may be wrapped in a
 1-element tuple.</p>
-<div class="last versionchanged">
+<div class="versionchanged">
 <p><span class="versionmodified">Changed in version 1.13.0: </span>Tuples are allowed for keyword argument.</p>
 </div>
-</dd>
-<dt><strong>keepdims</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool, optional</span></dt>
-<dd><p class="first">If this is set to True, the axes which are reduced are left
+</div></blockquote>
+<p><strong>keepdims</strong> : bool, optional</p>
+<blockquote>
+<div><p>If this is set to True, the axes which are reduced are left
 in the result as dimensions with size one. With this option,
 the result will broadcast correctly against the original <em class="xref py py-obj">arr</em>.</p>
-<div class="last versionadded">
+<div class="versionadded">
 <p><span class="versionmodified">New in version 1.7.0.</span></p>
 </div>
-</dd>
-</dl>
+</div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>r</strong> <span class="classifier-delimiter">:</span> <span class="classifier">ndarray</span></dt>
-<dd><p class="first last">The reduced array. If <em class="xref py py-obj">out</em> was supplied, <em class="xref py py-obj">r</em> is a reference to it.</p>
-</dd>
-</dl>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>r</strong> : ndarray</p>
+<blockquote class="last">
+<div><p>The reduced array. If <em class="xref py py-obj">out</em> was supplied, <em class="xref py py-obj">r</em> is a reference to it.</p>
+</div></blockquote>
 </td>
 </tr>
 </tbody>
@@ -222,10 +222,10 @@ the result will broadcast correctly against the original <em class="xref py py-o
         &copy; Copyright 2008-2017, The SciPy community.
       </li>
       <li>
-      Last updated on Jul 06, 2019.
+      Last updated on Jun 12, 2018.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.5.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.7.2.
       </li>
     </ul>
     </div>

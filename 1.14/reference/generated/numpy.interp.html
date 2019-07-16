@@ -4,18 +4,17 @@
   <head>
     <meta charset="utf-8">
     
-    <title>numpy.interp &mdash; NumPy v1.14.dev0 Manual</title>
+    <title>numpy.interp &mdash; NumPy v1.14 Manual</title>
     
     <link rel="stylesheet" type="text/css" href="../../_static/css/spc-bootstrap.css">
     <link rel="stylesheet" type="text/css" href="../../_static/css/spc-extend.css">
     <link rel="stylesheet" href="../../_static/scipy.css" type="text/css" >
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" >
-    <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" >
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '1.14.7.dev0+7175dec',
+        VERSION:     '1.14.5',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  false
@@ -24,12 +23,11 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <script type="text/javascript" src="../../_static/language_data.js"></script>
     <script type="text/javascript" src="../../_static/js/copybutton.js"></script>
     <link rel="author" title="About these documents" href="../../about.html" >
     <link rel="index" title="Index" href="../../genindex.html" >
     <link rel="search" title="Search" href="../../search.html" >
-    <link rel="top" title="NumPy v1.14.dev0 Manual" href="../../index.html" >
+    <link rel="top" title="NumPy v1.14 Manual" href="../../index.html" >
     <link rel="up" title="Mathematical functions" href="../routines.math.html" >
     <link rel="next" title="Matrix library (numpy.matlib)" href="../routines.matlib.html" >
     <link rel="prev" title="numpy.real_if_close" href="numpy.real_if_close.html" > 
@@ -51,7 +49,7 @@
               
     <ul class="nav nav-pills pull-left">
         
-        <li class="active"><a href="../../index.html">NumPy v1.14.dev0 Manual</a></li>
+        <li class="active"><a href="../../index.html">NumPy v1.14 Manual</a></li>
         
 
           <li class="active"><a href="../index.html" >NumPy Reference</a></li>
@@ -100,7 +98,7 @@
 <h1>numpy.interp<a class="headerlink" href="#numpy-interp" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="numpy.interp">
-<code class="descclassname">numpy.</code><code class="descname">interp</code><span class="sig-paren">(</span><em>x</em>, <em>xp</em>, <em>fp</em>, <em>left=None</em>, <em>right=None</em>, <em>period=None</em><span class="sig-paren">)</span><a class="reference external" href="http://github.com/numpy/numpy/blob/master/numpy/lib/function_base.py#L1951-L2092"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#numpy.interp" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">numpy.</code><code class="descname">interp</code><span class="sig-paren">(</span><em>x</em>, <em>xp</em>, <em>fp</em>, <em>left=None</em>, <em>right=None</em>, <em>period=None</em><span class="sig-paren">)</span><a class="reference external" href="http://github.com/numpy/numpy/blob/v1.14.5/numpy/lib/function_base.py#L1951-L2092"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#numpy.interp" title="Permalink to this definition">¶</a></dt>
 <dd><p>One-dimensional linear interpolation.</p>
 <p>Returns the one-dimensional piecewise linear interpolant to a function
 with given values at discrete data-points.</p>
@@ -108,49 +106,51 @@ with given values at discrete data-points.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
-<dt><strong>x</strong> <span class="classifier-delimiter">:</span> <span class="classifier">array_like</span></dt>
-<dd><p class="first last">The x-coordinates of the interpolated values.</p>
-</dd>
-<dt><strong>xp</strong> <span class="classifier-delimiter">:</span> <span class="classifier">1-D sequence of floats</span></dt>
-<dd><p class="first last">The x-coordinates of the data points, must be increasing if argument
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>x</strong> : array_like</p>
+<blockquote>
+<div><p>The x-coordinates of the interpolated values.</p>
+</div></blockquote>
+<p><strong>xp</strong> : 1-D sequence of floats</p>
+<blockquote>
+<div><p>The x-coordinates of the data points, must be increasing if argument
 <em class="xref py py-obj">period</em> is not specified. Otherwise, <em class="xref py py-obj">xp</em> is internally sorted after
 normalizing the periodic boundaries with <code class="docutils literal notranslate"><span class="pre">xp</span> <span class="pre">=</span> <span class="pre">xp</span> <span class="pre">%</span> <span class="pre">period</span></code>.</p>
-</dd>
-<dt><strong>fp</strong> <span class="classifier-delimiter">:</span> <span class="classifier">1-D sequence of float or complex</span></dt>
-<dd><p class="first last">The y-coordinates of the data points, same length as <em class="xref py py-obj">xp</em>.</p>
-</dd>
-<dt><strong>left</strong> <span class="classifier-delimiter">:</span> <span class="classifier">optional float or complex corresponding to fp</span></dt>
-<dd><p class="first last">Value to return for <em class="xref py py-obj">x &lt; xp[0]</em>, default is <em class="xref py py-obj">fp[0]</em>.</p>
-</dd>
-<dt><strong>right</strong> <span class="classifier-delimiter">:</span> <span class="classifier">optional float or complex corresponding to fp</span></dt>
-<dd><p class="first last">Value to return for <em class="xref py py-obj">x &gt; xp[-1]</em>, default is <em class="xref py py-obj">fp[-1]</em>.</p>
-</dd>
-<dt><strong>period</strong> <span class="classifier-delimiter">:</span> <span class="classifier">None or float, optional</span></dt>
-<dd><p class="first">A period for the x-coordinates. This parameter allows the proper
+</div></blockquote>
+<p><strong>fp</strong> : 1-D sequence of float or complex</p>
+<blockquote>
+<div><p>The y-coordinates of the data points, same length as <em class="xref py py-obj">xp</em>.</p>
+</div></blockquote>
+<p><strong>left</strong> : optional float or complex corresponding to fp</p>
+<blockquote>
+<div><p>Value to return for <em class="xref py py-obj">x &lt; xp[0]</em>, default is <em class="xref py py-obj">fp[0]</em>.</p>
+</div></blockquote>
+<p><strong>right</strong> : optional float or complex corresponding to fp</p>
+<blockquote>
+<div><p>Value to return for <em class="xref py py-obj">x &gt; xp[-1]</em>, default is <em class="xref py py-obj">fp[-1]</em>.</p>
+</div></blockquote>
+<p><strong>period</strong> : None or float, optional</p>
+<blockquote>
+<div><p>A period for the x-coordinates. This parameter allows the proper
 interpolation of angular x-coordinates. Parameters <em class="xref py py-obj">left</em> and <em class="xref py py-obj">right</em>
 are ignored if <em class="xref py py-obj">period</em> is specified.</p>
-<div class="last versionadded">
+<div class="versionadded">
 <p><span class="versionmodified">New in version 1.10.0.</span></p>
 </div>
-</dd>
-</dl>
+</div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first docutils">
-<dt><strong>y</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float or complex (corresponding to fp) or ndarray</span></dt>
-<dd><p class="first last">The interpolated values, same shape as <em class="xref py py-obj">x</em>.</p>
-</dd>
-</dl>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>y</strong> : float or complex (corresponding to fp) or ndarray</p>
+<blockquote>
+<div><p>The interpolated values, same shape as <em class="xref py py-obj">x</em>.</p>
+</div></blockquote>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>ValueError</strong></dt>
-<dd><p class="first last">If <em class="xref py py-obj">xp</em> and <em class="xref py py-obj">fp</em> have different length
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><p class="first"><strong>ValueError</strong></p>
+<blockquote class="last">
+<div><p>If <em class="xref py py-obj">xp</em> and <em class="xref py py-obj">fp</em> have different length
 If <em class="xref py py-obj">xp</em> or <em class="xref py py-obj">fp</em> are not 1-D sequences
 If <em class="xref py py-obj">period == 0</em></p>
-</dd>
-</dl>
+</div></blockquote>
 </td>
 </tr>
 </tbody>
@@ -229,10 +229,10 @@ array([ 0.+1.j ,  1.+1.5j])</p>
         &copy; Copyright 2008-2017, The SciPy community.
       </li>
       <li>
-      Last updated on Jul 06, 2019.
+      Last updated on Jun 12, 2018.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.5.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.7.2.
       </li>
     </ul>
     </div>

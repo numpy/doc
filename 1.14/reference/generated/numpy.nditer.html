@@ -4,18 +4,17 @@
   <head>
     <meta charset="utf-8">
     
-    <title>numpy.nditer &mdash; NumPy v1.14.dev0 Manual</title>
+    <title>numpy.nditer &mdash; NumPy v1.14 Manual</title>
     
     <link rel="stylesheet" type="text/css" href="../../_static/css/spc-bootstrap.css">
     <link rel="stylesheet" type="text/css" href="../../_static/css/spc-extend.css">
     <link rel="stylesheet" href="../../_static/scipy.css" type="text/css" >
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" >
-    <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" >
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '1.14.7.dev0+7175dec',
+        VERSION:     '1.14.5',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  false
@@ -24,12 +23,11 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <script type="text/javascript" src="../../_static/language_data.js"></script>
     <script type="text/javascript" src="../../_static/js/copybutton.js"></script>
     <link rel="author" title="About these documents" href="../../about.html" >
     <link rel="index" title="Index" href="../../genindex.html" >
     <link rel="search" title="Search" href="../../search.html" >
-    <link rel="top" title="NumPy v1.14.dev0 Manual" href="../../index.html" >
+    <link rel="top" title="NumPy v1.14 Manual" href="../../index.html" >
     <link rel="up" title="Indexing routines" href="../routines.indexing.html" >
     <link rel="next" title="numpy.nditer.copy" href="numpy.nditer.copy.html" >
     <link rel="prev" title="numpy.fill_diagonal" href="numpy.fill_diagonal.html" > 
@@ -51,7 +49,7 @@
               
     <ul class="nav nav-pills pull-left">
         
-        <li class="active"><a href="../../index.html">NumPy v1.14.dev0 Manual</a></li>
+        <li class="active"><a href="../../index.html">NumPy v1.14 Manual</a></li>
         
 
           <li class="active"><a href="../index.html" >NumPy Reference</a></li>
@@ -100,7 +98,7 @@
 <h1>numpy.nditer<a class="headerlink" href="#numpy-nditer" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="numpy.nditer">
-<em class="property">class </em><code class="descclassname">numpy.</code><code class="descname">nditer</code><a class="reference external" href="http://github.com/numpy/numpy/blob/master/numpy/__init__.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#numpy.nditer" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">numpy.</code><code class="descname">nditer</code><a class="reference external" href="http://github.com/numpy/numpy/blob/v1.14.5/numpy/__init__.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#numpy.nditer" title="Permalink to this definition">¶</a></dt>
 <dd><p>Efficient multi-dimensional iterator object to iterate over arrays.
 To get started using this object, see the
 <a class="reference internal" href="../arrays.nditer.html#arrays-nditer"><span class="std std-ref">introductory guide to array iteration</span></a>.</p>
@@ -108,13 +106,14 @@ To get started using this object, see the
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>op</strong> <span class="classifier-delimiter">:</span> <span class="classifier">ndarray or sequence of array_like</span></dt>
-<dd><p class="first last">The array(s) to iterate over.</p>
-</dd>
-<dt><strong>flags</strong> <span class="classifier-delimiter">:</span> <span class="classifier">sequence of str, optional</span></dt>
-<dd><p class="first">Flags to control the behavior of the iterator.</p>
-<blockquote class="last">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>op</strong> : ndarray or sequence of array_like</p>
+<blockquote>
+<div><p>The array(s) to iterate over.</p>
+</div></blockquote>
+<p><strong>flags</strong> : sequence of str, optional</p>
+<blockquote>
+<div><p>Flags to control the behavior of the iterator.</p>
+<blockquote>
 <div><ul class="simple">
 <li>“buffered” enables buffering when required.</li>
 <li>“c_index” causes a C-order index to be tracked.</li>
@@ -145,11 +144,12 @@ which are broadcasted, also known as reduction operands.</li>
 <li>“zerosize_ok” allows <a class="reference internal" href="numpy.nditer.itersize.html#numpy.nditer.itersize" title="numpy.nditer.itersize"><code class="xref py py-obj docutils literal notranslate"><span class="pre">itersize</span></code></a> to be zero.</li>
 </ul>
 </div></blockquote>
-</dd>
-<dt><strong>op_flags</strong> <span class="classifier-delimiter">:</span> <span class="classifier">list of list of str, optional</span></dt>
-<dd><p class="first">This is a list of flags for each operand. At minimum, one of
+</div></blockquote>
+<p><strong>op_flags</strong> : list of list of str, optional</p>
+<blockquote>
+<div><p>This is a list of flags for each operand. At minimum, one of
 “readonly”, “readwrite”, or “writeonly” must be specified.</p>
-<blockquote class="last">
+<blockquote>
 <div><ul class="simple">
 <li>“readonly” indicates the operand will only be read from.</li>
 <li>“readwrite” indicates the operand will be read from and written to.</li>
@@ -175,25 +175,28 @@ accessed only in the iterator order, to allow less conservative
 copying when “copy_if_overlap” is present.</li>
 </ul>
 </div></blockquote>
-</dd>
-<dt><strong>op_dtypes</strong> <span class="classifier-delimiter">:</span> <span class="classifier">dtype or tuple of dtype(s), optional</span></dt>
-<dd><p class="first last">The required data type(s) of the operands. If copying or buffering
+</div></blockquote>
+<p><strong>op_dtypes</strong> : dtype or tuple of dtype(s), optional</p>
+<blockquote>
+<div><p>The required data type(s) of the operands. If copying or buffering
 is enabled, the data will be converted to/from their original types.</p>
-</dd>
-<dt><strong>order</strong> <span class="classifier-delimiter">:</span> <span class="classifier">{‘C’, ‘F’, ‘A’, ‘K’}, optional</span></dt>
-<dd><p class="first last">Controls the iteration order. ‘C’ means C order, ‘F’ means
+</div></blockquote>
+<p><strong>order</strong> : {‘C’, ‘F’, ‘A’, ‘K’}, optional</p>
+<blockquote>
+<div><p>Controls the iteration order. ‘C’ means C order, ‘F’ means
 Fortran order, ‘A’ means ‘F’ order if all the arrays are Fortran
 contiguous, ‘C’ order otherwise, and ‘K’ means as close to the
 order the array elements appear in memory as possible. This also
 affects the element memory order of “allocate” operands, as they
 are allocated to be compatible with iteration order.
 Default is ‘K’.</p>
-</dd>
-<dt><strong>casting</strong> <span class="classifier-delimiter">:</span> <span class="classifier">{‘no’, ‘equiv’, ‘safe’, ‘same_kind’, ‘unsafe’}, optional</span></dt>
-<dd><p class="first">Controls what kind of data casting may occur when making a copy
+</div></blockquote>
+<p><strong>casting</strong> : {‘no’, ‘equiv’, ‘safe’, ‘same_kind’, ‘unsafe’}, optional</p>
+<blockquote>
+<div><p>Controls what kind of data casting may occur when making a copy
 or buffering.  Setting this to ‘unsafe’ is not recommended,
 as it can adversely affect accumulations.</p>
-<blockquote class="last">
+<blockquote>
 <div><ul class="simple">
 <li>‘no’ means the data types should not be cast at all.</li>
 <li>‘equiv’ means only byte-order changes are allowed.</li>
@@ -203,25 +206,27 @@ like float64 to float32, are allowed.</li>
 <li>‘unsafe’ means any data conversions may be done.</li>
 </ul>
 </div></blockquote>
-</dd>
-<dt><strong>op_axes</strong> <span class="classifier-delimiter">:</span> <span class="classifier">list of list of ints, optional</span></dt>
-<dd><p class="first last">If provided, is a list of ints or None for each operands.
+</div></blockquote>
+<p><strong>op_axes</strong> : list of list of ints, optional</p>
+<blockquote>
+<div><p>If provided, is a list of ints or None for each operands.
 The list of axes for an operand is a mapping from the dimensions
 of the iterator to the dimensions of the operand. A value of
 -1 can be placed for entries, causing that dimension to be
 treated as “newaxis”.</p>
-</dd>
-<dt><strong>itershape</strong> <span class="classifier-delimiter">:</span> <span class="classifier">tuple of ints, optional</span></dt>
-<dd><p class="first last">The desired shape of the iterator. This allows “allocate” operands
+</div></blockquote>
+<p><strong>itershape</strong> : tuple of ints, optional</p>
+<blockquote>
+<div><p>The desired shape of the iterator. This allows “allocate” operands
 with a dimension mapped by op_axes not corresponding to a dimension
 of a different operand to get a value not equal to 1 for that
 dimension.</p>
-</dd>
-<dt><strong>buffersize</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int, optional</span></dt>
-<dd><p class="first last">When buffering is enabled, controls the size of the temporary
+</div></blockquote>
+<p><strong>buffersize</strong> : int, optional</p>
+<blockquote class="last">
+<div><p>When buffering is enabled, controls the size of the temporary
 buffers. Set to 0 for the default value.</p>
-</dd>
-</dl>
+</div></blockquote>
 </td>
 </tr>
 </tbody>
@@ -303,74 +308,60 @@ Python iterator protocol:</p>
 <span class="n">array</span><span class="p">([</span>  <span class="mf">0.5</span><span class="p">,</span>   <span class="mf">1.5</span><span class="p">,</span>   <span class="mf">4.5</span><span class="p">,</span>   <span class="mf">9.5</span><span class="p">,</span>  <span class="mf">16.5</span><span class="p">])</span>
 </pre></div>
 </div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
+<p class="rubric">Attributes</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="13%" />
+<col width="87%" />
+</colgroup>
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Attributes:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>dtypes</strong> <span class="classifier-delimiter">:</span> <span class="classifier">tuple of dtype(s)</span></dt>
-<dd><p class="first last">The data types of the values provided in <a class="reference internal" href="numpy.nditer.value.html#numpy.nditer.value" title="numpy.nditer.value"><code class="xref py py-obj docutils literal notranslate"><span class="pre">value</span></code></a>. This may be
-different from the operand data types if buffering is enabled.</p>
-</dd>
-<dt><strong>finished</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool</span></dt>
-<dd><p class="first last">Whether the iteration over the operands is finished or not.</p>
-</dd>
-<dt><strong>has_delayed_bufalloc</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool</span></dt>
-<dd><p class="first last">If True, the iterator was created with the “delay_bufalloc” flag,
-and no reset() function was called on it yet.</p>
-</dd>
-<dt><strong>has_index</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool</span></dt>
-<dd><p class="first last">If True, the iterator was created with either the “c_index” or
-the “f_index” flag, and the property <a class="reference internal" href="numpy.nditer.index.html#numpy.nditer.index" title="numpy.nditer.index"><code class="xref py py-obj docutils literal notranslate"><span class="pre">index</span></code></a> can be used to
-retrieve it.</p>
-</dd>
-<dt><strong>has_multi_index</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool</span></dt>
-<dd><p class="first last">If True, the iterator was created with the “multi_index” flag,
-and the property <a class="reference internal" href="numpy.nditer.multi_index.html#numpy.nditer.multi_index" title="numpy.nditer.multi_index"><code class="xref py py-obj docutils literal notranslate"><span class="pre">multi_index</span></code></a> can be used to retrieve it.</p>
-</dd>
-<dt><strong>index</strong></dt>
-<dd><p class="first last">When the “c_index” or “f_index” flag was used, this property
-provides access to the index. Raises a ValueError if accessed
-and <a class="reference internal" href="numpy.nditer.has_index.html#numpy.nditer.has_index" title="numpy.nditer.has_index"><code class="xref py py-obj docutils literal notranslate"><span class="pre">has_index</span></code></a> is False.</p>
-</dd>
-<dt><strong>iterationneedsapi</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool</span></dt>
-<dd><p class="first last">Whether iteration requires access to the Python API, for example
-if one of the operands is an object array.</p>
-</dd>
-<dt><strong>iterindex</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
-<dd><p class="first last">An index which matches the order of iteration.</p>
-</dd>
-<dt><strong>itersize</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
-<dd><p class="first last">Size of the iterator.</p>
-</dd>
-<dt><strong>itviews</strong></dt>
-<dd><p class="first last">Structured view(s) of <a class="reference internal" href="numpy.nditer.operands.html#numpy.nditer.operands" title="numpy.nditer.operands"><code class="xref py py-obj docutils literal notranslate"><span class="pre">operands</span></code></a> in memory, matching the reordered
-and optimized iterator access pattern.</p>
-</dd>
-<dt><strong>multi_index</strong></dt>
-<dd><p class="first last">When the “multi_index” flag was used, this property
-provides access to the index. Raises a ValueError if accessed
-accessed and <a class="reference internal" href="numpy.nditer.has_multi_index.html#numpy.nditer.has_multi_index" title="numpy.nditer.has_multi_index"><code class="xref py py-obj docutils literal notranslate"><span class="pre">has_multi_index</span></code></a> is False.</p>
-</dd>
-<dt><strong>ndim</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
-<dd><p class="first last">The iterator’s dimension.</p>
-</dd>
-<dt><strong>nop</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
-<dd><p class="first last">The number of iterator operands.</p>
-</dd>
-<dt><strong>operands</strong> <span class="classifier-delimiter">:</span> <span class="classifier">tuple of operand(s)</span></dt>
-<dd><p class="first last">The array(s) to be iterated over.</p>
-</dd>
-<dt><strong>shape</strong> <span class="classifier-delimiter">:</span> <span class="classifier">tuple of ints</span></dt>
-<dd><p class="first last">Shape tuple, the shape of the iterator.</p>
-</dd>
-<dt><strong>value</strong></dt>
-<dd><p class="first last">Value of <a class="reference internal" href="numpy.nditer.operands.html#numpy.nditer.operands" title="numpy.nditer.operands"><code class="xref py py-obj docutils literal notranslate"><span class="pre">operands</span></code></a> at current iteration. Normally, this is a
-tuple of array scalars, but if the flag “external_loop” is used,
-it is a tuple of one dimensional arrays.</p>
-</dd>
-</dl>
-</td>
+<tr class="row-odd"><td><strong>dtypes</strong></td>
+<td>(tuple of dtype(s)) The data types of the values provided in <a class="reference internal" href="numpy.nditer.value.html#numpy.nditer.value" title="numpy.nditer.value"><code class="xref py py-obj docutils literal notranslate"><span class="pre">value</span></code></a>. This may be different from the operand data types if buffering is enabled.</td>
+</tr>
+<tr class="row-even"><td><strong>finished</strong></td>
+<td>(bool) Whether the iteration over the operands is finished or not.</td>
+</tr>
+<tr class="row-odd"><td><strong>has_delayed_bufalloc</strong></td>
+<td>(bool) If True, the iterator was created with the “delay_bufalloc” flag, and no reset() function was called on it yet.</td>
+</tr>
+<tr class="row-even"><td><strong>has_index</strong></td>
+<td>(bool) If True, the iterator was created with either the “c_index” or the “f_index” flag, and the property <a class="reference internal" href="numpy.nditer.index.html#numpy.nditer.index" title="numpy.nditer.index"><code class="xref py py-obj docutils literal notranslate"><span class="pre">index</span></code></a> can be used to retrieve it.</td>
+</tr>
+<tr class="row-odd"><td><strong>has_multi_index</strong></td>
+<td>(bool) If True, the iterator was created with the “multi_index” flag, and the property <a class="reference internal" href="numpy.nditer.multi_index.html#numpy.nditer.multi_index" title="numpy.nditer.multi_index"><code class="xref py py-obj docutils literal notranslate"><span class="pre">multi_index</span></code></a> can be used to retrieve it.</td>
+</tr>
+<tr class="row-even"><td><strong>index</strong></td>
+<td>When the “c_index” or “f_index” flag was used, this property provides access to the index. Raises a ValueError if accessed and <a class="reference internal" href="numpy.nditer.has_index.html#numpy.nditer.has_index" title="numpy.nditer.has_index"><code class="xref py py-obj docutils literal notranslate"><span class="pre">has_index</span></code></a> is False.</td>
+</tr>
+<tr class="row-odd"><td><strong>iterationneedsapi</strong></td>
+<td>(bool) Whether iteration requires access to the Python API, for example if one of the operands is an object array.</td>
+</tr>
+<tr class="row-even"><td><strong>iterindex</strong></td>
+<td>(int) An index which matches the order of iteration.</td>
+</tr>
+<tr class="row-odd"><td><strong>itersize</strong></td>
+<td>(int) Size of the iterator.</td>
+</tr>
+<tr class="row-even"><td><strong>itviews</strong></td>
+<td>Structured view(s) of <a class="reference internal" href="numpy.nditer.operands.html#numpy.nditer.operands" title="numpy.nditer.operands"><code class="xref py py-obj docutils literal notranslate"><span class="pre">operands</span></code></a> in memory, matching the reordered and optimized iterator access pattern.</td>
+</tr>
+<tr class="row-odd"><td><strong>multi_index</strong></td>
+<td>When the “multi_index” flag was used, this property provides access to the index. Raises a ValueError if accessed accessed and <a class="reference internal" href="numpy.nditer.has_multi_index.html#numpy.nditer.has_multi_index" title="numpy.nditer.has_multi_index"><code class="xref py py-obj docutils literal notranslate"><span class="pre">has_multi_index</span></code></a> is False.</td>
+</tr>
+<tr class="row-even"><td><strong>ndim</strong></td>
+<td>(int) The iterator’s dimension.</td>
+</tr>
+<tr class="row-odd"><td><strong>nop</strong></td>
+<td>(int) The number of iterator operands.</td>
+</tr>
+<tr class="row-even"><td><strong>operands</strong></td>
+<td>(tuple of operand(s)) The array(s) to be iterated over.</td>
+</tr>
+<tr class="row-odd"><td><strong>shape</strong></td>
+<td>(tuple of ints) Shape tuple, the shape of the iterator.</td>
+</tr>
+<tr class="row-even"><td><strong>value</strong></td>
+<td>Value of <a class="reference internal" href="numpy.nditer.operands.html#numpy.nditer.operands" title="numpy.nditer.operands"><code class="xref py py-obj docutils literal notranslate"><span class="pre">operands</span></code></a> at current iteration. Normally, this is a tuple of array scalars, but if the flag “external_loop” is used, it is a tuple of one dimensional arrays.</td>
 </tr>
 </tbody>
 </table>
@@ -429,10 +420,10 @@ it is a tuple of one dimensional arrays.</p>
         &copy; Copyright 2008-2017, The SciPy community.
       </li>
       <li>
-      Last updated on Jul 06, 2019.
+      Last updated on Jun 12, 2018.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.5.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.7.2.
       </li>
     </ul>
     </div>

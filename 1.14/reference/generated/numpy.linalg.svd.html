@@ -4,18 +4,17 @@
   <head>
     <meta charset="utf-8">
     
-    <title>numpy.linalg.svd &mdash; NumPy v1.14.dev0 Manual</title>
+    <title>numpy.linalg.svd &mdash; NumPy v1.14 Manual</title>
     
     <link rel="stylesheet" type="text/css" href="../../_static/css/spc-bootstrap.css">
     <link rel="stylesheet" type="text/css" href="../../_static/css/spc-extend.css">
     <link rel="stylesheet" href="../../_static/scipy.css" type="text/css" >
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" >
-    <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" >
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '1.14.7.dev0+7175dec',
+        VERSION:     '1.14.5',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  false
@@ -24,12 +23,11 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <script type="text/javascript" src="../../_static/language_data.js"></script>
     <script type="text/javascript" src="../../_static/js/copybutton.js"></script>
     <link rel="author" title="About these documents" href="../../about.html" >
     <link rel="index" title="Index" href="../../genindex.html" >
     <link rel="search" title="Search" href="../../search.html" >
-    <link rel="top" title="NumPy v1.14.dev0 Manual" href="../../index.html" >
+    <link rel="top" title="NumPy v1.14 Manual" href="../../index.html" >
     <link rel="up" title="Linear algebra (numpy.linalg)" href="../routines.linalg.html" >
     <link rel="next" title="numpy.linalg.eig" href="numpy.linalg.eig.html" >
     <link rel="prev" title="numpy.linalg.qr" href="numpy.linalg.qr.html" > 
@@ -51,7 +49,7 @@
               
     <ul class="nav nav-pills pull-left">
         
-        <li class="active"><a href="../../index.html">NumPy v1.14.dev0 Manual</a></li>
+        <li class="active"><a href="../../index.html">NumPy v1.14 Manual</a></li>
         
 
           <li class="active"><a href="../index.html" >NumPy Reference</a></li>
@@ -100,7 +98,7 @@
 <h1>numpy.linalg.svd<a class="headerlink" href="#numpy-linalg-svd" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="numpy.linalg.svd">
-<code class="descclassname">numpy.linalg.</code><code class="descname">svd</code><span class="sig-paren">(</span><em>a</em>, <em>full_matrices=True</em>, <em>compute_uv=True</em><span class="sig-paren">)</span><a class="reference external" href="http://github.com/numpy/numpy/blob/master/numpy/linalg/linalg.py#L1299-L1458"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#numpy.linalg.svd" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">numpy.linalg.</code><code class="descname">svd</code><span class="sig-paren">(</span><em>a</em>, <em>full_matrices=True</em>, <em>compute_uv=True</em><span class="sig-paren">)</span><a class="reference external" href="http://github.com/numpy/numpy/blob/v1.14.5/numpy/linalg/linalg.py#L1299-L1458"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#numpy.linalg.svd" title="Permalink to this definition">¶</a></dt>
 <dd><p>Singular Value Decomposition.</p>
 <p>When <em class="xref py py-obj">a</em> is a 2D array, it is factorized as <code class="docutils literal notranslate"><span class="pre">u</span> <span class="pre">&#64;</span> <span class="pre">np.diag(s)</span> <span class="pre">&#64;</span> <span class="pre">vh</span>
 <span class="pre">=</span> <span class="pre">(u</span> <span class="pre">*</span> <span class="pre">s)</span> <span class="pre">&#64;</span> <span class="pre">vh</span></code>, where <em class="xref py py-obj">u</em> and <em class="xref py py-obj">vh</em> are 2D unitary arrays and <em class="xref py py-obj">s</em> is a 1D
@@ -110,49 +108,50 @@ applied in stacked mode as explained below.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
-<dt><strong>a</strong> <span class="classifier-delimiter">:</span> <span class="classifier">(…, M, N) array_like</span></dt>
-<dd><p class="first last">A real or complex array with <code class="docutils literal notranslate"><span class="pre">a.ndim</span> <span class="pre">&gt;=</span> <span class="pre">2</span></code>.</p>
-</dd>
-<dt><strong>full_matrices</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool, optional</span></dt>
-<dd><p class="first last">If True (default), <em class="xref py py-obj">u</em> and <em class="xref py py-obj">vh</em> have the shapes <code class="docutils literal notranslate"><span class="pre">(...,</span> <span class="pre">M,</span> <span class="pre">M)</span></code> and
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>a</strong> : (…, M, N) array_like</p>
+<blockquote>
+<div><p>A real or complex array with <code class="docutils literal notranslate"><span class="pre">a.ndim</span> <span class="pre">&gt;=</span> <span class="pre">2</span></code>.</p>
+</div></blockquote>
+<p><strong>full_matrices</strong> : bool, optional</p>
+<blockquote>
+<div><p>If True (default), <em class="xref py py-obj">u</em> and <em class="xref py py-obj">vh</em> have the shapes <code class="docutils literal notranslate"><span class="pre">(...,</span> <span class="pre">M,</span> <span class="pre">M)</span></code> and
 <code class="docutils literal notranslate"><span class="pre">(...,</span> <span class="pre">N,</span> <span class="pre">N)</span></code>, respectively.  Otherwise, the shapes are
 <code class="docutils literal notranslate"><span class="pre">(...,</span> <span class="pre">M,</span> <span class="pre">K)</span></code> and <code class="docutils literal notranslate"><span class="pre">(...,</span> <span class="pre">K,</span> <span class="pre">N)</span></code>, respectively, where
 <code class="docutils literal notranslate"><span class="pre">K</span> <span class="pre">=</span> <span class="pre">min(M,</span> <span class="pre">N)</span></code>.</p>
-</dd>
-<dt><strong>compute_uv</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool, optional</span></dt>
-<dd><p class="first last">Whether or not to compute <em class="xref py py-obj">u</em> and <em class="xref py py-obj">vh</em> in addition to <em class="xref py py-obj">s</em>.  True
+</div></blockquote>
+<p><strong>compute_uv</strong> : bool, optional</p>
+<blockquote>
+<div><p>Whether or not to compute <em class="xref py py-obj">u</em> and <em class="xref py py-obj">vh</em> in addition to <em class="xref py py-obj">s</em>.  True
 by default.</p>
-</dd>
-</dl>
+</div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first docutils">
-<dt><strong>u</strong> <span class="classifier-delimiter">:</span> <span class="classifier">{ (…, M, M), (…, M, K) } array</span></dt>
-<dd><p class="first last">Unitary array(s). The first <code class="docutils literal notranslate"><span class="pre">a.ndim</span> <span class="pre">-</span> <span class="pre">2</span></code> dimensions have the same
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>u</strong> : { (…, M, M), (…, M, K) } array</p>
+<blockquote>
+<div><p>Unitary array(s). The first <code class="docutils literal notranslate"><span class="pre">a.ndim</span> <span class="pre">-</span> <span class="pre">2</span></code> dimensions have the same
 size as those of the input <em class="xref py py-obj">a</em>. The size of the last two dimensions
 depends on the value of <em class="xref py py-obj">full_matrices</em>. Only returned when
 <em class="xref py py-obj">compute_uv</em> is True.</p>
-</dd>
-<dt><strong>s</strong> <span class="classifier-delimiter">:</span> <span class="classifier">(…, K) array</span></dt>
-<dd><p class="first last">Vector(s) with the singular values, within each vector sorted in
+</div></blockquote>
+<p><strong>s</strong> : (…, K) array</p>
+<blockquote>
+<div><p>Vector(s) with the singular values, within each vector sorted in
 descending order. The first <code class="docutils literal notranslate"><span class="pre">a.ndim</span> <span class="pre">-</span> <span class="pre">2</span></code> dimensions have the same
 size as those of the input <em class="xref py py-obj">a</em>.</p>
-</dd>
-<dt><strong>vh</strong> <span class="classifier-delimiter">:</span> <span class="classifier">{ (…, N, N), (…, K, N) } array</span></dt>
-<dd><p class="first last">Unitary array(s). The first <code class="docutils literal notranslate"><span class="pre">a.ndim</span> <span class="pre">-</span> <span class="pre">2</span></code> dimensions have the same
+</div></blockquote>
+<p><strong>vh</strong> : { (…, N, N), (…, K, N) } array</p>
+<blockquote>
+<div><p>Unitary array(s). The first <code class="docutils literal notranslate"><span class="pre">a.ndim</span> <span class="pre">-</span> <span class="pre">2</span></code> dimensions have the same
 size as those of the input <em class="xref py py-obj">a</em>. The size of the last two dimensions
 depends on the value of <em class="xref py py-obj">full_matrices</em>. Only returned when
 <em class="xref py py-obj">compute_uv</em> is True.</p>
-</dd>
-</dl>
+</div></blockquote>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>LinAlgError</strong></dt>
-<dd><p class="first last">If SVD computation does not converge.</p>
-</dd>
-</dl>
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><p class="first"><strong>LinAlgError</strong></p>
+<blockquote class="last">
+<div><p>If SVD computation does not converge.</p>
+</div></blockquote>
 </td>
 </tr>
 </tbody>
@@ -254,10 +253,10 @@ all the return values.</p>
         &copy; Copyright 2008-2017, The SciPy community.
       </li>
       <li>
-      Last updated on Jul 06, 2019.
+      Last updated on Jun 12, 2018.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.5.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.7.2.
       </li>
     </ul>
     </div>

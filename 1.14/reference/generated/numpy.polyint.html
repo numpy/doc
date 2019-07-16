@@ -4,18 +4,17 @@
   <head>
     <meta charset="utf-8">
     
-    <title>numpy.polyint &mdash; NumPy v1.14.dev0 Manual</title>
+    <title>numpy.polyint &mdash; NumPy v1.14 Manual</title>
     
     <link rel="stylesheet" type="text/css" href="../../_static/css/spc-bootstrap.css">
     <link rel="stylesheet" type="text/css" href="../../_static/css/spc-extend.css">
     <link rel="stylesheet" href="../../_static/scipy.css" type="text/css" >
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" >
-    <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" >
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '1.14.7.dev0+7175dec',
+        VERSION:     '1.14.5',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  false
@@ -24,12 +23,11 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <script type="text/javascript" src="../../_static/language_data.js"></script>
     <script type="text/javascript" src="../../_static/js/copybutton.js"></script>
     <link rel="author" title="About these documents" href="../../about.html" >
     <link rel="index" title="Index" href="../../genindex.html" >
     <link rel="search" title="Search" href="../../search.html" >
-    <link rel="top" title="NumPy v1.14.dev0 Manual" href="../../index.html" >
+    <link rel="top" title="NumPy v1.14 Manual" href="../../index.html" >
     <link rel="up" title="Poly1d" href="../routines.polynomials.poly1d.html" >
     <link rel="next" title="numpy.polyadd" href="numpy.polyadd.html" >
     <link rel="prev" title="numpy.polyder" href="numpy.polyder.html" > 
@@ -51,7 +49,7 @@
               
     <ul class="nav nav-pills pull-left">
         
-        <li class="active"><a href="../../index.html">NumPy v1.14.dev0 Manual</a></li>
+        <li class="active"><a href="../../index.html">NumPy v1.14 Manual</a></li>
         
 
           <li class="active"><a href="../index.html" >NumPy Reference</a></li>
@@ -101,7 +99,7 @@
 <h1>numpy.polyint<a class="headerlink" href="#numpy-polyint" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="numpy.polyint">
-<code class="descclassname">numpy.</code><code class="descname">polyint</code><span class="sig-paren">(</span><em>p</em>, <em>m=1</em>, <em>k=None</em><span class="sig-paren">)</span><a class="reference external" href="http://github.com/numpy/numpy/blob/master/numpy/lib/polynomial.py#L237-L328"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#numpy.polyint" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">numpy.</code><code class="descname">polyint</code><span class="sig-paren">(</span><em>p</em>, <em>m=1</em>, <em>k=None</em><span class="sig-paren">)</span><a class="reference external" href="http://github.com/numpy/numpy/blob/v1.14.5/numpy/lib/polynomial.py#L237-L328"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#numpy.polyint" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return an antiderivative (indefinite integral) of a polynomial.</p>
 <p>The returned order <em class="xref py py-obj">m</em> antiderivative <em class="xref py py-obj">P</em> of polynomial <em class="xref py py-obj">p</em> satisfies
 <img class="math" src="../../_images/math/4931fcc47ea4db9bd43f432f60d2e2ec1e2f2a78.svg" alt="\frac{d^m}{dx^m}P(x) = p(x)"/> and is defined up to <em class="xref py py-obj">m - 1</em>
@@ -114,21 +112,22 @@ polynomial part</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>p</strong> <span class="classifier-delimiter">:</span> <span class="classifier">array_like or poly1d</span></dt>
-<dd><p class="first last">Polynomial to differentiate.
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>p</strong> : array_like or poly1d</p>
+<blockquote>
+<div><p>Polynomial to differentiate.
 A sequence is interpreted as polynomial coefficients, see <a class="reference internal" href="numpy.poly1d.html#numpy.poly1d" title="numpy.poly1d"><code class="xref py py-obj docutils literal notranslate"><span class="pre">poly1d</span></code></a>.</p>
-</dd>
-<dt><strong>m</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int, optional</span></dt>
-<dd><p class="first last">Order of the antiderivative. (Default: 1)</p>
-</dd>
-<dt><strong>k</strong> <span class="classifier-delimiter">:</span> <span class="classifier">list of <em class="xref py py-obj">m</em> scalars or scalar, optional</span></dt>
-<dd><p class="first">Integration constants. They are given in the order of integration:
+</div></blockquote>
+<p><strong>m</strong> : int, optional</p>
+<blockquote>
+<div><p>Order of the antiderivative. (Default: 1)</p>
+</div></blockquote>
+<p><strong>k</strong> : list of <em class="xref py py-obj">m</em> scalars or scalar, optional</p>
+<blockquote class="last">
+<div><p>Integration constants. They are given in the order of integration:
 those corresponding to highest-order terms come first.</p>
-<p class="last">If <code class="docutils literal notranslate"><span class="pre">None</span></code> (default), all constants are assumed to be zero.
+<p>If <code class="docutils literal notranslate"><span class="pre">None</span></code> (default), all constants are assumed to be zero.
 If <em class="xref py py-obj">m = 1</em>, a single scalar can be given instead of a list.</p>
-</dd>
-</dl>
+</div></blockquote>
 </td>
 </tr>
 </tbody>
@@ -200,10 +199,10 @@ integrations. Constant of the highest-order polynomial term comes first:</p>
         &copy; Copyright 2008-2017, The SciPy community.
       </li>
       <li>
-      Last updated on Jul 06, 2019.
+      Last updated on Jun 12, 2018.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.5.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.7.2.
       </li>
     </ul>
     </div>

@@ -4,18 +4,17 @@
   <head>
     <meta charset="utf-8">
     
-    <title>UFunc API &mdash; NumPy v1.14.dev0 Manual</title>
+    <title>UFunc API &mdash; NumPy v1.14 Manual</title>
     
     <link rel="stylesheet" type="text/css" href="../_static/css/spc-bootstrap.css">
     <link rel="stylesheet" type="text/css" href="../_static/css/spc-extend.css">
     <link rel="stylesheet" href="../_static/scipy.css" type="text/css" >
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" >
-    <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" >
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '1.14.7.dev0+7175dec',
+        VERSION:     '1.14.5',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  false
@@ -24,12 +23,11 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="../_static/language_data.js"></script>
     <script type="text/javascript" src="../_static/js/copybutton.js"></script>
     <link rel="author" title="About these documents" href="../about.html" >
     <link rel="index" title="Index" href="../genindex.html" >
     <link rel="search" title="Search" href="../search.html" >
-    <link rel="top" title="NumPy v1.14.dev0 Manual" href="../index.html" >
+    <link rel="top" title="NumPy v1.14 Manual" href="../index.html" >
     <link rel="up" title="NumPy C-API" href="c-api.html" >
     <link rel="next" title="Generalized Universal Function API" href="c-api.generalized-ufuncs.html" >
     <link rel="prev" title="Array Iterator API" href="c-api.iterator.html" > 
@@ -51,7 +49,7 @@
               
     <ul class="nav nav-pills pull-left">
         
-        <li class="active"><a href="../index.html">NumPy v1.14.dev0 Manual</a></li>
+        <li class="active"><a href="../index.html">NumPy v1.14 Manual</a></li>
         
 
           <li class="active"><a href="index.html" >NumPy Reference</a></li>
@@ -82,7 +80,7 @@
 	<div class="row-fluid">
       <div class="spc-rightsidebar span3">
         <div class="sphinxsidebarwrapper">
-  <h3><a href="../contents.html">Table of Contents</a></h3>
+  <h3><a href="../contents.html">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">UFunc API</a><ul>
 <li><a class="reference internal" href="#constants">Constants</a></li>
@@ -156,7 +154,7 @@ was released (because loop-&gt;obj was not true).</p>
 found.  This macro requires a fail label in the current code
 block. The <em>loop</em> variable must have at least members (obj,
 errormask, and errorobj). If <em>loop</em> -&gt;obj is nonzero, then
-<a class="reference external" href="https://docs.python.org/dev/c-api/exceptions.html#c.PyErr_Occurred" title="(in Python v3.9)"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyErr_Occurred</span></code></a> () is called (meaning the GIL must be held). If
+<a class="reference external" href="https://docs.python.org/dev/c-api/exceptions.html#c.PyErr_Occurred" title="(in Python v3.8)"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyErr_Occurred</span></code></a> () is called (meaning the GIL must be held). If
 <em>loop</em> -&gt;obj is zero, then if <em>loop</em> -&gt;errormask is nonzero,
 <a class="reference internal" href="#c.PyUFunc_checkfperr" title="PyUFunc_checkfperr"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyUFunc_checkfperr</span></code></a> is called with arguments <em>loop</em> -&gt;errormask
 and <em>loop</em> -&gt;errobj. If the result of this check of the IEEE
@@ -179,7 +177,7 @@ flags of the floating point processor.</p>
 <h2>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
 <dt id="c.PyUFunc_FromFuncAndData">
-<a class="reference external" href="https://docs.python.org/dev/c-api/structures.html#c.PyObject" title="(in Python v3.9)">PyObject</a>* <code class="descname">PyUFunc_FromFuncAndData</code><span class="sig-paren">(</span>PyUFuncGenericFunction*<em>&nbsp;func</em>, void**<em>&nbsp;data</em>, char*<em>&nbsp;types</em>, int<em>&nbsp;ntypes</em>, int<em>&nbsp;nin</em>, int<em>&nbsp;nout</em>, int<em>&nbsp;identity</em>, char*<em>&nbsp;name</em>, char*<em>&nbsp;doc</em>, int<em>&nbsp;unused</em><span class="sig-paren">)</span><a class="headerlink" href="#c.PyUFunc_FromFuncAndData" title="Permalink to this definition">¶</a></dt>
+<a class="reference external" href="https://docs.python.org/dev/c-api/structures.html#c.PyObject" title="(in Python v3.8)">PyObject</a>* <code class="descname">PyUFunc_FromFuncAndData</code><span class="sig-paren">(</span>PyUFuncGenericFunction*<em>&nbsp;func</em>, void**<em>&nbsp;data</em>, char*<em>&nbsp;types</em>, int<em>&nbsp;ntypes</em>, int<em>&nbsp;nin</em>, int<em>&nbsp;nout</em>, int<em>&nbsp;identity</em>, char*<em>&nbsp;name</em>, char*<em>&nbsp;doc</em>, int<em>&nbsp;unused</em><span class="sig-paren">)</span><a class="headerlink" href="#c.PyUFunc_FromFuncAndData" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create a new broadcasting universal function from required variables.
 Each ufunc builds around the notion of an element-by-element
 operation. Each ufunc object contains pointers to 1-d loops
@@ -230,7 +228,7 @@ accessing the <strong>__doc__</strong> attribute of the ufunc.</li>
 
 <dl class="function">
 <dt id="c.PyUFunc_FromFuncAndDataAndSignature">
-<a class="reference external" href="https://docs.python.org/dev/c-api/structures.html#c.PyObject" title="(in Python v3.9)">PyObject</a>* <code class="descname">PyUFunc_FromFuncAndDataAndSignature</code><span class="sig-paren">(</span>PyUFuncGenericFunction*<em>&nbsp;func</em>, void**<em>&nbsp;data</em>, char*<em>&nbsp;types</em>, int<em>&nbsp;ntypes</em>, int<em>&nbsp;nin</em>, int<em>&nbsp;nout</em>, int<em>&nbsp;identity</em>, char*<em>&nbsp;name</em>, char*<em>&nbsp;doc</em>, int<em>&nbsp;unused</em>, char<em>&nbsp;*signature</em><span class="sig-paren">)</span><a class="headerlink" href="#c.PyUFunc_FromFuncAndDataAndSignature" title="Permalink to this definition">¶</a></dt>
+<a class="reference external" href="https://docs.python.org/dev/c-api/structures.html#c.PyObject" title="(in Python v3.8)">PyObject</a>* <code class="descname">PyUFunc_FromFuncAndDataAndSignature</code><span class="sig-paren">(</span>PyUFuncGenericFunction*<em>&nbsp;func</em>, void**<em>&nbsp;data</em>, char*<em>&nbsp;types</em>, int<em>&nbsp;ntypes</em>, int<em>&nbsp;nin</em>, int<em>&nbsp;nout</em>, int<em>&nbsp;identity</em>, char*<em>&nbsp;name</em>, char*<em>&nbsp;doc</em>, int<em>&nbsp;unused</em>, char<em>&nbsp;*signature</em><span class="sig-paren">)</span><a class="headerlink" href="#c.PyUFunc_FromFuncAndDataAndSignature" title="Permalink to this definition">¶</a></dt>
 <dd><p>This function is very similar to PyUFunc_FromFuncAndData above, but has
 an extra <em>signature</em> argument, to define generalized universal functions.
 Similarly to how ufuncs are built around an element-by-element operation,
@@ -290,7 +288,7 @@ followed by the outputs assumed by the 1-d loop.</p>
 
 <dl class="function">
 <dt id="c.PyUFunc_GenericFunction">
-int <code class="descname">PyUFunc_GenericFunction</code><span class="sig-paren">(</span><a class="reference internal" href="c-api.types-and-structures.html#c.PyUFuncObject" title="PyUFuncObject">PyUFuncObject</a>*<em>&nbsp;self</em>, <a class="reference external" href="https://docs.python.org/dev/c-api/structures.html#c.PyObject" title="(in Python v3.9)">PyObject</a>*<em>&nbsp;args</em>, <a class="reference external" href="https://docs.python.org/dev/c-api/structures.html#c.PyObject" title="(in Python v3.9)">PyObject</a>*<em>&nbsp;kwds</em>, <a class="reference internal" href="c-api.types-and-structures.html#c.PyArrayObject" title="PyArrayObject">PyArrayObject</a>**<em>&nbsp;mps</em><span class="sig-paren">)</span><a class="headerlink" href="#c.PyUFunc_GenericFunction" title="Permalink to this definition">¶</a></dt>
+int <code class="descname">PyUFunc_GenericFunction</code><span class="sig-paren">(</span><a class="reference internal" href="c-api.types-and-structures.html#c.PyUFuncObject" title="PyUFuncObject">PyUFuncObject</a>*<em>&nbsp;self</em>, <a class="reference external" href="https://docs.python.org/dev/c-api/structures.html#c.PyObject" title="(in Python v3.8)">PyObject</a>*<em>&nbsp;args</em>, <a class="reference external" href="https://docs.python.org/dev/c-api/structures.html#c.PyObject" title="(in Python v3.8)">PyObject</a>*<em>&nbsp;kwds</em>, <a class="reference internal" href="c-api.types-and-structures.html#c.PyArrayObject" title="PyArrayObject">PyArrayObject</a>**<em>&nbsp;mps</em><span class="sig-paren">)</span><a class="headerlink" href="#c.PyUFunc_GenericFunction" title="Permalink to this definition">¶</a></dt>
 <dd><p>A generic ufunc call. The ufunc is passed in as <em>self</em>, the arguments
 to the ufunc as <em>args</em> and <em>kwds</em>. The <em>mps</em> argument is an array of
 <a class="reference internal" href="c-api.types-and-structures.html#c.PyArrayObject" title="PyArrayObject"><code class="xref c c-type docutils literal notranslate"><span class="pre">PyArrayObject</span></code></a> pointers whose values are discarded and which
@@ -303,14 +301,14 @@ number of arrays in <em>mps</em> is given by <em>self</em> -&gt;nin + <em>self</
 
 <dl class="function">
 <dt id="c.PyUFunc_checkfperr">
-int <code class="descname">PyUFunc_checkfperr</code><span class="sig-paren">(</span>int<em>&nbsp;errmask</em>, <a class="reference external" href="https://docs.python.org/dev/c-api/structures.html#c.PyObject" title="(in Python v3.9)">PyObject</a>*<em>&nbsp;errobj</em><span class="sig-paren">)</span><a class="headerlink" href="#c.PyUFunc_checkfperr" title="Permalink to this definition">¶</a></dt>
+int <code class="descname">PyUFunc_checkfperr</code><span class="sig-paren">(</span>int<em>&nbsp;errmask</em>, <a class="reference external" href="https://docs.python.org/dev/c-api/structures.html#c.PyObject" title="(in Python v3.8)">PyObject</a>*<em>&nbsp;errobj</em><span class="sig-paren">)</span><a class="headerlink" href="#c.PyUFunc_checkfperr" title="Permalink to this definition">¶</a></dt>
 <dd><p>A simple interface to the IEEE error-flag checking support. The
 <em>errmask</em> argument is a mask of <code class="xref c c-data docutils literal notranslate"><span class="pre">UFUNC_MASK_{ERR}</span></code> bitmasks
 indicating which errors to check for (and how to check for
 them). The <em>errobj</em> must be a Python tuple with two elements: a
 string containing the name which will be used in any communication
 of error and either a callable Python object (call-back function)
-or <a class="reference external" href="https://docs.python.org/dev/c-api/none.html#c.Py_None" title="(in Python v3.9)"><code class="xref c c-data docutils literal notranslate"><span class="pre">Py_None</span></code></a>. The callable object will only be used if
+or <a class="reference external" href="https://docs.python.org/dev/c-api/none.html#c.Py_None" title="(in Python v3.8)"><code class="xref c c-data docutils literal notranslate"><span class="pre">Py_None</span></code></a>. The callable object will only be used if
 <code class="xref c c-data docutils literal notranslate"><span class="pre">UFUNC_ERR_CALL</span></code> is set as the desired error checking
 method. This routine manages the GIL and is safe to call even
 after releasing the GIL. If an error in the IEEE-compatible
@@ -326,7 +324,7 @@ void <code class="descname">PyUFunc_clearfperr</code><span class="sig-paren">(</
 
 <dl class="function">
 <dt id="c.PyUFunc_GetPyValues">
-void <code class="descname">PyUFunc_GetPyValues</code><span class="sig-paren">(</span>char*<em>&nbsp;name</em>, int*<em>&nbsp;bufsize</em>, int*<em>&nbsp;errmask</em>, <a class="reference external" href="https://docs.python.org/dev/c-api/structures.html#c.PyObject" title="(in Python v3.9)">PyObject</a>**<em>&nbsp;errobj</em><span class="sig-paren">)</span><a class="headerlink" href="#c.PyUFunc_GetPyValues" title="Permalink to this definition">¶</a></dt>
+void <code class="descname">PyUFunc_GetPyValues</code><span class="sig-paren">(</span>char*<em>&nbsp;name</em>, int*<em>&nbsp;bufsize</em>, int*<em>&nbsp;errmask</em>, <a class="reference external" href="https://docs.python.org/dev/c-api/structures.html#c.PyObject" title="(in Python v3.8)">PyObject</a>**<em>&nbsp;errobj</em><span class="sig-paren">)</span><a class="headerlink" href="#c.PyUFunc_GetPyValues" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the Python values used for ufunc processing from the
 thread-local storage area unless the defaults have been set in
 which case the name lookup is bypassed. The name is placed as a
@@ -601,10 +599,10 @@ by other files depending on the state of
         &copy; Copyright 2008-2017, The SciPy community.
       </li>
       <li>
-      Last updated on Jul 06, 2019.
+      Last updated on Jun 12, 2018.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.5.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.7.2.
       </li>
     </ul>
     </div>

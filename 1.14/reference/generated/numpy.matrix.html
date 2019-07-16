@@ -4,18 +4,17 @@
   <head>
     <meta charset="utf-8">
     
-    <title>numpy.matrix &mdash; NumPy v1.14.dev0 Manual</title>
+    <title>numpy.matrix &mdash; NumPy v1.14 Manual</title>
     
     <link rel="stylesheet" type="text/css" href="../../_static/css/spc-bootstrap.css">
     <link rel="stylesheet" type="text/css" href="../../_static/css/spc-extend.css">
     <link rel="stylesheet" href="../../_static/scipy.css" type="text/css" >
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" >
-    <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" >
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '1.14.7.dev0+7175dec',
+        VERSION:     '1.14.5',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  false
@@ -24,14 +23,13 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <script type="text/javascript" src="../../_static/language_data.js"></script>
     <script type="text/javascript" src="../../_static/js/copybutton.js"></script>
     <link rel="author" title="About these documents" href="../../about.html" >
     <link rel="index" title="Index" href="../../genindex.html" >
     <link rel="search" title="Search" href="../../search.html" >
-    <link rel="top" title="NumPy v1.14.dev0 Manual" href="../../index.html" >
+    <link rel="top" title="NumPy v1.14 Manual" href="../../index.html" >
     <link rel="up" title="Standard array subclasses" href="../arrays.classes.html" >
-    <link rel="next" title="numpy.matrix.all" href="numpy.matrix.all.html" >
+    <link rel="next" title="numpy.matrix.A1" href="numpy.matrix.A1.html" >
     <link rel="prev" title="numpy.matrix.A" href="numpy.matrix.A.html" > 
   </head>
   <body>
@@ -51,7 +49,7 @@
               
     <ul class="nav nav-pills pull-left">
         
-        <li class="active"><a href="../../index.html">NumPy v1.14.dev0 Manual</a></li>
+        <li class="active"><a href="../../index.html">NumPy v1.14 Manual</a></li>
         
 
           <li class="active"><a href="../index.html" >NumPy Reference</a></li>
@@ -66,7 +64,7 @@
            accesskey="I">index</a>
       </li>
       <li class="active">
-        <a href="numpy.matrix.all.html" title="numpy.matrix.all"
+        <a href="numpy.matrix.A1.html" title="numpy.matrix.A1"
            accesskey="N">next</a>
       </li>
       <li class="active">
@@ -87,8 +85,8 @@
   <p class="topless"><a href="numpy.matrix.A.html"
                         title="previous chapter">numpy.matrix.A</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="numpy.matrix.all.html"
-                        title="next chapter">numpy.matrix.all</a></p>
+  <p class="topless"><a href="numpy.matrix.A1.html"
+                        title="next chapter">numpy.matrix.A1</a></p>
         </div>
       </div>
           <div class="span9">
@@ -100,7 +98,7 @@
 <h1>numpy.matrix<a class="headerlink" href="#numpy-matrix" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="numpy.matrix">
-<em class="property">class </em><code class="descclassname">numpy.</code><code class="descname">matrix</code><span class="sig-paren">(</span><em>data</em>, <em>dtype=None</em>, <em>copy=True</em><span class="sig-paren">)</span><a class="reference external" href="http://github.com/numpy/numpy/blob/master/numpy/matrixlib/defmatrix.py#L174-L1093"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#numpy.matrix" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">numpy.</code><code class="descname">matrix</code><span class="sig-paren">(</span><em>data</em>, <em>dtype=None</em>, <em>copy=True</em><span class="sig-paren">)</span><a class="reference external" href="http://github.com/numpy/numpy/blob/v1.14.5/numpy/matrixlib/defmatrix.py#L174-L1093"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#numpy.matrix" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns a matrix from an array-like object, or from a string of data.
 A matrix is a specialized 2-D array that retains its 2-D nature
 through operations.  It has certain special operators, such as <code class="docutils literal notranslate"><span class="pre">*</span></code>
@@ -109,20 +107,21 @@ through operations.  It has certain special operators, such as <code class="docu
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>data</strong> <span class="classifier-delimiter">:</span> <span class="classifier">array_like or string</span></dt>
-<dd><p class="first last">If <a class="reference internal" href="numpy.matrix.data.html#numpy.matrix.data" title="numpy.matrix.data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">data</span></code></a> is a string, it is interpreted as a matrix with commas
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>data</strong> : array_like or string</p>
+<blockquote>
+<div><p>If <a class="reference internal" href="numpy.matrix.data.html#numpy.matrix.data" title="numpy.matrix.data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">data</span></code></a> is a string, it is interpreted as a matrix with commas
 or spaces separating columns, and semicolons separating rows.</p>
-</dd>
-<dt><strong>dtype</strong> <span class="classifier-delimiter">:</span> <span class="classifier">data-type</span></dt>
-<dd><p class="first last">Data-type of the output matrix.</p>
-</dd>
-<dt><strong>copy</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool</span></dt>
-<dd><p class="first last">If <a class="reference internal" href="numpy.matrix.data.html#numpy.matrix.data" title="numpy.matrix.data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">data</span></code></a> is already an <a class="reference internal" href="numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ndarray</span></code></a>, then this flag determines
+</div></blockquote>
+<p><strong>dtype</strong> : data-type</p>
+<blockquote>
+<div><p>Data-type of the output matrix.</p>
+</div></blockquote>
+<p><strong>copy</strong> : bool</p>
+<blockquote class="last">
+<div><p>If <a class="reference internal" href="numpy.matrix.data.html#numpy.matrix.data" title="numpy.matrix.data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">data</span></code></a> is already an <a class="reference internal" href="numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ndarray</span></code></a>, then this flag determines
 whether the data is copied (the default), or whether a view is
 constructed.</p>
-</dd>
-</dl>
+</div></blockquote>
 </td>
 </tr>
 </tbody>
@@ -143,70 +142,69 @@ constructed.</p>
 <span class="go">        [3, 4]])</span>
 </pre></div>
 </div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
+<p class="rubric">Attributes</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Attributes:</th><td class="field-body"><dl class="first last docutils">
-<dt><a class="reference internal" href="numpy.matrix.A.html#numpy.matrix.A" title="numpy.matrix.A"><code class="xref py py-obj docutils literal notranslate"><span class="pre">A</span></code></a></dt>
-<dd><p class="first last">Return <em class="xref py py-obj">self</em> as an <a class="reference internal" href="numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ndarray</span></code></a> object.</p>
-</dd>
-<dt><a class="reference internal" href="numpy.matrix.A1.html#numpy.matrix.A1" title="numpy.matrix.A1"><code class="xref py py-obj docutils literal notranslate"><span class="pre">A1</span></code></a></dt>
-<dd><p class="first last">Return <em class="xref py py-obj">self</em> as a flattened <a class="reference internal" href="numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ndarray</span></code></a>.</p>
-</dd>
-<dt><a class="reference internal" href="numpy.matrix.H.html#numpy.matrix.H" title="numpy.matrix.H"><code class="xref py py-obj docutils literal notranslate"><span class="pre">H</span></code></a></dt>
-<dd><p class="first last">Returns the (complex) conjugate transpose of <em class="xref py py-obj">self</em>.</p>
-</dd>
-<dt><a class="reference internal" href="numpy.matrix.I.html#numpy.matrix.I" title="numpy.matrix.I"><code class="xref py py-obj docutils literal notranslate"><span class="pre">I</span></code></a></dt>
-<dd><p class="first last">Returns the (multiplicative) inverse of invertible <em class="xref py py-obj">self</em>.</p>
-</dd>
-<dt><a class="reference internal" href="numpy.matrix.T.html#numpy.matrix.T" title="numpy.matrix.T"><code class="xref py py-obj docutils literal notranslate"><span class="pre">T</span></code></a></dt>
-<dd><p class="first last">Returns the transpose of the matrix.</p>
-</dd>
-<dt><a class="reference internal" href="numpy.matrix.base.html#numpy.matrix.base" title="numpy.matrix.base"><code class="xref py py-obj docutils literal notranslate"><span class="pre">base</span></code></a></dt>
-<dd><p class="first last">Base object if memory is from some other object.</p>
-</dd>
-<dt><a class="reference internal" href="numpy.matrix.ctypes.html#numpy.matrix.ctypes" title="numpy.matrix.ctypes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ctypes</span></code></a></dt>
-<dd><p class="first last">An object to simplify the interaction of the array with the ctypes module.</p>
-</dd>
-<dt><a class="reference internal" href="numpy.matrix.data.html#numpy.matrix.data" title="numpy.matrix.data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">data</span></code></a></dt>
-<dd><p class="first last">Python buffer object pointing to the start of the array’s data.</p>
-</dd>
-<dt><a class="reference internal" href="numpy.dtype.html#numpy.dtype" title="numpy.dtype"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dtype</span></code></a></dt>
-<dd><p class="first last">Data-type of the array’s elements.</p>
-</dd>
-<dt><a class="reference internal" href="numpy.matrix.flags.html#numpy.matrix.flags" title="numpy.matrix.flags"><code class="xref py py-obj docutils literal notranslate"><span class="pre">flags</span></code></a></dt>
-<dd><p class="first last">Information about the memory layout of the array.</p>
-</dd>
-<dt><a class="reference internal" href="numpy.matrix.flat.html#numpy.matrix.flat" title="numpy.matrix.flat"><code class="xref py py-obj docutils literal notranslate"><span class="pre">flat</span></code></a></dt>
-<dd><p class="first last">A 1-D iterator over the array.</p>
-</dd>
-<dt><a class="reference internal" href="numpy.imag.html#numpy.imag" title="numpy.imag"><code class="xref py py-obj docutils literal notranslate"><span class="pre">imag</span></code></a></dt>
-<dd><p class="first last">The imaginary part of the array.</p>
-</dd>
-<dt><a class="reference internal" href="numpy.matrix.itemsize.html#numpy.matrix.itemsize" title="numpy.matrix.itemsize"><code class="xref py py-obj docutils literal notranslate"><span class="pre">itemsize</span></code></a></dt>
-<dd><p class="first last">Length of one array element in bytes.</p>
-</dd>
-<dt><a class="reference internal" href="numpy.matrix.nbytes.html#numpy.matrix.nbytes" title="numpy.matrix.nbytes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">nbytes</span></code></a></dt>
-<dd><p class="first last">Total bytes consumed by the elements of the array.</p>
-</dd>
-<dt><a class="reference internal" href="numpy.matrix.ndim.html#numpy.matrix.ndim" title="numpy.matrix.ndim"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ndim</span></code></a></dt>
-<dd><p class="first last">Number of array dimensions.</p>
-</dd>
-<dt><a class="reference internal" href="numpy.real.html#numpy.real" title="numpy.real"><code class="xref py py-obj docutils literal notranslate"><span class="pre">real</span></code></a></dt>
-<dd><p class="first last">The real part of the array.</p>
-</dd>
-<dt><a class="reference internal" href="numpy.matrix.shape.html#numpy.matrix.shape" title="numpy.matrix.shape"><code class="xref py py-obj docutils literal notranslate"><span class="pre">shape</span></code></a></dt>
-<dd><p class="first last">Tuple of array dimensions.</p>
-</dd>
-<dt><a class="reference internal" href="numpy.matrix.size.html#numpy.matrix.size" title="numpy.matrix.size"><code class="xref py py-obj docutils literal notranslate"><span class="pre">size</span></code></a></dt>
-<dd><p class="first last">Number of elements in the array.</p>
-</dd>
-<dt><a class="reference internal" href="numpy.matrix.strides.html#numpy.matrix.strides" title="numpy.matrix.strides"><code class="xref py py-obj docutils literal notranslate"><span class="pre">strides</span></code></a></dt>
-<dd><p class="first last">Tuple of bytes to step in each dimension when traversing an array.</p>
-</dd>
-</dl>
-</td>
+<tr class="row-odd"><td><a class="reference internal" href="numpy.matrix.A.html#numpy.matrix.A" title="numpy.matrix.A"><code class="xref py py-obj docutils literal notranslate"><span class="pre">A</span></code></a></td>
+<td>Return <em class="xref py py-obj">self</em> as an <a class="reference internal" href="numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ndarray</span></code></a> object.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="numpy.matrix.A1.html#numpy.matrix.A1" title="numpy.matrix.A1"><code class="xref py py-obj docutils literal notranslate"><span class="pre">A1</span></code></a></td>
+<td>Return <em class="xref py py-obj">self</em> as a flattened <a class="reference internal" href="numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ndarray</span></code></a>.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="numpy.matrix.H.html#numpy.matrix.H" title="numpy.matrix.H"><code class="xref py py-obj docutils literal notranslate"><span class="pre">H</span></code></a></td>
+<td>Returns the (complex) conjugate transpose of <em class="xref py py-obj">self</em>.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="numpy.matrix.I.html#numpy.matrix.I" title="numpy.matrix.I"><code class="xref py py-obj docutils literal notranslate"><span class="pre">I</span></code></a></td>
+<td>Returns the (multiplicative) inverse of invertible <em class="xref py py-obj">self</em>.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="numpy.matrix.T.html#numpy.matrix.T" title="numpy.matrix.T"><code class="xref py py-obj docutils literal notranslate"><span class="pre">T</span></code></a></td>
+<td>Returns the transpose of the matrix.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="numpy.matrix.base.html#numpy.matrix.base" title="numpy.matrix.base"><code class="xref py py-obj docutils literal notranslate"><span class="pre">base</span></code></a></td>
+<td>Base object if memory is from some other object.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="numpy.matrix.ctypes.html#numpy.matrix.ctypes" title="numpy.matrix.ctypes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ctypes</span></code></a></td>
+<td>An object to simplify the interaction of the array with the ctypes module.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="numpy.matrix.data.html#numpy.matrix.data" title="numpy.matrix.data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">data</span></code></a></td>
+<td>Python buffer object pointing to the start of the array’s data.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="numpy.matrix.dtype.html#numpy.matrix.dtype" title="numpy.matrix.dtype"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dtype</span></code></a></td>
+<td>Data-type of the array’s elements.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="numpy.matrix.flags.html#numpy.matrix.flags" title="numpy.matrix.flags"><code class="xref py py-obj docutils literal notranslate"><span class="pre">flags</span></code></a></td>
+<td>Information about the memory layout of the array.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="numpy.matrix.flat.html#numpy.matrix.flat" title="numpy.matrix.flat"><code class="xref py py-obj docutils literal notranslate"><span class="pre">flat</span></code></a></td>
+<td>A 1-D iterator over the array.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="numpy.matrix.imag.html#numpy.matrix.imag" title="numpy.matrix.imag"><code class="xref py py-obj docutils literal notranslate"><span class="pre">imag</span></code></a></td>
+<td>The imaginary part of the array.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="numpy.matrix.itemsize.html#numpy.matrix.itemsize" title="numpy.matrix.itemsize"><code class="xref py py-obj docutils literal notranslate"><span class="pre">itemsize</span></code></a></td>
+<td>Length of one array element in bytes.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="numpy.matrix.nbytes.html#numpy.matrix.nbytes" title="numpy.matrix.nbytes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">nbytes</span></code></a></td>
+<td>Total bytes consumed by the elements of the array.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="numpy.matrix.ndim.html#numpy.matrix.ndim" title="numpy.matrix.ndim"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ndim</span></code></a></td>
+<td>Number of array dimensions.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="numpy.matrix.real.html#numpy.matrix.real" title="numpy.matrix.real"><code class="xref py py-obj docutils literal notranslate"><span class="pre">real</span></code></a></td>
+<td>The real part of the array.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="numpy.matrix.shape.html#numpy.matrix.shape" title="numpy.matrix.shape"><code class="xref py py-obj docutils literal notranslate"><span class="pre">shape</span></code></a></td>
+<td>Tuple of array dimensions.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="numpy.matrix.size.html#numpy.matrix.size" title="numpy.matrix.size"><code class="xref py py-obj docutils literal notranslate"><span class="pre">size</span></code></a></td>
+<td>Number of elements in the array.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="numpy.matrix.strides.html#numpy.matrix.strides" title="numpy.matrix.strides"><code class="xref py py-obj docutils literal notranslate"><span class="pre">strides</span></code></a></td>
+<td>Tuple of bytes to step in each dimension when traversing an array.</td>
 </tr>
 </tbody>
 </table>
@@ -217,16 +215,16 @@ constructed.</p>
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="numpy.matrix.all.html#numpy.matrix.all" title="numpy.matrix.all"><code class="xref py py-obj docutils literal notranslate"><span class="pre">all</span></code></a>(self[,&nbsp;axis,&nbsp;out])</td>
+<tr class="row-odd"><td><a class="reference internal" href="numpy.matrix.all.html#numpy.matrix.all" title="numpy.matrix.all"><code class="xref py py-obj docutils literal notranslate"><span class="pre">all</span></code></a>([axis,&nbsp;out])</td>
 <td>Test whether all matrix elements along a given axis evaluate to True.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="numpy.matrix.any.html#numpy.matrix.any" title="numpy.matrix.any"><code class="xref py py-obj docutils literal notranslate"><span class="pre">any</span></code></a>(self[,&nbsp;axis,&nbsp;out])</td>
+<tr class="row-even"><td><a class="reference internal" href="numpy.matrix.any.html#numpy.matrix.any" title="numpy.matrix.any"><code class="xref py py-obj docutils literal notranslate"><span class="pre">any</span></code></a>([axis,&nbsp;out])</td>
 <td>Test whether any array element along a given axis evaluates to True.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="numpy.matrix.argmax.html#numpy.matrix.argmax" title="numpy.matrix.argmax"><code class="xref py py-obj docutils literal notranslate"><span class="pre">argmax</span></code></a>(self[,&nbsp;axis,&nbsp;out])</td>
+<tr class="row-odd"><td><a class="reference internal" href="numpy.matrix.argmax.html#numpy.matrix.argmax" title="numpy.matrix.argmax"><code class="xref py py-obj docutils literal notranslate"><span class="pre">argmax</span></code></a>([axis,&nbsp;out])</td>
 <td>Indexes of the maximum values along an axis.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="numpy.matrix.argmin.html#numpy.matrix.argmin" title="numpy.matrix.argmin"><code class="xref py py-obj docutils literal notranslate"><span class="pre">argmin</span></code></a>(self[,&nbsp;axis,&nbsp;out])</td>
+<tr class="row-even"><td><a class="reference internal" href="numpy.matrix.argmin.html#numpy.matrix.argmin" title="numpy.matrix.argmin"><code class="xref py py-obj docutils literal notranslate"><span class="pre">argmin</span></code></a>([axis,&nbsp;out])</td>
 <td>Indexes of the minimum values along an axis.</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="numpy.matrix.argpartition.html#numpy.matrix.argpartition" title="numpy.matrix.argpartition"><code class="xref py py-obj docutils literal notranslate"><span class="pre">argpartition</span></code></a>(kth[,&nbsp;axis,&nbsp;kind,&nbsp;order])</td>
@@ -280,22 +278,22 @@ constructed.</p>
 <tr class="row-odd"><td><a class="reference internal" href="numpy.matrix.fill.html#numpy.matrix.fill" title="numpy.matrix.fill"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fill</span></code></a>(value)</td>
 <td>Fill the array with a scalar value.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="numpy.matrix.flatten.html#numpy.matrix.flatten" title="numpy.matrix.flatten"><code class="xref py py-obj docutils literal notranslate"><span class="pre">flatten</span></code></a>(self[,&nbsp;order])</td>
+<tr class="row-even"><td><a class="reference internal" href="numpy.matrix.flatten.html#numpy.matrix.flatten" title="numpy.matrix.flatten"><code class="xref py py-obj docutils literal notranslate"><span class="pre">flatten</span></code></a>([order])</td>
 <td>Return a flattened copy of the matrix.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="numpy.matrix.getA.html#numpy.matrix.getA" title="numpy.matrix.getA"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getA</span></code></a>(self)</td>
+<tr class="row-odd"><td><a class="reference internal" href="numpy.matrix.getA.html#numpy.matrix.getA" title="numpy.matrix.getA"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getA</span></code></a>()</td>
 <td>Return <em class="xref py py-obj">self</em> as an <a class="reference internal" href="numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ndarray</span></code></a> object.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="numpy.matrix.getA1.html#numpy.matrix.getA1" title="numpy.matrix.getA1"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getA1</span></code></a>(self)</td>
+<tr class="row-even"><td><a class="reference internal" href="numpy.matrix.getA1.html#numpy.matrix.getA1" title="numpy.matrix.getA1"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getA1</span></code></a>()</td>
 <td>Return <em class="xref py py-obj">self</em> as a flattened <a class="reference internal" href="numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ndarray</span></code></a>.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="numpy.matrix.getH.html#numpy.matrix.getH" title="numpy.matrix.getH"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getH</span></code></a>(self)</td>
+<tr class="row-odd"><td><a class="reference internal" href="numpy.matrix.getH.html#numpy.matrix.getH" title="numpy.matrix.getH"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getH</span></code></a>()</td>
 <td>Returns the (complex) conjugate transpose of <em class="xref py py-obj">self</em>.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="numpy.matrix.getI.html#numpy.matrix.getI" title="numpy.matrix.getI"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getI</span></code></a>(self)</td>
+<tr class="row-even"><td><a class="reference internal" href="numpy.matrix.getI.html#numpy.matrix.getI" title="numpy.matrix.getI"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getI</span></code></a>()</td>
 <td>Returns the (multiplicative) inverse of invertible <em class="xref py py-obj">self</em>.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="numpy.matrix.getT.html#numpy.matrix.getT" title="numpy.matrix.getT"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getT</span></code></a>(self)</td>
+<tr class="row-odd"><td><a class="reference internal" href="numpy.matrix.getT.html#numpy.matrix.getT" title="numpy.matrix.getT"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getT</span></code></a>()</td>
 <td>Returns the transpose of the matrix.</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="numpy.matrix.getfield.html#numpy.matrix.getfield" title="numpy.matrix.getfield"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getfield</span></code></a>(dtype[,&nbsp;offset])</td>
@@ -307,13 +305,13 @@ constructed.</p>
 <tr class="row-even"><td><a class="reference internal" href="numpy.matrix.itemset.html#numpy.matrix.itemset" title="numpy.matrix.itemset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">itemset</span></code></a>(*args)</td>
 <td>Insert scalar into an array (scalar is cast to array’s dtype, if possible)</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="numpy.matrix.max.html#numpy.matrix.max" title="numpy.matrix.max"><code class="xref py py-obj docutils literal notranslate"><span class="pre">max</span></code></a>(self[,&nbsp;axis,&nbsp;out])</td>
+<tr class="row-odd"><td><a class="reference internal" href="numpy.matrix.max.html#numpy.matrix.max" title="numpy.matrix.max"><code class="xref py py-obj docutils literal notranslate"><span class="pre">max</span></code></a>([axis,&nbsp;out])</td>
 <td>Return the maximum value along an axis.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="numpy.matrix.mean.html#numpy.matrix.mean" title="numpy.matrix.mean"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mean</span></code></a>(self[,&nbsp;axis,&nbsp;dtype,&nbsp;out])</td>
+<tr class="row-even"><td><a class="reference internal" href="numpy.matrix.mean.html#numpy.matrix.mean" title="numpy.matrix.mean"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mean</span></code></a>([axis,&nbsp;dtype,&nbsp;out])</td>
 <td>Returns the average of the matrix elements along the given axis.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="numpy.matrix.min.html#numpy.matrix.min" title="numpy.matrix.min"><code class="xref py py-obj docutils literal notranslate"><span class="pre">min</span></code></a>(self[,&nbsp;axis,&nbsp;out])</td>
+<tr class="row-odd"><td><a class="reference internal" href="numpy.matrix.min.html#numpy.matrix.min" title="numpy.matrix.min"><code class="xref py py-obj docutils literal notranslate"><span class="pre">min</span></code></a>([axis,&nbsp;out])</td>
 <td>Return the minimum value along an axis.</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="numpy.matrix.newbyteorder.html#numpy.matrix.newbyteorder" title="numpy.matrix.newbyteorder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">newbyteorder</span></code></a>([new_order])</td>
@@ -325,16 +323,16 @@ constructed.</p>
 <tr class="row-even"><td><a class="reference internal" href="numpy.matrix.partition.html#numpy.matrix.partition" title="numpy.matrix.partition"><code class="xref py py-obj docutils literal notranslate"><span class="pre">partition</span></code></a>(kth[,&nbsp;axis,&nbsp;kind,&nbsp;order])</td>
 <td>Rearranges the elements in the array in such a way that value of the element in kth position is in the position it would be in a sorted array.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="numpy.matrix.prod.html#numpy.matrix.prod" title="numpy.matrix.prod"><code class="xref py py-obj docutils literal notranslate"><span class="pre">prod</span></code></a>(self[,&nbsp;axis,&nbsp;dtype,&nbsp;out])</td>
+<tr class="row-odd"><td><a class="reference internal" href="numpy.matrix.prod.html#numpy.matrix.prod" title="numpy.matrix.prod"><code class="xref py py-obj docutils literal notranslate"><span class="pre">prod</span></code></a>([axis,&nbsp;dtype,&nbsp;out])</td>
 <td>Return the product of the array elements over the given axis.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="numpy.matrix.ptp.html#numpy.matrix.ptp" title="numpy.matrix.ptp"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ptp</span></code></a>(self[,&nbsp;axis,&nbsp;out])</td>
+<tr class="row-even"><td><a class="reference internal" href="numpy.matrix.ptp.html#numpy.matrix.ptp" title="numpy.matrix.ptp"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ptp</span></code></a>([axis,&nbsp;out])</td>
 <td>Peak-to-peak (maximum - minimum) value along the given axis.</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="numpy.matrix.put.html#numpy.matrix.put" title="numpy.matrix.put"><code class="xref py py-obj docutils literal notranslate"><span class="pre">put</span></code></a>(indices,&nbsp;values[,&nbsp;mode])</td>
 <td>Set <code class="docutils literal notranslate"><span class="pre">a.flat[n]</span> <span class="pre">=</span> <span class="pre">values[n]</span></code> for all <em class="xref py py-obj">n</em> in indices.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="numpy.matrix.ravel.html#numpy.matrix.ravel" title="numpy.matrix.ravel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ravel</span></code></a>(self[,&nbsp;order])</td>
+<tr class="row-even"><td><a class="reference internal" href="numpy.matrix.ravel.html#numpy.matrix.ravel" title="numpy.matrix.ravel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ravel</span></code></a>([order])</td>
 <td>Return a flattened matrix.</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="numpy.matrix.repeat.html#numpy.matrix.repeat" title="numpy.matrix.repeat"><code class="xref py py-obj docutils literal notranslate"><span class="pre">repeat</span></code></a>(repeats[,&nbsp;axis])</td>
@@ -361,13 +359,13 @@ constructed.</p>
 <tr class="row-even"><td><a class="reference internal" href="numpy.matrix.sort.html#numpy.matrix.sort" title="numpy.matrix.sort"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sort</span></code></a>([axis,&nbsp;kind,&nbsp;order])</td>
 <td>Sort an array, in-place.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="numpy.matrix.squeeze.html#numpy.matrix.squeeze" title="numpy.matrix.squeeze"><code class="xref py py-obj docutils literal notranslate"><span class="pre">squeeze</span></code></a>(self[,&nbsp;axis])</td>
+<tr class="row-odd"><td><a class="reference internal" href="numpy.matrix.squeeze.html#numpy.matrix.squeeze" title="numpy.matrix.squeeze"><code class="xref py py-obj docutils literal notranslate"><span class="pre">squeeze</span></code></a>([axis])</td>
 <td>Return a possibly reshaped matrix.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="numpy.matrix.std.html#numpy.matrix.std" title="numpy.matrix.std"><code class="xref py py-obj docutils literal notranslate"><span class="pre">std</span></code></a>(self[,&nbsp;axis,&nbsp;dtype,&nbsp;out,&nbsp;ddof])</td>
+<tr class="row-even"><td><a class="reference internal" href="numpy.matrix.std.html#numpy.matrix.std" title="numpy.matrix.std"><code class="xref py py-obj docutils literal notranslate"><span class="pre">std</span></code></a>([axis,&nbsp;dtype,&nbsp;out,&nbsp;ddof])</td>
 <td>Return the standard deviation of the array elements along the given axis.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="numpy.matrix.sum.html#numpy.matrix.sum" title="numpy.matrix.sum"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sum</span></code></a>(self[,&nbsp;axis,&nbsp;dtype,&nbsp;out])</td>
+<tr class="row-odd"><td><a class="reference internal" href="numpy.matrix.sum.html#numpy.matrix.sum" title="numpy.matrix.sum"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sum</span></code></a>([axis,&nbsp;dtype,&nbsp;out])</td>
 <td>Returns the sum of the matrix elements, along the given axis.</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="numpy.matrix.swapaxes.html#numpy.matrix.swapaxes" title="numpy.matrix.swapaxes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">swapaxes</span></code></a>(axis1,&nbsp;axis2)</td>
@@ -382,7 +380,7 @@ constructed.</p>
 <tr class="row-odd"><td><a class="reference internal" href="numpy.matrix.tofile.html#numpy.matrix.tofile" title="numpy.matrix.tofile"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tofile</span></code></a>(fid[,&nbsp;sep,&nbsp;format])</td>
 <td>Write array to a file as text or binary (default).</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="numpy.matrix.tolist.html#numpy.matrix.tolist" title="numpy.matrix.tolist"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tolist</span></code></a>(self)</td>
+<tr class="row-even"><td><a class="reference internal" href="numpy.matrix.tolist.html#numpy.matrix.tolist" title="numpy.matrix.tolist"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tolist</span></code></a>()</td>
 <td>Return the matrix as a (possibly nested) list.</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="numpy.matrix.tostring.html#numpy.matrix.tostring" title="numpy.matrix.tostring"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tostring</span></code></a>([order])</td>
@@ -394,7 +392,7 @@ constructed.</p>
 <tr class="row-odd"><td><a class="reference internal" href="numpy.matrix.transpose.html#numpy.matrix.transpose" title="numpy.matrix.transpose"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transpose</span></code></a>(*axes)</td>
 <td>Returns a view of the array with axes transposed.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="numpy.matrix.var.html#numpy.matrix.var" title="numpy.matrix.var"><code class="xref py py-obj docutils literal notranslate"><span class="pre">var</span></code></a>(self[,&nbsp;axis,&nbsp;dtype,&nbsp;out,&nbsp;ddof])</td>
+<tr class="row-even"><td><a class="reference internal" href="numpy.matrix.var.html#numpy.matrix.var" title="numpy.matrix.var"><code class="xref py py-obj docutils literal notranslate"><span class="pre">var</span></code></a>([axis,&nbsp;dtype,&nbsp;out,&nbsp;ddof])</td>
 <td>Returns the variance of the matrix elements, along the given axis.</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="numpy.matrix.view.html#numpy.matrix.view" title="numpy.matrix.view"><code class="xref py py-obj docutils literal notranslate"><span class="pre">view</span></code></a>([dtype,&nbsp;type])</td>
@@ -427,10 +425,10 @@ constructed.</p>
         &copy; Copyright 2008-2017, The SciPy community.
       </li>
       <li>
-      Last updated on Jul 06, 2019.
+      Last updated on Jun 12, 2018.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.5.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.7.2.
       </li>
     </ul>
     </div>

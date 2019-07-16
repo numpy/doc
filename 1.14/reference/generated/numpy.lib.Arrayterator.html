@@ -4,18 +4,17 @@
   <head>
     <meta charset="utf-8">
     
-    <title>numpy.lib.Arrayterator &mdash; NumPy v1.14.dev0 Manual</title>
+    <title>numpy.lib.Arrayterator &mdash; NumPy v1.14 Manual</title>
     
     <link rel="stylesheet" type="text/css" href="../../_static/css/spc-bootstrap.css">
     <link rel="stylesheet" type="text/css" href="../../_static/css/spc-extend.css">
     <link rel="stylesheet" href="../../_static/scipy.css" type="text/css" >
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" >
-    <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" >
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '1.14.7.dev0+7175dec',
+        VERSION:     '1.14.5',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  false
@@ -24,14 +23,13 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <script type="text/javascript" src="../../_static/language_data.js"></script>
     <script type="text/javascript" src="../../_static/js/copybutton.js"></script>
     <link rel="author" title="About these documents" href="../../about.html" >
     <link rel="index" title="Index" href="../../genindex.html" >
     <link rel="search" title="Search" href="../../search.html" >
-    <link rel="top" title="NumPy v1.14.dev0 Manual" href="../../index.html" >
+    <link rel="top" title="NumPy v1.14 Manual" href="../../index.html" >
     <link rel="up" title="Indexing routines" href="../routines.indexing.html" >
-    <link rel="next" title="Input and output" href="../routines.io.html" >
+    <link rel="next" title="numpy.lib.Arrayterator.shape" href="numpy.lib.Arrayterator.shape.html" >
     <link rel="prev" title="numpy.flatiter.copy" href="numpy.flatiter.copy.html" > 
   </head>
   <body>
@@ -51,7 +49,7 @@
               
     <ul class="nav nav-pills pull-left">
         
-        <li class="active"><a href="../../index.html">NumPy v1.14.dev0 Manual</a></li>
+        <li class="active"><a href="../../index.html">NumPy v1.14 Manual</a></li>
         
 
           <li class="active"><a href="../index.html" >NumPy Reference</a></li>
@@ -66,7 +64,7 @@
            accesskey="I">index</a>
       </li>
       <li class="active">
-        <a href="../routines.io.html" title="Input and output"
+        <a href="numpy.lib.Arrayterator.shape.html" title="numpy.lib.Arrayterator.shape"
            accesskey="N">next</a>
       </li>
       <li class="active">
@@ -87,8 +85,8 @@
   <p class="topless"><a href="numpy.flatiter.copy.html"
                         title="previous chapter">numpy.flatiter.copy</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="../routines.io.html"
-                        title="next chapter">Input and output</a></p>
+  <p class="topless"><a href="numpy.lib.Arrayterator.shape.html"
+                        title="next chapter">numpy.lib.Arrayterator.shape</a></p>
         </div>
       </div>
           <div class="span9">
@@ -100,7 +98,7 @@
 <h1>numpy.lib.Arrayterator<a class="headerlink" href="#numpy-lib-arrayterator" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="numpy.lib.Arrayterator">
-<em class="property">class </em><code class="descclassname">numpy.lib.</code><code class="descname">Arrayterator</code><span class="sig-paren">(</span><em>var</em>, <em>buf_size=None</em><span class="sig-paren">)</span><a class="reference external" href="http://github.com/numpy/numpy/blob/master/numpy/lib/arrayterator.py#L20-L225"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#numpy.lib.Arrayterator" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">numpy.lib.</code><code class="descname">Arrayterator</code><span class="sig-paren">(</span><em>var</em>, <em>buf_size=None</em><span class="sig-paren">)</span><a class="reference external" href="http://github.com/numpy/numpy/blob/v1.14.5/numpy/lib/arrayterator.py#L20-L225"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#numpy.lib.Arrayterator" title="Permalink to this definition">¶</a></dt>
 <dd><p>Buffered iterator for big arrays.</p>
 <p><a class="reference internal" href="#numpy.lib.Arrayterator" title="numpy.lib.Arrayterator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Arrayterator</span></code></a> creates a buffered iterator for reading big arrays in small
 contiguous blocks. The class is useful for objects stored in the
@@ -113,17 +111,17 @@ Scientific.IO.NetCDF or pynetcdf for example.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>var</strong> <span class="classifier-delimiter">:</span> <span class="classifier">array_like</span></dt>
-<dd><p class="first last">The object to iterate over.</p>
-</dd>
-<dt><strong>buf_size</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int, optional</span></dt>
-<dd><p class="first last">The buffer size. If <em class="xref py py-obj">buf_size</em> is supplied, the maximum amount of
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>var</strong> : array_like</p>
+<blockquote>
+<div><p>The object to iterate over.</p>
+</div></blockquote>
+<p><strong>buf_size</strong> : int, optional</p>
+<blockquote class="last">
+<div><p>The buffer size. If <em class="xref py py-obj">buf_size</em> is supplied, the maximum amount of
 data that will be read into memory is <em class="xref py py-obj">buf_size</em> elements.
 Default is None, which will read as many element as possible
 into memory.</p>
-</dd>
-</dl>
+</div></blockquote>
 </td>
 </tr>
 </tbody>
@@ -165,29 +163,41 @@ dimension will be iterated over first:</p>
 <span class="go">[[[[0 1]]]] (1, 1, 1, 2)</span>
 </pre></div>
 </div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
+<p class="rubric">Attributes</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Attributes:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>var</strong></dt>
-<dd></dd>
-<dt><strong>buf_size</strong></dt>
-<dd></dd>
-<dt><strong>start</strong></dt>
-<dd></dd>
-<dt><strong>stop</strong></dt>
-<dd></dd>
-<dt><strong>step</strong></dt>
-<dd></dd>
-<dt><a class="reference internal" href="numpy.lib.Arrayterator.shape.html#numpy.lib.Arrayterator.shape" title="numpy.lib.Arrayterator.shape"><code class="xref py py-obj docutils literal notranslate"><span class="pre">shape</span></code></a></dt>
-<dd><p class="first last">The shape of the array to be iterated over.</p>
-</dd>
-<dt><a class="reference internal" href="numpy.lib.Arrayterator.flat.html#numpy.lib.Arrayterator.flat" title="numpy.lib.Arrayterator.flat"><code class="xref py py-obj docutils literal notranslate"><span class="pre">flat</span></code></a></dt>
-<dd><p class="first last">A 1-D flat iterator for Arrayterator objects.</p>
-</dd>
-</dl>
-</td>
+<tr class="row-odd"><td><a class="reference internal" href="numpy.lib.Arrayterator.shape.html#numpy.lib.Arrayterator.shape" title="numpy.lib.Arrayterator.shape"><code class="xref py py-obj docutils literal notranslate"><span class="pre">shape</span></code></a></td>
+<td>The shape of the array to be iterated over.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="numpy.lib.Arrayterator.flat.html#numpy.lib.Arrayterator.flat" title="numpy.lib.Arrayterator.flat"><code class="xref py py-obj docutils literal notranslate"><span class="pre">flat</span></code></a></td>
+<td>A 1-D flat iterator for Arrayterator objects.</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="55%" />
+<col width="45%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><strong>var</strong></td>
+<td>&#160;</td>
+</tr>
+<tr class="row-even"><td><strong>buf_size</strong></td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td><strong>start</strong></td>
+<td>&#160;</td>
+</tr>
+<tr class="row-even"><td><strong>stop</strong></td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td><strong>step</strong></td>
+<td>&#160;</td>
 </tr>
 </tbody>
 </table>
@@ -216,10 +226,10 @@ dimension will be iterated over first:</p>
         &copy; Copyright 2008-2017, The SciPy community.
       </li>
       <li>
-      Last updated on Jul 06, 2019.
+      Last updated on Jun 12, 2018.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.5.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.7.2.
       </li>
     </ul>
     </div>

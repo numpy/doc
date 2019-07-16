@@ -4,18 +4,17 @@
   <head>
     <meta charset="utf-8">
     
-    <title>numpy.polynomial.hermite.hermfit &mdash; NumPy v1.14.dev0 Manual</title>
+    <title>numpy.polynomial.hermite.hermfit &mdash; NumPy v1.14 Manual</title>
     
     <link rel="stylesheet" type="text/css" href="../../_static/css/spc-bootstrap.css">
     <link rel="stylesheet" type="text/css" href="../../_static/css/spc-extend.css">
     <link rel="stylesheet" href="../../_static/scipy.css" type="text/css" >
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" >
-    <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" >
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '1.14.7.dev0+7175dec',
+        VERSION:     '1.14.5',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  false
@@ -24,12 +23,11 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <script type="text/javascript" src="../../_static/language_data.js"></script>
     <script type="text/javascript" src="../../_static/js/copybutton.js"></script>
     <link rel="author" title="About these documents" href="../../about.html" >
     <link rel="index" title="Index" href="../../genindex.html" >
     <link rel="search" title="Search" href="../../search.html" >
-    <link rel="top" title="NumPy v1.14.dev0 Manual" href="../../index.html" >
+    <link rel="top" title="NumPy v1.14 Manual" href="../../index.html" >
     <link rel="up" title="Hermite Module, “Physicists’” (numpy.polynomial.hermite)" href="../routines.polynomials.hermite.html" >
     <link rel="next" title="numpy.polynomial.hermite.hermvander" href="numpy.polynomial.hermite.hermvander.html" >
     <link rel="prev" title="numpy.polynomial.hermite.hermfromroots" href="numpy.polynomial.hermite.hermfromroots.html" > 
@@ -51,7 +49,7 @@
               
     <ul class="nav nav-pills pull-left">
         
-        <li class="active"><a href="../../index.html">NumPy v1.14.dev0 Manual</a></li>
+        <li class="active"><a href="../../index.html">NumPy v1.14 Manual</a></li>
         
 
           <li class="active"><a href="../index.html" >NumPy Reference</a></li>
@@ -102,7 +100,7 @@
 <h1>numpy.polynomial.hermite.hermfit<a class="headerlink" href="#numpy-polynomial-hermite-hermfit" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="numpy.polynomial.hermite.hermfit">
-<code class="descclassname">numpy.polynomial.hermite.</code><code class="descname">hermfit</code><span class="sig-paren">(</span><em>x</em>, <em>y</em>, <em>deg</em>, <em>rcond=None</em>, <em>full=False</em>, <em>w=None</em><span class="sig-paren">)</span><a class="reference external" href="http://github.com/numpy/numpy/blob/master/numpy/polynomial/hermite.py#L1367-L1565"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#numpy.polynomial.hermite.hermfit" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">numpy.polynomial.hermite.</code><code class="descname">hermfit</code><span class="sig-paren">(</span><em>x</em>, <em>y</em>, <em>deg</em>, <em>rcond=None</em>, <em>full=False</em>, <em>w=None</em><span class="sig-paren">)</span><a class="reference external" href="http://github.com/numpy/numpy/blob/v1.14.5/numpy/polynomial/hermite.py#L1367-L1565"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#numpy.polynomial.hermite.hermfit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Least squares fit of Hermite series to data.</p>
 <p>Return the coefficients of a Hermite series of degree <em class="xref py py-obj">deg</em> that is the
 least squares fit to the data values <em class="xref py py-obj">y</em> given at points <em class="xref py py-obj">x</em>. If <em class="xref py py-obj">y</em> is
@@ -117,69 +115,72 @@ The fitted polynomial(s) are in the form</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
-<dt><strong>x</strong> <span class="classifier-delimiter">:</span> <span class="classifier">array_like, shape (M,)</span></dt>
-<dd><p class="first last">x-coordinates of the M sample points <code class="docutils literal notranslate"><span class="pre">(x[i],</span> <span class="pre">y[i])</span></code>.</p>
-</dd>
-<dt><strong>y</strong> <span class="classifier-delimiter">:</span> <span class="classifier">array_like, shape (M,) or (M, K)</span></dt>
-<dd><p class="first last">y-coordinates of the sample points. Several data sets of sample
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>x</strong> : array_like, shape (M,)</p>
+<blockquote>
+<div><p>x-coordinates of the M sample points <code class="docutils literal notranslate"><span class="pre">(x[i],</span> <span class="pre">y[i])</span></code>.</p>
+</div></blockquote>
+<p><strong>y</strong> : array_like, shape (M,) or (M, K)</p>
+<blockquote>
+<div><p>y-coordinates of the sample points. Several data sets of sample
 points sharing the same x-coordinates can be fitted at once by
 passing in a 2D-array that contains one dataset per column.</p>
-</dd>
-<dt><strong>deg</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int or 1-D array_like</span></dt>
-<dd><p class="first last">Degree(s) of the fitting polynomials. If <em class="xref py py-obj">deg</em> is a single integer
+</div></blockquote>
+<p><strong>deg</strong> : int or 1-D array_like</p>
+<blockquote>
+<div><p>Degree(s) of the fitting polynomials. If <em class="xref py py-obj">deg</em> is a single integer
 all terms up to and including the <em class="xref py py-obj">deg</em>’th term are included in the
 fit. For NumPy versions &gt;= 1.11.0 a list of integers specifying the
 degrees of the terms to include may be used instead.</p>
-</dd>
-<dt><strong>rcond</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float, optional</span></dt>
-<dd><p class="first last">Relative condition number of the fit. Singular values smaller than
+</div></blockquote>
+<p><strong>rcond</strong> : float, optional</p>
+<blockquote>
+<div><p>Relative condition number of the fit. Singular values smaller than
 this relative to the largest singular value will be ignored. The
 default value is len(x)*eps, where eps is the relative precision of
 the float type, about 2e-16 in most cases.</p>
-</dd>
-<dt><strong>full</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool, optional</span></dt>
-<dd><p class="first last">Switch determining nature of return value. When it is False (the
+</div></blockquote>
+<p><strong>full</strong> : bool, optional</p>
+<blockquote>
+<div><p>Switch determining nature of return value. When it is False (the
 default) just the coefficients are returned, when True diagnostic
 information from the singular value decomposition is also returned.</p>
-</dd>
-<dt><strong>w</strong> <span class="classifier-delimiter">:</span> <span class="classifier">array_like, shape (<em class="xref py py-obj">M</em>,), optional</span></dt>
-<dd><p class="first last">Weights. If not None, the contribution of each point
+</div></blockquote>
+<p><strong>w</strong> : array_like, shape (<em class="xref py py-obj">M</em>,), optional</p>
+<blockquote>
+<div><p>Weights. If not None, the contribution of each point
 <code class="docutils literal notranslate"><span class="pre">(x[i],y[i])</span></code> to the fit is weighted by <em class="xref py py-obj">w[i]</em>. Ideally the
 weights are chosen so that the errors of the products <code class="docutils literal notranslate"><span class="pre">w[i]*y[i]</span></code>
 all have the same variance.  The default value is None.</p>
-</dd>
-</dl>
+</div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first docutils">
-<dt><strong>coef</strong> <span class="classifier-delimiter">:</span> <span class="classifier">ndarray, shape (M,) or (M, K)</span></dt>
-<dd><p class="first last">Hermite coefficients ordered from low to high. If <em class="xref py py-obj">y</em> was 2-D,
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>coef</strong> : ndarray, shape (M,) or (M, K)</p>
+<blockquote>
+<div><p>Hermite coefficients ordered from low to high. If <em class="xref py py-obj">y</em> was 2-D,
 the coefficients for the data in column k  of <em class="xref py py-obj">y</em> are in column
 <em class="xref py py-obj">k</em>.</p>
-</dd>
-<dt><strong>[residuals, rank, singular_values, rcond]</strong> <span class="classifier-delimiter">:</span> <span class="classifier">list</span></dt>
-<dd><p class="first">These values are only returned if <em class="xref py py-obj">full</em> = True</p>
+</div></blockquote>
+<p><strong>[residuals, rank, singular_values, rcond]</strong> : list</p>
+<blockquote>
+<div><p>These values are only returned if <em class="xref py py-obj">full</em> = True</p>
 <p>resid – sum of squared residuals of the least squares fit
 rank – the numerical rank of the scaled Vandermonde matrix
 sv – singular values of the scaled Vandermonde matrix
 rcond – value of <em class="xref py py-obj">rcond</em>.</p>
-<p class="last">For more details, see <em class="xref py py-obj">linalg.lstsq</em>.</p>
-</dd>
-</dl>
+<p>For more details, see <em class="xref py py-obj">linalg.lstsq</em>.</p>
+</div></blockquote>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Warns:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>RankWarning</strong></dt>
-<dd><p class="first">The rank of the coefficient matrix in the least-squares fit is
+<tr class="field-odd field"><th class="field-name">Warns:</th><td class="field-body"><p class="first"><strong>RankWarning</strong></p>
+<blockquote class="last">
+<div><p>The rank of the coefficient matrix in the least-squares fit is
 deficient. The warning is only raised if <em class="xref py py-obj">full</em> = False.  The
 warnings can be turned off by</p>
-<div class="last highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">warnings</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">warnings</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">warnings</span><span class="o">.</span><span class="n">simplefilter</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">,</span> <span class="n">RankWarning</span><span class="p">)</span>
 </pre></div>
 </div>
-</dd>
-</dl>
+</div></blockquote>
 </td>
 </tr>
 </tbody>
@@ -196,7 +197,7 @@ warnings can be turned off by</p>
 <dd>Hermite weight function</dd>
 <dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">linalg.lstsq</span></code></dt>
 <dd>Computes a least-squares fit from the matrix.</dd>
-<dt><a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.interpolate.UnivariateSpline.html#scipy.interpolate.UnivariateSpline" title="(in SciPy v1.3.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scipy.interpolate.UnivariateSpline</span></code></a></dt>
+<dt><a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.interpolate.UnivariateSpline.html#scipy.interpolate.UnivariateSpline" title="(in SciPy v1.1.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scipy.interpolate.UnivariateSpline</span></code></a></dt>
 <dd>Computes spline fits.</dd>
 </dl>
 </div>
@@ -225,10 +226,10 @@ weight. In that case the weight <code class="docutils literal notranslate"><span
 together with data values <code class="docutils literal notranslate"><span class="pre">y[i]/sqrt(w(x[i])</span></code>. The weight function is
 available as <a class="reference internal" href="numpy.polynomial.hermite.hermweight.html#numpy.polynomial.hermite.hermweight" title="numpy.polynomial.hermite.hermweight"><code class="xref py py-obj docutils literal notranslate"><span class="pre">hermweight</span></code></a>.</p>
 <p class="rubric">References</p>
-<table class="docutils citation" frame="void" id="rb83022192228-1" rules="none">
+<table class="docutils citation" frame="void" id="r69" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label">[1]</td><td>Wikipedia, “Curve fitting”,
+<tr><td class="label"><a class="fn-backref" href="#id1">[R69]</a></td><td>Wikipedia, “Curve fitting”,
 <a class="reference external" href="http://en.wikipedia.org/wiki/Curve_fitting">http://en.wikipedia.org/wiki/Curve_fitting</a></td></tr>
 </tbody>
 </table>
@@ -266,10 +267,10 @@ available as <a class="reference internal" href="numpy.polynomial.hermite.hermwe
         &copy; Copyright 2008-2017, The SciPy community.
       </li>
       <li>
-      Last updated on Jul 06, 2019.
+      Last updated on Jun 12, 2018.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.5.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.7.2.
       </li>
     </ul>
     </div>

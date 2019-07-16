@@ -4,18 +4,17 @@
   <head>
     <meta charset="utf-8">
     
-    <title>numpy.matrix.flags &mdash; NumPy v1.14.dev0 Manual</title>
+    <title>numpy.matrix.flags &mdash; NumPy v1.14 Manual</title>
     
     <link rel="stylesheet" type="text/css" href="../../_static/css/spc-bootstrap.css">
     <link rel="stylesheet" type="text/css" href="../../_static/css/spc-extend.css">
     <link rel="stylesheet" href="../../_static/scipy.css" type="text/css" >
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" >
-    <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" >
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '1.14.7.dev0+7175dec',
+        VERSION:     '1.14.5',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  false
@@ -24,12 +23,14 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <script type="text/javascript" src="../../_static/language_data.js"></script>
     <script type="text/javascript" src="../../_static/js/copybutton.js"></script>
     <link rel="author" title="About these documents" href="../../about.html" >
     <link rel="index" title="Index" href="../../genindex.html" >
     <link rel="search" title="Search" href="../../search.html" >
-    <link rel="top" title="NumPy v1.14.dev0 Manual" href="../../index.html" > 
+    <link rel="top" title="NumPy v1.14 Manual" href="../../index.html" >
+    <link rel="up" title="numpy.matrix" href="numpy.matrix.html" >
+    <link rel="next" title="numpy.matrix.flat" href="numpy.matrix.flat.html" >
+    <link rel="prev" title="numpy.matrix.dtype" href="numpy.matrix.dtype.html" > 
   </head>
   <body>
 
@@ -48,9 +49,13 @@
               
     <ul class="nav nav-pills pull-left">
         
-        <li class="active"><a href="../../index.html">NumPy v1.14.dev0 Manual</a></li>
+        <li class="active"><a href="../../index.html">NumPy v1.14 Manual</a></li>
         
- 
+
+          <li class="active"><a href="../index.html" >NumPy Reference</a></li>
+          <li class="active"><a href="../arrays.html" >Array objects</a></li>
+          <li class="active"><a href="../arrays.classes.html" >Standard array subclasses</a></li>
+          <li class="active"><a href="numpy.matrix.html" accesskey="U">numpy.matrix</a></li> 
     </ul>
               
               
@@ -58,6 +63,14 @@
       <li class="active">
         <a href="../../genindex.html" title="General Index"
            accesskey="I">index</a>
+      </li>
+      <li class="active">
+        <a href="numpy.matrix.flat.html" title="numpy.matrix.flat"
+           accesskey="N">next</a>
+      </li>
+      <li class="active">
+        <a href="numpy.matrix.dtype.html" title="numpy.matrix.dtype"
+           accesskey="P">previous</a>
       </li>
     </ul>
               
@@ -69,6 +82,12 @@
 	<div class="row-fluid">
       <div class="spc-rightsidebar span3">
         <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="numpy.matrix.dtype.html"
+                        title="previous chapter">numpy.matrix.dtype</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="numpy.matrix.flat.html"
+                        title="next chapter">numpy.matrix.flat</a></p>
         </div>
       </div>
           <div class="span9">
@@ -107,63 +126,48 @@ or the array has no elements.
 It does <em>not</em> generally hold that <code class="docutils literal notranslate"><span class="pre">self.strides[-1]</span> <span class="pre">==</span> <span class="pre">self.itemsize</span></code>
 for C-style contiguous arrays or <code class="docutils literal notranslate"><span class="pre">self.strides[0]</span> <span class="pre">==</span> <span class="pre">self.itemsize</span></code> for
 Fortran-style contiguous arrays is true.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
+<p class="rubric">Attributes</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="3%" />
+<col width="97%" />
+</colgroup>
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Attributes:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>C_CONTIGUOUS (C)</strong></dt>
-<dd><p class="first last">The data is in a single, C-style contiguous segment.</p>
-</dd>
-<dt><strong>F_CONTIGUOUS (F)</strong></dt>
-<dd><p class="first last">The data is in a single, Fortran-style contiguous segment.</p>
-</dd>
-<dt><strong>OWNDATA (O)</strong></dt>
-<dd><p class="first last">The array owns the memory it uses or borrows it from another object.</p>
-</dd>
-<dt><strong>WRITEABLE (W)</strong></dt>
-<dd><p class="first last">The data area can be written to.  Setting this to False locks
-the data, making it read-only.  A view (slice, etc.) inherits WRITEABLE
-from its base array at creation time, but a view of a writeable
-array may be subsequently locked while the base array remains writeable.
-(The opposite is not true, in that a view of a locked array may not
-be made writeable.  However, currently, locking a base object does not
-lock any views that already reference it, so under that circumstance it
-is possible to alter the contents of a locked array via a previously
-created writeable view onto it.)  Attempting to change a non-writeable
-array raises a RuntimeError exception.</p>
-</dd>
-<dt><strong>ALIGNED (A)</strong></dt>
-<dd><p class="first last">The data and all elements are aligned appropriately for the hardware.</p>
-</dd>
-<dt><strong>WRITEBACKIFCOPY (X)</strong></dt>
-<dd><p class="first last">This array is a copy of some other array. The C-API function
-PyArray_ResolveWritebackIfCopy must be called before deallocating
-to the base array will be updated with the contents of this array.</p>
-</dd>
-<dt><strong>UPDATEIFCOPY (U)</strong></dt>
-<dd><p class="first last">(Deprecated, use WRITEBACKIFCOPY) This array is a copy of some other array.
-When this array is
-deallocated, the base array will be updated with the contents of
-this array.</p>
-</dd>
-<dt><strong>FNC</strong></dt>
-<dd><p class="first last">F_CONTIGUOUS and not C_CONTIGUOUS.</p>
-</dd>
-<dt><strong>FORC</strong></dt>
-<dd><p class="first last">F_CONTIGUOUS or C_CONTIGUOUS (one-segment test).</p>
-</dd>
-<dt><strong>BEHAVED (B)</strong></dt>
-<dd><p class="first last">ALIGNED and WRITEABLE.</p>
-</dd>
-<dt><strong>CARRAY (CA)</strong></dt>
-<dd><p class="first last">BEHAVED and C_CONTIGUOUS.</p>
-</dd>
-<dt><strong>FARRAY (FA)</strong></dt>
-<dd><p class="first last">BEHAVED and F_CONTIGUOUS and not C_CONTIGUOUS.</p>
-</dd>
-</dl>
-</td>
+<tr class="row-odd"><td><strong>C_CONTIGUOUS (C)</strong></td>
+<td>The data is in a single, C-style contiguous segment.</td>
+</tr>
+<tr class="row-even"><td><strong>F_CONTIGUOUS (F)</strong></td>
+<td>The data is in a single, Fortran-style contiguous segment.</td>
+</tr>
+<tr class="row-odd"><td><strong>OWNDATA (O)</strong></td>
+<td>The array owns the memory it uses or borrows it from another object.</td>
+</tr>
+<tr class="row-even"><td><strong>WRITEABLE (W)</strong></td>
+<td>The data area can be written to.  Setting this to False locks the data, making it read-only.  A view (slice, etc.) inherits WRITEABLE from its base array at creation time, but a view of a writeable array may be subsequently locked while the base array remains writeable. (The opposite is not true, in that a view of a locked array may not be made writeable.  However, currently, locking a base object does not lock any views that already reference it, so under that circumstance it is possible to alter the contents of a locked array via a previously created writeable view onto it.)  Attempting to change a non-writeable array raises a RuntimeError exception.</td>
+</tr>
+<tr class="row-odd"><td><strong>ALIGNED (A)</strong></td>
+<td>The data and all elements are aligned appropriately for the hardware.</td>
+</tr>
+<tr class="row-even"><td><strong>WRITEBACKIFCOPY (X)</strong></td>
+<td>This array is a copy of some other array. The C-API function PyArray_ResolveWritebackIfCopy must be called before deallocating to the base array will be updated with the contents of this array.</td>
+</tr>
+<tr class="row-odd"><td><strong>UPDATEIFCOPY (U)</strong></td>
+<td>(Deprecated, use WRITEBACKIFCOPY) This array is a copy of some other array. When this array is deallocated, the base array will be updated with the contents of this array.</td>
+</tr>
+<tr class="row-even"><td><strong>FNC</strong></td>
+<td>F_CONTIGUOUS and not C_CONTIGUOUS.</td>
+</tr>
+<tr class="row-odd"><td><strong>FORC</strong></td>
+<td>F_CONTIGUOUS or C_CONTIGUOUS (one-segment test).</td>
+</tr>
+<tr class="row-even"><td><strong>BEHAVED (B)</strong></td>
+<td>ALIGNED and WRITEABLE.</td>
+</tr>
+<tr class="row-odd"><td><strong>CARRAY (CA)</strong></td>
+<td>BEHAVED and C_CONTIGUOUS.</td>
+</tr>
+<tr class="row-even"><td><strong>FARRAY (FA)</strong></td>
+<td>BEHAVED and F_CONTIGUOUS and not C_CONTIGUOUS.</td>
 </tr>
 </tbody>
 </table>
@@ -192,10 +196,10 @@ this array.</p>
         &copy; Copyright 2008-2017, The SciPy community.
       </li>
       <li>
-      Last updated on Jul 06, 2019.
+      Last updated on Jun 12, 2018.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.5.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.7.2.
       </li>
     </ul>
     </div>

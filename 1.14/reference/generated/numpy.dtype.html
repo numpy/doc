@@ -4,18 +4,17 @@
   <head>
     <meta charset="utf-8">
     
-    <title>numpy.dtype &mdash; NumPy v1.14.dev0 Manual</title>
+    <title>numpy.dtype &mdash; NumPy v1.14 Manual</title>
     
     <link rel="stylesheet" type="text/css" href="../../_static/css/spc-bootstrap.css">
     <link rel="stylesheet" type="text/css" href="../../_static/css/spc-extend.css">
     <link rel="stylesheet" href="../../_static/scipy.css" type="text/css" >
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" >
-    <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" >
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '1.14.7.dev0+7175dec',
+        VERSION:     '1.14.5',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  false
@@ -24,14 +23,13 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <script type="text/javascript" src="../../_static/language_data.js"></script>
     <script type="text/javascript" src="../../_static/js/copybutton.js"></script>
     <link rel="author" title="About these documents" href="../../about.html" >
     <link rel="index" title="Index" href="../../genindex.html" >
     <link rel="search" title="Search" href="../../search.html" >
-    <link rel="top" title="NumPy v1.14.dev0 Manual" href="../../index.html" >
+    <link rel="top" title="NumPy v1.14 Manual" href="../../index.html" >
     <link rel="up" title="Data type objects (dtype)" href="../arrays.dtypes.html" >
-    <link rel="next" title="numpy.dtype.newbyteorder" href="numpy.dtype.newbyteorder.html" >
+    <link rel="next" title="numpy.dtype.base" href="numpy.dtype.base.html" >
     <link rel="prev" title="Data type objects (dtype)" href="../arrays.dtypes.html" > 
   </head>
   <body>
@@ -51,7 +49,7 @@
               
     <ul class="nav nav-pills pull-left">
         
-        <li class="active"><a href="../../index.html">NumPy v1.14.dev0 Manual</a></li>
+        <li class="active"><a href="../../index.html">NumPy v1.14 Manual</a></li>
         
 
           <li class="active"><a href="../index.html" >NumPy Reference</a></li>
@@ -66,7 +64,7 @@
            accesskey="I">index</a>
       </li>
       <li class="active">
-        <a href="numpy.dtype.newbyteorder.html" title="numpy.dtype.newbyteorder"
+        <a href="numpy.dtype.base.html" title="numpy.dtype.base"
            accesskey="N">next</a>
       </li>
       <li class="active">
@@ -87,8 +85,8 @@
   <p class="topless"><a href="../arrays.dtypes.html"
                         title="previous chapter">Data type objects (<code class="docutils literal notranslate"><span class="pre">dtype</span></code>)</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="numpy.dtype.newbyteorder.html"
-                        title="next chapter">numpy.dtype.newbyteorder</a></p>
+  <p class="topless"><a href="numpy.dtype.base.html"
+                        title="next chapter">numpy.dtype.base</a></p>
         </div>
       </div>
           <div class="span9">
@@ -100,7 +98,7 @@
 <h1>numpy.dtype<a class="headerlink" href="#numpy-dtype" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="numpy.dtype">
-<em class="property">class </em><code class="descclassname">numpy.</code><code class="descname">dtype</code><span class="sig-paren">(</span><em>obj</em>, <em>align=False</em>, <em>copy=False</em><span class="sig-paren">)</span><a class="reference external" href="http://github.com/numpy/numpy/blob/master/numpy/__init__.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#numpy.dtype" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">numpy.</code><code class="descname">dtype</code><span class="sig-paren">(</span><em>obj</em>, <em>align=False</em>, <em>copy=False</em><span class="sig-paren">)</span><a class="reference external" href="http://github.com/numpy/numpy/blob/v1.14.5/numpy/__init__.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#numpy.dtype" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create a data type object.</p>
 <p>A numpy array is homogeneous, and contains elements described by a
 dtype object. A dtype object can be constructed from different
@@ -109,21 +107,22 @@ combinations of fundamental numeric types.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>obj</strong></dt>
-<dd><p class="first last">Object to be converted to a data type object.</p>
-</dd>
-<dt><strong>align</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool, optional</span></dt>
-<dd><p class="first last">Add padding to the fields to match what a C compiler would output
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>obj</strong></p>
+<blockquote>
+<div><p>Object to be converted to a data type object.</p>
+</div></blockquote>
+<p><strong>align</strong> : bool, optional</p>
+<blockquote>
+<div><p>Add padding to the fields to match what a C compiler would output
 for a similar C-struct. Can be <code class="docutils literal notranslate"><span class="pre">True</span></code> only if <em class="xref py py-obj">obj</em> is a dictionary
 or a comma-separated string. If a struct dtype is being created,
 this also sets a sticky alignment flag <code class="docutils literal notranslate"><span class="pre">isalignedstruct</span></code>.</p>
-</dd>
-<dt><strong>copy</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool, optional</span></dt>
-<dd><p class="first last">Make a new copy of the data-type object. If <code class="docutils literal notranslate"><span class="pre">False</span></code>, the result
+</div></blockquote>
+<p><strong>copy</strong> : bool, optional</p>
+<blockquote class="last">
+<div><p>Make a new copy of the data-type object. If <code class="docutils literal notranslate"><span class="pre">False</span></code>, the result
 may just be a reference to a built-in data-type object.</p>
-</dd>
-</dl>
+</div></blockquote>
 </td>
 </tr>
 </tbody>
@@ -187,77 +186,54 @@ the offsets in bytes:</p>
 <span class="go">dtype([(&#39;surname&#39;, &#39;|S25&#39;), (&#39;age&#39;, &#39;|u1&#39;)])</span>
 </pre></div>
 </div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
+<p class="rubric">Attributes</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Attributes:</th><td class="field-body"><dl class="first last docutils">
-<dt><a class="reference internal" href="numpy.dtype.alignment.html#numpy.dtype.alignment" title="numpy.dtype.alignment"><code class="xref py py-obj docutils literal notranslate"><span class="pre">alignment</span></code></a></dt>
-<dd><p class="first last">The required alignment (bytes) of this data-type according to the compiler.</p>
-</dd>
-<dt><strong>base</strong></dt>
-<dd></dd>
-<dt><a class="reference internal" href="numpy.dtype.byteorder.html#numpy.dtype.byteorder" title="numpy.dtype.byteorder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">byteorder</span></code></a></dt>
-<dd><p class="first last">A character indicating the byte-order of this data-type object.</p>
-</dd>
-<dt><a class="reference internal" href="numpy.dtype.char.html#numpy.dtype.char" title="numpy.dtype.char"><code class="xref py py-obj docutils literal notranslate"><span class="pre">char</span></code></a></dt>
-<dd><p class="first last">A unique character code for each of the 21 different built-in types.</p>
-</dd>
-<dt><a class="reference internal" href="numpy.dtype.descr.html#numpy.dtype.descr" title="numpy.dtype.descr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">descr</span></code></a></dt>
-<dd><p class="first last">PEP3118 interface description of the data-type.</p>
-</dd>
-<dt><a class="reference internal" href="numpy.dtype.fields.html#numpy.dtype.fields" title="numpy.dtype.fields"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fields</span></code></a></dt>
-<dd><p class="first last">Dictionary of named fields defined for this data type, or <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p>
-</dd>
-<dt><a class="reference internal" href="numpy.dtype.flags.html#numpy.dtype.flags" title="numpy.dtype.flags"><code class="xref py py-obj docutils literal notranslate"><span class="pre">flags</span></code></a></dt>
-<dd><p class="first last">Bit-flags describing how this data type is to be interpreted.</p>
-</dd>
-<dt><a class="reference internal" href="numpy.dtype.hasobject.html#numpy.dtype.hasobject" title="numpy.dtype.hasobject"><code class="xref py py-obj docutils literal notranslate"><span class="pre">hasobject</span></code></a></dt>
-<dd><p class="first last">Boolean indicating whether this dtype contains any reference-counted objects in any fields or sub-dtypes.</p>
-</dd>
-<dt><a class="reference internal" href="numpy.dtype.isalignedstruct.html#numpy.dtype.isalignedstruct" title="numpy.dtype.isalignedstruct"><code class="xref py py-obj docutils literal notranslate"><span class="pre">isalignedstruct</span></code></a></dt>
-<dd><p class="first last">Boolean indicating whether the dtype is a struct which maintains field alignment.</p>
-</dd>
-<dt><a class="reference internal" href="numpy.dtype.isbuiltin.html#numpy.dtype.isbuiltin" title="numpy.dtype.isbuiltin"><code class="xref py py-obj docutils literal notranslate"><span class="pre">isbuiltin</span></code></a></dt>
-<dd><p class="first last">Integer indicating how this dtype relates to the built-in dtypes.</p>
-</dd>
-<dt><a class="reference internal" href="numpy.dtype.isnative.html#numpy.dtype.isnative" title="numpy.dtype.isnative"><code class="xref py py-obj docutils literal notranslate"><span class="pre">isnative</span></code></a></dt>
-<dd><p class="first last">Boolean indicating whether the byte order of this dtype is native to the platform.</p>
-</dd>
-<dt><a class="reference internal" href="numpy.dtype.itemsize.html#numpy.dtype.itemsize" title="numpy.dtype.itemsize"><code class="xref py py-obj docutils literal notranslate"><span class="pre">itemsize</span></code></a></dt>
-<dd><p class="first last">The element size of this data-type object.</p>
-</dd>
-<dt><a class="reference internal" href="numpy.dtype.kind.html#numpy.dtype.kind" title="numpy.dtype.kind"><code class="xref py py-obj docutils literal notranslate"><span class="pre">kind</span></code></a></dt>
-<dd><p class="first last">A character code (one of ‘biufcmMOSUV’) identifying the general kind of data.</p>
-</dd>
-<dt><strong>metadata</strong></dt>
-<dd></dd>
-<dt><a class="reference internal" href="numpy.dtype.name.html#numpy.dtype.name" title="numpy.dtype.name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></a></dt>
-<dd><p class="first last">A bit-width name for this data-type.</p>
-</dd>
-<dt><a class="reference internal" href="numpy.dtype.names.html#numpy.dtype.names" title="numpy.dtype.names"><code class="xref py py-obj docutils literal notranslate"><span class="pre">names</span></code></a></dt>
-<dd><p class="first last">Ordered list of field names, or <code class="docutils literal notranslate"><span class="pre">None</span></code> if there are no fields.</p>
-</dd>
-<dt><a class="reference internal" href="numpy.dtype.ndim.html#numpy.dtype.ndim" title="numpy.dtype.ndim"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ndim</span></code></a></dt>
-<dd><p class="first last">Number of dimensions of the sub-array if this data type describes a sub-array, and <code class="docutils literal notranslate"><span class="pre">0</span></code> otherwise.</p>
-</dd>
-<dt><a class="reference internal" href="numpy.dtype.num.html#numpy.dtype.num" title="numpy.dtype.num"><code class="xref py py-obj docutils literal notranslate"><span class="pre">num</span></code></a></dt>
-<dd><p class="first last">A unique number for each of the 21 different built-in types.</p>
-</dd>
-<dt><a class="reference internal" href="numpy.dtype.shape.html#numpy.dtype.shape" title="numpy.dtype.shape"><code class="xref py py-obj docutils literal notranslate"><span class="pre">shape</span></code></a></dt>
-<dd><p class="first last">Shape tuple of the sub-array if this data type describes a sub-array, and <code class="docutils literal notranslate"><span class="pre">()</span></code> otherwise.</p>
-</dd>
-<dt><a class="reference internal" href="numpy.dtype.str.html#numpy.dtype.str" title="numpy.dtype.str"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a></dt>
-<dd><p class="first last">The array-protocol typestring of this data-type object.</p>
-</dd>
-<dt><a class="reference internal" href="numpy.dtype.subdtype.html#numpy.dtype.subdtype" title="numpy.dtype.subdtype"><code class="xref py py-obj docutils literal notranslate"><span class="pre">subdtype</span></code></a></dt>
-<dd><p class="first last">Tuple <code class="docutils literal notranslate"><span class="pre">(item_dtype,</span> <span class="pre">shape)</span></code> if this <a class="reference internal" href="#numpy.dtype" title="numpy.dtype"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dtype</span></code></a> describes a sub-array, and None otherwise.</p>
-</dd>
-<dt><a class="reference internal" href="numpy.dtype.type.html#numpy.dtype.type" title="numpy.dtype.type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">type</span></code></a></dt>
-<dd><p class="first last">The type object used to instantiate a scalar of this data-type.</p>
-</dd>
-</dl>
-</td>
+<tr class="row-odd"><td><a class="reference internal" href="numpy.dtype.base.html#numpy.dtype.base" title="numpy.dtype.base"><code class="xref py py-obj docutils literal notranslate"><span class="pre">base</span></code></a></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="numpy.dtype.descr.html#numpy.dtype.descr" title="numpy.dtype.descr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">descr</span></code></a></td>
+<td>PEP3118 interface description of the data-type.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="numpy.dtype.fields.html#numpy.dtype.fields" title="numpy.dtype.fields"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fields</span></code></a></td>
+<td>Dictionary of named fields defined for this data type, or <code class="docutils literal notranslate"><span class="pre">None</span></code>.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="numpy.dtype.hasobject.html#numpy.dtype.hasobject" title="numpy.dtype.hasobject"><code class="xref py py-obj docutils literal notranslate"><span class="pre">hasobject</span></code></a></td>
+<td>Boolean indicating whether this dtype contains any reference-counted objects in any fields or sub-dtypes.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="numpy.dtype.isalignedstruct.html#numpy.dtype.isalignedstruct" title="numpy.dtype.isalignedstruct"><code class="xref py py-obj docutils literal notranslate"><span class="pre">isalignedstruct</span></code></a></td>
+<td>Boolean indicating whether the dtype is a struct which maintains field alignment.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="numpy.dtype.isbuiltin.html#numpy.dtype.isbuiltin" title="numpy.dtype.isbuiltin"><code class="xref py py-obj docutils literal notranslate"><span class="pre">isbuiltin</span></code></a></td>
+<td>Integer indicating how this dtype relates to the built-in dtypes.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="numpy.dtype.isnative.html#numpy.dtype.isnative" title="numpy.dtype.isnative"><code class="xref py py-obj docutils literal notranslate"><span class="pre">isnative</span></code></a></td>
+<td>Boolean indicating whether the byte order of this dtype is native to the platform.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="numpy.dtype.metadata.html#numpy.dtype.metadata" title="numpy.dtype.metadata"><code class="xref py py-obj docutils literal notranslate"><span class="pre">metadata</span></code></a></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="numpy.dtype.name.html#numpy.dtype.name" title="numpy.dtype.name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></a></td>
+<td>A bit-width name for this data-type.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="numpy.dtype.names.html#numpy.dtype.names" title="numpy.dtype.names"><code class="xref py py-obj docutils literal notranslate"><span class="pre">names</span></code></a></td>
+<td>Ordered list of field names, or <code class="docutils literal notranslate"><span class="pre">None</span></code> if there are no fields.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="numpy.dtype.ndim.html#numpy.dtype.ndim" title="numpy.dtype.ndim"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ndim</span></code></a></td>
+<td>Number of dimensions of the sub-array if this data type describes a sub-array, and <code class="docutils literal notranslate"><span class="pre">0</span></code> otherwise.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="numpy.dtype.shape.html#numpy.dtype.shape" title="numpy.dtype.shape"><code class="xref py py-obj docutils literal notranslate"><span class="pre">shape</span></code></a></td>
+<td>Shape tuple of the sub-array if this data type describes a sub-array, and <code class="docutils literal notranslate"><span class="pre">()</span></code> otherwise.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="numpy.dtype.str.html#numpy.dtype.str" title="numpy.dtype.str"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a></td>
+<td>The array-protocol typestring of this data-type object.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="numpy.dtype.subdtype.html#numpy.dtype.subdtype" title="numpy.dtype.subdtype"><code class="xref py py-obj docutils literal notranslate"><span class="pre">subdtype</span></code></a></td>
+<td>Tuple <code class="docutils literal notranslate"><span class="pre">(item_dtype,</span> <span class="pre">shape)</span></code> if this <a class="reference internal" href="#numpy.dtype" title="numpy.dtype"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dtype</span></code></a> describes a sub-array, and None otherwise.</td>
 </tr>
 </tbody>
 </table>
@@ -298,10 +274,10 @@ the offsets in bytes:</p>
         &copy; Copyright 2008-2017, The SciPy community.
       </li>
       <li>
-      Last updated on Jul 06, 2019.
+      Last updated on Jun 12, 2018.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.5.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.7.2.
       </li>
     </ul>
     </div>

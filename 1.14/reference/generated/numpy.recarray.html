@@ -4,18 +4,17 @@
   <head>
     <meta charset="utf-8">
     
-    <title>numpy.recarray &mdash; NumPy v1.14.dev0 Manual</title>
+    <title>numpy.recarray &mdash; NumPy v1.14 Manual</title>
     
     <link rel="stylesheet" type="text/css" href="../../_static/css/spc-bootstrap.css">
     <link rel="stylesheet" type="text/css" href="../../_static/css/spc-extend.css">
     <link rel="stylesheet" href="../../_static/scipy.css" type="text/css" >
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" >
-    <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" >
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '1.14.7.dev0+7175dec',
+        VERSION:     '1.14.5',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  false
@@ -24,14 +23,13 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <script type="text/javascript" src="../../_static/language_data.js"></script>
     <script type="text/javascript" src="../../_static/js/copybutton.js"></script>
     <link rel="author" title="About these documents" href="../../about.html" >
     <link rel="index" title="Index" href="../../genindex.html" >
     <link rel="search" title="Search" href="../../search.html" >
-    <link rel="top" title="NumPy v1.14.dev0 Manual" href="../../index.html" >
+    <link rel="top" title="NumPy v1.14 Manual" href="../../index.html" >
     <link rel="up" title="Standard array subclasses" href="../arrays.classes.html" >
-    <link rel="next" title="numpy.recarray.all" href="numpy.recarray.all.html" >
+    <link rel="next" title="numpy.recarray.T" href="numpy.recarray.T.html" >
     <link rel="prev" title="numpy.core.defchararray.array" href="numpy.core.defchararray.array.html" > 
   </head>
   <body>
@@ -51,7 +49,7 @@
               
     <ul class="nav nav-pills pull-left">
         
-        <li class="active"><a href="../../index.html">NumPy v1.14.dev0 Manual</a></li>
+        <li class="active"><a href="../../index.html">NumPy v1.14 Manual</a></li>
         
 
           <li class="active"><a href="../index.html" >NumPy Reference</a></li>
@@ -66,7 +64,7 @@
            accesskey="I">index</a>
       </li>
       <li class="active">
-        <a href="numpy.recarray.all.html" title="numpy.recarray.all"
+        <a href="numpy.recarray.T.html" title="numpy.recarray.T"
            accesskey="N">next</a>
       </li>
       <li class="active">
@@ -87,8 +85,8 @@
   <p class="topless"><a href="numpy.core.defchararray.array.html"
                         title="previous chapter">numpy.core.defchararray.array</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="numpy.recarray.all.html"
-                        title="next chapter">numpy.recarray.all</a></p>
+  <p class="topless"><a href="numpy.recarray.T.html"
+                        title="next chapter">numpy.recarray.T</a></p>
         </div>
       </div>
           <div class="span9">
@@ -100,7 +98,7 @@
 <h1>numpy.recarray<a class="headerlink" href="#numpy-recarray" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="numpy.recarray">
-<em class="property">class </em><code class="descclassname">numpy.</code><code class="descname">recarray</code><a class="reference external" href="http://github.com/numpy/numpy/blob/master/numpy/__init__.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#numpy.recarray" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">numpy.</code><code class="descname">recarray</code><a class="reference external" href="http://github.com/numpy/numpy/blob/v1.14.5/numpy/__init__.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#numpy.recarray" title="Permalink to this definition">¶</a></dt>
 <dd><p>Construct an ndarray that allows field access using attributes.</p>
 <p>Arrays may have a data-types containing fields, analogous
 to columns in a spread sheet.  An example is <code class="docutils literal notranslate"><span class="pre">[(x,</span> <span class="pre">int),</span> <span class="pre">(y,</span> <span class="pre">float)]</span></code>,
@@ -112,67 +110,73 @@ of the array, using <code class="docutils literal notranslate"><span class="pre"
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
-<dt><strong>shape</strong> <span class="classifier-delimiter">:</span> <span class="classifier">tuple</span></dt>
-<dd><p class="first last">Shape of output array.</p>
-</dd>
-<dt><strong>dtype</strong> <span class="classifier-delimiter">:</span> <span class="classifier">data-type, optional</span></dt>
-<dd><p class="first last">The desired data-type.  By default, the data-type is determined
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>shape</strong> : tuple</p>
+<blockquote>
+<div><p>Shape of output array.</p>
+</div></blockquote>
+<p><strong>dtype</strong> : data-type, optional</p>
+<blockquote>
+<div><p>The desired data-type.  By default, the data-type is determined
 from <em class="xref py py-obj">formats</em>, <em class="xref py py-obj">names</em>, <em class="xref py py-obj">titles</em>, <em class="xref py py-obj">aligned</em> and <em class="xref py py-obj">byteorder</em>.</p>
-</dd>
-<dt><strong>formats</strong> <span class="classifier-delimiter">:</span> <span class="classifier">list of data-types, optional</span></dt>
-<dd><p class="first last">A list containing the data-types for the different columns, e.g.
+</div></blockquote>
+<p><strong>formats</strong> : list of data-types, optional</p>
+<blockquote>
+<div><p>A list containing the data-types for the different columns, e.g.
 <code class="docutils literal notranslate"><span class="pre">['i4',</span> <span class="pre">'f8',</span> <span class="pre">'i4']</span></code>.  <em class="xref py py-obj">formats</em> does <em>not</em> support the new
 convention of using types directly, i.e. <code class="docutils literal notranslate"><span class="pre">(int,</span> <span class="pre">float,</span> <span class="pre">int)</span></code>.
 Note that <em class="xref py py-obj">formats</em> must be a list, not a tuple.
 Given that <em class="xref py py-obj">formats</em> is somewhat limited, we recommend specifying
 <a class="reference internal" href="numpy.dtype.html#numpy.dtype" title="numpy.dtype"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dtype</span></code></a> instead.</p>
-</dd>
-<dt><strong>names</strong> <span class="classifier-delimiter">:</span> <span class="classifier">tuple of str, optional</span></dt>
-<dd><p class="first last">The name of each column, e.g. <code class="docutils literal notranslate"><span class="pre">('x',</span> <span class="pre">'y',</span> <span class="pre">'z')</span></code>.</p>
-</dd>
-<dt><strong>buf</strong> <span class="classifier-delimiter">:</span> <span class="classifier">buffer, optional</span></dt>
-<dd><p class="first last">By default, a new array is created of the given shape and data-type.
+</div></blockquote>
+<p><strong>names</strong> : tuple of str, optional</p>
+<blockquote>
+<div><p>The name of each column, e.g. <code class="docutils literal notranslate"><span class="pre">('x',</span> <span class="pre">'y',</span> <span class="pre">'z')</span></code>.</p>
+</div></blockquote>
+<p><strong>buf</strong> : buffer, optional</p>
+<blockquote>
+<div><p>By default, a new array is created of the given shape and data-type.
 If <em class="xref py py-obj">buf</em> is specified and is an object exposing the buffer interface,
 the array will use the memory from the existing buffer.  In this case,
 the <em class="xref py py-obj">offset</em> and <a class="reference internal" href="numpy.recarray.strides.html#numpy.recarray.strides" title="numpy.recarray.strides"><code class="xref py py-obj docutils literal notranslate"><span class="pre">strides</span></code></a> keywords are available.</p>
-</dd>
-</dl>
+</div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first docutils">
-<dt><strong>rec</strong> <span class="classifier-delimiter">:</span> <span class="classifier">recarray</span></dt>
-<dd><p class="first last">Empty array of the given shape and type.</p>
-</dd>
-</dl>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>rec</strong> : recarray</p>
+<blockquote>
+<div><p>Empty array of the given shape and type.</p>
+</div></blockquote>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name" colspan="2">Other Parameters:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body"><dl class="first last docutils">
-<dt><strong>titles</strong> <span class="classifier-delimiter">:</span> <span class="classifier">tuple of str, optional</span></dt>
-<dd><p class="first last">Aliases for column names.  For example, if <em class="xref py py-obj">names</em> were
+<tr class="field-odd field"><td>&#160;</td><td class="field-body"><p class="first"><strong>titles</strong> : tuple of str, optional</p>
+<blockquote>
+<div><p>Aliases for column names.  For example, if <em class="xref py py-obj">names</em> were
 <code class="docutils literal notranslate"><span class="pre">('x',</span> <span class="pre">'y',</span> <span class="pre">'z')</span></code> and <em class="xref py py-obj">titles</em> is
 <code class="docutils literal notranslate"><span class="pre">('x_coordinate',</span> <span class="pre">'y_coordinate',</span> <span class="pre">'z_coordinate')</span></code>, then
 <code class="docutils literal notranslate"><span class="pre">arr['x']</span></code> is equivalent to both <code class="docutils literal notranslate"><span class="pre">arr.x</span></code> and <code class="docutils literal notranslate"><span class="pre">arr.x_coordinate</span></code>.</p>
-</dd>
-<dt><strong>byteorder</strong> <span class="classifier-delimiter">:</span> <span class="classifier">{‘&lt;’, ‘&gt;’, ‘=’}, optional</span></dt>
-<dd><p class="first last">Byte-order for all fields.</p>
-</dd>
-<dt><strong>aligned</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool, optional</span></dt>
-<dd><p class="first last">Align the fields in memory as the C-compiler would.</p>
-</dd>
-<dt><strong>strides</strong> <span class="classifier-delimiter">:</span> <span class="classifier">tuple of ints, optional</span></dt>
-<dd><p class="first last">Buffer (<em class="xref py py-obj">buf</em>) is interpreted according to these strides (strides
+</div></blockquote>
+<p><strong>byteorder</strong> : {‘&lt;’, ‘&gt;’, ‘=’}, optional</p>
+<blockquote>
+<div><p>Byte-order for all fields.</p>
+</div></blockquote>
+<p><strong>aligned</strong> : bool, optional</p>
+<blockquote>
+<div><p>Align the fields in memory as the C-compiler would.</p>
+</div></blockquote>
+<p><strong>strides</strong> : tuple of ints, optional</p>
+<blockquote>
+<div><p>Buffer (<em class="xref py py-obj">buf</em>) is interpreted according to these strides (strides
 define how many bytes each array element, row, column, etc.
 occupy in memory).</p>
-</dd>
-<dt><strong>offset</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int, optional</span></dt>
-<dd><p class="first last">Start reading buffer (<em class="xref py py-obj">buf</em>) from this offset onwards.</p>
-</dd>
-<dt><strong>order</strong> <span class="classifier-delimiter">:</span> <span class="classifier">{‘C’, ‘F’}, optional</span></dt>
-<dd><p class="first last">Row-major (C-style) or column-major (Fortran-style) order.</p>
-</dd>
-</dl>
+</div></blockquote>
+<p><strong>offset</strong> : int, optional</p>
+<blockquote>
+<div><p>Start reading buffer (<em class="xref py py-obj">buf</em>) from this offset onwards.</p>
+</div></blockquote>
+<p><strong>order</strong> : {‘C’, ‘F’}, optional</p>
+<blockquote class="last">
+<div><p>Row-major (C-style) or column-major (Fortran-style) order.</p>
+</div></blockquote>
 </td>
 </tr>
 </tbody>
@@ -224,64 +228,63 @@ using <code class="docutils literal notranslate"><span class="pre">arr.view(np.r
 </div>
 <p>Create a new, empty record array:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">recarray</span><span class="p">((</span><span class="mi">2</span><span class="p">,),</span>
-<span class="gp">... </span><span class="n">dtype</span><span class="o">=</span><span class="p">[(</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="nb">int</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="nb">float</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;z&#39;</span><span class="p">,</span> <span class="nb">int</span><span class="p">)])</span> <span class="c1">#doctest: +SKIP</span>
+<span class="gp">... </span><span class="n">dtype</span><span class="o">=</span><span class="p">[(</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="nb">int</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="nb">float</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;z&#39;</span><span class="p">,</span> <span class="nb">int</span><span class="p">)])</span> 
 <span class="go">rec.array([(-1073741821, 1.2249118382103472e-301, 24547520),</span>
 <span class="go">       (3471280, 1.2134086255804012e-316, 0)],</span>
 <span class="go">      dtype=[(&#39;x&#39;, &#39;&lt;i4&#39;), (&#39;y&#39;, &#39;&lt;f8&#39;), (&#39;z&#39;, &#39;&lt;i4&#39;)])</span>
 </pre></div>
 </div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
+<p class="rubric">Attributes</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Attributes:</th><td class="field-body"><dl class="first last docutils">
-<dt><a class="reference internal" href="numpy.recarray.T.html#numpy.recarray.T" title="numpy.recarray.T"><code class="xref py py-obj docutils literal notranslate"><span class="pre">T</span></code></a></dt>
-<dd><p class="first last">Same as self.transpose(), except that self is returned if self.ndim &lt; 2.</p>
-</dd>
-<dt><a class="reference internal" href="numpy.recarray.base.html#numpy.recarray.base" title="numpy.recarray.base"><code class="xref py py-obj docutils literal notranslate"><span class="pre">base</span></code></a></dt>
-<dd><p class="first last">Base object if memory is from some other object.</p>
-</dd>
-<dt><a class="reference internal" href="numpy.recarray.ctypes.html#numpy.recarray.ctypes" title="numpy.recarray.ctypes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ctypes</span></code></a></dt>
-<dd><p class="first last">An object to simplify the interaction of the array with the ctypes module.</p>
-</dd>
-<dt><a class="reference internal" href="numpy.recarray.data.html#numpy.recarray.data" title="numpy.recarray.data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">data</span></code></a></dt>
-<dd><p class="first last">Python buffer object pointing to the start of the array’s data.</p>
-</dd>
-<dt><a class="reference internal" href="numpy.dtype.html#numpy.dtype" title="numpy.dtype"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dtype</span></code></a></dt>
-<dd><p class="first last">Data-type of the array’s elements.</p>
-</dd>
-<dt><a class="reference internal" href="numpy.recarray.flags.html#numpy.recarray.flags" title="numpy.recarray.flags"><code class="xref py py-obj docutils literal notranslate"><span class="pre">flags</span></code></a></dt>
-<dd><p class="first last">Information about the memory layout of the array.</p>
-</dd>
-<dt><a class="reference internal" href="numpy.recarray.flat.html#numpy.recarray.flat" title="numpy.recarray.flat"><code class="xref py py-obj docutils literal notranslate"><span class="pre">flat</span></code></a></dt>
-<dd><p class="first last">A 1-D iterator over the array.</p>
-</dd>
-<dt><a class="reference internal" href="numpy.imag.html#numpy.imag" title="numpy.imag"><code class="xref py py-obj docutils literal notranslate"><span class="pre">imag</span></code></a></dt>
-<dd><p class="first last">The imaginary part of the array.</p>
-</dd>
-<dt><a class="reference internal" href="numpy.recarray.itemsize.html#numpy.recarray.itemsize" title="numpy.recarray.itemsize"><code class="xref py py-obj docutils literal notranslate"><span class="pre">itemsize</span></code></a></dt>
-<dd><p class="first last">Length of one array element in bytes.</p>
-</dd>
-<dt><a class="reference internal" href="numpy.recarray.nbytes.html#numpy.recarray.nbytes" title="numpy.recarray.nbytes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">nbytes</span></code></a></dt>
-<dd><p class="first last">Total bytes consumed by the elements of the array.</p>
-</dd>
-<dt><a class="reference internal" href="numpy.recarray.ndim.html#numpy.recarray.ndim" title="numpy.recarray.ndim"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ndim</span></code></a></dt>
-<dd><p class="first last">Number of array dimensions.</p>
-</dd>
-<dt><a class="reference internal" href="numpy.real.html#numpy.real" title="numpy.real"><code class="xref py py-obj docutils literal notranslate"><span class="pre">real</span></code></a></dt>
-<dd><p class="first last">The real part of the array.</p>
-</dd>
-<dt><a class="reference internal" href="numpy.recarray.shape.html#numpy.recarray.shape" title="numpy.recarray.shape"><code class="xref py py-obj docutils literal notranslate"><span class="pre">shape</span></code></a></dt>
-<dd><p class="first last">Tuple of array dimensions.</p>
-</dd>
-<dt><a class="reference internal" href="numpy.recarray.size.html#numpy.recarray.size" title="numpy.recarray.size"><code class="xref py py-obj docutils literal notranslate"><span class="pre">size</span></code></a></dt>
-<dd><p class="first last">Number of elements in the array.</p>
-</dd>
-<dt><a class="reference internal" href="numpy.recarray.strides.html#numpy.recarray.strides" title="numpy.recarray.strides"><code class="xref py py-obj docutils literal notranslate"><span class="pre">strides</span></code></a></dt>
-<dd><p class="first last">Tuple of bytes to step in each dimension when traversing an array.</p>
-</dd>
-</dl>
-</td>
+<tr class="row-odd"><td><a class="reference internal" href="numpy.recarray.T.html#numpy.recarray.T" title="numpy.recarray.T"><code class="xref py py-obj docutils literal notranslate"><span class="pre">T</span></code></a></td>
+<td>Same as self.transpose(), except that self is returned if self.ndim &lt; 2.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="numpy.recarray.base.html#numpy.recarray.base" title="numpy.recarray.base"><code class="xref py py-obj docutils literal notranslate"><span class="pre">base</span></code></a></td>
+<td>Base object if memory is from some other object.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="numpy.recarray.ctypes.html#numpy.recarray.ctypes" title="numpy.recarray.ctypes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ctypes</span></code></a></td>
+<td>An object to simplify the interaction of the array with the ctypes module.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="numpy.recarray.data.html#numpy.recarray.data" title="numpy.recarray.data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">data</span></code></a></td>
+<td>Python buffer object pointing to the start of the array’s data.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="numpy.recarray.dtype.html#numpy.recarray.dtype" title="numpy.recarray.dtype"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dtype</span></code></a></td>
+<td>Data-type of the array’s elements.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="numpy.recarray.flags.html#numpy.recarray.flags" title="numpy.recarray.flags"><code class="xref py py-obj docutils literal notranslate"><span class="pre">flags</span></code></a></td>
+<td>Information about the memory layout of the array.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="numpy.recarray.flat.html#numpy.recarray.flat" title="numpy.recarray.flat"><code class="xref py py-obj docutils literal notranslate"><span class="pre">flat</span></code></a></td>
+<td>A 1-D iterator over the array.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="numpy.recarray.imag.html#numpy.recarray.imag" title="numpy.recarray.imag"><code class="xref py py-obj docutils literal notranslate"><span class="pre">imag</span></code></a></td>
+<td>The imaginary part of the array.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="numpy.recarray.itemsize.html#numpy.recarray.itemsize" title="numpy.recarray.itemsize"><code class="xref py py-obj docutils literal notranslate"><span class="pre">itemsize</span></code></a></td>
+<td>Length of one array element in bytes.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="numpy.recarray.nbytes.html#numpy.recarray.nbytes" title="numpy.recarray.nbytes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">nbytes</span></code></a></td>
+<td>Total bytes consumed by the elements of the array.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="numpy.recarray.ndim.html#numpy.recarray.ndim" title="numpy.recarray.ndim"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ndim</span></code></a></td>
+<td>Number of array dimensions.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="numpy.recarray.real.html#numpy.recarray.real" title="numpy.recarray.real"><code class="xref py py-obj docutils literal notranslate"><span class="pre">real</span></code></a></td>
+<td>The real part of the array.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="numpy.recarray.shape.html#numpy.recarray.shape" title="numpy.recarray.shape"><code class="xref py py-obj docutils literal notranslate"><span class="pre">shape</span></code></a></td>
+<td>Tuple of array dimensions.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="numpy.recarray.size.html#numpy.recarray.size" title="numpy.recarray.size"><code class="xref py py-obj docutils literal notranslate"><span class="pre">size</span></code></a></td>
+<td>Number of elements in the array.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="numpy.recarray.strides.html#numpy.recarray.strides" title="numpy.recarray.strides"><code class="xref py py-obj docutils literal notranslate"><span class="pre">strides</span></code></a></td>
+<td>Tuple of bytes to step in each dimension when traversing an array.</td>
 </tr>
 </tbody>
 </table>
@@ -352,124 +355,116 @@ using <code class="docutils literal notranslate"><span class="pre">arr.view(np.r
 <tr class="row-even"><td><a class="reference internal" href="numpy.recarray.dumps.html#numpy.recarray.dumps" title="numpy.recarray.dumps"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dumps</span></code></a>()</td>
 <td>Returns the pickle of the array as a string.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="numpy.recarray.fill.html#numpy.recarray.fill" title="numpy.recarray.fill"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fill</span></code></a>(value)</td>
+<tr class="row-odd"><td><a class="reference internal" href="numpy.recarray.field.html#numpy.recarray.field" title="numpy.recarray.field"><code class="xref py py-obj docutils literal notranslate"><span class="pre">field</span></code></a>(attr[,&nbsp;val])</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="numpy.recarray.fill.html#numpy.recarray.fill" title="numpy.recarray.fill"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fill</span></code></a>(value)</td>
 <td>Fill the array with a scalar value.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="numpy.recarray.flatten.html#numpy.recarray.flatten" title="numpy.recarray.flatten"><code class="xref py py-obj docutils literal notranslate"><span class="pre">flatten</span></code></a>([order])</td>
+<tr class="row-odd"><td><a class="reference internal" href="numpy.recarray.flatten.html#numpy.recarray.flatten" title="numpy.recarray.flatten"><code class="xref py py-obj docutils literal notranslate"><span class="pre">flatten</span></code></a>([order])</td>
 <td>Return a copy of the array collapsed into one dimension.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="numpy.recarray.getfield.html#numpy.recarray.getfield" title="numpy.recarray.getfield"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getfield</span></code></a>(dtype[,&nbsp;offset])</td>
+<tr class="row-even"><td><a class="reference internal" href="numpy.recarray.getfield.html#numpy.recarray.getfield" title="numpy.recarray.getfield"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getfield</span></code></a>(dtype[,&nbsp;offset])</td>
 <td>Returns a field of the given array as a certain type.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="numpy.recarray.item.html#numpy.recarray.item" title="numpy.recarray.item"><code class="xref py py-obj docutils literal notranslate"><span class="pre">item</span></code></a>(*args)</td>
+<tr class="row-odd"><td><a class="reference internal" href="numpy.recarray.item.html#numpy.recarray.item" title="numpy.recarray.item"><code class="xref py py-obj docutils literal notranslate"><span class="pre">item</span></code></a>(*args)</td>
 <td>Copy an element of an array to a standard Python scalar and return it.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="numpy.recarray.itemset.html#numpy.recarray.itemset" title="numpy.recarray.itemset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">itemset</span></code></a>(*args)</td>
+<tr class="row-even"><td><a class="reference internal" href="numpy.recarray.itemset.html#numpy.recarray.itemset" title="numpy.recarray.itemset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">itemset</span></code></a>(*args)</td>
 <td>Insert scalar into an array (scalar is cast to array’s dtype, if possible)</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="numpy.recarray.max.html#numpy.recarray.max" title="numpy.recarray.max"><code class="xref py py-obj docutils literal notranslate"><span class="pre">max</span></code></a>([axis,&nbsp;out,&nbsp;keepdims])</td>
+<tr class="row-odd"><td><a class="reference internal" href="numpy.recarray.max.html#numpy.recarray.max" title="numpy.recarray.max"><code class="xref py py-obj docutils literal notranslate"><span class="pre">max</span></code></a>([axis,&nbsp;out,&nbsp;keepdims])</td>
 <td>Return the maximum along a given axis.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="numpy.recarray.mean.html#numpy.recarray.mean" title="numpy.recarray.mean"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mean</span></code></a>([axis,&nbsp;dtype,&nbsp;out,&nbsp;keepdims])</td>
+<tr class="row-even"><td><a class="reference internal" href="numpy.recarray.mean.html#numpy.recarray.mean" title="numpy.recarray.mean"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mean</span></code></a>([axis,&nbsp;dtype,&nbsp;out,&nbsp;keepdims])</td>
 <td>Returns the average of the array elements along given axis.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="numpy.recarray.min.html#numpy.recarray.min" title="numpy.recarray.min"><code class="xref py py-obj docutils literal notranslate"><span class="pre">min</span></code></a>([axis,&nbsp;out,&nbsp;keepdims])</td>
+<tr class="row-odd"><td><a class="reference internal" href="numpy.recarray.min.html#numpy.recarray.min" title="numpy.recarray.min"><code class="xref py py-obj docutils literal notranslate"><span class="pre">min</span></code></a>([axis,&nbsp;out,&nbsp;keepdims])</td>
 <td>Return the minimum along a given axis.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="numpy.recarray.newbyteorder.html#numpy.recarray.newbyteorder" title="numpy.recarray.newbyteorder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">newbyteorder</span></code></a>([new_order])</td>
+<tr class="row-even"><td><a class="reference internal" href="numpy.recarray.newbyteorder.html#numpy.recarray.newbyteorder" title="numpy.recarray.newbyteorder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">newbyteorder</span></code></a>([new_order])</td>
 <td>Return the array with the same data viewed with a different byte order.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="numpy.recarray.nonzero.html#numpy.recarray.nonzero" title="numpy.recarray.nonzero"><code class="xref py py-obj docutils literal notranslate"><span class="pre">nonzero</span></code></a>()</td>
+<tr class="row-odd"><td><a class="reference internal" href="numpy.recarray.nonzero.html#numpy.recarray.nonzero" title="numpy.recarray.nonzero"><code class="xref py py-obj docutils literal notranslate"><span class="pre">nonzero</span></code></a>()</td>
 <td>Return the indices of the elements that are non-zero.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="numpy.recarray.partition.html#numpy.recarray.partition" title="numpy.recarray.partition"><code class="xref py py-obj docutils literal notranslate"><span class="pre">partition</span></code></a>(kth[,&nbsp;axis,&nbsp;kind,&nbsp;order])</td>
+<tr class="row-even"><td><a class="reference internal" href="numpy.recarray.partition.html#numpy.recarray.partition" title="numpy.recarray.partition"><code class="xref py py-obj docutils literal notranslate"><span class="pre">partition</span></code></a>(kth[,&nbsp;axis,&nbsp;kind,&nbsp;order])</td>
 <td>Rearranges the elements in the array in such a way that value of the element in kth position is in the position it would be in a sorted array.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="numpy.recarray.prod.html#numpy.recarray.prod" title="numpy.recarray.prod"><code class="xref py py-obj docutils literal notranslate"><span class="pre">prod</span></code></a>([axis,&nbsp;dtype,&nbsp;out,&nbsp;keepdims])</td>
+<tr class="row-odd"><td><a class="reference internal" href="numpy.recarray.prod.html#numpy.recarray.prod" title="numpy.recarray.prod"><code class="xref py py-obj docutils literal notranslate"><span class="pre">prod</span></code></a>([axis,&nbsp;dtype,&nbsp;out,&nbsp;keepdims])</td>
 <td>Return the product of the array elements over the given axis</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="numpy.recarray.ptp.html#numpy.recarray.ptp" title="numpy.recarray.ptp"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ptp</span></code></a>([axis,&nbsp;out])</td>
+<tr class="row-even"><td><a class="reference internal" href="numpy.recarray.ptp.html#numpy.recarray.ptp" title="numpy.recarray.ptp"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ptp</span></code></a>([axis,&nbsp;out])</td>
 <td>Peak to peak (maximum - minimum) value along a given axis.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="numpy.recarray.put.html#numpy.recarray.put" title="numpy.recarray.put"><code class="xref py py-obj docutils literal notranslate"><span class="pre">put</span></code></a>(indices,&nbsp;values[,&nbsp;mode])</td>
+<tr class="row-odd"><td><a class="reference internal" href="numpy.recarray.put.html#numpy.recarray.put" title="numpy.recarray.put"><code class="xref py py-obj docutils literal notranslate"><span class="pre">put</span></code></a>(indices,&nbsp;values[,&nbsp;mode])</td>
 <td>Set <code class="docutils literal notranslate"><span class="pre">a.flat[n]</span> <span class="pre">=</span> <span class="pre">values[n]</span></code> for all <em class="xref py py-obj">n</em> in indices.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="numpy.recarray.ravel.html#numpy.recarray.ravel" title="numpy.recarray.ravel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ravel</span></code></a>([order])</td>
+<tr class="row-even"><td><a class="reference internal" href="numpy.recarray.ravel.html#numpy.recarray.ravel" title="numpy.recarray.ravel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ravel</span></code></a>([order])</td>
 <td>Return a flattened array.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="numpy.recarray.repeat.html#numpy.recarray.repeat" title="numpy.recarray.repeat"><code class="xref py py-obj docutils literal notranslate"><span class="pre">repeat</span></code></a>(repeats[,&nbsp;axis])</td>
+<tr class="row-odd"><td><a class="reference internal" href="numpy.recarray.repeat.html#numpy.recarray.repeat" title="numpy.recarray.repeat"><code class="xref py py-obj docutils literal notranslate"><span class="pre">repeat</span></code></a>(repeats[,&nbsp;axis])</td>
 <td>Repeat elements of an array.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="numpy.recarray.reshape.html#numpy.recarray.reshape" title="numpy.recarray.reshape"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reshape</span></code></a>(shape[,&nbsp;order])</td>
+<tr class="row-even"><td><a class="reference internal" href="numpy.recarray.reshape.html#numpy.recarray.reshape" title="numpy.recarray.reshape"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reshape</span></code></a>(shape[,&nbsp;order])</td>
 <td>Returns an array containing the same data with a new shape.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="numpy.recarray.resize.html#numpy.recarray.resize" title="numpy.recarray.resize"><code class="xref py py-obj docutils literal notranslate"><span class="pre">resize</span></code></a>(new_shape[,&nbsp;refcheck])</td>
+<tr class="row-odd"><td><a class="reference internal" href="numpy.recarray.resize.html#numpy.recarray.resize" title="numpy.recarray.resize"><code class="xref py py-obj docutils literal notranslate"><span class="pre">resize</span></code></a>(new_shape[,&nbsp;refcheck])</td>
 <td>Change shape and size of array in-place.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="numpy.recarray.round.html#numpy.recarray.round" title="numpy.recarray.round"><code class="xref py py-obj docutils literal notranslate"><span class="pre">round</span></code></a>([decimals,&nbsp;out])</td>
+<tr class="row-even"><td><a class="reference internal" href="numpy.recarray.round.html#numpy.recarray.round" title="numpy.recarray.round"><code class="xref py py-obj docutils literal notranslate"><span class="pre">round</span></code></a>([decimals,&nbsp;out])</td>
 <td>Return <em class="xref py py-obj">a</em> with each element rounded to the given number of decimals.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="numpy.recarray.searchsorted.html#numpy.recarray.searchsorted" title="numpy.recarray.searchsorted"><code class="xref py py-obj docutils literal notranslate"><span class="pre">searchsorted</span></code></a>(v[,&nbsp;side,&nbsp;sorter])</td>
+<tr class="row-odd"><td><a class="reference internal" href="numpy.recarray.searchsorted.html#numpy.recarray.searchsorted" title="numpy.recarray.searchsorted"><code class="xref py py-obj docutils literal notranslate"><span class="pre">searchsorted</span></code></a>(v[,&nbsp;side,&nbsp;sorter])</td>
 <td>Find indices where elements of v should be inserted in a to maintain order.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="numpy.recarray.setfield.html#numpy.recarray.setfield" title="numpy.recarray.setfield"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setfield</span></code></a>(val,&nbsp;dtype[,&nbsp;offset])</td>
+<tr class="row-even"><td><a class="reference internal" href="numpy.recarray.setfield.html#numpy.recarray.setfield" title="numpy.recarray.setfield"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setfield</span></code></a>(val,&nbsp;dtype[,&nbsp;offset])</td>
 <td>Put a value into a specified place in a field defined by a data-type.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="numpy.recarray.setflags.html#numpy.recarray.setflags" title="numpy.recarray.setflags"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setflags</span></code></a>([write,&nbsp;align,&nbsp;uic])</td>
+<tr class="row-odd"><td><a class="reference internal" href="numpy.recarray.setflags.html#numpy.recarray.setflags" title="numpy.recarray.setflags"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setflags</span></code></a>([write,&nbsp;align,&nbsp;uic])</td>
 <td>Set array flags WRITEABLE, ALIGNED, (WRITEBACKIFCOPY and UPDATEIFCOPY), respectively.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="numpy.recarray.sort.html#numpy.recarray.sort" title="numpy.recarray.sort"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sort</span></code></a>([axis,&nbsp;kind,&nbsp;order])</td>
+<tr class="row-even"><td><a class="reference internal" href="numpy.recarray.sort.html#numpy.recarray.sort" title="numpy.recarray.sort"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sort</span></code></a>([axis,&nbsp;kind,&nbsp;order])</td>
 <td>Sort an array, in-place.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="numpy.recarray.squeeze.html#numpy.recarray.squeeze" title="numpy.recarray.squeeze"><code class="xref py py-obj docutils literal notranslate"><span class="pre">squeeze</span></code></a>([axis])</td>
+<tr class="row-odd"><td><a class="reference internal" href="numpy.recarray.squeeze.html#numpy.recarray.squeeze" title="numpy.recarray.squeeze"><code class="xref py py-obj docutils literal notranslate"><span class="pre">squeeze</span></code></a>([axis])</td>
 <td>Remove single-dimensional entries from the shape of <em class="xref py py-obj">a</em>.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="numpy.recarray.std.html#numpy.recarray.std" title="numpy.recarray.std"><code class="xref py py-obj docutils literal notranslate"><span class="pre">std</span></code></a>([axis,&nbsp;dtype,&nbsp;out,&nbsp;ddof,&nbsp;keepdims])</td>
+<tr class="row-even"><td><a class="reference internal" href="numpy.recarray.std.html#numpy.recarray.std" title="numpy.recarray.std"><code class="xref py py-obj docutils literal notranslate"><span class="pre">std</span></code></a>([axis,&nbsp;dtype,&nbsp;out,&nbsp;ddof,&nbsp;keepdims])</td>
 <td>Returns the standard deviation of the array elements along given axis.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="numpy.recarray.sum.html#numpy.recarray.sum" title="numpy.recarray.sum"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sum</span></code></a>([axis,&nbsp;dtype,&nbsp;out,&nbsp;keepdims])</td>
+<tr class="row-odd"><td><a class="reference internal" href="numpy.recarray.sum.html#numpy.recarray.sum" title="numpy.recarray.sum"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sum</span></code></a>([axis,&nbsp;dtype,&nbsp;out,&nbsp;keepdims])</td>
 <td>Return the sum of the array elements over the given axis.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="numpy.recarray.swapaxes.html#numpy.recarray.swapaxes" title="numpy.recarray.swapaxes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">swapaxes</span></code></a>(axis1,&nbsp;axis2)</td>
+<tr class="row-even"><td><a class="reference internal" href="numpy.recarray.swapaxes.html#numpy.recarray.swapaxes" title="numpy.recarray.swapaxes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">swapaxes</span></code></a>(axis1,&nbsp;axis2)</td>
 <td>Return a view of the array with <em class="xref py py-obj">axis1</em> and <em class="xref py py-obj">axis2</em> interchanged.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="numpy.recarray.take.html#numpy.recarray.take" title="numpy.recarray.take"><code class="xref py py-obj docutils literal notranslate"><span class="pre">take</span></code></a>(indices[,&nbsp;axis,&nbsp;out,&nbsp;mode])</td>
+<tr class="row-odd"><td><a class="reference internal" href="numpy.recarray.take.html#numpy.recarray.take" title="numpy.recarray.take"><code class="xref py py-obj docutils literal notranslate"><span class="pre">take</span></code></a>(indices[,&nbsp;axis,&nbsp;out,&nbsp;mode])</td>
 <td>Return an array formed from the elements of <em class="xref py py-obj">a</em> at the given indices.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="numpy.recarray.tobytes.html#numpy.recarray.tobytes" title="numpy.recarray.tobytes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tobytes</span></code></a>([order])</td>
+<tr class="row-even"><td><a class="reference internal" href="numpy.recarray.tobytes.html#numpy.recarray.tobytes" title="numpy.recarray.tobytes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tobytes</span></code></a>([order])</td>
 <td>Construct Python bytes containing the raw data bytes in the array.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="numpy.recarray.tofile.html#numpy.recarray.tofile" title="numpy.recarray.tofile"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tofile</span></code></a>(fid[,&nbsp;sep,&nbsp;format])</td>
+<tr class="row-odd"><td><a class="reference internal" href="numpy.recarray.tofile.html#numpy.recarray.tofile" title="numpy.recarray.tofile"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tofile</span></code></a>(fid[,&nbsp;sep,&nbsp;format])</td>
 <td>Write array to a file as text or binary (default).</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="numpy.recarray.tolist.html#numpy.recarray.tolist" title="numpy.recarray.tolist"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tolist</span></code></a>()</td>
+<tr class="row-even"><td><a class="reference internal" href="numpy.recarray.tolist.html#numpy.recarray.tolist" title="numpy.recarray.tolist"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tolist</span></code></a>()</td>
 <td>Return the array as a (possibly nested) list.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="numpy.recarray.tostring.html#numpy.recarray.tostring" title="numpy.recarray.tostring"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tostring</span></code></a>([order])</td>
+<tr class="row-odd"><td><a class="reference internal" href="numpy.recarray.tostring.html#numpy.recarray.tostring" title="numpy.recarray.tostring"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tostring</span></code></a>([order])</td>
 <td>Construct Python bytes containing the raw data bytes in the array.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="numpy.recarray.trace.html#numpy.recarray.trace" title="numpy.recarray.trace"><code class="xref py py-obj docutils literal notranslate"><span class="pre">trace</span></code></a>([offset,&nbsp;axis1,&nbsp;axis2,&nbsp;dtype,&nbsp;out])</td>
+<tr class="row-even"><td><a class="reference internal" href="numpy.recarray.trace.html#numpy.recarray.trace" title="numpy.recarray.trace"><code class="xref py py-obj docutils literal notranslate"><span class="pre">trace</span></code></a>([offset,&nbsp;axis1,&nbsp;axis2,&nbsp;dtype,&nbsp;out])</td>
 <td>Return the sum along diagonals of the array.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="numpy.recarray.transpose.html#numpy.recarray.transpose" title="numpy.recarray.transpose"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transpose</span></code></a>(*axes)</td>
+<tr class="row-odd"><td><a class="reference internal" href="numpy.recarray.transpose.html#numpy.recarray.transpose" title="numpy.recarray.transpose"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transpose</span></code></a>(*axes)</td>
 <td>Returns a view of the array with axes transposed.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="numpy.recarray.var.html#numpy.recarray.var" title="numpy.recarray.var"><code class="xref py py-obj docutils literal notranslate"><span class="pre">var</span></code></a>([axis,&nbsp;dtype,&nbsp;out,&nbsp;ddof,&nbsp;keepdims])</td>
+<tr class="row-even"><td><a class="reference internal" href="numpy.recarray.var.html#numpy.recarray.var" title="numpy.recarray.var"><code class="xref py py-obj docutils literal notranslate"><span class="pre">var</span></code></a>([axis,&nbsp;dtype,&nbsp;out,&nbsp;ddof,&nbsp;keepdims])</td>
 <td>Returns the variance of the array elements, along given axis.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="numpy.recarray.view.html#numpy.recarray.view" title="numpy.recarray.view"><code class="xref py py-obj docutils literal notranslate"><span class="pre">view</span></code></a>([dtype,&nbsp;type])</td>
+<tr class="row-odd"><td><a class="reference internal" href="numpy.recarray.view.html#numpy.recarray.view" title="numpy.recarray.view"><code class="xref py py-obj docutils literal notranslate"><span class="pre">view</span></code></a>([dtype,&nbsp;type])</td>
 <td>New view of array with the same data.</td>
-</tr>
-</tbody>
-</table>
-<table border="1" class="docutils">
-<colgroup>
-<col width="47%" />
-<col width="53%" />
-</colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td><strong>field</strong></td>
-<td>&#160;</td>
 </tr>
 </tbody>
 </table>
@@ -498,10 +493,10 @@ using <code class="docutils literal notranslate"><span class="pre">arr.view(np.r
         &copy; Copyright 2008-2017, The SciPy community.
       </li>
       <li>
-      Last updated on Jul 06, 2019.
+      Last updated on Jun 12, 2018.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.5.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.7.2.
       </li>
     </ul>
     </div>

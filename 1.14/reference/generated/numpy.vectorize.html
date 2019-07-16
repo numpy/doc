@@ -4,18 +4,17 @@
   <head>
     <meta charset="utf-8">
     
-    <title>numpy.vectorize &mdash; NumPy v1.14.dev0 Manual</title>
+    <title>numpy.vectorize &mdash; NumPy v1.14 Manual</title>
     
     <link rel="stylesheet" type="text/css" href="../../_static/css/spc-bootstrap.css">
     <link rel="stylesheet" type="text/css" href="../../_static/css/spc-extend.css">
     <link rel="stylesheet" href="../../_static/scipy.css" type="text/css" >
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" >
-    <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" >
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '1.14.7.dev0+7175dec',
+        VERSION:     '1.14.5',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  false
@@ -24,12 +23,11 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <script type="text/javascript" src="../../_static/language_data.js"></script>
     <script type="text/javascript" src="../../_static/js/copybutton.js"></script>
     <link rel="author" title="About these documents" href="../../about.html" >
     <link rel="index" title="Index" href="../../genindex.html" >
     <link rel="search" title="Search" href="../../search.html" >
-    <link rel="top" title="NumPy v1.14.dev0 Manual" href="../../index.html" >
+    <link rel="top" title="NumPy v1.14 Manual" href="../../index.html" >
     <link rel="up" title="Functional programming" href="../routines.functional.html" >
     <link rel="next" title="numpy.vectorize.__call__" href="numpy.vectorize.__call__.html" >
     <link rel="prev" title="numpy.apply_over_axes" href="numpy.apply_over_axes.html" > 
@@ -51,7 +49,7 @@
               
     <ul class="nav nav-pills pull-left">
         
-        <li class="active"><a href="../../index.html">NumPy v1.14.dev0 Manual</a></li>
+        <li class="active"><a href="../../index.html">NumPy v1.14 Manual</a></li>
         
 
           <li class="active"><a href="../index.html" >NumPy Reference</a></li>
@@ -100,7 +98,7 @@
 <h1>numpy.vectorize<a class="headerlink" href="#numpy-vectorize" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="numpy.vectorize">
-<em class="property">class </em><code class="descclassname">numpy.</code><code class="descname">vectorize</code><span class="sig-paren">(</span><em>pyfunc</em>, <em>otypes=None</em>, <em>doc=None</em>, <em>excluded=None</em>, <em>cache=False</em>, <em>signature=None</em><span class="sig-paren">)</span><a class="reference external" href="http://github.com/numpy/numpy/blob/master/numpy/lib/function_base.py#L2543-L2901"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#numpy.vectorize" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">numpy.</code><code class="descname">vectorize</code><span class="sig-paren">(</span><em>pyfunc</em>, <em>otypes=None</em>, <em>doc=None</em>, <em>excluded=None</em>, <em>cache=False</em>, <em>signature=None</em><span class="sig-paren">)</span><a class="reference external" href="http://github.com/numpy/numpy/blob/v1.14.5/numpy/lib/function_base.py#L2543-L2901"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#numpy.vectorize" title="Permalink to this definition">¶</a></dt>
 <dd><p>Generalized function class.</p>
 <p>Define a vectorized function which takes a nested sequence of objects or
 numpy arrays as inputs and returns an single or tuple of numpy array as
@@ -114,54 +112,57 @@ by specifying the <em class="xref py py-obj">otypes</em> argument.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
-<dt><strong>pyfunc</strong> <span class="classifier-delimiter">:</span> <span class="classifier">callable</span></dt>
-<dd><p class="first last">A python function or method.</p>
-</dd>
-<dt><strong>otypes</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str or list of dtypes, optional</span></dt>
-<dd><p class="first last">The output data type. It must be specified as either a string of
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>pyfunc</strong> : callable</p>
+<blockquote>
+<div><p>A python function or method.</p>
+</div></blockquote>
+<p><strong>otypes</strong> : str or list of dtypes, optional</p>
+<blockquote>
+<div><p>The output data type. It must be specified as either a string of
 typecode characters or a list of data type specifiers. There should
 be one data type specifier for each output.</p>
-</dd>
-<dt><strong>doc</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str, optional</span></dt>
-<dd><p class="first last">The docstring for the function. If <em class="xref py py-obj">None</em>, the docstring will be the
+</div></blockquote>
+<p><strong>doc</strong> : str, optional</p>
+<blockquote>
+<div><p>The docstring for the function. If <em class="xref py py-obj">None</em>, the docstring will be the
 <code class="docutils literal notranslate"><span class="pre">pyfunc.__doc__</span></code>.</p>
-</dd>
-<dt><strong>excluded</strong> <span class="classifier-delimiter">:</span> <span class="classifier">set, optional</span></dt>
-<dd><p class="first">Set of strings or integers representing the positional or keyword
+</div></blockquote>
+<p><strong>excluded</strong> : set, optional</p>
+<blockquote>
+<div><p>Set of strings or integers representing the positional or keyword
 arguments for which the function will not be vectorized.  These will be
 passed directly to <em class="xref py py-obj">pyfunc</em> unmodified.</p>
-<div class="last versionadded">
+<div class="versionadded">
 <p><span class="versionmodified">New in version 1.7.0.</span></p>
 </div>
-</dd>
-<dt><strong>cache</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool, optional</span></dt>
-<dd><p class="first">If <em class="xref py py-obj">True</em>, then cache the first function call that determines the number
+</div></blockquote>
+<p><strong>cache</strong> : bool, optional</p>
+<blockquote>
+<div><p>If <em class="xref py py-obj">True</em>, then cache the first function call that determines the number
 of outputs if <em class="xref py py-obj">otypes</em> is not provided.</p>
-<blockquote class="last">
+<blockquote>
 <div><div class="versionadded">
 <p><span class="versionmodified">New in version 1.7.0.</span></p>
 </div>
 </div></blockquote>
-</dd>
-<dt><strong>signature</strong> <span class="classifier-delimiter">:</span> <span class="classifier">string, optional</span></dt>
-<dd><p class="first">Generalized universal function signature, e.g., <code class="docutils literal notranslate"><span class="pre">(m,n),(n)-&gt;(m)</span></code> for
+</div></blockquote>
+<p><strong>signature</strong> : string, optional</p>
+<blockquote>
+<div><p>Generalized universal function signature, e.g., <code class="docutils literal notranslate"><span class="pre">(m,n),(n)-&gt;(m)</span></code> for
 vectorized matrix-vector multiplication. If provided, <code class="docutils literal notranslate"><span class="pre">pyfunc</span></code> will
 be called with (and expected to return) arrays with shapes given by the
 size of corresponding core dimensions. By default, <code class="docutils literal notranslate"><span class="pre">pyfunc</span></code> is
 assumed to take scalars as input and output.</p>
-<div class="last versionadded">
+<div class="versionadded">
 <p><span class="versionmodified">New in version 1.12.0.</span></p>
 </div>
-</dd>
-</dl>
+</div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>vectorized</strong> <span class="classifier-delimiter">:</span> <span class="classifier">callable</span></dt>
-<dd><p class="first last">Vectorized function.</p>
-</dd>
-</dl>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>vectorized</strong> : callable</p>
+<blockquote class="last">
+<div><p>Vectorized function.</p>
+</div></blockquote>
 </td>
 </tr>
 </tbody>
@@ -185,10 +186,10 @@ calls, so only do this if your function is expensive.</p>
 <p>The new keyword argument interface and <em class="xref py py-obj">excluded</em> argument support
 further degrades performance.</p>
 <p class="rubric">References</p>
-<table class="docutils citation" frame="void" id="r5cc1f1f25381-1" rules="none">
+<table class="docutils citation" frame="void" id="r297" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label">[R5cc1f1f25381-1]</td><td>NumPy Reference, section <a class="reference external" href="http://docs.scipy.org/doc/numpy/reference/c-api.generalized-ufuncs.html">Generalized Universal Function API</a>.</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#id1">[R297]</a></td><td>NumPy Reference, section <a class="reference external" href="http://docs.scipy.org/doc/numpy/reference/c-api.generalized-ufuncs.html">Generalized Universal Function API</a>.</td></tr>
 </tbody>
 </table>
 <p class="rubric">Examples</p>
@@ -271,7 +272,7 @@ vectorized calculation of Pearson correlation coefficient and its p-value:</p>
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="numpy.vectorize.__call__.html#numpy.vectorize.__call__" title="numpy.vectorize.__call__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__call__</span></code></a>(self,&nbsp;\*args,&nbsp;\*\*kwargs)</td>
+<tr class="row-odd"><td><a class="reference internal" href="numpy.vectorize.__call__.html#numpy.vectorize.__call__" title="numpy.vectorize.__call__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__call__</span></code></a>(*args,&nbsp;**kwargs)</td>
 <td>Return arrays with the results of <em class="xref py py-obj">pyfunc</em> broadcast (vectorized) over <em class="xref py py-obj">args</em> and <em class="xref py py-obj">kwargs</em> not in <em class="xref py py-obj">excluded</em>.</td>
 </tr>
 </tbody>
@@ -301,10 +302,10 @@ vectorized calculation of Pearson correlation coefficient and its p-value:</p>
         &copy; Copyright 2008-2017, The SciPy community.
       </li>
       <li>
-      Last updated on Jul 06, 2019.
+      Last updated on Jun 12, 2018.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.5.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.7.2.
       </li>
     </ul>
     </div>

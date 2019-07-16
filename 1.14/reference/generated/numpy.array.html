@@ -4,18 +4,17 @@
   <head>
     <meta charset="utf-8">
     
-    <title>numpy.array &mdash; NumPy v1.14.dev0 Manual</title>
+    <title>numpy.array &mdash; NumPy v1.14 Manual</title>
     
     <link rel="stylesheet" type="text/css" href="../../_static/css/spc-bootstrap.css">
     <link rel="stylesheet" type="text/css" href="../../_static/css/spc-extend.css">
     <link rel="stylesheet" href="../../_static/scipy.css" type="text/css" >
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" >
-    <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" >
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '1.14.7.dev0+7175dec',
+        VERSION:     '1.14.5',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  false
@@ -24,12 +23,11 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <script type="text/javascript" src="../../_static/language_data.js"></script>
     <script type="text/javascript" src="../../_static/js/copybutton.js"></script>
     <link rel="author" title="About these documents" href="../../about.html" >
     <link rel="index" title="Index" href="../../genindex.html" >
     <link rel="search" title="Search" href="../../search.html" >
-    <link rel="top" title="NumPy v1.14.dev0 Manual" href="../../index.html" >
+    <link rel="top" title="NumPy v1.14 Manual" href="../../index.html" >
     <link rel="up" title="Array creation routines" href="../routines.array-creation.html" >
     <link rel="next" title="numpy.asarray" href="numpy.asarray.html" >
     <link rel="prev" title="numpy.full_like" href="numpy.full_like.html" > 
@@ -51,7 +49,7 @@
               
     <ul class="nav nav-pills pull-left">
         
-        <li class="active"><a href="../../index.html">NumPy v1.14.dev0 Manual</a></li>
+        <li class="active"><a href="../../index.html">NumPy v1.14 Manual</a></li>
         
 
           <li class="active"><a href="../index.html" >NumPy Reference</a></li>
@@ -106,25 +104,28 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
-<dt><strong>object</strong> <span class="classifier-delimiter">:</span> <span class="classifier">array_like</span></dt>
-<dd><p class="first last">An array, any object exposing the array interface, an object whose
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>object</strong> : array_like</p>
+<blockquote>
+<div><p>An array, any object exposing the array interface, an object whose
 __array__ method returns an array, or any (nested) sequence.</p>
-</dd>
-<dt><strong>dtype</strong> <span class="classifier-delimiter">:</span> <span class="classifier">data-type, optional</span></dt>
-<dd><p class="first last">The desired data-type for the array.  If not given, then the type will
+</div></blockquote>
+<p><strong>dtype</strong> : data-type, optional</p>
+<blockquote>
+<div><p>The desired data-type for the array.  If not given, then the type will
 be determined as the minimum type required to hold the objects in the
 sequence.  This argument can only be used to ‘upcast’ the array.  For
 downcasting, use the .astype(t) method.</p>
-</dd>
-<dt><strong>copy</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool, optional</span></dt>
-<dd><p class="first last">If true (default), then the object is copied.  Otherwise, a copy will
+</div></blockquote>
+<p><strong>copy</strong> : bool, optional</p>
+<blockquote>
+<div><p>If true (default), then the object is copied.  Otherwise, a copy will
 only be made if __array__ returns a copy, if obj is a nested sequence,
 or if a copy is needed to satisfy any of the other requirements
 (<a class="reference internal" href="numpy.dtype.html#numpy.dtype" title="numpy.dtype"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dtype</span></code></a>, <em class="xref py py-obj">order</em>, etc.).</p>
-</dd>
-<dt><strong>order</strong> <span class="classifier-delimiter">:</span> <span class="classifier">{‘K’, ‘A’, ‘C’, ‘F’}, optional</span></dt>
-<dd><p class="first">Specify the memory layout of the array. If object is not an array, the
+</div></blockquote>
+<p><strong>order</strong> : {‘K’, ‘A’, ‘C’, ‘F’}, optional</p>
+<blockquote>
+<div><p>Specify the memory layout of the array. If object is not an array, the
 newly created array will be in C order (row major) unless ‘F’ is
 specified, in which case it will be in Fortran order (column major).
 If object is an array the following holds.</p>
@@ -159,27 +160,27 @@ If object is an array the following holds.</p>
 </tr>
 </tbody>
 </table>
-<p class="last">When <code class="docutils literal notranslate"><span class="pre">copy=False</span></code> and a copy is made for other reasons, the result is
+<p>When <code class="docutils literal notranslate"><span class="pre">copy=False</span></code> and a copy is made for other reasons, the result is
 the same as if <code class="docutils literal notranslate"><span class="pre">copy=True</span></code>, with some exceptions for <em class="xref py py-obj">A</em>, see the
 Notes section. The default order is ‘K’.</p>
-</dd>
-<dt><strong>subok</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool, optional</span></dt>
-<dd><p class="first last">If True, then sub-classes will be passed-through, otherwise
+</div></blockquote>
+<p><strong>subok</strong> : bool, optional</p>
+<blockquote>
+<div><p>If True, then sub-classes will be passed-through, otherwise
 the returned array will be forced to be a base-class array (default).</p>
-</dd>
-<dt><strong>ndmin</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int, optional</span></dt>
-<dd><p class="first last">Specifies the minimum number of dimensions that the resulting
+</div></blockquote>
+<p><strong>ndmin</strong> : int, optional</p>
+<blockquote>
+<div><p>Specifies the minimum number of dimensions that the resulting
 array should have.  Ones will be pre-pended to the shape as
 needed to meet this requirement.</p>
-</dd>
-</dl>
+</div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>out</strong> <span class="classifier-delimiter">:</span> <span class="classifier">ndarray</span></dt>
-<dd><p class="first last">An array object satisfying the specified requirements.</p>
-</dd>
-</dl>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>out</strong> : ndarray</p>
+<blockquote class="last">
+<div><p>An array object satisfying the specified requirements.</p>
+</div></blockquote>
 </td>
 </tr>
 </tbody>
@@ -189,7 +190,7 @@ needed to meet this requirement.</p>
 <p class="last"><a class="reference internal" href="numpy.empty.html#numpy.empty" title="numpy.empty"><code class="xref py py-obj docutils literal notranslate"><span class="pre">empty</span></code></a>, <a class="reference internal" href="numpy.empty_like.html#numpy.empty_like" title="numpy.empty_like"><code class="xref py py-obj docutils literal notranslate"><span class="pre">empty_like</span></code></a>, <a class="reference internal" href="numpy.zeros.html#numpy.zeros" title="numpy.zeros"><code class="xref py py-obj docutils literal notranslate"><span class="pre">zeros</span></code></a>, <a class="reference internal" href="numpy.zeros_like.html#numpy.zeros_like" title="numpy.zeros_like"><code class="xref py py-obj docutils literal notranslate"><span class="pre">zeros_like</span></code></a>, <a class="reference internal" href="numpy.ones.html#numpy.ones" title="numpy.ones"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ones</span></code></a>, <a class="reference internal" href="numpy.ones_like.html#numpy.ones_like" title="numpy.ones_like"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ones_like</span></code></a>, <a class="reference internal" href="numpy.full.html#numpy.full" title="numpy.full"><code class="xref py py-obj docutils literal notranslate"><span class="pre">full</span></code></a>, <a class="reference internal" href="numpy.full_like.html#numpy.full_like" title="numpy.full_like"><code class="xref py py-obj docutils literal notranslate"><span class="pre">full_like</span></code></a></p>
 </div>
 <p class="rubric">Notes</p>
-<p>When order is ‘A’ and <a class="reference external" href="https://docs.python.org/dev/library/functions.html#object" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> is an array in neither ‘C’ nor ‘F’ order,
+<p>When order is ‘A’ and <a class="reference external" href="https://docs.python.org/dev/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> is an array in neither ‘C’ nor ‘F’ order,
 and a copy is forced by a change in dtype, then the order of the result is
 not necessarily ‘C’ as expected. This is likely a bug.</p>
 <p class="rubric">Examples</p>
@@ -260,10 +261,10 @@ not necessarily ‘C’ as expected. This is likely a bug.</p>
         &copy; Copyright 2008-2017, The SciPy community.
       </li>
       <li>
-      Last updated on Jul 06, 2019.
+      Last updated on Jun 12, 2018.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.5.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.7.2.
       </li>
     </ul>
     </div>

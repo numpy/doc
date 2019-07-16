@@ -4,18 +4,17 @@
   <head>
     <meta charset="utf-8">
     
-    <title>numpy.linalg.matrix_rank &mdash; NumPy v1.14.dev0 Manual</title>
+    <title>numpy.linalg.matrix_rank &mdash; NumPy v1.14 Manual</title>
     
     <link rel="stylesheet" type="text/css" href="../../_static/css/spc-bootstrap.css">
     <link rel="stylesheet" type="text/css" href="../../_static/css/spc-extend.css">
     <link rel="stylesheet" href="../../_static/scipy.css" type="text/css" >
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" >
-    <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" >
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '1.14.7.dev0+7175dec',
+        VERSION:     '1.14.5',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  false
@@ -24,12 +23,11 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <script type="text/javascript" src="../../_static/language_data.js"></script>
     <script type="text/javascript" src="../../_static/js/copybutton.js"></script>
     <link rel="author" title="About these documents" href="../../about.html" >
     <link rel="index" title="Index" href="../../genindex.html" >
     <link rel="search" title="Search" href="../../search.html" >
-    <link rel="top" title="NumPy v1.14.dev0 Manual" href="../../index.html" >
+    <link rel="top" title="NumPy v1.14 Manual" href="../../index.html" >
     <link rel="up" title="Linear algebra (numpy.linalg)" href="../routines.linalg.html" >
     <link rel="next" title="numpy.linalg.slogdet" href="numpy.linalg.slogdet.html" >
     <link rel="prev" title="numpy.linalg.det" href="numpy.linalg.det.html" > 
@@ -51,7 +49,7 @@
               
     <ul class="nav nav-pills pull-left">
         
-        <li class="active"><a href="../../index.html">NumPy v1.14.dev0 Manual</a></li>
+        <li class="active"><a href="../../index.html">NumPy v1.14 Manual</a></li>
         
 
           <li class="active"><a href="../index.html" >NumPy Reference</a></li>
@@ -100,7 +98,7 @@
 <h1>numpy.linalg.matrix_rank<a class="headerlink" href="#numpy-linalg-matrix-rank" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="numpy.linalg.matrix_rank">
-<code class="descclassname">numpy.linalg.</code><code class="descname">matrix_rank</code><span class="sig-paren">(</span><em>M</em>, <em>tol=None</em>, <em>hermitian=False</em><span class="sig-paren">)</span><a class="reference external" href="http://github.com/numpy/numpy/blob/master/numpy/linalg/linalg.py#L1548-L1647"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#numpy.linalg.matrix_rank" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">numpy.linalg.</code><code class="descname">matrix_rank</code><span class="sig-paren">(</span><em>M</em>, <em>tol=None</em>, <em>hermitian=False</em><span class="sig-paren">)</span><a class="reference external" href="http://github.com/numpy/numpy/blob/v1.14.5/numpy/linalg/linalg.py#L1548-L1647"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#numpy.linalg.matrix_rank" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return matrix rank of array using SVD method</p>
 <p>Rank of the array is the number of singular values of the array that are
 greater than <em class="xref py py-obj">tol</em>.</p>
@@ -111,28 +109,29 @@ greater than <em class="xref py py-obj">tol</em>.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>M</strong> <span class="classifier-delimiter">:</span> <span class="classifier">{(M,), (…, M, N)} array_like</span></dt>
-<dd><p class="first last">input vector or stack of matrices</p>
-</dd>
-<dt><strong>tol</strong> <span class="classifier-delimiter">:</span> <span class="classifier">(…) array_like, float, optional</span></dt>
-<dd><p class="first">threshold below which SVD values are considered zero. If <em class="xref py py-obj">tol</em> is
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>M</strong> : {(M,), (…, M, N)} array_like</p>
+<blockquote>
+<div><p>input vector or stack of matrices</p>
+</div></blockquote>
+<p><strong>tol</strong> : (…) array_like, float, optional</p>
+<blockquote>
+<div><p>threshold below which SVD values are considered zero. If <em class="xref py py-obj">tol</em> is
 None, and <code class="docutils literal notranslate"><span class="pre">S</span></code> is an array with singular values for <em class="xref py py-obj">M</em>, and
 <code class="docutils literal notranslate"><span class="pre">eps</span></code> is the epsilon value for datatype of <code class="docutils literal notranslate"><span class="pre">S</span></code>, then <em class="xref py py-obj">tol</em> is
 set to <code class="docutils literal notranslate"><span class="pre">S.max()</span> <span class="pre">*</span> <span class="pre">max(M.shape)</span> <span class="pre">*</span> <span class="pre">eps</span></code>.</p>
-<div class="last versionchanged">
+<div class="versionchanged">
 <p><span class="versionmodified">Changed in version 1.14: </span>Broadcasted against the stack of matrices</p>
 </div>
-</dd>
-<dt><strong>hermitian</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool, optional</span></dt>
-<dd><p class="first">If True, <em class="xref py py-obj">M</em> is assumed to be Hermitian (symmetric if real-valued),
+</div></blockquote>
+<p><strong>hermitian</strong> : bool, optional</p>
+<blockquote class="last">
+<div><p>If True, <em class="xref py py-obj">M</em> is assumed to be Hermitian (symmetric if real-valued),
 enabling a more efficient method for finding singular values.
 Defaults to False.</p>
-<div class="last versionadded">
+<div class="versionadded">
 <p><span class="versionmodified">New in version 1.14.</span></p>
 </div>
-</dd>
-</dl>
+</div></blockquote>
 </td>
 </tr>
 </tbody>
@@ -171,17 +170,17 @@ greater than floating point epsilon, choosing a tolerance near that
 uncertainty may be preferable.  The tolerance may be absolute if the
 uncertainties are absolute rather than relative.</p>
 <p class="rubric">References</p>
-<table class="docutils citation" frame="void" id="ra43e662d710b-1" rules="none">
+<table class="docutils citation" frame="void" id="r44" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label">[1]</td><td>MATLAB reference documention, “Rank”
+<tr><td class="label"><a class="fn-backref" href="#id1">[R44]</a></td><td>MATLAB reference documention, “Rank”
 <a class="reference external" href="http://www.mathworks.com/help/techdoc/ref/rank.html">http://www.mathworks.com/help/techdoc/ref/rank.html</a></td></tr>
 </tbody>
 </table>
-<table class="docutils citation" frame="void" id="ra43e662d710b-2" rules="none">
+<table class="docutils citation" frame="void" id="r45" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label">[2]</td><td>W. H. Press, S. A. Teukolsky, W. T. Vetterling and B. P. Flannery,
+<tr><td class="label"><a class="fn-backref" href="#id2">[R45]</a></td><td>W. H. Press, S. A. Teukolsky, W. T. Vetterling and B. P. Flannery,
 “Numerical Recipes (3rd edition)”, Cambridge University Press, 2007,
 page 795.</td></tr>
 </tbody>
@@ -224,10 +223,10 @@ page 795.</td></tr>
         &copy; Copyright 2008-2017, The SciPy community.
       </li>
       <li>
-      Last updated on Jul 06, 2019.
+      Last updated on Jun 12, 2018.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.5.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.7.2.
       </li>
     </ul>
     </div>

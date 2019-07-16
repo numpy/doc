@@ -4,18 +4,17 @@
   <head>
     <meta charset="utf-8">
     
-    <title>numpy.put &mdash; NumPy v1.14.dev0 Manual</title>
+    <title>numpy.put &mdash; NumPy v1.14 Manual</title>
     
     <link rel="stylesheet" type="text/css" href="../../_static/css/spc-bootstrap.css">
     <link rel="stylesheet" type="text/css" href="../../_static/css/spc-extend.css">
     <link rel="stylesheet" href="../../_static/scipy.css" type="text/css" >
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" >
-    <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" >
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '1.14.7.dev0+7175dec',
+        VERSION:     '1.14.5',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  false
@@ -24,12 +23,11 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <script type="text/javascript" src="../../_static/language_data.js"></script>
     <script type="text/javascript" src="../../_static/js/copybutton.js"></script>
     <link rel="author" title="About these documents" href="../../about.html" >
     <link rel="index" title="Index" href="../../genindex.html" >
     <link rel="search" title="Search" href="../../search.html" >
-    <link rel="top" title="NumPy v1.14.dev0 Manual" href="../../index.html" >
+    <link rel="top" title="NumPy v1.14 Manual" href="../../index.html" >
     <link rel="up" title="Indexing routines" href="../routines.indexing.html" >
     <link rel="next" title="numpy.putmask" href="numpy.putmask.html" >
     <link rel="prev" title="numpy.place" href="numpy.place.html" > 
@@ -51,7 +49,7 @@
               
     <ul class="nav nav-pills pull-left">
         
-        <li class="active"><a href="../../index.html">NumPy v1.14.dev0 Manual</a></li>
+        <li class="active"><a href="../../index.html">NumPy v1.14 Manual</a></li>
         
 
           <li class="active"><a href="../index.html" >NumPy Reference</a></li>
@@ -100,7 +98,7 @@
 <h1>numpy.put<a class="headerlink" href="#numpy-put" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="numpy.put">
-<code class="descclassname">numpy.</code><code class="descname">put</code><span class="sig-paren">(</span><em>a</em>, <em>ind</em>, <em>v</em>, <em>mode='raise'</em><span class="sig-paren">)</span><a class="reference external" href="http://github.com/numpy/numpy/blob/master/numpy/core/fromnumeric.py#L426-L480"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#numpy.put" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">numpy.</code><code class="descname">put</code><span class="sig-paren">(</span><em>a</em>, <em>ind</em>, <em>v</em>, <em>mode='raise'</em><span class="sig-paren">)</span><a class="reference external" href="http://github.com/numpy/numpy/blob/v1.14.5/numpy/core/fromnumeric.py#L426-L480"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#numpy.put" title="Permalink to this definition">¶</a></dt>
 <dd><p>Replaces specified elements of an array with given values.</p>
 <p>The indexing works on the flattened target array. <a class="reference internal" href="#numpy.put" title="numpy.put"><code class="xref py py-obj docutils literal notranslate"><span class="pre">put</span></code></a> is roughly
 equivalent to:</p>
@@ -111,29 +109,31 @@ equivalent to:</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>a</strong> <span class="classifier-delimiter">:</span> <span class="classifier">ndarray</span></dt>
-<dd><p class="first last">Target array.</p>
-</dd>
-<dt><strong>ind</strong> <span class="classifier-delimiter">:</span> <span class="classifier">array_like</span></dt>
-<dd><p class="first last">Target indices, interpreted as integers.</p>
-</dd>
-<dt><strong>v</strong> <span class="classifier-delimiter">:</span> <span class="classifier">array_like</span></dt>
-<dd><p class="first last">Values to place in <em class="xref py py-obj">a</em> at target indices. If <em class="xref py py-obj">v</em> is shorter than
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>a</strong> : ndarray</p>
+<blockquote>
+<div><p>Target array.</p>
+</div></blockquote>
+<p><strong>ind</strong> : array_like</p>
+<blockquote>
+<div><p>Target indices, interpreted as integers.</p>
+</div></blockquote>
+<p><strong>v</strong> : array_like</p>
+<blockquote>
+<div><p>Values to place in <em class="xref py py-obj">a</em> at target indices. If <em class="xref py py-obj">v</em> is shorter than
 <em class="xref py py-obj">ind</em> it will be repeated as necessary.</p>
-</dd>
-<dt><strong>mode</strong> <span class="classifier-delimiter">:</span> <span class="classifier">{‘raise’, ‘wrap’, ‘clip’}, optional</span></dt>
-<dd><p class="first">Specifies how out-of-bounds indices will behave.</p>
+</div></blockquote>
+<p><strong>mode</strong> : {‘raise’, ‘wrap’, ‘clip’}, optional</p>
+<blockquote class="last">
+<div><p>Specifies how out-of-bounds indices will behave.</p>
 <ul class="simple">
 <li>‘raise’ – raise an error (default)</li>
 <li>‘wrap’ – wrap around</li>
 <li>‘clip’ – clip to the range</li>
 </ul>
-<p class="last">‘clip’ mode means that all indices that are too large are replaced
+<p>‘clip’ mode means that all indices that are too large are replaced
 by the index that addresses the last element along that axis. Note
 that this disables indexing with negative numbers.</p>
-</dd>
-</dl>
+</div></blockquote>
 </td>
 </tr>
 </tbody>
@@ -180,10 +180,10 @@ that this disables indexing with negative numbers.</p>
         &copy; Copyright 2008-2017, The SciPy community.
       </li>
       <li>
-      Last updated on Jul 06, 2019.
+      Last updated on Jun 12, 2018.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.5.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.7.2.
       </li>
     </ul>
     </div>

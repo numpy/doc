@@ -4,18 +4,17 @@
   <head>
     <meta charset="utf-8">
     
-    <title>numpy.save &mdash; NumPy v1.14.dev0 Manual</title>
+    <title>numpy.save &mdash; NumPy v1.14 Manual</title>
     
     <link rel="stylesheet" type="text/css" href="../../_static/css/spc-bootstrap.css">
     <link rel="stylesheet" type="text/css" href="../../_static/css/spc-extend.css">
     <link rel="stylesheet" href="../../_static/scipy.css" type="text/css" >
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" >
-    <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" >
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '1.14.7.dev0+7175dec',
+        VERSION:     '1.14.5',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  false
@@ -24,12 +23,11 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <script type="text/javascript" src="../../_static/language_data.js"></script>
     <script type="text/javascript" src="../../_static/js/copybutton.js"></script>
     <link rel="author" title="About these documents" href="../../about.html" >
     <link rel="index" title="Index" href="../../genindex.html" >
     <link rel="search" title="Search" href="../../search.html" >
-    <link rel="top" title="NumPy v1.14.dev0 Manual" href="../../index.html" >
+    <link rel="top" title="NumPy v1.14 Manual" href="../../index.html" >
     <link rel="up" title="Input and output" href="../routines.io.html" >
     <link rel="next" title="numpy.savez" href="numpy.savez.html" >
     <link rel="prev" title="numpy.load" href="numpy.load.html" > 
@@ -51,7 +49,7 @@
               
     <ul class="nav nav-pills pull-left">
         
-        <li class="active"><a href="../../index.html">NumPy v1.14.dev0 Manual</a></li>
+        <li class="active"><a href="../../index.html">NumPy v1.14 Manual</a></li>
         
 
           <li class="active"><a href="../index.html" >NumPy Reference</a></li>
@@ -100,38 +98,40 @@
 <h1>numpy.save<a class="headerlink" href="#numpy-save" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="numpy.save">
-<code class="descclassname">numpy.</code><code class="descname">save</code><span class="sig-paren">(</span><em>file</em>, <em>arr</em>, <em>allow_pickle=True</em>, <em>fix_imports=True</em><span class="sig-paren">)</span><a class="reference external" href="http://github.com/numpy/numpy/blob/master/numpy/lib/npyio.py#L437-L514"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#numpy.save" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">numpy.</code><code class="descname">save</code><span class="sig-paren">(</span><em>file</em>, <em>arr</em>, <em>allow_pickle=True</em>, <em>fix_imports=True</em><span class="sig-paren">)</span><a class="reference external" href="http://github.com/numpy/numpy/blob/v1.14.5/numpy/lib/npyio.py#L437-L514"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#numpy.save" title="Permalink to this definition">¶</a></dt>
 <dd><p>Save an array to a binary file in NumPy <code class="docutils literal notranslate"><span class="pre">.npy</span></code> format.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>file</strong> <span class="classifier-delimiter">:</span> <span class="classifier">file, str, or pathlib.Path</span></dt>
-<dd><p class="first last">File or filename to which the data is saved.  If file is a file-object,
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>file</strong> : file, str, or pathlib.Path</p>
+<blockquote>
+<div><p>File or filename to which the data is saved.  If file is a file-object,
 then the filename is unchanged.  If file is a string or Path, a <code class="docutils literal notranslate"><span class="pre">.npy</span></code>
 extension will be appended to the file name if it does not already
 have one.</p>
-</dd>
-<dt><strong>arr</strong> <span class="classifier-delimiter">:</span> <span class="classifier">array_like</span></dt>
-<dd><p class="first last">Array data to be saved.</p>
-</dd>
-<dt><strong>allow_pickle</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool, optional</span></dt>
-<dd><p class="first last">Allow saving object arrays using Python pickles. Reasons for disallowing
+</div></blockquote>
+<p><strong>arr</strong> : array_like</p>
+<blockquote>
+<div><p>Array data to be saved.</p>
+</div></blockquote>
+<p><strong>allow_pickle</strong> : bool, optional</p>
+<blockquote>
+<div><p>Allow saving object arrays using Python pickles. Reasons for disallowing
 pickles include security (loading pickled data can execute arbitrary
 code) and portability (pickled objects may not be loadable on different
 Python installations, for example if the stored objects require libraries
 that are not available, and not all pickled data is compatible between
 Python 2 and Python 3).
 Default: True</p>
-</dd>
-<dt><strong>fix_imports</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool, optional</span></dt>
-<dd><p class="first last">Only useful in forcing objects in object arrays on Python 3 to be
+</div></blockquote>
+<p><strong>fix_imports</strong> : bool, optional</p>
+<blockquote class="last">
+<div><p>Only useful in forcing objects in object arrays on Python 3 to be
 pickled in a Python 2 compatible way. If <em class="xref py py-obj">fix_imports</em> is True, pickle
 will try to map the new Python 3 names to the old module names used in
 Python 2, so that the pickle data stream is readable with Python 2.</p>
-</dd>
-</dl>
+</div></blockquote>
 </td>
 </tr>
 </tbody>
@@ -187,10 +187,10 @@ of <code class="xref py py-obj docutils literal notranslate"><span class="pre">n
         &copy; Copyright 2008-2017, The SciPy community.
       </li>
       <li>
-      Last updated on Jul 06, 2019.
+      Last updated on Jun 12, 2018.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.5.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.7.2.
       </li>
     </ul>
     </div>

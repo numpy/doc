@@ -4,18 +4,17 @@
   <head>
     <meta charset="utf-8">
     
-    <title>numpy.polyfit &mdash; NumPy v1.14.dev0 Manual</title>
+    <title>numpy.polyfit &mdash; NumPy v1.14 Manual</title>
     
     <link rel="stylesheet" type="text/css" href="../../_static/css/spc-bootstrap.css">
     <link rel="stylesheet" type="text/css" href="../../_static/css/spc-extend.css">
     <link rel="stylesheet" href="../../_static/scipy.css" type="text/css" >
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" >
-    <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" >
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '1.14.7.dev0+7175dec',
+        VERSION:     '1.14.5',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  false
@@ -24,12 +23,11 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <script type="text/javascript" src="../../_static/language_data.js"></script>
     <script type="text/javascript" src="../../_static/js/copybutton.js"></script>
     <link rel="author" title="About these documents" href="../../about.html" >
     <link rel="index" title="Index" href="../../genindex.html" >
     <link rel="search" title="Search" href="../../search.html" >
-    <link rel="top" title="NumPy v1.14.dev0 Manual" href="../../index.html" >
+    <link rel="top" title="NumPy v1.14 Manual" href="../../index.html" >
     <link rel="up" title="Poly1d" href="../routines.polynomials.poly1d.html" >
     <link rel="next" title="numpy.polyder" href="numpy.polyder.html" >
     <link rel="prev" title="numpy.roots" href="numpy.roots.html" > 
@@ -51,7 +49,7 @@
               
     <ul class="nav nav-pills pull-left">
         
-        <li class="active"><a href="../../index.html">NumPy v1.14.dev0 Manual</a></li>
+        <li class="active"><a href="../../index.html">NumPy v1.14 Manual</a></li>
         
 
           <li class="active"><a href="../index.html" >NumPy Reference</a></li>
@@ -101,7 +99,7 @@
 <h1>numpy.polyfit<a class="headerlink" href="#numpy-polyfit" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="numpy.polyfit">
-<code class="descclassname">numpy.</code><code class="descname">polyfit</code><span class="sig-paren">(</span><em>x</em>, <em>y</em>, <em>deg</em>, <em>rcond=None</em>, <em>full=False</em>, <em>w=None</em>, <em>cov=False</em><span class="sig-paren">)</span><a class="reference external" href="http://github.com/numpy/numpy/blob/master/numpy/lib/polynomial.py#L398-L611"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#numpy.polyfit" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">numpy.</code><code class="descname">polyfit</code><span class="sig-paren">(</span><em>x</em>, <em>y</em>, <em>deg</em>, <em>rcond=None</em>, <em>full=False</em>, <em>w=None</em>, <em>cov=False</em><span class="sig-paren">)</span><a class="reference external" href="http://github.com/numpy/numpy/blob/v1.14.5/numpy/lib/polynomial.py#L398-L611"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#numpy.polyfit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Least squares polynomial fit.</p>
 <p>Fit a polynomial <code class="docutils literal notranslate"><span class="pre">p(x)</span> <span class="pre">=</span> <span class="pre">p[0]</span> <span class="pre">*</span> <span class="pre">x**deg</span> <span class="pre">+</span> <span class="pre">...</span> <span class="pre">+</span> <span class="pre">p[deg]</span></code> of degree <em class="xref py py-obj">deg</em>
 to points <em class="xref py py-obj">(x, y)</em>. Returns a vector of coefficients <em class="xref py py-obj">p</em> that minimises
@@ -110,72 +108,77 @@ the squared error.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
-<dt><strong>x</strong> <span class="classifier-delimiter">:</span> <span class="classifier">array_like, shape (M,)</span></dt>
-<dd><p class="first last">x-coordinates of the M sample points <code class="docutils literal notranslate"><span class="pre">(x[i],</span> <span class="pre">y[i])</span></code>.</p>
-</dd>
-<dt><strong>y</strong> <span class="classifier-delimiter">:</span> <span class="classifier">array_like, shape (M,) or (M, K)</span></dt>
-<dd><p class="first last">y-coordinates of the sample points. Several data sets of sample
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>x</strong> : array_like, shape (M,)</p>
+<blockquote>
+<div><p>x-coordinates of the M sample points <code class="docutils literal notranslate"><span class="pre">(x[i],</span> <span class="pre">y[i])</span></code>.</p>
+</div></blockquote>
+<p><strong>y</strong> : array_like, shape (M,) or (M, K)</p>
+<blockquote>
+<div><p>y-coordinates of the sample points. Several data sets of sample
 points sharing the same x-coordinates can be fitted at once by
 passing in a 2D-array that contains one dataset per column.</p>
-</dd>
-<dt><strong>deg</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
-<dd><p class="first last">Degree of the fitting polynomial</p>
-</dd>
-<dt><strong>rcond</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float, optional</span></dt>
-<dd><p class="first last">Relative condition number of the fit. Singular values smaller than
+</div></blockquote>
+<p><strong>deg</strong> : int</p>
+<blockquote>
+<div><p>Degree of the fitting polynomial</p>
+</div></blockquote>
+<p><strong>rcond</strong> : float, optional</p>
+<blockquote>
+<div><p>Relative condition number of the fit. Singular values smaller than
 this relative to the largest singular value will be ignored. The
 default value is len(x)*eps, where eps is the relative precision of
 the float type, about 2e-16 in most cases.</p>
-</dd>
-<dt><strong>full</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool, optional</span></dt>
-<dd><p class="first last">Switch determining nature of return value. When it is False (the
+</div></blockquote>
+<p><strong>full</strong> : bool, optional</p>
+<blockquote>
+<div><p>Switch determining nature of return value. When it is False (the
 default) just the coefficients are returned, when True diagnostic
 information from the singular value decomposition is also returned.</p>
-</dd>
-<dt><strong>w</strong> <span class="classifier-delimiter">:</span> <span class="classifier">array_like, shape (M,), optional</span></dt>
-<dd><p class="first last">Weights to apply to the y-coordinates of the sample points. For
+</div></blockquote>
+<p><strong>w</strong> : array_like, shape (M,), optional</p>
+<blockquote>
+<div><p>Weights to apply to the y-coordinates of the sample points. For
 gaussian uncertainties, use 1/sigma (not 1/sigma**2).</p>
-</dd>
-<dt><strong>cov</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool, optional</span></dt>
-<dd><p class="first last">Return the estimate and the covariance matrix of the estimate
+</div></blockquote>
+<p><strong>cov</strong> : bool, optional</p>
+<blockquote>
+<div><p>Return the estimate and the covariance matrix of the estimate
 If full is True, then cov is not returned.</p>
-</dd>
-</dl>
+</div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first docutils">
-<dt><strong>p</strong> <span class="classifier-delimiter">:</span> <span class="classifier">ndarray, shape (deg + 1,) or (deg + 1, K)</span></dt>
-<dd><p class="first last">Polynomial coefficients, highest power first.  If <em class="xref py py-obj">y</em> was 2-D, the
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>p</strong> : ndarray, shape (deg + 1,) or (deg + 1, K)</p>
+<blockquote>
+<div><p>Polynomial coefficients, highest power first.  If <em class="xref py py-obj">y</em> was 2-D, the
 coefficients for <em class="xref py py-obj">k</em>-th data set are in <code class="docutils literal notranslate"><span class="pre">p[:,k]</span></code>.</p>
-</dd>
-<dt><strong>residuals, rank, singular_values, rcond</strong></dt>
-<dd><p class="first last">Present only if <a class="reference internal" href="numpy.full.html#numpy.full" title="numpy.full"><code class="xref py py-obj docutils literal notranslate"><span class="pre">full</span></code></a> = True.  Residuals of the least-squares fit,
+</div></blockquote>
+<p>residuals, rank, singular_values, rcond</p>
+<blockquote>
+<div><p>Present only if <a class="reference internal" href="numpy.full.html#numpy.full" title="numpy.full"><code class="xref py py-obj docutils literal notranslate"><span class="pre">full</span></code></a> = True.  Residuals of the least-squares fit,
 the effective rank of the scaled Vandermonde coefficient matrix,
 its singular values, and the specified value of <em class="xref py py-obj">rcond</em>. For more
 details, see <a class="reference internal" href="numpy.linalg.lstsq.html#numpy.linalg.lstsq" title="numpy.linalg.lstsq"><code class="xref py py-obj docutils literal notranslate"><span class="pre">linalg.lstsq</span></code></a>.</p>
-</dd>
-<dt><strong>V</strong> <span class="classifier-delimiter">:</span> <span class="classifier">ndarray, shape (M,M) or (M,M,K)</span></dt>
-<dd><p class="first last">Present only if <a class="reference internal" href="numpy.full.html#numpy.full" title="numpy.full"><code class="xref py py-obj docutils literal notranslate"><span class="pre">full</span></code></a> = False and <em class="xref py py-obj">cov`=True.  The covariance
+</div></blockquote>
+<p><strong>V</strong> : ndarray, shape (M,M) or (M,M,K)</p>
+<blockquote>
+<div><p>Present only if <a class="reference internal" href="numpy.full.html#numpy.full" title="numpy.full"><code class="xref py py-obj docutils literal notranslate"><span class="pre">full</span></code></a> = False and <em class="xref py py-obj">cov`=True.  The covariance
 matrix of the polynomial coefficient estimates.  The diagonal of
 this matrix are the variance estimates for each coefficient.  If y
 is a 2-D array, then the covariance matrix for the `k</em>-th data set
 are in <code class="docutils literal notranslate"><span class="pre">V[:,:,k]</span></code></p>
-</dd>
-</dl>
+</div></blockquote>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Warns:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>RankWarning</strong></dt>
-<dd><p class="first">The rank of the coefficient matrix in the least-squares fit is
+<tr class="field-odd field"><th class="field-name">Warns:</th><td class="field-body"><p class="first"><strong>RankWarning</strong></p>
+<blockquote class="last">
+<div><p>The rank of the coefficient matrix in the least-squares fit is
 deficient. The warning is only raised if <a class="reference internal" href="numpy.full.html#numpy.full" title="numpy.full"><code class="xref py py-obj docutils literal notranslate"><span class="pre">full</span></code></a> = False.</p>
 <p>The warnings can be turned off by</p>
-<div class="last highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">warnings</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">warnings</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">warnings</span><span class="o">.</span><span class="n">simplefilter</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">RankWarning</span><span class="p">)</span>
 </pre></div>
 </div>
-</dd>
-</dl>
+</div></blockquote>
 </td>
 </tr>
 </tbody>
@@ -187,7 +190,7 @@ deficient. The warning is only raised if <a class="reference internal" href="num
 <dd>Compute polynomial values.</dd>
 <dt><a class="reference internal" href="numpy.linalg.lstsq.html#numpy.linalg.lstsq" title="numpy.linalg.lstsq"><code class="xref py py-obj docutils literal notranslate"><span class="pre">linalg.lstsq</span></code></a></dt>
 <dd>Computes a least-squares fit.</dd>
-<dt><a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.interpolate.UnivariateSpline.html#scipy.interpolate.UnivariateSpline" title="(in SciPy v1.3.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scipy.interpolate.UnivariateSpline</span></code></a></dt>
+<dt><a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.interpolate.UnivariateSpline.html#scipy.interpolate.UnivariateSpline" title="(in SciPy v1.1.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scipy.interpolate.UnivariateSpline</span></code></a></dt>
 <dd>Computes spline fits.</dd>
 </dl>
 </div>
@@ -216,17 +219,17 @@ is badly centered. The quality of the fit should always be checked in these
 cases. When polynomial fits are not satisfactory, splines may be a good
 alternative.</p>
 <p class="rubric">References</p>
-<table class="docutils citation" frame="void" id="r92eba0d55cbe-1" rules="none">
+<table class="docutils citation" frame="void" id="r66" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label">[1]</td><td>Wikipedia, “Curve fitting”,
+<tr><td class="label"><a class="fn-backref" href="#id1">[R66]</a></td><td>Wikipedia, “Curve fitting”,
 <a class="reference external" href="http://en.wikipedia.org/wiki/Curve_fitting">http://en.wikipedia.org/wiki/Curve_fitting</a></td></tr>
 </tbody>
 </table>
-<table class="docutils citation" frame="void" id="r92eba0d55cbe-2" rules="none">
+<table class="docutils citation" frame="void" id="r67" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label">[2]</td><td>Wikipedia, “Polynomial interpolation”,
+<tr><td class="label"><a class="fn-backref" href="#id2">[R67]</a></td><td>Wikipedia, “Polynomial interpolation”,
 <a class="reference external" href="http://en.wikipedia.org/wiki/Polynomial_interpolation">http://en.wikipedia.org/wiki/Polynomial_interpolation</a></td></tr>
 </tbody>
 </table>
@@ -296,10 +299,10 @@ alternative.</p>
         &copy; Copyright 2008-2017, The SciPy community.
       </li>
       <li>
-      Last updated on Jul 06, 2019.
+      Last updated on Jun 12, 2018.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.5.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.7.2.
       </li>
     </ul>
     </div>
