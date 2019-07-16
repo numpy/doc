@@ -4,18 +4,17 @@
   <head>
     <meta charset="utf-8">
     
-    <title>numpy.broadcast &mdash; NumPy v1.15.dev0 Manual</title>
+    <title>numpy.broadcast &mdash; NumPy v1.15 Manual</title>
     
     <link rel="stylesheet" type="text/css" href="../../_static/css/spc-bootstrap.css">
     <link rel="stylesheet" type="text/css" href="../../_static/css/spc-extend.css">
     <link rel="stylesheet" href="../../_static/scipy.css" type="text/css" >
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" >
-    <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" >
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '1.15.5.dev0+3430d78',
+        VERSION:     '1.15.4',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  false
@@ -24,12 +23,11 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <script type="text/javascript" src="../../_static/language_data.js"></script>
     <script type="text/javascript" src="../../_static/js/copybutton.js"></script>
     <link rel="author" title="About these documents" href="../../about.html" >
     <link rel="index" title="Index" href="../../genindex.html" >
     <link rel="search" title="Search" href="../../search.html" >
-    <link rel="top" title="NumPy v1.15.dev0 Manual" href="../../index.html" >
+    <link rel="top" title="NumPy v1.15 Manual" href="../../index.html" >
     <link rel="up" title="Standard array subclasses" href="../arrays.classes.html" >
     <link rel="next" title="numpy.broadcast.reset" href="numpy.broadcast.reset.html" >
     <link rel="prev" title="numpy.ndenumerate.next" href="numpy.ndenumerate.next.html" > 
@@ -51,7 +49,7 @@
               
     <ul class="nav nav-pills pull-left">
         
-        <li class="active"><a href="../../index.html">NumPy v1.15.dev0 Manual</a></li>
+        <li class="active"><a href="../../index.html">NumPy v1.15 Manual</a></li>
         
 
           <li class="active"><a href="../index.html" >NumPy Reference</a></li>
@@ -112,7 +110,7 @@
 <h1>numpy.broadcast<a class="headerlink" href="#numpy-broadcast" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="numpy.broadcast">
-<em class="property">class </em><code class="descclassname">numpy.</code><code class="descname">broadcast</code><a class="reference external" href="http://github.com/numpy/numpy/blob/master/numpy/__init__.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#numpy.broadcast" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">numpy.</code><code class="descname">broadcast</code><a class="reference external" href="http://github.com/numpy/numpy/blob/v1.15.4/numpy/__init__.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#numpy.broadcast" title="Permalink to this definition">¶</a></dt>
 <dd><p>Produce an object that mimics broadcasting.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -174,14 +172,39 @@ may be used as an iterator.</p>
 <dt><a class="reference internal" href="numpy.broadcast.iters.html#numpy.broadcast.iters" title="numpy.broadcast.iters"><code class="xref py py-obj docutils literal notranslate"><span class="pre">iters</span></code></a></dt>
 <dd><p class="first last">tuple of iterators along <code class="docutils literal notranslate"><span class="pre">self</span></code>’s “components.”</p>
 </dd>
-<dt><a class="reference internal" href="numpy.broadcast.nd.html#numpy.broadcast.nd" title="numpy.broadcast.nd"><code class="xref py py-obj docutils literal notranslate"><span class="pre">nd</span></code></a></dt>
-<dd><p class="first last">Number of dimensions of broadcasted result.</p>
+<dt><strong>nd</strong></dt>
+<dd><p class="first">Number of dimensions of broadcasted result. For code intended for NumPy
+1.12.0 and later the more consistent <a class="reference internal" href="numpy.broadcast.ndim.html#numpy.broadcast.ndim" title="numpy.broadcast.ndim"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ndim</span></code></a> is preferred.</p>
+<div class="last highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">4</span><span class="p">],</span> <span class="p">[</span><span class="mi">5</span><span class="p">],</span> <span class="p">[</span><span class="mi">6</span><span class="p">]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">broadcast</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span><span class="o">.</span><span class="n">nd</span>
+<span class="go">2</span>
+</pre></div>
+</div>
 </dd>
-<dt><a class="reference internal" href="numpy.broadcast.ndim.html#numpy.broadcast.ndim" title="numpy.broadcast.ndim"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ndim</span></code></a></dt>
-<dd><p class="first last">Number of dimensions of broadcasted result.</p>
+<dt><strong>ndim</strong></dt>
+<dd><p class="first">Number of dimensions of broadcasted result. Alias for <a class="reference internal" href="numpy.broadcast.nd.html#numpy.broadcast.nd" title="numpy.broadcast.nd"><code class="xref py py-obj docutils literal notranslate"><span class="pre">nd</span></code></a>.</p>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 1.12.0.</span></p>
+</div>
+<div class="last highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">4</span><span class="p">],</span> <span class="p">[</span><span class="mi">5</span><span class="p">],</span> <span class="p">[</span><span class="mi">6</span><span class="p">]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">broadcast</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span><span class="o">.</span><span class="n">ndim</span>
+<span class="go">2</span>
+</pre></div>
+</div>
 </dd>
-<dt><a class="reference internal" href="numpy.broadcast.numiter.html#numpy.broadcast.numiter" title="numpy.broadcast.numiter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">numiter</span></code></a></dt>
-<dd><p class="first last">Number of iterators possessed by the broadcasted result.</p>
+<dt><strong>numiter</strong></dt>
+<dd><p class="first">Number of iterators possessed by the broadcasted result.</p>
+<div class="last highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">4</span><span class="p">],</span> <span class="p">[</span><span class="mi">5</span><span class="p">],</span> <span class="p">[</span><span class="mi">6</span><span class="p">]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">broadcast</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span><span class="o">.</span><span class="n">numiter</span>
+<span class="go">2</span>
+</pre></div>
+</div>
 </dd>
 <dt><a class="reference internal" href="numpy.broadcast.shape.html#numpy.broadcast.shape" title="numpy.broadcast.shape"><code class="xref py py-obj docutils literal notranslate"><span class="pre">shape</span></code></a></dt>
 <dd><p class="first last">Shape of broadcasted result.</p>
@@ -231,10 +254,10 @@ may be used as an iterator.</p>
         &copy; Copyright 2008-2018, The SciPy community.
       </li>
       <li>
-      Last updated on Jul 06, 2019.
+      Last updated on Nov 04, 2018.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.5.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.7.2.
       </li>
     </ul>
     </div>
