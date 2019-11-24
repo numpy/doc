@@ -1,0 +1,764 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="en">
+<!--<![endif]-->
+<meta name="viewport" content="width=device-width,height=device-height,initial-scale=1.0"/>
+
+<head>
+      <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+    
+
+      <title>Extending &mdash; NumPy v1.17 Manual</title>
+    
+  
+
+  
+  
+  
+  
+
+  
+ <!-- TODO: remove the js file <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script> -->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    <!-- to search keyword -->
+    <script type="text/javascript" src="../../_static/searchtools.js"></script>
+<!--     TODO: I don't know why these js are generated automatically by sphinx.
+For search these both are not needed.
+
+    <script type="text/javascript" src="../../_static/underscore.js""></script>
+    <script type="text/javascript" src="../../_static/language_data.js""></script>
+-->
+    <script type="text/javascript" src="../../searchindex.js""></script>
+
+
+    <!-- math directive -->
+
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    <!-- copybutton on code highlight -->
+    <script type="text/javascript" src="../../_static/js/copybutton.js"></script>
+
+    
+
+  
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+
+  <!-- preloader css -->
+  <link rel="stylesheet" href="../../_static/css/preloader.css" type="text/css" />
+
+  <!-- preloader css -->
+  <link rel="stylesheet" href="../../_static/css/navbar.css" type="text/css" />
+
+  <!-- sidebar right -->
+  <link rel="stylesheet" href="../../_static/css/sidebar-right.css" type="text/css" />
+
+  <!-- footer rst -->
+  <link rel="stylesheet" href="../../_static/css/footer-rst.css" type="text/css" />
+
+  <!-- code highlight -->
+  <link rel="stylesheet" href="../../_static/css/code-highlight.css" type="text/css" />
+
+  <!-- mobile responsive -->
+  <link rel="stylesheet" href="../../_static/css/responsive.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/css/sidenav-mobile.css" type="text/css" />
+
+  <!-- footer -->
+  <link rel="stylesheet" href="../../_static/css/extra-footer.css" type="text/css" />
+
+
+  <!-- Custom modification in theme css -->
+  <link rel="stylesheet" href="../../_static/css/custom_theme.css" type="text/css" />
+
+  <!-- font -->
+   <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Ubuntu:regular,bold&subset=Latin">
+
+   <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+  <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
+    <link rel="author" title="About these documents" href="../../about.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Set routines" href="../routines.set.html" />
+    <link rel="prev" title="Performance" href="performance.html" /> 
+</head>
+<div class="bg_loader">
+  <div class="loader">
+
+  </div>
+</div>
+
+<body class="wy-body-for-nav">
+    <!-- navbar -->
+<nav class="navbar navbar-expand-md navbar-light">
+    <a class="navbar-brand navbar-left header-logo" href=""><img src="../../_static/images/numpy_logo.svg"></a>
+    <button type="button" class="navbar-toggler bg-light" data-toggle="collapse" data-target="#nav">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse justify-content-end" id="nav">
+        <ul class="nav navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link text-dark font-weight-bold px-3" href="https://numpy.org/devdocs/user/quickstart.html">Quick Start</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-dark font-weight-bold px-3" href="https://numpy.org/devdocs">Documentation</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-dark font-weight-bold px-3" href="https://www.numpy.org/neps/index.html">NumPy Enhancement Proposals (NEPs)</a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link text-dark font-weight-bold px-3" href="https://numpy.org/doc">Other doc versions</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+    <!-- mobile device -->
+    <div id="sidenav-left-toggle-button">
+    <a href="#mobile-sidenav-left" class="btn btn-primary btn-lg btn-block btn-primary-outline"  data-toggle="collapse"><span><i class="fa fa-arrow-circle-down"></i></span>Table of content</a>
+    </div>
+     
+    <div class="wy-grid-for-nav row">
+        
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side col-2">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../contents.html" class="icon icon-home"> NumPy
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.17
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../user/index.html">NumPy User Guide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">NumPy Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../f2py/index.html">F2PY Users Guide and Reference Manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dev/index.html">Contributing to NumPy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../docs/index.html">NumPy’s Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../release.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../about.html">About NumPy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../about.html#about-this-documentation">About this documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../bugs.html">Reporting bugs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../license.html">NumPy License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <!-- for smaller device  < laptop size -->
+
+    <div id="mobile-sidenav-left" class="collapse">
+    <nav data-toggle="wy-nav-shift-mobile" class="wy-nav-side-mobile">
+      <a href="#mobile-sidenav-left" class="close" aria-label="Close" data-toggle="collapse">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+            <a href="../../contents.html" class="icon icon-home"> NumPy
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.17
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../user/index.html">NumPy User Guide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">NumPy Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../f2py/index.html">F2PY Users Guide and Reference Manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dev/index.html">Contributing to NumPy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../docs/index.html">NumPy’s Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../release.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../about.html">About NumPy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../about.html#about-this-documentation">About this documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../bugs.html">Reporting bugs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../license.html">NumPy License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
+</ul>
+
+            
+        </div>
+      </div>
+
+
+    </nav>
+    </div>
+
+    <!-- end - smaller device html code  -->
+
+        <!-- <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"> -->
+        
+        <nav class="wy-nav-top" aria-label="top navigation">
+            
+            <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+            <a href="../../contents.html">NumPy</a>
+            
+        </nav>
+        <div class="wy-nav-content col-8">
+            
+                <div class="rst-content">
+                    
+                    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../contents.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">NumPy Reference</a> &raquo;</li>
+        
+          <li><a href="../routines.html">Routines</a> &raquo;</li>
+        
+          <li><a href="index.html">Random sampling (<code class="xref py py-mod docutils literal notranslate"><span class="pre">numpy.random</span></code>)</a> &raquo;</li>
+        
+      <li>Extending</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/numpy/numpy/blob/master/doc/source/reference/random/extending.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+                    <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+                        <div itemprop="articleBody">
+                            
+  <div class="section" id="extending">
+<h1>Extending<a class="headerlink" href="#extending" title="Permalink to this headline">¶</a></h1>
+<p>The BitGenerators have been designed to be extendable using standard tools for
+high-performance Python – numba and Cython.  The <a class="reference internal" href="generator.html#numpy.random.Generator" title="numpy.random.Generator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Generator</span></code></a> object can also
+be used with user-provided BitGenerators as long as these export a small set of
+required functions.</p>
+<div class="section" id="numba">
+<h2>Numba<a class="headerlink" href="#numba" title="Permalink to this headline">¶</a></h2>
+<p>Numba can be used with either CTypes or CFFI.  The current iteration of the
+BitGenerators all export a small set of functions through both interfaces.</p>
+<p>This example shows how numba can be used to produce Box-Muller normals using
+a pure Python implementation which is then compiled.  The random numbers are
+provided by <code class="docutils literal notranslate"><span class="pre">ctypes.next_double</span></code>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">numpy.random</span> <span class="kn">import</span> <span class="n">PCG64</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">numba</span> <span class="kn">as</span> <span class="nn">nb</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="n">PCG64</span><span class="p">()</span>
+<span class="n">f</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">ctypes</span><span class="o">.</span><span class="n">next_double</span>
+<span class="n">s</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">ctypes</span><span class="o">.</span><span class="n">state</span>
+<span class="n">state_addr</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">ctypes</span><span class="o">.</span><span class="n">state_address</span>
+
+<span class="k">def</span> <span class="nf">normals</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">state</span><span class="p">):</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">((</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">//</span><span class="mi">2</span><span class="p">):</span>
+        <span class="n">x1</span> <span class="o">=</span> <span class="mf">2.0</span><span class="o">*</span><span class="n">f</span><span class="p">(</span><span class="n">state</span><span class="p">)</span> <span class="o">-</span> <span class="mf">1.0</span>
+        <span class="n">x2</span> <span class="o">=</span> <span class="mf">2.0</span><span class="o">*</span><span class="n">f</span><span class="p">(</span><span class="n">state</span><span class="p">)</span> <span class="o">-</span> <span class="mf">1.0</span>
+        <span class="n">r2</span> <span class="o">=</span> <span class="n">x1</span><span class="o">*</span><span class="n">x1</span> <span class="o">+</span> <span class="n">x2</span><span class="o">*</span><span class="n">x2</span>
+        <span class="k">while</span> <span class="n">r2</span> <span class="o">&gt;=</span> <span class="mf">1.0</span> <span class="ow">or</span> <span class="n">r2</span> <span class="o">==</span> <span class="mf">0.0</span><span class="p">:</span>
+            <span class="n">x1</span> <span class="o">=</span> <span class="mf">2.0</span><span class="o">*</span><span class="n">f</span><span class="p">(</span><span class="n">state</span><span class="p">)</span> <span class="o">-</span> <span class="mf">1.0</span>
+            <span class="n">x2</span> <span class="o">=</span> <span class="mf">2.0</span><span class="o">*</span><span class="n">f</span><span class="p">(</span><span class="n">state</span><span class="p">)</span> <span class="o">-</span> <span class="mf">1.0</span>
+            <span class="n">r2</span> <span class="o">=</span> <span class="n">x1</span><span class="o">*</span><span class="n">x1</span> <span class="o">+</span> <span class="n">x2</span><span class="o">*</span><span class="n">x2</span>
+        <span class="n">g</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="o">-</span><span class="mf">2.0</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">r2</span><span class="p">)</span><span class="o">/</span><span class="n">r2</span><span class="p">)</span>
+        <span class="n">out</span><span class="p">[</span><span class="mi">2</span><span class="o">*</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">g</span><span class="o">*</span><span class="n">x1</span>
+        <span class="k">if</span> <span class="mi">2</span><span class="o">*</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">:</span>
+            <span class="n">out</span><span class="p">[</span><span class="mi">2</span><span class="o">*</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">g</span><span class="o">*</span><span class="n">x2</span>
+    <span class="k">return</span> <span class="n">out</span>
+
+<span class="c1"># Compile using Numba</span>
+<span class="k">print</span><span class="p">(</span><span class="n">normals</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span><span class="o">.</span><span class="n">var</span><span class="p">())</span>
+<span class="c1"># Warm up</span>
+<span class="n">normalsj</span> <span class="o">=</span> <span class="n">nb</span><span class="o">.</span><span class="n">jit</span><span class="p">(</span><span class="n">normals</span><span class="p">,</span> <span class="n">nopython</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="c1"># Must use state address not state with numba</span>
+<span class="n">normalsj</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">state_addr</span><span class="p">)</span>
+<span class="o">%</span><span class="n">timeit</span> <span class="n">normalsj</span><span class="p">(</span><span class="mi">1000000</span><span class="p">,</span> <span class="n">state_addr</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;1,000,000 Box-Muller (numba/PCG64) randoms&#39;</span><span class="p">)</span>
+<span class="o">%</span><span class="n">timeit</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">standard_normal</span><span class="p">(</span><span class="mi">1000000</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;1,000,000 Box-Muller (NumPy) randoms&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Both CTypes and CFFI allow the more complicated distributions to be used
+directly in Numba after compiling the file distributions.c into a DLL or so.
+An example showing the use of a more complicated distribution is in the
+examples folder.</p>
+</div>
+<div class="section" id="cython">
+<span id="randomgen-cython"></span><h2>Cython<a class="headerlink" href="#cython" title="Permalink to this headline">¶</a></h2>
+<p>Cython can be used to unpack the <code class="docutils literal notranslate"><span class="pre">PyCapsule</span></code> provided by a BitGenerator.
+This example uses <code class="xref py py-obj docutils literal notranslate"><span class="pre">PCG64</span></code> and
+<code class="docutils literal notranslate"><span class="pre">random_gauss_zig</span></code>, the Ziggurat-based generator for normals, to fill an
+array.  The usual caveats for writing high-performance code using Cython –
+removing bounds checks and wrap around, providing array alignment information
+– still apply.</p>
+<div class="highlight-cython notranslate"><div class="highlight"><pre><span></span><span class="k">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="k">cimport</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="k">cimport</span> <span class="nn">cython</span>
+<span class="k">from</span> <span class="nn">cpython.pycapsule</span> <span class="k">cimport</span> <span class="n">PyCapsule_IsValid</span><span class="p">,</span> <span class="n">PyCapsule_GetPointer</span>
+<span class="k">from</span> <span class="nn">numpy.random.common</span> <span class="k">cimport</span> <span class="o">*</span>
+<span class="k">from</span> <span class="nn">numpy.random.distributions</span> <span class="k">cimport</span> <span class="n">random_gauss_zig</span>
+<span class="k">from</span> <span class="nn">numpy.random</span> <span class="k">import</span> <span class="n">PCG64</span>
+
+
+<span class="nd">@cython</span><span class="o">.</span><span class="n">boundscheck</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+<span class="nd">@cython</span><span class="o">.</span><span class="n">wraparound</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">normals_zig</span><span class="p">(</span><span class="n">Py_ssize_t</span> <span class="n">n</span><span class="p">):</span>
+    <span class="k">cdef</span> <span class="kt">Py_ssize_t</span> <span class="nf">i</span>
+    <span class="k">cdef</span> <span class="kt">bitgen_t</span> *<span class="nf">rng</span>
+    <span class="k">cdef</span> <span class="kt">const</span> <span class="kt">char</span> *<span class="nf">capsule_name</span> <span class="o">=</span> <span class="s">&quot;BitGenerator&quot;</span>
+    <span class="k">cdef</span> <span class="kt">double</span>[<span class="p">::</span><span class="mf">1</span><span class="p">]</span> <span class="n">random_values</span>
+
+    <span class="n">x</span> <span class="o">=</span> <span class="n">PCG64</span><span class="p">()</span>
+    <span class="n">capsule</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">capsule</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">PyCapsule_IsValid</span><span class="p">(</span><span class="n">capsule</span><span class="p">,</span> <span class="n">capsule_name</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;Invalid pointer to anon_func_state&quot;</span><span class="p">)</span>
+    <span class="n">rng</span> <span class="o">=</span> <span class="o">&lt;</span><span class="n">bitgen_t</span> <span class="o">*&gt;</span> <span class="n">PyCapsule_GetPointer</span><span class="p">(</span><span class="n">capsule</span><span class="p">,</span> <span class="n">capsule_name</span><span class="p">)</span>
+    <span class="n">random_values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+    <span class="c"># Best practice is to release GIL and acquire the lock</span>
+    <span class="k">with</span> <span class="n">x</span><span class="o">.</span><span class="n">lock</span><span class="p">,</span> <span class="k">nogil</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+            <span class="n">random_values</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">random_gauss_zig</span><span class="p">(</span><span class="n">rng</span><span class="p">)</span>
+    <span class="n">randoms</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">random_values</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">randoms</span>
+</pre></div>
+</div>
+<p>The BitGenerator can also be directly accessed using the members of the basic
+RNG structure.</p>
+<div class="highlight-cython notranslate"><div class="highlight"><pre><span></span><span class="nd">@cython</span><span class="o">.</span><span class="n">boundscheck</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+<span class="nd">@cython</span><span class="o">.</span><span class="n">wraparound</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">uniforms</span><span class="p">(</span><span class="n">Py_ssize_t</span> <span class="n">n</span><span class="p">):</span>
+    <span class="k">cdef</span> <span class="kt">Py_ssize_t</span> <span class="nf">i</span>
+    <span class="k">cdef</span> <span class="kt">bitgen_t</span> *<span class="nf">rng</span>
+    <span class="k">cdef</span> <span class="kt">const</span> <span class="kt">char</span> *<span class="nf">capsule_name</span> <span class="o">=</span> <span class="s">&quot;BitGenerator&quot;</span>
+    <span class="k">cdef</span> <span class="kt">double</span>[<span class="p">::</span><span class="mf">1</span><span class="p">]</span> <span class="n">random_values</span>
+
+    <span class="n">x</span> <span class="o">=</span> <span class="n">PCG64</span><span class="p">()</span>
+    <span class="n">capsule</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">capsule</span>
+    <span class="c"># Optional check that the capsule if from a BitGenerator</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">PyCapsule_IsValid</span><span class="p">(</span><span class="n">capsule</span><span class="p">,</span> <span class="n">capsule_name</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;Invalid pointer to anon_func_state&quot;</span><span class="p">)</span>
+    <span class="c"># Cast the pointer</span>
+    <span class="n">rng</span> <span class="o">=</span> <span class="o">&lt;</span><span class="n">bitgen_t</span> <span class="o">*&gt;</span> <span class="n">PyCapsule_GetPointer</span><span class="p">(</span><span class="n">capsule</span><span class="p">,</span> <span class="n">capsule_name</span><span class="p">)</span>
+    <span class="n">random_values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">x</span><span class="o">.</span><span class="n">lock</span><span class="p">,</span> <span class="k">nogil</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+            <span class="c"># Call the function</span>
+            <span class="n">random_values</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">next_double</span><span class="p">(</span><span class="n">rng</span><span class="o">.</span><span class="n">state</span><span class="p">)</span>
+    <span class="n">randoms</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">random_values</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">randoms</span>
+</pre></div>
+</div>
+<p>These functions along with a minimal setup file are included in the
+examples folder.</p>
+</div>
+<div class="section" id="new-basic-rngs">
+<h2>New Basic RNGs<a class="headerlink" href="#new-basic-rngs" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference internal" href="generator.html#numpy.random.Generator" title="numpy.random.Generator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Generator</span></code></a> can be used with other user-provided BitGenerators. The simplest
+way to write a new BitGenerator is to examine the pyx file of one of the
+existing BitGenerators. The key structure that must be provided is the
+<code class="docutils literal notranslate"><span class="pre">capsule</span></code> which contains a <code class="docutils literal notranslate"><span class="pre">PyCapsule</span></code> to a struct pointer of type
+<code class="docutils literal notranslate"><span class="pre">bitgen_t</span></code>,</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span> <span class="k">struct</span> <span class="n">bitgen</span> <span class="p">{</span>
+  <span class="kt">void</span> <span class="o">*</span><span class="n">state</span><span class="p">;</span>
+  <span class="kt">uint64_t</span> <span class="p">(</span><span class="o">*</span><span class="n">next_uint64</span><span class="p">)(</span><span class="kt">void</span> <span class="o">*</span><span class="n">st</span><span class="p">);</span>
+  <span class="kt">uint32_t</span> <span class="p">(</span><span class="o">*</span><span class="n">next_uint32</span><span class="p">)(</span><span class="kt">void</span> <span class="o">*</span><span class="n">st</span><span class="p">);</span>
+  <span class="kt">double</span> <span class="p">(</span><span class="o">*</span><span class="n">next_double</span><span class="p">)(</span><span class="kt">void</span> <span class="o">*</span><span class="n">st</span><span class="p">);</span>
+  <span class="kt">uint64_t</span> <span class="p">(</span><span class="o">*</span><span class="n">next_raw</span><span class="p">)(</span><span class="kt">void</span> <span class="o">*</span><span class="n">st</span><span class="p">);</span>
+<span class="p">}</span> <span class="n">bitgen_t</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>which provides 5 pointers. The first is an opaque pointer to the data structure
+used by the BitGenerators.  The next three are function pointers which return
+the next 64- and 32-bit unsigned integers, the next random double and the next
+raw value.  This final function is used for testing and so can be set to
+the next 64-bit unsigned integer function if not needed. Functions inside
+<code class="docutils literal notranslate"><span class="pre">Generator</span></code> use this structure as in</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">bitgen_state</span><span class="o">-&gt;</span><span class="n">next_uint64</span><span class="p">(</span><span class="n">bitgen_state</span><span class="o">-&gt;</span><span class="n">state</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+                        </div>
+                        
+                    </div>
+                    <footer class="footer-rst">
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../routines.set.html" class="btn btn-neutral float-right" title="Set routines" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="performance.html" class="btn btn-neutral float-left" title="Performance" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+
+                </div>
+            </div>
+            <div class="wy-nav-content sidebar-right col-2" id="sidebar-right">
+    <div class="sidebar-right-nav" id="sidebar-right-nav">
+        <ul>
+<li><a class="reference internal" href="#">Extending</a><ul>
+<li><a class="reference internal" href="#numba">Numba</a></li>
+<li><a class="reference internal" href="#cython">Cython</a></li>
+<li><a class="reference internal" href="#new-basic-rngs">New Basic RNGs</a></li>
+</ul>
+</li>
+</ul>
+
+    </div>
+</div>
+
+<script type="text/javascript">
+
+  $(function () {
+
+    $("<span class='clickMe'><i class='fa fa-angle-up'></i><i class='fa fa-angle-down' style='display: none;'></i><span>").insertBefore(".sidebar-right-nav ul li a.reference" );
+
+    $(".sidebar-right-nav ul li span.clickMe").map(function() {
+        if($(this).closest("li").children("ul").length == 0){
+          $(this).hide();
+        };
+    })
+
+    $('.clickMe').click(function () {
+        var $i_tag = $(this).find("i");
+
+        $(this).closest("li").find("ul").slideToggle(function(){
+          $i_tag.toggle();
+        });
+
+    });
+});
+</script>
+
+            <span href="" onclick="topFunction()" id="scrollTop" title="Go to top" class="btn btn-neutral float-left">
+                <i class="fa fa-arrow-circle-up"></i>
+            </span>
+        </div>
+        <!-- </section> -->
+    </div>
+    
+    <div class="footer-area footer--light">
+      <div class="footer-big">
+        <!-- start .container -->
+        <div class="container">
+          <div class="row">
+            <div class="col-md-3 col-sm-12">
+              <div class="footer-widget">
+                <div class="widget-about">
+                  <img src="../../_static/images/numpy_logo.svg" alt="NumPy logo" class="img-fluid">
+                  <p>NumPy is the fundamental package needed for scientific computing with Python.</p>
+                  <ul class="contact-details">
+                    <li>
+                      <span class="icon-envelope-open"></span>
+                      <a href="https://mail.python.org/mailman/listinfo/numpy-discussion">
+                        Mailing list
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <!-- Ends: .footer-widget -->
+            </div>
+            <!-- end /.col-md-4 -->
+            <div class="col-md-3 col-sm-4">
+              <div class="footer-widget">
+                <div class="footer-menu footer-menu--1">
+                  <h4 class="footer-widget-title">About us</h4>
+                  <ul>
+                    <li>
+                      <a href="#">Our history</a>
+                    </li>
+                    <li>
+                      <a href="#">Ecosystem</a>
+                    </li>
+                    <li>
+                      <a href="#">Roadmap</a>
+                    </li>
+                    <li>
+                      <a href="#">Team</a>
+                    </li>
+                  </ul>
+                </div>
+                <!-- end /.footer-menu -->
+              </div>
+              <!-- Ends: .footer-widget -->
+            </div>
+            <!-- end /.col-md-3 -->
+
+            <div class="col-md-3 col-sm-4">
+              <div class="footer-widget">
+                <div class="footer-menu">
+                  <h4 class="footer-widget-title">Community</h4>
+                  <ul>
+                    <li>
+                      <a href="#">Blog</a>
+                    </li>
+                    <li>
+                      <a href="#">Contributing</a>
+                    </li>
+                    <li>
+                      <a href="#">Code of conduct</a>
+                    </li>
+                    <li>
+                      <a href="#">Community survey</a>
+                    </li>
+                  </ul>
+                </div>
+                <!-- end /.footer-menu -->
+              </div>
+              <!-- Ends: .footer-widget -->
+            </div>
+            <!-- end /.col-lg-3 -->
+
+            <div class="col-md-3 col-sm-4">
+              <div class="footer-widget">
+                <div class="footer-menu no-padding">
+                  <h4 class="footer-widget-title">Learning &  Documentation</h4>
+                  <ul>
+                    <li>
+                      <a href="#">User guide</a>
+                    </li>
+                    <li>
+                      <a href="#">API reference</a>
+                    </li>
+                    <li>
+                      <a href="#">Release notes</a>
+                    </li>
+                    <li>
+                      <a href="#">Tutorials</a>
+                    </li>
+                    <li>
+                      <a href="#">Videos</a>
+                    </li>
+                    <li>
+                      <a href="#">Books</a>
+                    </li>
+                    <li>
+                      <a href="#">Courses</a>
+                    </li>
+                  </ul>
+                </div>
+                <!-- end /.footer-menu -->
+              </div>
+              <!-- Ends: .footer-widget -->
+            </div>
+            <!-- Ends: .col-lg-3 -->
+
+          </div>
+          <!-- end /.row -->
+        </div>
+        <!-- end /.container -->
+      </div>
+      <!-- end /.footer-big -->
+
+      <div class="mini-footer">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="copyright-text">
+                <p>&copy; <span id="year"></span>
+                  <a href="#">NumPy Developers</a>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    
+
+    <!-- TODO: write js code in separate files. -->
+
+<script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+</script>
+
+
+  <!-- bootstrap js -->
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script> 
+
+
+<script type="text/javascript">
+// If jquery is not used later on then remove the jquery and use
+// plain javascript : window.load() function instead of document.ready
+$(document).ready(function() {
+    $(".bg_loader").delay(500).fadeOut(500);
+    $(".bg_loader").css("display", "block");
+
+
+});
+</script>
+
+<!-- every anchor tag will do smooth scroll -->
+<script type="text/javascript">
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+
+        document.querySelector(this.getAttribute('href')).scrollIntoView({
+            behavior: 'smooth'
+        });
+    });
+});
+
+</script>
+
+<script>
+//Get the button
+var mybutton = document.getElementById('scrollTop');
+
+// When the user scrolls down 20px from the top of the document, show the button
+$(document).scroll(function() {
+    console.log('Scrolled to ' + $(this).scrollTop());
+  })
+
+$( window ).scroll(function() {
+  console.log('Scrolled to ' + $(this).scrollTop());
+});
+
+$("#scrollTop").on( 'scroll', function(){
+   console.log('Event Fired');
+});
+
+window.onscroll = function()  {
+  console.log(document.body.scrollTop );
+  console.log('Scroll event fired.......');
+  if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+    mybutton.style.display = "block";
+  } else {
+    mybutton.style.display = "none";
+  }
+}
+
+// When the user clicks on the button, scroll to the top of the document
+function topFunction() {
+  console.log(document.body.scrollTop );
+  console.log('Click event fired.......');
+  document.body.scrollTop = 0;
+  document.documentElement.scrollTop = 0;
+  $('html, body').animate({
+      scrollTop: 0
+    }, 800);
+
+}
+</script>
+
+<!-- get the current year for footer -->
+<script>
+    document.getElementById("year").innerHTML = new Date().getFullYear();
+</script>
+</body>
+
+</html>

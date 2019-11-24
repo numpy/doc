@@ -1,0 +1,1188 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="en">
+<!--<![endif]-->
+<meta name="viewport" content="width=device-width,height=device-height,initial-scale=1.0"/>
+
+<head>
+      <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+    
+
+      <title>Data Type API &mdash; NumPy v1.17 Manual</title>
+    
+  
+
+  
+  
+  
+  
+
+  
+ <!-- TODO: remove the js file <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script> -->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    <!-- to search keyword -->
+    <script type="text/javascript" src="../../_static/searchtools.js"></script>
+<!--     TODO: I don't know why these js are generated automatically by sphinx.
+For search these both are not needed.
+
+    <script type="text/javascript" src="../../_static/underscore.js""></script>
+    <script type="text/javascript" src="../../_static/language_data.js""></script>
+-->
+    <script type="text/javascript" src="../../searchindex.js""></script>
+
+
+    <!-- math directive -->
+
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    <!-- copybutton on code highlight -->
+    <script type="text/javascript" src="../../_static/js/copybutton.js"></script>
+
+    
+
+  
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+
+  <!-- preloader css -->
+  <link rel="stylesheet" href="../../_static/css/preloader.css" type="text/css" />
+
+  <!-- preloader css -->
+  <link rel="stylesheet" href="../../_static/css/navbar.css" type="text/css" />
+
+  <!-- sidebar right -->
+  <link rel="stylesheet" href="../../_static/css/sidebar-right.css" type="text/css" />
+
+  <!-- footer rst -->
+  <link rel="stylesheet" href="../../_static/css/footer-rst.css" type="text/css" />
+
+  <!-- code highlight -->
+  <link rel="stylesheet" href="../../_static/css/code-highlight.css" type="text/css" />
+
+  <!-- mobile responsive -->
+  <link rel="stylesheet" href="../../_static/css/responsive.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/css/sidenav-mobile.css" type="text/css" />
+
+  <!-- footer -->
+  <link rel="stylesheet" href="../../_static/css/extra-footer.css" type="text/css" />
+
+
+  <!-- Custom modification in theme css -->
+  <link rel="stylesheet" href="../../_static/css/custom_theme.css" type="text/css" />
+
+  <!-- font -->
+   <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Ubuntu:regular,bold&subset=Latin">
+
+   <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+  <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
+    <link rel="author" title="About these documents" href="../../about.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Array API" href="array.html" />
+    <link rel="prev" title="System configuration" href="config.html" /> 
+</head>
+<div class="bg_loader">
+  <div class="loader">
+
+  </div>
+</div>
+
+<body class="wy-body-for-nav">
+    <!-- navbar -->
+<nav class="navbar navbar-expand-md navbar-light">
+    <a class="navbar-brand navbar-left header-logo" href=""><img src="../../_static/images/numpy_logo.svg"></a>
+    <button type="button" class="navbar-toggler bg-light" data-toggle="collapse" data-target="#nav">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse justify-content-end" id="nav">
+        <ul class="nav navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link text-dark font-weight-bold px-3" href="https://numpy.org/devdocs/user/quickstart.html">Quick Start</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-dark font-weight-bold px-3" href="https://numpy.org/devdocs">Documentation</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-dark font-weight-bold px-3" href="https://www.numpy.org/neps/index.html">NumPy Enhancement Proposals (NEPs)</a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link text-dark font-weight-bold px-3" href="https://numpy.org/doc">Other doc versions</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+    <!-- mobile device -->
+    <div id="sidenav-left-toggle-button">
+    <a href="#mobile-sidenav-left" class="btn btn-primary btn-lg btn-block btn-primary-outline"  data-toggle="collapse"><span><i class="fa fa-arrow-circle-down"></i></span>Table of content</a>
+    </div>
+     
+    <div class="wy-grid-for-nav row">
+        
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side col-2">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../contents.html" class="icon icon-home"> NumPy
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.17
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../user/index.html">NumPy User Guide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">NumPy Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../f2py/index.html">F2PY Users Guide and Reference Manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dev/index.html">Contributing to NumPy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../docs/index.html">NumPy’s Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../release.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../about.html">About NumPy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../about.html#about-this-documentation">About this documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../bugs.html">Reporting bugs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../license.html">NumPy License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <!-- for smaller device  < laptop size -->
+
+    <div id="mobile-sidenav-left" class="collapse">
+    <nav data-toggle="wy-nav-shift-mobile" class="wy-nav-side-mobile">
+      <a href="#mobile-sidenav-left" class="close" aria-label="Close" data-toggle="collapse">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+            <a href="../../contents.html" class="icon icon-home"> NumPy
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.17
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../user/index.html">NumPy User Guide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">NumPy Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../f2py/index.html">F2PY Users Guide and Reference Manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dev/index.html">Contributing to NumPy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../docs/index.html">NumPy’s Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../release.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../about.html">About NumPy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../about.html#about-this-documentation">About this documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../bugs.html">Reporting bugs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../license.html">NumPy License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
+</ul>
+
+            
+        </div>
+      </div>
+
+
+    </nav>
+    </div>
+
+    <!-- end - smaller device html code  -->
+
+        <!-- <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"> -->
+        
+        <nav class="wy-nav-top" aria-label="top navigation">
+            
+            <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+            <a href="../../contents.html">NumPy</a>
+            
+        </nav>
+        <div class="wy-nav-content col-8">
+            
+                <div class="rst-content">
+                    
+                    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../contents.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">NumPy Reference</a> &raquo;</li>
+        
+          <li><a href="index.html">NumPy C-API</a> &raquo;</li>
+        
+      <li>Data Type API</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/numpy/numpy/blob/master/doc/source/reference/c-api/dtype.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+                    <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+                        <div itemprop="articleBody">
+                            
+  <div class="section" id="data-type-api">
+<h1>Data Type API<a class="headerlink" href="#data-type-api" title="Permalink to this headline">¶</a></h1>
+<p>The standard array can have 24 different data types (and has some
+support for adding your own types). These data types all have an
+enumerated type, an enumerated type-character, and a corresponding
+array scalar Python type object (placed in a hierarchy). There are
+also standard C typedefs to make it easier to manipulate elements of
+the given data type. For the numeric types, there are also bit-width
+equivalent C typedefs and named typenumbers that make it easier to
+select the precision desired.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The names for the types in c code follows c naming conventions
+more closely. The Python names for these types follow Python
+conventions.  Thus, <a class="reference internal" href="#c.NPY_FLOAT" title="NPY_FLOAT"><code class="xref c c-data docutils literal notranslate"><span class="pre">NPY_FLOAT</span></code></a> picks up a 32-bit float in
+C, but <code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.float_</span></code> in Python corresponds to a 64-bit
+double. The bit-width names can be used in both Python and C for
+clarity.</p>
+</div>
+<div class="section" id="enumerated-types">
+<h2>Enumerated Types<a class="headerlink" href="#enumerated-types" title="Permalink to this headline">¶</a></h2>
+<dl class="var">
+<dt id="c.NPY_TYPES">
+<code class="sig-name descname">NPY_TYPES</code><a class="headerlink" href="#c.NPY_TYPES" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>There is a list of enumerated types defined providing the basic 24
+data types plus some useful generic names. Whenever the code requires
+a type number, one of these enumerated types is requested. The types
+are all called <code class="xref c c-data docutils literal notranslate"><span class="pre">NPY_{NAME}</span></code>:</p>
+<dl class="var">
+<dt id="c.NPY_BOOL">
+<code class="sig-name descname">NPY_BOOL</code><a class="headerlink" href="#c.NPY_BOOL" title="Permalink to this definition">¶</a></dt>
+<dd><p>The enumeration value for the boolean type, stored as one byte.
+It may only be set to the values 0 and 1.</p>
+</dd></dl>
+
+<dl class="var">
+<dt id="c.NPY_BYTE">
+<code class="sig-name descname">NPY_BYTE</code><a class="headerlink" href="#c.NPY_BYTE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="var">
+<dt id="c.NPY_INT8">
+<code class="sig-name descname">NPY_INT8</code><a class="headerlink" href="#c.NPY_INT8" title="Permalink to this definition">¶</a></dt>
+<dd><p>The enumeration value for an 8-bit/1-byte signed integer.</p>
+</dd></dl>
+
+<dl class="var">
+<dt id="c.NPY_SHORT">
+<code class="sig-name descname">NPY_SHORT</code><a class="headerlink" href="#c.NPY_SHORT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="var">
+<dt id="c.NPY_INT16">
+<code class="sig-name descname">NPY_INT16</code><a class="headerlink" href="#c.NPY_INT16" title="Permalink to this definition">¶</a></dt>
+<dd><p>The enumeration value for a 16-bit/2-byte signed integer.</p>
+</dd></dl>
+
+<dl class="var">
+<dt id="c.NPY_INT">
+<code class="sig-name descname">NPY_INT</code><a class="headerlink" href="#c.NPY_INT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="var">
+<dt id="c.NPY_INT32">
+<code class="sig-name descname">NPY_INT32</code><a class="headerlink" href="#c.NPY_INT32" title="Permalink to this definition">¶</a></dt>
+<dd><p>The enumeration value for a 32-bit/4-byte signed integer.</p>
+</dd></dl>
+
+<dl class="var">
+<dt id="c.NPY_LONG">
+<code class="sig-name descname">NPY_LONG</code><a class="headerlink" href="#c.NPY_LONG" title="Permalink to this definition">¶</a></dt>
+<dd><p>Equivalent to either NPY_INT or NPY_LONGLONG, depending on the
+platform.</p>
+</dd></dl>
+
+<dl class="var">
+<dt id="c.NPY_LONGLONG">
+<code class="sig-name descname">NPY_LONGLONG</code><a class="headerlink" href="#c.NPY_LONGLONG" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="var">
+<dt id="c.NPY_INT64">
+<code class="sig-name descname">NPY_INT64</code><a class="headerlink" href="#c.NPY_INT64" title="Permalink to this definition">¶</a></dt>
+<dd><p>The enumeration value for a 64-bit/8-byte signed integer.</p>
+</dd></dl>
+
+<dl class="var">
+<dt id="c.NPY_UBYTE">
+<code class="sig-name descname">NPY_UBYTE</code><a class="headerlink" href="#c.NPY_UBYTE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="var">
+<dt id="c.NPY_UINT8">
+<code class="sig-name descname">NPY_UINT8</code><a class="headerlink" href="#c.NPY_UINT8" title="Permalink to this definition">¶</a></dt>
+<dd><p>The enumeration value for an 8-bit/1-byte unsigned integer.</p>
+</dd></dl>
+
+<dl class="var">
+<dt id="c.NPY_USHORT">
+<code class="sig-name descname">NPY_USHORT</code><a class="headerlink" href="#c.NPY_USHORT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="var">
+<dt id="c.NPY_UINT16">
+<code class="sig-name descname">NPY_UINT16</code><a class="headerlink" href="#c.NPY_UINT16" title="Permalink to this definition">¶</a></dt>
+<dd><p>The enumeration value for a 16-bit/2-byte unsigned integer.</p>
+</dd></dl>
+
+<dl class="var">
+<dt id="c.NPY_UINT">
+<code class="sig-name descname">NPY_UINT</code><a class="headerlink" href="#c.NPY_UINT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="var">
+<dt id="c.NPY_UINT32">
+<code class="sig-name descname">NPY_UINT32</code><a class="headerlink" href="#c.NPY_UINT32" title="Permalink to this definition">¶</a></dt>
+<dd><p>The enumeration value for a 32-bit/4-byte unsigned integer.</p>
+</dd></dl>
+
+<dl class="var">
+<dt id="c.NPY_ULONG">
+<code class="sig-name descname">NPY_ULONG</code><a class="headerlink" href="#c.NPY_ULONG" title="Permalink to this definition">¶</a></dt>
+<dd><p>Equivalent to either NPY_UINT or NPY_ULONGLONG, depending on the
+platform.</p>
+</dd></dl>
+
+<dl class="var">
+<dt id="c.NPY_ULONGLONG">
+<code class="sig-name descname">NPY_ULONGLONG</code><a class="headerlink" href="#c.NPY_ULONGLONG" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="var">
+<dt id="c.NPY_UINT64">
+<code class="sig-name descname">NPY_UINT64</code><a class="headerlink" href="#c.NPY_UINT64" title="Permalink to this definition">¶</a></dt>
+<dd><p>The enumeration value for a 64-bit/8-byte unsigned integer.</p>
+</dd></dl>
+
+<dl class="var">
+<dt id="c.NPY_HALF">
+<code class="sig-name descname">NPY_HALF</code><a class="headerlink" href="#c.NPY_HALF" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="var">
+<dt id="c.NPY_FLOAT16">
+<code class="sig-name descname">NPY_FLOAT16</code><a class="headerlink" href="#c.NPY_FLOAT16" title="Permalink to this definition">¶</a></dt>
+<dd><p>The enumeration value for a 16-bit/2-byte IEEE 754-2008 compatible floating
+point type.</p>
+</dd></dl>
+
+<dl class="var">
+<dt id="c.NPY_FLOAT">
+<code class="sig-name descname">NPY_FLOAT</code><a class="headerlink" href="#c.NPY_FLOAT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="var">
+<dt id="c.NPY_FLOAT32">
+<code class="sig-name descname">NPY_FLOAT32</code><a class="headerlink" href="#c.NPY_FLOAT32" title="Permalink to this definition">¶</a></dt>
+<dd><p>The enumeration value for a 32-bit/4-byte IEEE 754 compatible floating
+point type.</p>
+</dd></dl>
+
+<dl class="var">
+<dt id="c.NPY_DOUBLE">
+<code class="sig-name descname">NPY_DOUBLE</code><a class="headerlink" href="#c.NPY_DOUBLE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="var">
+<dt id="c.NPY_FLOAT64">
+<code class="sig-name descname">NPY_FLOAT64</code><a class="headerlink" href="#c.NPY_FLOAT64" title="Permalink to this definition">¶</a></dt>
+<dd><p>The enumeration value for a 64-bit/8-byte IEEE 754 compatible floating
+point type.</p>
+</dd></dl>
+
+<dl class="var">
+<dt id="c.NPY_LONGDOUBLE">
+<code class="sig-name descname">NPY_LONGDOUBLE</code><a class="headerlink" href="#c.NPY_LONGDOUBLE" title="Permalink to this definition">¶</a></dt>
+<dd><p>The enumeration value for a platform-specific floating point type which is
+at least as large as NPY_DOUBLE, but larger on many platforms.</p>
+</dd></dl>
+
+<dl class="var">
+<dt id="c.NPY_CFLOAT">
+<code class="sig-name descname">NPY_CFLOAT</code><a class="headerlink" href="#c.NPY_CFLOAT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="var">
+<dt id="c.NPY_COMPLEX64">
+<code class="sig-name descname">NPY_COMPLEX64</code><a class="headerlink" href="#c.NPY_COMPLEX64" title="Permalink to this definition">¶</a></dt>
+<dd><p>The enumeration value for a 64-bit/8-byte complex type made up of
+two NPY_FLOAT values.</p>
+</dd></dl>
+
+<dl class="var">
+<dt id="c.NPY_CDOUBLE">
+<code class="sig-name descname">NPY_CDOUBLE</code><a class="headerlink" href="#c.NPY_CDOUBLE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="var">
+<dt id="c.NPY_COMPLEX128">
+<code class="sig-name descname">NPY_COMPLEX128</code><a class="headerlink" href="#c.NPY_COMPLEX128" title="Permalink to this definition">¶</a></dt>
+<dd><p>The enumeration value for a 128-bit/16-byte complex type made up of
+two NPY_DOUBLE values.</p>
+</dd></dl>
+
+<dl class="var">
+<dt id="c.NPY_CLONGDOUBLE">
+<code class="sig-name descname">NPY_CLONGDOUBLE</code><a class="headerlink" href="#c.NPY_CLONGDOUBLE" title="Permalink to this definition">¶</a></dt>
+<dd><p>The enumeration value for a platform-specific complex floating point
+type which is made up of two NPY_LONGDOUBLE values.</p>
+</dd></dl>
+
+<dl class="var">
+<dt id="c.NPY_DATETIME">
+<code class="sig-name descname">NPY_DATETIME</code><a class="headerlink" href="#c.NPY_DATETIME" title="Permalink to this definition">¶</a></dt>
+<dd><p>The enumeration value for a data type which holds dates or datetimes with
+a precision based on selectable date or time units.</p>
+</dd></dl>
+
+<dl class="var">
+<dt id="c.NPY_TIMEDELTA">
+<code class="sig-name descname">NPY_TIMEDELTA</code><a class="headerlink" href="#c.NPY_TIMEDELTA" title="Permalink to this definition">¶</a></dt>
+<dd><p>The enumeration value for a data type which holds lengths of times in
+integers of selectable date or time units.</p>
+</dd></dl>
+
+<dl class="var">
+<dt id="c.NPY_STRING">
+<code class="sig-name descname">NPY_STRING</code><a class="headerlink" href="#c.NPY_STRING" title="Permalink to this definition">¶</a></dt>
+<dd><p>The enumeration value for ASCII strings of a selectable size. The
+strings have a fixed maximum size within a given array.</p>
+</dd></dl>
+
+<dl class="var">
+<dt id="c.NPY_UNICODE">
+<code class="sig-name descname">NPY_UNICODE</code><a class="headerlink" href="#c.NPY_UNICODE" title="Permalink to this definition">¶</a></dt>
+<dd><p>The enumeration value for UCS4 strings of a selectable size. The
+strings have a fixed maximum size within a given array.</p>
+</dd></dl>
+
+<dl class="var">
+<dt id="c.NPY_OBJECT">
+<code class="sig-name descname">NPY_OBJECT</code><a class="headerlink" href="#c.NPY_OBJECT" title="Permalink to this definition">¶</a></dt>
+<dd><p>The enumeration value for references to arbitrary Python objects.</p>
+</dd></dl>
+
+<dl class="var">
+<dt id="c.NPY_VOID">
+<code class="sig-name descname">NPY_VOID</code><a class="headerlink" href="#c.NPY_VOID" title="Permalink to this definition">¶</a></dt>
+<dd><p>Primarily used to hold struct dtypes, but can contain arbitrary
+binary data.</p>
+</dd></dl>
+
+<p>Some useful aliases of the above types are</p>
+<dl class="var">
+<dt id="c.NPY_INTP">
+<code class="sig-name descname">NPY_INTP</code><a class="headerlink" href="#c.NPY_INTP" title="Permalink to this definition">¶</a></dt>
+<dd><p>The enumeration value for a signed integer type which is the same
+size as a (void *) pointer. This is the type used by all
+arrays of indices.</p>
+</dd></dl>
+
+<dl class="var">
+<dt id="c.NPY_UINTP">
+<code class="sig-name descname">NPY_UINTP</code><a class="headerlink" href="#c.NPY_UINTP" title="Permalink to this definition">¶</a></dt>
+<dd><p>The enumeration value for an unsigned integer type which is the
+same size as a (void *) pointer.</p>
+</dd></dl>
+
+<dl class="var">
+<dt id="c.NPY_MASK">
+<code class="sig-name descname">NPY_MASK</code><a class="headerlink" href="#c.NPY_MASK" title="Permalink to this definition">¶</a></dt>
+<dd><p>The enumeration value of the type used for masks, such as with
+the <a class="reference internal" href="iterator.html#c.NPY_ITER_ARRAYMASK" title="NPY_ITER_ARRAYMASK"><code class="xref c c-data docutils literal notranslate"><span class="pre">NPY_ITER_ARRAYMASK</span></code></a> iterator flag. This is equivalent
+to <a class="reference internal" href="#c.NPY_UINT8" title="NPY_UINT8"><code class="xref c c-data docutils literal notranslate"><span class="pre">NPY_UINT8</span></code></a>.</p>
+</dd></dl>
+
+<dl class="var">
+<dt id="c.NPY_DEFAULT_TYPE">
+<code class="sig-name descname">NPY_DEFAULT_TYPE</code><a class="headerlink" href="#c.NPY_DEFAULT_TYPE" title="Permalink to this definition">¶</a></dt>
+<dd><p>The default type to use when no dtype is explicitly specified, for
+example when calling np.zero(shape). This is equivalent to
+<a class="reference internal" href="#c.NPY_DOUBLE" title="NPY_DOUBLE"><code class="xref c c-data docutils literal notranslate"><span class="pre">NPY_DOUBLE</span></code></a>.</p>
+</dd></dl>
+
+<p>Other useful related constants are</p>
+<dl class="var">
+<dt id="c.NPY_NTYPES">
+<code class="sig-name descname">NPY_NTYPES</code><a class="headerlink" href="#c.NPY_NTYPES" title="Permalink to this definition">¶</a></dt>
+<dd><p>The total number of built-in NumPy types. The enumeration covers
+the range from 0 to NPY_NTYPES-1.</p>
+</dd></dl>
+
+<dl class="var">
+<dt id="c.NPY_NOTYPE">
+<code class="sig-name descname">NPY_NOTYPE</code><a class="headerlink" href="#c.NPY_NOTYPE" title="Permalink to this definition">¶</a></dt>
+<dd><p>A signal value guaranteed not to be a valid type enumeration number.</p>
+</dd></dl>
+
+<dl class="var">
+<dt id="c.NPY_USERDEF">
+<code class="sig-name descname">NPY_USERDEF</code><a class="headerlink" href="#c.NPY_USERDEF" title="Permalink to this definition">¶</a></dt>
+<dd><p>The start of type numbers used for Custom Data types.</p>
+</dd></dl>
+
+<p>The various character codes indicating certain types are also part of
+an enumerated list. References to type characters (should they be
+needed at all) should always use these enumerations. The form of them
+is <code class="xref c c-data docutils literal notranslate"><span class="pre">NPY_{NAME}LTR</span></code> where <code class="docutils literal notranslate"><span class="pre">{NAME}</span></code> can be</p>
+<blockquote>
+<div><p><strong>BOOL</strong>, <strong>BYTE</strong>, <strong>UBYTE</strong>, <strong>SHORT</strong>, <strong>USHORT</strong>, <strong>INT</strong>,
+<strong>UINT</strong>, <strong>LONG</strong>, <strong>ULONG</strong>, <strong>LONGLONG</strong>, <strong>ULONGLONG</strong>,
+<strong>HALF</strong>, <strong>FLOAT</strong>, <strong>DOUBLE</strong>, <strong>LONGDOUBLE</strong>, <strong>CFLOAT</strong>,
+<strong>CDOUBLE</strong>, <strong>CLONGDOUBLE</strong>, <strong>DATETIME</strong>, <strong>TIMEDELTA</strong>,
+<strong>OBJECT</strong>, <strong>STRING</strong>, <strong>VOID</strong></p>
+<p><strong>INTP</strong>, <strong>UINTP</strong></p>
+<p><strong>GENBOOL</strong>, <strong>SIGNED</strong>, <strong>UNSIGNED</strong>, <strong>FLOATING</strong>, <strong>COMPLEX</strong></p>
+</div></blockquote>
+<p>The latter group of <code class="docutils literal notranslate"><span class="pre">{NAME}s</span></code> corresponds to letters used in the array
+interface typestring specification.</p>
+</div>
+<div class="section" id="defines">
+<h2>Defines<a class="headerlink" href="#defines" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="max-and-min-values-for-integers">
+<h3>Max and min values for integers<a class="headerlink" href="#max-and-min-values-for-integers" title="Permalink to this headline">¶</a></h3>
+<dl class="var">
+<dt>
+<code class="sig-name descname">NPY_MAX_INT{bits}</code></dt>
+<dd></dd></dl>
+
+<dl class="var">
+<dt>
+<code class="sig-name descname">NPY_MAX_UINT{bits}</code></dt>
+<dd></dd></dl>
+
+<dl class="var">
+<dt>
+<code class="sig-name descname">NPY_MIN_INT{bits}</code></dt>
+<dd><p>These are defined for <code class="docutils literal notranslate"><span class="pre">{bits}</span></code> = 8, 16, 32, 64, 128, and 256 and provide
+the maximum (minimum) value of the corresponding (unsigned) integer
+type. Note: the actual integer type may not be available on all
+platforms (i.e. 128-bit and 256-bit integers are rare).</p>
+</dd></dl>
+
+<dl class="var">
+<dt>
+<code class="sig-name descname">NPY_MIN_{type}</code></dt>
+<dd><p>This is defined for <code class="docutils literal notranslate"><span class="pre">{type}</span></code> = <strong>BYTE</strong>, <strong>SHORT</strong>, <strong>INT</strong>,
+<strong>LONG</strong>, <strong>LONGLONG</strong>, <strong>INTP</strong></p>
+</dd></dl>
+
+<dl class="var">
+<dt>
+<code class="sig-name descname">NPY_MAX_{type}</code></dt>
+<dd><p>This is defined for all defined for <code class="docutils literal notranslate"><span class="pre">{type}</span></code> = <strong>BYTE</strong>, <strong>UBYTE</strong>,
+<strong>SHORT</strong>, <strong>USHORT</strong>, <strong>INT</strong>, <strong>UINT</strong>, <strong>LONG</strong>, <strong>ULONG</strong>,
+<strong>LONGLONG</strong>, <strong>ULONGLONG</strong>, <strong>INTP</strong>, <strong>UINTP</strong></p>
+</dd></dl>
+
+</div>
+<div class="section" id="number-of-bits-in-data-types">
+<h3>Number of bits in data types<a class="headerlink" href="#number-of-bits-in-data-types" title="Permalink to this headline">¶</a></h3>
+<p>All <code class="xref c c-data docutils literal notranslate"><span class="pre">NPY_SIZEOF_{CTYPE}</span></code> constants have corresponding
+<code class="xref c c-data docutils literal notranslate"><span class="pre">NPY_BITSOF_{CTYPE}</span></code> constants defined. The <code class="xref c c-data docutils literal notranslate"><span class="pre">NPY_BITSOF_{CTYPE}</span></code>
+constants provide the number of bits in the data type.  Specifically,
+the available <code class="docutils literal notranslate"><span class="pre">{CTYPE}s</span></code> are</p>
+<blockquote>
+<div><p><strong>BOOL</strong>, <strong>CHAR</strong>, <strong>SHORT</strong>, <strong>INT</strong>, <strong>LONG</strong>,
+<strong>LONGLONG</strong>, <strong>FLOAT</strong>, <strong>DOUBLE</strong>, <strong>LONGDOUBLE</strong></p>
+</div></blockquote>
+</div>
+<div class="section" id="bit-width-references-to-enumerated-typenums">
+<h3>Bit-width references to enumerated typenums<a class="headerlink" href="#bit-width-references-to-enumerated-typenums" title="Permalink to this headline">¶</a></h3>
+<p>All of the numeric data types (integer, floating point, and complex)
+have constants that are defined to be a specific enumerated type
+number. Exactly which enumerated type a bit-width type refers to is
+platform dependent. In particular, the constants available are
+<code class="xref c c-data docutils literal notranslate"><span class="pre">PyArray_{NAME}{BITS}</span></code> where <code class="docutils literal notranslate"><span class="pre">{NAME}</span></code> is <strong>INT</strong>, <strong>UINT</strong>,
+<strong>FLOAT</strong>, <strong>COMPLEX</strong> and <code class="docutils literal notranslate"><span class="pre">{BITS}</span></code> can be 8, 16, 32, 64, 80, 96, 128,
+160, 192, 256, and 512.  Obviously not all bit-widths are available on
+all platforms for all the kinds of numeric types. Commonly 8-, 16-,
+32-, 64-bit integers; 32-, 64-bit floats; and 64-, 128-bit complex
+types are available.</p>
+</div>
+<div class="section" id="integer-that-can-hold-a-pointer">
+<h3>Integer that can hold a pointer<a class="headerlink" href="#integer-that-can-hold-a-pointer" title="Permalink to this headline">¶</a></h3>
+<p>The constants <strong>NPY_INTP</strong> and <strong>NPY_UINTP</strong> refer to an
+enumerated integer type that is large enough to hold a pointer on the
+platform. Index arrays should always be converted to <strong>NPY_INTP</strong>
+, because the dimension of the array is of type npy_intp.</p>
+</div>
+</div>
+<div class="section" id="c-type-names">
+<h2>C-type names<a class="headerlink" href="#c-type-names" title="Permalink to this headline">¶</a></h2>
+<p>There are standard variable types for each of the numeric data types
+and the bool data type. Some of these are already available in the
+C-specification. You can create variables in extension code with these
+types.</p>
+<div class="section" id="boolean">
+<h3>Boolean<a class="headerlink" href="#boolean" title="Permalink to this headline">¶</a></h3>
+<dl class="type">
+<dt id="c.npy_bool">
+<code class="sig-name descname">npy_bool</code><a class="headerlink" href="#c.npy_bool" title="Permalink to this definition">¶</a></dt>
+<dd><p>unsigned char; The constants <a class="reference internal" href="array.html#c.NPY_FALSE" title="NPY_FALSE"><code class="xref c c-data docutils literal notranslate"><span class="pre">NPY_FALSE</span></code></a> and
+<a class="reference internal" href="array.html#c.NPY_TRUE" title="NPY_TRUE"><code class="xref c c-data docutils literal notranslate"><span class="pre">NPY_TRUE</span></code></a> are also defined.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="un-signed-integer">
+<h3>(Un)Signed Integer<a class="headerlink" href="#un-signed-integer" title="Permalink to this headline">¶</a></h3>
+<p>Unsigned versions of the integers can be defined by pre-pending a ‘u’
+to the front of the integer name.</p>
+<dl class="type">
+<dt>
+<code class="sig-name descname">npy_(u)byte</code></dt>
+<dd><p>(unsigned) char</p>
+</dd></dl>
+
+<dl class="type">
+<dt id="c.npy_short">
+<code class="sig-name descname">npy_short</code><a class="headerlink" href="#c.npy_short" title="Permalink to this definition">¶</a></dt>
+<dd><p>short</p>
+</dd></dl>
+
+<dl class="type">
+<dt id="c.npy_ushort">
+<code class="sig-name descname">npy_ushort</code><a class="headerlink" href="#c.npy_ushort" title="Permalink to this definition">¶</a></dt>
+<dd><p>unsigned short</p>
+</dd></dl>
+
+<dl class="type">
+<dt id="c.npy_uint">
+<code class="sig-name descname">npy_uint</code><a class="headerlink" href="#c.npy_uint" title="Permalink to this definition">¶</a></dt>
+<dd><p>unsigned int</p>
+</dd></dl>
+
+<dl class="type">
+<dt id="c.npy_int">
+<code class="sig-name descname">npy_int</code><a class="headerlink" href="#c.npy_int" title="Permalink to this definition">¶</a></dt>
+<dd><p>int</p>
+</dd></dl>
+
+<dl class="type">
+<dt id="c.npy_int16">
+<code class="sig-name descname">npy_int16</code><a class="headerlink" href="#c.npy_int16" title="Permalink to this definition">¶</a></dt>
+<dd><p>16-bit integer</p>
+</dd></dl>
+
+<dl class="type">
+<dt id="c.npy_uint16">
+<code class="sig-name descname">npy_uint16</code><a class="headerlink" href="#c.npy_uint16" title="Permalink to this definition">¶</a></dt>
+<dd><p>16-bit unsigned integer</p>
+</dd></dl>
+
+<dl class="type">
+<dt id="c.npy_int32">
+<code class="sig-name descname">npy_int32</code><a class="headerlink" href="#c.npy_int32" title="Permalink to this definition">¶</a></dt>
+<dd><p>32-bit integer</p>
+</dd></dl>
+
+<dl class="type">
+<dt id="c.npy_uint32">
+<code class="sig-name descname">npy_uint32</code><a class="headerlink" href="#c.npy_uint32" title="Permalink to this definition">¶</a></dt>
+<dd><p>32-bit unsigned integer</p>
+</dd></dl>
+
+<dl class="type">
+<dt id="c.npy_int64">
+<code class="sig-name descname">npy_int64</code><a class="headerlink" href="#c.npy_int64" title="Permalink to this definition">¶</a></dt>
+<dd><p>64-bit integer</p>
+</dd></dl>
+
+<dl class="type">
+<dt id="c.npy_uint64">
+<code class="sig-name descname">npy_uint64</code><a class="headerlink" href="#c.npy_uint64" title="Permalink to this definition">¶</a></dt>
+<dd><p>64-bit unsigned integer</p>
+</dd></dl>
+
+<dl class="type">
+<dt>
+<code class="sig-name descname">npy_(u)long</code></dt>
+<dd><p>(unsigned) long int</p>
+</dd></dl>
+
+<dl class="type">
+<dt>
+<code class="sig-name descname">npy_(u)longlong</code></dt>
+<dd><p>(unsigned long long int)</p>
+</dd></dl>
+
+<dl class="type">
+<dt id="c.npy_intp">
+<code class="sig-name descname">npy_intp</code><a class="headerlink" href="#c.npy_intp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Py_intptr_t (an integer that is the size of a pointer on
+the platform).</p>
+</dd></dl>
+
+<dl class="type">
+<dt id="c.npy_uintp">
+<code class="sig-name descname">npy_uintp</code><a class="headerlink" href="#c.npy_uintp" title="Permalink to this definition">¶</a></dt>
+<dd><p>unsigned Py_intptr_t (an integer that is the size of a pointer on
+the platform).</p>
+</dd></dl>
+
+</div>
+<div class="section" id="complex-floating-point">
+<h3>(Complex) Floating point<a class="headerlink" href="#complex-floating-point" title="Permalink to this headline">¶</a></h3>
+<dl class="type">
+<dt id="c.npy_half">
+<code class="sig-name descname">npy_half</code><a class="headerlink" href="#c.npy_half" title="Permalink to this definition">¶</a></dt>
+<dd><p>16-bit float</p>
+</dd></dl>
+
+<dl class="type">
+<dt>
+<code class="sig-name descname">npy_(c)float</code></dt>
+<dd><p>32-bit float</p>
+</dd></dl>
+
+<dl class="type">
+<dt>
+<code class="sig-name descname">npy_(c)double</code></dt>
+<dd><p>64-bit double</p>
+</dd></dl>
+
+<dl class="type">
+<dt>
+<code class="sig-name descname">npy_(c)longdouble</code></dt>
+<dd><p>long double</p>
+</dd></dl>
+
+<p>complex types are structures with <strong>.real</strong> and <strong>.imag</strong> members (in
+that order).</p>
+</div>
+<div class="section" id="bit-width-names">
+<h3>Bit-width names<a class="headerlink" href="#bit-width-names" title="Permalink to this headline">¶</a></h3>
+<p>There are also typedefs for signed integers, unsigned integers,
+floating point, and complex floating point types of specific bit-
+widths. The available type names are</p>
+<blockquote>
+<div><p><code class="xref c c-type docutils literal notranslate"><span class="pre">npy_int{bits}</span></code>, <code class="xref c c-type docutils literal notranslate"><span class="pre">npy_uint{bits}</span></code>, <code class="xref c c-type docutils literal notranslate"><span class="pre">npy_float{bits}</span></code>,
+and <code class="xref c c-type docutils literal notranslate"><span class="pre">npy_complex{bits}</span></code></p>
+</div></blockquote>
+<p>where <code class="docutils literal notranslate"><span class="pre">{bits}</span></code> is the number of bits in the type and can be <strong>8</strong>,
+<strong>16</strong>, <strong>32</strong>, <strong>64</strong>, 128, and 256 for integer types; 16, <strong>32</strong>
+, <strong>64</strong>, 80, 96, 128, and 256 for floating-point types; and 32,
+<strong>64</strong>, <strong>128</strong>, 160, 192, and 512 for complex-valued types. Which
+bit-widths are available is platform dependent. The bolded bit-widths
+are usually available on all platforms.</p>
+</div>
+</div>
+<div class="section" id="printf-formatting">
+<h2>Printf Formatting<a class="headerlink" href="#printf-formatting" title="Permalink to this headline">¶</a></h2>
+<p>For help in printing, the following strings are defined as the correct
+format specifier in printf and related commands.</p>
+<blockquote>
+<div><p><code class="xref c c-data docutils literal notranslate"><span class="pre">NPY_LONGLONG_FMT</span></code>, <code class="xref c c-data docutils literal notranslate"><span class="pre">NPY_ULONGLONG_FMT</span></code>,
+<code class="xref c c-data docutils literal notranslate"><span class="pre">NPY_INTP_FMT</span></code>, <code class="xref c c-data docutils literal notranslate"><span class="pre">NPY_UINTP_FMT</span></code>,
+<code class="xref c c-data docutils literal notranslate"><span class="pre">NPY_LONGDOUBLE_FMT</span></code></p>
+</div></blockquote>
+</div>
+</div>
+
+
+                        </div>
+                        
+                    </div>
+                    <footer class="footer-rst">
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="array.html" class="btn btn-neutral float-right" title="Array API" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="config.html" class="btn btn-neutral float-left" title="System configuration" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+
+                </div>
+            </div>
+            <div class="wy-nav-content sidebar-right col-2" id="sidebar-right">
+    <div class="sidebar-right-nav" id="sidebar-right-nav">
+        <ul>
+<li><a class="reference internal" href="#">Data Type API</a><ul>
+<li><a class="reference internal" href="#enumerated-types">Enumerated Types</a></li>
+<li><a class="reference internal" href="#defines">Defines</a><ul>
+<li><a class="reference internal" href="#max-and-min-values-for-integers">Max and min values for integers</a></li>
+<li><a class="reference internal" href="#number-of-bits-in-data-types">Number of bits in data types</a></li>
+<li><a class="reference internal" href="#bit-width-references-to-enumerated-typenums">Bit-width references to enumerated typenums</a></li>
+<li><a class="reference internal" href="#integer-that-can-hold-a-pointer">Integer that can hold a pointer</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#c-type-names">C-type names</a><ul>
+<li><a class="reference internal" href="#boolean">Boolean</a></li>
+<li><a class="reference internal" href="#un-signed-integer">(Un)Signed Integer</a></li>
+<li><a class="reference internal" href="#complex-floating-point">(Complex) Floating point</a></li>
+<li><a class="reference internal" href="#bit-width-names">Bit-width names</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#printf-formatting">Printf Formatting</a></li>
+</ul>
+</li>
+</ul>
+
+    </div>
+</div>
+
+<script type="text/javascript">
+
+  $(function () {
+
+    $("<span class='clickMe'><i class='fa fa-angle-up'></i><i class='fa fa-angle-down' style='display: none;'></i><span>").insertBefore(".sidebar-right-nav ul li a.reference" );
+
+    $(".sidebar-right-nav ul li span.clickMe").map(function() {
+        if($(this).closest("li").children("ul").length == 0){
+          $(this).hide();
+        };
+    })
+
+    $('.clickMe').click(function () {
+        var $i_tag = $(this).find("i");
+
+        $(this).closest("li").find("ul").slideToggle(function(){
+          $i_tag.toggle();
+        });
+
+    });
+});
+</script>
+
+            <span href="" onclick="topFunction()" id="scrollTop" title="Go to top" class="btn btn-neutral float-left">
+                <i class="fa fa-arrow-circle-up"></i>
+            </span>
+        </div>
+        <!-- </section> -->
+    </div>
+    
+    <div class="footer-area footer--light">
+      <div class="footer-big">
+        <!-- start .container -->
+        <div class="container">
+          <div class="row">
+            <div class="col-md-3 col-sm-12">
+              <div class="footer-widget">
+                <div class="widget-about">
+                  <img src="../../_static/images/numpy_logo.svg" alt="NumPy logo" class="img-fluid">
+                  <p>NumPy is the fundamental package needed for scientific computing with Python.</p>
+                  <ul class="contact-details">
+                    <li>
+                      <span class="icon-envelope-open"></span>
+                      <a href="https://mail.python.org/mailman/listinfo/numpy-discussion">
+                        Mailing list
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <!-- Ends: .footer-widget -->
+            </div>
+            <!-- end /.col-md-4 -->
+            <div class="col-md-3 col-sm-4">
+              <div class="footer-widget">
+                <div class="footer-menu footer-menu--1">
+                  <h4 class="footer-widget-title">About us</h4>
+                  <ul>
+                    <li>
+                      <a href="#">Our history</a>
+                    </li>
+                    <li>
+                      <a href="#">Ecosystem</a>
+                    </li>
+                    <li>
+                      <a href="#">Roadmap</a>
+                    </li>
+                    <li>
+                      <a href="#">Team</a>
+                    </li>
+                  </ul>
+                </div>
+                <!-- end /.footer-menu -->
+              </div>
+              <!-- Ends: .footer-widget -->
+            </div>
+            <!-- end /.col-md-3 -->
+
+            <div class="col-md-3 col-sm-4">
+              <div class="footer-widget">
+                <div class="footer-menu">
+                  <h4 class="footer-widget-title">Community</h4>
+                  <ul>
+                    <li>
+                      <a href="#">Blog</a>
+                    </li>
+                    <li>
+                      <a href="#">Contributing</a>
+                    </li>
+                    <li>
+                      <a href="#">Code of conduct</a>
+                    </li>
+                    <li>
+                      <a href="#">Community survey</a>
+                    </li>
+                  </ul>
+                </div>
+                <!-- end /.footer-menu -->
+              </div>
+              <!-- Ends: .footer-widget -->
+            </div>
+            <!-- end /.col-lg-3 -->
+
+            <div class="col-md-3 col-sm-4">
+              <div class="footer-widget">
+                <div class="footer-menu no-padding">
+                  <h4 class="footer-widget-title">Learning &  Documentation</h4>
+                  <ul>
+                    <li>
+                      <a href="#">User guide</a>
+                    </li>
+                    <li>
+                      <a href="#">API reference</a>
+                    </li>
+                    <li>
+                      <a href="#">Release notes</a>
+                    </li>
+                    <li>
+                      <a href="#">Tutorials</a>
+                    </li>
+                    <li>
+                      <a href="#">Videos</a>
+                    </li>
+                    <li>
+                      <a href="#">Books</a>
+                    </li>
+                    <li>
+                      <a href="#">Courses</a>
+                    </li>
+                  </ul>
+                </div>
+                <!-- end /.footer-menu -->
+              </div>
+              <!-- Ends: .footer-widget -->
+            </div>
+            <!-- Ends: .col-lg-3 -->
+
+          </div>
+          <!-- end /.row -->
+        </div>
+        <!-- end /.container -->
+      </div>
+      <!-- end /.footer-big -->
+
+      <div class="mini-footer">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="copyright-text">
+                <p>&copy; <span id="year"></span>
+                  <a href="#">NumPy Developers</a>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    
+
+    <!-- TODO: write js code in separate files. -->
+
+<script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+</script>
+
+
+  <!-- bootstrap js -->
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script> 
+
+
+<script type="text/javascript">
+// If jquery is not used later on then remove the jquery and use
+// plain javascript : window.load() function instead of document.ready
+$(document).ready(function() {
+    $(".bg_loader").delay(500).fadeOut(500);
+    $(".bg_loader").css("display", "block");
+
+
+});
+</script>
+
+<!-- every anchor tag will do smooth scroll -->
+<script type="text/javascript">
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+
+        document.querySelector(this.getAttribute('href')).scrollIntoView({
+            behavior: 'smooth'
+        });
+    });
+});
+
+</script>
+
+<script>
+//Get the button
+var mybutton = document.getElementById('scrollTop');
+
+// When the user scrolls down 20px from the top of the document, show the button
+$(document).scroll(function() {
+    console.log('Scrolled to ' + $(this).scrollTop());
+  })
+
+$( window ).scroll(function() {
+  console.log('Scrolled to ' + $(this).scrollTop());
+});
+
+$("#scrollTop").on( 'scroll', function(){
+   console.log('Event Fired');
+});
+
+window.onscroll = function()  {
+  console.log(document.body.scrollTop );
+  console.log('Scroll event fired.......');
+  if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+    mybutton.style.display = "block";
+  } else {
+    mybutton.style.display = "none";
+  }
+}
+
+// When the user clicks on the button, scroll to the top of the document
+function topFunction() {
+  console.log(document.body.scrollTop );
+  console.log('Click event fired.......');
+  document.body.scrollTop = 0;
+  document.documentElement.scrollTop = 0;
+  $('html, body').animate({
+      scrollTop: 0
+    }, 800);
+
+}
+</script>
+
+<!-- get the current year for footer -->
+<script>
+    document.getElementById("year").innerHTML = new Date().getFullYear();
+</script>
+</body>
+
+</html>

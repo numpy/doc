@@ -1,0 +1,650 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="en">
+<!--<![endif]-->
+<meta name="viewport" content="width=device-width,height=device-height,initial-scale=1.0"/>
+
+<head>
+      <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+    
+
+      <title>numpy.ma.MaskedArray.max &mdash; NumPy v1.17 Manual</title>
+    
+  
+
+  
+  
+  
+  
+
+  
+ <!-- TODO: remove the js file <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script> -->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    <!-- to search keyword -->
+    <script type="text/javascript" src="../../_static/searchtools.js"></script>
+<!--     TODO: I don't know why these js are generated automatically by sphinx.
+For search these both are not needed.
+
+    <script type="text/javascript" src="../../_static/underscore.js""></script>
+    <script type="text/javascript" src="../../_static/language_data.js""></script>
+-->
+    <script type="text/javascript" src="../../searchindex.js""></script>
+
+
+    <!-- math directive -->
+
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    <!-- copybutton on code highlight -->
+    <script type="text/javascript" src="../../_static/js/copybutton.js"></script>
+
+    
+
+  
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+
+  <!-- preloader css -->
+  <link rel="stylesheet" href="../../_static/css/preloader.css" type="text/css" />
+
+  <!-- preloader css -->
+  <link rel="stylesheet" href="../../_static/css/navbar.css" type="text/css" />
+
+  <!-- sidebar right -->
+  <link rel="stylesheet" href="../../_static/css/sidebar-right.css" type="text/css" />
+
+  <!-- footer rst -->
+  <link rel="stylesheet" href="../../_static/css/footer-rst.css" type="text/css" />
+
+  <!-- code highlight -->
+  <link rel="stylesheet" href="../../_static/css/code-highlight.css" type="text/css" />
+
+  <!-- mobile responsive -->
+  <link rel="stylesheet" href="../../_static/css/responsive.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/css/sidenav-mobile.css" type="text/css" />
+
+  <!-- footer -->
+  <link rel="stylesheet" href="../../_static/css/extra-footer.css" type="text/css" />
+
+
+  <!-- Custom modification in theme css -->
+  <link rel="stylesheet" href="../../_static/css/custom_theme.css" type="text/css" />
+
+  <!-- font -->
+   <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Ubuntu:regular,bold&subset=Latin">
+
+   <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+  <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
+    <link rel="author" title="About these documents" href="../../about.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="numpy.ma.MaskedArray.mean" href="numpy.ma.MaskedArray.mean.html" />
+    <link rel="prev" title="numpy.ma.MaskedArray.cumsum" href="numpy.ma.MaskedArray.cumsum.html" /> 
+</head>
+<div class="bg_loader">
+  <div class="loader">
+
+  </div>
+</div>
+
+<body class="wy-body-for-nav">
+    <!-- navbar -->
+<nav class="navbar navbar-expand-md navbar-light">
+    <a class="navbar-brand navbar-left header-logo" href=""><img src="../../_static/images/numpy_logo.svg"></a>
+    <button type="button" class="navbar-toggler bg-light" data-toggle="collapse" data-target="#nav">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse justify-content-end" id="nav">
+        <ul class="nav navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link text-dark font-weight-bold px-3" href="https://numpy.org/devdocs/user/quickstart.html">Quick Start</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-dark font-weight-bold px-3" href="https://numpy.org/devdocs">Documentation</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-dark font-weight-bold px-3" href="https://www.numpy.org/neps/index.html">NumPy Enhancement Proposals (NEPs)</a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link text-dark font-weight-bold px-3" href="https://numpy.org/doc">Other doc versions</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+    <!-- mobile device -->
+    <div id="sidenav-left-toggle-button">
+    <a href="#mobile-sidenav-left" class="btn btn-primary btn-lg btn-block btn-primary-outline"  data-toggle="collapse"><span><i class="fa fa-arrow-circle-down"></i></span>Table of content</a>
+    </div>
+     
+    <div class="wy-grid-for-nav row">
+        
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side col-2">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../contents.html" class="icon icon-home"> NumPy
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.17
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../user/index.html">NumPy User Guide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">NumPy Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../f2py/index.html">F2PY Users Guide and Reference Manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dev/index.html">Contributing to NumPy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../docs/index.html">NumPy’s Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../release.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../about.html">About NumPy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../about.html#about-this-documentation">About this documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../bugs.html">Reporting bugs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../license.html">NumPy License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <!-- for smaller device  < laptop size -->
+
+    <div id="mobile-sidenav-left" class="collapse">
+    <nav data-toggle="wy-nav-shift-mobile" class="wy-nav-side-mobile">
+      <a href="#mobile-sidenav-left" class="close" aria-label="Close" data-toggle="collapse">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+            <a href="../../contents.html" class="icon icon-home"> NumPy
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.17
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../user/index.html">NumPy User Guide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">NumPy Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../f2py/index.html">F2PY Users Guide and Reference Manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dev/index.html">Contributing to NumPy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../docs/index.html">NumPy’s Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../release.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../about.html">About NumPy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../about.html#about-this-documentation">About this documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../bugs.html">Reporting bugs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../license.html">NumPy License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
+</ul>
+
+            
+        </div>
+      </div>
+
+
+    </nav>
+    </div>
+
+    <!-- end - smaller device html code  -->
+
+        <!-- <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"> -->
+        
+        <nav class="wy-nav-top" aria-label="top navigation">
+            
+            <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+            <a href="../../contents.html">NumPy</a>
+            
+        </nav>
+        <div class="wy-nav-content col-8">
+            
+                <div class="rst-content">
+                    
+                    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../contents.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">NumPy Reference</a> &raquo;</li>
+        
+          <li><a href="../arrays.html">Array objects</a> &raquo;</li>
+        
+          <li><a href="../maskedarray.html">Masked arrays</a> &raquo;</li>
+        
+          <li><a href="../maskedarray.baseclass.html">Constants of the <code class="xref py py-mod docutils literal notranslate"><span class="pre">numpy.ma</span></code> module</a> &raquo;</li>
+        
+      <li>numpy.ma.MaskedArray.max</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/numpy/numpy/blob/master/doc/source/reference/generated/numpy.ma.MaskedArray.max.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+                    <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+                        <div itemprop="articleBody">
+                            
+  <div class="section" id="numpy-ma-maskedarray-max">
+<h1>numpy.ma.MaskedArray.max<a class="headerlink" href="#numpy-ma-maskedarray-max" title="Permalink to this headline">¶</a></h1>
+<p>method</p>
+<dl class="method">
+<dt id="numpy.ma.MaskedArray.max">
+<code class="sig-prename descclassname">MaskedArray.</code><code class="sig-name descname">max</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">axis=None</em>, <em class="sig-param">out=None</em>, <em class="sig-param">fill_value=None</em>, <em class="sig-param">keepdims=&lt;no value&gt;</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/numpy/numpy/blob/v1.17.2/numpy/ma/core.py#L5734-L5795"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#numpy.ma.MaskedArray.max" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the maximum along a given axis.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>axis</strong><span class="classifier">{None, int}, optional</span></dt><dd><p>Axis along which to operate.  By default, <code class="docutils literal notranslate"><span class="pre">axis</span></code> is None and the
+flattened input is used.</p>
+</dd>
+<dt><strong>out</strong><span class="classifier">array_like, optional</span></dt><dd><p>Alternative output array in which to place the result.  Must
+be of the same shape and buffer length as the expected output.</p>
+</dd>
+<dt><strong>fill_value</strong><span class="classifier">{var}, optional</span></dt><dd><p>Value used to fill in the masked values.
+If None, use the output of maximum_fill_value().</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>amax</strong><span class="classifier">array_like</span></dt><dd><p>New array holding the result.
+If <code class="docutils literal notranslate"><span class="pre">out</span></code> was specified, <code class="docutils literal notranslate"><span class="pre">out</span></code> is returned.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><a class="reference internal" href="numpy.ma.maximum_fill_value.html#numpy.ma.maximum_fill_value" title="numpy.ma.maximum_fill_value"><code class="xref py py-obj docutils literal notranslate"><span class="pre">maximum_fill_value</span></code></a></dt><dd><p>Returns the maximum filling value for a given datatype.</p>
+</dd>
+</dl>
+</div>
+</dd></dl>
+
+</div>
+
+
+                        </div>
+                        
+                    </div>
+                    <footer class="footer-rst">
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="numpy.ma.MaskedArray.mean.html" class="btn btn-neutral float-right" title="numpy.ma.MaskedArray.mean" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="numpy.ma.MaskedArray.cumsum.html" class="btn btn-neutral float-left" title="numpy.ma.MaskedArray.cumsum" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+
+                </div>
+            </div>
+            <div class="wy-nav-content sidebar-right col-2" id="sidebar-right">
+    <div class="sidebar-right-nav" id="sidebar-right-nav">
+        <ul>
+<li><a class="reference internal" href="#">numpy.ma.MaskedArray.max</a></li>
+</ul>
+
+    </div>
+</div>
+
+<script type="text/javascript">
+
+  $(function () {
+
+    $("<span class='clickMe'><i class='fa fa-angle-up'></i><i class='fa fa-angle-down' style='display: none;'></i><span>").insertBefore(".sidebar-right-nav ul li a.reference" );
+
+    $(".sidebar-right-nav ul li span.clickMe").map(function() {
+        if($(this).closest("li").children("ul").length == 0){
+          $(this).hide();
+        };
+    })
+
+    $('.clickMe').click(function () {
+        var $i_tag = $(this).find("i");
+
+        $(this).closest("li").find("ul").slideToggle(function(){
+          $i_tag.toggle();
+        });
+
+    });
+});
+</script>
+
+            <span href="" onclick="topFunction()" id="scrollTop" title="Go to top" class="btn btn-neutral float-left">
+                <i class="fa fa-arrow-circle-up"></i>
+            </span>
+        </div>
+        <!-- </section> -->
+    </div>
+    
+    <div class="footer-area footer--light">
+      <div class="footer-big">
+        <!-- start .container -->
+        <div class="container">
+          <div class="row">
+            <div class="col-md-3 col-sm-12">
+              <div class="footer-widget">
+                <div class="widget-about">
+                  <img src="../../_static/images/numpy_logo.svg" alt="NumPy logo" class="img-fluid">
+                  <p>NumPy is the fundamental package needed for scientific computing with Python.</p>
+                  <ul class="contact-details">
+                    <li>
+                      <span class="icon-envelope-open"></span>
+                      <a href="https://mail.python.org/mailman/listinfo/numpy-discussion">
+                        Mailing list
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <!-- Ends: .footer-widget -->
+            </div>
+            <!-- end /.col-md-4 -->
+            <div class="col-md-3 col-sm-4">
+              <div class="footer-widget">
+                <div class="footer-menu footer-menu--1">
+                  <h4 class="footer-widget-title">About us</h4>
+                  <ul>
+                    <li>
+                      <a href="#">Our history</a>
+                    </li>
+                    <li>
+                      <a href="#">Ecosystem</a>
+                    </li>
+                    <li>
+                      <a href="#">Roadmap</a>
+                    </li>
+                    <li>
+                      <a href="#">Team</a>
+                    </li>
+                  </ul>
+                </div>
+                <!-- end /.footer-menu -->
+              </div>
+              <!-- Ends: .footer-widget -->
+            </div>
+            <!-- end /.col-md-3 -->
+
+            <div class="col-md-3 col-sm-4">
+              <div class="footer-widget">
+                <div class="footer-menu">
+                  <h4 class="footer-widget-title">Community</h4>
+                  <ul>
+                    <li>
+                      <a href="#">Blog</a>
+                    </li>
+                    <li>
+                      <a href="#">Contributing</a>
+                    </li>
+                    <li>
+                      <a href="#">Code of conduct</a>
+                    </li>
+                    <li>
+                      <a href="#">Community survey</a>
+                    </li>
+                  </ul>
+                </div>
+                <!-- end /.footer-menu -->
+              </div>
+              <!-- Ends: .footer-widget -->
+            </div>
+            <!-- end /.col-lg-3 -->
+
+            <div class="col-md-3 col-sm-4">
+              <div class="footer-widget">
+                <div class="footer-menu no-padding">
+                  <h4 class="footer-widget-title">Learning &  Documentation</h4>
+                  <ul>
+                    <li>
+                      <a href="#">User guide</a>
+                    </li>
+                    <li>
+                      <a href="#">API reference</a>
+                    </li>
+                    <li>
+                      <a href="#">Release notes</a>
+                    </li>
+                    <li>
+                      <a href="#">Tutorials</a>
+                    </li>
+                    <li>
+                      <a href="#">Videos</a>
+                    </li>
+                    <li>
+                      <a href="#">Books</a>
+                    </li>
+                    <li>
+                      <a href="#">Courses</a>
+                    </li>
+                  </ul>
+                </div>
+                <!-- end /.footer-menu -->
+              </div>
+              <!-- Ends: .footer-widget -->
+            </div>
+            <!-- Ends: .col-lg-3 -->
+
+          </div>
+          <!-- end /.row -->
+        </div>
+        <!-- end /.container -->
+      </div>
+      <!-- end /.footer-big -->
+
+      <div class="mini-footer">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="copyright-text">
+                <p>&copy; <span id="year"></span>
+                  <a href="#">NumPy Developers</a>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    
+
+    <!-- TODO: write js code in separate files. -->
+
+<script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+</script>
+
+
+  <!-- bootstrap js -->
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script> 
+
+
+<script type="text/javascript">
+// If jquery is not used later on then remove the jquery and use
+// plain javascript : window.load() function instead of document.ready
+$(document).ready(function() {
+    $(".bg_loader").delay(500).fadeOut(500);
+    $(".bg_loader").css("display", "block");
+
+
+});
+</script>
+
+<!-- every anchor tag will do smooth scroll -->
+<script type="text/javascript">
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+
+        document.querySelector(this.getAttribute('href')).scrollIntoView({
+            behavior: 'smooth'
+        });
+    });
+});
+
+</script>
+
+<script>
+//Get the button
+var mybutton = document.getElementById('scrollTop');
+
+// When the user scrolls down 20px from the top of the document, show the button
+$(document).scroll(function() {
+    console.log('Scrolled to ' + $(this).scrollTop());
+  })
+
+$( window ).scroll(function() {
+  console.log('Scrolled to ' + $(this).scrollTop());
+});
+
+$("#scrollTop").on( 'scroll', function(){
+   console.log('Event Fired');
+});
+
+window.onscroll = function()  {
+  console.log(document.body.scrollTop );
+  console.log('Scroll event fired.......');
+  if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+    mybutton.style.display = "block";
+  } else {
+    mybutton.style.display = "none";
+  }
+}
+
+// When the user clicks on the button, scroll to the top of the document
+function topFunction() {
+  console.log(document.body.scrollTop );
+  console.log('Click event fired.......');
+  document.body.scrollTop = 0;
+  document.documentElement.scrollTop = 0;
+  $('html, body').animate({
+      scrollTop: 0
+    }, 800);
+
+}
+</script>
+
+<!-- get the current year for footer -->
+<script>
+    document.getElementById("year").innerHTML = new Date().getFullYear();
+</script>
+</body>
+
+</html>
