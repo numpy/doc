@@ -32,6 +32,7 @@
         <script type="text/javascript" src="../_static/underscore.js"></script>
         <script type="text/javascript" src="../_static/doctools.js"></script>
         <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
@@ -452,13 +453,13 @@ domain</em>.</p>
 <p>There are many ways to define the DFT, varying in the sign of the
 exponent, normalization, etc.  In this implementation, the DFT is defined
 as</p>
-<div class="math">
-<p><img src="../_images/math/192fb50712b8530c868a329a12a27077c012daa9.svg" alt="A_k =  \sum_{m=0}^{n-1} a_m \exp\left\{-2\pi i{mk \over n}\right\}
-\qquad k = 0,\ldots,n-1."/></p>
-</div><p>The DFT is in general defined for complex inputs and outputs, and a
-single-frequency component at linear frequency <img class="math" src="../_images/math/5b7752c757e0b691a80ab8227eadb8a8389dc58a.svg" alt="f"/> is
+<div class="math notranslate nohighlight">
+\[A_k =  \sum_{m=0}^{n-1} a_m \exp\left\{-2\pi i{mk \over n}\right\}
+\qquad k = 0,\ldots,n-1.\]</div>
+<p>The DFT is in general defined for complex inputs and outputs, and a
+single-frequency component at linear frequency <span class="math notranslate nohighlight">\(f\)</span> is
 represented by a complex exponential
-<img class="math" src="../_images/math/db128dc25c145961513f66c7eecb26c4c4135dcc.svg" alt="a_m = \exp\{2\pi i\,f m\Delta t\}"/>, where <img class="math" src="../_images/math/b4ed9c2e208e08edeca8b1550ec0840acd090276.svg" alt="\Delta t"/>
+<span class="math notranslate nohighlight">\(a_m = \exp\{2\pi i\,f m\Delta t\}\)</span>, where <span class="math notranslate nohighlight">\(\Delta t\)</span>
 is the sampling interval.</p>
 <p>The values in the result follow so-called “standard” order: If <code class="docutils literal notranslate"><span class="pre">A</span> <span class="pre">=</span>
 <span class="pre">fft(a,</span> <span class="pre">n)</span></code>, then <code class="docutils literal notranslate"><span class="pre">A[0]</span></code> contains the zero-frequency term (the sum of
@@ -478,25 +479,25 @@ that shift.</p>
 is its amplitude spectrum and <code class="docutils literal notranslate"><span class="pre">np.abs(A)**2</span></code> is its power spectrum.
 The phase spectrum is obtained by <code class="docutils literal notranslate"><span class="pre">np.angle(A)</span></code>.</p>
 <p>The inverse DFT is defined as</p>
-<div class="math">
-<p><img src="../_images/math/7de8229bc434f3dfae9b186316c1721563f46ef7.svg" alt="a_m = \frac{1}{n}\sum_{k=0}^{n-1}A_k\exp\left\{2\pi i{mk\over n}\right\}
-\qquad m = 0,\ldots,n-1."/></p>
-</div><p>It differs from the forward transform by the sign of the exponential
-argument and the default normalization by <img class="math" src="../_images/math/cb0504c49ba210e1759afd1e6491992917aa174a.svg" alt="1/n"/>.</p>
+<div class="math notranslate nohighlight">
+\[a_m = \frac{1}{n}\sum_{k=0}^{n-1}A_k\exp\left\{2\pi i{mk\over n}\right\}
+\qquad m = 0,\ldots,n-1.\]</div>
+<p>It differs from the forward transform by the sign of the exponential
+argument and the default normalization by <span class="math notranslate nohighlight">\(1/n\)</span>.</p>
 </div>
 <div class="section" id="normalization">
 <h2>Normalization<a class="headerlink" href="#normalization" title="Permalink to this headline">¶</a></h2>
 <p>The default normalization has the direct transforms unscaled and the inverse
-transforms are scaled by <img class="math" src="../_images/math/cb0504c49ba210e1759afd1e6491992917aa174a.svg" alt="1/n"/>. It is possible to obtain unitary
+transforms are scaled by <span class="math notranslate nohighlight">\(1/n\)</span>. It is possible to obtain unitary
 transforms by setting the keyword argument <code class="docutils literal notranslate"><span class="pre">norm</span></code> to <code class="docutils literal notranslate"><span class="pre">&quot;ortho&quot;</span></code> (default is
 <em class="xref py py-obj">None</em>) so that both direct and inverse transforms will be scaled by
-<img class="math" src="../_images/math/5c1e385692393dc6b3247fca6807fdd874ab311e.svg" alt="1/\sqrt{n}"/>.</p>
+<span class="math notranslate nohighlight">\(1/\sqrt{n}\)</span>.</p>
 </div>
 <div class="section" id="real-and-hermitian-transforms">
 <h2>Real and Hermitian transforms<a class="headerlink" href="#real-and-hermitian-transforms" title="Permalink to this headline">¶</a></h2>
 <p>When the input is purely real, its transform is Hermitian, i.e., the
-component at frequency <img class="math" src="../_images/math/0edac3a6b0973196c5005c560d87e755c0ea5c86.svg" alt="f_k"/> is the complex conjugate of the
-component at frequency <img class="math" src="../_images/math/a9527fff1f9301ecdeff1120a4a4ddde090caac0.svg" alt="-f_k"/>, which means that for real
+component at frequency <span class="math notranslate nohighlight">\(f_k\)</span> is the complex conjugate of the
+component at frequency <span class="math notranslate nohighlight">\(-f_k\)</span>, which means that for real
 inputs there is no information in the negative frequency components that
 is not already available from the positive frequency components.
 The family of <a class="reference internal" href="generated/numpy.fft.rfft.html#numpy.fft.rfft" title="numpy.fft.rfft"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rfft</span></code></a> functions is
@@ -518,11 +519,11 @@ multiplication in the frequency domain.</p>
 <div class="section" id="higher-dimensions">
 <h2>Higher dimensions<a class="headerlink" href="#higher-dimensions" title="Permalink to this headline">¶</a></h2>
 <p>In two dimensions, the DFT is defined as</p>
-<div class="math">
-<p><img src="../_images/math/ed091ae5f8395421f58d2a9cbb2b872d4747a7ea.svg" alt="A_{kl} =  \sum_{m=0}^{M-1} \sum_{n=0}^{N-1}
+<div class="math notranslate nohighlight">
+\[A_{kl} =  \sum_{m=0}^{M-1} \sum_{n=0}^{N-1}
 a_{mn}\exp\left\{-2\pi i \left({mk\over M}+{nl\over N}\right)\right\}
-\qquad k = 0, \ldots, M-1;\quad l = 0, \ldots, N-1,"/></p>
-</div><p>which extends in the obvious way to higher dimensions, and the inverses
+\qquad k = 0, \ldots, M-1;\quad l = 0, \ldots, N-1,\]</div>
+<p>which extends in the obvious way to higher dimensions, and the inverses
 in higher dimensions also extend in the same way.</p>
 </div>
 <div class="section" id="references">

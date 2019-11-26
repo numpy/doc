@@ -32,6 +32,7 @@
         <script type="text/javascript" src="../../_static/underscore.js"></script>
         <script type="text/javascript" src="../../_static/doctools.js"></script>
         <script type="text/javascript" src="../../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="../../_static/js/theme.js"></script>
 
@@ -388,10 +389,10 @@ this scheme fits in very well with that kind of use.</p>
 estimated if one knows the number of streams that you derive. <a class="reference internal" href="bit_generators/generated/numpy.random.SeedSequence.html#numpy.random.SeedSequence" title="numpy.random.SeedSequence"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SeedSequence</span></code></a>
 hashes its inputs, both the seed and the spawn-tree-path, down to a 128-bit
 pool by default. The probability that there is a collision in
-that pool, pessimistically-estimated (<a class="footnote-reference brackets" href="#id3" id="id1">1</a>), will be about <img class="math" src="../../_images/math/8442c9ebbbd397960513b77162319907436195ae.svg" alt="n^2*2^{-128}"/> where
+that pool, pessimistically-estimated (<a class="footnote-reference brackets" href="#id3" id="id1">1</a>), will be about <span class="math notranslate nohighlight">\(n^2*2^{-128}\)</span> where
 <em class="xref py py-obj">n</em> is the number of streams spawned. If a program uses an aggressive million
-streams, about <img class="math" src="../../_images/math/aff3a1944abee3924eeb3054dfb155502a7583e2.svg" alt="2^{20}"/>, then the probability that at least one pair of
-them are identical is about <img class="math" src="../../_images/math/5316dc12ee9d89833244f0b38e81954055cab1af.svg" alt="2^{-88}"/>, which is in solidly-ignorable
+streams, about <span class="math notranslate nohighlight">\(2^{20}\)</span>, then the probability that at least one pair of
+them are identical is about <span class="math notranslate nohighlight">\(2^{-88}\)</span>, which is in solidly-ignorable
 territory (<a class="footnote-reference brackets" href="#id4" id="id2">2</a>).</p>
 <dl class="footnote brackets">
 <dt class="label" id="id3"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
@@ -405,13 +406,13 @@ that the probability is actually lower.</p>
 <dd><p>In this calculation, we can ignore the amount of numbers drawn from each
 stream. Each of the PRNGs we provide has some extra protection built in
 that avoids overlaps if the <a class="reference internal" href="bit_generators/generated/numpy.random.SeedSequence.html#numpy.random.SeedSequence" title="numpy.random.SeedSequence"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SeedSequence</span></code></a> pools differ in the
-slightest bit. <code class="xref py py-obj docutils literal notranslate"><span class="pre">PCG64</span></code> has <img class="math" src="../../_images/math/eff8c0727490d92520743ec0f4f745db2b9a8133.svg" alt="2^{127}"/> separate cycles
+slightest bit. <code class="xref py py-obj docutils literal notranslate"><span class="pre">PCG64</span></code> has <span class="math notranslate nohighlight">\(2^{127}\)</span> separate cycles
 determined by the seed in addition to the position in the
-<img class="math" src="../../_images/math/91018ad7005c40f683c645b99dd28ae741d2de00.svg" alt="2^{128}"/> long period for each cycle, so one has to both get on or
+<span class="math notranslate nohighlight">\(2^{128}\)</span> long period for each cycle, so one has to both get on or
 near the same cycle <em>and</em> seed a nearby position in the cycle.
 <code class="xref py py-obj docutils literal notranslate"><span class="pre">Philox</span></code> has completely independent cycles determined by the seed.
 <code class="xref py py-obj docutils literal notranslate"><span class="pre">SFC64</span></code> incorporates a 64-bit counter so every unique seed is at
-least <img class="math" src="../../_images/math/47e87a1638fac5fa3416ef91f07e6f3572eed8a6.svg" alt="2^{64}"/> iterations away from any other seed. And
+least <span class="math notranslate nohighlight">\(2^{64}\)</span> iterations away from any other seed. And
 finally, <code class="xref py py-obj docutils literal notranslate"><span class="pre">MT19937</span></code> has just an unimaginably huge period. Getting
 a collision internal to <a class="reference internal" href="bit_generators/generated/numpy.random.SeedSequence.html#numpy.random.SeedSequence" title="numpy.random.SeedSequence"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SeedSequence</span></code></a> is the way a failure would be
 observed.</p>
@@ -442,7 +443,7 @@ coordination between the parallel processes.</p>
 <p><code class="docutils literal notranslate"><span class="pre">jumped</span></code> advances the state of the BitGenerator <em>as-if</em> a large number of
 random numbers have been drawn, and returns a new instance with this state.
 The specific number of draws varies by BitGenerator, and ranges from
-<img class="math" src="../../_images/math/47e87a1638fac5fa3416ef91f07e6f3572eed8a6.svg" alt="2^{64}"/> to <img class="math" src="../../_images/math/91018ad7005c40f683c645b99dd28ae741d2de00.svg" alt="2^{128}"/>.  Additionally, the <em>as-if</em> draws also depend
+<span class="math notranslate nohighlight">\(2^{64}\)</span> to <span class="math notranslate nohighlight">\(2^{128}\)</span>.  Additionally, the <em>as-if</em> draws also depend
 on the size of the default random number produced by the specific BitGenerator.
 The BitGenerators that support <code class="docutils literal notranslate"><span class="pre">jumped</span></code>, along with the period of the
 BitGenerator, the size of the jump and the bits in the default unsigned random
@@ -463,25 +464,25 @@ are listed below.</p>
 </thead>
 <tbody>
 <tr class="row-even"><td><p>MT19937</p></td>
-<td><p><img class="math" src="../../_images/math/f43c200a729a36c39ded3a221875903a756195e7.svg" alt="2^{19937}"/></p></td>
-<td><p><img class="math" src="../../_images/math/91018ad7005c40f683c645b99dd28ae741d2de00.svg" alt="2^{128}"/></p></td>
+<td><p><span class="math notranslate nohighlight">\(2^{19937}\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(2^{128}\)</span></p></td>
 <td><p>32</p></td>
 </tr>
 <tr class="row-odd"><td><p>PCG64</p></td>
-<td><p><img class="math" src="../../_images/math/91018ad7005c40f683c645b99dd28ae741d2de00.svg" alt="2^{128}"/></p></td>
-<td><p><img class="math" src="../../_images/math/2476ed1fcb927c7dfbafa9ee1a4c5d749fdb3ff5.svg" alt="~2^{127}"/> (<a class="footnote-reference brackets" href="#id7" id="id6">3</a>)</p></td>
+<td><p><span class="math notranslate nohighlight">\(2^{128}\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(~2^{127}\)</span> (<a class="footnote-reference brackets" href="#id7" id="id6">3</a>)</p></td>
 <td><p>64</p></td>
 </tr>
 <tr class="row-even"><td><p>Philox</p></td>
-<td><p><img class="math" src="../../_images/math/0a4fc3833afca88a800dfb98cda1716a112f29fb.svg" alt="2^{256}"/></p></td>
-<td><p><img class="math" src="../../_images/math/91018ad7005c40f683c645b99dd28ae741d2de00.svg" alt="2^{128}"/></p></td>
+<td><p><span class="math notranslate nohighlight">\(2^{256}\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(2^{128}\)</span></p></td>
 <td><p>64</p></td>
 </tr>
 </tbody>
 </table>
 <dl class="footnote brackets">
 <dt class="label" id="id7"><span class="brackets"><a class="fn-backref" href="#id6">3</a></span></dt>
-<dd><p>The jump size is <img class="math" src="../../_images/math/70153266a65ec5b81cf96567a3665e6f869a1c9c.svg" alt="(\phi-1)*2^{128}"/> where <img class="math" src="../../_images/math/fffd2357ee88a9c50ba9e831ed64c39c73d54a07.svg" alt="\phi"/> is the
+<dd><p>The jump size is <span class="math notranslate nohighlight">\((\phi-1)*2^{128}\)</span> where <span class="math notranslate nohighlight">\(\phi\)</span> is the
 golden ratio. As the jumps wrap around the period, the actual distances
 between neighboring streams will slowly grow smaller than the jump size,
 but using the golden ratio this way is a classic method of constructing

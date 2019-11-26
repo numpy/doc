@@ -32,6 +32,7 @@
         <script type="text/javascript" src="../_static/underscore.js"></script>
         <script type="text/javascript" src="../_static/doctools.js"></script>
         <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
@@ -348,7 +349,7 @@ optimized by more people.</p>
 <p id="index-0">One fundamental aspect of the ndarray is that an array is seen as a
 “chunk” of memory starting at some location. The interpretation of
 this memory depends on the stride information. For each dimension in
-an <img class="math" src="../_images/math/3bfb3a64189a14b2704f4610827762d5e3145114.svg" alt="N"/> -dimensional array, an integer (stride) dictates how many
+an <span class="math notranslate nohighlight">\(N\)</span> -dimensional array, an integer (stride) dictates how many
 bytes must be skipped to get to the next element in that dimension.
 Unless you have a single-segment array, this stride information must
 be consulted when traversing through an array. It is not difficult to
@@ -557,8 +558,8 @@ loop itself for optimization.</p>
 </div>
 <div class="section" id="universal-functions">
 <h2>Universal Functions<a class="headerlink" href="#universal-functions" title="Permalink to this headline">¶</a></h2>
-<p id="index-6">Universal functions are callable objects that take <img class="math" src="../_images/math/3bfb3a64189a14b2704f4610827762d5e3145114.svg" alt="N"/> inputs
-and produce <img class="math" src="../_images/math/4abba779877abb276b98ccb2b4ba9bf2e41947ab.svg" alt="M"/> outputs by wrapping basic 1-D loops that work
+<p id="index-6">Universal functions are callable objects that take <span class="math notranslate nohighlight">\(N\)</span> inputs
+and produce <span class="math notranslate nohighlight">\(M\)</span> outputs by wrapping basic 1-D loops that work
 element-by-element into full easy-to use functions that seamlessly
 implement broadcasting, type-checking and buffered coercion, and
 output-argument handling. New universal functions are normally created
@@ -775,14 +776,13 @@ input pointing to the same position in memory and both having a step-
 size of 0. The first input is pointing to the input array with a step-
 size given by the appropriate stride for the selected axis. In this
 way, the operation performed is</p>
-<div class="math">
-<p><img src="../_images/math/d20bd5749ac710c3b3fc9aa8cd310e5a56b27d82.svg" alt="\begin{align*}
+<div class="math notranslate nohighlight">
+\begin{align*}
 o &amp; = &amp; i[0] \\
 o &amp; = &amp; i[k]\textrm{&lt;op&gt;}o\quad k=1\ldots N
-\end{align*}"/></p>
-</div><p>where <img class="math" src="../_images/math/0dcefe55f591f8c20089bd83bdbc955c4a13a6b6.svg" alt="N+1"/> is the number of elements in the input, <img class="math" src="../_images/math/5aa339d4daf45a810dda332e3c80a0698e526e04.svg" alt="i"/>,
-<img class="math" src="../_images/math/c99a3a8536ea2d9844720cdf27f57bde44bfe52c.svg" alt="o"/> is the output, and <img class="math" src="../_images/math/b98abbd57ab5e638d30fbf9c0b99584daf8a71fc.svg" alt="i[k]"/> is the
-<img class="math" src="../_images/math/8a083554267ac61e3e2b52a68f55113d7adbb4ed.svg" alt="k^{\textrm{th}}"/> element of <img class="math" src="../_images/math/5aa339d4daf45a810dda332e3c80a0698e526e04.svg" alt="i"/> along the selected axis.
+\end{align*}</div><p>where <span class="math notranslate nohighlight">\(N+1\)</span> is the number of elements in the input, <span class="math notranslate nohighlight">\(i\)</span>,
+<span class="math notranslate nohighlight">\(o\)</span> is the output, and <span class="math notranslate nohighlight">\(i[k]\)</span> is the
+<span class="math notranslate nohighlight">\(k^{\textrm{th}}\)</span> element of <span class="math notranslate nohighlight">\(i\)</span> along the selected axis.
 This basic operations is repeated for arrays with greater than 1
 dimension so that the reduction takes place for every 1-D sub-array
 along the selected axis. An iterator with the selected dimension
@@ -800,13 +800,12 @@ bufsize.</p>
 the output and the second input both point to the output. The
 difference is that the second input points to memory one stride behind
 the current output pointer. Thus, the operation performed is</p>
-<div class="math">
-<p><img src="../_images/math/dedc2f1aa2ebd2431868ac5ef07f8101be1212b2.svg" alt="\begin{align*}
+<div class="math notranslate nohighlight">
+\begin{align*}
 o[0] &amp; = &amp; i[0] \\
 o[k] &amp; = &amp; i[k]\textrm{&lt;op&gt;}o[k-1]\quad k=1\ldots N.
-\end{align*}"/></p>
-</div><p>The output has the same shape as the input and each 1-D loop operates
-over <img class="math" src="../_images/math/3bfb3a64189a14b2704f4610827762d5e3145114.svg" alt="N"/> elements when the shape in the selected axis is <img class="math" src="../_images/math/0dcefe55f591f8c20089bd83bdbc955c4a13a6b6.svg" alt="N+1"/>.
+\end{align*}</div><p>The output has the same shape as the input and each 1-D loop operates
+over <span class="math notranslate nohighlight">\(N\)</span> elements when the shape in the selected axis is <span class="math notranslate nohighlight">\(N+1\)</span>.
 Again, buffered loops take care to copy and cast the data before
 calling the underlying 1-D computational loop.</p>
 </div>

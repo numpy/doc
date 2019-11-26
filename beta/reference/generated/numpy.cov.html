@@ -32,6 +32,7 @@
         <script type="text/javascript" src="../../_static/underscore.js"></script>
         <script type="text/javascript" src="../../_static/doctools.js"></script>
         <script type="text/javascript" src="../../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="../../_static/js/theme.js"></script>
 
@@ -336,10 +337,10 @@ For search these both are not needed.
 <code class="sig-prename descclassname">numpy.</code><code class="sig-name descname">cov</code><span class="sig-paren">(</span><em class="sig-param">m</em>, <em class="sig-param">y=None</em>, <em class="sig-param">rowvar=True</em>, <em class="sig-param">bias=False</em>, <em class="sig-param">ddof=None</em>, <em class="sig-param">fweights=None</em>, <em class="sig-param">aweights=None</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/numpy/numpy/blob/v1.17.2/numpy/lib/function_base.py#L2245-L2456"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#numpy.cov" title="Permalink to this definition">¶</a></dt>
 <dd><p>Estimate a covariance matrix, given data and weights.</p>
 <p>Covariance indicates the level to which two variables vary together.
-If we examine N-dimensional samples, <img class="math" src="../../_images/math/07a703312fc8ba5a79fb6bd6dcea46ee788f996c.svg" alt="X = [x_1, x_2, ... x_N]^T"/>,
-then the covariance matrix element <img class="math" src="../../_images/math/6b70bcae52a568a124c4c8024147cabbfb28ce2f.svg" alt="C_{ij}"/> is the covariance of
-<img class="math" src="../../_images/math/c67734af70861b2bd4dedf5c41c9aad231466f84.svg" alt="x_i"/> and <img class="math" src="../../_images/math/ab9afdaf786ce53318d75d81f050af8560822fcd.svg" alt="x_j"/>. The element <img class="math" src="../../_images/math/e0230477f2ec2f4d92596220cec9555ca8d99c84.svg" alt="C_{ii}"/> is the variance
-of <img class="math" src="../../_images/math/c67734af70861b2bd4dedf5c41c9aad231466f84.svg" alt="x_i"/>.</p>
+If we examine N-dimensional samples, <span class="math notranslate nohighlight">\(X = [x_1, x_2, ... x_N]^T\)</span>,
+then the covariance matrix element <span class="math notranslate nohighlight">\(C_{ij}\)</span> is the covariance of
+<span class="math notranslate nohighlight">\(x_i\)</span> and <span class="math notranslate nohighlight">\(x_j\)</span>. The element <span class="math notranslate nohighlight">\(C_{ii}\)</span> is the variance
+of <span class="math notranslate nohighlight">\(x_i\)</span>.</p>
 <p>See the notes for an outline of the algorithm.</p>
 <dl class="field-list">
 <dt class="field-odd">Parameters</dt>
@@ -419,7 +420,7 @@ steps to compute the weighted covariance are as follows:</p>
 <code class="docutils literal notranslate"><span class="pre">v1</span> <span class="pre">/</span> <span class="pre">(v1**2</span> <span class="pre">-</span> <span class="pre">ddof</span> <span class="pre">*</span> <span class="pre">v2)</span></code> goes over to <code class="docutils literal notranslate"><span class="pre">1</span> <span class="pre">/</span> <span class="pre">(np.sum(f)</span> <span class="pre">-</span> <span class="pre">ddof)</span></code>
 as it should.</p>
 <p class="rubric">Examples</p>
-<p>Consider two variables, <img class="math" src="../../_images/math/ed7fb0260e58d3ca5851e823ff991dae4cde5671.svg" alt="x_0"/> and <img class="math" src="../../_images/math/5ea99039cd8359fa2e14317dbfae4497ebbc1360.svg" alt="x_1"/>, which
+<p>Consider two variables, <span class="math notranslate nohighlight">\(x_0\)</span> and <span class="math notranslate nohighlight">\(x_1\)</span>, which
 correlate perfectly, but in opposite directions:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">]])</span><span class="o">.</span><span class="n">T</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">x</span>
@@ -427,15 +428,15 @@ correlate perfectly, but in opposite directions:</p>
 <span class="go">       [2, 1, 0]])</span>
 </pre></div>
 </div>
-<p>Note how <img class="math" src="../../_images/math/ed7fb0260e58d3ca5851e823ff991dae4cde5671.svg" alt="x_0"/> increases while <img class="math" src="../../_images/math/5ea99039cd8359fa2e14317dbfae4497ebbc1360.svg" alt="x_1"/> decreases. The covariance
+<p>Note how <span class="math notranslate nohighlight">\(x_0\)</span> increases while <span class="math notranslate nohighlight">\(x_1\)</span> decreases. The covariance
 matrix shows this clearly:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">cov</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
 <span class="go">array([[ 1., -1.],</span>
 <span class="go">       [-1.,  1.]])</span>
 </pre></div>
 </div>
-<p>Note that element <img class="math" src="../../_images/math/7de4614eb2bfb904a6172a064fcbc487d4c4665a.svg" alt="C_{0,1}"/>, which shows the correlation between
-<img class="math" src="../../_images/math/ed7fb0260e58d3ca5851e823ff991dae4cde5671.svg" alt="x_0"/> and <img class="math" src="../../_images/math/5ea99039cd8359fa2e14317dbfae4497ebbc1360.svg" alt="x_1"/>, is negative.</p>
+<p>Note that element <span class="math notranslate nohighlight">\(C_{0,1}\)</span>, which shows the correlation between
+<span class="math notranslate nohighlight">\(x_0\)</span> and <span class="math notranslate nohighlight">\(x_1\)</span>, is negative.</p>
 <p>Further, note how <em class="xref py py-obj">x</em> and <em class="xref py py-obj">y</em> are combined:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mf">2.1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span>  <span class="mf">4.3</span><span class="p">]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">y</span> <span class="o">=</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span>  <span class="mf">1.1</span><span class="p">,</span>  <span class="mf">0.12</span><span class="p">]</span>

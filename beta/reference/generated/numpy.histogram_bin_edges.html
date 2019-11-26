@@ -32,6 +32,7 @@
         <script type="text/javascript" src="../../_static/underscore.js"></script>
         <script type="text/javascript" src="../../_static/doctools.js"></script>
         <script type="text/javascript" src="../../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="../../_static/js/theme.js"></script>
 
@@ -413,10 +414,10 @@ but may be in the future.</p>
 <p>The methods to estimate the optimal number of bins are well founded
 in literature, and are inspired by the choices R provides for
 histogram visualisation. Note that having the number of bins
-proportional to <img class="math" src="../../_images/math/f23dca99aa152271eaf36c79b2f6585d5cc2df51.svg" alt="n^{1/3}"/> is asymptotically optimal, which is
+proportional to <span class="math notranslate nohighlight">\(n^{1/3}\)</span> is asymptotically optimal, which is
 why it appears in most estimators. These are simply plug-in methods
 that give good starting points for number of bins. In the equations
-below, <img class="math" src="../../_images/math/4c120f773ab4e1c59ad2bd44aae969ce24dd190a.svg" alt="h"/> is the binwidth and <img class="math" src="../../_images/math/a6964690d4ca72cbb84d94823c4ae6ed79783cf2.svg" alt="n_h"/> is the number of
+below, <span class="math notranslate nohighlight">\(h\)</span> is the binwidth and <span class="math notranslate nohighlight">\(n_h\)</span> is the number of
 bins. All estimators that compute bin counts are recast to bin width
 using the <a class="reference internal" href="numpy.ptp.html#numpy.ptp" title="numpy.ptp"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ptp</span></code></a> of the data. The final bin count is obtained from
 <code class="docutils literal notranslate"><span class="pre">np.round(np.ceil(range</span> <span class="pre">/</span> <span class="pre">h))</span></code>.</p>
@@ -425,51 +426,47 @@ using the <a class="reference internal" href="numpy.ptp.html#numpy.ptp" title="n
 value will usually be chosen, while larger datasets will usually
 default to FD.  Avoids the overly conservative behaviour of FD
 and Sturges for small and large datasets respectively.
-Switchover point is usually <img class="math" src="../../_images/math/c641f9333f8d3a70a4c3a71820e8cc174ada7cb8.svg" alt="a.size \approx 1000"/>.</p>
+Switchover point is usually <span class="math notranslate nohighlight">\(a.size \approx 1000\)</span>.</p>
 </dd>
-<dt>‘fd’ (Freedman Diaconis Estimator)</dt><dd><div class="math">
-<p><img src="../../_images/math/6b1bf2cb787a85208b8a8e37617008829f78fcb9.svg" alt="h = 2 \frac{IQR}{n^{1/3}}"/></p>
-</div><p>The binwidth is proportional to the interquartile range (IQR)
+<dt>‘fd’ (Freedman Diaconis Estimator)</dt><dd><div class="math notranslate nohighlight">
+\[h = 2 \frac{IQR}{n^{1/3}}\]</div>
+<p>The binwidth is proportional to the interquartile range (IQR)
 and inversely proportional to cube root of a.size. Can be too
 conservative for small datasets, but is quite good for large
 datasets. The IQR is very robust to outliers.</p>
 </dd>
-<dt>‘scott’</dt><dd><div class="math">
-<p><img src="../../_images/math/0333976256e58040469149d815088741323ebbb6.svg" alt="h = \sigma \sqrt[3]{\frac{24 * \sqrt{\pi}}{n}}"/></p>
-</div><p>The binwidth is proportional to the standard deviation of the
+<dt>‘scott’</dt><dd><div class="math notranslate nohighlight">
+\[h = \sigma \sqrt[3]{\frac{24 * \sqrt{\pi}}{n}}\]</div>
+<p>The binwidth is proportional to the standard deviation of the
 data and inversely proportional to cube root of <code class="docutils literal notranslate"><span class="pre">x.size</span></code>. Can
 be too conservative for small datasets, but is quite good for
 large datasets. The standard deviation is not very robust to
 outliers. Values are very similar to the Freedman-Diaconis
 estimator in the absence of outliers.</p>
 </dd>
-<dt>‘rice’</dt><dd><div class="math">
-<p><img src="../../_images/math/78f7fcc630bb8bd520b0591732ec2a1a660bfe63.svg" alt="n_h = 2n^{1/3}"/></p>
-</div><p>The number of bins is only proportional to cube root of
+<dt>‘rice’</dt><dd><div class="math notranslate nohighlight">
+\[n_h = 2n^{1/3}\]</div>
+<p>The number of bins is only proportional to cube root of
 <code class="docutils literal notranslate"><span class="pre">a.size</span></code>. It tends to overestimate the number of bins and it
 does not take into account data variability.</p>
 </dd>
-<dt>‘sturges’</dt><dd><div class="math">
-<p><img src="../../_images/math/e63f03d9dbf00d7a9ba9e8f47d17267798a42b9c.svg" alt="n_h = \log _{2}n+1"/></p>
-</div><p>The number of bins is the base 2 log of <code class="docutils literal notranslate"><span class="pre">a.size</span></code>.  This
+<dt>‘sturges’</dt><dd><div class="math notranslate nohighlight">
+\[n_h = \log _{2}n+1\]</div>
+<p>The number of bins is the base 2 log of <code class="docutils literal notranslate"><span class="pre">a.size</span></code>.  This
 estimator assumes normality of data and is too conservative for
 larger, non-normal datasets. This is the default method in R’s
 <code class="docutils literal notranslate"><span class="pre">hist</span></code> method.</p>
 </dd>
-<dt>‘doane’</dt><dd><div class="math">
-<p><img src="../../_images/math/4c43e60e7971dd9f5fef9efa8db9c3eb0987800a.svg" alt="n_h = 1 + \log_{2}(n) +
-            \log_{2}(1 + \frac{|g_1|}{\sigma_{g_1}})
-
-g_1 = mean[(\frac{x - \mu}{\sigma})^3]
-
-\sigma_{g_1} = \sqrt{\frac{6(n - 2)}{(n + 1)(n + 3)}}"/></p>
-</div><p>An improved version of Sturges’ formula that produces better
+<dt>‘doane’</dt><dd><div class="math notranslate nohighlight">
+\[ \begin{align}\begin{aligned}n_h = 1 + \log_{2}(n) +
+            \log_{2}(1 + \frac{|g_1|}{\sigma_{g_1}})\\g_1 = mean[(\frac{x - \mu}{\sigma})^3]\\\sigma_{g_1} = \sqrt{\frac{6(n - 2)}{(n + 1)(n + 3)}}\end{aligned}\end{align} \]</div>
+<p>An improved version of Sturges’ formula that produces better
 estimates for non-normal datasets. This estimator attempts to
 account for the skew of the data.</p>
 </dd>
-<dt>‘sqrt’</dt><dd><div class="math">
-<p><img src="../../_images/math/3be23393bcaf22c3cdf72282e4b8e378122eaa2e.svg" alt="n_h = \sqrt n"/></p>
-</div><p>The simplest and fastest estimator. Only takes into account the
+<dt>‘sqrt’</dt><dd><div class="math notranslate nohighlight">
+\[n_h = \sqrt n\]</div>
+<p>The simplest and fastest estimator. Only takes into account the
 data size.</p>
 </dd>
 </dl>
