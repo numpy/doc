@@ -8,15 +8,17 @@ To add documentation for a version:
   the `doc` directory of a numpy source checkout
 
 - Expand the resulting `build/dist.tar.gz in the appropriately-named top-level
-  directory, and add it to git. So for NumPy release 1.18 something like::
+  directory, and add it to git. So for NumPy release 1.18 something like:
 
-    git rm -r 1.18
-    mkdir 1.18
-    tar -C 1.18 <path-to-numpy>/doc/build/dist.tar.gz
-    git add 1.18
-    git commit -m"Add documentation for v1.18"
+  ```bash
+  git rm -r 1.18
+  mkdir 1.18
+  tar -C 1.18 <path-to-numpy>/doc/build/dist.tar.gz
+  git add 1.18
+  git commit -m"Add documentation for v1.18"
+  ```
 
 - Edit the `index.html` to reflect the new files by copy-pasting an existing
   stanza beginning with `<!-- tag vX.YY.Z -->` after the
-  `<!-- instert here -->` comment, and changing the `href` locations
+  `<!-- insert here -->` comment, and changing the `href` locations
   appropriately
