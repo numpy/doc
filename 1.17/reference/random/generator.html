@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8">
     
-    <title>Random Generator &mdash; NumPy v1.17rc1 Manual</title>
+    <title>Random Generator &mdash; NumPy v1.17 Manual</title>
     
     <link rel="stylesheet" type="text/css" href="../../_static/css/spc-bootstrap.css">
     <link rel="stylesheet" type="text/css" href="../../_static/css/spc-extend.css">
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '1.17.0rc1',
+        VERSION:     '1.17.5',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  false
@@ -29,17 +29,20 @@
     <link rel="author" title="About these documents" href="../../about.html" >
     <link rel="index" title="Index" href="../../genindex.html" >
     <link rel="search" title="Search" href="../../search.html" >
-    <link rel="top" title="NumPy v1.17rc1 Manual" href="../../index.html" >
+    <link rel="top" title="NumPy v1.17 Manual" href="../../index.html" >
     <link rel="up" title="Random sampling (numpy.random)" href="index.html" >
     <link rel="next" title="numpy.random.Generator.bit_generator" href="generated/numpy.random.Generator.bit_generator.html" >
     <link rel="prev" title="Random sampling (numpy.random)" href="index.html" > 
   </head>
   <body>
 
-  <div class="container">
-    <div class="header">
+<div class="container">
+  <div class="top-scipy-org-logo-header">
+    <a href="../../index.html">
+      <img style="border: 0;" alt="SciPy" src="../../_static/img/scipy_org_logo.gif"></a>
     </div>
   </div>
+</div>
 
 
     <div class="container">
@@ -50,8 +53,10 @@
 	    <div class="spc-navbar">
               
     <ul class="nav nav-pills pull-left">
+        <li class="active"><a href="https://scipy.org/">Scipy.org</a></li>
+        <li class="active"><a href="https://docs.scipy.org/">Docs</a></li>
         
-        <li class="active"><a href="../../index.html">NumPy v1.17rc1 Manual</a></li>
+        <li class="active"><a href="../../index.html">NumPy v1.17 Manual</a></li>
         
 
           <li class="active"><a href="../index.html" >NumPy Reference</a></li>
@@ -81,39 +86,6 @@
         
 
 	<div class="row-fluid">
-      <div class="spc-rightsidebar span3">
-        <div class="sphinxsidebarwrapper">
-  <h3><a href="../../contents.html">Table of Contents</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">Random Generator</a><ul>
-<li><a class="reference internal" href="#accessing-the-bitgenerator">Accessing the BitGenerator</a></li>
-<li><a class="reference internal" href="#simple-random-data">Simple random data</a></li>
-<li><a class="reference internal" href="#permutations">Permutations</a></li>
-<li><a class="reference internal" href="#distributions">Distributions</a></li>
-</ul>
-</li>
-</ul>
-
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="index.html"
-                        title="previous chapter">Random sampling (<code class="docutils literal notranslate"><span class="pre">numpy.random</span></code>)</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="generated/numpy.random.Generator.bit_generator.html"
-                        title="next chapter">numpy.random.Generator.bit_generator</a></p>
-<div id="searchbox" style="display: none" role="search">
-  <h4>Quick search</h4>
-    <div>
-    <form class="search" action="../../search.html" method="get">
-      <input type="text" style="width: inherit;" name="q" />
-      <input type="submit" value="search" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
-    </div>
-</div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
-        </div>
-      </div>
           <div class="span9">
             
         <div class="bodywrapper">
@@ -123,11 +95,11 @@
 <h1>Random Generator<a class="headerlink" href="#random-generator" title="Permalink to this headline">¶</a></h1>
 <p>The <a class="reference internal" href="#numpy.random.Generator" title="numpy.random.Generator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Generator</span></code></a> provides access to
 a wide range of distributions, and served as a replacement for
-<code class="xref py py-class docutils literal notranslate"><span class="pre">RandomState</span></code>.  The main difference between
+<a class="reference internal" href="legacy.html#numpy.random.RandomState" title="numpy.random.RandomState"><code class="xref py py-class docutils literal notranslate"><span class="pre">RandomState</span></code></a>.  The main difference between
 the two is that <code class="docutils literal notranslate"><span class="pre">Generator</span></code> relies on an additional BitGenerator to
 manage state and generate the random bits, which are then transformed into
 random values from useful distributions. The default BitGenerator used by
-<code class="docutils literal notranslate"><span class="pre">Generator</span></code> is <code class="xref py py-obj docutils literal notranslate"><span class="pre">PCG64</span></code>.  The BitGenerator
+<code class="docutils literal notranslate"><span class="pre">Generator</span></code> is <a class="reference internal" href="bit_generators/pcg64.html#numpy.random.PCG64" title="numpy.random.PCG64"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PCG64</span></code></a>.  The BitGenerator
 can be changed by passing an instantized BitGenerator to <code class="docutils literal notranslate"><span class="pre">Generator</span></code>.</p>
 <dl class="function">
 <dt id="numpy.random.default_rng">
@@ -203,7 +175,7 @@ be accessed using <code class="docutils literal notranslate"><span class="pre">M
 NumPy-aware, has the advantage that it provides a much larger number
 of probability distributions to choose from.</p>
 <p class="rubric">Examples</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">numpy.random</span> <span class="k">import</span> <span class="n">Generator</span><span class="p">,</span> <span class="n">PCG64</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">numpy.random</span> <span class="kn">import</span> <span class="n">Generator</span><span class="p">,</span> <span class="n">PCG64</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">rg</span> <span class="o">=</span> <span class="n">Generator</span><span class="p">(</span><span class="n">PCG64</span><span class="p">())</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">rg</span><span class="o">.</span><span class="n">standard_normal</span><span class="p">()</span>
 <span class="go">-0.203  # random</span>
@@ -387,6 +359,39 @@ of probability distributions to choose from.</p>
           </div>
         </div>
           </div>
+      <div class="spc-rightsidebar span3">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../../contents.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Random Generator</a><ul>
+<li><a class="reference internal" href="#accessing-the-bitgenerator">Accessing the BitGenerator</a></li>
+<li><a class="reference internal" href="#simple-random-data">Simple random data</a></li>
+<li><a class="reference internal" href="#permutations">Permutations</a></li>
+<li><a class="reference internal" href="#distributions">Distributions</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">Random sampling (<code class="docutils literal notranslate"><span class="pre">numpy.random</span></code>)</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="generated/numpy.random.Generator.bit_generator.html"
+                        title="next chapter">numpy.random.Generator.bit_generator</a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h4>Quick search</h4>
+    <div>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" style="width: inherit;" name="q" />
+      <input type="submit" value="search" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
         </div>
       </div>
     </div>
@@ -404,7 +409,7 @@ of probability distributions to choose from.</p>
         &copy; Copyright 2008-2019, The SciPy community.
       </li>
       <li>
-      Last updated on Jul 12, 2019.
+      Last updated on Feb 18, 2020.
       </li>
       <li>
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.5.

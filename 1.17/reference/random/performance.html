@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8">
     
-    <title>Performance &mdash; NumPy v1.17rc1 Manual</title>
+    <title>Performance &mdash; NumPy v1.17 Manual</title>
     
     <link rel="stylesheet" type="text/css" href="../../_static/css/spc-bootstrap.css">
     <link rel="stylesheet" type="text/css" href="../../_static/css/spc-extend.css">
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '1.17.0rc1',
+        VERSION:     '1.17.5',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  false
@@ -29,17 +29,20 @@
     <link rel="author" title="About these documents" href="../../about.html" >
     <link rel="index" title="Index" href="../../genindex.html" >
     <link rel="search" title="Search" href="../../search.html" >
-    <link rel="top" title="NumPy v1.17rc1 Manual" href="../../index.html" >
+    <link rel="top" title="NumPy v1.17 Manual" href="../../index.html" >
     <link rel="up" title="Random sampling (numpy.random)" href="index.html" >
-    <link rel="next" title="Extending" href="extending.html" >
+    <link rel="next" title="Set routines" href="../routines.set.html" >
     <link rel="prev" title="What’s New or Different" href="new-or-different.html" > 
   </head>
   <body>
 
-  <div class="container">
-    <div class="header">
+<div class="container">
+  <div class="top-scipy-org-logo-header">
+    <a href="../../index.html">
+      <img style="border: 0;" alt="SciPy" src="../../_static/img/scipy_org_logo.gif"></a>
     </div>
   </div>
+</div>
 
 
     <div class="container">
@@ -50,8 +53,10 @@
 	    <div class="spc-navbar">
               
     <ul class="nav nav-pills pull-left">
+        <li class="active"><a href="https://scipy.org/">Scipy.org</a></li>
+        <li class="active"><a href="https://docs.scipy.org/">Docs</a></li>
         
-        <li class="active"><a href="../../index.html">NumPy v1.17rc1 Manual</a></li>
+        <li class="active"><a href="../../index.html">NumPy v1.17 Manual</a></li>
         
 
           <li class="active"><a href="../index.html" >NumPy Reference</a></li>
@@ -66,7 +71,7 @@
            accesskey="I">index</a>
       </li>
       <li class="active">
-        <a href="extending.html" title="Extending"
+        <a href="../routines.set.html" title="Set routines"
            accesskey="N">next</a>
       </li>
       <li class="active">
@@ -81,43 +86,6 @@
         
 
 	<div class="row-fluid">
-      <div class="spc-rightsidebar span3">
-        <div class="sphinxsidebarwrapper">
-  <h3><a href="../../contents.html">Table of Contents</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">Performance</a><ul>
-<li><a class="reference internal" href="#recommendation">Recommendation</a></li>
-<li><a class="reference internal" href="#timings">Timings</a></li>
-<li><a class="reference internal" href="#performance-on-different-operating-systems">Performance on different Operating Systems</a><ul>
-<li><a class="reference internal" href="#bit-linux">64-bit Linux</a></li>
-<li><a class="reference internal" href="#bit-windows">64-bit Windows</a></li>
-<li><a class="reference internal" href="#id1">32-bit Windows</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="new-or-different.html"
-                        title="previous chapter">What’s New or Different</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="extending.html"
-                        title="next chapter">Extending</a></p>
-<div id="searchbox" style="display: none" role="search">
-  <h4>Quick search</h4>
-    <div>
-    <form class="search" action="../../search.html" method="get">
-      <input type="text" style="width: inherit;" name="q" />
-      <input type="submit" value="search" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
-    </div>
-</div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
-        </div>
-      </div>
           <div class="span9">
             
         <div class="bodywrapper">
@@ -127,37 +95,37 @@
 <h1>Performance<a class="headerlink" href="#performance" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="recommendation">
 <h2>Recommendation<a class="headerlink" href="#recommendation" title="Permalink to this headline">¶</a></h2>
-<p>The recommended generator for general use is <a class="reference internal" href="bit_generators/pcg64.html#numpy.random.pcg64.PCG64" title="numpy.random.pcg64.PCG64"><code class="xref py py-class docutils literal notranslate"><span class="pre">PCG64</span></code></a>. It is
+<p>The recommended generator for general use is <code class="xref py py-class docutils literal notranslate"><span class="pre">PCG64</span></code>. It is
 statistically high quality, full-featured, and fast on most platforms, but
 somewhat slow when compiled for 32-bit processes.</p>
-<p><a class="reference internal" href="bit_generators/philox.html#numpy.random.philox.Philox" title="numpy.random.philox.Philox"><code class="xref py py-class docutils literal notranslate"><span class="pre">Philox</span></code></a> is fairly slow, but its statistical properties have
+<p><code class="xref py py-class docutils literal notranslate"><span class="pre">Philox</span></code> is fairly slow, but its statistical properties have
 very high quality, and it is easy to get assuredly-independent stream by using
 unique keys. If that is the style you wish to use for parallel streams, or you
 are porting from another system that uses that style, then
-<a class="reference internal" href="bit_generators/philox.html#numpy.random.philox.Philox" title="numpy.random.philox.Philox"><code class="xref py py-class docutils literal notranslate"><span class="pre">Philox</span></code></a> is your choice.</p>
-<p><a class="reference internal" href="bit_generators/sfc64.html#numpy.random.sfc64.SFC64" title="numpy.random.sfc64.SFC64"><code class="xref py py-class docutils literal notranslate"><span class="pre">SFC64</span></code></a> is statistically high quality and very fast. However, it
+<code class="xref py py-class docutils literal notranslate"><span class="pre">Philox</span></code> is your choice.</p>
+<p><code class="xref py py-class docutils literal notranslate"><span class="pre">SFC64</span></code> is statistically high quality and very fast. However, it
 lacks jumpability. If you are not using that capability and want lots of speed,
 even on 32-bit processes, this is your choice.</p>
-<p><a class="reference internal" href="bit_generators/mt19937.html#numpy.random.mt19937.MT19937" title="numpy.random.mt19937.MT19937"><code class="xref py py-class docutils literal notranslate"><span class="pre">MT19937</span></code></a> <a class="reference external" href="https://www.iro.umontreal.ca/~lecuyer/myftp/papers/testu01.pdf">fails some statistical tests</a> and is not especially
+<p><code class="xref py py-class docutils literal notranslate"><span class="pre">MT19937</span></code> <a class="reference external" href="https://www.iro.umontreal.ca/~lecuyer/myftp/papers/testu01.pdf">fails some statistical tests</a> and is not especially
 fast compared to modern PRNGs. For these reasons, we mostly do not recommend
-using it on its own, only through the legacy <a class="reference internal" href="legacy.html#numpy.random.mtrand.RandomState" title="numpy.random.mtrand.RandomState"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RandomState</span></code></a> for
+using it on its own, only through the legacy <a class="reference internal" href="legacy.html#numpy.random.RandomState" title="numpy.random.RandomState"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RandomState</span></code></a> for
 reproducing old results. That said, it has a very long history as a default in
 many systems.</p>
 </div>
 <div class="section" id="timings">
 <h2>Timings<a class="headerlink" href="#timings" title="Permalink to this headline">¶</a></h2>
 <p>The timings below are the time in ns to produce 1 random value from a
-specific distribution.  The original <a class="reference internal" href="bit_generators/mt19937.html#numpy.random.mt19937.MT19937" title="numpy.random.mt19937.MT19937"><code class="xref py py-class docutils literal notranslate"><span class="pre">MT19937</span></code></a> generator is
+specific distribution.  The original <code class="xref py py-class docutils literal notranslate"><span class="pre">MT19937</span></code> generator is
 much slower since it requires 2 32-bit values to equal the output of the
 faster generators.</p>
 <p>Integer performance has a similar ordering.</p>
 <p>The pattern is similar for other, more complex generators. The normal
-performance of the legacy <a class="reference internal" href="legacy.html#numpy.random.mtrand.RandomState" title="numpy.random.mtrand.RandomState"><code class="xref py py-class docutils literal notranslate"><span class="pre">RandomState</span></code></a> generator is much
+performance of the legacy <a class="reference internal" href="legacy.html#numpy.random.RandomState" title="numpy.random.RandomState"><code class="xref py py-class docutils literal notranslate"><span class="pre">RandomState</span></code></a> generator is much
 lower than the other since it uses the Box-Muller transformation rather
 than the Ziggurat generator. The performance gap for Exponentials is also
 large due to the cost of computing the log function to invert the CDF.
 The column labeled MT19973 is used the same 32-bit generator as
-<a class="reference internal" href="legacy.html#numpy.random.mtrand.RandomState" title="numpy.random.mtrand.RandomState"><code class="xref py py-class docutils literal notranslate"><span class="pre">RandomState</span></code></a> but produces random values using
+<a class="reference internal" href="legacy.html#numpy.random.RandomState" title="numpy.random.RandomState"><code class="xref py py-class docutils literal notranslate"><span class="pre">RandomState</span></code></a> but produces random values using
 <a class="reference internal" href="generator.html#numpy.random.Generator" title="numpy.random.Generator"><code class="xref py py-class docutils literal notranslate"><span class="pre">Generator</span></code></a>.</p>
 <table border="1" class="colwidths-given docutils">
 <colgroup>
@@ -531,6 +499,43 @@ Studio 2015). All timings were produced on a i5-3570 processor.</p>
           </div>
         </div>
           </div>
+      <div class="spc-rightsidebar span3">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../../contents.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Performance</a><ul>
+<li><a class="reference internal" href="#recommendation">Recommendation</a></li>
+<li><a class="reference internal" href="#timings">Timings</a></li>
+<li><a class="reference internal" href="#performance-on-different-operating-systems">Performance on different Operating Systems</a><ul>
+<li><a class="reference internal" href="#bit-linux">64-bit Linux</a></li>
+<li><a class="reference internal" href="#bit-windows">64-bit Windows</a></li>
+<li><a class="reference internal" href="#id1">32-bit Windows</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="new-or-different.html"
+                        title="previous chapter">What’s New or Different</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="../routines.set.html"
+                        title="next chapter">Set routines</a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h4>Quick search</h4>
+    <div>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" style="width: inherit;" name="q" />
+      <input type="submit" value="search" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
         </div>
       </div>
     </div>
@@ -548,7 +553,7 @@ Studio 2015). All timings were produced on a i5-3570 processor.</p>
         &copy; Copyright 2008-2019, The SciPy community.
       </li>
       <li>
-      Last updated on Jul 12, 2019.
+      Last updated on Feb 18, 2020.
       </li>
       <li>
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.5.

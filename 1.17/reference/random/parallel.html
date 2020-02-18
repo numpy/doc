@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8">
     
-    <title>Parallel Random Number Generation &mdash; NumPy v1.17rc1 Manual</title>
+    <title>Parallel Random Number Generation &mdash; NumPy v1.17 Manual</title>
     
     <link rel="stylesheet" type="text/css" href="../../_static/css/spc-bootstrap.css">
     <link rel="stylesheet" type="text/css" href="../../_static/css/spc-extend.css">
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '1.17.0rc1',
+        VERSION:     '1.17.5',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  false
@@ -29,17 +29,20 @@
     <link rel="author" title="About these documents" href="../../about.html" >
     <link rel="index" title="Index" href="../../genindex.html" >
     <link rel="search" title="Search" href="../../search.html" >
-    <link rel="top" title="NumPy v1.17rc1 Manual" href="../../index.html" >
+    <link rel="top" title="NumPy v1.17 Manual" href="../../index.html" >
     <link rel="up" title="Random sampling (numpy.random)" href="index.html" >
     <link rel="next" title="Multithreaded Generation" href="multithreading.html" >
     <link rel="prev" title="numpy.random.bit_generator.SeedlessSeedSequence" href="bit_generators/generated/numpy.random.bit_generator.SeedlessSeedSequence.html" > 
   </head>
   <body>
 
-  <div class="container">
-    <div class="header">
+<div class="container">
+  <div class="top-scipy-org-logo-header">
+    <a href="../../index.html">
+      <img style="border: 0;" alt="SciPy" src="../../_static/img/scipy_org_logo.gif"></a>
     </div>
   </div>
+</div>
 
 
     <div class="container">
@@ -50,8 +53,10 @@
 	    <div class="spc-navbar">
               
     <ul class="nav nav-pills pull-left">
+        <li class="active"><a href="https://scipy.org/">Scipy.org</a></li>
+        <li class="active"><a href="https://docs.scipy.org/">Docs</a></li>
         
-        <li class="active"><a href="../../index.html">NumPy v1.17rc1 Manual</a></li>
+        <li class="active"><a href="../../index.html">NumPy v1.17 Manual</a></li>
         
 
           <li class="active"><a href="../index.html" >NumPy Reference</a></li>
@@ -81,38 +86,6 @@
         
 
 	<div class="row-fluid">
-      <div class="spc-rightsidebar span3">
-        <div class="sphinxsidebarwrapper">
-  <h3><a href="../../contents.html">Table of Contents</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">Parallel Random Number Generation</a><ul>
-<li><a class="reference internal" href="#seedsequence-spawning"><code class="docutils literal notranslate"><span class="pre">SeedSequence</span></code> spawning</a></li>
-<li><a class="reference internal" href="#independent-streams">Independent Streams</a></li>
-<li><a class="reference internal" href="#jumping-the-bitgenerator-state">Jumping the BitGenerator state</a></li>
-</ul>
-</li>
-</ul>
-
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="bit_generators/generated/numpy.random.bit_generator.SeedlessSeedSequence.html"
-                        title="previous chapter">numpy.random.bit_generator.SeedlessSeedSequence</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="multithreading.html"
-                        title="next chapter">Multithreaded Generation</a></p>
-<div id="searchbox" style="display: none" role="search">
-  <h4>Quick search</h4>
-    <div>
-    <form class="search" action="../../search.html" method="get">
-      <input type="text" style="width: inherit;" name="q" />
-      <input type="submit" value="search" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
-    </div>
-</div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
-        </div>
-      </div>
           <div class="span9">
             
         <div class="bodywrapper">
@@ -130,10 +103,10 @@ typically as an integer of some size, and to convert it into an initial state fo
 a <em class="xref py py-obj">BitGenerator</em>. It uses hashing techniques to ensure that low-quality seeds
 are turned into high quality initial states (at least, with very high
 probability).</p>
-<p>For example, <a class="reference internal" href="bit_generators/mt19937.html#numpy.random.mt19937.MT19937" title="numpy.random.mt19937.MT19937"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MT19937</span></code></a> has a state consisting of 624
+<p>For example, <code class="xref py py-obj docutils literal notranslate"><span class="pre">MT19937</span></code> has a state consisting of 624
 <em class="xref py py-obj">uint32</em> integers. A naive way to take a 32-bit integer seed would be to just set
 the last element of the state to the 32-bit seed and leave the rest 0s. This is
-a valid state for <a class="reference internal" href="bit_generators/mt19937.html#numpy.random.mt19937.MT19937" title="numpy.random.mt19937.MT19937"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MT19937</span></code></a>, but not a good one. The Mersenne Twister
+a valid state for <code class="xref py py-obj docutils literal notranslate"><span class="pre">MT19937</span></code>, but not a good one. The Mersenne Twister
 algorithm <a class="reference external" href="http://www.math.sci.hiroshima-u.ac.jp/~m-mat/MT/MT2002/emt19937ar.html">suffers if there are too many 0s</a>. Similarly, two adjacent 32-bit
 integer seeds (i.e. <code class="docutils literal notranslate"><span class="pre">12345</span></code> and <code class="docutils literal notranslate"><span class="pre">12346</span></code>) would produce very similar
 streams.</p>
@@ -198,14 +171,14 @@ that the probability is actually lower.</td></tr>
 <tr><td class="label"><a class="fn-backref" href="#id2">[2]</a></td><td>In this calculation, we can ignore the amount of numbers drawn from each
 stream. Each of the PRNGs we provide has some extra protection built in
 that avoids overlaps if the <a class="reference internal" href="bit_generators/generated/numpy.random.SeedSequence.html#numpy.random.SeedSequence" title="numpy.random.SeedSequence"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SeedSequence</span></code></a> pools differ in the
-slightest bit. <a class="reference internal" href="bit_generators/pcg64.html#numpy.random.pcg64.PCG64" title="numpy.random.pcg64.PCG64"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PCG64</span></code></a> has <img class="math" src="../../_images/math/04aa1572e8d56289cb5e667fa084a23be72b2780.svg" alt="2^{127}"/> separate cycles
+slightest bit. <code class="xref py py-obj docutils literal notranslate"><span class="pre">PCG64</span></code> has <img class="math" src="../../_images/math/04aa1572e8d56289cb5e667fa084a23be72b2780.svg" alt="2^{127}"/> separate cycles
 determined by the seed in addition to the position in the
 <img class="math" src="../../_images/math/919aaef4104e7d1dc8a3f24ae20681484ba9aa78.svg" alt="2^{128}"/> long period for each cycle, so one has to both get on or
 near the same cycle <em>and</em> seed a nearby position in the cycle.
-<a class="reference internal" href="bit_generators/philox.html#numpy.random.philox.Philox" title="numpy.random.philox.Philox"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Philox</span></code></a> has completely independent cycles determined by the seed.
-<a class="reference internal" href="bit_generators/sfc64.html#numpy.random.sfc64.SFC64" title="numpy.random.sfc64.SFC64"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SFC64</span></code></a> incorporates a 64-bit counter so every unique seed is at
+<code class="xref py py-obj docutils literal notranslate"><span class="pre">Philox</span></code> has completely independent cycles determined by the seed.
+<code class="xref py py-obj docutils literal notranslate"><span class="pre">SFC64</span></code> incorporates a 64-bit counter so every unique seed is at
 least <img class="math" src="../../_images/math/35a5844e58da255d6c258648f3abcd8ddfd1986b.svg" alt="2^{64}"/> iterations away from any other seed. And
-finally, <a class="reference internal" href="bit_generators/mt19937.html#numpy.random.mt19937.MT19937" title="numpy.random.mt19937.MT19937"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MT19937</span></code></a> has just an unimaginably huge period. Getting
+finally, <code class="xref py py-obj docutils literal notranslate"><span class="pre">MT19937</span></code> has just an unimaginably huge period. Getting
 a collision internal to <a class="reference internal" href="bit_generators/generated/numpy.random.SeedSequence.html#numpy.random.SeedSequence" title="numpy.random.SeedSequence"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SeedSequence</span></code></a> is the way a failure would be
 observed.</td></tr>
 </tbody>
@@ -213,10 +186,10 @@ observed.</td></tr>
 </div>
 <div class="section" id="independent-streams">
 <span id="id5"></span><h2>Independent Streams<a class="headerlink" href="#independent-streams" title="Permalink to this headline">¶</a></h2>
-<p><a class="reference internal" href="bit_generators/philox.html#numpy.random.philox.Philox" title="numpy.random.philox.Philox"><code class="xref py py-class docutils literal notranslate"><span class="pre">Philox</span></code></a> is a counter-based RNG based which generates values by
+<p><code class="xref py py-class docutils literal notranslate"><span class="pre">Philox</span></code> is a counter-based RNG based which generates values by
 encrypting an incrementing counter using weak cryptographic primitives. The
 seed determines the key that is used for the encryption. Unique keys create
-unique, independent streams. <a class="reference internal" href="bit_generators/philox.html#numpy.random.philox.Philox" title="numpy.random.philox.Philox"><code class="xref py py-class docutils literal notranslate"><span class="pre">Philox</span></code></a> lets you bypass the
+unique, independent streams. <code class="xref py py-class docutils literal notranslate"><span class="pre">Philox</span></code> lets you bypass the
 seeding algorithm to directly set the 128-bit key. Similar, but different, keys
 will still create independent streams.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">secrets</span>
@@ -311,6 +284,38 @@ do not overlap.</p>
           </div>
         </div>
           </div>
+      <div class="spc-rightsidebar span3">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../../contents.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Parallel Random Number Generation</a><ul>
+<li><a class="reference internal" href="#seedsequence-spawning"><code class="docutils literal notranslate"><span class="pre">SeedSequence</span></code> spawning</a></li>
+<li><a class="reference internal" href="#independent-streams">Independent Streams</a></li>
+<li><a class="reference internal" href="#jumping-the-bitgenerator-state">Jumping the BitGenerator state</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="bit_generators/generated/numpy.random.bit_generator.SeedlessSeedSequence.html"
+                        title="previous chapter">numpy.random.bit_generator.SeedlessSeedSequence</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="multithreading.html"
+                        title="next chapter">Multithreaded Generation</a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h4>Quick search</h4>
+    <div>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" style="width: inherit;" name="q" />
+      <input type="submit" value="search" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
         </div>
       </div>
     </div>
@@ -328,7 +333,7 @@ do not overlap.</p>
         &copy; Copyright 2008-2019, The SciPy community.
       </li>
       <li>
-      Last updated on Jul 12, 2019.
+      Last updated on Feb 18, 2020.
       </li>
       <li>
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.5.

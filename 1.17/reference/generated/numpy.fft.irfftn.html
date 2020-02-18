@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8">
     
-    <title>numpy.fft.irfftn &mdash; NumPy v1.17rc1 Manual</title>
+    <title>numpy.fft.irfftn &mdash; NumPy v1.17 Manual</title>
     
     <link rel="stylesheet" type="text/css" href="../../_static/css/spc-bootstrap.css">
     <link rel="stylesheet" type="text/css" href="../../_static/css/spc-extend.css">
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '1.17.0rc1',
+        VERSION:     '1.17.5',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  false
@@ -29,17 +29,20 @@
     <link rel="author" title="About these documents" href="../../about.html" >
     <link rel="index" title="Index" href="../../genindex.html" >
     <link rel="search" title="Search" href="../../search.html" >
-    <link rel="top" title="NumPy v1.17rc1 Manual" href="../../index.html" >
+    <link rel="top" title="NumPy v1.17 Manual" href="../../index.html" >
     <link rel="up" title="Discrete Fourier Transform (numpy.fft)" href="../routines.fft.html" >
     <link rel="next" title="numpy.fft.hfft" href="numpy.fft.hfft.html" >
     <link rel="prev" title="numpy.fft.rfftn" href="numpy.fft.rfftn.html" > 
   </head>
   <body>
 
-  <div class="container">
-    <div class="header">
+<div class="container">
+  <div class="top-scipy-org-logo-header">
+    <a href="../../index.html">
+      <img style="border: 0;" alt="SciPy" src="../../_static/img/scipy_org_logo.gif"></a>
     </div>
   </div>
+</div>
 
 
     <div class="container">
@@ -50,8 +53,10 @@
 	    <div class="spc-navbar">
               
     <ul class="nav nav-pills pull-left">
+        <li class="active"><a href="https://scipy.org/">Scipy.org</a></li>
+        <li class="active"><a href="https://docs.scipy.org/">Docs</a></li>
         
-        <li class="active"><a href="../../index.html">NumPy v1.17rc1 Manual</a></li>
+        <li class="active"><a href="../../index.html">NumPy v1.17 Manual</a></li>
         
 
           <li class="active"><a href="../index.html" >NumPy Reference</a></li>
@@ -81,28 +86,6 @@
         
 
 	<div class="row-fluid">
-      <div class="spc-rightsidebar span3">
-        <div class="sphinxsidebarwrapper">
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="numpy.fft.rfftn.html"
-                        title="previous chapter">numpy.fft.rfftn</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="numpy.fft.hfft.html"
-                        title="next chapter">numpy.fft.hfft</a></p>
-<div id="searchbox" style="display: none" role="search">
-  <h4>Quick search</h4>
-    <div>
-    <form class="search" action="../../search.html" method="get">
-      <input type="text" style="width: inherit;" name="q" />
-      <input type="submit" value="search" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
-    </div>
-</div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
-        </div>
-      </div>
           <div class="span9">
             
         <div class="bodywrapper">
@@ -112,7 +95,7 @@
 <h1>numpy.fft.irfftn<a class="headerlink" href="#numpy-fft-irfftn" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="numpy.fft.irfftn">
-<code class="descclassname">numpy.fft.</code><code class="descname">irfftn</code><span class="sig-paren">(</span><em>a</em>, <em>s=None</em>, <em>axes=None</em>, <em>norm=None</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/numpy/numpy/blob/v1.17.0rc1/numpy/fft/pocketfft.py#L1143-L1234"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#numpy.fft.irfftn" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">numpy.fft.</code><code class="descname">irfftn</code><span class="sig-paren">(</span><em>a</em>, <em>s=None</em>, <em>axes=None</em>, <em>norm=None</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/numpy/numpy/blob/v1.17.5/numpy/fft/_pocketfft.py#L1168-L1269"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#numpy.fft.irfftn" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compute the inverse of the N-dimensional FFT of real input.</p>
 <p>This function computes the inverse of the N-dimensional discrete
 Fourier Transform for real input over any number of axes in an
@@ -138,8 +121,9 @@ number of input points used along this axis, except for the last axis,
 where <code class="docutils literal notranslate"><span class="pre">s[-1]//2+1</span></code> points of the input are used.
 Along any axis, if the shape indicated by <em class="xref py py-obj">s</em> is smaller than that of
 the input, the input is cropped.  If it is larger, the input is padded
-with zeros. If <em class="xref py py-obj">s</em> is not given, the shape of the input along the
-axes specified by <em class="xref py py-obj">axes</em> is used.</p>
+with zeros. If <em class="xref py py-obj">s</em> is not given, the shape of the input along the axes
+specified by axes is used. Except for the last axis which is taken to be
+<code class="docutils literal notranslate"><span class="pre">2*(m-1)</span></code> where <code class="docutils literal notranslate"><span class="pre">m</span></code> is the length of the input along that axis.</p>
 </dd>
 <dt><strong>axes</strong> <span class="classifier-delimiter">:</span> <span class="classifier">sequence of ints, optional</span></dt>
 <dd><p class="first last">Axes over which to compute the inverse FFT. If not given, the last
@@ -199,6 +183,14 @@ number of output points in the final axis, <em class="xref py py-obj">s</em> mus
 <p class="rubric">Notes</p>
 <p>See <a class="reference internal" href="numpy.fft.fft.html#numpy.fft.fft" title="numpy.fft.fft"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fft</span></code></a> for definitions and conventions used.</p>
 <p>See <a class="reference internal" href="numpy.fft.rfft.html#numpy.fft.rfft" title="numpy.fft.rfft"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rfft</span></code></a> for definitions and conventions used for real input.</p>
+<p>The correct interpretation of the hermitian input depends on the shape of
+the original data, as given by <em class="xref py py-obj">s</em>. This is because each input shape could
+correspond to either an odd or even length signal. By default, <a class="reference internal" href="#numpy.fft.irfftn" title="numpy.fft.irfftn"><code class="xref py py-obj docutils literal notranslate"><span class="pre">irfftn</span></code></a>
+assumes an even output length which puts the last entry at the Nyquist
+frequency; aliasing with its symmetric counterpart. When performing the
+final complex to real transform, the last value is thus treated as purely
+real. To avoid losing information, the correct shape of the real input
+<strong>must</strong> be given.</p>
 <p class="rubric">Examples</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">3</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">*</span> <span class="mi">2</span>
@@ -219,6 +211,28 @@ number of output points in the final axis, <em class="xref py py-obj">s</em> mus
           </div>
         </div>
           </div>
+      <div class="spc-rightsidebar span3">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="numpy.fft.rfftn.html"
+                        title="previous chapter">numpy.fft.rfftn</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="numpy.fft.hfft.html"
+                        title="next chapter">numpy.fft.hfft</a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h4>Quick search</h4>
+    <div>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" style="width: inherit;" name="q" />
+      <input type="submit" value="search" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
         </div>
       </div>
     </div>
@@ -236,7 +250,7 @@ number of output points in the final axis, <em class="xref py py-obj">s</em> mus
         &copy; Copyright 2008-2019, The SciPy community.
       </li>
       <li>
-      Last updated on Jul 12, 2019.
+      Last updated on Feb 18, 2020.
       </li>
       <li>
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.5.

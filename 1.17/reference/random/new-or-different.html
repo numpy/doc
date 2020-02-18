@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8">
     
-    <title>What’s New or Different &mdash; NumPy v1.17rc1 Manual</title>
+    <title>What’s New or Different &mdash; NumPy v1.17 Manual</title>
     
     <link rel="stylesheet" type="text/css" href="../../_static/css/spc-bootstrap.css">
     <link rel="stylesheet" type="text/css" href="../../_static/css/spc-extend.css">
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '1.17.0rc1',
+        VERSION:     '1.17.5',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  false
@@ -29,17 +29,20 @@
     <link rel="author" title="About these documents" href="../../about.html" >
     <link rel="index" title="Index" href="../../genindex.html" >
     <link rel="search" title="Search" href="../../search.html" >
-    <link rel="top" title="NumPy v1.17rc1 Manual" href="../../index.html" >
+    <link rel="top" title="NumPy v1.17 Manual" href="../../index.html" >
     <link rel="up" title="Random sampling (numpy.random)" href="index.html" >
     <link rel="next" title="Performance" href="performance.html" >
     <link rel="prev" title="Multithreaded Generation" href="multithreading.html" > 
   </head>
   <body>
 
-  <div class="container">
-    <div class="header">
+<div class="container">
+  <div class="top-scipy-org-logo-header">
+    <a href="../../index.html">
+      <img style="border: 0;" alt="SciPy" src="../../_static/img/scipy_org_logo.gif"></a>
     </div>
   </div>
+</div>
 
 
     <div class="container">
@@ -50,8 +53,10 @@
 	    <div class="spc-navbar">
               
     <ul class="nav nav-pills pull-left">
+        <li class="active"><a href="https://scipy.org/">Scipy.org</a></li>
+        <li class="active"><a href="https://docs.scipy.org/">Docs</a></li>
         
-        <li class="active"><a href="../../index.html">NumPy v1.17rc1 Manual</a></li>
+        <li class="active"><a href="../../index.html">NumPy v1.17 Manual</a></li>
         
 
           <li class="active"><a href="../index.html" >NumPy Reference</a></li>
@@ -81,28 +86,6 @@
         
 
 	<div class="row-fluid">
-      <div class="spc-rightsidebar span3">
-        <div class="sphinxsidebarwrapper">
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="multithreading.html"
-                        title="previous chapter">Multithreaded Generation</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="performance.html"
-                        title="next chapter">Performance</a></p>
-<div id="searchbox" style="display: none" role="search">
-  <h4>Quick search</h4>
-    <div>
-    <form class="search" action="../../search.html" method="get">
-      <input type="text" style="width: inherit;" name="q" />
-      <input type="submit" value="search" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
-    </div>
-</div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
-        </div>
-      </div>
           <div class="span9">
             
         <div class="bodywrapper">
@@ -117,7 +100,7 @@ in <a class="reference internal" href="generator.html#numpy.random.Generator" ti
 values using <code class="docutils literal notranslate"><span class="pre">Generator</span></code> for the normal distribution or any other
 distribution that relies on the normal such as the <code class="xref py py-obj docutils literal notranslate"><span class="pre">gamma</span></code> or
 <code class="xref py py-obj docutils literal notranslate"><span class="pre">standard_t</span></code>. If you require bitwise backward compatible
-streams, use <code class="xref py py-obj docutils literal notranslate"><span class="pre">RandomState</span></code>.</p>
+streams, use <a class="reference internal" href="legacy.html#numpy.random.RandomState" title="numpy.random.RandomState"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RandomState</span></code></a>.</p>
 </div>
 <p>Quick comparison of legacy <a class="reference external" href="legacy">mtrand</a> to the new <a class="reference internal" href="generator.html#numpy.random.Generator" title="numpy.random.Generator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Generator</span></code></a></p>
 <table border="1" class="docutils">
@@ -132,14 +115,17 @@ streams, use <code class="xref py py-obj docutils literal notranslate"><span cla
 <td>Notes</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="generator.html#numpy.random.Generator" title="numpy.random.Generator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Generator</span></code></a></td>
-<td><a class="reference internal" href="legacy.html#numpy.random.mtrand.RandomState" title="numpy.random.mtrand.RandomState"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RandomState</span></code></a></td>
+<td><a class="reference internal" href="legacy.html#numpy.random.RandomState" title="numpy.random.RandomState"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RandomState</span></code></a></td>
 <td><code class="docutils literal notranslate"><span class="pre">Generator</span></code> requires a stream
 source, called a <em class="xref py py-obj">BitGenerator</em> A number of these
 are provided.  <code class="docutils literal notranslate"><span class="pre">RandomState</span></code> uses
-only the Mersenne Twister.</td>
+the Mersenne Twister <a class="reference internal" href="bit_generators/mt19937.html#numpy.random.MT19937" title="numpy.random.MT19937"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MT19937</span></code></a> by
+default, but can also be instantiated
+with any BitGenerator.</td>
 </tr>
 <tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">random</span></code></td>
-<td><code class="docutils literal notranslate"><span class="pre">random_sample</span></code></td>
+<td><code class="docutils literal notranslate"><span class="pre">random_sample</span></code>,
+<code class="docutils literal notranslate"><span class="pre">rand</span></code></td>
 <td><p class="first">Access the values in a BitGenerator,
 convert them to <code class="docutils literal notranslate"><span class="pre">float64</span></code> in the
 interval <code class="docutils literal notranslate"><span class="pre">[0.0.,</span></code> `` 1.0)``.
@@ -162,9 +148,6 @@ the inclusion or exclution of the
 </table>
 <p>And in more detail:</p>
 <ul class="simple">
-<li><a class="reference internal" href="entropy.html#numpy.random.entropy.random_entropy" title="numpy.random.entropy.random_entropy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">random_entropy</span></code></a> provides access to the system
-source of randomness that is used in cryptographic applications (e.g.,
-<code class="docutils literal notranslate"><span class="pre">/dev/urandom</span></code> on Unix).</li>
 <li>Simulate from the complex normal distribution
 (<em class="xref py py-obj">complex_normal</em>)</li>
 <li>The normal, exponential and gamma generators use 256-step Ziggurat
@@ -173,12 +156,12 @@ methods which are 2-10 times faster than NumPy’s default implementation in
 <a class="reference internal" href="generated/numpy.random.Generator.standard_gamma.html#numpy.random.Generator.standard_gamma" title="numpy.random.Generator.standard_gamma"><code class="xref py py-obj docutils literal notranslate"><span class="pre">standard_gamma</span></code></a>.</li>
 <li><a class="reference internal" href="generated/numpy.random.Generator.integers.html#numpy.random.Generator.integers" title="numpy.random.Generator.integers"><code class="xref py py-obj docutils literal notranslate"><span class="pre">integers</span></code></a> is now the canonical way to generate integer
 random numbers from a discrete uniform distribution. The <code class="docutils literal notranslate"><span class="pre">rand</span></code> and
-<code class="docutils literal notranslate"><span class="pre">randn</span></code> methods are only available through the legacy <a class="reference internal" href="legacy.html#numpy.random.mtrand.RandomState" title="numpy.random.mtrand.RandomState"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RandomState</span></code></a>.
+<code class="docutils literal notranslate"><span class="pre">randn</span></code> methods are only available through the legacy <a class="reference internal" href="legacy.html#numpy.random.RandomState" title="numpy.random.RandomState"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RandomState</span></code></a>.
 This replaces both <code class="docutils literal notranslate"><span class="pre">randint</span></code> and the deprecated <code class="docutils literal notranslate"><span class="pre">random_integers</span></code>.</li>
 <li>The Box-Muller method used to produce NumPy’s normals is no longer available.</li>
-<li>All bit generators can produce doubles, uint64s and
-uint32s via CTypes (<code class="xref py py-obj docutils literal notranslate"><span class="pre">ctypes</span></code>) and CFFI (<code class="xref py py-obj docutils literal notranslate"><span class="pre">cffi</span></code>).
-This allows these bit generators to be used in numba.</li>
+<li>All bit generators can produce doubles, uint64s and uint32s via CTypes
+(<a class="reference internal" href="bit_generators/generated/numpy.random.PCG64.ctypes.html#numpy.random.PCG64.ctypes" title="numpy.random.PCG64.ctypes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ctypes</span></code></a>) and CFFI (<a class="reference internal" href="bit_generators/generated/numpy.random.PCG64.cffi.html#numpy.random.PCG64.cffi" title="numpy.random.PCG64.cffi"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cffi</span></code></a>).  This allows these bit generators
+to be used in numba.</li>
 <li>The bit generators can be used in downstream projects via
 Cython.</li>
 </ul>
@@ -191,22 +174,22 @@ Cython.</li>
 <span class="gp">In [4]: </span><span class="o">%</span><span class="k">timeit</span> rg.standard_normal(100000)
 <span class="gp">   ...: </span><span class="o">%</span><span class="k">timeit</span> numpy.random.standard_normal(100000)
 <span class="gp">   ...: </span>
-<span class="go">1.21 ms +- 5.44 us per loop (mean +- std. dev. of 7 runs, 1000 loops each)</span>
-<span class="go">4.23 ms +- 36.1 us per loop (mean +- std. dev. of 7 runs, 100 loops each)</span>
+<span class="go">871 us +- 7.51 us per loop (mean +- std. dev. of 7 runs, 1000 loops each)</span>
+<span class="go">2.06 ms +- 49.9 us per loop (mean +- std. dev. of 7 runs, 100 loops each)</span>
 </pre></div>
 </div>
 <div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [5]: </span><span class="o">%</span><span class="k">timeit</span> rg.standard_exponential(100000)
 <span class="gp">   ...: </span><span class="o">%</span><span class="k">timeit</span> numpy.random.standard_exponential(100000)
 <span class="gp">   ...: </span>
-<span class="go">630 us +- 5.83 us per loop (mean +- std. dev. of 7 runs, 1000 loops each)</span>
-<span class="go">5.1 ms +- 225 us per loop (mean +- std. dev. of 7 runs, 100 loops each)</span>
+<span class="go">451 us +- 1.87 us per loop (mean +- std. dev. of 7 runs, 1000 loops each)</span>
+<span class="go">1.43 ms +- 15.5 us per loop (mean +- std. dev. of 7 runs, 1000 loops each)</span>
 </pre></div>
 </div>
 <div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [6]: </span><span class="o">%</span><span class="k">timeit</span> rg.standard_gamma(3.0, 100000)
 <span class="gp">   ...: </span><span class="o">%</span><span class="k">timeit</span> numpy.random.standard_gamma(3.0, 100000)
 <span class="gp">   ...: </span>
-<span class="go">3.56 ms +- 220 us per loop (mean +- std. dev. of 7 runs, 100 loops each)</span>
-<span class="go">8.18 ms +- 240 us per loop (mean +- std. dev. of 7 runs, 100 loops each)</span>
+<span class="go">2.01 ms +- 11.4 us per loop (mean +- std. dev. of 7 runs, 100 loops each)</span>
+<span class="go">3.72 ms +- 19.9 us per loop (mean +- std. dev. of 7 runs, 100 loops each)</span>
 </pre></div>
 </div>
 <ul class="simple">
@@ -226,7 +209,7 @@ select distributions<ul>
 <span class="gh">Out[8]: </span><span class="go">array([0.63696169, 0.26978671, 0.04097352])</span>
 
 <span class="gp">In [9]: </span><span class="n">rg</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;f&#39;</span><span class="p">)</span>
-<span class="go">                                                    Out[9]: array([0.07524014, 0.01652753, 0.17526722], dtype=float32)</span>
+<span class="gh">Out[9]: </span><span class="go">array([0.07524014, 0.01652753, 0.17526722], dtype=float32)</span>
 </pre></div>
 </div>
 <ul>
@@ -247,8 +230,8 @@ BitGenerators in parallel.</p>
 <span class="gp">In [11]: </span><span class="n">rg</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="n">out</span><span class="o">=</span><span class="n">existing</span><span class="p">[:</span><span class="mi">2</span><span class="p">])</span>
 <span class="gh">Out[11]: </span><span class="go">array([0.91275558, 0.60663578])</span>
 
-<span class="gp">In [12]: </span><span class="k">print</span><span class="p">(</span><span class="n">existing</span><span class="p">)</span>
-<span class="go">                                         [0.91275558 0.60663578 0.         0.        ]</span>
+<span class="gp">In [12]: </span><span class="nb">print</span><span class="p">(</span><span class="n">existing</span><span class="p">)</span>
+<span class="go">[0.91275558 0.60663578 0.         0.        ]</span>
 </pre></div>
 </div>
 </div>
@@ -257,6 +240,28 @@ BitGenerators in parallel.</p>
           </div>
         </div>
           </div>
+      <div class="spc-rightsidebar span3">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="multithreading.html"
+                        title="previous chapter">Multithreaded Generation</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="performance.html"
+                        title="next chapter">Performance</a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h4>Quick search</h4>
+    <div>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" style="width: inherit;" name="q" />
+      <input type="submit" value="search" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
         </div>
       </div>
     </div>
@@ -274,7 +279,7 @@ BitGenerators in parallel.</p>
         &copy; Copyright 2008-2019, The SciPy community.
       </li>
       <li>
-      Last updated on Jul 12, 2019.
+      Last updated on Feb 18, 2020.
       </li>
       <li>
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.5.

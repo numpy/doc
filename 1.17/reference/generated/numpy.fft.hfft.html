@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8">
     
-    <title>numpy.fft.hfft &mdash; NumPy v1.17rc1 Manual</title>
+    <title>numpy.fft.hfft &mdash; NumPy v1.17 Manual</title>
     
     <link rel="stylesheet" type="text/css" href="../../_static/css/spc-bootstrap.css">
     <link rel="stylesheet" type="text/css" href="../../_static/css/spc-extend.css">
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '1.17.0rc1',
+        VERSION:     '1.17.5',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  false
@@ -29,17 +29,20 @@
     <link rel="author" title="About these documents" href="../../about.html" >
     <link rel="index" title="Index" href="../../genindex.html" >
     <link rel="search" title="Search" href="../../search.html" >
-    <link rel="top" title="NumPy v1.17rc1 Manual" href="../../index.html" >
+    <link rel="top" title="NumPy v1.17 Manual" href="../../index.html" >
     <link rel="up" title="Discrete Fourier Transform (numpy.fft)" href="../routines.fft.html" >
     <link rel="next" title="numpy.fft.ihfft" href="numpy.fft.ihfft.html" >
     <link rel="prev" title="numpy.fft.irfftn" href="numpy.fft.irfftn.html" > 
   </head>
   <body>
 
-  <div class="container">
-    <div class="header">
+<div class="container">
+  <div class="top-scipy-org-logo-header">
+    <a href="../../index.html">
+      <img style="border: 0;" alt="SciPy" src="../../_static/img/scipy_org_logo.gif"></a>
     </div>
   </div>
+</div>
 
 
     <div class="container">
@@ -50,8 +53,10 @@
 	    <div class="spc-navbar">
               
     <ul class="nav nav-pills pull-left">
+        <li class="active"><a href="https://scipy.org/">Scipy.org</a></li>
+        <li class="active"><a href="https://docs.scipy.org/">Docs</a></li>
         
-        <li class="active"><a href="../../index.html">NumPy v1.17rc1 Manual</a></li>
+        <li class="active"><a href="../../index.html">NumPy v1.17 Manual</a></li>
         
 
           <li class="active"><a href="../index.html" >NumPy Reference</a></li>
@@ -81,28 +86,6 @@
         
 
 	<div class="row-fluid">
-      <div class="spc-rightsidebar span3">
-        <div class="sphinxsidebarwrapper">
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="numpy.fft.irfftn.html"
-                        title="previous chapter">numpy.fft.irfftn</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="numpy.fft.ihfft.html"
-                        title="next chapter">numpy.fft.ihfft</a></p>
-<div id="searchbox" style="display: none" role="search">
-  <h4>Quick search</h4>
-    <div>
-    <form class="search" action="../../search.html" method="get">
-      <input type="text" style="width: inherit;" name="q" />
-      <input type="submit" value="search" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
-    </div>
-</div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
-        </div>
-      </div>
           <div class="span9">
             
         <div class="bodywrapper">
@@ -112,7 +95,7 @@
 <h1>numpy.fft.hfft<a class="headerlink" href="#numpy-fft-hfft" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="numpy.fft.hfft">
-<code class="descclassname">numpy.fft.</code><code class="descname">hfft</code><span class="sig-paren">(</span><em>a</em>, <em>n=None</em>, <em>axis=-1</em>, <em>norm=None</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/numpy/numpy/blob/v1.17.0rc1/numpy/fft/pocketfft.py#L462-L541"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#numpy.fft.hfft" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">numpy.fft.</code><code class="descname">hfft</code><span class="sig-paren">(</span><em>a</em>, <em>n=None</em>, <em>axis=-1</em>, <em>norm=None</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/numpy/numpy/blob/v1.17.5/numpy/fft/_pocketfft.py#L478-L566"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#numpy.fft.hfft" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compute the FFT of a signal that has Hermitian symmetry, i.e., a real
 spectrum.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -127,8 +110,9 @@ spectrum.</p>
 <dd><p class="first last">Length of the transformed axis of the output. For <em class="xref py py-obj">n</em> output
 points, <code class="docutils literal notranslate"><span class="pre">n//2</span> <span class="pre">+</span> <span class="pre">1</span></code> input points are necessary.  If the input is
 longer than this, it is cropped.  If it is shorter than this, it is
-padded with zeros.  If <em class="xref py py-obj">n</em> is not given, it is determined from the
-length of the input along the axis specified by <em class="xref py py-obj">axis</em>.</p>
+padded with zeros.  If <em class="xref py py-obj">n</em> is not given, it is taken to be <code class="docutils literal notranslate"><span class="pre">2*(m-1)</span></code>
+where <code class="docutils literal notranslate"><span class="pre">m</span></code> is the length of the input along the axis specified by
+<em class="xref py py-obj">axis</em>.</p>
 </dd>
 <dt><strong>axis</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int, optional</span></dt>
 <dd><p class="first last">Axis over which to compute the FFT. If not given, the last
@@ -182,6 +166,13 @@ which you must supply the length of the result if it is to be odd.</p>
 <li>even: <code class="docutils literal notranslate"><span class="pre">ihfft(hfft(a,</span> <span class="pre">2*len(a)</span> <span class="pre">-</span> <span class="pre">2)</span> <span class="pre">==</span> <span class="pre">a</span></code>, within roundoff error,</li>
 <li>odd: <code class="docutils literal notranslate"><span class="pre">ihfft(hfft(a,</span> <span class="pre">2*len(a)</span> <span class="pre">-</span> <span class="pre">1)</span> <span class="pre">==</span> <span class="pre">a</span></code>, within roundoff error.</li>
 </ul>
+<p>The correct interpretation of the hermitian input depends on the length of
+the original data, as given by <em class="xref py py-obj">n</em>. This is because each input shape could
+correspond to either an odd or even length signal. By default, <a class="reference internal" href="#numpy.fft.hfft" title="numpy.fft.hfft"><code class="xref py py-obj docutils literal notranslate"><span class="pre">hfft</span></code></a>
+assumes an even output length which puts the last entry at the Nyquist
+frequency; aliasing with its symmetric counterpart. By Hermitian symmetry,
+the value is thus treated as purely real. To avoid losing information, the
+shape of the full signal <strong>must</strong> be given.</p>
 <p class="rubric">Examples</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">signal</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fft</span><span class="p">(</span><span class="n">signal</span><span class="p">)</span>
@@ -210,6 +201,28 @@ which you must supply the length of the result if it is to be odd.</p>
           </div>
         </div>
           </div>
+      <div class="spc-rightsidebar span3">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="numpy.fft.irfftn.html"
+                        title="previous chapter">numpy.fft.irfftn</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="numpy.fft.ihfft.html"
+                        title="next chapter">numpy.fft.ihfft</a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h4>Quick search</h4>
+    <div>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" style="width: inherit;" name="q" />
+      <input type="submit" value="search" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
         </div>
       </div>
     </div>
@@ -227,7 +240,7 @@ which you must supply the length of the result if it is to be odd.</p>
         &copy; Copyright 2008-2019, The SciPy community.
       </li>
       <li>
-      Last updated on Jul 12, 2019.
+      Last updated on Feb 18, 2020.
       </li>
       <li>
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.5.
