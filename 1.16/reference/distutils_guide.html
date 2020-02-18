@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '1.16.4',
+        VERSION:     '1.16.6',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  false
@@ -36,10 +36,13 @@
   </head>
   <body>
 
-  <div class="container">
-    <div class="header">
+<div class="container">
+  <div class="top-scipy-org-logo-header">
+    <a href="../index.html">
+      <img style="border: 0;" alt="SciPy" src="../_static/img/scipy_org_logo.gif"></a>
     </div>
   </div>
+</div>
 
 
     <div class="container">
@@ -50,6 +53,8 @@
 	    <div class="spc-navbar">
               
     <ul class="nav nav-pills pull-left">
+        <li class="active"><a href="https://scipy.org/">Scipy.org</a></li>
+        <li class="active"><a href="https://docs.scipy.org/">Docs</a></li>
         
         <li class="active"><a href="../index.html">NumPy v1.16 Manual</a></li>
         
@@ -79,55 +84,6 @@
         
 
 	<div class="row-fluid">
-      <div class="spc-rightsidebar span3">
-        <div class="sphinxsidebarwrapper">
-  <h3><a href="../contents.html">Table of Contents</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">NumPy Distutils - Users Guide</a><ul>
-<li><a class="reference internal" href="#scipy-structure">SciPy structure</a></li>
-<li><a class="reference internal" href="#requirements-for-scipy-packages">Requirements for SciPy packages</a></li>
-<li><a class="reference internal" href="#the-setup-py-file">The <code class="docutils literal notranslate"><span class="pre">setup.py</span></code> file</a><ul>
-<li><a class="reference internal" href="#scipy-pure-python-package-example">SciPy pure Python package example</a></li>
-<li><a class="reference internal" href="#configuration-instance-attributes"><code class="docutils literal notranslate"><span class="pre">Configuration</span></code> instance attributes</a></li>
-<li><a class="reference internal" href="#configuration-instance-methods"><code class="docutils literal notranslate"><span class="pre">Configuration</span></code> instance methods</a></li>
-<li><a class="reference internal" href="#template-files">Template files</a></li>
-<li><a class="reference internal" href="#useful-functions-in-numpy-distutils-misc-util">Useful functions in <code class="docutils literal notranslate"><span class="pre">numpy.distutils.misc_util</span></code></a></li>
-<li><a class="reference internal" href="#numpy-distutils-system-info-module"><code class="docutils literal notranslate"><span class="pre">numpy.distutils.system_info</span></code> module</a></li>
-<li><a class="reference internal" href="#numpy-distutils-cpuinfo-module"><code class="docutils literal notranslate"><span class="pre">numpy.distutils.cpuinfo</span></code> module</a></li>
-<li><a class="reference internal" href="#numpy-distutils-log-module"><code class="docutils literal notranslate"><span class="pre">numpy.distutils.log</span></code> module</a></li>
-<li><a class="reference internal" href="#numpy-distutils-exec-command-module"><code class="docutils literal notranslate"><span class="pre">numpy.distutils.exec_command</span></code> module</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#the-init-py-file">The <code class="docutils literal notranslate"><span class="pre">__init__.py</span></code> file</a></li>
-<li><a class="reference internal" href="#extra-features-in-numpy-distutils">Extra features in NumPy Distutils</a><ul>
-<li><a class="reference internal" href="#specifying-config-fc-options-for-libraries-in-setup-py-script">Specifying config_fc options for libraries in setup.py script</a></li>
-<li><a class="reference internal" href="#getting-extra-fortran-77-compiler-options-from-source">Getting extra Fortran 77 compiler options from source</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="generated/numpy.distutils.exec_command.html"
-                        title="previous chapter">numpy.distutils.exec_command</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="c-api.html"
-                        title="next chapter">NumPy C-API</a></p>
-<div id="searchbox" style="display: none" role="search">
-  <h4>Quick search</h4>
-    <div>
-    <form class="search" action="../search.html" method="get">
-      <input type="text" style="width: inherit;" name="q" />
-      <input type="submit" value="search" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
-    </div>
-</div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
-        </div>
-      </div>
           <div class="span9">
             
         <div class="bodywrapper">
@@ -185,12 +141,12 @@ this dictionary, <code class="docutils literal notranslate"><span class="pre">nu
 <p>Below is an example of a minimal <code class="docutils literal notranslate"><span class="pre">setup.py</span></code> file for a pure SciPy package:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env python</span>
 <span class="k">def</span> <span class="nf">configuration</span><span class="p">(</span><span class="n">parent_package</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span><span class="n">top_path</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="kn">from</span> <span class="nn">numpy.distutils.misc_util</span> <span class="k">import</span> <span class="n">Configuration</span>
+    <span class="kn">from</span> <span class="nn">numpy.distutils.misc_util</span> <span class="kn">import</span> <span class="n">Configuration</span>
     <span class="n">config</span> <span class="o">=</span> <span class="n">Configuration</span><span class="p">(</span><span class="s1">&#39;mypackage&#39;</span><span class="p">,</span><span class="n">parent_package</span><span class="p">,</span><span class="n">top_path</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">config</span>
 
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
-    <span class="kn">from</span> <span class="nn">numpy.distutils.core</span> <span class="k">import</span> <span class="n">setup</span>
+    <span class="kn">from</span> <span class="nn">numpy.distutils.core</span> <span class="kn">import</span> <span class="n">setup</span>
     <span class="c1">#setup(**configuration(top_path=&#39;&#39;).todict())</span>
     <span class="n">setup</span><span class="p">(</span><span class="n">configuration</span><span class="o">=</span><span class="n">configuration</span><span class="p">)</span>
 </pre></div>
@@ -358,7 +314,7 @@ extension modules. Source generator functions are called by the
 <p>For example, here is a typical source generator function:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">generate_source</span><span class="p">(</span><span class="n">ext</span><span class="p">,</span><span class="n">build_dir</span><span class="p">):</span>
     <span class="kn">import</span> <span class="nn">os</span>
-    <span class="kn">from</span> <span class="nn">distutils.dep_util</span> <span class="k">import</span> <span class="n">newer</span>
+    <span class="kn">from</span> <span class="nn">distutils.dep_util</span> <span class="kn">import</span> <span class="n">newer</span>
     <span class="n">target</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">build_dir</span><span class="p">,</span><span class="s1">&#39;somesource.c&#39;</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">newer</span><span class="p">(</span><span class="n">target</span><span class="p">,</span><span class="vm">__file__</span><span class="p">):</span>
         <span class="c1"># create target file</span>
@@ -497,15 +453,15 @@ relative to parent_path when given. Handles also <code class="docutils literal n
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="c1"># py3k related imports</span>
-<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">division</span><span class="p">,</span> <span class="n">print_function</span><span class="p">,</span> <span class="n">absolute_import</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">division</span><span class="p">,</span> <span class="n">print_function</span><span class="p">,</span> <span class="n">absolute_import</span>
 
 <span class="c1"># import functions into module namespace</span>
-<span class="kn">from</span> <span class="nn">.subpackage</span> <span class="k">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">.subpackage</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="o">...</span>
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">dir</span><span class="p">()</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">s</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">)]</span>
 
-<span class="kn">from</span> <span class="nn">numpy.testing</span> <span class="k">import</span> <span class="n">Tester</span>
+<span class="kn">from</span> <span class="nn">numpy.testing</span> <span class="kn">import</span> <span class="n">Tester</span>
 <span class="n">test</span> <span class="o">=</span> <span class="n">Tester</span><span class="p">()</span><span class="o">.</span><span class="n">test</span>
 <span class="n">bench</span> <span class="o">=</span> <span class="n">Tester</span><span class="p">()</span><span class="o">.</span><span class="n">bench</span>
 </pre></div>
@@ -552,6 +508,55 @@ well. Let us know if you would need such a feature.</p>
           </div>
         </div>
           </div>
+      <div class="spc-rightsidebar span3">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../contents.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">NumPy Distutils - Users Guide</a><ul>
+<li><a class="reference internal" href="#scipy-structure">SciPy structure</a></li>
+<li><a class="reference internal" href="#requirements-for-scipy-packages">Requirements for SciPy packages</a></li>
+<li><a class="reference internal" href="#the-setup-py-file">The <code class="docutils literal notranslate"><span class="pre">setup.py</span></code> file</a><ul>
+<li><a class="reference internal" href="#scipy-pure-python-package-example">SciPy pure Python package example</a></li>
+<li><a class="reference internal" href="#configuration-instance-attributes"><code class="docutils literal notranslate"><span class="pre">Configuration</span></code> instance attributes</a></li>
+<li><a class="reference internal" href="#configuration-instance-methods"><code class="docutils literal notranslate"><span class="pre">Configuration</span></code> instance methods</a></li>
+<li><a class="reference internal" href="#template-files">Template files</a></li>
+<li><a class="reference internal" href="#useful-functions-in-numpy-distutils-misc-util">Useful functions in <code class="docutils literal notranslate"><span class="pre">numpy.distutils.misc_util</span></code></a></li>
+<li><a class="reference internal" href="#numpy-distutils-system-info-module"><code class="docutils literal notranslate"><span class="pre">numpy.distutils.system_info</span></code> module</a></li>
+<li><a class="reference internal" href="#numpy-distutils-cpuinfo-module"><code class="docutils literal notranslate"><span class="pre">numpy.distutils.cpuinfo</span></code> module</a></li>
+<li><a class="reference internal" href="#numpy-distutils-log-module"><code class="docutils literal notranslate"><span class="pre">numpy.distutils.log</span></code> module</a></li>
+<li><a class="reference internal" href="#numpy-distutils-exec-command-module"><code class="docutils literal notranslate"><span class="pre">numpy.distutils.exec_command</span></code> module</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#the-init-py-file">The <code class="docutils literal notranslate"><span class="pre">__init__.py</span></code> file</a></li>
+<li><a class="reference internal" href="#extra-features-in-numpy-distutils">Extra features in NumPy Distutils</a><ul>
+<li><a class="reference internal" href="#specifying-config-fc-options-for-libraries-in-setup-py-script">Specifying config_fc options for libraries in setup.py script</a></li>
+<li><a class="reference internal" href="#getting-extra-fortran-77-compiler-options-from-source">Getting extra Fortran 77 compiler options from source</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="generated/numpy.distutils.exec_command.html"
+                        title="previous chapter">numpy.distutils.exec_command</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="c-api.html"
+                        title="next chapter">NumPy C-API</a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h4>Quick search</h4>
+    <div>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" style="width: inherit;" name="q" />
+      <input type="submit" value="search" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
         </div>
       </div>
     </div>
@@ -569,7 +574,7 @@ well. Let us know if you would need such a feature.</p>
         &copy; Copyright 2008-2019, The SciPy community.
       </li>
       <li>
-      Last updated on Jul 15, 2019.
+      Last updated on Feb 18, 2020.
       </li>
       <li>
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.5.

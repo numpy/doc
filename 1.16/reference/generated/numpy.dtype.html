@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '1.16.4',
+        VERSION:     '1.16.6',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  false
@@ -36,10 +36,13 @@
   </head>
   <body>
 
-  <div class="container">
-    <div class="header">
+<div class="container">
+  <div class="top-scipy-org-logo-header">
+    <a href="../../index.html">
+      <img style="border: 0;" alt="SciPy" src="../../_static/img/scipy_org_logo.gif"></a>
     </div>
   </div>
+</div>
 
 
     <div class="container">
@@ -50,6 +53,8 @@
 	    <div class="spc-navbar">
               
     <ul class="nav nav-pills pull-left">
+        <li class="active"><a href="https://scipy.org/">Scipy.org</a></li>
+        <li class="active"><a href="https://docs.scipy.org/">Docs</a></li>
         
         <li class="active"><a href="../../index.html">NumPy v1.16 Manual</a></li>
         
@@ -81,28 +86,6 @@
         
 
 	<div class="row-fluid">
-      <div class="spc-rightsidebar span3">
-        <div class="sphinxsidebarwrapper">
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="../arrays.dtypes.html"
-                        title="previous chapter">Data type objects (<code class="docutils literal notranslate"><span class="pre">dtype</span></code>)</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="numpy.dtype.newbyteorder.html"
-                        title="next chapter">numpy.dtype.newbyteorder</a></p>
-<div id="searchbox" style="display: none" role="search">
-  <h4>Quick search</h4>
-    <div>
-    <form class="search" action="../../search.html" method="get">
-      <input type="text" style="width: inherit;" name="q" />
-      <input type="submit" value="search" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
-    </div>
-</div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
-        </div>
-      </div>
           <div class="span9">
             
         <div class="bodywrapper">
@@ -112,7 +95,7 @@
 <h1>numpy.dtype<a class="headerlink" href="#numpy-dtype" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="numpy.dtype">
-<em class="property">class </em><code class="descclassname">numpy.</code><code class="descname">dtype</code><span class="sig-paren">(</span><em>obj</em>, <em>align=False</em>, <em>copy=False</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/numpy/numpy/blob/v1.16.4/numpy/__init__.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#numpy.dtype" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">numpy.</code><code class="descname">dtype</code><span class="sig-paren">(</span><em>obj</em>, <em>align=False</em>, <em>copy=False</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/numpy/numpy/blob/v1.16.6/numpy/__init__.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#numpy.dtype" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create a data type object.</p>
 <p>A numpy array is homogeneous, and contains elements described by a
 dtype object. A dtype object can be constructed from different
@@ -204,62 +187,15 @@ the offsets in bytes:</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Attributes:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>alignment</strong></dt>
-<dd><p class="first">The required alignment (bytes) of this data-type according to the compiler.</p>
-<p class="last">More information is available in the C-API section of the manual.</p>
+<dt><a class="reference internal" href="numpy.dtype.alignment.html#numpy.dtype.alignment" title="numpy.dtype.alignment"><code class="xref py py-obj docutils literal notranslate"><span class="pre">alignment</span></code></a></dt>
+<dd><p class="first last">The required alignment (bytes) of this data-type according to the compiler.</p>
 </dd>
 <dt><strong>base</strong></dt>
 <dd></dd>
-<dt><strong>byteorder</strong></dt>
-<dd><p class="first">A character indicating the byte-order of this data-type object.</p>
-<p>One of:</p>
-<table border="1" class="docutils">
-<colgroup>
-<col width="18%" />
-<col width="82%" />
-</colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td>‘=’</td>
-<td>native</td>
-</tr>
-<tr class="row-even"><td>‘&lt;’</td>
-<td>little-endian</td>
-</tr>
-<tr class="row-odd"><td>‘&gt;’</td>
-<td>big-endian</td>
-</tr>
-<tr class="row-even"><td>‘|’</td>
-<td>not applicable</td>
-</tr>
-</tbody>
-</table>
-<p>All built-in data-type objects have byteorder either ‘=’ or ‘|’.</p>
-<div class="last highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">dt</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="s1">&#39;i2&#39;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">dt</span><span class="o">.</span><span class="n">byteorder</span>
-<span class="go">&#39;=&#39;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># endian is not relevant for 8 bit numbers</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="s1">&#39;i1&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">byteorder</span>
-<span class="go">&#39;|&#39;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># or ASCII strings</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="s1">&#39;S2&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">byteorder</span>
-<span class="go">&#39;|&#39;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Even if specific code is given, and it is native</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># &#39;=&#39; is the byteorder</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">sys</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">sys_is_le</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">byteorder</span> <span class="o">==</span> <span class="s1">&#39;little&#39;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">native_code</span> <span class="o">=</span> <span class="n">sys_is_le</span> <span class="ow">and</span> <span class="s1">&#39;&lt;&#39;</span> <span class="ow">or</span> <span class="s1">&#39;&gt;&#39;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">swapped_code</span> <span class="o">=</span> <span class="n">sys_is_le</span> <span class="ow">and</span> <span class="s1">&#39;&gt;&#39;</span> <span class="ow">or</span> <span class="s1">&#39;&lt;&#39;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">dt</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="n">native_code</span> <span class="o">+</span> <span class="s1">&#39;i2&#39;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">dt</span><span class="o">.</span><span class="n">byteorder</span>
-<span class="go">&#39;=&#39;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Swapped code shows up as itself</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">dt</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="n">swapped_code</span> <span class="o">+</span> <span class="s1">&#39;i2&#39;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">dt</span><span class="o">.</span><span class="n">byteorder</span> <span class="o">==</span> <span class="n">swapped_code</span>
-<span class="go">True</span>
-</pre></div>
-</div>
+<dt><a class="reference internal" href="numpy.dtype.byteorder.html#numpy.dtype.byteorder" title="numpy.dtype.byteorder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">byteorder</span></code></a></dt>
+<dd><p class="first last">A character indicating the byte-order of this data-type object.</p>
 </dd>
-<dt><strong>char</strong></dt>
+<dt><a class="reference internal" href="numpy.dtype.char.html#numpy.dtype.char" title="numpy.dtype.char"><code class="xref py py-obj docutils literal notranslate"><span class="pre">char</span></code></a></dt>
 <dd><p class="first last">A unique character code for each of the 21 different built-in types.</p>
 </dd>
 <dt><a class="reference internal" href="numpy.dtype.descr.html#numpy.dtype.descr" title="numpy.dtype.descr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">descr</span></code></a></dt>
@@ -268,13 +204,8 @@ the offsets in bytes:</p>
 <dt><a class="reference internal" href="numpy.dtype.fields.html#numpy.dtype.fields" title="numpy.dtype.fields"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fields</span></code></a></dt>
 <dd><p class="first last">Dictionary of named fields defined for this data type, or <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p>
 </dd>
-<dt><strong>flags</strong></dt>
-<dd><p class="first">Bit-flags describing how this data type is to be interpreted.</p>
-<p class="last">Bit-masks are in <code class="xref py py-obj docutils literal notranslate"><span class="pre">numpy.core.multiarray</span></code> as the constants
-<em class="xref py py-obj">ITEM_HASOBJECT</em>, <em class="xref py py-obj">LIST_PICKLE</em>, <em class="xref py py-obj">ITEM_IS_POINTER</em>, <em class="xref py py-obj">NEEDS_INIT</em>,
-<em class="xref py py-obj">NEEDS_PYAPI</em>, <em class="xref py py-obj">USE_GETITEM</em>, <em class="xref py py-obj">USE_SETITEM</em>. A full explanation
-of these flags is in C-API documentation; they are largely useful
-for user-defined data-types.</p>
+<dt><a class="reference internal" href="numpy.dtype.flags.html#numpy.dtype.flags" title="numpy.dtype.flags"><code class="xref py py-obj docutils literal notranslate"><span class="pre">flags</span></code></a></dt>
+<dd><p class="first last">Bit-flags describing how this data type is to be interpreted.</p>
 </dd>
 <dt><a class="reference internal" href="numpy.dtype.hasobject.html#numpy.dtype.hasobject" title="numpy.dtype.hasobject"><code class="xref py py-obj docutils literal notranslate"><span class="pre">hasobject</span></code></a></dt>
 <dd><p class="first last">Boolean indicating whether this dtype contains any reference-counted objects in any fields or sub-dtypes.</p>
@@ -288,54 +219,11 @@ for user-defined data-types.</p>
 <dt><a class="reference internal" href="numpy.dtype.isnative.html#numpy.dtype.isnative" title="numpy.dtype.isnative"><code class="xref py py-obj docutils literal notranslate"><span class="pre">isnative</span></code></a></dt>
 <dd><p class="first last">Boolean indicating whether the byte order of this dtype is native to the platform.</p>
 </dd>
-<dt><strong>itemsize</strong></dt>
-<dd><p class="first">The element size of this data-type object.</p>
-<p class="last">For 18 of the 21 types this number is fixed by the data-type.
-For the flexible data-types, this number can be anything.</p>
+<dt><a class="reference internal" href="numpy.dtype.itemsize.html#numpy.dtype.itemsize" title="numpy.dtype.itemsize"><code class="xref py py-obj docutils literal notranslate"><span class="pre">itemsize</span></code></a></dt>
+<dd><p class="first last">The element size of this data-type object.</p>
 </dd>
-<dt><strong>kind</strong></dt>
-<dd><p class="first">A character code (one of ‘biufcmMOSUV’) identifying the general kind of data.</p>
-<table border="1" class="last docutils">
-<colgroup>
-<col width="4%" />
-<col width="96%" />
-</colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td>b</td>
-<td>boolean</td>
-</tr>
-<tr class="row-even"><td>i</td>
-<td>signed integer</td>
-</tr>
-<tr class="row-odd"><td>u</td>
-<td>unsigned integer</td>
-</tr>
-<tr class="row-even"><td>f</td>
-<td>floating-point</td>
-</tr>
-<tr class="row-odd"><td>c</td>
-<td>complex floating-point</td>
-</tr>
-<tr class="row-even"><td>m</td>
-<td>timedelta</td>
-</tr>
-<tr class="row-odd"><td>M</td>
-<td>datetime</td>
-</tr>
-<tr class="row-even"><td>O</td>
-<td>object</td>
-</tr>
-<tr class="row-odd"><td>S</td>
-<td>(byte-)string</td>
-</tr>
-<tr class="row-even"><td>U</td>
-<td>Unicode</td>
-</tr>
-<tr class="row-odd"><td>V</td>
-<td>void</td>
-</tr>
-</tbody>
-</table>
+<dt><a class="reference internal" href="numpy.dtype.kind.html#numpy.dtype.kind" title="numpy.dtype.kind"><code class="xref py py-obj docutils literal notranslate"><span class="pre">kind</span></code></a></dt>
+<dd><p class="first last">A character code (one of ‘biufcmMOSUV’) identifying the general kind of data.</p>
 </dd>
 <dt><strong>metadata</strong></dt>
 <dd></dd>
@@ -348,9 +236,8 @@ For the flexible data-types, this number can be anything.</p>
 <dt><a class="reference internal" href="numpy.dtype.ndim.html#numpy.dtype.ndim" title="numpy.dtype.ndim"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ndim</span></code></a></dt>
 <dd><p class="first last">Number of dimensions of the sub-array if this data type describes a sub-array, and <code class="docutils literal notranslate"><span class="pre">0</span></code> otherwise.</p>
 </dd>
-<dt><strong>num</strong></dt>
-<dd><p class="first">A unique number for each of the 21 different built-in types.</p>
-<p class="last">These are roughly ordered from least-to-most precision.</p>
+<dt><a class="reference internal" href="numpy.dtype.num.html#numpy.dtype.num" title="numpy.dtype.num"><code class="xref py py-obj docutils literal notranslate"><span class="pre">num</span></code></a></dt>
+<dd><p class="first last">A unique number for each of the 21 different built-in types.</p>
 </dd>
 <dt><a class="reference internal" href="numpy.dtype.shape.html#numpy.dtype.shape" title="numpy.dtype.shape"><code class="xref py py-obj docutils literal notranslate"><span class="pre">shape</span></code></a></dt>
 <dd><p class="first last">Shape tuple of the sub-array if this data type describes a sub-array, and <code class="docutils literal notranslate"><span class="pre">()</span></code> otherwise.</p>
@@ -361,7 +248,7 @@ For the flexible data-types, this number can be anything.</p>
 <dt><a class="reference internal" href="numpy.dtype.subdtype.html#numpy.dtype.subdtype" title="numpy.dtype.subdtype"><code class="xref py py-obj docutils literal notranslate"><span class="pre">subdtype</span></code></a></dt>
 <dd><p class="first last">Tuple <code class="docutils literal notranslate"><span class="pre">(item_dtype,</span> <span class="pre">shape)</span></code> if this <a class="reference internal" href="#numpy.dtype" title="numpy.dtype"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dtype</span></code></a> describes a sub-array, and None otherwise.</p>
 </dd>
-<dt><strong>type</strong></dt>
+<dt><a class="reference internal" href="numpy.dtype.type.html#numpy.dtype.type" title="numpy.dtype.type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">type</span></code></a></dt>
 <dd><p class="first last">The type object used to instantiate a scalar of this data-type.</p>
 </dd>
 </dl>
@@ -389,6 +276,28 @@ For the flexible data-types, this number can be anything.</p>
           </div>
         </div>
           </div>
+      <div class="spc-rightsidebar span3">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="../arrays.dtypes.html"
+                        title="previous chapter">Data type objects (<code class="docutils literal notranslate"><span class="pre">dtype</span></code>)</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="numpy.dtype.newbyteorder.html"
+                        title="next chapter">numpy.dtype.newbyteorder</a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h4>Quick search</h4>
+    <div>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" style="width: inherit;" name="q" />
+      <input type="submit" value="search" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
         </div>
       </div>
     </div>
@@ -406,7 +315,7 @@ For the flexible data-types, this number can be anything.</p>
         &copy; Copyright 2008-2019, The SciPy community.
       </li>
       <li>
-      Last updated on Jul 15, 2019.
+      Last updated on Feb 18, 2020.
       </li>
       <li>
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.5.

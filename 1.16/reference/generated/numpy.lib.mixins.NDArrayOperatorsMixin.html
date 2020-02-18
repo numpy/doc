@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '1.16.4',
+        VERSION:     '1.16.6',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  false
@@ -36,10 +36,13 @@
   </head>
   <body>
 
-  <div class="container">
-    <div class="header">
+<div class="container">
+  <div class="top-scipy-org-logo-header">
+    <a href="../../index.html">
+      <img style="border: 0;" alt="SciPy" src="../../_static/img/scipy_org_logo.gif"></a>
     </div>
   </div>
+</div>
 
 
     <div class="container">
@@ -50,6 +53,8 @@
 	    <div class="spc-navbar">
               
     <ul class="nav nav-pills pull-left">
+        <li class="active"><a href="https://scipy.org/">Scipy.org</a></li>
+        <li class="active"><a href="https://docs.scipy.org/">Docs</a></li>
         
         <li class="active"><a href="../../index.html">NumPy v1.16 Manual</a></li>
         
@@ -81,28 +86,6 @@
         
 
 	<div class="row-fluid">
-      <div class="spc-rightsidebar span3">
-        <div class="sphinxsidebarwrapper">
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="numpy.may_share_memory.html"
-                        title="previous chapter">numpy.may_share_memory</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="numpy.lib.NumpyVersion.html"
-                        title="next chapter">numpy.lib.NumpyVersion</a></p>
-<div id="searchbox" style="display: none" role="search">
-  <h4>Quick search</h4>
-    <div>
-    <form class="search" action="../../search.html" method="get">
-      <input type="text" style="width: inherit;" name="q" />
-      <input type="submit" value="search" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
-    </div>
-</div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
-        </div>
-      </div>
           <div class="span9">
             
         <div class="bodywrapper">
@@ -112,7 +95,7 @@
 <h1>numpy.lib.mixins.NDArrayOperatorsMixin<a class="headerlink" href="#numpy-lib-mixins-ndarrayoperatorsmixin" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="numpy.lib.mixins.NDArrayOperatorsMixin">
-<em class="property">class </em><code class="descclassname">numpy.lib.mixins.</code><code class="descname">NDArrayOperatorsMixin</code><a class="reference external" href="https://github.com/numpy/numpy/blob/v1.16.4/numpy/lib/mixins.py#L63-L182"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#numpy.lib.mixins.NDArrayOperatorsMixin" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">numpy.lib.mixins.</code><code class="descname">NDArrayOperatorsMixin</code><a class="reference external" href="https://github.com/numpy/numpy/blob/v1.16.6/numpy/lib/mixins.py#L63-L182"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#numpy.lib.mixins.NDArrayOperatorsMixin" title="Permalink to this definition">¶</a></dt>
 <dd><p>Mixin defining all operator special methods using __array_ufunc__.</p>
 <p>This class implements the special methods for almost all of Python’s
 builtin operators defined in the <a class="reference external" href="https://docs.python.org/dev/library/operator.html#module-operator" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">operator</span></code></a> module, including comparisons
@@ -126,7 +109,7 @@ arrays as described in <a class="reference external" href="../../neps/nep-0013-u
 class that simply wraps a NumPy array and ensures that the result of any
 arithmetic operation is also an <code class="docutils literal notranslate"><span class="pre">ArrayLike</span></code> object:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">ArrayLike</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">lib</span><span class="o">.</span><span class="n">mixins</span><span class="o">.</span><span class="n">NDArrayOperatorsMixin</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
 
     <span class="c1"># One might also consider adding the built-in list type to this</span>
@@ -162,7 +145,7 @@ arithmetic operation is also an <code class="docutils literal notranslate"><span
             <span class="c1"># one return value</span>
             <span class="k">return</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)(</span><span class="n">result</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="s1">&#39;</span><span class="si">%s</span><span class="s1">(</span><span class="si">%r</span><span class="s1">)&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -193,6 +176,28 @@ ArrayLike preserve a well-defined casting hierarchy.</p>
           </div>
         </div>
           </div>
+      <div class="spc-rightsidebar span3">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="numpy.may_share_memory.html"
+                        title="previous chapter">numpy.may_share_memory</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="numpy.lib.NumpyVersion.html"
+                        title="next chapter">numpy.lib.NumpyVersion</a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h4>Quick search</h4>
+    <div>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" style="width: inherit;" name="q" />
+      <input type="submit" value="search" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
         </div>
       </div>
     </div>
@@ -210,7 +215,7 @@ ArrayLike preserve a well-defined casting hierarchy.</p>
         &copy; Copyright 2008-2019, The SciPy community.
       </li>
       <li>
-      Last updated on Jul 15, 2019.
+      Last updated on Feb 18, 2020.
       </li>
       <li>
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.5.

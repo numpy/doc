@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '1.16.4',
+        VERSION:     '1.16.6',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  false
@@ -36,10 +36,13 @@
   </head>
   <body>
 
-  <div class="container">
-    <div class="header">
+<div class="container">
+  <div class="top-scipy-org-logo-header">
+    <a href="../../index.html">
+      <img style="border: 0;" alt="SciPy" src="../../_static/img/scipy_org_logo.gif"></a>
     </div>
   </div>
+</div>
 
 
     <div class="container">
@@ -50,6 +53,8 @@
 	    <div class="spc-navbar">
               
     <ul class="nav nav-pills pull-left">
+        <li class="active"><a href="https://scipy.org/">Scipy.org</a></li>
+        <li class="active"><a href="https://docs.scipy.org/">Docs</a></li>
         
         <li class="active"><a href="../../index.html">NumPy v1.16 Manual</a></li>
         
@@ -81,28 +86,6 @@
         
 
 	<div class="row-fluid">
-      <div class="spc-rightsidebar span3">
-        <div class="sphinxsidebarwrapper">
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="../routines.dtype.html"
-                        title="previous chapter">Data type routines</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="numpy.promote_types.html"
-                        title="next chapter">numpy.promote_types</a></p>
-<div id="searchbox" style="display: none" role="search">
-  <h4>Quick search</h4>
-    <div>
-    <form class="search" action="../../search.html" method="get">
-      <input type="text" style="width: inherit;" name="q" />
-      <input type="submit" value="search" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
-    </div>
-</div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
-        </div>
-      </div>
           <div class="span9">
             
         <div class="bodywrapper">
@@ -158,11 +141,16 @@ like float64 to float32, are allowed.</li>
 <p class="last"><a class="reference internal" href="numpy.dtype.html#numpy.dtype" title="numpy.dtype"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dtype</span></code></a>, <a class="reference internal" href="numpy.result_type.html#numpy.result_type" title="numpy.result_type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">result_type</span></code></a></p>
 </div>
 <p class="rubric">Notes</p>
-<p>Starting in NumPy 1.9, can_cast function now returns False in ‘safe’
-casting mode for integer/float dtype and string dtype if the string dtype
-length is not long enough to store the max integer/float value converted
-to a string. Previously can_cast in ‘safe’ mode returned True for
-integer/float dtype and a string dtype of any length.</p>
+<div class="versionchanged">
+<p><span class="versionmodified">Changed in version 1.17.0: </span>Casting between a simple data type and a structured one is possible only
+for “unsafe” casting.  Casting to multiple fields is allowed, but
+casting from multiple fields is not.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified">Changed in version 1.9.0: </span>Casting from numeric to string types in ‘safe’ casting mode requires
+that the string dtype length is long enough to store the maximum
+integer/float value converted.</p>
+</div>
 <p class="rubric">Examples</p>
 <p>Basic examples</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">can_cast</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">)</span>
@@ -240,6 +228,28 @@ integer/float dtype and a string dtype of any length.</p>
           </div>
         </div>
           </div>
+      <div class="spc-rightsidebar span3">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="../routines.dtype.html"
+                        title="previous chapter">Data type routines</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="numpy.promote_types.html"
+                        title="next chapter">numpy.promote_types</a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h4>Quick search</h4>
+    <div>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" style="width: inherit;" name="q" />
+      <input type="submit" value="search" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
         </div>
       </div>
     </div>
@@ -257,7 +267,7 @@ integer/float dtype and a string dtype of any length.</p>
         &copy; Copyright 2008-2019, The SciPy community.
       </li>
       <li>
-      Last updated on Jul 15, 2019.
+      Last updated on Feb 18, 2020.
       </li>
       <li>
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.5.

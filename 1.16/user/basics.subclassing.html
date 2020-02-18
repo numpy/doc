@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '1.16.4',
+        VERSION:     '1.16.6',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  false
@@ -32,14 +32,17 @@
     <link rel="top" title="NumPy v1.16 Manual" href="../index.html" >
     <link rel="up" title="NumPy basics" href="basics.html" >
     <link rel="next" title="Miscellaneous" href="misc.html" >
-    <link rel="prev" title="Structured arrays" href="basics.rec.html" > 
+    <link rel="prev" title="Writing custom array containers" href="basics.dispatch.html" > 
   </head>
   <body>
 
-  <div class="container">
-    <div class="header">
+<div class="container">
+  <div class="top-scipy-org-logo-header">
+    <a href="../index.html">
+      <img style="border: 0;" alt="SciPy" src="../_static/img/scipy_org_logo.gif"></a>
     </div>
   </div>
+</div>
 
 
     <div class="container">
@@ -50,6 +53,8 @@
 	    <div class="spc-navbar">
               
     <ul class="nav nav-pills pull-left">
+        <li class="active"><a href="https://scipy.org/">Scipy.org</a></li>
+        <li class="active"><a href="https://docs.scipy.org/">Docs</a></li>
         
         <li class="active"><a href="../index.html">NumPy v1.16 Manual</a></li>
         
@@ -69,7 +74,7 @@
            accesskey="N">next</a>
       </li>
       <li class="active">
-        <a href="basics.rec.html" title="Structured arrays"
+        <a href="basics.dispatch.html" title="Writing custom array containers"
            accesskey="P">previous</a>
       </li>
     </ul>
@@ -80,53 +85,6 @@
         
 
 	<div class="row-fluid">
-      <div class="spc-rightsidebar span3">
-        <div class="sphinxsidebarwrapper">
-  <h3><a href="../contents.html">Table of Contents</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">Subclassing ndarray</a><ul>
-<li><a class="reference internal" href="#introduction">Introduction</a><ul>
-<li><a class="reference internal" href="#ndarrays-and-object-creation">ndarrays and object creation</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#view-casting">View casting</a></li>
-<li><a class="reference internal" href="#creating-new-from-template">Creating new from template</a></li>
-<li><a class="reference internal" href="#relationship-of-view-casting-and-new-from-template">Relationship of view casting and new-from-template</a></li>
-<li><a class="reference internal" href="#implications-for-subclassing">Implications for subclassing</a><ul>
-<li><a class="reference internal" href="#a-brief-python-primer-on-new-and-init">A brief Python primer on <code class="docutils literal notranslate"><span class="pre">__new__</span></code> and <code class="docutils literal notranslate"><span class="pre">__init__</span></code></a></li>
-<li><a class="reference internal" href="#the-role-of-array-finalize">The role of <code class="docutils literal notranslate"><span class="pre">__array_finalize__</span></code></a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#simple-example-adding-an-extra-attribute-to-ndarray">Simple example - adding an extra attribute to ndarray</a></li>
-<li><a class="reference internal" href="#slightly-more-realistic-example-attribute-added-to-existing-array">Slightly more realistic example - attribute added to existing array</a></li>
-<li><a class="reference internal" href="#array-ufunc-for-ufuncs"><code class="docutils literal notranslate"><span class="pre">__array_ufunc__</span></code> for ufuncs</a></li>
-<li><a class="reference internal" href="#array-wrap-for-ufuncs-and-other-functions"><code class="docutils literal notranslate"><span class="pre">__array_wrap__</span></code> for ufuncs and other functions</a></li>
-<li><a class="reference internal" href="#extra-gotchas-custom-del-methods-and-ndarray-base">Extra gotchas - custom <code class="docutils literal notranslate"><span class="pre">__del__</span></code> methods and ndarray.base</a></li>
-<li><a class="reference internal" href="#subclassing-and-downstream-compatibility">Subclassing and Downstream Compatibility</a></li>
-</ul>
-</li>
-</ul>
-
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="basics.rec.html"
-                        title="previous chapter">Structured arrays</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="misc.html"
-                        title="next chapter">Miscellaneous</a></p>
-<div id="searchbox" style="display: none" role="search">
-  <h4>Quick search</h4>
-    <div>
-    <form class="search" action="../search.html" method="get">
-      <input type="text" style="width: inherit;" name="q" />
-      <input type="submit" value="search" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
-    </div>
-</div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
-        </div>
-      </div>
           <div class="span9">
             
         <div class="bodywrapper">
@@ -229,13 +187,13 @@ __new__ documentation</a> for more detail.</p>
 <p>For example, consider the following Python code:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">C</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
-        <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Cls in __new__:&#39;</span><span class="p">,</span> <span class="bp">cls</span><span class="p">)</span>
-        <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Args in __new__:&#39;</span><span class="p">,</span> <span class="n">args</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Cls in __new__:&#39;</span><span class="p">,</span> <span class="bp">cls</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Args in __new__:&#39;</span><span class="p">,</span> <span class="n">args</span><span class="p">)</span>
         <span class="k">return</span> <span class="nb">object</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
-        <span class="k">print</span><span class="p">(</span><span class="s1">&#39;type(self) in __init__:&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
-        <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Args in __init__:&#39;</span><span class="p">,</span> <span class="n">args</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;type(self) in __init__:&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Args in __init__:&#39;</span><span class="p">,</span> <span class="n">args</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>meaning that we get:</p>
@@ -261,13 +219,13 @@ in some cases, as for ndarray, we want to be able to return an object
 of some other class.  Consider the following:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">D</span><span class="p">(</span><span class="n">C</span><span class="p">):</span>
     <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
-        <span class="k">print</span><span class="p">(</span><span class="s1">&#39;D cls is:&#39;</span><span class="p">,</span> <span class="bp">cls</span><span class="p">)</span>
-        <span class="k">print</span><span class="p">(</span><span class="s1">&#39;D args in __new__:&#39;</span><span class="p">,</span> <span class="n">args</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;D cls is:&#39;</span><span class="p">,</span> <span class="bp">cls</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;D args in __new__:&#39;</span><span class="p">,</span> <span class="n">args</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">C</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="n">C</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
         <span class="c1"># we never get here</span>
-        <span class="k">print</span><span class="p">(</span><span class="s1">&#39;In D __init__&#39;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;In D __init__&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>meaning that:</p>
@@ -334,22 +292,22 @@ existing array (see below)</li>
 <p>The arguments that <code class="docutils literal notranslate"><span class="pre">__array_finalize__</span></code> receives differ for the three
 methods of instance creation above.</p>
 <p>The following code allows us to look at the call sequences and arguments:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
 <span class="k">class</span> <span class="nc">C</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
     <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="k">print</span><span class="p">(</span><span class="s1">&#39;In __new__ with class </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="bp">cls</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;In __new__ with class </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="bp">cls</span><span class="p">)</span>
         <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">C</span><span class="p">,</span> <span class="bp">cls</span><span class="p">)</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="c1"># in practice you probably will not need or want an __init__</span>
         <span class="c1"># method for your subclass</span>
-        <span class="k">print</span><span class="p">(</span><span class="s1">&#39;In __init__ with class </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;In __init__ with class </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">__array_finalize__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
-        <span class="k">print</span><span class="p">(</span><span class="s1">&#39;In array_finalize:&#39;</span><span class="p">)</span>
-        <span class="k">print</span><span class="p">(</span><span class="s1">&#39;   self type is </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
-        <span class="k">print</span><span class="p">(</span><span class="s1">&#39;   obj type is </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="nb">type</span><span class="p">(</span><span class="n">obj</span><span class="p">))</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;In array_finalize:&#39;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;   self type is </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;   obj type is </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="nb">type</span><span class="p">(</span><span class="n">obj</span><span class="p">))</span>
 </pre></div>
 </div>
 <p>Now:</p>
@@ -398,18 +356,18 @@ defaults for new object attributes, among other tasks.</p>
 </div>
 <div class="section" id="simple-example-adding-an-extra-attribute-to-ndarray">
 <h2>Simple example - adding an extra attribute to ndarray<a class="headerlink" href="#simple-example-adding-an-extra-attribute-to-ndarray" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
 <span class="k">class</span> <span class="nc">InfoArray</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
 
-    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="n">subtype</span><span class="p">,</span> <span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span> <span class="nb">buffer</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-                <span class="n">strides</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">info</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="n">subtype</span><span class="p">,</span> <span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span> <span class="n">buffer</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                <span class="n">strides</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">info</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="c1"># Create the ndarray instance of our type, given the usual</span>
         <span class="c1"># ndarray input arguments.  This will call the standard</span>
         <span class="c1"># ndarray constructor, but return an object of our type.</span>
         <span class="c1"># It also triggers a call to InfoArray.__array_finalize__</span>
         <span class="n">obj</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">InfoArray</span><span class="p">,</span> <span class="n">subtype</span><span class="p">)</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="n">subtype</span><span class="p">,</span> <span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="p">,</span>
-                                                <span class="nb">buffer</span><span class="p">,</span> <span class="n">offset</span><span class="p">,</span> <span class="n">strides</span><span class="p">,</span>
+                                                <span class="n">buffer</span><span class="p">,</span> <span class="n">offset</span><span class="p">,</span> <span class="n">strides</span><span class="p">,</span>
                                                 <span class="n">order</span><span class="p">)</span>
         <span class="c1"># set the new &#39;info&#39; attribute to the value passed</span>
         <span class="n">obj</span><span class="o">.</span><span class="n">info</span> <span class="o">=</span> <span class="n">info</span>
@@ -428,7 +386,7 @@ defaults for new object attributes, among other tasks.</p>
         <span class="c1">#    (we&#39;re in the middle of the InfoArray.__new__</span>
         <span class="c1">#    constructor, and self.info will be set when we return to</span>
         <span class="c1">#    InfoArray.__new__)</span>
-        <span class="k">if</span> <span class="n">obj</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span> <span class="k">return</span>
+        <span class="k">if</span> <span class="n">obj</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span> <span class="k">return</span>
         <span class="c1"># From view casting - e.g arr.view(InfoArray):</span>
         <span class="c1">#    obj is arr</span>
         <span class="c1">#    (type(obj) can be InfoArray)</span>
@@ -440,7 +398,7 @@ defaults for new object attributes, among other tasks.</p>
         <span class="c1"># method sees all creation of default objects - with the</span>
         <span class="c1"># InfoArray.__new__ constructor, but also with</span>
         <span class="c1"># arr.view(InfoArray).</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">info</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="s1">&#39;info&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">info</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="s1">&#39;info&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
         <span class="c1"># We do not need to return anything</span>
 </pre></div>
 </div>
@@ -476,11 +434,11 @@ object.</p>
 <h2>Slightly more realistic example - attribute added to existing array<a class="headerlink" href="#slightly-more-realistic-example-attribute-added-to-existing-array" title="Permalink to this headline">¶</a></h2>
 <p>Here is a class that takes a standard ndarray that already exists, casts
 as our type, and adds an extra attribute.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
 <span class="k">class</span> <span class="nc">RealisticInfoArray</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
 
-    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">input_array</span><span class="p">,</span> <span class="n">info</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">input_array</span><span class="p">,</span> <span class="n">info</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="c1"># Input array is an already formed ndarray instance</span>
         <span class="c1"># We first cast to be our class type</span>
         <span class="n">obj</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">input_array</span><span class="p">)</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span>
@@ -491,8 +449,8 @@ as our type, and adds an extra attribute.</p>
 
     <span class="k">def</span> <span class="nf">__array_finalize__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
         <span class="c1"># see InfoArray.__array_finalize__ for comments</span>
-        <span class="k">if</span> <span class="n">obj</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span> <span class="k">return</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">info</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="s1">&#39;info&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">obj</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span> <span class="k">return</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">info</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="s1">&#39;info&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>So:</p>
@@ -555,7 +513,7 @@ following.</p>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">args</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">input_</span><span class="p">)</span>
 
-        <span class="n">outputs</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;out&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+        <span class="n">outputs</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;out&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
         <span class="n">out_no</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">if</span> <span class="n">outputs</span><span class="p">:</span>
             <span class="n">out_args</span> <span class="o">=</span> <span class="p">[]</span>
@@ -567,7 +525,7 @@ following.</p>
                     <span class="n">out_args</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
             <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;out&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">out_args</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">outputs</span> <span class="o">=</span> <span class="p">(</span><span class="bp">None</span><span class="p">,)</span> <span class="o">*</span> <span class="n">ufunc</span><span class="o">.</span><span class="n">nout</span>
+            <span class="n">outputs</span> <span class="o">=</span> <span class="p">(</span><span class="kc">None</span><span class="p">,)</span> <span class="o">*</span> <span class="n">ufunc</span><span class="o">.</span><span class="n">nout</span>
 
         <span class="n">info</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">if</span> <span class="n">in_no</span><span class="p">:</span>
@@ -589,7 +547,7 @@ following.</p>
             <span class="n">results</span> <span class="o">=</span> <span class="p">(</span><span class="n">results</span><span class="p">,)</span>
 
         <span class="n">results</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">result</span><span class="p">)</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">A</span><span class="p">)</span>
-                         <span class="k">if</span> <span class="n">output</span> <span class="ow">is</span> <span class="bp">None</span> <span class="k">else</span> <span class="n">output</span><span class="p">)</span>
+                         <span class="k">if</span> <span class="n">output</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">output</span><span class="p">)</span>
                         <span class="k">for</span> <span class="n">result</span><span class="p">,</span> <span class="n">output</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="n">outputs</span><span class="p">))</span>
         <span class="k">if</span> <span class="n">results</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">A</span><span class="p">):</span>
             <span class="n">results</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">info</span> <span class="o">=</span> <span class="n">info</span>
@@ -660,26 +618,26 @@ allowing a subclass to set the type of the return value and update
 attributes and metadata.  Let’s show how this works with an example.  First
 we return to the simpler example subclass, but with a different name and
 some print statements:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
 <span class="k">class</span> <span class="nc">MySubClass</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
 
-    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">input_array</span><span class="p">,</span> <span class="n">info</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">input_array</span><span class="p">,</span> <span class="n">info</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="n">obj</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">input_array</span><span class="p">)</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span>
         <span class="n">obj</span><span class="o">.</span><span class="n">info</span> <span class="o">=</span> <span class="n">info</span>
         <span class="k">return</span> <span class="n">obj</span>
 
     <span class="k">def</span> <span class="nf">__array_finalize__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
-        <span class="k">print</span><span class="p">(</span><span class="s1">&#39;In __array_finalize__:&#39;</span><span class="p">)</span>
-        <span class="k">print</span><span class="p">(</span><span class="s1">&#39;   self is </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="nb">repr</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
-        <span class="k">print</span><span class="p">(</span><span class="s1">&#39;   obj is </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="nb">repr</span><span class="p">(</span><span class="n">obj</span><span class="p">))</span>
-        <span class="k">if</span> <span class="n">obj</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span> <span class="k">return</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">info</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="s1">&#39;info&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;In __array_finalize__:&#39;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;   self is </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="nb">repr</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;   obj is </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="nb">repr</span><span class="p">(</span><span class="n">obj</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">obj</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span> <span class="k">return</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">info</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="s1">&#39;info&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">__array_wrap__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">out_arr</span><span class="p">,</span> <span class="n">context</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
-        <span class="k">print</span><span class="p">(</span><span class="s1">&#39;In __array_wrap__:&#39;</span><span class="p">)</span>
-        <span class="k">print</span><span class="p">(</span><span class="s1">&#39;   self is </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="nb">repr</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
-        <span class="k">print</span><span class="p">(</span><span class="s1">&#39;   arr is </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="nb">repr</span><span class="p">(</span><span class="n">out_arr</span><span class="p">))</span>
+    <span class="k">def</span> <span class="nf">__array_wrap__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">out_arr</span><span class="p">,</span> <span class="n">context</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;In __array_wrap__:&#39;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;   self is </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="nb">repr</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;   arr is </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="nb">repr</span><span class="p">(</span><span class="n">out_arr</span><span class="p">))</span>
         <span class="c1"># then just call the parent</span>
         <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">MySubClass</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__array_wrap__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">out_arr</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span>
 </pre></div>
@@ -712,7 +670,7 @@ attribute.  This has all happened at the C level.</p>
 <p>But, we could do anything we wanted:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">SillySubClass</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
 
-    <span class="k">def</span> <span class="nf">__array_wrap__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arr</span><span class="p">,</span> <span class="n">context</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__array_wrap__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arr</span><span class="p">,</span> <span class="n">context</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="k">return</span> <span class="s1">&#39;I lost your data&#39;</span>
 </pre></div>
 </div>
@@ -791,7 +749,7 @@ method is called instead of coercing the arguments to a numpy array.</p>
 <p>For example, if you want your sub-class or duck-type to be compatible with
 numpy’s <code class="docutils literal notranslate"><span class="pre">sum</span></code> function, the method signature for this object’s <code class="docutils literal notranslate"><span class="pre">sum</span></code> method
 should be the following:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">sum</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">sum</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="o">...</span>
 </pre></div>
 </div>
@@ -800,7 +758,7 @@ should be the following:</p>
 pass in these arguments enumerated above in the signature, and no errors will
 be raised because the signatures are completely compatible with each other.</p>
 <p>If, however, you decide to deviate from this signature and do something like this:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">sum</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">sum</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="o">...</span>
 </pre></div>
 </div>
@@ -810,7 +768,7 @@ to be raised.</p>
 <p>If you wish to maintain compatibility with numpy and its subsequent versions (which
 might add new keyword arguments) but do not want to surface all of numpy’s arguments,
 your function’s signature should accept <code class="docutils literal notranslate"><span class="pre">**kwargs</span></code>. For example:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">sum</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="o">**</span><span class="n">unused_kwargs</span><span class="p">):</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">sum</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">unused_kwargs</span><span class="p">):</span>
 <span class="o">...</span>
 </pre></div>
 </div>
@@ -824,6 +782,53 @@ your function’s signature should accept <code class="docutils literal notransl
           </div>
         </div>
           </div>
+      <div class="spc-rightsidebar span3">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../contents.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Subclassing ndarray</a><ul>
+<li><a class="reference internal" href="#introduction">Introduction</a><ul>
+<li><a class="reference internal" href="#ndarrays-and-object-creation">ndarrays and object creation</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#view-casting">View casting</a></li>
+<li><a class="reference internal" href="#creating-new-from-template">Creating new from template</a></li>
+<li><a class="reference internal" href="#relationship-of-view-casting-and-new-from-template">Relationship of view casting and new-from-template</a></li>
+<li><a class="reference internal" href="#implications-for-subclassing">Implications for subclassing</a><ul>
+<li><a class="reference internal" href="#a-brief-python-primer-on-new-and-init">A brief Python primer on <code class="docutils literal notranslate"><span class="pre">__new__</span></code> and <code class="docutils literal notranslate"><span class="pre">__init__</span></code></a></li>
+<li><a class="reference internal" href="#the-role-of-array-finalize">The role of <code class="docutils literal notranslate"><span class="pre">__array_finalize__</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#simple-example-adding-an-extra-attribute-to-ndarray">Simple example - adding an extra attribute to ndarray</a></li>
+<li><a class="reference internal" href="#slightly-more-realistic-example-attribute-added-to-existing-array">Slightly more realistic example - attribute added to existing array</a></li>
+<li><a class="reference internal" href="#array-ufunc-for-ufuncs"><code class="docutils literal notranslate"><span class="pre">__array_ufunc__</span></code> for ufuncs</a></li>
+<li><a class="reference internal" href="#array-wrap-for-ufuncs-and-other-functions"><code class="docutils literal notranslate"><span class="pre">__array_wrap__</span></code> for ufuncs and other functions</a></li>
+<li><a class="reference internal" href="#extra-gotchas-custom-del-methods-and-ndarray-base">Extra gotchas - custom <code class="docutils literal notranslate"><span class="pre">__del__</span></code> methods and ndarray.base</a></li>
+<li><a class="reference internal" href="#subclassing-and-downstream-compatibility">Subclassing and Downstream Compatibility</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="basics.dispatch.html"
+                        title="previous chapter">Writing custom array containers</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="misc.html"
+                        title="next chapter">Miscellaneous</a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h4>Quick search</h4>
+    <div>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" style="width: inherit;" name="q" />
+      <input type="submit" value="search" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
         </div>
       </div>
     </div>
@@ -841,7 +846,7 @@ your function’s signature should accept <code class="docutils literal notransl
         &copy; Copyright 2008-2019, The SciPy community.
       </li>
       <li>
-      Last updated on Jul 15, 2019.
+      Last updated on Feb 18, 2020.
       </li>
       <li>
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.5.

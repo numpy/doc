@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '1.16.4',
+        VERSION:     '1.16.6',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  false
@@ -36,10 +36,13 @@
   </head>
   <body>
 
-  <div class="container">
-    <div class="header">
+<div class="container">
+  <div class="top-scipy-org-logo-header">
+    <a href="../index.html">
+      <img style="border: 0;" alt="SciPy" src="../_static/img/scipy_org_logo.gif"></a>
     </div>
   </div>
+</div>
 
 
     <div class="container">
@@ -50,6 +53,8 @@
 	    <div class="spc-navbar">
               
     <ul class="nav nav-pills pull-left">
+        <li class="active"><a href="https://scipy.org/">Scipy.org</a></li>
+        <li class="active"><a href="https://docs.scipy.org/">Docs</a></li>
         
         <li class="active"><a href="../index.html">NumPy v1.16 Manual</a></li>
         
@@ -79,111 +84,6 @@
         
 
 	<div class="row-fluid">
-      <div class="spc-rightsidebar span3">
-        <div class="sphinxsidebarwrapper">
-  <h3><a href="../contents.html">Table of Contents</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">Releasing a Version</a><ul>
-<li><a class="reference internal" href="#how-to-prepare-a-release">How to Prepare a Release</a><ul>
-<li><a class="reference internal" href="#current-build-and-release-info">Current build and release info</a><ul>
-<li><a class="reference internal" href="#source-tree">Source tree</a></li>
-<li><a class="reference internal" href="#numpy-docs">NumPy Docs</a></li>
-<li><a class="reference internal" href="#scipy-org-wiki">SciPy.org wiki</a></li>
-<li><a class="reference internal" href="#doc-wiki">Doc wiki</a></li>
-<li><a class="reference internal" href="#release-scripts">Release Scripts</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#supported-platforms-and-versions">Supported platforms and versions</a><ul>
-<li><a class="reference internal" href="#os-x">OS X</a></li>
-<li><a class="reference internal" href="#windows">Windows</a></li>
-<li><a class="reference internal" href="#linux">Linux</a></li>
-<li><a class="reference internal" href="#bsd-solaris">BSD / Solaris</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#tool-chain">Tool chain</a><ul>
-<li><a class="reference internal" href="#compilers">Compilers</a></li>
-<li><a class="reference internal" href="#building-source-archives-and-wheels">Building source archives and wheels</a></li>
-<li><a class="reference internal" href="#building-docs">Building docs</a></li>
-<li><a class="reference internal" href="#uploading-to-pypi">Uploading to PyPI</a></li>
-<li><a class="reference internal" href="#generating-author-pr-lists">Generating author/pr lists</a></li>
-<li><a class="reference internal" href="#virtualenv">Virtualenv</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#what-is-released">What is released</a><ul>
-<li><a class="reference internal" href="#wheels">Wheels</a></li>
-<li><a class="reference internal" href="#other">Other</a></li>
-<li><a class="reference internal" href="#source-distribution">Source distribution</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#release-process">Release process</a><ul>
-<li><a class="reference internal" href="#agree-on-a-release-schedule">Agree on a release schedule</a></li>
-<li><a class="reference internal" href="#make-sure-current-trunk-builds-a-package-correctly">Make sure current trunk builds a package correctly</a></li>
-<li><a class="reference internal" href="#check-that-docs-can-be-built">Check that docs can be built</a></li>
-<li><a class="reference internal" href="#check-deprecations">Check deprecations</a></li>
-<li><a class="reference internal" href="#check-the-c-api-version-number">Check the C API version number</a></li>
-<li><a class="reference internal" href="#check-the-release-notes">Check the release notes</a></li>
-<li><a class="reference internal" href="#update-the-release-status-and-create-a-release-tag">Update the release status and create a release “tag”</a></li>
-<li><a class="reference internal" href="#apply-patch-to-fix-bogus-strides">Apply patch to fix bogus strides</a></li>
-<li><a class="reference internal" href="#update-the-version-of-the-master-branch">Update the version of the master branch</a></li>
-<li><a class="reference internal" href="#trigger-the-wheel-builds-on-travis-ci-and-appveyor">Trigger the wheel builds on travis-ci and Appveyor</a></li>
-<li><a class="reference internal" href="#make-the-release">Make the release</a></li>
-<li><a class="reference internal" href="#update-pypi">Update PyPI</a></li>
-<li><a class="reference internal" href="#push-the-release-tag-and-commit">Push the release tag and commit</a></li>
-<li><a class="reference internal" href="#update-docs-scipy-org">Update docs.scipy.org</a></li>
-<li><a class="reference internal" href="#update-scipy-org">Update scipy.org</a></li>
-<li><a class="reference internal" href="#announce-to-the-lists">Announce to the lists</a></li>
-<li><a class="reference internal" href="#announce-to-linux-weekly-news">Announce to Linux Weekly News</a></li>
-<li><a class="reference internal" href="#after-the-final-release">After the final release</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><a class="reference internal" href="#step-by-step-directions">Step-by-Step Directions</a><ul>
-<li><a class="reference internal" href="#release-walkthrough">Release  Walkthrough</a><ul>
-<li><a class="reference internal" href="#backport-pull-requests">Backport Pull Requests</a></li>
-<li><a class="reference internal" href="#update-release-documentation">Update Release documentation</a></li>
-<li><a class="reference internal" href="#finish-the-release-note">Finish the Release Note</a></li>
-<li><a class="reference internal" href="#prepare-the-release-commit">Prepare the release commit</a></li>
-<li><a class="reference internal" href="#build-source-releases">Build source releases</a></li>
-<li><a class="reference internal" href="#build-wheels">Build wheels</a></li>
-<li><a class="reference internal" href="#download-wheels">Download wheels</a></li>
-<li><a class="reference internal" href="#generate-the-readme-files">Generate the README files</a></li>
-<li><a class="reference internal" href="#tag-the-release">Tag the release</a></li>
-<li><a class="reference internal" href="#reset-the-maintenance-branch-into-a-development-state">Reset the maintenance branch into a development state</a></li>
-<li><a class="reference internal" href="#upload-to-pypi">Upload to PyPI</a></li>
-<li><a class="reference internal" href="#upload-files-to-github">Upload files to github</a></li>
-<li><a class="reference internal" href="#upload-documents-to-docs-scipy-org">Upload documents to docs.scipy.org</a></li>
-<li><a class="reference internal" href="#announce-the-release-on-scipy-org">Announce the release on scipy.org</a></li>
-<li><a class="reference internal" href="#announce-to-mailing-lists">Announce to mailing lists</a></li>
-<li><a class="reference internal" href="#post-release-tasks">Post-Release Tasks</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="style_guide.html"
-                        title="previous chapter">NumPy C Style Guide</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="governance/index.html"
-                        title="next chapter">NumPy governance</a></p>
-<div id="searchbox" style="display: none" role="search">
-  <h4>Quick search</h4>
-    <div>
-    <form class="search" action="../search.html" method="get">
-      <input type="text" style="width: inherit;" name="q" />
-      <input type="submit" value="search" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
-    </div>
-</div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
-        </div>
-      </div>
           <div class="span9">
             
         <div class="bodywrapper">
@@ -912,6 +812,111 @@ are the same as generated for the release notes above.</p>
           </div>
         </div>
           </div>
+      <div class="spc-rightsidebar span3">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../contents.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Releasing a Version</a><ul>
+<li><a class="reference internal" href="#how-to-prepare-a-release">How to Prepare a Release</a><ul>
+<li><a class="reference internal" href="#current-build-and-release-info">Current build and release info</a><ul>
+<li><a class="reference internal" href="#source-tree">Source tree</a></li>
+<li><a class="reference internal" href="#numpy-docs">NumPy Docs</a></li>
+<li><a class="reference internal" href="#scipy-org-wiki">SciPy.org wiki</a></li>
+<li><a class="reference internal" href="#doc-wiki">Doc wiki</a></li>
+<li><a class="reference internal" href="#release-scripts">Release Scripts</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#supported-platforms-and-versions">Supported platforms and versions</a><ul>
+<li><a class="reference internal" href="#os-x">OS X</a></li>
+<li><a class="reference internal" href="#windows">Windows</a></li>
+<li><a class="reference internal" href="#linux">Linux</a></li>
+<li><a class="reference internal" href="#bsd-solaris">BSD / Solaris</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#tool-chain">Tool chain</a><ul>
+<li><a class="reference internal" href="#compilers">Compilers</a></li>
+<li><a class="reference internal" href="#building-source-archives-and-wheels">Building source archives and wheels</a></li>
+<li><a class="reference internal" href="#building-docs">Building docs</a></li>
+<li><a class="reference internal" href="#uploading-to-pypi">Uploading to PyPI</a></li>
+<li><a class="reference internal" href="#generating-author-pr-lists">Generating author/pr lists</a></li>
+<li><a class="reference internal" href="#virtualenv">Virtualenv</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#what-is-released">What is released</a><ul>
+<li><a class="reference internal" href="#wheels">Wheels</a></li>
+<li><a class="reference internal" href="#other">Other</a></li>
+<li><a class="reference internal" href="#source-distribution">Source distribution</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#release-process">Release process</a><ul>
+<li><a class="reference internal" href="#agree-on-a-release-schedule">Agree on a release schedule</a></li>
+<li><a class="reference internal" href="#make-sure-current-trunk-builds-a-package-correctly">Make sure current trunk builds a package correctly</a></li>
+<li><a class="reference internal" href="#check-that-docs-can-be-built">Check that docs can be built</a></li>
+<li><a class="reference internal" href="#check-deprecations">Check deprecations</a></li>
+<li><a class="reference internal" href="#check-the-c-api-version-number">Check the C API version number</a></li>
+<li><a class="reference internal" href="#check-the-release-notes">Check the release notes</a></li>
+<li><a class="reference internal" href="#update-the-release-status-and-create-a-release-tag">Update the release status and create a release “tag”</a></li>
+<li><a class="reference internal" href="#apply-patch-to-fix-bogus-strides">Apply patch to fix bogus strides</a></li>
+<li><a class="reference internal" href="#update-the-version-of-the-master-branch">Update the version of the master branch</a></li>
+<li><a class="reference internal" href="#trigger-the-wheel-builds-on-travis-ci-and-appveyor">Trigger the wheel builds on travis-ci and Appveyor</a></li>
+<li><a class="reference internal" href="#make-the-release">Make the release</a></li>
+<li><a class="reference internal" href="#update-pypi">Update PyPI</a></li>
+<li><a class="reference internal" href="#push-the-release-tag-and-commit">Push the release tag and commit</a></li>
+<li><a class="reference internal" href="#update-docs-scipy-org">Update docs.scipy.org</a></li>
+<li><a class="reference internal" href="#update-scipy-org">Update scipy.org</a></li>
+<li><a class="reference internal" href="#announce-to-the-lists">Announce to the lists</a></li>
+<li><a class="reference internal" href="#announce-to-linux-weekly-news">Announce to Linux Weekly News</a></li>
+<li><a class="reference internal" href="#after-the-final-release">After the final release</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#step-by-step-directions">Step-by-Step Directions</a><ul>
+<li><a class="reference internal" href="#release-walkthrough">Release  Walkthrough</a><ul>
+<li><a class="reference internal" href="#backport-pull-requests">Backport Pull Requests</a></li>
+<li><a class="reference internal" href="#update-release-documentation">Update Release documentation</a></li>
+<li><a class="reference internal" href="#finish-the-release-note">Finish the Release Note</a></li>
+<li><a class="reference internal" href="#prepare-the-release-commit">Prepare the release commit</a></li>
+<li><a class="reference internal" href="#build-source-releases">Build source releases</a></li>
+<li><a class="reference internal" href="#build-wheels">Build wheels</a></li>
+<li><a class="reference internal" href="#download-wheels">Download wheels</a></li>
+<li><a class="reference internal" href="#generate-the-readme-files">Generate the README files</a></li>
+<li><a class="reference internal" href="#tag-the-release">Tag the release</a></li>
+<li><a class="reference internal" href="#reset-the-maintenance-branch-into-a-development-state">Reset the maintenance branch into a development state</a></li>
+<li><a class="reference internal" href="#upload-to-pypi">Upload to PyPI</a></li>
+<li><a class="reference internal" href="#upload-files-to-github">Upload files to github</a></li>
+<li><a class="reference internal" href="#upload-documents-to-docs-scipy-org">Upload documents to docs.scipy.org</a></li>
+<li><a class="reference internal" href="#announce-the-release-on-scipy-org">Announce the release on scipy.org</a></li>
+<li><a class="reference internal" href="#announce-to-mailing-lists">Announce to mailing lists</a></li>
+<li><a class="reference internal" href="#post-release-tasks">Post-Release Tasks</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="style_guide.html"
+                        title="previous chapter">NumPy C Style Guide</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="governance/index.html"
+                        title="next chapter">NumPy governance</a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h4>Quick search</h4>
+    <div>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" style="width: inherit;" name="q" />
+      <input type="submit" value="search" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
         </div>
       </div>
     </div>
@@ -929,7 +934,7 @@ are the same as generated for the release notes above.</p>
         &copy; Copyright 2008-2019, The SciPy community.
       </li>
       <li>
-      Last updated on Jul 15, 2019.
+      Last updated on Feb 18, 2020.
       </li>
       <li>
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.5.
