@@ -52,8 +52,8 @@
 	    <div class="spc-navbar">
               
     <ul class="nav nav-pills pull-left">
-        <li class="active"><a href="https://scipy.org/">Scipy.org</a></li>
-        <li class="active"><a href="https://docs.scipy.org/">Docs</a></li>
+        <li class="active"><a href="https://numpy.org/">NumPy.org</a></li>
+        <li class="active"><a href="https://numpy.org/doc">Docs</a></li>
         
         <li class="active"><a href="../index.html">NumPy v1.18 Manual</a></li>
         
@@ -83,6 +83,99 @@
         
 
 	<div class="row-fluid">
+      <div class="spc-rightsidebar span3">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../contents.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">NumPy 1.10.0 Release Notes</a><ul>
+<li><a class="reference internal" href="#highlights">Highlights</a></li>
+<li><a class="reference internal" href="#dropped-support">Dropped Support</a></li>
+<li><a class="reference internal" href="#future-changes">Future Changes</a></li>
+<li><a class="reference internal" href="#compatibility-notes">Compatibility notes</a><ul>
+<li><a class="reference internal" href="#default-casting-rule-change">Default casting rule change</a></li>
+<li><a class="reference internal" href="#numpy-version-string">numpy version string</a></li>
+<li><a class="reference internal" href="#relaxed-stride-checking">relaxed stride checking</a></li>
+<li><a class="reference internal" href="#concatenation-of-1d-arrays-along-any-but-axis-0-raises-indexerror">Concatenation of 1d arrays along any but <code class="docutils literal notranslate"><span class="pre">axis=0</span></code> raises <code class="docutils literal notranslate"><span class="pre">IndexError</span></code></a></li>
+<li><a class="reference internal" href="#np-ravel-np-diagonal-and-np-diag-now-preserve-subtypes"><em>np.ravel</em>, <em>np.diagonal</em> and <em>np.diag</em> now preserve subtypes</a></li>
+<li><a class="reference internal" href="#rollaxis-and-swapaxes-always-return-a-view"><em>rollaxis</em> and <em>swapaxes</em> always return a view</a></li>
+<li><a class="reference internal" href="#nonzero-now-returns-base-ndarrays"><em>nonzero</em> now returns base ndarrays</a></li>
+<li><a class="reference internal" href="#c-api">C API</a></li>
+<li><a class="reference internal" href="#recarray-field-return-types">recarray field return types</a></li>
+<li><a class="reference internal" href="#recarray-views">recarray views</a></li>
+<li><a class="reference internal" href="#out-keyword-argument-of-ufuncs-now-accepts-tuples-of-arrays">‘out’ keyword argument of ufuncs now accepts tuples of arrays</a></li>
+<li><a class="reference internal" href="#byte-array-indices-now-raises-an-indexerror">byte-array indices now raises an IndexError</a></li>
+<li><a class="reference internal" href="#masked-arrays-containing-objects-with-arrays">Masked arrays containing objects with arrays</a></li>
+<li><a class="reference internal" href="#median-warns-and-returns-nan-when-invalid-values-are-encountered">Median warns and returns nan when invalid values are encountered</a></li>
+<li><a class="reference internal" href="#functions-available-from-numpy-ma-testutils-have-changed">Functions available from numpy.ma.testutils have changed</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#new-features">New Features</a><ul>
+<li><a class="reference internal" href="#reading-extra-flags-from-site-cfg">Reading extra flags from site.cfg</a></li>
+<li><a class="reference internal" href="#np-cbrt-to-compute-cube-root-for-real-floats"><em>np.cbrt</em> to compute cube root for real floats</a></li>
+<li><a class="reference internal" href="#numpy-distutils-now-allows-parallel-compilation">numpy.distutils now allows parallel compilation</a></li>
+<li><a class="reference internal" href="#genfromtxt-has-a-new-max-rows-argument"><em>genfromtxt</em> has a new <code class="docutils literal notranslate"><span class="pre">max_rows</span></code> argument</a></li>
+<li><a class="reference internal" href="#new-function-np-broadcast-to-for-invoking-array-broadcasting">New function <em>np.broadcast_to</em> for invoking array broadcasting</a></li>
+<li><a class="reference internal" href="#new-context-manager-clear-and-catch-warnings-for-testing-warnings">New context manager <em>clear_and_catch_warnings</em> for testing warnings</a></li>
+<li><a class="reference internal" href="#cov-has-new-fweights-and-aweights-arguments"><em>cov</em> has new <code class="docutils literal notranslate"><span class="pre">fweights</span></code> and <code class="docutils literal notranslate"><span class="pre">aweights</span></code> arguments</a></li>
+<li><a class="reference internal" href="#support-for-the-operator-in-python-3-5">Support for the ‘&#64;’ operator in Python 3.5+</a></li>
+<li><a class="reference internal" href="#new-argument-norm-to-fft-functions">New argument <code class="docutils literal notranslate"><span class="pre">norm</span></code> to fft functions</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#improvements">Improvements</a><ul>
+<li><a class="reference internal" href="#np-digitize-using-binary-search"><em>np.digitize</em> using binary search</a></li>
+<li><a class="reference internal" href="#np-poly-now-casts-integer-inputs-to-float"><em>np.poly</em> now casts integer inputs to float</a></li>
+<li><a class="reference internal" href="#np-interp-can-now-be-used-with-periodic-functions"><em>np.interp</em> can now be used with periodic functions</a></li>
+<li><a class="reference internal" href="#np-pad-supports-more-input-types-for-pad-width-and-constant-values"><em>np.pad</em> supports more input types for <code class="docutils literal notranslate"><span class="pre">pad_width</span></code> and <code class="docutils literal notranslate"><span class="pre">constant_values</span></code></a></li>
+<li><a class="reference internal" href="#np-argmax-and-np-argmin-now-support-an-out-argument"><em>np.argmax</em> and <em>np.argmin</em> now support an <code class="docutils literal notranslate"><span class="pre">out</span></code> argument</a></li>
+<li><a class="reference internal" href="#more-system-c99-complex-functions-detected-and-used">More system C99 complex functions detected and used</a></li>
+<li><a class="reference internal" href="#np-loadtxt-support-for-the-strings-produced-by-the-float-hex-method"><em>np.loadtxt</em> support for the strings produced by the <code class="docutils literal notranslate"><span class="pre">float.hex</span></code> method</a></li>
+<li><a class="reference internal" href="#np-isclose-properly-handles-minimal-values-of-integer-dtypes"><em>np.isclose</em> properly handles minimal values of integer dtypes</a></li>
+<li><a class="reference internal" href="#np-allclose-uses-np-isclose-internally"><em>np.allclose</em> uses <em>np.isclose</em> internally.</a></li>
+<li><a class="reference internal" href="#np-genfromtxt-now-handles-large-integers-correctly"><em>np.genfromtxt</em> now handles large integers correctly</a></li>
+<li><a class="reference internal" href="#np-load-np-save-have-pickle-backward-compatibility-flags"><em>np.load</em>, <em>np.save</em> have pickle backward compatibility flags</a></li>
+<li><a class="reference internal" href="#maskedarray-support-for-more-complicated-base-classes">MaskedArray support for more complicated base classes</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#changes">Changes</a><ul>
+<li><a class="reference internal" href="#dotblas-functionality-moved-to-multiarray">dotblas functionality moved to multiarray</a></li>
+<li><a class="reference internal" href="#stricter-check-of-gufunc-signature-compliance">stricter check of gufunc signature compliance</a></li>
+<li><a class="reference internal" href="#views-returned-from-np-einsum-are-writeable">views returned from <em>np.einsum</em> are writeable</a></li>
+<li><a class="reference internal" href="#np-argmin-skips-nat-values"><em>np.argmin</em> skips NaT values</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#deprecations">Deprecations</a><ul>
+<li><a class="reference internal" href="#array-comparisons-involving-strings-or-structured-dtypes">Array comparisons involving strings or structured dtypes</a></li>
+<li><a class="reference internal" href="#safeeval">SafeEval</a></li>
+<li><a class="reference internal" href="#alterdot-restoredot">alterdot, restoredot</a></li>
+<li><a class="reference internal" href="#pkgload-packageloader">pkgload, PackageLoader</a></li>
+<li><a class="reference internal" href="#bias-ddof-arguments-to-corrcoef">bias, ddof arguments to corrcoef</a></li>
+<li><a class="reference internal" href="#dtype-string-representation-changes">dtype string representation changes</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="1.10.1-notes.html"
+                        title="previous chapter">NumPy 1.10.1 Release Notes</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="1.9.2-notes.html"
+                        title="next chapter">NumPy 1.9.2 Release Notes</a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h4>Quick search</h4>
+    <div>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" style="width: inherit;" name="q" />
+      <input type="submit" value="search" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
           <div class="span9">
             
         <div class="bodywrapper">
@@ -547,99 +640,6 @@ before.</p>
           </div>
         </div>
           </div>
-      <div class="spc-rightsidebar span3">
-        <div class="sphinxsidebarwrapper">
-  <h3><a href="../contents.html">Table of Contents</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">NumPy 1.10.0 Release Notes</a><ul>
-<li><a class="reference internal" href="#highlights">Highlights</a></li>
-<li><a class="reference internal" href="#dropped-support">Dropped Support</a></li>
-<li><a class="reference internal" href="#future-changes">Future Changes</a></li>
-<li><a class="reference internal" href="#compatibility-notes">Compatibility notes</a><ul>
-<li><a class="reference internal" href="#default-casting-rule-change">Default casting rule change</a></li>
-<li><a class="reference internal" href="#numpy-version-string">numpy version string</a></li>
-<li><a class="reference internal" href="#relaxed-stride-checking">relaxed stride checking</a></li>
-<li><a class="reference internal" href="#concatenation-of-1d-arrays-along-any-but-axis-0-raises-indexerror">Concatenation of 1d arrays along any but <code class="docutils literal notranslate"><span class="pre">axis=0</span></code> raises <code class="docutils literal notranslate"><span class="pre">IndexError</span></code></a></li>
-<li><a class="reference internal" href="#np-ravel-np-diagonal-and-np-diag-now-preserve-subtypes"><em>np.ravel</em>, <em>np.diagonal</em> and <em>np.diag</em> now preserve subtypes</a></li>
-<li><a class="reference internal" href="#rollaxis-and-swapaxes-always-return-a-view"><em>rollaxis</em> and <em>swapaxes</em> always return a view</a></li>
-<li><a class="reference internal" href="#nonzero-now-returns-base-ndarrays"><em>nonzero</em> now returns base ndarrays</a></li>
-<li><a class="reference internal" href="#c-api">C API</a></li>
-<li><a class="reference internal" href="#recarray-field-return-types">recarray field return types</a></li>
-<li><a class="reference internal" href="#recarray-views">recarray views</a></li>
-<li><a class="reference internal" href="#out-keyword-argument-of-ufuncs-now-accepts-tuples-of-arrays">‘out’ keyword argument of ufuncs now accepts tuples of arrays</a></li>
-<li><a class="reference internal" href="#byte-array-indices-now-raises-an-indexerror">byte-array indices now raises an IndexError</a></li>
-<li><a class="reference internal" href="#masked-arrays-containing-objects-with-arrays">Masked arrays containing objects with arrays</a></li>
-<li><a class="reference internal" href="#median-warns-and-returns-nan-when-invalid-values-are-encountered">Median warns and returns nan when invalid values are encountered</a></li>
-<li><a class="reference internal" href="#functions-available-from-numpy-ma-testutils-have-changed">Functions available from numpy.ma.testutils have changed</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#new-features">New Features</a><ul>
-<li><a class="reference internal" href="#reading-extra-flags-from-site-cfg">Reading extra flags from site.cfg</a></li>
-<li><a class="reference internal" href="#np-cbrt-to-compute-cube-root-for-real-floats"><em>np.cbrt</em> to compute cube root for real floats</a></li>
-<li><a class="reference internal" href="#numpy-distutils-now-allows-parallel-compilation">numpy.distutils now allows parallel compilation</a></li>
-<li><a class="reference internal" href="#genfromtxt-has-a-new-max-rows-argument"><em>genfromtxt</em> has a new <code class="docutils literal notranslate"><span class="pre">max_rows</span></code> argument</a></li>
-<li><a class="reference internal" href="#new-function-np-broadcast-to-for-invoking-array-broadcasting">New function <em>np.broadcast_to</em> for invoking array broadcasting</a></li>
-<li><a class="reference internal" href="#new-context-manager-clear-and-catch-warnings-for-testing-warnings">New context manager <em>clear_and_catch_warnings</em> for testing warnings</a></li>
-<li><a class="reference internal" href="#cov-has-new-fweights-and-aweights-arguments"><em>cov</em> has new <code class="docutils literal notranslate"><span class="pre">fweights</span></code> and <code class="docutils literal notranslate"><span class="pre">aweights</span></code> arguments</a></li>
-<li><a class="reference internal" href="#support-for-the-operator-in-python-3-5">Support for the ‘&#64;’ operator in Python 3.5+</a></li>
-<li><a class="reference internal" href="#new-argument-norm-to-fft-functions">New argument <code class="docutils literal notranslate"><span class="pre">norm</span></code> to fft functions</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#improvements">Improvements</a><ul>
-<li><a class="reference internal" href="#np-digitize-using-binary-search"><em>np.digitize</em> using binary search</a></li>
-<li><a class="reference internal" href="#np-poly-now-casts-integer-inputs-to-float"><em>np.poly</em> now casts integer inputs to float</a></li>
-<li><a class="reference internal" href="#np-interp-can-now-be-used-with-periodic-functions"><em>np.interp</em> can now be used with periodic functions</a></li>
-<li><a class="reference internal" href="#np-pad-supports-more-input-types-for-pad-width-and-constant-values"><em>np.pad</em> supports more input types for <code class="docutils literal notranslate"><span class="pre">pad_width</span></code> and <code class="docutils literal notranslate"><span class="pre">constant_values</span></code></a></li>
-<li><a class="reference internal" href="#np-argmax-and-np-argmin-now-support-an-out-argument"><em>np.argmax</em> and <em>np.argmin</em> now support an <code class="docutils literal notranslate"><span class="pre">out</span></code> argument</a></li>
-<li><a class="reference internal" href="#more-system-c99-complex-functions-detected-and-used">More system C99 complex functions detected and used</a></li>
-<li><a class="reference internal" href="#np-loadtxt-support-for-the-strings-produced-by-the-float-hex-method"><em>np.loadtxt</em> support for the strings produced by the <code class="docutils literal notranslate"><span class="pre">float.hex</span></code> method</a></li>
-<li><a class="reference internal" href="#np-isclose-properly-handles-minimal-values-of-integer-dtypes"><em>np.isclose</em> properly handles minimal values of integer dtypes</a></li>
-<li><a class="reference internal" href="#np-allclose-uses-np-isclose-internally"><em>np.allclose</em> uses <em>np.isclose</em> internally.</a></li>
-<li><a class="reference internal" href="#np-genfromtxt-now-handles-large-integers-correctly"><em>np.genfromtxt</em> now handles large integers correctly</a></li>
-<li><a class="reference internal" href="#np-load-np-save-have-pickle-backward-compatibility-flags"><em>np.load</em>, <em>np.save</em> have pickle backward compatibility flags</a></li>
-<li><a class="reference internal" href="#maskedarray-support-for-more-complicated-base-classes">MaskedArray support for more complicated base classes</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#changes">Changes</a><ul>
-<li><a class="reference internal" href="#dotblas-functionality-moved-to-multiarray">dotblas functionality moved to multiarray</a></li>
-<li><a class="reference internal" href="#stricter-check-of-gufunc-signature-compliance">stricter check of gufunc signature compliance</a></li>
-<li><a class="reference internal" href="#views-returned-from-np-einsum-are-writeable">views returned from <em>np.einsum</em> are writeable</a></li>
-<li><a class="reference internal" href="#np-argmin-skips-nat-values"><em>np.argmin</em> skips NaT values</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#deprecations">Deprecations</a><ul>
-<li><a class="reference internal" href="#array-comparisons-involving-strings-or-structured-dtypes">Array comparisons involving strings or structured dtypes</a></li>
-<li><a class="reference internal" href="#safeeval">SafeEval</a></li>
-<li><a class="reference internal" href="#alterdot-restoredot">alterdot, restoredot</a></li>
-<li><a class="reference internal" href="#pkgload-packageloader">pkgload, PackageLoader</a></li>
-<li><a class="reference internal" href="#bias-ddof-arguments-to-corrcoef">bias, ddof arguments to corrcoef</a></li>
-<li><a class="reference internal" href="#dtype-string-representation-changes">dtype string representation changes</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="1.10.1-notes.html"
-                        title="previous chapter">NumPy 1.10.1 Release Notes</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="1.9.2-notes.html"
-                        title="next chapter">NumPy 1.9.2 Release Notes</a></p>
-<div id="searchbox" style="display: none" role="search">
-  <h4>Quick search</h4>
-    <div>
-    <form class="search" action="../search.html" method="get">
-      <input type="text" style="width: inherit;" name="q" />
-      <input type="submit" value="search" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
-    </div>
-</div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
-        </div>
-      </div>
         </div>
       </div>
     </div>

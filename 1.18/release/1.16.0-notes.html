@@ -52,8 +52,8 @@
 	    <div class="spc-navbar">
               
     <ul class="nav nav-pills pull-left">
-        <li class="active"><a href="https://scipy.org/">Scipy.org</a></li>
-        <li class="active"><a href="https://docs.scipy.org/">Docs</a></li>
+        <li class="active"><a href="https://numpy.org/">NumPy.org</a></li>
+        <li class="active"><a href="https://numpy.org/doc">Docs</a></li>
         
         <li class="active"><a href="../index.html">NumPy v1.18 Manual</a></li>
         
@@ -83,6 +83,103 @@
         
 
 	<div class="row-fluid">
+      <div class="spc-rightsidebar span3">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../contents.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">NumPy 1.16.0 Release Notes</a><ul>
+<li><a class="reference internal" href="#highlights">Highlights</a></li>
+<li><a class="reference internal" href="#new-functions">New functions</a></li>
+<li><a class="reference internal" href="#new-deprecations">New deprecations</a></li>
+<li><a class="reference internal" href="#expired-deprecations">Expired deprecations</a></li>
+<li><a class="reference internal" href="#future-changes">Future changes</a></li>
+<li><a class="reference internal" href="#compatibility-notes">Compatibility notes</a><ul>
+<li><a class="reference internal" href="#f2py-script-on-windows">f2py script on Windows</a></li>
+<li><a class="reference internal" href="#nat-comparisons">NaT comparisons</a></li>
+<li><a class="reference internal" href="#complex64-128-alignment-has-changed">complex64/128 alignment has changed</a></li>
+<li><a class="reference internal" href="#nd-grid-len-removal">nd_grid __len__ removal</a></li>
+<li><a class="reference internal" href="#np-unravel-index-now-accepts-shape-keyword-argument"><code class="docutils literal notranslate"><span class="pre">np.unravel_index</span></code> now accepts <code class="docutils literal notranslate"><span class="pre">shape</span></code> keyword argument</a></li>
+<li><a class="reference internal" href="#multi-field-views-return-a-view-instead-of-a-copy">multi-field views return a view instead of a copy</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#c-api-changes">C API changes</a></li>
+<li><a class="reference internal" href="#new-features">New Features</a><ul>
+<li><a class="reference internal" href="#integrated-squared-error-ise-estimator-added-to-histogram">Integrated squared error (ISE) estimator added to <code class="docutils literal notranslate"><span class="pre">histogram</span></code></a></li>
+<li><a class="reference internal" href="#max-rows-keyword-added-for-np-loadtxt"><code class="docutils literal notranslate"><span class="pre">max_rows</span></code> keyword added for <code class="docutils literal notranslate"><span class="pre">np.loadtxt</span></code></a></li>
+<li><a class="reference internal" href="#modulus-operator-support-added-for-np-timedelta64-operands">modulus operator support added for <code class="docutils literal notranslate"><span class="pre">np.timedelta64</span></code> operands</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#improvements">Improvements</a><ul>
+<li><a class="reference internal" href="#no-copy-pickling-of-numpy-arrays">no-copy pickling of numpy arrays</a></li>
+<li><a class="reference internal" href="#build-shell-independence">build shell independence</a></li>
+<li><a class="reference internal" href="#np-polynomial-polynomial-classes-render-in-latex-in-jupyter-notebooks"><em class="xref py py-obj">np.polynomial.Polynomial</em> classes render in LaTeX in Jupyter notebooks</a></li>
+<li><a class="reference internal" href="#randint-and-choice-now-work-on-empty-distributions"><code class="docutils literal notranslate"><span class="pre">randint</span></code> and <code class="docutils literal notranslate"><span class="pre">choice</span></code> now work on empty distributions</a></li>
+<li><a class="reference internal" href="#linalg-lstsq-linalg-qr-and-linalg-svd-now-work-with-empty-arrays"><code class="docutils literal notranslate"><span class="pre">linalg.lstsq</span></code>, <code class="docutils literal notranslate"><span class="pre">linalg.qr</span></code>, and <code class="docutils literal notranslate"><span class="pre">linalg.svd</span></code> now work with empty arrays</a></li>
+<li><a class="reference internal" href="#chain-exceptions-to-give-better-error-messages-for-invalid-pep3118-format-strings">Chain exceptions to give better error messages for invalid PEP3118 format strings</a></li>
+<li><a class="reference internal" href="#einsum-optimization-path-updates-and-efficiency-improvements">Einsum optimization path updates and efficiency improvements</a></li>
+<li><a class="reference internal" href="#numpy-angle-and-numpy-expand-dims-now-work-on-ndarray-subclasses"><code class="xref py py-obj docutils literal notranslate"><span class="pre">numpy.angle</span></code> and <code class="xref py py-obj docutils literal notranslate"><span class="pre">numpy.expand_dims</span></code> now work on <code class="docutils literal notranslate"><span class="pre">ndarray</span></code> subclasses</a></li>
+<li><a class="reference internal" href="#npy-no-deprecated-api-compiler-warning-suppression"><code class="docutils literal notranslate"><span class="pre">NPY_NO_DEPRECATED_API</span></code> compiler warning suppression</a></li>
+<li><a class="reference internal" href="#np-diff-added-kwargs-prepend-and-append"><code class="docutils literal notranslate"><span class="pre">np.diff</span></code> Added kwargs prepend and append</a></li>
+<li><a class="reference internal" href="#arm-support-updated">ARM support updated</a></li>
+<li><a class="reference internal" href="#appending-to-build-flags">Appending to build flags</a></li>
+<li><a class="reference internal" href="#generalized-ufunc-signatures-now-allow-fixed-size-dimensions">Generalized ufunc signatures now allow fixed-size dimensions</a></li>
+<li><a class="reference internal" href="#generalized-ufunc-signatures-now-allow-flexible-dimensions">Generalized ufunc signatures now allow flexible dimensions</a></li>
+<li><a class="reference internal" href="#np-clip-and-the-clip-method-check-for-memory-overlap"><code class="docutils literal notranslate"><span class="pre">np.clip</span></code> and the <code class="docutils literal notranslate"><span class="pre">clip</span></code> method check for memory overlap</a></li>
+<li><a class="reference internal" href="#new-value-unscaled-for-option-cov-in-np-polyfit">New value <code class="docutils literal notranslate"><span class="pre">unscaled</span></code> for option <code class="docutils literal notranslate"><span class="pre">cov</span></code> in <code class="docutils literal notranslate"><span class="pre">np.polyfit</span></code></a></li>
+<li><a class="reference internal" href="#detailed-docstrings-for-scalar-numeric-types">Detailed docstrings for scalar numeric types</a></li>
+<li><a class="reference internal" href="#module-attribute-now-points-to-public-modules"><code class="docutils literal notranslate"><span class="pre">__module__</span></code> attribute now points to public modules</a></li>
+<li><a class="reference internal" href="#large-allocations-marked-as-suitable-for-transparent-hugepages">Large allocations marked as suitable for transparent hugepages</a></li>
+<li><a class="reference internal" href="#alpine-linux-and-other-musl-c-library-distros-support">Alpine Linux (and other musl c library distros) support</a></li>
+<li><a class="reference internal" href="#speedup-np-block-for-large-arrays">Speedup <code class="docutils literal notranslate"><span class="pre">np.block</span></code> for large arrays</a><ul>
+<li><a class="reference internal" href="#arr-ctypes-data-as-holds-a-reference-to-arr"><code class="docutils literal notranslate"><span class="pre">arr.ctypes.data_as(...)</span></code> holds a reference to arr</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#speedup-np-take-for-read-only-arrays">Speedup <code class="docutils literal notranslate"><span class="pre">np.take</span></code> for read-only arrays</a></li>
+<li><a class="reference internal" href="#support-path-like-objects-for-more-functions">Support path-like objects for more functions</a></li>
+<li><a class="reference internal" href="#better-behaviour-of-ufunc-identities-during-reductions">Better behaviour of ufunc identities during reductions</a></li>
+<li><a class="reference internal" href="#improved-conversion-from-ctypes-objects">Improved conversion from ctypes objects</a></li>
+<li><a class="reference internal" href="#a-new-ndpointer-contents-member">A new <code class="docutils literal notranslate"><span class="pre">ndpointer.contents</span></code> member</a></li>
+<li><a class="reference internal" href="#matmul-is-now-a-ufunc"><code class="docutils literal notranslate"><span class="pre">matmul</span></code> is now a <code class="docutils literal notranslate"><span class="pre">ufunc</span></code></a></li>
+<li><a class="reference internal" href="#start-and-stop-arrays-for-linspace-logspace-and-geomspace">Start and stop arrays for <code class="docutils literal notranslate"><span class="pre">linspace</span></code>, <code class="docutils literal notranslate"><span class="pre">logspace</span></code> and <code class="docutils literal notranslate"><span class="pre">geomspace</span></code></a></li>
+<li><a class="reference internal" href="#ci-extended-with-additional-services">CI extended with additional services</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#changes">Changes</a><ul>
+<li><a class="reference internal" href="#comparison-ufuncs-will-now-error-rather-than-return-notimplemented">Comparison ufuncs will now error rather than return NotImplemented</a></li>
+<li><a class="reference internal" href="#positive-will-now-raise-a-deprecation-warning-for-non-numerical-arrays">Positive will now raise a deprecation warning for non-numerical arrays</a></li>
+<li><a class="reference internal" href="#ndarrayoperatorsmixin-now-implements-matrix-multiplication"><code class="docutils literal notranslate"><span class="pre">NDArrayOperatorsMixin</span></code> now implements matrix multiplication</a></li>
+<li><a class="reference internal" href="#the-scaling-of-the-covariance-matrix-in-np-polyfit-is-different">The scaling of the covariance matrix in <code class="docutils literal notranslate"><span class="pre">np.polyfit</span></code> is different</a></li>
+<li><a class="reference internal" href="#maximum-and-minimum-no-longer-emit-warnings"><code class="docutils literal notranslate"><span class="pre">maximum</span></code> and <code class="docutils literal notranslate"><span class="pre">minimum</span></code> no longer emit warnings</a></li>
+<li><a class="reference internal" href="#umath-and-multiarray-c-extension-modules-merged-into-a-single-module">Umath and multiarray c-extension modules merged into a single module</a></li>
+<li><a class="reference internal" href="#getfield-validity-checks-extended"><code class="docutils literal notranslate"><span class="pre">getfield</span></code> validity checks extended</a></li>
+<li><a class="reference internal" href="#numpy-functions-now-support-overrides-with-array-function">NumPy functions now support overrides with <code class="docutils literal notranslate"><span class="pre">__array_function__</span></code></a></li>
+<li><a class="reference internal" href="#arrays-based-off-readonly-buffers-cannot-be-set-writeable">Arrays based off readonly buffers cannot be set <code class="docutils literal notranslate"><span class="pre">writeable</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="1.16.1-notes.html"
+                        title="previous chapter">NumPy 1.16.1 Release Notes</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="1.15.4-notes.html"
+                        title="next chapter">NumPy 1.15.4 Release Notes</a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h4>Quick search</h4>
+    <div>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" style="width: inherit;" name="q" />
+      <input type="submit" value="search" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
           <div class="span9">
             
         <div class="bodywrapper">
@@ -597,103 +694,6 @@ from <code class="docutils literal notranslate"><span class="pre">fromstring(rea
           </div>
         </div>
           </div>
-      <div class="spc-rightsidebar span3">
-        <div class="sphinxsidebarwrapper">
-  <h3><a href="../contents.html">Table of Contents</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">NumPy 1.16.0 Release Notes</a><ul>
-<li><a class="reference internal" href="#highlights">Highlights</a></li>
-<li><a class="reference internal" href="#new-functions">New functions</a></li>
-<li><a class="reference internal" href="#new-deprecations">New deprecations</a></li>
-<li><a class="reference internal" href="#expired-deprecations">Expired deprecations</a></li>
-<li><a class="reference internal" href="#future-changes">Future changes</a></li>
-<li><a class="reference internal" href="#compatibility-notes">Compatibility notes</a><ul>
-<li><a class="reference internal" href="#f2py-script-on-windows">f2py script on Windows</a></li>
-<li><a class="reference internal" href="#nat-comparisons">NaT comparisons</a></li>
-<li><a class="reference internal" href="#complex64-128-alignment-has-changed">complex64/128 alignment has changed</a></li>
-<li><a class="reference internal" href="#nd-grid-len-removal">nd_grid __len__ removal</a></li>
-<li><a class="reference internal" href="#np-unravel-index-now-accepts-shape-keyword-argument"><code class="docutils literal notranslate"><span class="pre">np.unravel_index</span></code> now accepts <code class="docutils literal notranslate"><span class="pre">shape</span></code> keyword argument</a></li>
-<li><a class="reference internal" href="#multi-field-views-return-a-view-instead-of-a-copy">multi-field views return a view instead of a copy</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#c-api-changes">C API changes</a></li>
-<li><a class="reference internal" href="#new-features">New Features</a><ul>
-<li><a class="reference internal" href="#integrated-squared-error-ise-estimator-added-to-histogram">Integrated squared error (ISE) estimator added to <code class="docutils literal notranslate"><span class="pre">histogram</span></code></a></li>
-<li><a class="reference internal" href="#max-rows-keyword-added-for-np-loadtxt"><code class="docutils literal notranslate"><span class="pre">max_rows</span></code> keyword added for <code class="docutils literal notranslate"><span class="pre">np.loadtxt</span></code></a></li>
-<li><a class="reference internal" href="#modulus-operator-support-added-for-np-timedelta64-operands">modulus operator support added for <code class="docutils literal notranslate"><span class="pre">np.timedelta64</span></code> operands</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#improvements">Improvements</a><ul>
-<li><a class="reference internal" href="#no-copy-pickling-of-numpy-arrays">no-copy pickling of numpy arrays</a></li>
-<li><a class="reference internal" href="#build-shell-independence">build shell independence</a></li>
-<li><a class="reference internal" href="#np-polynomial-polynomial-classes-render-in-latex-in-jupyter-notebooks"><em class="xref py py-obj">np.polynomial.Polynomial</em> classes render in LaTeX in Jupyter notebooks</a></li>
-<li><a class="reference internal" href="#randint-and-choice-now-work-on-empty-distributions"><code class="docutils literal notranslate"><span class="pre">randint</span></code> and <code class="docutils literal notranslate"><span class="pre">choice</span></code> now work on empty distributions</a></li>
-<li><a class="reference internal" href="#linalg-lstsq-linalg-qr-and-linalg-svd-now-work-with-empty-arrays"><code class="docutils literal notranslate"><span class="pre">linalg.lstsq</span></code>, <code class="docutils literal notranslate"><span class="pre">linalg.qr</span></code>, and <code class="docutils literal notranslate"><span class="pre">linalg.svd</span></code> now work with empty arrays</a></li>
-<li><a class="reference internal" href="#chain-exceptions-to-give-better-error-messages-for-invalid-pep3118-format-strings">Chain exceptions to give better error messages for invalid PEP3118 format strings</a></li>
-<li><a class="reference internal" href="#einsum-optimization-path-updates-and-efficiency-improvements">Einsum optimization path updates and efficiency improvements</a></li>
-<li><a class="reference internal" href="#numpy-angle-and-numpy-expand-dims-now-work-on-ndarray-subclasses"><code class="xref py py-obj docutils literal notranslate"><span class="pre">numpy.angle</span></code> and <code class="xref py py-obj docutils literal notranslate"><span class="pre">numpy.expand_dims</span></code> now work on <code class="docutils literal notranslate"><span class="pre">ndarray</span></code> subclasses</a></li>
-<li><a class="reference internal" href="#npy-no-deprecated-api-compiler-warning-suppression"><code class="docutils literal notranslate"><span class="pre">NPY_NO_DEPRECATED_API</span></code> compiler warning suppression</a></li>
-<li><a class="reference internal" href="#np-diff-added-kwargs-prepend-and-append"><code class="docutils literal notranslate"><span class="pre">np.diff</span></code> Added kwargs prepend and append</a></li>
-<li><a class="reference internal" href="#arm-support-updated">ARM support updated</a></li>
-<li><a class="reference internal" href="#appending-to-build-flags">Appending to build flags</a></li>
-<li><a class="reference internal" href="#generalized-ufunc-signatures-now-allow-fixed-size-dimensions">Generalized ufunc signatures now allow fixed-size dimensions</a></li>
-<li><a class="reference internal" href="#generalized-ufunc-signatures-now-allow-flexible-dimensions">Generalized ufunc signatures now allow flexible dimensions</a></li>
-<li><a class="reference internal" href="#np-clip-and-the-clip-method-check-for-memory-overlap"><code class="docutils literal notranslate"><span class="pre">np.clip</span></code> and the <code class="docutils literal notranslate"><span class="pre">clip</span></code> method check for memory overlap</a></li>
-<li><a class="reference internal" href="#new-value-unscaled-for-option-cov-in-np-polyfit">New value <code class="docutils literal notranslate"><span class="pre">unscaled</span></code> for option <code class="docutils literal notranslate"><span class="pre">cov</span></code> in <code class="docutils literal notranslate"><span class="pre">np.polyfit</span></code></a></li>
-<li><a class="reference internal" href="#detailed-docstrings-for-scalar-numeric-types">Detailed docstrings for scalar numeric types</a></li>
-<li><a class="reference internal" href="#module-attribute-now-points-to-public-modules"><code class="docutils literal notranslate"><span class="pre">__module__</span></code> attribute now points to public modules</a></li>
-<li><a class="reference internal" href="#large-allocations-marked-as-suitable-for-transparent-hugepages">Large allocations marked as suitable for transparent hugepages</a></li>
-<li><a class="reference internal" href="#alpine-linux-and-other-musl-c-library-distros-support">Alpine Linux (and other musl c library distros) support</a></li>
-<li><a class="reference internal" href="#speedup-np-block-for-large-arrays">Speedup <code class="docutils literal notranslate"><span class="pre">np.block</span></code> for large arrays</a><ul>
-<li><a class="reference internal" href="#arr-ctypes-data-as-holds-a-reference-to-arr"><code class="docutils literal notranslate"><span class="pre">arr.ctypes.data_as(...)</span></code> holds a reference to arr</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#speedup-np-take-for-read-only-arrays">Speedup <code class="docutils literal notranslate"><span class="pre">np.take</span></code> for read-only arrays</a></li>
-<li><a class="reference internal" href="#support-path-like-objects-for-more-functions">Support path-like objects for more functions</a></li>
-<li><a class="reference internal" href="#better-behaviour-of-ufunc-identities-during-reductions">Better behaviour of ufunc identities during reductions</a></li>
-<li><a class="reference internal" href="#improved-conversion-from-ctypes-objects">Improved conversion from ctypes objects</a></li>
-<li><a class="reference internal" href="#a-new-ndpointer-contents-member">A new <code class="docutils literal notranslate"><span class="pre">ndpointer.contents</span></code> member</a></li>
-<li><a class="reference internal" href="#matmul-is-now-a-ufunc"><code class="docutils literal notranslate"><span class="pre">matmul</span></code> is now a <code class="docutils literal notranslate"><span class="pre">ufunc</span></code></a></li>
-<li><a class="reference internal" href="#start-and-stop-arrays-for-linspace-logspace-and-geomspace">Start and stop arrays for <code class="docutils literal notranslate"><span class="pre">linspace</span></code>, <code class="docutils literal notranslate"><span class="pre">logspace</span></code> and <code class="docutils literal notranslate"><span class="pre">geomspace</span></code></a></li>
-<li><a class="reference internal" href="#ci-extended-with-additional-services">CI extended with additional services</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#changes">Changes</a><ul>
-<li><a class="reference internal" href="#comparison-ufuncs-will-now-error-rather-than-return-notimplemented">Comparison ufuncs will now error rather than return NotImplemented</a></li>
-<li><a class="reference internal" href="#positive-will-now-raise-a-deprecation-warning-for-non-numerical-arrays">Positive will now raise a deprecation warning for non-numerical arrays</a></li>
-<li><a class="reference internal" href="#ndarrayoperatorsmixin-now-implements-matrix-multiplication"><code class="docutils literal notranslate"><span class="pre">NDArrayOperatorsMixin</span></code> now implements matrix multiplication</a></li>
-<li><a class="reference internal" href="#the-scaling-of-the-covariance-matrix-in-np-polyfit-is-different">The scaling of the covariance matrix in <code class="docutils literal notranslate"><span class="pre">np.polyfit</span></code> is different</a></li>
-<li><a class="reference internal" href="#maximum-and-minimum-no-longer-emit-warnings"><code class="docutils literal notranslate"><span class="pre">maximum</span></code> and <code class="docutils literal notranslate"><span class="pre">minimum</span></code> no longer emit warnings</a></li>
-<li><a class="reference internal" href="#umath-and-multiarray-c-extension-modules-merged-into-a-single-module">Umath and multiarray c-extension modules merged into a single module</a></li>
-<li><a class="reference internal" href="#getfield-validity-checks-extended"><code class="docutils literal notranslate"><span class="pre">getfield</span></code> validity checks extended</a></li>
-<li><a class="reference internal" href="#numpy-functions-now-support-overrides-with-array-function">NumPy functions now support overrides with <code class="docutils literal notranslate"><span class="pre">__array_function__</span></code></a></li>
-<li><a class="reference internal" href="#arrays-based-off-readonly-buffers-cannot-be-set-writeable">Arrays based off readonly buffers cannot be set <code class="docutils literal notranslate"><span class="pre">writeable</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="1.16.1-notes.html"
-                        title="previous chapter">NumPy 1.16.1 Release Notes</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="1.15.4-notes.html"
-                        title="next chapter">NumPy 1.15.4 Release Notes</a></p>
-<div id="searchbox" style="display: none" role="search">
-  <h4>Quick search</h4>
-    <div>
-    <form class="search" action="../search.html" method="get">
-      <input type="text" style="width: inherit;" name="q" />
-      <input type="submit" value="search" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
-    </div>
-</div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
-        </div>
-      </div>
         </div>
       </div>
     </div>

@@ -52,8 +52,8 @@
 	    <div class="spc-navbar">
               
     <ul class="nav nav-pills pull-left">
-        <li class="active"><a href="https://scipy.org/">Scipy.org</a></li>
-        <li class="active"><a href="https://docs.scipy.org/">Docs</a></li>
+        <li class="active"><a href="https://numpy.org/">NumPy.org</a></li>
+        <li class="active"><a href="https://numpy.org/doc">Docs</a></li>
         
         <li class="active"><a href="../index.html">NumPy v1.18 Manual</a></li>
         
@@ -83,6 +83,106 @@
         
 
 	<div class="row-fluid">
+      <div class="spc-rightsidebar span3">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../contents.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">NumPy 1.12.0 Release Notes</a><ul>
+<li><a class="reference internal" href="#highlights">Highlights</a></li>
+<li><a class="reference internal" href="#dropped-support">Dropped Support</a></li>
+<li><a class="reference internal" href="#added-support">Added Support</a></li>
+<li><a class="reference internal" href="#build-system-changes">Build System Changes</a></li>
+<li><a class="reference internal" href="#deprecations">Deprecations</a><ul>
+<li><a class="reference internal" href="#assignment-of-ndarray-object-s-data-attribute">Assignment of ndarray object’s <code class="docutils literal notranslate"><span class="pre">data</span></code> attribute</a></li>
+<li><a class="reference internal" href="#unsafe-int-casting-of-the-num-attribute-in-linspace">Unsafe int casting of the num attribute in <code class="docutils literal notranslate"><span class="pre">linspace</span></code></a></li>
+<li><a class="reference internal" href="#insufficient-bit-width-parameter-to-binary-repr">Insufficient bit width parameter to <code class="docutils literal notranslate"><span class="pre">binary_repr</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#future-changes">Future Changes</a><ul>
+<li><a class="reference internal" href="#multiple-field-manipulation-of-structured-arrays">Multiple-field manipulation of structured arrays</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#compatibility-notes">Compatibility notes</a><ul>
+<li><a class="reference internal" href="#deprecationwarning-to-error">DeprecationWarning to error</a></li>
+<li><a class="reference internal" href="#futurewarning-to-changed-behavior">FutureWarning to changed behavior</a></li>
+<li><a class="reference internal" href="#power-and-raise-errors-for-integer-to-negative-integer-powers"><code class="docutils literal notranslate"><span class="pre">power</span></code> and <code class="docutils literal notranslate"><span class="pre">**</span></code> raise errors for integer to negative integer powers</a></li>
+<li><a class="reference internal" href="#relaxed-stride-checking-is-the-default">Relaxed stride checking is the default</a></li>
+<li><a class="reference internal" href="#the-np-percentile-midpoint-interpolation-method-fixed-for-exact-indices">The <code class="docutils literal notranslate"><span class="pre">np.percentile</span></code> ‘midpoint’ interpolation method fixed for exact indices</a></li>
+<li><a class="reference internal" href="#keepdims-kwarg-is-passed-through-to-user-class-methods"><code class="docutils literal notranslate"><span class="pre">keepdims</span></code> kwarg is passed through to user-class methods</a></li>
+<li><a class="reference internal" href="#bitwise-and-identity-changed"><code class="docutils literal notranslate"><span class="pre">bitwise_and</span></code> identity changed</a></li>
+<li><a class="reference internal" href="#ma-median-warns-and-returns-nan-when-unmasked-invalid-values-are-encountered">ma.median warns and returns nan when unmasked invalid values are encountered</a></li>
+<li><a class="reference internal" href="#greater-consistency-in-assert-almost-equal">Greater consistency in <code class="docutils literal notranslate"><span class="pre">assert_almost_equal</span></code></a></li>
+<li><a class="reference internal" href="#nosetester-behaviour-of-warnings-during-testing"><code class="docutils literal notranslate"><span class="pre">NoseTester</span></code> behaviour of warnings during testing</a></li>
+<li><a class="reference internal" href="#assert-warns-and-deprecated-decorator-more-specific"><code class="docutils literal notranslate"><span class="pre">assert_warns</span></code> and <code class="docutils literal notranslate"><span class="pre">deprecated</span></code> decorator more specific</a></li>
+<li><a class="reference internal" href="#c-api">C API</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#new-features">New Features</a><ul>
+<li><a class="reference internal" href="#writeable-keyword-argument-for-as-strided">Writeable keyword argument for <code class="docutils literal notranslate"><span class="pre">as_strided</span></code></a></li>
+<li><a class="reference internal" href="#axes-keyword-argument-for-rot90"><code class="docutils literal notranslate"><span class="pre">axes</span></code> keyword argument for <code class="docutils literal notranslate"><span class="pre">rot90</span></code></a></li>
+<li><a class="reference internal" href="#generalized-flip">Generalized <code class="docutils literal notranslate"><span class="pre">flip</span></code></a></li>
+<li><a class="reference internal" href="#blis-support-in-numpy-distutils">BLIS support in <code class="docutils literal notranslate"><span class="pre">numpy.distutils</span></code></a></li>
+<li><a class="reference internal" href="#hook-in-numpy-init-py-to-run-distribution-specific-checks">Hook in <code class="docutils literal notranslate"><span class="pre">numpy/__init__.py</span></code> to run distribution-specific checks</a></li>
+<li><a class="reference internal" href="#new-nanfunctions-nancumsum-and-nancumprod-added">New nanfunctions <code class="docutils literal notranslate"><span class="pre">nancumsum</span></code> and <code class="docutils literal notranslate"><span class="pre">nancumprod</span></code> added</a></li>
+<li><a class="reference internal" href="#np-interp-can-now-interpolate-complex-values"><code class="docutils literal notranslate"><span class="pre">np.interp</span></code> can now interpolate complex values</a></li>
+<li><a class="reference internal" href="#new-polynomial-evaluation-function-polyvalfromroots-added">New polynomial evaluation function <code class="docutils literal notranslate"><span class="pre">polyvalfromroots</span></code> added</a></li>
+<li><a class="reference internal" href="#new-array-creation-function-geomspace-added">New array creation function <code class="docutils literal notranslate"><span class="pre">geomspace</span></code> added</a></li>
+<li><a class="reference internal" href="#new-context-manager-for-testing-warnings">New context manager for testing warnings</a></li>
+<li><a class="reference internal" href="#new-masked-array-functions-ma-convolve-and-ma-correlate-added">New masked array functions <code class="docutils literal notranslate"><span class="pre">ma.convolve</span></code> and <code class="docutils literal notranslate"><span class="pre">ma.correlate</span></code> added</a></li>
+<li><a class="reference internal" href="#new-float-power-ufunc">New <code class="docutils literal notranslate"><span class="pre">float_power</span></code> ufunc</a></li>
+<li><a class="reference internal" href="#np-loadtxt-now-supports-a-single-integer-as-usecol-argument"><code class="docutils literal notranslate"><span class="pre">np.loadtxt</span></code> now supports a single integer as <code class="docutils literal notranslate"><span class="pre">usecol</span></code> argument</a></li>
+<li><a class="reference internal" href="#improved-automated-bin-estimators-for-histogram">Improved automated bin estimators for <code class="docutils literal notranslate"><span class="pre">histogram</span></code></a></li>
+<li><a class="reference internal" href="#np-roll-can-now-roll-multiple-axes-at-the-same-time"><code class="docutils literal notranslate"><span class="pre">np.roll</span></code> can now roll multiple axes at the same time</a></li>
+<li><a class="reference internal" href="#the-complex-method-has-been-implemented-for-the-ndarrays">The <code class="docutils literal notranslate"><span class="pre">__complex__</span></code> method has been implemented for the ndarrays</a></li>
+<li><a class="reference internal" href="#pathlib-path-objects-now-supported"><code class="docutils literal notranslate"><span class="pre">pathlib.Path</span></code> objects now supported</a></li>
+<li><a class="reference internal" href="#new-bits-attribute-for-np-finfo">New <code class="docutils literal notranslate"><span class="pre">bits</span></code> attribute for <code class="docutils literal notranslate"><span class="pre">np.finfo</span></code></a></li>
+<li><a class="reference internal" href="#new-signature-argument-to-np-vectorize">New <code class="docutils literal notranslate"><span class="pre">signature</span></code> argument to <code class="docutils literal notranslate"><span class="pre">np.vectorize</span></code></a></li>
+<li><a class="reference internal" href="#emit-py3kwarnings-for-division-of-integer-arrays">Emit py3kwarnings for division of integer arrays</a></li>
+<li><a class="reference internal" href="#numpy-sctypes-now-includes-bytes-on-python3-too">numpy.sctypes now includes bytes on Python3 too</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#improvements">Improvements</a><ul>
+<li><a class="reference internal" href="#id1"><code class="docutils literal notranslate"><span class="pre">bitwise_and</span></code> identity changed</a></li>
+<li><a class="reference internal" href="#generalized-ufuncs-will-now-unlock-the-gil">Generalized Ufuncs will now unlock the GIL</a></li>
+<li><a class="reference internal" href="#caches-in-np-fft-are-now-bounded-in-total-size-and-item-count">Caches in <em class="xref py py-obj">np.fft</em> are now bounded in total size and item count</a></li>
+<li><a class="reference internal" href="#improved-handling-of-zero-width-string-unicode-dtypes">Improved handling of zero-width string/unicode dtypes</a></li>
+<li><a class="reference internal" href="#integer-ufuncs-vectorized-with-avx2">Integer ufuncs vectorized with AVX2</a></li>
+<li><a class="reference internal" href="#order-of-operations-optimization-in-np-einsum">Order of operations optimization in <code class="docutils literal notranslate"><span class="pre">np.einsum</span></code></a></li>
+<li><a class="reference internal" href="#quicksort-has-been-changed-to-an-introsort">quicksort has been changed to an introsort</a></li>
+<li><a class="reference internal" href="#ediff1d-improved-performance-and-subclass-handling"><code class="docutils literal notranslate"><span class="pre">ediff1d</span></code> improved performance and subclass handling</a></li>
+<li><a class="reference internal" href="#improved-precision-of-ndarray-mean-for-float16-arrays">Improved precision of <code class="docutils literal notranslate"><span class="pre">ndarray.mean</span></code> for float16 arrays</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#changes">Changes</a><ul>
+<li><a class="reference internal" href="#all-array-like-methods-are-now-called-with-keyword-arguments-in-fromnumeric-py">All array-like methods are now called with keyword arguments in fromnumeric.py</a></li>
+<li><a class="reference internal" href="#operations-on-np-memmap-objects-return-numpy-arrays-in-most-cases">Operations on np.memmap objects return numpy arrays in most cases</a></li>
+<li><a class="reference internal" href="#stacklevel-of-warnings-increased">stacklevel of warnings increased</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="1.12.1-notes.html"
+                        title="previous chapter">NumPy 1.12.1 Release Notes</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="1.11.3-notes.html"
+                        title="next chapter">NumPy 1.11.3 Release Notes</a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h4>Quick search</h4>
+    <div>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" style="width: inherit;" name="q" />
+      <input type="submit" value="search" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
           <div class="span9">
             
         <div class="bodywrapper">
@@ -580,106 +680,6 @@ ignored before, which may be surprising especially in test suits.</p>
           </div>
         </div>
           </div>
-      <div class="spc-rightsidebar span3">
-        <div class="sphinxsidebarwrapper">
-  <h3><a href="../contents.html">Table of Contents</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">NumPy 1.12.0 Release Notes</a><ul>
-<li><a class="reference internal" href="#highlights">Highlights</a></li>
-<li><a class="reference internal" href="#dropped-support">Dropped Support</a></li>
-<li><a class="reference internal" href="#added-support">Added Support</a></li>
-<li><a class="reference internal" href="#build-system-changes">Build System Changes</a></li>
-<li><a class="reference internal" href="#deprecations">Deprecations</a><ul>
-<li><a class="reference internal" href="#assignment-of-ndarray-object-s-data-attribute">Assignment of ndarray object’s <code class="docutils literal notranslate"><span class="pre">data</span></code> attribute</a></li>
-<li><a class="reference internal" href="#unsafe-int-casting-of-the-num-attribute-in-linspace">Unsafe int casting of the num attribute in <code class="docutils literal notranslate"><span class="pre">linspace</span></code></a></li>
-<li><a class="reference internal" href="#insufficient-bit-width-parameter-to-binary-repr">Insufficient bit width parameter to <code class="docutils literal notranslate"><span class="pre">binary_repr</span></code></a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#future-changes">Future Changes</a><ul>
-<li><a class="reference internal" href="#multiple-field-manipulation-of-structured-arrays">Multiple-field manipulation of structured arrays</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#compatibility-notes">Compatibility notes</a><ul>
-<li><a class="reference internal" href="#deprecationwarning-to-error">DeprecationWarning to error</a></li>
-<li><a class="reference internal" href="#futurewarning-to-changed-behavior">FutureWarning to changed behavior</a></li>
-<li><a class="reference internal" href="#power-and-raise-errors-for-integer-to-negative-integer-powers"><code class="docutils literal notranslate"><span class="pre">power</span></code> and <code class="docutils literal notranslate"><span class="pre">**</span></code> raise errors for integer to negative integer powers</a></li>
-<li><a class="reference internal" href="#relaxed-stride-checking-is-the-default">Relaxed stride checking is the default</a></li>
-<li><a class="reference internal" href="#the-np-percentile-midpoint-interpolation-method-fixed-for-exact-indices">The <code class="docutils literal notranslate"><span class="pre">np.percentile</span></code> ‘midpoint’ interpolation method fixed for exact indices</a></li>
-<li><a class="reference internal" href="#keepdims-kwarg-is-passed-through-to-user-class-methods"><code class="docutils literal notranslate"><span class="pre">keepdims</span></code> kwarg is passed through to user-class methods</a></li>
-<li><a class="reference internal" href="#bitwise-and-identity-changed"><code class="docutils literal notranslate"><span class="pre">bitwise_and</span></code> identity changed</a></li>
-<li><a class="reference internal" href="#ma-median-warns-and-returns-nan-when-unmasked-invalid-values-are-encountered">ma.median warns and returns nan when unmasked invalid values are encountered</a></li>
-<li><a class="reference internal" href="#greater-consistency-in-assert-almost-equal">Greater consistency in <code class="docutils literal notranslate"><span class="pre">assert_almost_equal</span></code></a></li>
-<li><a class="reference internal" href="#nosetester-behaviour-of-warnings-during-testing"><code class="docutils literal notranslate"><span class="pre">NoseTester</span></code> behaviour of warnings during testing</a></li>
-<li><a class="reference internal" href="#assert-warns-and-deprecated-decorator-more-specific"><code class="docutils literal notranslate"><span class="pre">assert_warns</span></code> and <code class="docutils literal notranslate"><span class="pre">deprecated</span></code> decorator more specific</a></li>
-<li><a class="reference internal" href="#c-api">C API</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#new-features">New Features</a><ul>
-<li><a class="reference internal" href="#writeable-keyword-argument-for-as-strided">Writeable keyword argument for <code class="docutils literal notranslate"><span class="pre">as_strided</span></code></a></li>
-<li><a class="reference internal" href="#axes-keyword-argument-for-rot90"><code class="docutils literal notranslate"><span class="pre">axes</span></code> keyword argument for <code class="docutils literal notranslate"><span class="pre">rot90</span></code></a></li>
-<li><a class="reference internal" href="#generalized-flip">Generalized <code class="docutils literal notranslate"><span class="pre">flip</span></code></a></li>
-<li><a class="reference internal" href="#blis-support-in-numpy-distutils">BLIS support in <code class="docutils literal notranslate"><span class="pre">numpy.distutils</span></code></a></li>
-<li><a class="reference internal" href="#hook-in-numpy-init-py-to-run-distribution-specific-checks">Hook in <code class="docutils literal notranslate"><span class="pre">numpy/__init__.py</span></code> to run distribution-specific checks</a></li>
-<li><a class="reference internal" href="#new-nanfunctions-nancumsum-and-nancumprod-added">New nanfunctions <code class="docutils literal notranslate"><span class="pre">nancumsum</span></code> and <code class="docutils literal notranslate"><span class="pre">nancumprod</span></code> added</a></li>
-<li><a class="reference internal" href="#np-interp-can-now-interpolate-complex-values"><code class="docutils literal notranslate"><span class="pre">np.interp</span></code> can now interpolate complex values</a></li>
-<li><a class="reference internal" href="#new-polynomial-evaluation-function-polyvalfromroots-added">New polynomial evaluation function <code class="docutils literal notranslate"><span class="pre">polyvalfromroots</span></code> added</a></li>
-<li><a class="reference internal" href="#new-array-creation-function-geomspace-added">New array creation function <code class="docutils literal notranslate"><span class="pre">geomspace</span></code> added</a></li>
-<li><a class="reference internal" href="#new-context-manager-for-testing-warnings">New context manager for testing warnings</a></li>
-<li><a class="reference internal" href="#new-masked-array-functions-ma-convolve-and-ma-correlate-added">New masked array functions <code class="docutils literal notranslate"><span class="pre">ma.convolve</span></code> and <code class="docutils literal notranslate"><span class="pre">ma.correlate</span></code> added</a></li>
-<li><a class="reference internal" href="#new-float-power-ufunc">New <code class="docutils literal notranslate"><span class="pre">float_power</span></code> ufunc</a></li>
-<li><a class="reference internal" href="#np-loadtxt-now-supports-a-single-integer-as-usecol-argument"><code class="docutils literal notranslate"><span class="pre">np.loadtxt</span></code> now supports a single integer as <code class="docutils literal notranslate"><span class="pre">usecol</span></code> argument</a></li>
-<li><a class="reference internal" href="#improved-automated-bin-estimators-for-histogram">Improved automated bin estimators for <code class="docutils literal notranslate"><span class="pre">histogram</span></code></a></li>
-<li><a class="reference internal" href="#np-roll-can-now-roll-multiple-axes-at-the-same-time"><code class="docutils literal notranslate"><span class="pre">np.roll</span></code> can now roll multiple axes at the same time</a></li>
-<li><a class="reference internal" href="#the-complex-method-has-been-implemented-for-the-ndarrays">The <code class="docutils literal notranslate"><span class="pre">__complex__</span></code> method has been implemented for the ndarrays</a></li>
-<li><a class="reference internal" href="#pathlib-path-objects-now-supported"><code class="docutils literal notranslate"><span class="pre">pathlib.Path</span></code> objects now supported</a></li>
-<li><a class="reference internal" href="#new-bits-attribute-for-np-finfo">New <code class="docutils literal notranslate"><span class="pre">bits</span></code> attribute for <code class="docutils literal notranslate"><span class="pre">np.finfo</span></code></a></li>
-<li><a class="reference internal" href="#new-signature-argument-to-np-vectorize">New <code class="docutils literal notranslate"><span class="pre">signature</span></code> argument to <code class="docutils literal notranslate"><span class="pre">np.vectorize</span></code></a></li>
-<li><a class="reference internal" href="#emit-py3kwarnings-for-division-of-integer-arrays">Emit py3kwarnings for division of integer arrays</a></li>
-<li><a class="reference internal" href="#numpy-sctypes-now-includes-bytes-on-python3-too">numpy.sctypes now includes bytes on Python3 too</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#improvements">Improvements</a><ul>
-<li><a class="reference internal" href="#id1"><code class="docutils literal notranslate"><span class="pre">bitwise_and</span></code> identity changed</a></li>
-<li><a class="reference internal" href="#generalized-ufuncs-will-now-unlock-the-gil">Generalized Ufuncs will now unlock the GIL</a></li>
-<li><a class="reference internal" href="#caches-in-np-fft-are-now-bounded-in-total-size-and-item-count">Caches in <em class="xref py py-obj">np.fft</em> are now bounded in total size and item count</a></li>
-<li><a class="reference internal" href="#improved-handling-of-zero-width-string-unicode-dtypes">Improved handling of zero-width string/unicode dtypes</a></li>
-<li><a class="reference internal" href="#integer-ufuncs-vectorized-with-avx2">Integer ufuncs vectorized with AVX2</a></li>
-<li><a class="reference internal" href="#order-of-operations-optimization-in-np-einsum">Order of operations optimization in <code class="docutils literal notranslate"><span class="pre">np.einsum</span></code></a></li>
-<li><a class="reference internal" href="#quicksort-has-been-changed-to-an-introsort">quicksort has been changed to an introsort</a></li>
-<li><a class="reference internal" href="#ediff1d-improved-performance-and-subclass-handling"><code class="docutils literal notranslate"><span class="pre">ediff1d</span></code> improved performance and subclass handling</a></li>
-<li><a class="reference internal" href="#improved-precision-of-ndarray-mean-for-float16-arrays">Improved precision of <code class="docutils literal notranslate"><span class="pre">ndarray.mean</span></code> for float16 arrays</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#changes">Changes</a><ul>
-<li><a class="reference internal" href="#all-array-like-methods-are-now-called-with-keyword-arguments-in-fromnumeric-py">All array-like methods are now called with keyword arguments in fromnumeric.py</a></li>
-<li><a class="reference internal" href="#operations-on-np-memmap-objects-return-numpy-arrays-in-most-cases">Operations on np.memmap objects return numpy arrays in most cases</a></li>
-<li><a class="reference internal" href="#stacklevel-of-warnings-increased">stacklevel of warnings increased</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="1.12.1-notes.html"
-                        title="previous chapter">NumPy 1.12.1 Release Notes</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="1.11.3-notes.html"
-                        title="next chapter">NumPy 1.11.3 Release Notes</a></p>
-<div id="searchbox" style="display: none" role="search">
-  <h4>Quick search</h4>
-    <div>
-    <form class="search" action="../search.html" method="get">
-      <input type="text" style="width: inherit;" name="q" />
-      <input type="submit" value="search" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
-    </div>
-</div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
-        </div>
-      </div>
         </div>
       </div>
     </div>

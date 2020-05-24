@@ -52,8 +52,8 @@
 	    <div class="spc-navbar">
               
     <ul class="nav nav-pills pull-left">
-        <li class="active"><a href="https://scipy.org/">Scipy.org</a></li>
-        <li class="active"><a href="https://docs.scipy.org/">Docs</a></li>
+        <li class="active"><a href="https://numpy.org/">NumPy.org</a></li>
+        <li class="active"><a href="https://numpy.org/doc">Docs</a></li>
         
         <li class="active"><a href="../index.html">NumPy v1.18 Manual</a></li>
         
@@ -83,6 +83,94 @@
         
 
 	<div class="row-fluid">
+      <div class="spc-rightsidebar span3">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../contents.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">NumPy 1.15.0 Release Notes</a><ul>
+<li><a class="reference internal" href="#highlights">Highlights</a></li>
+<li><a class="reference internal" href="#new-functions">New functions</a></li>
+<li><a class="reference internal" href="#deprecations">Deprecations</a></li>
+<li><a class="reference internal" href="#future-changes">Future Changes</a></li>
+<li><a class="reference internal" href="#compatibility-notes">Compatibility notes</a><ul>
+<li><a class="reference internal" href="#compiled-testing-modules-renamed-and-made-private">Compiled testing modules renamed and made private</a></li>
+<li><a class="reference internal" href="#the-npzfile-returned-by-np-savez-is-now-a-collections-abc-mapping">The <code class="docutils literal notranslate"><span class="pre">NpzFile</span></code> returned by <code class="docutils literal notranslate"><span class="pre">np.savez</span></code> is now a <code class="docutils literal notranslate"><span class="pre">collections.abc.Mapping</span></code></a></li>
+<li><a class="reference internal" href="#under-certain-conditions-nditer-must-be-used-in-a-context-manager">Under certain conditions, <code class="docutils literal notranslate"><span class="pre">nditer</span></code> must be used in a context manager</a></li>
+<li><a class="reference internal" href="#numpy-has-switched-to-using-pytest-instead-of-nose-for-testing">Numpy has switched to using pytest instead of nose for testing</a></li>
+<li><a class="reference internal" href="#numpy-no-longer-monkey-patches-ctypes-with-array-interface">Numpy no longer monkey-patches <code class="docutils literal notranslate"><span class="pre">ctypes</span></code> with <code class="docutils literal notranslate"><span class="pre">__array_interface__</span></code></a></li>
+<li><a class="reference internal" href="#np-ma-notmasked-contiguous-and-np-ma-flatnotmasked-contiguous-always-return-lists"><code class="docutils literal notranslate"><span class="pre">np.ma.notmasked_contiguous</span></code> and <code class="docutils literal notranslate"><span class="pre">np.ma.flatnotmasked_contiguous</span></code> always return lists</a></li>
+<li><a class="reference internal" href="#np-squeeze-restores-old-behavior-of-objects-that-cannot-handle-an-axis-argument"><code class="docutils literal notranslate"><span class="pre">np.squeeze</span></code> restores old behavior of objects that cannot handle an <code class="docutils literal notranslate"><span class="pre">axis</span></code> argument</a></li>
+<li><a class="reference internal" href="#unstructured-void-array-s-item-method-now-returns-a-bytes-object">unstructured void array’s <code class="docutils literal notranslate"><span class="pre">.item</span></code> method now returns a bytes object</a></li>
+<li><a class="reference internal" href="#copy-copy-and-copy-deepcopy-no-longer-turn-masked-into-an-array"><code class="docutils literal notranslate"><span class="pre">copy.copy</span></code> and <code class="docutils literal notranslate"><span class="pre">copy.deepcopy</span></code> no longer turn <code class="docutils literal notranslate"><span class="pre">masked</span></code> into an array</a></li>
+<li><a class="reference internal" href="#multifield-indexing-of-structured-arrays-will-still-return-a-copy">Multifield Indexing of Structured Arrays will still return a copy</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#c-api-changes">C API changes</a><ul>
+<li><a class="reference internal" href="#new-functions-npy-get-floatstatus-barrier-and-npy-clear-floatstatus-barrier">New functions <code class="docutils literal notranslate"><span class="pre">npy_get_floatstatus_barrier</span></code> and <code class="docutils literal notranslate"><span class="pre">npy_clear_floatstatus_barrier</span></code></a></li>
+<li><a class="reference internal" href="#changes-to-pyarray-getdtypetransferfunction">Changes to <code class="docutils literal notranslate"><span class="pre">PyArray_GetDTypeTransferFunction</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#new-features">New Features</a><ul>
+<li><a class="reference internal" href="#np-gcd-and-np-lcm-ufuncs-added-for-integer-and-objects-types"><code class="docutils literal notranslate"><span class="pre">np.gcd</span></code> and <code class="docutils literal notranslate"><span class="pre">np.lcm</span></code> ufuncs added for integer and objects types</a></li>
+<li><a class="reference internal" href="#support-for-cross-platform-builds-for-ios">Support for cross-platform builds for iOS</a></li>
+<li><a class="reference internal" href="#return-indices-keyword-added-for-np-intersect1d"><code class="docutils literal notranslate"><span class="pre">return_indices</span></code> keyword added for <code class="docutils literal notranslate"><span class="pre">np.intersect1d</span></code></a></li>
+<li><a class="reference internal" href="#np-quantile-and-np-nanquantile"><code class="docutils literal notranslate"><span class="pre">np.quantile</span></code> and <code class="docutils literal notranslate"><span class="pre">np.nanquantile</span></code></a></li>
+<li><a class="reference internal" href="#build-system">Build system</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#improvements">Improvements</a><ul>
+<li><a class="reference internal" href="#np-einsum-updates"><code class="docutils literal notranslate"><span class="pre">np.einsum</span></code> updates</a></li>
+<li><a class="reference internal" href="#np-ufunc-reduce-and-related-functions-now-accept-an-initial-value"><code class="docutils literal notranslate"><span class="pre">np.ufunc.reduce</span></code> and related functions now accept an initial value</a></li>
+<li><a class="reference internal" href="#np-flip-can-operate-over-multiple-axes"><code class="docutils literal notranslate"><span class="pre">np.flip</span></code> can operate over multiple axes</a></li>
+<li><a class="reference internal" href="#histogram-and-histogramdd-functions-have-moved-to-np-lib-histograms"><code class="docutils literal notranslate"><span class="pre">histogram</span></code> and <code class="docutils literal notranslate"><span class="pre">histogramdd</span></code> functions have moved to <code class="docutils literal notranslate"><span class="pre">np.lib.histograms</span></code></a></li>
+<li><a class="reference internal" href="#histogram-will-accept-nan-values-when-explicit-bins-are-given"><code class="docutils literal notranslate"><span class="pre">histogram</span></code> will accept NaN values when explicit bins are given</a></li>
+<li><a class="reference internal" href="#histogram-works-on-datetime-types-when-explicit-bin-edges-are-given"><code class="docutils literal notranslate"><span class="pre">histogram</span></code> works on datetime types, when explicit bin edges are given</a></li>
+<li><a class="reference internal" href="#histogram-auto-estimator-handles-limited-variance-better"><code class="docutils literal notranslate"><span class="pre">histogram</span></code> “auto” estimator handles limited variance better</a></li>
+<li><a class="reference internal" href="#the-edges-retuned-by-histogram-and-histogramdd-now-match-the-data-float-type">The edges retuned by <em class="xref py py-obj">histogram`</em> and <code class="docutils literal notranslate"><span class="pre">histogramdd</span></code> now match the data float type</a></li>
+<li><a class="reference internal" href="#histogramdd-allows-explicit-ranges-to-be-given-in-a-subset-of-axes"><code class="docutils literal notranslate"><span class="pre">histogramdd</span></code> allows explicit ranges to be given in a subset of axes</a></li>
+<li><a class="reference internal" href="#the-normed-arguments-of-histogramdd-and-histogram2d-have-been-renamed">The normed arguments of <code class="docutils literal notranslate"><span class="pre">histogramdd</span></code> and <code class="docutils literal notranslate"><span class="pre">histogram2d</span></code> have been renamed</a></li>
+<li><a class="reference internal" href="#np-r-works-with-0d-arrays-and-np-ma-mr-works-with-np-ma-masked"><code class="docutils literal notranslate"><span class="pre">np.r_</span></code> works with 0d arrays, and <code class="docutils literal notranslate"><span class="pre">np.ma.mr_</span></code> works with <code class="docutils literal notranslate"><span class="pre">np.ma.masked</span></code></a></li>
+<li><a class="reference internal" href="#np-ptp-accepts-a-keepdims-argument-and-extended-axis-tuples"><code class="docutils literal notranslate"><span class="pre">np.ptp</span></code> accepts a <code class="docutils literal notranslate"><span class="pre">keepdims</span></code> argument, and extended axis tuples</a></li>
+<li><a class="reference internal" href="#maskedarray-astype-now-is-identical-to-ndarray-astype"><code class="docutils literal notranslate"><span class="pre">MaskedArray.astype</span></code> now is identical to <code class="docutils literal notranslate"><span class="pre">ndarray.astype</span></code></a></li>
+<li><a class="reference internal" href="#enable-avx2-avx512-at-compile-time">Enable AVX2/AVX512 at compile time</a></li>
+<li><a class="reference internal" href="#nan-to-num-always-returns-scalars-when-receiving-scalar-or-0d-inputs"><code class="docutils literal notranslate"><span class="pre">nan_to_num</span></code> always returns scalars when receiving scalar or 0d inputs</a></li>
+<li><a class="reference internal" href="#np-flatnonzero-works-on-numpy-convertible-types"><code class="docutils literal notranslate"><span class="pre">np.flatnonzero</span></code> works on numpy-convertible types</a></li>
+<li><a class="reference internal" href="#np-interp-returns-numpy-scalars-rather-than-builtin-scalars"><code class="docutils literal notranslate"><span class="pre">np.interp</span></code> returns numpy scalars rather than builtin scalars</a></li>
+<li><a class="reference internal" href="#allow-dtype-field-names-to-be-unicode-in-python-2">Allow dtype field names to be unicode in Python 2</a></li>
+<li><a class="reference internal" href="#comparison-ufuncs-accept-dtype-object-overriding-the-default-bool">Comparison ufuncs accept <code class="docutils literal notranslate"><span class="pre">dtype=object</span></code>, overriding the default <code class="docutils literal notranslate"><span class="pre">bool</span></code></a></li>
+<li><a class="reference internal" href="#sort-functions-accept-kind-stable"><code class="docutils literal notranslate"><span class="pre">sort</span></code> functions accept <code class="docutils literal notranslate"><span class="pre">kind='stable'</span></code></a></li>
+<li><a class="reference internal" href="#do-not-make-temporary-copies-for-in-place-accumulation">Do not make temporary copies for in-place accumulation</a></li>
+<li><a class="reference internal" href="#linalg-matrix-power-can-now-handle-stacks-of-matrices"><code class="docutils literal notranslate"><span class="pre">linalg.matrix_power</span></code> can now handle stacks of matrices</a></li>
+<li><a class="reference internal" href="#increased-performance-in-random-permutation-for-multidimensional-arrays">Increased performance in <code class="docutils literal notranslate"><span class="pre">random.permutation</span></code> for multidimensional arrays</a></li>
+<li><a class="reference internal" href="#generalized-ufuncs-now-accept-axes-axis-and-keepdims-arguments">Generalized ufuncs now accept <code class="docutils literal notranslate"><span class="pre">axes</span></code>, <code class="docutils literal notranslate"><span class="pre">axis</span></code> and <code class="docutils literal notranslate"><span class="pre">keepdims</span></code> arguments</a></li>
+<li><a class="reference internal" href="#float128-values-now-print-correctly-on-ppc-systems">float128 values now print correctly on ppc systems</a></li>
+<li><a class="reference internal" href="#new-np-take-along-axis-and-np-put-along-axis-functions">New <code class="docutils literal notranslate"><span class="pre">np.take_along_axis</span></code> and <code class="docutils literal notranslate"><span class="pre">np.put_along_axis</span></code> functions</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="1.15.1-notes.html"
+                        title="previous chapter">NumPy 1.15.1 Release Notes</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="1.14.6-notes.html"
+                        title="next chapter">NumPy 1.14.6 Release Notes</a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h4>Quick search</h4>
+    <div>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" style="width: inherit;" name="q" />
+      <input type="submit" value="search" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
           <div class="span9">
             
         <div class="bodywrapper">
@@ -566,94 +654,6 @@ within an array.</p>
           </div>
         </div>
           </div>
-      <div class="spc-rightsidebar span3">
-        <div class="sphinxsidebarwrapper">
-  <h3><a href="../contents.html">Table of Contents</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">NumPy 1.15.0 Release Notes</a><ul>
-<li><a class="reference internal" href="#highlights">Highlights</a></li>
-<li><a class="reference internal" href="#new-functions">New functions</a></li>
-<li><a class="reference internal" href="#deprecations">Deprecations</a></li>
-<li><a class="reference internal" href="#future-changes">Future Changes</a></li>
-<li><a class="reference internal" href="#compatibility-notes">Compatibility notes</a><ul>
-<li><a class="reference internal" href="#compiled-testing-modules-renamed-and-made-private">Compiled testing modules renamed and made private</a></li>
-<li><a class="reference internal" href="#the-npzfile-returned-by-np-savez-is-now-a-collections-abc-mapping">The <code class="docutils literal notranslate"><span class="pre">NpzFile</span></code> returned by <code class="docutils literal notranslate"><span class="pre">np.savez</span></code> is now a <code class="docutils literal notranslate"><span class="pre">collections.abc.Mapping</span></code></a></li>
-<li><a class="reference internal" href="#under-certain-conditions-nditer-must-be-used-in-a-context-manager">Under certain conditions, <code class="docutils literal notranslate"><span class="pre">nditer</span></code> must be used in a context manager</a></li>
-<li><a class="reference internal" href="#numpy-has-switched-to-using-pytest-instead-of-nose-for-testing">Numpy has switched to using pytest instead of nose for testing</a></li>
-<li><a class="reference internal" href="#numpy-no-longer-monkey-patches-ctypes-with-array-interface">Numpy no longer monkey-patches <code class="docutils literal notranslate"><span class="pre">ctypes</span></code> with <code class="docutils literal notranslate"><span class="pre">__array_interface__</span></code></a></li>
-<li><a class="reference internal" href="#np-ma-notmasked-contiguous-and-np-ma-flatnotmasked-contiguous-always-return-lists"><code class="docutils literal notranslate"><span class="pre">np.ma.notmasked_contiguous</span></code> and <code class="docutils literal notranslate"><span class="pre">np.ma.flatnotmasked_contiguous</span></code> always return lists</a></li>
-<li><a class="reference internal" href="#np-squeeze-restores-old-behavior-of-objects-that-cannot-handle-an-axis-argument"><code class="docutils literal notranslate"><span class="pre">np.squeeze</span></code> restores old behavior of objects that cannot handle an <code class="docutils literal notranslate"><span class="pre">axis</span></code> argument</a></li>
-<li><a class="reference internal" href="#unstructured-void-array-s-item-method-now-returns-a-bytes-object">unstructured void array’s <code class="docutils literal notranslate"><span class="pre">.item</span></code> method now returns a bytes object</a></li>
-<li><a class="reference internal" href="#copy-copy-and-copy-deepcopy-no-longer-turn-masked-into-an-array"><code class="docutils literal notranslate"><span class="pre">copy.copy</span></code> and <code class="docutils literal notranslate"><span class="pre">copy.deepcopy</span></code> no longer turn <code class="docutils literal notranslate"><span class="pre">masked</span></code> into an array</a></li>
-<li><a class="reference internal" href="#multifield-indexing-of-structured-arrays-will-still-return-a-copy">Multifield Indexing of Structured Arrays will still return a copy</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#c-api-changes">C API changes</a><ul>
-<li><a class="reference internal" href="#new-functions-npy-get-floatstatus-barrier-and-npy-clear-floatstatus-barrier">New functions <code class="docutils literal notranslate"><span class="pre">npy_get_floatstatus_barrier</span></code> and <code class="docutils literal notranslate"><span class="pre">npy_clear_floatstatus_barrier</span></code></a></li>
-<li><a class="reference internal" href="#changes-to-pyarray-getdtypetransferfunction">Changes to <code class="docutils literal notranslate"><span class="pre">PyArray_GetDTypeTransferFunction</span></code></a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#new-features">New Features</a><ul>
-<li><a class="reference internal" href="#np-gcd-and-np-lcm-ufuncs-added-for-integer-and-objects-types"><code class="docutils literal notranslate"><span class="pre">np.gcd</span></code> and <code class="docutils literal notranslate"><span class="pre">np.lcm</span></code> ufuncs added for integer and objects types</a></li>
-<li><a class="reference internal" href="#support-for-cross-platform-builds-for-ios">Support for cross-platform builds for iOS</a></li>
-<li><a class="reference internal" href="#return-indices-keyword-added-for-np-intersect1d"><code class="docutils literal notranslate"><span class="pre">return_indices</span></code> keyword added for <code class="docutils literal notranslate"><span class="pre">np.intersect1d</span></code></a></li>
-<li><a class="reference internal" href="#np-quantile-and-np-nanquantile"><code class="docutils literal notranslate"><span class="pre">np.quantile</span></code> and <code class="docutils literal notranslate"><span class="pre">np.nanquantile</span></code></a></li>
-<li><a class="reference internal" href="#build-system">Build system</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#improvements">Improvements</a><ul>
-<li><a class="reference internal" href="#np-einsum-updates"><code class="docutils literal notranslate"><span class="pre">np.einsum</span></code> updates</a></li>
-<li><a class="reference internal" href="#np-ufunc-reduce-and-related-functions-now-accept-an-initial-value"><code class="docutils literal notranslate"><span class="pre">np.ufunc.reduce</span></code> and related functions now accept an initial value</a></li>
-<li><a class="reference internal" href="#np-flip-can-operate-over-multiple-axes"><code class="docutils literal notranslate"><span class="pre">np.flip</span></code> can operate over multiple axes</a></li>
-<li><a class="reference internal" href="#histogram-and-histogramdd-functions-have-moved-to-np-lib-histograms"><code class="docutils literal notranslate"><span class="pre">histogram</span></code> and <code class="docutils literal notranslate"><span class="pre">histogramdd</span></code> functions have moved to <code class="docutils literal notranslate"><span class="pre">np.lib.histograms</span></code></a></li>
-<li><a class="reference internal" href="#histogram-will-accept-nan-values-when-explicit-bins-are-given"><code class="docutils literal notranslate"><span class="pre">histogram</span></code> will accept NaN values when explicit bins are given</a></li>
-<li><a class="reference internal" href="#histogram-works-on-datetime-types-when-explicit-bin-edges-are-given"><code class="docutils literal notranslate"><span class="pre">histogram</span></code> works on datetime types, when explicit bin edges are given</a></li>
-<li><a class="reference internal" href="#histogram-auto-estimator-handles-limited-variance-better"><code class="docutils literal notranslate"><span class="pre">histogram</span></code> “auto” estimator handles limited variance better</a></li>
-<li><a class="reference internal" href="#the-edges-retuned-by-histogram-and-histogramdd-now-match-the-data-float-type">The edges retuned by <em class="xref py py-obj">histogram`</em> and <code class="docutils literal notranslate"><span class="pre">histogramdd</span></code> now match the data float type</a></li>
-<li><a class="reference internal" href="#histogramdd-allows-explicit-ranges-to-be-given-in-a-subset-of-axes"><code class="docutils literal notranslate"><span class="pre">histogramdd</span></code> allows explicit ranges to be given in a subset of axes</a></li>
-<li><a class="reference internal" href="#the-normed-arguments-of-histogramdd-and-histogram2d-have-been-renamed">The normed arguments of <code class="docutils literal notranslate"><span class="pre">histogramdd</span></code> and <code class="docutils literal notranslate"><span class="pre">histogram2d</span></code> have been renamed</a></li>
-<li><a class="reference internal" href="#np-r-works-with-0d-arrays-and-np-ma-mr-works-with-np-ma-masked"><code class="docutils literal notranslate"><span class="pre">np.r_</span></code> works with 0d arrays, and <code class="docutils literal notranslate"><span class="pre">np.ma.mr_</span></code> works with <code class="docutils literal notranslate"><span class="pre">np.ma.masked</span></code></a></li>
-<li><a class="reference internal" href="#np-ptp-accepts-a-keepdims-argument-and-extended-axis-tuples"><code class="docutils literal notranslate"><span class="pre">np.ptp</span></code> accepts a <code class="docutils literal notranslate"><span class="pre">keepdims</span></code> argument, and extended axis tuples</a></li>
-<li><a class="reference internal" href="#maskedarray-astype-now-is-identical-to-ndarray-astype"><code class="docutils literal notranslate"><span class="pre">MaskedArray.astype</span></code> now is identical to <code class="docutils literal notranslate"><span class="pre">ndarray.astype</span></code></a></li>
-<li><a class="reference internal" href="#enable-avx2-avx512-at-compile-time">Enable AVX2/AVX512 at compile time</a></li>
-<li><a class="reference internal" href="#nan-to-num-always-returns-scalars-when-receiving-scalar-or-0d-inputs"><code class="docutils literal notranslate"><span class="pre">nan_to_num</span></code> always returns scalars when receiving scalar or 0d inputs</a></li>
-<li><a class="reference internal" href="#np-flatnonzero-works-on-numpy-convertible-types"><code class="docutils literal notranslate"><span class="pre">np.flatnonzero</span></code> works on numpy-convertible types</a></li>
-<li><a class="reference internal" href="#np-interp-returns-numpy-scalars-rather-than-builtin-scalars"><code class="docutils literal notranslate"><span class="pre">np.interp</span></code> returns numpy scalars rather than builtin scalars</a></li>
-<li><a class="reference internal" href="#allow-dtype-field-names-to-be-unicode-in-python-2">Allow dtype field names to be unicode in Python 2</a></li>
-<li><a class="reference internal" href="#comparison-ufuncs-accept-dtype-object-overriding-the-default-bool">Comparison ufuncs accept <code class="docutils literal notranslate"><span class="pre">dtype=object</span></code>, overriding the default <code class="docutils literal notranslate"><span class="pre">bool</span></code></a></li>
-<li><a class="reference internal" href="#sort-functions-accept-kind-stable"><code class="docutils literal notranslate"><span class="pre">sort</span></code> functions accept <code class="docutils literal notranslate"><span class="pre">kind='stable'</span></code></a></li>
-<li><a class="reference internal" href="#do-not-make-temporary-copies-for-in-place-accumulation">Do not make temporary copies for in-place accumulation</a></li>
-<li><a class="reference internal" href="#linalg-matrix-power-can-now-handle-stacks-of-matrices"><code class="docutils literal notranslate"><span class="pre">linalg.matrix_power</span></code> can now handle stacks of matrices</a></li>
-<li><a class="reference internal" href="#increased-performance-in-random-permutation-for-multidimensional-arrays">Increased performance in <code class="docutils literal notranslate"><span class="pre">random.permutation</span></code> for multidimensional arrays</a></li>
-<li><a class="reference internal" href="#generalized-ufuncs-now-accept-axes-axis-and-keepdims-arguments">Generalized ufuncs now accept <code class="docutils literal notranslate"><span class="pre">axes</span></code>, <code class="docutils literal notranslate"><span class="pre">axis</span></code> and <code class="docutils literal notranslate"><span class="pre">keepdims</span></code> arguments</a></li>
-<li><a class="reference internal" href="#float128-values-now-print-correctly-on-ppc-systems">float128 values now print correctly on ppc systems</a></li>
-<li><a class="reference internal" href="#new-np-take-along-axis-and-np-put-along-axis-functions">New <code class="docutils literal notranslate"><span class="pre">np.take_along_axis</span></code> and <code class="docutils literal notranslate"><span class="pre">np.put_along_axis</span></code> functions</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="1.15.1-notes.html"
-                        title="previous chapter">NumPy 1.15.1 Release Notes</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="1.14.6-notes.html"
-                        title="next chapter">NumPy 1.14.6 Release Notes</a></p>
-<div id="searchbox" style="display: none" role="search">
-  <h4>Quick search</h4>
-    <div>
-    <form class="search" action="../search.html" method="get">
-      <input type="text" style="width: inherit;" name="q" />
-      <input type="submit" value="search" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
-    </div>
-</div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
-        </div>
-      </div>
         </div>
       </div>
     </div>

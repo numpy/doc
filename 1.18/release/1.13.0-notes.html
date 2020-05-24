@@ -52,8 +52,8 @@
 	    <div class="spc-navbar">
               
     <ul class="nav nav-pills pull-left">
-        <li class="active"><a href="https://scipy.org/">Scipy.org</a></li>
-        <li class="active"><a href="https://docs.scipy.org/">Docs</a></li>
+        <li class="active"><a href="https://numpy.org/">NumPy.org</a></li>
+        <li class="active"><a href="https://numpy.org/doc">Docs</a></li>
         
         <li class="active"><a href="../index.html">NumPy v1.18 Manual</a></li>
         
@@ -83,6 +83,101 @@
         
 
 	<div class="row-fluid">
+      <div class="spc-rightsidebar span3">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../contents.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">NumPy 1.13.0 Release Notes</a><ul>
+<li><a class="reference internal" href="#highlights">Highlights</a></li>
+<li><a class="reference internal" href="#new-functions">New functions</a></li>
+<li><a class="reference internal" href="#deprecations">Deprecations</a></li>
+<li><a class="reference internal" href="#future-changes">Future Changes</a></li>
+<li><a class="reference internal" href="#build-system-changes">Build System Changes</a></li>
+<li><a class="reference internal" href="#compatibility-notes">Compatibility notes</a><ul>
+<li><a class="reference internal" href="#error-type-changes">Error type changes</a></li>
+<li><a class="reference internal" href="#tuple-object-dtypes">Tuple object dtypes</a></li>
+<li><a class="reference internal" href="#deprecationwarning-to-error">DeprecationWarning to error</a></li>
+<li><a class="reference internal" href="#futurewarning-to-changed-behavior">FutureWarning to changed behavior</a></li>
+<li><a class="reference internal" href="#dtypes-are-now-always-true">dtypes are now always true</a></li>
+<li><a class="reference internal" href="#getslice-and-setslice-are-no-longer-needed-in-ndarray-subclasses"><code class="docutils literal notranslate"><span class="pre">__getslice__</span></code> and <code class="docutils literal notranslate"><span class="pre">__setslice__</span></code> are no longer needed in <code class="docutils literal notranslate"><span class="pre">ndarray</span></code> subclasses</a></li>
+<li><a class="reference internal" href="#indexing-maskedarrays-constants-with-ellipsis-now-returns-maskedarray">Indexing MaskedArrays/Constants with <code class="docutils literal notranslate"><span class="pre">...</span></code> (ellipsis) now returns MaskedArray</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#c-api-changes">C API changes</a><ul>
+<li><a class="reference internal" href="#gufuncs-on-empty-arrays-and-npyiter-axis-removal">GUfuncs on empty arrays and NpyIter axis removal</a></li>
+<li><a class="reference internal" href="#pyarray-mapiterarraycopyifoverlap-added-to-numpy-c-api"><code class="docutils literal notranslate"><span class="pre">PyArray_MapIterArrayCopyIfOverlap</span></code> added to NumPy C-API</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#new-features">New Features</a><ul>
+<li><a class="reference internal" href="#array-ufunc-added"><code class="docutils literal notranslate"><span class="pre">__array_ufunc__</span></code> added</a></li>
+<li><a class="reference internal" href="#new-positive-ufunc">New <code class="docutils literal notranslate"><span class="pre">positive</span></code> ufunc</a></li>
+<li><a class="reference internal" href="#new-divmod-ufunc">New <code class="docutils literal notranslate"><span class="pre">divmod</span></code> ufunc</a></li>
+<li><a class="reference internal" href="#np-isnat-ufunc-tests-for-nat-special-datetime-and-timedelta-values"><code class="docutils literal notranslate"><span class="pre">np.isnat</span></code> ufunc tests for NaT special datetime and timedelta values</a></li>
+<li><a class="reference internal" href="#np-heaviside-ufunc-computes-the-heaviside-function"><code class="docutils literal notranslate"><span class="pre">np.heaviside</span></code> ufunc computes the Heaviside function</a></li>
+<li><a class="reference internal" href="#np-block-function-for-creating-blocked-arrays"><code class="docutils literal notranslate"><span class="pre">np.block</span></code> function for creating blocked arrays</a></li>
+<li><a class="reference internal" href="#isin-function-improving-on-in1d"><code class="docutils literal notranslate"><span class="pre">isin</span></code> function, improving on <code class="docutils literal notranslate"><span class="pre">in1d</span></code></a></li>
+<li><a class="reference internal" href="#temporary-elision">Temporary elision</a></li>
+<li><a class="reference internal" href="#axes-argument-for-unique"><code class="docutils literal notranslate"><span class="pre">axes</span></code> argument for <code class="docutils literal notranslate"><span class="pre">unique</span></code></a></li>
+<li><a class="reference internal" href="#np-gradient-now-supports-unevenly-spaced-data"><code class="docutils literal notranslate"><span class="pre">np.gradient</span></code> now supports unevenly spaced data</a></li>
+<li><a class="reference internal" href="#support-for-returning-arrays-of-arbitrary-dimensions-in-apply-along-axis">Support for returning arrays of arbitrary dimensions in <code class="docutils literal notranslate"><span class="pre">apply_along_axis</span></code></a></li>
+<li><a class="reference internal" href="#ndim-property-added-to-dtype-to-complement-shape"><code class="docutils literal notranslate"><span class="pre">.ndim</span></code> property added to <code class="docutils literal notranslate"><span class="pre">dtype</span></code> to complement <code class="docutils literal notranslate"><span class="pre">.shape</span></code></a></li>
+<li><a class="reference internal" href="#support-for-tracemalloc-in-python-3-6">Support for tracemalloc in Python 3.6</a></li>
+<li><a class="reference internal" href="#numpy-may-be-built-with-relaxed-stride-checking-debugging">NumPy may be built with relaxed stride checking debugging</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#improvements">Improvements</a><ul>
+<li><a class="reference internal" href="#ufunc-behavior-for-overlapping-inputs">Ufunc behavior for overlapping inputs</a></li>
+<li><a class="reference internal" href="#partial-support-for-64-bit-f2py-extensions-with-mingw">Partial support for 64-bit f2py extensions with MinGW</a></li>
+<li><a class="reference internal" href="#performance-improvements-for-packbits-and-unpackbits">Performance improvements for <code class="docutils literal notranslate"><span class="pre">packbits</span></code> and <code class="docutils literal notranslate"><span class="pre">unpackbits</span></code></a></li>
+<li><a class="reference internal" href="#fix-for-ppc-long-double-floating-point-information">Fix for PPC long double floating point information</a></li>
+<li><a class="reference internal" href="#better-default-repr-for-ndarray-subclasses">Better default repr for <code class="docutils literal notranslate"><span class="pre">ndarray</span></code> subclasses</a></li>
+<li><a class="reference internal" href="#more-reliable-comparisons-of-masked-arrays">More reliable comparisons of masked arrays</a></li>
+<li><a class="reference internal" href="#np-matrix-with-booleans-elements-can-now-be-created-using-the-string-syntax">np.matrix with booleans elements can now be created using the string syntax</a></li>
+<li><a class="reference internal" href="#more-linalg-operations-now-accept-empty-vectors-and-matrices">More <code class="docutils literal notranslate"><span class="pre">linalg</span></code> operations now accept empty vectors and matrices</a></li>
+<li><a class="reference internal" href="#bundled-version-of-lapack-is-now-3-2-2">Bundled version of LAPACK is now 3.2.2</a></li>
+<li><a class="reference internal" href="#reduce-of-np-hypot-reduce-and-np-logical-xor-allowed-in-more-cases"><code class="docutils literal notranslate"><span class="pre">reduce</span></code> of <code class="docutils literal notranslate"><span class="pre">np.hypot.reduce</span></code> and <code class="docutils literal notranslate"><span class="pre">np.logical_xor</span></code> allowed in more cases</a></li>
+<li><a class="reference internal" href="#better-repr-of-object-arrays">Better <code class="docutils literal notranslate"><span class="pre">repr</span></code> of object arrays</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#changes">Changes</a><ul>
+<li><a class="reference internal" href="#argsort-on-masked-arrays-takes-the-same-default-arguments-as-sort"><code class="docutils literal notranslate"><span class="pre">argsort</span></code> on masked arrays takes the same default arguments as <code class="docutils literal notranslate"><span class="pre">sort</span></code></a></li>
+<li><a class="reference internal" href="#average-now-preserves-subclasses"><code class="docutils literal notranslate"><span class="pre">average</span></code> now preserves subclasses</a></li>
+<li><a class="reference internal" href="#array-none-and-array-none-do-element-wise-comparison"><code class="docutils literal notranslate"><span class="pre">array</span> <span class="pre">==</span> <span class="pre">None</span></code> and <code class="docutils literal notranslate"><span class="pre">array</span> <span class="pre">!=</span> <span class="pre">None</span></code> do element-wise comparison</a></li>
+<li><a class="reference internal" href="#np-equal-np-not-equal-for-object-arrays-ignores-object-identity"><code class="docutils literal notranslate"><span class="pre">np.equal,</span> <span class="pre">np.not_equal</span></code> for object arrays ignores object identity</a></li>
+<li><a class="reference internal" href="#boolean-indexing-changes">Boolean indexing changes</a></li>
+<li><a class="reference internal" href="#np-random-multivariate-normal-behavior-with-bad-covariance-matrix"><code class="docutils literal notranslate"><span class="pre">np.random.multivariate_normal</span></code> behavior with bad covariance matrix</a></li>
+<li><a class="reference internal" href="#assert-array-less-compares-np-inf-and-np-inf-now"><code class="docutils literal notranslate"><span class="pre">assert_array_less</span></code> compares <code class="docutils literal notranslate"><span class="pre">np.inf</span></code> and <code class="docutils literal notranslate"><span class="pre">-np.inf</span></code> now</a></li>
+<li><a class="reference internal" href="#assert-array-and-masked-arrays-assert-equal-hide-less-warnings"><code class="docutils literal notranslate"><span class="pre">assert_array_</span></code> and masked arrays <code class="docutils literal notranslate"><span class="pre">assert_equal</span></code> hide less warnings</a></li>
+<li><a class="reference internal" href="#offset-attribute-value-in-memmap-objects"><code class="docutils literal notranslate"><span class="pre">offset</span></code> attribute value in <code class="docutils literal notranslate"><span class="pre">memmap</span></code> objects</a></li>
+<li><a class="reference internal" href="#np-real-and-np-imag-return-scalars-for-scalar-inputs"><code class="docutils literal notranslate"><span class="pre">np.real</span></code> and <code class="docutils literal notranslate"><span class="pre">np.imag</span></code> return scalars for scalar inputs</a></li>
+<li><a class="reference internal" href="#the-polynomial-convenience-classes-cannot-be-passed-to-ufuncs">The polynomial convenience classes cannot be passed to ufuncs</a></li>
+<li><a class="reference internal" href="#output-arguments-to-ufuncs-can-be-tuples-also-for-ufunc-methods">Output arguments to ufuncs can be tuples also for ufunc methods</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="1.13.1-notes.html"
+                        title="previous chapter">NumPy 1.13.1 Release Notes</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="1.12.1-notes.html"
+                        title="next chapter">NumPy 1.12.1 Release Notes</a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h4>Quick search</h4>
+    <div>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" style="width: inherit;" name="q" />
+      <input type="submit" value="search" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
           <div class="span9">
             
         <div class="bodywrapper">
@@ -617,101 +712,6 @@ there are no ufuncs yet that have more than one output.</p>
           </div>
         </div>
           </div>
-      <div class="spc-rightsidebar span3">
-        <div class="sphinxsidebarwrapper">
-  <h3><a href="../contents.html">Table of Contents</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">NumPy 1.13.0 Release Notes</a><ul>
-<li><a class="reference internal" href="#highlights">Highlights</a></li>
-<li><a class="reference internal" href="#new-functions">New functions</a></li>
-<li><a class="reference internal" href="#deprecations">Deprecations</a></li>
-<li><a class="reference internal" href="#future-changes">Future Changes</a></li>
-<li><a class="reference internal" href="#build-system-changes">Build System Changes</a></li>
-<li><a class="reference internal" href="#compatibility-notes">Compatibility notes</a><ul>
-<li><a class="reference internal" href="#error-type-changes">Error type changes</a></li>
-<li><a class="reference internal" href="#tuple-object-dtypes">Tuple object dtypes</a></li>
-<li><a class="reference internal" href="#deprecationwarning-to-error">DeprecationWarning to error</a></li>
-<li><a class="reference internal" href="#futurewarning-to-changed-behavior">FutureWarning to changed behavior</a></li>
-<li><a class="reference internal" href="#dtypes-are-now-always-true">dtypes are now always true</a></li>
-<li><a class="reference internal" href="#getslice-and-setslice-are-no-longer-needed-in-ndarray-subclasses"><code class="docutils literal notranslate"><span class="pre">__getslice__</span></code> and <code class="docutils literal notranslate"><span class="pre">__setslice__</span></code> are no longer needed in <code class="docutils literal notranslate"><span class="pre">ndarray</span></code> subclasses</a></li>
-<li><a class="reference internal" href="#indexing-maskedarrays-constants-with-ellipsis-now-returns-maskedarray">Indexing MaskedArrays/Constants with <code class="docutils literal notranslate"><span class="pre">...</span></code> (ellipsis) now returns MaskedArray</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#c-api-changes">C API changes</a><ul>
-<li><a class="reference internal" href="#gufuncs-on-empty-arrays-and-npyiter-axis-removal">GUfuncs on empty arrays and NpyIter axis removal</a></li>
-<li><a class="reference internal" href="#pyarray-mapiterarraycopyifoverlap-added-to-numpy-c-api"><code class="docutils literal notranslate"><span class="pre">PyArray_MapIterArrayCopyIfOverlap</span></code> added to NumPy C-API</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#new-features">New Features</a><ul>
-<li><a class="reference internal" href="#array-ufunc-added"><code class="docutils literal notranslate"><span class="pre">__array_ufunc__</span></code> added</a></li>
-<li><a class="reference internal" href="#new-positive-ufunc">New <code class="docutils literal notranslate"><span class="pre">positive</span></code> ufunc</a></li>
-<li><a class="reference internal" href="#new-divmod-ufunc">New <code class="docutils literal notranslate"><span class="pre">divmod</span></code> ufunc</a></li>
-<li><a class="reference internal" href="#np-isnat-ufunc-tests-for-nat-special-datetime-and-timedelta-values"><code class="docutils literal notranslate"><span class="pre">np.isnat</span></code> ufunc tests for NaT special datetime and timedelta values</a></li>
-<li><a class="reference internal" href="#np-heaviside-ufunc-computes-the-heaviside-function"><code class="docutils literal notranslate"><span class="pre">np.heaviside</span></code> ufunc computes the Heaviside function</a></li>
-<li><a class="reference internal" href="#np-block-function-for-creating-blocked-arrays"><code class="docutils literal notranslate"><span class="pre">np.block</span></code> function for creating blocked arrays</a></li>
-<li><a class="reference internal" href="#isin-function-improving-on-in1d"><code class="docutils literal notranslate"><span class="pre">isin</span></code> function, improving on <code class="docutils literal notranslate"><span class="pre">in1d</span></code></a></li>
-<li><a class="reference internal" href="#temporary-elision">Temporary elision</a></li>
-<li><a class="reference internal" href="#axes-argument-for-unique"><code class="docutils literal notranslate"><span class="pre">axes</span></code> argument for <code class="docutils literal notranslate"><span class="pre">unique</span></code></a></li>
-<li><a class="reference internal" href="#np-gradient-now-supports-unevenly-spaced-data"><code class="docutils literal notranslate"><span class="pre">np.gradient</span></code> now supports unevenly spaced data</a></li>
-<li><a class="reference internal" href="#support-for-returning-arrays-of-arbitrary-dimensions-in-apply-along-axis">Support for returning arrays of arbitrary dimensions in <code class="docutils literal notranslate"><span class="pre">apply_along_axis</span></code></a></li>
-<li><a class="reference internal" href="#ndim-property-added-to-dtype-to-complement-shape"><code class="docutils literal notranslate"><span class="pre">.ndim</span></code> property added to <code class="docutils literal notranslate"><span class="pre">dtype</span></code> to complement <code class="docutils literal notranslate"><span class="pre">.shape</span></code></a></li>
-<li><a class="reference internal" href="#support-for-tracemalloc-in-python-3-6">Support for tracemalloc in Python 3.6</a></li>
-<li><a class="reference internal" href="#numpy-may-be-built-with-relaxed-stride-checking-debugging">NumPy may be built with relaxed stride checking debugging</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#improvements">Improvements</a><ul>
-<li><a class="reference internal" href="#ufunc-behavior-for-overlapping-inputs">Ufunc behavior for overlapping inputs</a></li>
-<li><a class="reference internal" href="#partial-support-for-64-bit-f2py-extensions-with-mingw">Partial support for 64-bit f2py extensions with MinGW</a></li>
-<li><a class="reference internal" href="#performance-improvements-for-packbits-and-unpackbits">Performance improvements for <code class="docutils literal notranslate"><span class="pre">packbits</span></code> and <code class="docutils literal notranslate"><span class="pre">unpackbits</span></code></a></li>
-<li><a class="reference internal" href="#fix-for-ppc-long-double-floating-point-information">Fix for PPC long double floating point information</a></li>
-<li><a class="reference internal" href="#better-default-repr-for-ndarray-subclasses">Better default repr for <code class="docutils literal notranslate"><span class="pre">ndarray</span></code> subclasses</a></li>
-<li><a class="reference internal" href="#more-reliable-comparisons-of-masked-arrays">More reliable comparisons of masked arrays</a></li>
-<li><a class="reference internal" href="#np-matrix-with-booleans-elements-can-now-be-created-using-the-string-syntax">np.matrix with booleans elements can now be created using the string syntax</a></li>
-<li><a class="reference internal" href="#more-linalg-operations-now-accept-empty-vectors-and-matrices">More <code class="docutils literal notranslate"><span class="pre">linalg</span></code> operations now accept empty vectors and matrices</a></li>
-<li><a class="reference internal" href="#bundled-version-of-lapack-is-now-3-2-2">Bundled version of LAPACK is now 3.2.2</a></li>
-<li><a class="reference internal" href="#reduce-of-np-hypot-reduce-and-np-logical-xor-allowed-in-more-cases"><code class="docutils literal notranslate"><span class="pre">reduce</span></code> of <code class="docutils literal notranslate"><span class="pre">np.hypot.reduce</span></code> and <code class="docutils literal notranslate"><span class="pre">np.logical_xor</span></code> allowed in more cases</a></li>
-<li><a class="reference internal" href="#better-repr-of-object-arrays">Better <code class="docutils literal notranslate"><span class="pre">repr</span></code> of object arrays</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#changes">Changes</a><ul>
-<li><a class="reference internal" href="#argsort-on-masked-arrays-takes-the-same-default-arguments-as-sort"><code class="docutils literal notranslate"><span class="pre">argsort</span></code> on masked arrays takes the same default arguments as <code class="docutils literal notranslate"><span class="pre">sort</span></code></a></li>
-<li><a class="reference internal" href="#average-now-preserves-subclasses"><code class="docutils literal notranslate"><span class="pre">average</span></code> now preserves subclasses</a></li>
-<li><a class="reference internal" href="#array-none-and-array-none-do-element-wise-comparison"><code class="docutils literal notranslate"><span class="pre">array</span> <span class="pre">==</span> <span class="pre">None</span></code> and <code class="docutils literal notranslate"><span class="pre">array</span> <span class="pre">!=</span> <span class="pre">None</span></code> do element-wise comparison</a></li>
-<li><a class="reference internal" href="#np-equal-np-not-equal-for-object-arrays-ignores-object-identity"><code class="docutils literal notranslate"><span class="pre">np.equal,</span> <span class="pre">np.not_equal</span></code> for object arrays ignores object identity</a></li>
-<li><a class="reference internal" href="#boolean-indexing-changes">Boolean indexing changes</a></li>
-<li><a class="reference internal" href="#np-random-multivariate-normal-behavior-with-bad-covariance-matrix"><code class="docutils literal notranslate"><span class="pre">np.random.multivariate_normal</span></code> behavior with bad covariance matrix</a></li>
-<li><a class="reference internal" href="#assert-array-less-compares-np-inf-and-np-inf-now"><code class="docutils literal notranslate"><span class="pre">assert_array_less</span></code> compares <code class="docutils literal notranslate"><span class="pre">np.inf</span></code> and <code class="docutils literal notranslate"><span class="pre">-np.inf</span></code> now</a></li>
-<li><a class="reference internal" href="#assert-array-and-masked-arrays-assert-equal-hide-less-warnings"><code class="docutils literal notranslate"><span class="pre">assert_array_</span></code> and masked arrays <code class="docutils literal notranslate"><span class="pre">assert_equal</span></code> hide less warnings</a></li>
-<li><a class="reference internal" href="#offset-attribute-value-in-memmap-objects"><code class="docutils literal notranslate"><span class="pre">offset</span></code> attribute value in <code class="docutils literal notranslate"><span class="pre">memmap</span></code> objects</a></li>
-<li><a class="reference internal" href="#np-real-and-np-imag-return-scalars-for-scalar-inputs"><code class="docutils literal notranslate"><span class="pre">np.real</span></code> and <code class="docutils literal notranslate"><span class="pre">np.imag</span></code> return scalars for scalar inputs</a></li>
-<li><a class="reference internal" href="#the-polynomial-convenience-classes-cannot-be-passed-to-ufuncs">The polynomial convenience classes cannot be passed to ufuncs</a></li>
-<li><a class="reference internal" href="#output-arguments-to-ufuncs-can-be-tuples-also-for-ufunc-methods">Output arguments to ufuncs can be tuples also for ufunc methods</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="1.13.1-notes.html"
-                        title="previous chapter">NumPy 1.13.1 Release Notes</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="1.12.1-notes.html"
-                        title="next chapter">NumPy 1.12.1 Release Notes</a></p>
-<div id="searchbox" style="display: none" role="search">
-  <h4>Quick search</h4>
-    <div>
-    <form class="search" action="../search.html" method="get">
-      <input type="text" style="width: inherit;" name="q" />
-      <input type="submit" value="search" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
-    </div>
-</div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
-        </div>
-      </div>
         </div>
       </div>
     </div>

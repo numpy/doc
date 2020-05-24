@@ -52,8 +52,8 @@
 	    <div class="spc-navbar">
               
     <ul class="nav nav-pills pull-left">
-        <li class="active"><a href="https://scipy.org/">Scipy.org</a></li>
-        <li class="active"><a href="https://docs.scipy.org/">Docs</a></li>
+        <li class="active"><a href="https://numpy.org/">NumPy.org</a></li>
+        <li class="active"><a href="https://numpy.org/doc">Docs</a></li>
         
         <li class="active"><a href="../index.html">NumPy v1.18 Manual</a></li>
         
@@ -83,6 +83,102 @@
         
 
 	<div class="row-fluid">
+      <div class="spc-rightsidebar span3">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../contents.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">NumPy 1.14.0 Release Notes</a><ul>
+<li><a class="reference internal" href="#highlights">Highlights</a></li>
+<li><a class="reference internal" href="#new-functions">New functions</a></li>
+<li><a class="reference internal" href="#deprecations">Deprecations</a></li>
+<li><a class="reference internal" href="#future-changes">Future Changes</a></li>
+<li><a class="reference internal" href="#compatibility-notes">Compatibility notes</a><ul>
+<li><a class="reference internal" href="#the-mask-of-a-masked-array-view-is-also-a-view-rather-than-a-copy">The mask of a masked array view is also a view rather than a copy</a></li>
+<li><a class="reference internal" href="#np-ma-masked-is-no-longer-writeable"><code class="docutils literal notranslate"><span class="pre">np.ma.masked</span></code> is no longer writeable</a></li>
+<li><a class="reference internal" href="#np-ma-functions-producing-fill-value-s-have-changed"><code class="docutils literal notranslate"><span class="pre">np.ma</span></code> functions producing <code class="docutils literal notranslate"><span class="pre">fill_value</span></code> s have changed</a></li>
+<li><a class="reference internal" href="#a-flat-array-returns-non-writeable-arrays-when-a-is-non-contiguous"><code class="docutils literal notranslate"><span class="pre">a.flat.__array__()</span></code> returns non-writeable arrays when <code class="docutils literal notranslate"><span class="pre">a</span></code> is non-contiguous</a></li>
+<li><a class="reference internal" href="#np-tensordot-now-returns-zero-array-when-contracting-over-0-length-dimension"><code class="docutils literal notranslate"><span class="pre">np.tensordot</span></code> now returns zero array when contracting over 0-length dimension</a></li>
+<li><a class="reference internal" href="#numpy-testing-reorganized"><code class="docutils literal notranslate"><span class="pre">numpy.testing</span></code> reorganized</a></li>
+<li><a class="reference internal" href="#np-asfarray-no-longer-accepts-non-dtypes-through-the-dtype-argument"><code class="docutils literal notranslate"><span class="pre">np.asfarray</span></code> no longer accepts non-dtypes through the <code class="docutils literal notranslate"><span class="pre">dtype</span></code> argument</a></li>
+<li><a class="reference internal" href="#d-np-linalg-norm-preserves-float-input-types-even-for-arbitrary-orders">1D <code class="docutils literal notranslate"><span class="pre">np.linalg.norm</span></code> preserves float input types, even for arbitrary orders</a></li>
+<li><a class="reference internal" href="#count-nonzero-arr-axis-now-counts-over-no-axes-not-all-axes"><code class="docutils literal notranslate"><span class="pre">count_nonzero(arr,</span> <span class="pre">axis=())</span></code> now counts over no axes, not all axes</a></li>
+<li><a class="reference internal" href="#init-py-files-added-to-test-directories"><code class="docutils literal notranslate"><span class="pre">__init__.py</span></code> files added to test directories</a></li>
+<li><a class="reference internal" href="#astype-bool-on-unstructured-void-arrays-now-calls-bool-on-each-element"><code class="docutils literal notranslate"><span class="pre">.astype(bool)</span></code> on unstructured void arrays now calls <code class="docutils literal notranslate"><span class="pre">bool</span></code> on each element</a></li>
+<li><a class="reference internal" href="#maskedarray-squeeze-never-returns-np-ma-masked"><code class="docutils literal notranslate"><span class="pre">MaskedArray.squeeze</span></code> never returns <code class="docutils literal notranslate"><span class="pre">np.ma.masked</span></code></a></li>
+<li><a class="reference internal" href="#renamed-first-parameter-of-can-cast-from-from-to-from">Renamed first parameter of <code class="docutils literal notranslate"><span class="pre">can_cast</span></code> from <code class="docutils literal notranslate"><span class="pre">from</span></code> to <code class="docutils literal notranslate"><span class="pre">from_</span></code></a></li>
+<li><a class="reference internal" href="#isnat-raises-typeerror-when-passed-wrong-type"><code class="docutils literal notranslate"><span class="pre">isnat</span></code> raises <code class="docutils literal notranslate"><span class="pre">TypeError</span></code> when passed wrong type</a></li>
+<li><a class="reference internal" href="#dtype-getitem-raises-typeerror-when-passed-wrong-type"><code class="docutils literal notranslate"><span class="pre">dtype.__getitem__</span></code> raises <code class="docutils literal notranslate"><span class="pre">TypeError</span></code> when passed wrong type</a></li>
+<li><a class="reference internal" href="#user-defined-types-now-need-to-implement-str-and-repr">User-defined types now need to implement <code class="docutils literal notranslate"><span class="pre">__str__</span></code> and <code class="docutils literal notranslate"><span class="pre">__repr__</span></code></a></li>
+<li><a class="reference internal" href="#many-changes-to-array-printing-disableable-with-the-new-legacy-printing-mode">Many changes to array printing, disableable with the new “legacy” printing mode</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#c-api-changes">C API changes</a><ul>
+<li><a class="reference internal" href="#pypy-compatible-alternative-to-updateifcopy-arrays">PyPy compatible alternative to <code class="docutils literal notranslate"><span class="pre">UPDATEIFCOPY</span></code> arrays</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#new-features">New Features</a><ul>
+<li><a class="reference internal" href="#encoding-argument-for-text-io-functions">Encoding argument for text IO functions</a></li>
+<li><a class="reference internal" href="#external-nose-plugins-are-usable-by-numpy-testing-tester">External <code class="docutils literal notranslate"><span class="pre">nose</span></code> plugins are usable by <code class="docutils literal notranslate"><span class="pre">numpy.testing.Tester</span></code></a></li>
+<li><a class="reference internal" href="#parametrize-decorator-added-to-numpy-testing"><code class="docutils literal notranslate"><span class="pre">parametrize</span></code> decorator added to <code class="docutils literal notranslate"><span class="pre">numpy.testing</span></code></a></li>
+<li><a class="reference internal" href="#chebinterpolate-function-added-to-numpy-polynomial-chebyshev"><code class="docutils literal notranslate"><span class="pre">chebinterpolate</span></code> function added to <code class="docutils literal notranslate"><span class="pre">numpy.polynomial.chebyshev</span></code></a></li>
+<li><a class="reference internal" href="#support-for-reading-lzma-compressed-text-files-in-python-3">Support for reading lzma compressed text files in Python 3</a></li>
+<li><a class="reference internal" href="#sign-option-added-to-np-setprintoptions-and-np-array2string"><code class="docutils literal notranslate"><span class="pre">sign</span></code> option added to <code class="docutils literal notranslate"><span class="pre">np.setprintoptions</span></code> and <code class="docutils literal notranslate"><span class="pre">np.array2string</span></code></a></li>
+<li><a class="reference internal" href="#hermitian-option-added-to-np-linalg-matrix-rank"><code class="docutils literal notranslate"><span class="pre">hermitian</span></code> option added to``np.linalg.matrix_rank``</a></li>
+<li><a class="reference internal" href="#threshold-and-edgeitems-options-added-to-np-array2string"><code class="docutils literal notranslate"><span class="pre">threshold</span></code> and <code class="docutils literal notranslate"><span class="pre">edgeitems</span></code> options added to <code class="docutils literal notranslate"><span class="pre">np.array2string</span></code></a></li>
+<li><a class="reference internal" href="#concatenate-and-stack-gained-an-out-argument"><code class="docutils literal notranslate"><span class="pre">concatenate</span></code> and <code class="docutils literal notranslate"><span class="pre">stack</span></code> gained an <code class="docutils literal notranslate"><span class="pre">out</span></code> argument</a></li>
+<li><a class="reference internal" href="#support-for-pgi-flang-compiler-on-windows">Support for PGI flang compiler on Windows</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#improvements">Improvements</a><ul>
+<li><a class="reference internal" href="#numerator-degrees-of-freedom-in-random-noncentral-f-need-only-be-positive">Numerator degrees of freedom in <code class="docutils literal notranslate"><span class="pre">random.noncentral_f</span></code> need only be positive.</a></li>
+<li><a class="reference internal" href="#the-gil-is-released-for-all-np-einsum-variations">The GIL is released for all <code class="docutils literal notranslate"><span class="pre">np.einsum</span></code> variations</a></li>
+<li><a class="reference internal" href="#the-np-einsum-function-will-use-blas-when-possible-and-optimize-by-default">The <em class="xref py py-obj">np.einsum</em> function will use BLAS when possible and optimize by default</a></li>
+<li><a class="reference internal" href="#f2py-now-handles-arrays-of-dimension-0"><code class="docutils literal notranslate"><span class="pre">f2py</span></code> now handles arrays of dimension 0</a></li>
+<li><a class="reference internal" href="#numpy-distutils-supports-using-msvc-and-mingw64-gfortran-together"><code class="docutils literal notranslate"><span class="pre">numpy.distutils</span></code> supports using MSVC and mingw64-gfortran together</a></li>
+<li><a class="reference internal" href="#np-linalg-pinv-now-works-on-stacked-matrices"><code class="docutils literal notranslate"><span class="pre">np.linalg.pinv</span></code> now works on stacked matrices</a></li>
+<li><a class="reference internal" href="#numpy-save-aligns-data-to-64-bytes-instead-of-16"><code class="docutils literal notranslate"><span class="pre">numpy.save</span></code> aligns data to 64 bytes instead of 16</a></li>
+<li><a class="reference internal" href="#npz-files-now-can-be-written-without-using-temporary-files">NPZ files now can be written without using temporary files</a></li>
+<li><a class="reference internal" href="#better-support-for-empty-structured-and-string-types">Better support for empty structured and string types</a></li>
+<li><a class="reference internal" href="#support-for-decimal-decimal-in-np-lib-financial">Support for <code class="docutils literal notranslate"><span class="pre">decimal.Decimal</span></code> in <code class="docutils literal notranslate"><span class="pre">np.lib.financial</span></code></a></li>
+<li><a class="reference internal" href="#float-printing-now-uses-dragon4-algorithm-for-shortest-decimal-representation">Float printing now uses “dragon4” algorithm for shortest decimal representation</a></li>
+<li><a class="reference internal" href="#void-datatype-elements-are-now-printed-in-hex-notation"><code class="docutils literal notranslate"><span class="pre">void</span></code> datatype elements are now printed in hex notation</a></li>
+<li><a class="reference internal" href="#printing-style-for-void-datatypes-is-now-independently-customizable">printing style for <code class="docutils literal notranslate"><span class="pre">void</span></code> datatypes is now independently customizable</a></li>
+<li><a class="reference internal" href="#reduced-memory-usage-of-np-loadtxt">Reduced memory usage of <code class="docutils literal notranslate"><span class="pre">np.loadtxt</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#changes">Changes</a><ul>
+<li><a class="reference internal" href="#multiple-field-indexing-assignment-of-structured-arrays">Multiple-field indexing/assignment of structured arrays</a></li>
+<li><a class="reference internal" href="#integer-and-void-scalars-are-now-unaffected-by-np-set-string-function">Integer and Void scalars are now unaffected by <code class="docutils literal notranslate"><span class="pre">np.set_string_function</span></code></a></li>
+<li><a class="reference internal" href="#d-array-printing-changed-style-arg-of-array2string-deprecated">0d array printing changed, <code class="docutils literal notranslate"><span class="pre">style</span></code> arg of array2string deprecated</a></li>
+<li><a class="reference internal" href="#seeding-randomstate-using-an-array-requires-a-1-d-array">Seeding <code class="docutils literal notranslate"><span class="pre">RandomState</span></code> using an array requires a 1-d array</a></li>
+<li><a class="reference internal" href="#maskedarray-objects-show-a-more-useful-repr"><code class="docutils literal notranslate"><span class="pre">MaskedArray</span></code> objects show a more useful <code class="docutils literal notranslate"><span class="pre">repr</span></code></a></li>
+<li><a class="reference internal" href="#the-repr-of-np-polynomial-classes-is-more-explicit">The <code class="docutils literal notranslate"><span class="pre">repr</span></code> of <code class="docutils literal notranslate"><span class="pre">np.polynomial</span></code> classes is more explicit</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="1.14.1-notes.html"
+                        title="previous chapter">NumPy 1.14.1 Release Notes</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="1.13.3-notes.html"
+                        title="next chapter">NumPy 1.13.3 Release Notes</a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h4>Quick search</h4>
+    <div>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" style="width: inherit;" name="q" />
+      <input type="submit" value="search" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
           <div class="span9">
             
         <div class="bodywrapper">
@@ -711,102 +807,6 @@ them more clear:</p>
           </div>
         </div>
           </div>
-      <div class="spc-rightsidebar span3">
-        <div class="sphinxsidebarwrapper">
-  <h3><a href="../contents.html">Table of Contents</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">NumPy 1.14.0 Release Notes</a><ul>
-<li><a class="reference internal" href="#highlights">Highlights</a></li>
-<li><a class="reference internal" href="#new-functions">New functions</a></li>
-<li><a class="reference internal" href="#deprecations">Deprecations</a></li>
-<li><a class="reference internal" href="#future-changes">Future Changes</a></li>
-<li><a class="reference internal" href="#compatibility-notes">Compatibility notes</a><ul>
-<li><a class="reference internal" href="#the-mask-of-a-masked-array-view-is-also-a-view-rather-than-a-copy">The mask of a masked array view is also a view rather than a copy</a></li>
-<li><a class="reference internal" href="#np-ma-masked-is-no-longer-writeable"><code class="docutils literal notranslate"><span class="pre">np.ma.masked</span></code> is no longer writeable</a></li>
-<li><a class="reference internal" href="#np-ma-functions-producing-fill-value-s-have-changed"><code class="docutils literal notranslate"><span class="pre">np.ma</span></code> functions producing <code class="docutils literal notranslate"><span class="pre">fill_value</span></code> s have changed</a></li>
-<li><a class="reference internal" href="#a-flat-array-returns-non-writeable-arrays-when-a-is-non-contiguous"><code class="docutils literal notranslate"><span class="pre">a.flat.__array__()</span></code> returns non-writeable arrays when <code class="docutils literal notranslate"><span class="pre">a</span></code> is non-contiguous</a></li>
-<li><a class="reference internal" href="#np-tensordot-now-returns-zero-array-when-contracting-over-0-length-dimension"><code class="docutils literal notranslate"><span class="pre">np.tensordot</span></code> now returns zero array when contracting over 0-length dimension</a></li>
-<li><a class="reference internal" href="#numpy-testing-reorganized"><code class="docutils literal notranslate"><span class="pre">numpy.testing</span></code> reorganized</a></li>
-<li><a class="reference internal" href="#np-asfarray-no-longer-accepts-non-dtypes-through-the-dtype-argument"><code class="docutils literal notranslate"><span class="pre">np.asfarray</span></code> no longer accepts non-dtypes through the <code class="docutils literal notranslate"><span class="pre">dtype</span></code> argument</a></li>
-<li><a class="reference internal" href="#d-np-linalg-norm-preserves-float-input-types-even-for-arbitrary-orders">1D <code class="docutils literal notranslate"><span class="pre">np.linalg.norm</span></code> preserves float input types, even for arbitrary orders</a></li>
-<li><a class="reference internal" href="#count-nonzero-arr-axis-now-counts-over-no-axes-not-all-axes"><code class="docutils literal notranslate"><span class="pre">count_nonzero(arr,</span> <span class="pre">axis=())</span></code> now counts over no axes, not all axes</a></li>
-<li><a class="reference internal" href="#init-py-files-added-to-test-directories"><code class="docutils literal notranslate"><span class="pre">__init__.py</span></code> files added to test directories</a></li>
-<li><a class="reference internal" href="#astype-bool-on-unstructured-void-arrays-now-calls-bool-on-each-element"><code class="docutils literal notranslate"><span class="pre">.astype(bool)</span></code> on unstructured void arrays now calls <code class="docutils literal notranslate"><span class="pre">bool</span></code> on each element</a></li>
-<li><a class="reference internal" href="#maskedarray-squeeze-never-returns-np-ma-masked"><code class="docutils literal notranslate"><span class="pre">MaskedArray.squeeze</span></code> never returns <code class="docutils literal notranslate"><span class="pre">np.ma.masked</span></code></a></li>
-<li><a class="reference internal" href="#renamed-first-parameter-of-can-cast-from-from-to-from">Renamed first parameter of <code class="docutils literal notranslate"><span class="pre">can_cast</span></code> from <code class="docutils literal notranslate"><span class="pre">from</span></code> to <code class="docutils literal notranslate"><span class="pre">from_</span></code></a></li>
-<li><a class="reference internal" href="#isnat-raises-typeerror-when-passed-wrong-type"><code class="docutils literal notranslate"><span class="pre">isnat</span></code> raises <code class="docutils literal notranslate"><span class="pre">TypeError</span></code> when passed wrong type</a></li>
-<li><a class="reference internal" href="#dtype-getitem-raises-typeerror-when-passed-wrong-type"><code class="docutils literal notranslate"><span class="pre">dtype.__getitem__</span></code> raises <code class="docutils literal notranslate"><span class="pre">TypeError</span></code> when passed wrong type</a></li>
-<li><a class="reference internal" href="#user-defined-types-now-need-to-implement-str-and-repr">User-defined types now need to implement <code class="docutils literal notranslate"><span class="pre">__str__</span></code> and <code class="docutils literal notranslate"><span class="pre">__repr__</span></code></a></li>
-<li><a class="reference internal" href="#many-changes-to-array-printing-disableable-with-the-new-legacy-printing-mode">Many changes to array printing, disableable with the new “legacy” printing mode</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#c-api-changes">C API changes</a><ul>
-<li><a class="reference internal" href="#pypy-compatible-alternative-to-updateifcopy-arrays">PyPy compatible alternative to <code class="docutils literal notranslate"><span class="pre">UPDATEIFCOPY</span></code> arrays</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#new-features">New Features</a><ul>
-<li><a class="reference internal" href="#encoding-argument-for-text-io-functions">Encoding argument for text IO functions</a></li>
-<li><a class="reference internal" href="#external-nose-plugins-are-usable-by-numpy-testing-tester">External <code class="docutils literal notranslate"><span class="pre">nose</span></code> plugins are usable by <code class="docutils literal notranslate"><span class="pre">numpy.testing.Tester</span></code></a></li>
-<li><a class="reference internal" href="#parametrize-decorator-added-to-numpy-testing"><code class="docutils literal notranslate"><span class="pre">parametrize</span></code> decorator added to <code class="docutils literal notranslate"><span class="pre">numpy.testing</span></code></a></li>
-<li><a class="reference internal" href="#chebinterpolate-function-added-to-numpy-polynomial-chebyshev"><code class="docutils literal notranslate"><span class="pre">chebinterpolate</span></code> function added to <code class="docutils literal notranslate"><span class="pre">numpy.polynomial.chebyshev</span></code></a></li>
-<li><a class="reference internal" href="#support-for-reading-lzma-compressed-text-files-in-python-3">Support for reading lzma compressed text files in Python 3</a></li>
-<li><a class="reference internal" href="#sign-option-added-to-np-setprintoptions-and-np-array2string"><code class="docutils literal notranslate"><span class="pre">sign</span></code> option added to <code class="docutils literal notranslate"><span class="pre">np.setprintoptions</span></code> and <code class="docutils literal notranslate"><span class="pre">np.array2string</span></code></a></li>
-<li><a class="reference internal" href="#hermitian-option-added-to-np-linalg-matrix-rank"><code class="docutils literal notranslate"><span class="pre">hermitian</span></code> option added to``np.linalg.matrix_rank``</a></li>
-<li><a class="reference internal" href="#threshold-and-edgeitems-options-added-to-np-array2string"><code class="docutils literal notranslate"><span class="pre">threshold</span></code> and <code class="docutils literal notranslate"><span class="pre">edgeitems</span></code> options added to <code class="docutils literal notranslate"><span class="pre">np.array2string</span></code></a></li>
-<li><a class="reference internal" href="#concatenate-and-stack-gained-an-out-argument"><code class="docutils literal notranslate"><span class="pre">concatenate</span></code> and <code class="docutils literal notranslate"><span class="pre">stack</span></code> gained an <code class="docutils literal notranslate"><span class="pre">out</span></code> argument</a></li>
-<li><a class="reference internal" href="#support-for-pgi-flang-compiler-on-windows">Support for PGI flang compiler on Windows</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#improvements">Improvements</a><ul>
-<li><a class="reference internal" href="#numerator-degrees-of-freedom-in-random-noncentral-f-need-only-be-positive">Numerator degrees of freedom in <code class="docutils literal notranslate"><span class="pre">random.noncentral_f</span></code> need only be positive.</a></li>
-<li><a class="reference internal" href="#the-gil-is-released-for-all-np-einsum-variations">The GIL is released for all <code class="docutils literal notranslate"><span class="pre">np.einsum</span></code> variations</a></li>
-<li><a class="reference internal" href="#the-np-einsum-function-will-use-blas-when-possible-and-optimize-by-default">The <em class="xref py py-obj">np.einsum</em> function will use BLAS when possible and optimize by default</a></li>
-<li><a class="reference internal" href="#f2py-now-handles-arrays-of-dimension-0"><code class="docutils literal notranslate"><span class="pre">f2py</span></code> now handles arrays of dimension 0</a></li>
-<li><a class="reference internal" href="#numpy-distutils-supports-using-msvc-and-mingw64-gfortran-together"><code class="docutils literal notranslate"><span class="pre">numpy.distutils</span></code> supports using MSVC and mingw64-gfortran together</a></li>
-<li><a class="reference internal" href="#np-linalg-pinv-now-works-on-stacked-matrices"><code class="docutils literal notranslate"><span class="pre">np.linalg.pinv</span></code> now works on stacked matrices</a></li>
-<li><a class="reference internal" href="#numpy-save-aligns-data-to-64-bytes-instead-of-16"><code class="docutils literal notranslate"><span class="pre">numpy.save</span></code> aligns data to 64 bytes instead of 16</a></li>
-<li><a class="reference internal" href="#npz-files-now-can-be-written-without-using-temporary-files">NPZ files now can be written without using temporary files</a></li>
-<li><a class="reference internal" href="#better-support-for-empty-structured-and-string-types">Better support for empty structured and string types</a></li>
-<li><a class="reference internal" href="#support-for-decimal-decimal-in-np-lib-financial">Support for <code class="docutils literal notranslate"><span class="pre">decimal.Decimal</span></code> in <code class="docutils literal notranslate"><span class="pre">np.lib.financial</span></code></a></li>
-<li><a class="reference internal" href="#float-printing-now-uses-dragon4-algorithm-for-shortest-decimal-representation">Float printing now uses “dragon4” algorithm for shortest decimal representation</a></li>
-<li><a class="reference internal" href="#void-datatype-elements-are-now-printed-in-hex-notation"><code class="docutils literal notranslate"><span class="pre">void</span></code> datatype elements are now printed in hex notation</a></li>
-<li><a class="reference internal" href="#printing-style-for-void-datatypes-is-now-independently-customizable">printing style for <code class="docutils literal notranslate"><span class="pre">void</span></code> datatypes is now independently customizable</a></li>
-<li><a class="reference internal" href="#reduced-memory-usage-of-np-loadtxt">Reduced memory usage of <code class="docutils literal notranslate"><span class="pre">np.loadtxt</span></code></a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#changes">Changes</a><ul>
-<li><a class="reference internal" href="#multiple-field-indexing-assignment-of-structured-arrays">Multiple-field indexing/assignment of structured arrays</a></li>
-<li><a class="reference internal" href="#integer-and-void-scalars-are-now-unaffected-by-np-set-string-function">Integer and Void scalars are now unaffected by <code class="docutils literal notranslate"><span class="pre">np.set_string_function</span></code></a></li>
-<li><a class="reference internal" href="#d-array-printing-changed-style-arg-of-array2string-deprecated">0d array printing changed, <code class="docutils literal notranslate"><span class="pre">style</span></code> arg of array2string deprecated</a></li>
-<li><a class="reference internal" href="#seeding-randomstate-using-an-array-requires-a-1-d-array">Seeding <code class="docutils literal notranslate"><span class="pre">RandomState</span></code> using an array requires a 1-d array</a></li>
-<li><a class="reference internal" href="#maskedarray-objects-show-a-more-useful-repr"><code class="docutils literal notranslate"><span class="pre">MaskedArray</span></code> objects show a more useful <code class="docutils literal notranslate"><span class="pre">repr</span></code></a></li>
-<li><a class="reference internal" href="#the-repr-of-np-polynomial-classes-is-more-explicit">The <code class="docutils literal notranslate"><span class="pre">repr</span></code> of <code class="docutils literal notranslate"><span class="pre">np.polynomial</span></code> classes is more explicit</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="1.14.1-notes.html"
-                        title="previous chapter">NumPy 1.14.1 Release Notes</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="1.13.3-notes.html"
-                        title="next chapter">NumPy 1.13.3 Release Notes</a></p>
-<div id="searchbox" style="display: none" role="search">
-  <h4>Quick search</h4>
-    <div>
-    <form class="search" action="../search.html" method="get">
-      <input type="text" style="width: inherit;" name="q" />
-      <input type="submit" value="search" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
-    </div>
-</div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
-        </div>
-      </div>
         </div>
       </div>
     </div>

@@ -52,8 +52,8 @@
 	    <div class="spc-navbar">
               
     <ul class="nav nav-pills pull-left">
-        <li class="active"><a href="https://scipy.org/">Scipy.org</a></li>
-        <li class="active"><a href="https://docs.scipy.org/">Docs</a></li>
+        <li class="active"><a href="https://numpy.org/">NumPy.org</a></li>
+        <li class="active"><a href="https://numpy.org/doc">Docs</a></li>
         
         <li class="active"><a href="../index.html">NumPy v1.18 Manual</a></li>
         
@@ -83,6 +83,92 @@
         
 
 	<div class="row-fluid">
+      <div class="spc-rightsidebar span3">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../contents.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">NumPy NumPy 1.18.0 Release Notes</a><ul>
+<li><a class="reference internal" href="#highlights">Highlights</a></li>
+<li><a class="reference internal" href="#new-functions">New functions</a><ul>
+<li><a class="reference internal" href="#multivariate-hypergeometric-distribution-added-to-numpy-random">Multivariate hypergeometric distribution added to <code class="docutils literal notranslate"><span class="pre">numpy.random</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#deprecations">Deprecations</a><ul>
+<li><a class="reference internal" href="#np-fromfile-and-np-fromstring-will-error-on-bad-data"><code class="docutils literal notranslate"><span class="pre">np.fromfile</span></code> and <code class="docutils literal notranslate"><span class="pre">np.fromstring</span></code> will error on bad data</a></li>
+<li><a class="reference internal" href="#deprecate-non-scalar-arrays-as-fill-values-in-ma-fill-value">Deprecate non-scalar arrays as fill values in <code class="docutils literal notranslate"><span class="pre">ma.fill_value</span></code></a></li>
+<li><a class="reference internal" href="#deprecate-pyarray-as1d-pyarray-as2d">Deprecate <code class="docutils literal notranslate"><span class="pre">PyArray_As1D</span></code>, <code class="docutils literal notranslate"><span class="pre">PyArray_As2D</span></code></a></li>
+<li><a class="reference internal" href="#deprecate-np-alen">Deprecate <code class="docutils literal notranslate"><span class="pre">np.alen</span></code></a></li>
+<li><a class="reference internal" href="#deprecate-the-financial-functions">Deprecate the financial functions</a></li>
+<li><a class="reference internal" href="#the-axis-argument-to-numpy-ma-mask-cols-and-numpy-ma-mask-row-is-deprecated">The <code class="docutils literal notranslate"><span class="pre">axis</span></code> argument to <code class="docutils literal notranslate"><span class="pre">numpy.ma.mask_cols</span></code> and <code class="docutils literal notranslate"><span class="pre">numpy.ma.mask_row</span></code> is deprecated</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#expired-deprecations">Expired deprecations</a></li>
+<li><a class="reference internal" href="#compatibility-notes">Compatibility notes</a><ul>
+<li><a class="reference internal" href="#numpy-lib-recfunctions-drop-fields-can-no-longer-return-none"><code class="xref py py-obj docutils literal notranslate"><span class="pre">numpy.lib.recfunctions.drop_fields</span></code> can no longer return None</a></li>
+<li><a class="reference internal" href="#numpy-argmin-argmax-min-max-returns-nat-if-it-exists-in-array"><code class="docutils literal notranslate"><span class="pre">numpy.argmin/argmax/min/max</span></code> returns <code class="docutils literal notranslate"><span class="pre">NaT</span></code> if it exists in array</a></li>
+<li><a class="reference internal" href="#np-can-cast-np-uint64-np-timedelta64-casting-safe-is-now-false"><code class="docutils literal notranslate"><span class="pre">np.can_cast(np.uint64,</span> <span class="pre">np.timedelta64,</span> <span class="pre">casting='safe')</span></code> is now <code class="docutils literal notranslate"><span class="pre">False</span></code></a></li>
+<li><a class="reference internal" href="#changed-random-variate-stream-from-numpy-random-generator-integers">Changed random variate stream from <code class="docutils literal notranslate"><span class="pre">numpy.random.Generator.integers</span></code></a></li>
+<li><a class="reference internal" href="#add-more-ufunc-loops-for-datetime64-timedelta64">Add more ufunc loops for <code class="docutils literal notranslate"><span class="pre">datetime64</span></code>, <code class="docutils literal notranslate"><span class="pre">timedelta64</span></code></a></li>
+<li><a class="reference internal" href="#moved-modules-in-numpy-random">Moved modules in <code class="docutils literal notranslate"><span class="pre">numpy.random</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#c-api-changes">C API changes</a><ul>
+<li><a class="reference internal" href="#pydatatype-isunsized-descr-now-returns-false-for-structured-datatypes"><code class="docutils literal notranslate"><span class="pre">PyDataType_ISUNSIZED(descr)</span></code> now returns False for structured datatypes</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#new-features">New Features</a><ul>
+<li><a class="reference internal" href="#add-our-own-pxd-cython-import-file">Add our own <code class="docutils literal notranslate"><span class="pre">*.pxd</span></code> cython import file</a></li>
+<li><a class="reference internal" href="#a-tuple-of-axes-can-now-be-input-to-expand-dims">A tuple of axes can now be input to <code class="docutils literal notranslate"><span class="pre">expand_dims</span></code></a></li>
+<li><a class="reference internal" href="#support-for-64-bit-openblas">Support for 64-bit OpenBLAS</a></li>
+<li><a class="reference internal" href="#add-f2cmap-option-to-f2py">Add <code class="docutils literal notranslate"><span class="pre">--f2cmap</span></code> option to F2PY</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#improvements">Improvements</a><ul>
+<li><a class="reference internal" href="#different-c-numeric-types-of-the-same-size-have-unique-names">Different C numeric types of the same size have unique names</a></li>
+<li><a class="reference internal" href="#argwhere-now-produces-a-consistent-result-on-0d-arrays"><code class="docutils literal notranslate"><span class="pre">argwhere</span></code> now produces a consistent result on 0d arrays</a></li>
+<li><a class="reference internal" href="#add-axis-argument-for-random-permutation-and-random-shuffle">Add <code class="docutils literal notranslate"><span class="pre">axis</span></code> argument for <code class="docutils literal notranslate"><span class="pre">random.permutation</span></code> and <code class="docutils literal notranslate"><span class="pre">random.shuffle</span></code></a></li>
+<li><a class="reference internal" href="#method-keyword-argument-for-np-random-multivariate-normal"><code class="docutils literal notranslate"><span class="pre">method</span></code> keyword argument for <code class="docutils literal notranslate"><span class="pre">np.random.multivariate_normal</span></code></a></li>
+<li><a class="reference internal" href="#add-complex-number-support-for-numpy-fromstring">Add complex number support for <code class="docutils literal notranslate"><span class="pre">numpy.fromstring</span></code></a></li>
+<li><a class="reference internal" href="#numpy-unique-has-consistent-axes-order-when-axis-is-not-none"><code class="docutils literal notranslate"><span class="pre">numpy.unique</span></code> has consistent axes order when <code class="docutils literal notranslate"><span class="pre">axis</span></code> is not None</a></li>
+<li><a class="reference internal" href="#numpy-matmul-with-boolean-output-now-converts-to-boolean-values"><code class="docutils literal notranslate"><span class="pre">numpy.matmul</span></code> with boolean output now converts to boolean values</a></li>
+<li><a class="reference internal" href="#numpy-random-randint-produced-incorrect-value-when-the-range-was-2-32"><code class="docutils literal notranslate"><span class="pre">numpy.random.randint</span></code> produced incorrect value when the range was <code class="docutils literal notranslate"><span class="pre">2**32</span></code></a></li>
+<li><a class="reference internal" href="#add-complex-number-support-for-numpy-fromfile">Add complex number support for <code class="docutils literal notranslate"><span class="pre">numpy.fromfile</span></code></a></li>
+<li><a class="reference internal" href="#std-c99-added-if-compiler-is-named-gcc"><code class="docutils literal notranslate"><span class="pre">std=c99</span></code> added if compiler is named <code class="docutils literal notranslate"><span class="pre">gcc</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#changes">Changes</a><ul>
+<li><a class="reference internal" href="#nat-now-sorts-to-the-end-of-arrays"><code class="docutils literal notranslate"><span class="pre">NaT</span></code> now sorts to the end of arrays</a></li>
+<li><a class="reference internal" href="#incorrect-threshold-in-np-set-printoptions-raises-typeerror-or-valueerror">Incorrect <code class="docutils literal notranslate"><span class="pre">threshold</span></code> in <code class="docutils literal notranslate"><span class="pre">np.set_printoptions</span></code> raises <code class="docutils literal notranslate"><span class="pre">TypeError</span></code> or <code class="docutils literal notranslate"><span class="pre">ValueError</span></code></a></li>
+<li><a class="reference internal" href="#warn-when-saving-a-dtype-with-metadata">Warn when saving a dtype with metadata</a></li>
+<li><a class="reference internal" href="#numpy-distutils-append-behavior-changed-for-ldflags-and-similar"><code class="docutils literal notranslate"><span class="pre">numpy.distutils</span></code> append behavior changed for LDFLAGS and similar</a></li>
+<li><a class="reference internal" href="#remove-numpy-random-entropy-without-a-deprecation">Remove <code class="docutils literal notranslate"><span class="pre">numpy.random.entropy</span></code> without a deprecation</a></li>
+<li><a class="reference internal" href="#add-options-to-quiet-build-configuration-and-build-with-werror">Add options to quiet build configuration and build with <code class="docutils literal notranslate"><span class="pre">-Werror</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="1.18.1-notes.html"
+                        title="previous chapter">NumPy 1.18.1 Release Notes</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="1.17.5-notes.html"
+                        title="next chapter">NumPy 1.17.5 Release Notes</a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h4>Quick search</h4>
+    <div>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" style="width: inherit;" name="q" />
+      <input type="submit" value="search" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
           <div class="span9">
             
         <div class="bodywrapper">
@@ -450,92 +536,6 @@ NumPy itself, avoiding the <code class="docutils literal notranslate"><span clas
           </div>
         </div>
           </div>
-      <div class="spc-rightsidebar span3">
-        <div class="sphinxsidebarwrapper">
-  <h3><a href="../contents.html">Table of Contents</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">NumPy NumPy 1.18.0 Release Notes</a><ul>
-<li><a class="reference internal" href="#highlights">Highlights</a></li>
-<li><a class="reference internal" href="#new-functions">New functions</a><ul>
-<li><a class="reference internal" href="#multivariate-hypergeometric-distribution-added-to-numpy-random">Multivariate hypergeometric distribution added to <code class="docutils literal notranslate"><span class="pre">numpy.random</span></code></a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#deprecations">Deprecations</a><ul>
-<li><a class="reference internal" href="#np-fromfile-and-np-fromstring-will-error-on-bad-data"><code class="docutils literal notranslate"><span class="pre">np.fromfile</span></code> and <code class="docutils literal notranslate"><span class="pre">np.fromstring</span></code> will error on bad data</a></li>
-<li><a class="reference internal" href="#deprecate-non-scalar-arrays-as-fill-values-in-ma-fill-value">Deprecate non-scalar arrays as fill values in <code class="docutils literal notranslate"><span class="pre">ma.fill_value</span></code></a></li>
-<li><a class="reference internal" href="#deprecate-pyarray-as1d-pyarray-as2d">Deprecate <code class="docutils literal notranslate"><span class="pre">PyArray_As1D</span></code>, <code class="docutils literal notranslate"><span class="pre">PyArray_As2D</span></code></a></li>
-<li><a class="reference internal" href="#deprecate-np-alen">Deprecate <code class="docutils literal notranslate"><span class="pre">np.alen</span></code></a></li>
-<li><a class="reference internal" href="#deprecate-the-financial-functions">Deprecate the financial functions</a></li>
-<li><a class="reference internal" href="#the-axis-argument-to-numpy-ma-mask-cols-and-numpy-ma-mask-row-is-deprecated">The <code class="docutils literal notranslate"><span class="pre">axis</span></code> argument to <code class="docutils literal notranslate"><span class="pre">numpy.ma.mask_cols</span></code> and <code class="docutils literal notranslate"><span class="pre">numpy.ma.mask_row</span></code> is deprecated</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#expired-deprecations">Expired deprecations</a></li>
-<li><a class="reference internal" href="#compatibility-notes">Compatibility notes</a><ul>
-<li><a class="reference internal" href="#numpy-lib-recfunctions-drop-fields-can-no-longer-return-none"><code class="xref py py-obj docutils literal notranslate"><span class="pre">numpy.lib.recfunctions.drop_fields</span></code> can no longer return None</a></li>
-<li><a class="reference internal" href="#numpy-argmin-argmax-min-max-returns-nat-if-it-exists-in-array"><code class="docutils literal notranslate"><span class="pre">numpy.argmin/argmax/min/max</span></code> returns <code class="docutils literal notranslate"><span class="pre">NaT</span></code> if it exists in array</a></li>
-<li><a class="reference internal" href="#np-can-cast-np-uint64-np-timedelta64-casting-safe-is-now-false"><code class="docutils literal notranslate"><span class="pre">np.can_cast(np.uint64,</span> <span class="pre">np.timedelta64,</span> <span class="pre">casting='safe')</span></code> is now <code class="docutils literal notranslate"><span class="pre">False</span></code></a></li>
-<li><a class="reference internal" href="#changed-random-variate-stream-from-numpy-random-generator-integers">Changed random variate stream from <code class="docutils literal notranslate"><span class="pre">numpy.random.Generator.integers</span></code></a></li>
-<li><a class="reference internal" href="#add-more-ufunc-loops-for-datetime64-timedelta64">Add more ufunc loops for <code class="docutils literal notranslate"><span class="pre">datetime64</span></code>, <code class="docutils literal notranslate"><span class="pre">timedelta64</span></code></a></li>
-<li><a class="reference internal" href="#moved-modules-in-numpy-random">Moved modules in <code class="docutils literal notranslate"><span class="pre">numpy.random</span></code></a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#c-api-changes">C API changes</a><ul>
-<li><a class="reference internal" href="#pydatatype-isunsized-descr-now-returns-false-for-structured-datatypes"><code class="docutils literal notranslate"><span class="pre">PyDataType_ISUNSIZED(descr)</span></code> now returns False for structured datatypes</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#new-features">New Features</a><ul>
-<li><a class="reference internal" href="#add-our-own-pxd-cython-import-file">Add our own <code class="docutils literal notranslate"><span class="pre">*.pxd</span></code> cython import file</a></li>
-<li><a class="reference internal" href="#a-tuple-of-axes-can-now-be-input-to-expand-dims">A tuple of axes can now be input to <code class="docutils literal notranslate"><span class="pre">expand_dims</span></code></a></li>
-<li><a class="reference internal" href="#support-for-64-bit-openblas">Support for 64-bit OpenBLAS</a></li>
-<li><a class="reference internal" href="#add-f2cmap-option-to-f2py">Add <code class="docutils literal notranslate"><span class="pre">--f2cmap</span></code> option to F2PY</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#improvements">Improvements</a><ul>
-<li><a class="reference internal" href="#different-c-numeric-types-of-the-same-size-have-unique-names">Different C numeric types of the same size have unique names</a></li>
-<li><a class="reference internal" href="#argwhere-now-produces-a-consistent-result-on-0d-arrays"><code class="docutils literal notranslate"><span class="pre">argwhere</span></code> now produces a consistent result on 0d arrays</a></li>
-<li><a class="reference internal" href="#add-axis-argument-for-random-permutation-and-random-shuffle">Add <code class="docutils literal notranslate"><span class="pre">axis</span></code> argument for <code class="docutils literal notranslate"><span class="pre">random.permutation</span></code> and <code class="docutils literal notranslate"><span class="pre">random.shuffle</span></code></a></li>
-<li><a class="reference internal" href="#method-keyword-argument-for-np-random-multivariate-normal"><code class="docutils literal notranslate"><span class="pre">method</span></code> keyword argument for <code class="docutils literal notranslate"><span class="pre">np.random.multivariate_normal</span></code></a></li>
-<li><a class="reference internal" href="#add-complex-number-support-for-numpy-fromstring">Add complex number support for <code class="docutils literal notranslate"><span class="pre">numpy.fromstring</span></code></a></li>
-<li><a class="reference internal" href="#numpy-unique-has-consistent-axes-order-when-axis-is-not-none"><code class="docutils literal notranslate"><span class="pre">numpy.unique</span></code> has consistent axes order when <code class="docutils literal notranslate"><span class="pre">axis</span></code> is not None</a></li>
-<li><a class="reference internal" href="#numpy-matmul-with-boolean-output-now-converts-to-boolean-values"><code class="docutils literal notranslate"><span class="pre">numpy.matmul</span></code> with boolean output now converts to boolean values</a></li>
-<li><a class="reference internal" href="#numpy-random-randint-produced-incorrect-value-when-the-range-was-2-32"><code class="docutils literal notranslate"><span class="pre">numpy.random.randint</span></code> produced incorrect value when the range was <code class="docutils literal notranslate"><span class="pre">2**32</span></code></a></li>
-<li><a class="reference internal" href="#add-complex-number-support-for-numpy-fromfile">Add complex number support for <code class="docutils literal notranslate"><span class="pre">numpy.fromfile</span></code></a></li>
-<li><a class="reference internal" href="#std-c99-added-if-compiler-is-named-gcc"><code class="docutils literal notranslate"><span class="pre">std=c99</span></code> added if compiler is named <code class="docutils literal notranslate"><span class="pre">gcc</span></code></a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#changes">Changes</a><ul>
-<li><a class="reference internal" href="#nat-now-sorts-to-the-end-of-arrays"><code class="docutils literal notranslate"><span class="pre">NaT</span></code> now sorts to the end of arrays</a></li>
-<li><a class="reference internal" href="#incorrect-threshold-in-np-set-printoptions-raises-typeerror-or-valueerror">Incorrect <code class="docutils literal notranslate"><span class="pre">threshold</span></code> in <code class="docutils literal notranslate"><span class="pre">np.set_printoptions</span></code> raises <code class="docutils literal notranslate"><span class="pre">TypeError</span></code> or <code class="docutils literal notranslate"><span class="pre">ValueError</span></code></a></li>
-<li><a class="reference internal" href="#warn-when-saving-a-dtype-with-metadata">Warn when saving a dtype with metadata</a></li>
-<li><a class="reference internal" href="#numpy-distutils-append-behavior-changed-for-ldflags-and-similar"><code class="docutils literal notranslate"><span class="pre">numpy.distutils</span></code> append behavior changed for LDFLAGS and similar</a></li>
-<li><a class="reference internal" href="#remove-numpy-random-entropy-without-a-deprecation">Remove <code class="docutils literal notranslate"><span class="pre">numpy.random.entropy</span></code> without a deprecation</a></li>
-<li><a class="reference internal" href="#add-options-to-quiet-build-configuration-and-build-with-werror">Add options to quiet build configuration and build with <code class="docutils literal notranslate"><span class="pre">-Werror</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="1.18.1-notes.html"
-                        title="previous chapter">NumPy 1.18.1 Release Notes</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="1.17.5-notes.html"
-                        title="next chapter">NumPy 1.17.5 Release Notes</a></p>
-<div id="searchbox" style="display: none" role="search">
-  <h4>Quick search</h4>
-    <div>
-    <form class="search" action="../search.html" method="get">
-      <input type="text" style="width: inherit;" name="q" />
-      <input type="submit" value="search" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
-    </div>
-</div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
-        </div>
-      </div>
         </div>
       </div>
     </div>

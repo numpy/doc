@@ -52,8 +52,8 @@
 	    <div class="spc-navbar">
               
     <ul class="nav nav-pills pull-left">
-        <li class="active"><a href="https://scipy.org/">Scipy.org</a></li>
-        <li class="active"><a href="https://docs.scipy.org/">Docs</a></li>
+        <li class="active"><a href="https://numpy.org/">NumPy.org</a></li>
+        <li class="active"><a href="https://numpy.org/doc">Docs</a></li>
         
         <li class="active"><a href="../index.html">NumPy v1.18 Manual</a></li>
         
@@ -83,6 +83,99 @@
         
 
 	<div class="row-fluid">
+      <div class="spc-rightsidebar span3">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../contents.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">NumPy 1.9.0 Release Notes</a><ul>
+<li><a class="reference internal" href="#highlights">Highlights</a></li>
+<li><a class="reference internal" href="#dropped-support">Dropped Support</a></li>
+<li><a class="reference internal" href="#future-changes">Future Changes</a></li>
+<li><a class="reference internal" href="#compatibility-notes">Compatibility notes</a><ul>
+<li><a class="reference internal" href="#the-diagonal-and-diag-functions-return-readonly-views">The diagonal and diag functions return readonly views.</a></li>
+<li><a class="reference internal" href="#special-scalar-float-values-don-t-cause-upcast-to-double-anymore">Special scalar float values don’t cause upcast to double anymore</a></li>
+<li><a class="reference internal" href="#percentile-output-changes">Percentile output changes</a></li>
+<li><a class="reference internal" href="#ndarray-tofile-exception-type">ndarray.tofile exception type</a></li>
+<li><a class="reference internal" href="#invalid-fill-value-exceptions">Invalid fill value exceptions</a></li>
+<li><a class="reference internal" href="#polynomial-classes-no-longer-derived-from-polybase">Polynomial Classes no longer derived from PolyBase</a></li>
+<li><a class="reference internal" href="#using-numpy-random-binomial-may-change-the-rng-state-vs-numpy-1-9">Using numpy.random.binomial may change the RNG state vs. numpy &lt; 1.9</a></li>
+<li><a class="reference internal" href="#random-seed-enforced-to-be-a-32-bit-unsigned-integer">Random seed enforced to be a 32 bit unsigned integer</a></li>
+<li><a class="reference internal" href="#argmin-and-argmax-out-argument">Argmin and argmax out argument</a></li>
+<li><a class="reference internal" href="#einsum">Einsum</a></li>
+<li><a class="reference internal" href="#indexing">Indexing</a></li>
+<li><a class="reference internal" href="#non-integer-reduction-axis-indexes-are-deprecated">Non-integer reduction axis indexes are deprecated</a></li>
+<li><a class="reference internal" href="#promote-types-and-string-dtype"><code class="docutils literal notranslate"><span class="pre">promote_types</span></code> and string dtype</a></li>
+<li><a class="reference internal" href="#can-cast-and-string-dtype"><code class="docutils literal notranslate"><span class="pre">can_cast</span></code> and string dtype</a></li>
+<li><a class="reference internal" href="#astype-and-string-dtype">astype and string dtype</a></li>
+<li><a class="reference internal" href="#npyio-recfromcsv-keyword-arguments-change"><em class="xref py py-obj">npyio.recfromcsv</em> keyword arguments change</a></li>
+<li><a class="reference internal" href="#the-doc-swig-directory-moved">The <code class="docutils literal notranslate"><span class="pre">doc/swig</span></code> directory moved</a></li>
+<li><a class="reference internal" href="#the-npy-3kcompat-h-header-changed">The <code class="docutils literal notranslate"><span class="pre">npy_3kcompat.h</span></code> header changed</a></li>
+<li><a class="reference internal" href="#negative-indices-in-c-api-sq-item-and-sq-ass-item-sequence-methods">Negative indices in C-Api <code class="docutils literal notranslate"><span class="pre">sq_item</span></code> and <code class="docutils literal notranslate"><span class="pre">sq_ass_item</span></code> sequence methods</a></li>
+<li><a class="reference internal" href="#nditer">NDIter</a></li>
+<li><a class="reference internal" href="#zeros-like-for-string-dtypes-now-returns-empty-strings"><code class="docutils literal notranslate"><span class="pre">zeros_like</span></code> for string dtypes now returns empty strings</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#new-features">New Features</a><ul>
+<li><a class="reference internal" href="#percentile-supports-more-interpolation-options">Percentile supports more interpolation options</a></li>
+<li><a class="reference internal" href="#generalized-axis-support-for-median-and-percentile">Generalized axis support for median and percentile</a></li>
+<li><a class="reference internal" href="#dtype-parameter-added-to-np-linspace-and-np-logspace">Dtype parameter added to <code class="docutils literal notranslate"><span class="pre">np.linspace</span></code> and <code class="docutils literal notranslate"><span class="pre">np.logspace</span></code></a></li>
+<li><a class="reference internal" href="#more-general-np-triu-and-np-tril-broadcasting">More general <code class="docutils literal notranslate"><span class="pre">np.triu</span></code> and <code class="docutils literal notranslate"><span class="pre">np.tril</span></code> broadcasting</a></li>
+<li><a class="reference internal" href="#tobytes-alias-for-tostring-method"><code class="docutils literal notranslate"><span class="pre">tobytes</span></code> alias for <code class="docutils literal notranslate"><span class="pre">tostring</span></code> method</a></li>
+<li><a class="reference internal" href="#build-system">Build system</a></li>
+<li><a class="reference internal" href="#compatibility-to-python-numbers-module">Compatibility to python <code class="docutils literal notranslate"><span class="pre">numbers</span></code> module</a></li>
+<li><a class="reference internal" href="#increasing-parameter-added-to-np-vander"><code class="docutils literal notranslate"><span class="pre">increasing</span></code> parameter added to <code class="docutils literal notranslate"><span class="pre">np.vander</span></code></a></li>
+<li><a class="reference internal" href="#unique-counts-parameter-added-to-np-unique"><code class="docutils literal notranslate"><span class="pre">unique_counts</span></code> parameter added to <code class="docutils literal notranslate"><span class="pre">np.unique</span></code></a></li>
+<li><a class="reference internal" href="#support-for-median-and-percentile-in-nanfunctions">Support for median and percentile in nanfunctions</a></li>
+<li><a class="reference internal" href="#numpyversion-class-added">NumpyVersion class added</a></li>
+<li><a class="reference internal" href="#allow-saving-arrays-with-large-number-of-named-columns">Allow saving arrays with large number of named columns</a></li>
+<li><a class="reference internal" href="#full-broadcasting-support-for-np-cross">Full broadcasting support for <code class="docutils literal notranslate"><span class="pre">np.cross</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#improvements">Improvements</a><ul>
+<li><a class="reference internal" href="#better-numerical-stability-for-sum-in-some-cases">Better numerical stability for sum in some cases</a></li>
+<li><a class="reference internal" href="#percentile-implemented-in-terms-of-np-partition">Percentile implemented in terms of <code class="docutils literal notranslate"><span class="pre">np.partition</span></code></a></li>
+<li><a class="reference internal" href="#performance-improvement-for-np-array">Performance improvement for <code class="docutils literal notranslate"><span class="pre">np.array</span></code></a></li>
+<li><a class="reference internal" href="#performance-improvement-for-np-searchsorted">Performance improvement for <code class="docutils literal notranslate"><span class="pre">np.searchsorted</span></code></a></li>
+<li><a class="reference internal" href="#optional-reduced-verbosity-for-np-distutils">Optional reduced verbosity for np.distutils</a></li>
+<li><a class="reference internal" href="#covariance-check-in-np-random-multivariate-normal">Covariance check in <code class="docutils literal notranslate"><span class="pre">np.random.multivariate_normal</span></code></a></li>
+<li><a class="reference internal" href="#polynomial-classes-no-longer-template-based">Polynomial Classes no longer template based</a></li>
+<li><a class="reference internal" href="#more-gil-releases">More GIL releases</a></li>
+<li><a class="reference internal" href="#maskedarray-support-for-more-complicated-base-classes">MaskedArray support for more complicated base classes</a></li>
+<li><a class="reference internal" href="#c-api">C-API</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#deprecations">Deprecations</a><ul>
+<li><a class="reference internal" href="#non-integer-scalars-for-sequence-repetition">Non-integer scalars for sequence repetition</a></li>
+<li><a class="reference internal" href="#select-input-deprecations"><code class="docutils literal notranslate"><span class="pre">select</span></code> input deprecations</a></li>
+<li><a class="reference internal" href="#rank-function"><code class="docutils literal notranslate"><span class="pre">rank</span></code> function</a></li>
+<li><a class="reference internal" href="#object-array-equality-comparisons">Object array equality comparisons</a></li>
+<li><a class="reference internal" href="#id1">C-API</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="1.9.1-notes.html"
+                        title="previous chapter">NumPy 1.9.1 Release Notes</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="1.8.2-notes.html"
+                        title="next chapter">NumPy 1.8.2 Release Notes</a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h4>Quick search</h4>
+    <div>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" style="width: inherit;" name="q" />
+      <input type="submit" value="search" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
           <div class="span9">
             
         <div class="bodywrapper">
@@ -518,99 +611,6 @@ the python API when possible.</p>
           </div>
         </div>
           </div>
-      <div class="spc-rightsidebar span3">
-        <div class="sphinxsidebarwrapper">
-  <h3><a href="../contents.html">Table of Contents</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">NumPy 1.9.0 Release Notes</a><ul>
-<li><a class="reference internal" href="#highlights">Highlights</a></li>
-<li><a class="reference internal" href="#dropped-support">Dropped Support</a></li>
-<li><a class="reference internal" href="#future-changes">Future Changes</a></li>
-<li><a class="reference internal" href="#compatibility-notes">Compatibility notes</a><ul>
-<li><a class="reference internal" href="#the-diagonal-and-diag-functions-return-readonly-views">The diagonal and diag functions return readonly views.</a></li>
-<li><a class="reference internal" href="#special-scalar-float-values-don-t-cause-upcast-to-double-anymore">Special scalar float values don’t cause upcast to double anymore</a></li>
-<li><a class="reference internal" href="#percentile-output-changes">Percentile output changes</a></li>
-<li><a class="reference internal" href="#ndarray-tofile-exception-type">ndarray.tofile exception type</a></li>
-<li><a class="reference internal" href="#invalid-fill-value-exceptions">Invalid fill value exceptions</a></li>
-<li><a class="reference internal" href="#polynomial-classes-no-longer-derived-from-polybase">Polynomial Classes no longer derived from PolyBase</a></li>
-<li><a class="reference internal" href="#using-numpy-random-binomial-may-change-the-rng-state-vs-numpy-1-9">Using numpy.random.binomial may change the RNG state vs. numpy &lt; 1.9</a></li>
-<li><a class="reference internal" href="#random-seed-enforced-to-be-a-32-bit-unsigned-integer">Random seed enforced to be a 32 bit unsigned integer</a></li>
-<li><a class="reference internal" href="#argmin-and-argmax-out-argument">Argmin and argmax out argument</a></li>
-<li><a class="reference internal" href="#einsum">Einsum</a></li>
-<li><a class="reference internal" href="#indexing">Indexing</a></li>
-<li><a class="reference internal" href="#non-integer-reduction-axis-indexes-are-deprecated">Non-integer reduction axis indexes are deprecated</a></li>
-<li><a class="reference internal" href="#promote-types-and-string-dtype"><code class="docutils literal notranslate"><span class="pre">promote_types</span></code> and string dtype</a></li>
-<li><a class="reference internal" href="#can-cast-and-string-dtype"><code class="docutils literal notranslate"><span class="pre">can_cast</span></code> and string dtype</a></li>
-<li><a class="reference internal" href="#astype-and-string-dtype">astype and string dtype</a></li>
-<li><a class="reference internal" href="#npyio-recfromcsv-keyword-arguments-change"><em class="xref py py-obj">npyio.recfromcsv</em> keyword arguments change</a></li>
-<li><a class="reference internal" href="#the-doc-swig-directory-moved">The <code class="docutils literal notranslate"><span class="pre">doc/swig</span></code> directory moved</a></li>
-<li><a class="reference internal" href="#the-npy-3kcompat-h-header-changed">The <code class="docutils literal notranslate"><span class="pre">npy_3kcompat.h</span></code> header changed</a></li>
-<li><a class="reference internal" href="#negative-indices-in-c-api-sq-item-and-sq-ass-item-sequence-methods">Negative indices in C-Api <code class="docutils literal notranslate"><span class="pre">sq_item</span></code> and <code class="docutils literal notranslate"><span class="pre">sq_ass_item</span></code> sequence methods</a></li>
-<li><a class="reference internal" href="#nditer">NDIter</a></li>
-<li><a class="reference internal" href="#zeros-like-for-string-dtypes-now-returns-empty-strings"><code class="docutils literal notranslate"><span class="pre">zeros_like</span></code> for string dtypes now returns empty strings</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#new-features">New Features</a><ul>
-<li><a class="reference internal" href="#percentile-supports-more-interpolation-options">Percentile supports more interpolation options</a></li>
-<li><a class="reference internal" href="#generalized-axis-support-for-median-and-percentile">Generalized axis support for median and percentile</a></li>
-<li><a class="reference internal" href="#dtype-parameter-added-to-np-linspace-and-np-logspace">Dtype parameter added to <code class="docutils literal notranslate"><span class="pre">np.linspace</span></code> and <code class="docutils literal notranslate"><span class="pre">np.logspace</span></code></a></li>
-<li><a class="reference internal" href="#more-general-np-triu-and-np-tril-broadcasting">More general <code class="docutils literal notranslate"><span class="pre">np.triu</span></code> and <code class="docutils literal notranslate"><span class="pre">np.tril</span></code> broadcasting</a></li>
-<li><a class="reference internal" href="#tobytes-alias-for-tostring-method"><code class="docutils literal notranslate"><span class="pre">tobytes</span></code> alias for <code class="docutils literal notranslate"><span class="pre">tostring</span></code> method</a></li>
-<li><a class="reference internal" href="#build-system">Build system</a></li>
-<li><a class="reference internal" href="#compatibility-to-python-numbers-module">Compatibility to python <code class="docutils literal notranslate"><span class="pre">numbers</span></code> module</a></li>
-<li><a class="reference internal" href="#increasing-parameter-added-to-np-vander"><code class="docutils literal notranslate"><span class="pre">increasing</span></code> parameter added to <code class="docutils literal notranslate"><span class="pre">np.vander</span></code></a></li>
-<li><a class="reference internal" href="#unique-counts-parameter-added-to-np-unique"><code class="docutils literal notranslate"><span class="pre">unique_counts</span></code> parameter added to <code class="docutils literal notranslate"><span class="pre">np.unique</span></code></a></li>
-<li><a class="reference internal" href="#support-for-median-and-percentile-in-nanfunctions">Support for median and percentile in nanfunctions</a></li>
-<li><a class="reference internal" href="#numpyversion-class-added">NumpyVersion class added</a></li>
-<li><a class="reference internal" href="#allow-saving-arrays-with-large-number-of-named-columns">Allow saving arrays with large number of named columns</a></li>
-<li><a class="reference internal" href="#full-broadcasting-support-for-np-cross">Full broadcasting support for <code class="docutils literal notranslate"><span class="pre">np.cross</span></code></a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#improvements">Improvements</a><ul>
-<li><a class="reference internal" href="#better-numerical-stability-for-sum-in-some-cases">Better numerical stability for sum in some cases</a></li>
-<li><a class="reference internal" href="#percentile-implemented-in-terms-of-np-partition">Percentile implemented in terms of <code class="docutils literal notranslate"><span class="pre">np.partition</span></code></a></li>
-<li><a class="reference internal" href="#performance-improvement-for-np-array">Performance improvement for <code class="docutils literal notranslate"><span class="pre">np.array</span></code></a></li>
-<li><a class="reference internal" href="#performance-improvement-for-np-searchsorted">Performance improvement for <code class="docutils literal notranslate"><span class="pre">np.searchsorted</span></code></a></li>
-<li><a class="reference internal" href="#optional-reduced-verbosity-for-np-distutils">Optional reduced verbosity for np.distutils</a></li>
-<li><a class="reference internal" href="#covariance-check-in-np-random-multivariate-normal">Covariance check in <code class="docutils literal notranslate"><span class="pre">np.random.multivariate_normal</span></code></a></li>
-<li><a class="reference internal" href="#polynomial-classes-no-longer-template-based">Polynomial Classes no longer template based</a></li>
-<li><a class="reference internal" href="#more-gil-releases">More GIL releases</a></li>
-<li><a class="reference internal" href="#maskedarray-support-for-more-complicated-base-classes">MaskedArray support for more complicated base classes</a></li>
-<li><a class="reference internal" href="#c-api">C-API</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#deprecations">Deprecations</a><ul>
-<li><a class="reference internal" href="#non-integer-scalars-for-sequence-repetition">Non-integer scalars for sequence repetition</a></li>
-<li><a class="reference internal" href="#select-input-deprecations"><code class="docutils literal notranslate"><span class="pre">select</span></code> input deprecations</a></li>
-<li><a class="reference internal" href="#rank-function"><code class="docutils literal notranslate"><span class="pre">rank</span></code> function</a></li>
-<li><a class="reference internal" href="#object-array-equality-comparisons">Object array equality comparisons</a></li>
-<li><a class="reference internal" href="#id1">C-API</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="1.9.1-notes.html"
-                        title="previous chapter">NumPy 1.9.1 Release Notes</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="1.8.2-notes.html"
-                        title="next chapter">NumPy 1.8.2 Release Notes</a></p>
-<div id="searchbox" style="display: none" role="search">
-  <h4>Quick search</h4>
-    <div>
-    <form class="search" action="../search.html" method="get">
-      <input type="text" style="width: inherit;" name="q" />
-      <input type="submit" value="search" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
-    </div>
-</div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
-        </div>
-      </div>
         </div>
       </div>
     </div>

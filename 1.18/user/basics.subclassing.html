@@ -52,8 +52,8 @@
 	    <div class="spc-navbar">
               
     <ul class="nav nav-pills pull-left">
-        <li class="active"><a href="https://scipy.org/">Scipy.org</a></li>
-        <li class="active"><a href="https://docs.scipy.org/">Docs</a></li>
+        <li class="active"><a href="https://numpy.org/">NumPy.org</a></li>
+        <li class="active"><a href="https://numpy.org/doc">Docs</a></li>
         
         <li class="active"><a href="../index.html">NumPy v1.18 Manual</a></li>
         
@@ -84,6 +84,53 @@
         
 
 	<div class="row-fluid">
+      <div class="spc-rightsidebar span3">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../contents.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Subclassing ndarray</a><ul>
+<li><a class="reference internal" href="#introduction">Introduction</a><ul>
+<li><a class="reference internal" href="#ndarrays-and-object-creation">ndarrays and object creation</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#view-casting">View casting</a></li>
+<li><a class="reference internal" href="#creating-new-from-template">Creating new from template</a></li>
+<li><a class="reference internal" href="#relationship-of-view-casting-and-new-from-template">Relationship of view casting and new-from-template</a></li>
+<li><a class="reference internal" href="#implications-for-subclassing">Implications for subclassing</a><ul>
+<li><a class="reference internal" href="#a-brief-python-primer-on-new-and-init">A brief Python primer on <code class="docutils literal notranslate"><span class="pre">__new__</span></code> and <code class="docutils literal notranslate"><span class="pre">__init__</span></code></a></li>
+<li><a class="reference internal" href="#the-role-of-array-finalize">The role of <code class="docutils literal notranslate"><span class="pre">__array_finalize__</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#simple-example-adding-an-extra-attribute-to-ndarray">Simple example - adding an extra attribute to ndarray</a></li>
+<li><a class="reference internal" href="#slightly-more-realistic-example-attribute-added-to-existing-array">Slightly more realistic example - attribute added to existing array</a></li>
+<li><a class="reference internal" href="#array-ufunc-for-ufuncs"><code class="docutils literal notranslate"><span class="pre">__array_ufunc__</span></code> for ufuncs</a></li>
+<li><a class="reference internal" href="#array-wrap-for-ufuncs-and-other-functions"><code class="docutils literal notranslate"><span class="pre">__array_wrap__</span></code> for ufuncs and other functions</a></li>
+<li><a class="reference internal" href="#extra-gotchas-custom-del-methods-and-ndarray-base">Extra gotchas - custom <code class="docutils literal notranslate"><span class="pre">__del__</span></code> methods and ndarray.base</a></li>
+<li><a class="reference internal" href="#subclassing-and-downstream-compatibility">Subclassing and Downstream Compatibility</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="basics.dispatch.html"
+                        title="previous chapter">Writing custom array containers</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="misc.html"
+                        title="next chapter">Miscellaneous</a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h4>Quick search</h4>
+    <div>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" style="width: inherit;" name="q" />
+      <input type="submit" value="search" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
           <div class="span9">
             
         <div class="bodywrapper">
@@ -782,53 +829,6 @@ your function’s signature should accept <code class="docutils literal notransl
           </div>
         </div>
           </div>
-      <div class="spc-rightsidebar span3">
-        <div class="sphinxsidebarwrapper">
-  <h3><a href="../contents.html">Table of Contents</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">Subclassing ndarray</a><ul>
-<li><a class="reference internal" href="#introduction">Introduction</a><ul>
-<li><a class="reference internal" href="#ndarrays-and-object-creation">ndarrays and object creation</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#view-casting">View casting</a></li>
-<li><a class="reference internal" href="#creating-new-from-template">Creating new from template</a></li>
-<li><a class="reference internal" href="#relationship-of-view-casting-and-new-from-template">Relationship of view casting and new-from-template</a></li>
-<li><a class="reference internal" href="#implications-for-subclassing">Implications for subclassing</a><ul>
-<li><a class="reference internal" href="#a-brief-python-primer-on-new-and-init">A brief Python primer on <code class="docutils literal notranslate"><span class="pre">__new__</span></code> and <code class="docutils literal notranslate"><span class="pre">__init__</span></code></a></li>
-<li><a class="reference internal" href="#the-role-of-array-finalize">The role of <code class="docutils literal notranslate"><span class="pre">__array_finalize__</span></code></a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#simple-example-adding-an-extra-attribute-to-ndarray">Simple example - adding an extra attribute to ndarray</a></li>
-<li><a class="reference internal" href="#slightly-more-realistic-example-attribute-added-to-existing-array">Slightly more realistic example - attribute added to existing array</a></li>
-<li><a class="reference internal" href="#array-ufunc-for-ufuncs"><code class="docutils literal notranslate"><span class="pre">__array_ufunc__</span></code> for ufuncs</a></li>
-<li><a class="reference internal" href="#array-wrap-for-ufuncs-and-other-functions"><code class="docutils literal notranslate"><span class="pre">__array_wrap__</span></code> for ufuncs and other functions</a></li>
-<li><a class="reference internal" href="#extra-gotchas-custom-del-methods-and-ndarray-base">Extra gotchas - custom <code class="docutils literal notranslate"><span class="pre">__del__</span></code> methods and ndarray.base</a></li>
-<li><a class="reference internal" href="#subclassing-and-downstream-compatibility">Subclassing and Downstream Compatibility</a></li>
-</ul>
-</li>
-</ul>
-
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="basics.dispatch.html"
-                        title="previous chapter">Writing custom array containers</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="misc.html"
-                        title="next chapter">Miscellaneous</a></p>
-<div id="searchbox" style="display: none" role="search">
-  <h4>Quick search</h4>
-    <div>
-    <form class="search" action="../search.html" method="get">
-      <input type="text" style="width: inherit;" name="q" />
-      <input type="submit" value="search" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
-    </div>
-</div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
-        </div>
-      </div>
         </div>
       </div>
     </div>
