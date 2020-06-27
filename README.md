@@ -21,4 +21,6 @@ To add documentation for a version:
 - Edit the `index.html` to reflect the new files by copy-pasting an existing
   stanza beginning with `<!-- tag vX.YY.Z -->` after the
   `<!-- insert here -->` comment, and changing the `href` locations
-  appropriately
+  appropriately.
+
+- Finally, run `python3 update.py` and commit all changes.
