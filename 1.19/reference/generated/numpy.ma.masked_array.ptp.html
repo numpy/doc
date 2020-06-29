@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    
+    <title>numpy.ma.masked_array.ptp &mdash; NumPy v1.19 Manual</title>
+    
+    <link rel="stylesheet" type="text/css" href="../../_static/css/spc-bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="../../_static/css/spc-extend.css">
+    <link rel="stylesheet" href="../../_static/scipy.css" type="text/css" >
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" >
+    <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" >
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.19.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/language_data.js"></script>
+    <script type="text/javascript" src="../../_static/js/copybutton.js"></script>
+    <link rel="author" title="About these documents" href="../../about.html" >
+    <link rel="index" title="Index" href="../../genindex.html" >
+    <link rel="search" title="Search" href="../../search.html" >
+    <link rel="top" title="NumPy v1.19 Manual" href="../../index.html" > 
+  </head>
+  <body>
+<div class="container">
+  <div class="top-scipy-org-logo-header" style="background-color: #a2bae8;">
+    <a href="../../index.html">
+      <img border=0 alt="NumPy" src="../../_static/numpy_logo.png"></a>
+    </div>
+  </div>
+</div>
+
+
+    <div class="container">
+      <div class="main">
+        
+	<div class="row-fluid">
+	  <div class="span12">
+	    <div class="spc-navbar">
+              
+    <ul class="nav nav-pills pull-left">
+        <li class="active"><a href="https://numpy.org/">NumPy.org</a></li>
+        <li class="active"><a href="https://numpy.org/doc">Docs</a></li>
+        
+        <li class="active"><a href="../../index.html">NumPy v1.19 Manual</a></li>
+        
+ 
+    </ul>
+              
+              
+    <ul class="nav nav-pills pull-right">
+      <li class="active">
+        <a href="../../genindex.html" title="General Index"
+           accesskey="I">index</a>
+      </li>
+    </ul>
+              
+	    </div>
+	  </div>
+	</div>
+        
+
+	<div class="row-fluid">
+      <div class="spc-rightsidebar span3">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h4>Quick search</h4>
+    <div>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" style="width: inherit;" name="q" />
+      <input type="submit" value="search" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+          <div class="span9">
+            
+        <div class="bodywrapper">
+          <div class="body" id="spc-section-body">
+            
+  <div class="section" id="numpy-ma-masked-array-ptp">
+<h1>numpy.ma.masked_array.ptp<a class="headerlink" href="#numpy-ma-masked-array-ptp" title="Permalink to this headline">¶</a></h1>
+<p>method</p>
+<dl class="method">
+<dt id="numpy.ma.masked_array.ptp">
+<code class="sig-prename descclassname">masked_array.</code><code class="sig-name descname">ptp</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">axis=None</em>, <em class="sig-param">out=None</em>, <em class="sig-param">fill_value=None</em>, <em class="sig-param">keepdims=False</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/numpy/numpy/blob/v1.19.0/numpy/ma/core.py#L5861-L5947"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#numpy.ma.masked_array.ptp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return (maximum - minimum) along the given dimension
+(i.e. peak-to-peak value).</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p><a class="reference internal" href="numpy.ma.ptp.html#numpy.ma.ptp" title="numpy.ma.ptp"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ptp</span></code></a> preserves the data type of the array. This means the
+return value for an input of signed integers with n bits
+(e.g. <em class="xref py py-obj">np.int8</em>, <em class="xref py py-obj">np.int16</em>, etc) is also a signed integer
+with n bits.  In that case, peak-to-peak values greater than
+<code class="docutils literal notranslate"><span class="pre">2**(n-1)-1</span></code> will be returned as negative values. An example
+with a work-around is shown below.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>axis</strong><span class="classifier">{None, int}, optional</span></dt><dd><p>Axis along which to find the peaks.  If None (default) the
+flattened array is used.</p>
+</dd>
+<dt><strong>out</strong><span class="classifier">{None, array_like}, optional</span></dt><dd><p>Alternative output array in which to place the result. It must
+have the same shape and buffer length as the expected output
+but the type will be cast if necessary.</p>
+</dd>
+<dt><strong>fill_value</strong><span class="classifier">{var}, optional</span></dt><dd><p>Value used to fill in the masked values.</p>
+</dd>
+<dt><strong>keepdims</strong><span class="classifier">bool, optional</span></dt><dd><p>If this is set to True, the axes which are reduced are left
+in the result as dimensions with size one. With this option,
+the result will broadcast correctly against the array.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>ptp</strong><span class="classifier">ndarray.</span></dt><dd><p>A new array holding the result, unless <code class="docutils literal notranslate"><span class="pre">out</span></code> was
+specified, in which case a reference to <code class="docutils literal notranslate"><span class="pre">out</span></code> is returned.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">MaskedArray</span><span class="p">([[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">10</span><span class="p">],</span>
+<span class="gp">... </span>                       <span class="p">[</span><span class="mi">6</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">12</span><span class="p">]])</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="o">.</span><span class="n">ptp</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="go">masked_array(data=[8, 6],</span>
+<span class="go">             mask=False,</span>
+<span class="go">       fill_value=999999)</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="o">.</span><span class="n">ptp</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="go">masked_array(data=[2, 0, 5, 2],</span>
+<span class="go">             mask=False,</span>
+<span class="go">       fill_value=999999)</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="o">.</span><span class="n">ptp</span><span class="p">()</span>
+<span class="go">10</span>
+</pre></div>
+</div>
+<p>This example shows that a negative value can be returned when
+the input is an array of signed integers.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">MaskedArray</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">127</span><span class="p">],</span>
+<span class="gp">... </span>                       <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">127</span><span class="p">],</span>
+<span class="gp">... </span>                       <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">127</span><span class="p">],</span>
+<span class="gp">... </span>                       <span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">127</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int8</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">y</span><span class="o">.</span><span class="n">ptp</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="go">masked_array(data=[ 126,  127, -128, -127],</span>
+<span class="go">             mask=False,</span>
+<span class="go">       fill_value=999999,</span>
+<span class="go">            dtype=int8)</span>
+</pre></div>
+</div>
+<p>A work-around is to use the <em class="xref py py-obj">view()</em> method to view the result as
+unsigned integers with the same bit width:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">y</span><span class="o">.</span><span class="n">ptp</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+<span class="go">masked_array(data=[126, 127, 128, 129],</span>
+<span class="go">             mask=False,</span>
+<span class="go">       fill_value=999999,</span>
+<span class="go">            dtype=uint8)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container container-navbar-bottom">
+      <div class="spc-navbar">
+        
+      </div>
+    </div>
+    <div class="container">
+    <div class="footer">
+    <div class="row-fluid">
+    <ul class="inline pull-left">
+      <li>
+        &copy; Copyright 2008-2020, The SciPy community.
+      </li>
+      <li>
+      Last updated on Jun 29, 2020.
+      </li>
+      <li>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 2.4.4.
+      </li>
+    </ul>
+    </div>
+    </div>
+    </div>
+  </body>
+</html>
