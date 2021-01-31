@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>numpy.resize &#8212; NumPy v1.21.dev0 Manual</title>
+    <title>numpy.resize &#8212; NumPy v1.20 Manual</title>
     
   <link rel="stylesheet" href="../../_static/css/index.73d71520a4ca3b99cfee5594769eaaae.css">
 
@@ -350,7 +350,7 @@
 <h1>numpy.resize<a class="headerlink" href="#numpy-resize" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="numpy.resize">
-<code class="sig-prename descclassname">numpy.</code><code class="sig-name descname">resize</code><span class="sig-paren">(</span><em class="sig-param">a</em>, <em class="sig-param">new_shape</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/numpy/numpy/blob/master/numpy/core/fromnumeric.py#L1355-L1432"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#numpy.resize" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">numpy.</code><code class="sig-name descname">resize</code><span class="sig-paren">(</span><em class="sig-param">a</em>, <em class="sig-param">new_shape</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/numpy/numpy/blob/v1.20.0/numpy/core/fromnumeric.py#L1355-L1432"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#numpy.resize" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a new array with the specified shape.</p>
 <p>If the new array is larger than the original array, then the new
 array is filled with repeated copies of <em class="xref py py-obj">a</em>.  Note that this behavior
@@ -369,7 +369,7 @@ of repeated copies of <em class="xref py py-obj">a</em>.</p>
 <dd class="field-even"><dl class="simple">
 <dt><strong>reshaped_array</strong><span class="classifier">ndarray</span></dt><dd><p>The new array is formed from the data in the old array, repeated
 if necessary to fill out the required number of elements.  The
-data are repeated iterating over the array in C-order.</p>
+data are repeated in the order that they are stored in memory.</p>
 </dd>
 </dl>
 </dd>
@@ -393,11 +393,11 @@ be used.  In most other cases either indexing (to reduce the size)
 or padding (to increase the size) may be a more appropriate solution.</p>
 <p>Warning: This functionality does <strong>not</strong> consider axes separately,
 i.e. it does not apply interpolation/extrapolation.
-It fills the return array with the required number of elements, iterating
-over <em class="xref py py-obj">a</em> in C-order, disregarding axes (and cycling back from the start if
-the new shape is larger).  This functionality is therefore not suitable to
-resize images, or data where each axis represents a separate and distinct
-entity.</p>
+It fills the return array with the required number of elements, taken
+from <em class="xref py py-obj">a</em> as they are laid out in memory, disregarding strides and axes.
+(This is in case the new shape is smaller. For larger, see above.)
+This functionality is therefore not suitable to resize images,
+or data where each axis represents a separate and distinct entity.</p>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">]])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="n">a</span><span class="p">,(</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
@@ -439,7 +439,7 @@ entity.</p>
   <div class="container">
     <p>
           &copy; Copyright 2008-2020, The SciPy community.<br/>
-        Last updated on Jan 30, 2021.<br/>
+        Last updated on Jan 31, 2021.<br/>
         Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.4.4.<br/>
     </p>
   </div>

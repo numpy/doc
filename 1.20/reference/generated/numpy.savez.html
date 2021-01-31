@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>numpy.savez &#8212; NumPy v1.21.dev0 Manual</title>
+    <title>numpy.savez &#8212; NumPy v1.20 Manual</title>
     
   <link rel="stylesheet" href="../../_static/css/index.73d71520a4ca3b99cfee5594769eaaae.css">
 
@@ -350,12 +350,12 @@
 <h1>numpy.savez<a class="headerlink" href="#numpy-savez" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="numpy.savez">
-<code class="sig-prename descclassname">numpy.</code><code class="sig-name descname">savez</code><span class="sig-paren">(</span><em class="sig-param">file</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwds</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/numpy/numpy/blob/master/numpy/lib/npyio.py#L538-L618"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#numpy.savez" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">numpy.</code><code class="sig-name descname">savez</code><span class="sig-paren">(</span><em class="sig-param">file</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwds</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/numpy/numpy/blob/v1.20.0/numpy/lib/npyio.py#L538-L617"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#numpy.savez" title="Permalink to this definition">¶</a></dt>
 <dd><p>Save several arrays into a single file in uncompressed <code class="docutils literal notranslate"><span class="pre">.npz</span></code> format.</p>
-<p>Provide arrays as keyword arguments to store them under the
-corresponding name in the output file: <code class="docutils literal notranslate"><span class="pre">savez(fn,</span> <span class="pre">x=x,</span> <span class="pre">y=y)</span></code>.</p>
-<p>If arrays are specified as positional arguments, i.e., <code class="docutils literal notranslate"><span class="pre">savez(fn,</span>
-<span class="pre">x,</span> <span class="pre">y)</span></code>, their names will be <em class="xref py py-obj">arr_0</em>, <em class="xref py py-obj">arr_1</em>, etc.</p>
+<p>If arguments are passed in with no keywords, the corresponding variable
+names, in the <code class="docutils literal notranslate"><span class="pre">.npz</span></code> file, are ‘arr_0’, ‘arr_1’, etc. If keyword
+arguments are given, the corresponding variable names, in the <code class="docutils literal notranslate"><span class="pre">.npz</span></code>
+file will match the keyword names.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
@@ -364,12 +364,13 @@ where the data will be saved. If file is a string or a Path, the
 <code class="docutils literal notranslate"><span class="pre">.npz</span></code> extension will be appended to the filename if it is not
 already there.</p>
 </dd>
-<dt><strong>args</strong><span class="classifier">Arguments, optional</span></dt><dd><p>Arrays to save to the file. Please use keyword arguments (see
-<em class="xref py py-obj">kwds</em> below) to assign names to arrays.  Arrays specified as
-args will be named “arr_0”, “arr_1”, and so on.</p>
+<dt><strong>args</strong><span class="classifier">Arguments, optional</span></dt><dd><p>Arrays to save to the file. Since it is not possible for Python to
+know the names of the arrays outside <a class="reference internal" href="#numpy.savez" title="numpy.savez"><code class="xref py py-obj docutils literal notranslate"><span class="pre">savez</span></code></a>, the arrays will be saved
+with names “arr_0”, “arr_1”, and so on. These arguments can be any
+expression.</p>
 </dd>
-<dt><strong>kwds</strong><span class="classifier">Keyword arguments, optional</span></dt><dd><p>Arrays to save to the file. Each array will be saved to the
-output file with its corresponding keyword name.</p>
+<dt><strong>kwds</strong><span class="classifier">Keyword arguments, optional</span></dt><dd><p>Arrays to save to the file. Arrays will be saved in the file with the
+keyword names.</p>
 </dd>
 </dl>
 </dd>
@@ -459,7 +460,7 @@ E.g., avoid keys that begin with <code class="docutils literal notranslate"><spa
   <div class="container">
     <p>
           &copy; Copyright 2008-2020, The SciPy community.<br/>
-        Last updated on Jan 30, 2021.<br/>
+        Last updated on Jan 31, 2021.<br/>
         Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.4.4.<br/>
     </p>
   </div>
