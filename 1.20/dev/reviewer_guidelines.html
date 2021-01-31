@@ -1,0 +1,370 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Reviewer Guidelines &#8212; NumPy v1.21.dev0 Manual</title>
+    
+  <link rel="stylesheet" href="../_static/css/index.73d71520a4ca3b99cfee5594769eaaae.css">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+  <link rel="stylesheet"
+    href="../_static/vendor/open-sans_all/1.44.1/index.css">
+  <link rel="stylesheet"
+    href="../_static/vendor/lato_latin-ext/1.44.1/index.css">
+
+    
+    <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.3da636dd464baa7582d2.js">
+
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="How to contribute to the NumPy documentation" href="howto-docs.html" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+<link rel="stylesheet" href="../_static/numpy.css" type="text/css" />
+
+    <!-- PR #17220: This is added via javascript in versionwarning.js  -->
+    <!-- link rel="canonical" href="http://numpy.org/doc/stable/dev/reviewer_guidelines.html" / -->
+
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <nav class="navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main">
+<div class="container-xl">
+
+    <a class="navbar-brand" href="../contents.html">
+    
+      <img src="../_static/numpylogo.svg" class="logo" alt="logo" />
+    
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-menu" aria-controls="navbar-menu" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div id="navbar-menu" class="col-lg-9 collapse navbar-collapse">
+      <ul id="navbar-main-elements" class="navbar-nav mr-auto">
+        
+        
+        <li class="nav-item ">
+            <a class="nav-link" href="../user/index.html">User Guide</a>
+        </li>
+        
+        <li class="nav-item ">
+            <a class="nav-link" href="../reference/index.html">API reference</a>
+        </li>
+        
+        <li class="nav-item active">
+            <a class="nav-link" href="index.html">Development</a>
+        </li>
+        
+        
+      </ul>
+
+
+      
+
+      <ul class="navbar-nav">
+        
+          <li class="nav-item">
+            <a class="nav-link" href="https://github.com/numpy/numpy" target="_blank" rel="noopener">
+              <span><i class="fab fa-github-square"></i></span>
+            </a>
+          </li>
+        
+        
+          <li class="nav-item">
+            <a class="nav-link" href="https://twitter.com/numpy_team" target="_blank" rel="noopener">
+              <span><i class="fab fa-twitter-square"></i></span>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+</div>
+    </nav>
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+          <div class="col-12 col-md-3 bd-sidebar"><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form>
+<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+
+    <div class="bd-toc-item active">
+    
+  
+    <ul class="nav bd-sidenav">
+        
+        
+        
+        
+        
+        
+          
+            
+                <li class="">
+                    <a href="gitwash/index.html">Git Basics</a>
+                </li>
+            
+          
+            
+                <li class="">
+                    <a href="development_environment.html">Setting up and using your development environment</a>
+                </li>
+            
+          
+            
+                <li class="">
+                    <a href="development_workflow.html">Development workflow</a>
+                </li>
+            
+          
+            
+                <li class="">
+                    <a href="../benchmarking.html">NumPy benchmarks</a>
+                </li>
+            
+          
+            
+                <li class="">
+                    <a href="https://numpy.org/neps/nep-0045-c_style_guide.html">NumPy C style guide</a>
+                </li>
+            
+          
+            
+                <li class="">
+                    <a href="releasing.html">Releasing a Version</a>
+                </li>
+            
+          
+            
+                <li class="">
+                    <a href="governance/index.html">NumPy governance</a>
+                </li>
+            
+          
+            
+                <li class="">
+                    <a href="howto-docs.html">How to contribute to the NumPy documentation</a>
+                </li>
+            
+          
+        
+        
+      </ul>
+  
+  </nav>
+          </div>
+          
+
+          
+          <div class="d-none d-xl-block col-xl-2 bd-toc">
+              
+<div class="tocsection onthispage pt-5 pb-3">
+    <i class="fas fa-list"></i> On this page
+</div>
+
+<nav id="bd-toc-nav">
+    <ul class="nav section-nav flex-column">
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#who-can-be-a-reviewer" class="nav-link">Who can be a reviewer?</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#communication-guidelines" class="nav-link">Communication Guidelines</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#reviewer-checklist" class="nav-link">Reviewer Checklist</a><ul class="nav section-nav flex-column">
+                
+        <li class="nav-item toc-entry toc-h3">
+            <a href="#for-maintainers" class="nav-link">For maintainers</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h3">
+            <a href="#github-workflow" class="nav-link">GitHub Workflow</a>
+        </li>
+    
+            </ul>
+        </li>
+    
+    </ul>
+</nav>
+
+
+              
+          </div>
+          
+
+          
+          <main class="col-12 col-md-9 col-xl-7 py-md-5 pl-md-5 pr-md-4 bd-content" role="main">
+              
+              <div>
+                
+  <div class="section" id="reviewer-guidelines">
+<span id="id1"></span><h1>Reviewer Guidelines<a class="headerlink" href="#reviewer-guidelines" title="Permalink to this headline">¶</a></h1>
+<p>Reviewing open pull requests (PRs) helps move the project forward. We encourage
+people outside the project to get involved as well; it’s a great way to get
+familiar with the codebase.</p>
+<div class="section" id="who-can-be-a-reviewer">
+<h2>Who can be a reviewer?<a class="headerlink" href="#who-can-be-a-reviewer" title="Permalink to this headline">¶</a></h2>
+<p>Reviews can come from outside the NumPy team – we welcome contributions from
+domain experts (for instance, <em class="xref py py-obj">linalg</em> or <em class="xref py py-obj">fft</em>) or maintainers of other
+projects. You do not need to be a NumPy maintainer (a NumPy team member with
+permission to merge a PR) to review.</p>
+<p>If we do not know you yet, consider introducing yourself in <a class="reference external" href="https://numpy.org/community/">the mailing list or
+Slack</a> before you start reviewing pull requests.</p>
+</div>
+<div class="section" id="communication-guidelines">
+<h2>Communication Guidelines<a class="headerlink" href="#communication-guidelines" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Every PR, good or bad, is an act of generosity. Opening with a positive
+comment will help the author feel rewarded, and your subsequent remarks may be
+heard more clearly. You may feel good also.</p></li>
+<li><p>Begin if possible with the large issues, so the author knows they’ve been
+understood. Resist the temptation to immediately go line by line, or to open
+with small pervasive issues.</p></li>
+<li><p>You are the face of the project, and NumPy some time ago decided <a class="reference external" href="https://numpy.org/code-of-conduct/">the kind of
+project it will be</a>: open, empathetic,
+welcoming, friendly and patient. Be <a class="reference external" href="https://youtu.be/tzFWz5fiVKU?t=49m30s">kind</a> to contributors.</p></li>
+<li><p>Do not let perfect be the enemy of the good, particularly for documentation.
+If you find yourself making many small suggestions, or being too nitpicky on
+style or grammar, consider merging the current PR when all important concerns
+are addressed. Then, either push a commit directly (if you are a maintainer)
+or open a follow-up PR yourself.</p></li>
+<li><p>If you need help writing replies in reviews, check out some <a class="reference external" href="https://scikit-learn.org/stable/developers/tips.html#saved-replies">Standard replies
+for reviewing</a>.</p></li>
+</ul>
+</div>
+<div class="section" id="reviewer-checklist">
+<h2>Reviewer Checklist<a class="headerlink" href="#reviewer-checklist" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><dl class="simple">
+<dt>Is the intended behavior clear under all conditions? Some things to watch:</dt><dd><ul>
+<li><p>What happens with unexpected inputs like empty arrays or nan/inf values?</p></li>
+<li><p>Are axis or shape arguments tested to be <em class="xref py py-obj">int</em> or <em class="xref py py-obj">tuples</em>?</p></li>
+<li><p>Are unusual <em class="xref py py-obj">dtypes</em> tested if a function supports those?</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><p>Should variable names be improved for clarity or consistency?</p></li>
+<li><p>Should comments be added, or rather removed as unhelpful or extraneous?</p></li>
+<li><p>Does the documentation follow the <a class="reference internal" href="../docs/howto_document.html#howto-document"><span class="std std-ref">NumPy guidelines</span></a>? Are
+the docstrings properly formatted?</p></li>
+<li><p>Does the code follow NumPy’s <a class="reference internal" href="index.html#stylistic-guidelines"><span class="std std-ref">Stylistic Guidelines</span></a>?</p></li>
+<li><p>If you are a maintainer, and it is not obvious from the PR description, add a
+short explanation of what a branch did to the merge message and, if closing an
+issue, also add “Closes gh-123” where 123 is the issue number.</p></li>
+<li><p>For code changes, at least one maintainer (i.e. someone with commit rights)
+should review and approve a pull request. If you are the first to review a
+PR and approve of the changes use the GitHub <a class="reference external" href="https://help.github.com/articles/reviewing-changes-in-pull-requests/">approve review</a> tool
+to mark it as such. If a PR is straightforward, for example it’s a clearly
+correct bug fix, it can be merged straight away. If it’s more complex or
+changes public API, please leave it open for at least a couple of days so
+other maintainers get a chance to review.</p></li>
+<li><p>If you are a subsequent reviewer on an already approved PR, please use the
+same review method as for a new PR (focus on the larger issues, resist the
+temptation to add only a few nitpicks).  If you have commit rights and think
+no more review is needed, merge the PR.</p></li>
+</ul>
+<div class="section" id="for-maintainers">
+<h3>For maintainers<a class="headerlink" href="#for-maintainers" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Make sure all automated CI tests pass before merging a PR, and that the
+<a class="reference internal" href="index.html#building-docs"><span class="std std-ref">documentation builds</span></a> without any errors.</p></li>
+<li><p>In case of merge conflicts, ask the PR submitter to <a class="reference internal" href="development_workflow.html#rebasing-on-master"><span class="std std-ref">rebase on master</span></a>.</p></li>
+<li><p>For PRs that add new features or are in some way complex, wait at least a day
+or two before merging it. That way, others get a chance to comment before the
+code goes in. Consider adding it to the release notes.</p></li>
+<li><p>When merging contributions, a committer is responsible for ensuring that those
+meet the requirements outlined in the <a class="reference internal" href="index.html#guidelines"><span class="std std-ref">Development process guidelines</span></a> for NumPy. Also, check that new features and backwards
+compatibility breaks were discussed on the <a class="reference external" href="https://mail.python.org/mailman/listinfo/numpy-discussion">numpy-discussion mailing list</a>.</p></li>
+<li><p>Squashing commits or cleaning up commit messages of a PR that you consider too
+messy is OK. Remember to retain the original author’s name when doing this.
+Make sure commit messages follow the <a class="reference internal" href="development_workflow.html#writing-the-commit-message"><span class="std std-ref">rules for NumPy</span></a>.</p></li>
+<li><p>When you want to reject a PR: if it’s very obvious, you can just close it and
+explain why. If it’s not, then it’s a good idea to first explain why you
+think the PR is not suitable for inclusion in NumPy and then let a second
+committer comment or close.</p></li>
+</ul>
+</div>
+<div class="section" id="github-workflow">
+<h3>GitHub Workflow<a class="headerlink" href="#github-workflow" title="Permalink to this headline">¶</a></h3>
+<p>When reviewing pull requests, please use workflow tracking features on GitHub as
+appropriate:</p>
+<ul class="simple">
+<li><p>After you have finished reviewing, if you want to ask for the submitter to
+make changes, change your review status to “Changes requested.” This can be
+done on GitHub, PR page, Files changed tab, Review changes (button on the top
+right).</p></li>
+<li><p>If you’re happy about the current status, mark the pull request as Approved
+(same way as Changes requested). Alternatively (for maintainers): merge
+the pull request, if you think it is ready to be merged.</p></li>
+</ul>
+<p>It may be helpful to have a copy of the pull request code checked out on your
+own machine so that you can play with it locally. You can use the <a class="reference external" href="https://docs.github.com/en/github/getting-started-with-github/github-cli">GitHub CLI</a> to
+do this by clicking the <code class="docutils literal notranslate"><span class="pre">Open</span> <span class="pre">with</span></code> button in the upper right-hand corner of
+the PR page.</p>
+<p>Assuming you have your <a class="reference internal" href="development_environment.html#development-environment"><span class="std std-ref">development environment</span></a>
+set up, you can now build the code and test it.</p>
+</div>
+</div>
+</div>
+
+
+              </div>
+              
+              
+              <div class='prev-next-bottom'>
+                
+    <a class='left-prev' id="prev-link" href="howto-docs.html" title="previous page">How to contribute to the NumPy documentation</a>
+
+              </div>
+              
+          </main>
+          
+
+      </div>
+    </div>
+
+    
+  <script src="../_static/js/index.3da636dd464baa7582d2.js"></script>
+
+
+    <footer class="footer mt-5 mt-md-0">
+  <div class="container">
+    <p>
+          &copy; Copyright 2008-2020, The SciPy community.<br/>
+        Last updated on Jan 30, 2021.<br/>
+        Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.4.4.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

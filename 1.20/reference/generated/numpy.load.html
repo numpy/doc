@@ -1,0 +1,505 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>numpy.load &#8212; NumPy v1.21.dev0 Manual</title>
+    
+  <link rel="stylesheet" href="../../_static/css/index.73d71520a4ca3b99cfee5594769eaaae.css">
+
+    
+  <link rel="stylesheet"
+    href="../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+  <link rel="stylesheet"
+    href="../../_static/vendor/open-sans_all/1.44.1/index.css">
+  <link rel="stylesheet"
+    href="../../_static/vendor/lato_latin-ext/1.44.1/index.css">
+
+    
+    <link rel="stylesheet" href="../../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
+    
+  <link rel="preload" as="script" href="../../_static/js/index.3da636dd464baa7582d2.js">
+
+    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="numpy.save" href="numpy.save.html" />
+    <link rel="prev" title="Input and output" href="../routines.io.html" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+<link rel="stylesheet" href="../../_static/numpy.css" type="text/css" />
+
+    <!-- PR #17220: This is added via javascript in versionwarning.js  -->
+    <!-- link rel="canonical" href="http://numpy.org/doc/stable/reference/generated/numpy.load.html" / -->
+
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <nav class="navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main">
+<div class="container-xl">
+
+    <a class="navbar-brand" href="../../contents.html">
+    
+      <img src="../../_static/numpylogo.svg" class="logo" alt="logo" />
+    
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-menu" aria-controls="navbar-menu" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div id="navbar-menu" class="col-lg-9 collapse navbar-collapse">
+      <ul id="navbar-main-elements" class="navbar-nav mr-auto">
+        
+        
+        <li class="nav-item ">
+            <a class="nav-link" href="../../user/index.html">User Guide</a>
+        </li>
+        
+        <li class="nav-item active">
+            <a class="nav-link" href="../index.html">API reference</a>
+        </li>
+        
+        <li class="nav-item ">
+            <a class="nav-link" href="../../dev/index.html">Development</a>
+        </li>
+        
+        
+      </ul>
+
+
+      
+
+      <ul class="navbar-nav">
+        
+          <li class="nav-item">
+            <a class="nav-link" href="https://github.com/numpy/numpy" target="_blank" rel="noopener">
+              <span><i class="fab fa-github-square"></i></span>
+            </a>
+          </li>
+        
+        
+          <li class="nav-item">
+            <a class="nav-link" href="https://twitter.com/numpy_team" target="_blank" rel="noopener">
+              <span><i class="fab fa-twitter-square"></i></span>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+</div>
+    </nav>
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+          <div class="col-12 col-md-3 bd-sidebar"><form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form>
+<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+
+    <div class="bd-toc-item active">
+    
+  
+    <ul class="nav bd-sidenav">
+        
+        
+        
+        
+          
+            
+                <li class="">
+                    <a href="../arrays.html">Array objects</a>
+                </li>
+            
+          
+            
+                <li class="">
+                    <a href="../constants.html">Constants</a>
+                </li>
+            
+          
+            
+                <li class="">
+                    <a href="../ufuncs.html">Universal functions (ufunc)</a>
+                </li>
+            
+          
+            
+  
+                <li class="active">
+                    <a href="../routines.html">Routines</a>
+                    <ul>
+                    
+                        <li class="">
+                            <a href="../routines.array-creation.html">Array creation routines</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../routines.array-manipulation.html">Array manipulation routines</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../routines.bitwise.html">Binary operations</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../routines.char.html">String operations</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../routines.ctypeslib.html">C-Types Foreign Function Interface (numpy.ctypeslib)</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../routines.datetime.html">Datetime Support Functions</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../routines.dtype.html">Data type routines</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../routines.dual.html">Optionally SciPy-accelerated routines (numpy.dual)</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../routines.emath.html">Mathematical functions with automatic domain (numpy.emath)</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../routines.err.html">Floating point error handling</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../routines.fft.html">Discrete Fourier Transform (numpy.fft)</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../routines.functional.html">Functional programming</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../routines.help.html">NumPy-specific help functions</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../routines.indexing.html">Indexing routines</a>
+                        </li>
+                    
+                        <li class="active">
+                            <a href="../routines.io.html">Input and output</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../routines.linalg.html">Linear algebra (numpy.linalg)</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../routines.logic.html">Logic functions</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../routines.ma.html">Masked array operations</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../routines.math.html">Mathematical functions</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../routines.matlib.html">Matrix library (numpy.matlib)</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../routines.other.html">Miscellaneous routines</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../routines.padding.html">Padding Arrays</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../routines.polynomials.html">Polynomials</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../random/index.html">Random sampling (numpy.random)</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../routines.set.html">Set routines</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../routines.sort.html">Sorting, searching, and counting</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../routines.statistics.html">Statistics</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../routines.testing.html">Test Support (numpy.testing)</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../routines.window.html">Window functions</a>
+                        </li>
+                    
+                    </ul>
+                </li>
+            
+          
+            
+                <li class="">
+                    <a href="../typing.html">Typing (numpy.typing)</a>
+                </li>
+            
+          
+            
+                <li class="">
+                    <a href="../global_state.html">Global State</a>
+                </li>
+            
+          
+            
+                <li class="">
+                    <a href="../distutils.html">Packaging (numpy.distutils)</a>
+                </li>
+            
+          
+            
+                <li class="">
+                    <a href="../distutils_guide.html">NumPy Distutils - Users Guide</a>
+                </li>
+            
+          
+            
+                <li class="">
+                    <a href="../c-api/index.html">NumPy C-API</a>
+                </li>
+            
+          
+            
+                <li class="">
+                    <a href="../internals.html">NumPy internals</a>
+                </li>
+            
+          
+            
+                <li class="">
+                    <a href="../simd/simd-optimizations.html">SIMD Optimizations</a>
+                </li>
+            
+          
+            
+                <li class="">
+                    <a href="../swig.html">NumPy and SWIG</a>
+                </li>
+            
+          
+        
+        
+        
+        
+      </ul>
+  
+  </nav>
+          </div>
+          
+
+          
+          <div class="d-none d-xl-block col-xl-2 bd-toc">
+              
+
+<nav id="bd-toc-nav">
+    <ul class="nav section-nav flex-column">
+    
+    </ul>
+</nav>
+
+
+              
+          </div>
+          
+
+          
+          <main class="col-12 col-md-9 col-xl-7 py-md-5 pl-md-5 pr-md-4 bd-content" role="main">
+              
+              <div>
+                
+  <div class="section" id="numpy-load">
+<h1>numpy.load<a class="headerlink" href="#numpy-load" title="Permalink to this headline">¶</a></h1>
+<dl class="function">
+<dt id="numpy.load">
+<code class="sig-prename descclassname">numpy.</code><code class="sig-name descname">load</code><span class="sig-paren">(</span><em class="sig-param">file</em>, <em class="sig-param">mmap_mode=None</em>, <em class="sig-param">allow_pickle=False</em>, <em class="sig-param">fix_imports=True</em>, <em class="sig-param">encoding='ASCII'</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/numpy/numpy/blob/master/numpy/lib/npyio.py#L284-L451"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#numpy.load" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load arrays or pickled objects from <code class="docutils literal notranslate"><span class="pre">.npy</span></code>, <code class="docutils literal notranslate"><span class="pre">.npz</span></code> or pickled files.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Loading files that contain object arrays uses the <code class="docutils literal notranslate"><span class="pre">pickle</span></code>
+module, which is not secure against erroneous or maliciously
+constructed data. Consider passing <code class="docutils literal notranslate"><span class="pre">allow_pickle=False</span></code> to
+load data that is known not to contain object arrays for the
+safer handling of untrusted sources.</p>
+</div>
+<dl class="field-list">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl>
+<dt><strong>file</strong><span class="classifier">file-like object, string, or pathlib.Path</span></dt><dd><p>The file to read. File-like objects must support the
+<code class="docutils literal notranslate"><span class="pre">seek()</span></code> and <code class="docutils literal notranslate"><span class="pre">read()</span></code> methods. Pickled files require that the
+file-like object support the <code class="docutils literal notranslate"><span class="pre">readline()</span></code> method as well.</p>
+</dd>
+<dt><strong>mmap_mode</strong><span class="classifier">{None, ‘r+’, ‘r’, ‘w+’, ‘c’}, optional</span></dt><dd><p>If not None, then memory-map the file, using the given mode (see
+<a class="reference internal" href="numpy.memmap.html#numpy.memmap" title="numpy.memmap"><code class="xref py py-obj docutils literal notranslate"><span class="pre">numpy.memmap</span></code></a> for a detailed description of the modes).  A
+memory-mapped array is kept on disk. However, it can be accessed
+and sliced like any ndarray.  Memory mapping is especially useful
+for accessing small fragments of large files without reading the
+entire file into memory.</p>
+</dd>
+<dt><strong>allow_pickle</strong><span class="classifier">bool, optional</span></dt><dd><p>Allow loading pickled object arrays stored in npy files. Reasons for
+disallowing pickles include security, as loading pickled data can
+execute arbitrary code. If pickles are disallowed, loading object
+arrays will fail. Default: False</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 1.16.3: </span>Made default False in response to CVE-2019-6446.</p>
+</div>
+</dd>
+<dt><strong>fix_imports</strong><span class="classifier">bool, optional</span></dt><dd><p>Only useful when loading Python 2 generated pickled files on Python 3,
+which includes npy/npz files containing object arrays. If <em class="xref py py-obj">fix_imports</em>
+is True, pickle will try to map the old Python 2 names to the new names
+used in Python 3.</p>
+</dd>
+<dt><strong>encoding</strong><span class="classifier">str, optional</span></dt><dd><p>What encoding to use when reading Python 2 strings. Only useful when
+loading Python 2 generated pickled files in Python 3, which includes
+npy/npz files containing object arrays. Values other than ‘latin1’,
+‘ASCII’, and ‘bytes’ are not allowed, as they can corrupt numerical
+data. Default: ‘ASCII’</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>result</strong><span class="classifier">array, tuple, dict, etc.</span></dt><dd><p>Data stored in the file. For <code class="docutils literal notranslate"><span class="pre">.npz</span></code> files, the returned instance
+of NpzFile class must be closed to avoid leaking file descriptors.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><dl class="simple">
+<dt>IOError</dt><dd><p>If the input file does not exist or cannot be read.</p>
+</dd>
+<dt>ValueError</dt><dd><p>The file contains an object array, but allow_pickle=False given.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><a class="reference internal" href="numpy.save.html#numpy.save" title="numpy.save"><code class="xref py py-obj docutils literal notranslate"><span class="pre">save</span></code></a>, <a class="reference internal" href="numpy.savez.html#numpy.savez" title="numpy.savez"><code class="xref py py-obj docutils literal notranslate"><span class="pre">savez</span></code></a>, <a class="reference internal" href="numpy.savez_compressed.html#numpy.savez_compressed" title="numpy.savez_compressed"><code class="xref py py-obj docutils literal notranslate"><span class="pre">savez_compressed</span></code></a>, <a class="reference internal" href="numpy.loadtxt.html#numpy.loadtxt" title="numpy.loadtxt"><code class="xref py py-obj docutils literal notranslate"><span class="pre">loadtxt</span></code></a></dt><dd></dd>
+<dt><a class="reference internal" href="numpy.memmap.html#numpy.memmap" title="numpy.memmap"><code class="xref py py-obj docutils literal notranslate"><span class="pre">memmap</span></code></a></dt><dd><p>Create a memory-map to an array stored in a file on disk.</p>
+</dd>
+<dt><a class="reference internal" href="numpy.lib.format.open_memmap.html#numpy.lib.format.open_memmap" title="numpy.lib.format.open_memmap"><code class="xref py py-obj docutils literal notranslate"><span class="pre">lib.format.open_memmap</span></code></a></dt><dd><p>Create or load a memory-mapped <code class="docutils literal notranslate"><span class="pre">.npy</span></code> file.</p>
+</dd>
+</dl>
+</div>
+<p class="rubric">Notes</p>
+<ul>
+<li><p>If the file contains pickle data, then whatever object is stored
+in the pickle is returned.</p></li>
+<li><p>If the file is a <code class="docutils literal notranslate"><span class="pre">.npy</span></code> file, then a single array is returned.</p></li>
+<li><p>If the file is a <code class="docutils literal notranslate"><span class="pre">.npz</span></code> file, then a dictionary-like object is
+returned, containing <code class="docutils literal notranslate"><span class="pre">{filename:</span> <span class="pre">array}</span></code> key-value pairs, one for
+each file in the archive.</p></li>
+<li><p>If the file is a <code class="docutils literal notranslate"><span class="pre">.npz</span></code> file, the returned value supports the
+context manager protocol in a similar fashion to the open function:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">load</span><span class="p">(</span><span class="s1">&#39;foo.npz&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">data</span><span class="p">:</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>The underlying file descriptor is closed when exiting the ‘with’
+block.</p>
+</li>
+</ul>
+<p class="rubric">Examples</p>
+<p>Store data to disk, and load it again:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s1">&#39;/tmp/123&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">]]))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;/tmp/123.npy&#39;</span><span class="p">)</span>
+<span class="go">array([[1, 2, 3],</span>
+<span class="go">       [4, 5, 6]])</span>
+</pre></div>
+</div>
+<p>Store compressed data to disk, and load it again:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">savez</span><span class="p">(</span><span class="s1">&#39;/tmp/123.npz&#39;</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="n">b</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;/tmp/123.npz&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">]</span>
+<span class="go">array([[1, 2, 3],</span>
+<span class="go">       [4, 5, 6]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;b&#39;</span><span class="p">]</span>
+<span class="go">array([1, 2])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Mem-map the stored array, and then access the second row
+directly from disk:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;/tmp/123.npy&#39;</span><span class="p">,</span> <span class="n">mmap_mode</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">X</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="p">:]</span>
+<span class="go">memmap([4, 5, 6])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+
+
+              </div>
+              
+              
+              <div class='prev-next-bottom'>
+                
+    <a class='left-prev' id="prev-link" href="../routines.io.html" title="previous page">Input and output</a>
+    <a class='right-next' id="next-link" href="numpy.save.html" title="next page">numpy.save</a>
+
+              </div>
+              
+          </main>
+          
+
+      </div>
+    </div>
+
+    
+  <script src="../../_static/js/index.3da636dd464baa7582d2.js"></script>
+
+
+    <footer class="footer mt-5 mt-md-0">
+  <div class="container">
+    <p>
+          &copy; Copyright 2008-2020, The SciPy community.<br/>
+        Last updated on Jan 30, 2021.<br/>
+        Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.4.4.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

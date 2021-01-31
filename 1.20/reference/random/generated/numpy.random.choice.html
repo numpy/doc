@@ -1,0 +1,477 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>numpy.random.choice &#8212; NumPy v1.21.dev0 Manual</title>
+    
+  <link rel="stylesheet" href="../../../_static/css/index.73d71520a4ca3b99cfee5594769eaaae.css">
+
+    
+  <link rel="stylesheet"
+    href="../../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+  <link rel="stylesheet"
+    href="../../../_static/vendor/open-sans_all/1.44.1/index.css">
+  <link rel="stylesheet"
+    href="../../../_static/vendor/lato_latin-ext/1.44.1/index.css">
+
+    
+    <link rel="stylesheet" href="../../../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css" />
+    
+  <link rel="preload" as="script" href="../../../_static/js/index.3da636dd464baa7582d2.js">
+
+    <script id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="numpy.random.dirichlet" href="numpy.random.dirichlet.html" />
+    <link rel="prev" title="numpy.random.chisquare" href="numpy.random.chisquare.html" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+<link rel="stylesheet" href="../../../_static/numpy.css" type="text/css" />
+
+    <!-- PR #17220: This is added via javascript in versionwarning.js  -->
+    <!-- link rel="canonical" href="http://numpy.org/doc/stable/reference/random/generated/numpy.random.choice.html" / -->
+
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <nav class="navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main">
+<div class="container-xl">
+
+    <a class="navbar-brand" href="../../../contents.html">
+    
+      <img src="../../../_static/numpylogo.svg" class="logo" alt="logo" />
+    
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-menu" aria-controls="navbar-menu" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div id="navbar-menu" class="col-lg-9 collapse navbar-collapse">
+      <ul id="navbar-main-elements" class="navbar-nav mr-auto">
+        
+        
+        <li class="nav-item ">
+            <a class="nav-link" href="../../../user/index.html">User Guide</a>
+        </li>
+        
+        <li class="nav-item active">
+            <a class="nav-link" href="../../index.html">API reference</a>
+        </li>
+        
+        <li class="nav-item ">
+            <a class="nav-link" href="../../../dev/index.html">Development</a>
+        </li>
+        
+        
+      </ul>
+
+
+      
+
+      <ul class="navbar-nav">
+        
+          <li class="nav-item">
+            <a class="nav-link" href="https://github.com/numpy/numpy" target="_blank" rel="noopener">
+              <span><i class="fab fa-github-square"></i></span>
+            </a>
+          </li>
+        
+        
+          <li class="nav-item">
+            <a class="nav-link" href="https://twitter.com/numpy_team" target="_blank" rel="noopener">
+              <span><i class="fab fa-twitter-square"></i></span>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+</div>
+    </nav>
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+          <div class="col-12 col-md-3 bd-sidebar"><form class="bd-search d-flex align-items-center" action="../../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form>
+<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+
+    <div class="bd-toc-item active">
+    
+  
+    <ul class="nav bd-sidenav">
+        
+        
+        
+        
+          
+            
+                <li class="">
+                    <a href="../../arrays.html">Array objects</a>
+                </li>
+            
+          
+            
+                <li class="">
+                    <a href="../../constants.html">Constants</a>
+                </li>
+            
+          
+            
+                <li class="">
+                    <a href="../../ufuncs.html">Universal functions (ufunc)</a>
+                </li>
+            
+          
+            
+  
+                <li class="active">
+                    <a href="../../routines.html">Routines</a>
+                    <ul>
+                    
+                        <li class="">
+                            <a href="../../routines.array-creation.html">Array creation routines</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../../routines.array-manipulation.html">Array manipulation routines</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../../routines.bitwise.html">Binary operations</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../../routines.char.html">String operations</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../../routines.ctypeslib.html">C-Types Foreign Function Interface (numpy.ctypeslib)</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../../routines.datetime.html">Datetime Support Functions</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../../routines.dtype.html">Data type routines</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../../routines.dual.html">Optionally SciPy-accelerated routines (numpy.dual)</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../../routines.emath.html">Mathematical functions with automatic domain (numpy.emath)</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../../routines.err.html">Floating point error handling</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../../routines.fft.html">Discrete Fourier Transform (numpy.fft)</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../../routines.functional.html">Functional programming</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../../routines.help.html">NumPy-specific help functions</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../../routines.indexing.html">Indexing routines</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../../routines.io.html">Input and output</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../../routines.linalg.html">Linear algebra (numpy.linalg)</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../../routines.logic.html">Logic functions</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../../routines.ma.html">Masked array operations</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../../routines.math.html">Mathematical functions</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../../routines.matlib.html">Matrix library (numpy.matlib)</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../../routines.other.html">Miscellaneous routines</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../../routines.padding.html">Padding Arrays</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../../routines.polynomials.html">Polynomials</a>
+                        </li>
+                    
+                        <li class="active">
+                            <a href="../index.html">Random sampling (numpy.random)</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../../routines.set.html">Set routines</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../../routines.sort.html">Sorting, searching, and counting</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../../routines.statistics.html">Statistics</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../../routines.testing.html">Test Support (numpy.testing)</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../../routines.window.html">Window functions</a>
+                        </li>
+                    
+                    </ul>
+                </li>
+            
+          
+            
+                <li class="">
+                    <a href="../../typing.html">Typing (numpy.typing)</a>
+                </li>
+            
+          
+            
+                <li class="">
+                    <a href="../../global_state.html">Global State</a>
+                </li>
+            
+          
+            
+                <li class="">
+                    <a href="../../distutils.html">Packaging (numpy.distutils)</a>
+                </li>
+            
+          
+            
+                <li class="">
+                    <a href="../../distutils_guide.html">NumPy Distutils - Users Guide</a>
+                </li>
+            
+          
+            
+                <li class="">
+                    <a href="../../c-api/index.html">NumPy C-API</a>
+                </li>
+            
+          
+            
+                <li class="">
+                    <a href="../../internals.html">NumPy internals</a>
+                </li>
+            
+          
+            
+                <li class="">
+                    <a href="../../simd/simd-optimizations.html">SIMD Optimizations</a>
+                </li>
+            
+          
+            
+                <li class="">
+                    <a href="../../swig.html">NumPy and SWIG</a>
+                </li>
+            
+          
+        
+        
+        
+        
+      </ul>
+  
+  </nav>
+          </div>
+          
+
+          
+          <div class="d-none d-xl-block col-xl-2 bd-toc">
+              
+
+<nav id="bd-toc-nav">
+    <ul class="nav section-nav flex-column">
+    
+    </ul>
+</nav>
+
+
+              
+          </div>
+          
+
+          
+          <main class="col-12 col-md-9 col-xl-7 py-md-5 pl-md-5 pr-md-4 bd-content" role="main">
+              
+              <div>
+                
+  <div class="section" id="numpy-random-choice">
+<h1>numpy.random.choice<a class="headerlink" href="#numpy-random-choice" title="Permalink to this headline">¶</a></h1>
+<dl class="function">
+<dt id="numpy.random.choice">
+<code class="sig-prename descclassname">random.</code><code class="sig-name descname">choice</code><span class="sig-paren">(</span><em class="sig-param">a</em>, <em class="sig-param">size=None</em>, <em class="sig-param">replace=True</em>, <em class="sig-param">p=None</em><span class="sig-paren">)</span><a class="headerlink" href="#numpy.random.choice" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generates a random sample from a given 1-D array</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.7.0.</span></p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>New code should use the <code class="docutils literal notranslate"><span class="pre">choice</span></code> method of a <code class="docutils literal notranslate"><span class="pre">default_rng()</span></code>
+instance instead; please see the <a class="reference internal" href="../index.html#random-quick-start"><span class="std std-ref">Quick Start</span></a>.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>a</strong><span class="classifier">1-D array-like or int</span></dt><dd><p>If an ndarray, a random sample is generated from its elements.
+If an int, the random sample is generated as if a were np.arange(a)</p>
+</dd>
+<dt><strong>size</strong><span class="classifier">int or tuple of ints, optional</span></dt><dd><p>Output shape.  If the given shape is, e.g., <code class="docutils literal notranslate"><span class="pre">(m,</span> <span class="pre">n,</span> <span class="pre">k)</span></code>, then
+<code class="docutils literal notranslate"><span class="pre">m</span> <span class="pre">*</span> <span class="pre">n</span> <span class="pre">*</span> <span class="pre">k</span></code> samples are drawn.  Default is None, in which case a
+single value is returned.</p>
+</dd>
+<dt><strong>replace</strong><span class="classifier">boolean, optional</span></dt><dd><p>Whether the sample is with or without replacement</p>
+</dd>
+<dt><strong>p</strong><span class="classifier">1-D array-like, optional</span></dt><dd><p>The probabilities associated with each entry in a.
+If not given the sample assumes a uniform distribution over all
+entries in a.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>samples</strong><span class="classifier">single item or ndarray</span></dt><dd><p>The generated random samples</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><dl class="simple">
+<dt>ValueError</dt><dd><p>If a is an int and less than zero, if a or p are not 1-dimensional,
+if a is an array-like of size 0, if p is not a vector of
+probabilities, if a and p have different lengths, or if
+replace=False and the sample size is greater than the population
+size</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><a class="reference internal" href="numpy.random.randint.html#numpy.random.randint" title="numpy.random.randint"><code class="xref py py-obj docutils literal notranslate"><span class="pre">randint</span></code></a>, <a class="reference internal" href="numpy.random.shuffle.html#numpy.random.shuffle" title="numpy.random.shuffle"><code class="xref py py-obj docutils literal notranslate"><span class="pre">shuffle</span></code></a>, <a class="reference internal" href="numpy.random.permutation.html#numpy.random.permutation" title="numpy.random.permutation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">permutation</span></code></a></dt><dd></dd>
+<dt><a class="reference internal" href="numpy.random.Generator.choice.html#numpy.random.Generator.choice" title="numpy.random.Generator.choice"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Generator.choice</span></code></a></dt><dd><p>which should be used in new code</p>
+</dd>
+</dl>
+</div>
+<p class="rubric">Notes</p>
+<p>Sampling random rows from a 2-D array is not possible with this function,
+but is possible with <a class="reference internal" href="numpy.random.Generator.choice.html#numpy.random.Generator.choice" title="numpy.random.Generator.choice"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Generator.choice</span></code></a> through its <code class="docutils literal notranslate"><span class="pre">axis</span></code> keyword.</p>
+<p class="rubric">Examples</p>
+<p>Generate a uniform random sample from np.arange(5) of size 3:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="go">array([0, 3, 4]) # random</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1">#This is equivalent to np.random.randint(0,5,3)</span>
+</pre></div>
+</div>
+<p>Generate a non-uniform random sample from np.arange(5) of size 3:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="p">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+<span class="go">array([3, 3, 0]) # random</span>
+</pre></div>
+</div>
+<p>Generate a uniform random sample from np.arange(5) of size 3 without
+replacement:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="go">array([3,1,0]) # random</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1">#This is equivalent to np.random.permutation(np.arange(5))[:3]</span>
+</pre></div>
+</div>
+<p>Generate a non-uniform random sample from np.arange(5) of size
+3 without replacement:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="p">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+<span class="go">array([2, 3, 0]) # random</span>
+</pre></div>
+</div>
+<p>Any of the above can be repeated with an arbitrary array-like
+instead of just integers. For instance:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">aa_milne_arr</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;pooh&#39;</span><span class="p">,</span> <span class="s1">&#39;rabbit&#39;</span><span class="p">,</span> <span class="s1">&#39;piglet&#39;</span><span class="p">,</span> <span class="s1">&#39;Christopher&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">aa_milne_arr</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="p">[</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">])</span>
+<span class="go">array([&#39;pooh&#39;, &#39;pooh&#39;, &#39;pooh&#39;, &#39;Christopher&#39;, &#39;piglet&#39;], # random</span>
+<span class="go">      dtype=&#39;&lt;U11&#39;)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+
+
+              </div>
+              
+              
+              <div class='prev-next-bottom'>
+                
+    <a class='left-prev' id="prev-link" href="numpy.random.chisquare.html" title="previous page">numpy.random.chisquare</a>
+    <a class='right-next' id="next-link" href="numpy.random.dirichlet.html" title="next page">numpy.random.dirichlet</a>
+
+              </div>
+              
+          </main>
+          
+
+      </div>
+    </div>
+
+    
+  <script src="../../../_static/js/index.3da636dd464baa7582d2.js"></script>
+
+
+    <footer class="footer mt-5 mt-md-0">
+  <div class="container">
+    <p>
+          &copy; Copyright 2008-2020, The SciPy community.<br/>
+        Last updated on Jan 30, 2021.<br/>
+        Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.4.4.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

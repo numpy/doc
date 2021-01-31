@@ -1,0 +1,470 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Extending via Numba &#8212; NumPy v1.21.dev0 Manual</title>
+    
+  <link rel="stylesheet" href="../../../_static/css/index.73d71520a4ca3b99cfee5594769eaaae.css">
+
+    
+  <link rel="stylesheet"
+    href="../../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+  <link rel="stylesheet"
+    href="../../../_static/vendor/open-sans_all/1.44.1/index.css">
+  <link rel="stylesheet"
+    href="../../../_static/vendor/lato_latin-ext/1.44.1/index.css">
+
+    
+    <link rel="stylesheet" href="../../../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css" />
+    
+  <link rel="preload" as="script" href="../../../_static/js/index.3da636dd464baa7582d2.js">
+
+    <script id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Extending via Numba and CFFI" href="numba_cffi.html" />
+    <link rel="prev" title="Extending" href="../extending.html" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+<link rel="stylesheet" href="../../../_static/numpy.css" type="text/css" />
+
+    <!-- PR #17220: This is added via javascript in versionwarning.js  -->
+    <!-- link rel="canonical" href="http://numpy.org/doc/stable/reference/random/examples/numba.html" / -->
+
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <nav class="navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main">
+<div class="container-xl">
+
+    <a class="navbar-brand" href="../../../contents.html">
+    
+      <img src="../../../_static/numpylogo.svg" class="logo" alt="logo" />
+    
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-menu" aria-controls="navbar-menu" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div id="navbar-menu" class="col-lg-9 collapse navbar-collapse">
+      <ul id="navbar-main-elements" class="navbar-nav mr-auto">
+        
+        
+        <li class="nav-item ">
+            <a class="nav-link" href="../../../user/index.html">User Guide</a>
+        </li>
+        
+        <li class="nav-item active">
+            <a class="nav-link" href="../../index.html">API reference</a>
+        </li>
+        
+        <li class="nav-item ">
+            <a class="nav-link" href="../../../dev/index.html">Development</a>
+        </li>
+        
+        
+      </ul>
+
+
+      
+
+      <ul class="navbar-nav">
+        
+          <li class="nav-item">
+            <a class="nav-link" href="https://github.com/numpy/numpy" target="_blank" rel="noopener">
+              <span><i class="fab fa-github-square"></i></span>
+            </a>
+          </li>
+        
+        
+          <li class="nav-item">
+            <a class="nav-link" href="https://twitter.com/numpy_team" target="_blank" rel="noopener">
+              <span><i class="fab fa-twitter-square"></i></span>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+</div>
+    </nav>
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+          <div class="col-12 col-md-3 bd-sidebar"><form class="bd-search d-flex align-items-center" action="../../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form>
+<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+
+    <div class="bd-toc-item active">
+    
+  
+    <ul class="nav bd-sidenav">
+        
+        
+        
+        
+          
+            
+                <li class="">
+                    <a href="../../arrays.html">Array objects</a>
+                </li>
+            
+          
+            
+                <li class="">
+                    <a href="../../constants.html">Constants</a>
+                </li>
+            
+          
+            
+                <li class="">
+                    <a href="../../ufuncs.html">Universal functions (ufunc)</a>
+                </li>
+            
+          
+            
+  
+                <li class="active">
+                    <a href="../../routines.html">Routines</a>
+                    <ul>
+                    
+                        <li class="">
+                            <a href="../../routines.array-creation.html">Array creation routines</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../../routines.array-manipulation.html">Array manipulation routines</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../../routines.bitwise.html">Binary operations</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../../routines.char.html">String operations</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../../routines.ctypeslib.html">C-Types Foreign Function Interface (numpy.ctypeslib)</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../../routines.datetime.html">Datetime Support Functions</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../../routines.dtype.html">Data type routines</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../../routines.dual.html">Optionally SciPy-accelerated routines (numpy.dual)</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../../routines.emath.html">Mathematical functions with automatic domain (numpy.emath)</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../../routines.err.html">Floating point error handling</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../../routines.fft.html">Discrete Fourier Transform (numpy.fft)</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../../routines.functional.html">Functional programming</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../../routines.help.html">NumPy-specific help functions</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../../routines.indexing.html">Indexing routines</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../../routines.io.html">Input and output</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../../routines.linalg.html">Linear algebra (numpy.linalg)</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../../routines.logic.html">Logic functions</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../../routines.ma.html">Masked array operations</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../../routines.math.html">Mathematical functions</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../../routines.matlib.html">Matrix library (numpy.matlib)</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../../routines.other.html">Miscellaneous routines</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../../routines.padding.html">Padding Arrays</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../../routines.polynomials.html">Polynomials</a>
+                        </li>
+                    
+                        <li class="active">
+                            <a href="../index.html">Random sampling (numpy.random)</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../../routines.set.html">Set routines</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../../routines.sort.html">Sorting, searching, and counting</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../../routines.statistics.html">Statistics</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../../routines.testing.html">Test Support (numpy.testing)</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../../routines.window.html">Window functions</a>
+                        </li>
+                    
+                    </ul>
+                </li>
+            
+          
+            
+                <li class="">
+                    <a href="../../typing.html">Typing (numpy.typing)</a>
+                </li>
+            
+          
+            
+                <li class="">
+                    <a href="../../global_state.html">Global State</a>
+                </li>
+            
+          
+            
+                <li class="">
+                    <a href="../../distutils.html">Packaging (numpy.distutils)</a>
+                </li>
+            
+          
+            
+                <li class="">
+                    <a href="../../distutils_guide.html">NumPy Distutils - Users Guide</a>
+                </li>
+            
+          
+            
+                <li class="">
+                    <a href="../../c-api/index.html">NumPy C-API</a>
+                </li>
+            
+          
+            
+                <li class="">
+                    <a href="../../internals.html">NumPy internals</a>
+                </li>
+            
+          
+            
+                <li class="">
+                    <a href="../../simd/simd-optimizations.html">SIMD Optimizations</a>
+                </li>
+            
+          
+            
+                <li class="">
+                    <a href="../../swig.html">NumPy and SWIG</a>
+                </li>
+            
+          
+        
+        
+        
+        
+      </ul>
+  
+  </nav>
+          </div>
+          
+
+          
+          <div class="d-none d-xl-block col-xl-2 bd-toc">
+              
+
+<nav id="bd-toc-nav">
+    <ul class="nav section-nav flex-column">
+    
+    </ul>
+</nav>
+
+
+              
+          </div>
+          
+
+          
+          <main class="col-12 col-md-9 col-xl-7 py-md-5 pl-md-5 pr-md-4 bd-content" role="main">
+              
+              <div>
+                
+  <div class="section" id="extending-via-numba">
+<h1>Extending via Numba<a class="headerlink" href="#extending-via-numba" title="Permalink to this headline">¶</a></h1>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">numba</span> <span class="k">as</span> <span class="nn">nb</span>
+
+<span class="kn">from</span> <span class="nn">numpy.random</span> <span class="kn">import</span> <span class="n">PCG64</span>
+<span class="kn">from</span> <span class="nn">timeit</span> <span class="kn">import</span> <span class="n">timeit</span>
+
+<span class="n">bit_gen</span> <span class="o">=</span> <span class="n">PCG64</span><span class="p">()</span>
+<span class="n">next_d</span> <span class="o">=</span> <span class="n">bit_gen</span><span class="o">.</span><span class="n">cffi</span><span class="o">.</span><span class="n">next_double</span>
+<span class="n">state_addr</span> <span class="o">=</span> <span class="n">bit_gen</span><span class="o">.</span><span class="n">cffi</span><span class="o">.</span><span class="n">state_address</span>
+
+<span class="k">def</span> <span class="nf">normals</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">state</span><span class="p">):</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">((</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span><span class="p">):</span>
+        <span class="n">x1</span> <span class="o">=</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">next_d</span><span class="p">(</span><span class="n">state</span><span class="p">)</span> <span class="o">-</span> <span class="mf">1.0</span>
+        <span class="n">x2</span> <span class="o">=</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">next_d</span><span class="p">(</span><span class="n">state</span><span class="p">)</span> <span class="o">-</span> <span class="mf">1.0</span>
+        <span class="n">r2</span> <span class="o">=</span> <span class="n">x1</span> <span class="o">*</span> <span class="n">x1</span> <span class="o">+</span> <span class="n">x2</span> <span class="o">*</span> <span class="n">x2</span>
+        <span class="k">while</span> <span class="n">r2</span> <span class="o">&gt;=</span> <span class="mf">1.0</span> <span class="ow">or</span> <span class="n">r2</span> <span class="o">==</span> <span class="mf">0.0</span><span class="p">:</span>
+            <span class="n">x1</span> <span class="o">=</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">next_d</span><span class="p">(</span><span class="n">state</span><span class="p">)</span> <span class="o">-</span> <span class="mf">1.0</span>
+            <span class="n">x2</span> <span class="o">=</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">next_d</span><span class="p">(</span><span class="n">state</span><span class="p">)</span> <span class="o">-</span> <span class="mf">1.0</span>
+            <span class="n">r2</span> <span class="o">=</span> <span class="n">x1</span> <span class="o">*</span> <span class="n">x1</span> <span class="o">+</span> <span class="n">x2</span> <span class="o">*</span> <span class="n">x2</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="o">-</span><span class="mf">2.0</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">r2</span><span class="p">)</span> <span class="o">/</span> <span class="n">r2</span><span class="p">)</span>
+        <span class="n">out</span><span class="p">[</span><span class="mi">2</span> <span class="o">*</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">f</span> <span class="o">*</span> <span class="n">x1</span>
+        <span class="k">if</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">:</span>
+            <span class="n">out</span><span class="p">[</span><span class="mi">2</span> <span class="o">*</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">f</span> <span class="o">*</span> <span class="n">x2</span>
+    <span class="k">return</span> <span class="n">out</span>
+
+<span class="c1"># Compile using Numba</span>
+<span class="n">normalsj</span> <span class="o">=</span> <span class="n">nb</span><span class="o">.</span><span class="n">jit</span><span class="p">(</span><span class="n">normals</span><span class="p">,</span> <span class="n">nopython</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="c1"># Must use state address not state with numba</span>
+<span class="n">n</span> <span class="o">=</span> <span class="mi">10000</span>
+
+<span class="k">def</span> <span class="nf">numbacall</span><span class="p">():</span>
+    <span class="k">return</span> <span class="n">normalsj</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">state_addr</span><span class="p">)</span>
+
+<span class="n">rg</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">Generator</span><span class="p">(</span><span class="n">PCG64</span><span class="p">())</span>
+
+<span class="k">def</span> <span class="nf">numpycall</span><span class="p">():</span>
+    <span class="k">return</span> <span class="n">rg</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">n</span><span class="p">)</span>
+
+<span class="c1"># Check that the functions work</span>
+<span class="n">r1</span> <span class="o">=</span> <span class="n">numbacall</span><span class="p">()</span>
+<span class="n">r2</span> <span class="o">=</span> <span class="n">numpycall</span><span class="p">()</span>
+<span class="k">assert</span> <span class="n">r1</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="p">(</span><span class="n">n</span><span class="p">,)</span>
+<span class="k">assert</span> <span class="n">r1</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="n">r2</span><span class="o">.</span><span class="n">shape</span>
+
+<span class="n">t1</span> <span class="o">=</span> <span class="n">timeit</span><span class="p">(</span><span class="n">numbacall</span><span class="p">,</span> <span class="n">number</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">t1</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1"> secs for </span><span class="si">{</span><span class="n">n</span><span class="si">}</span><span class="s1"> PCG64 (Numba/PCG64) gaussian randoms&#39;</span><span class="p">)</span>
+<span class="n">t2</span> <span class="o">=</span> <span class="n">timeit</span><span class="p">(</span><span class="n">numpycall</span><span class="p">,</span> <span class="n">number</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">t2</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1"> secs for </span><span class="si">{</span><span class="n">n</span><span class="si">}</span><span class="s1"> PCG64 (NumPy/PCG64) gaussian randoms&#39;</span><span class="p">)</span>
+
+<span class="c1"># example 2</span>
+
+<span class="n">next_u32</span> <span class="o">=</span> <span class="n">bit_gen</span><span class="o">.</span><span class="n">ctypes</span><span class="o">.</span><span class="n">next_uint32</span>
+<span class="n">ctypes_state</span> <span class="o">=</span> <span class="n">bit_gen</span><span class="o">.</span><span class="n">ctypes</span><span class="o">.</span><span class="n">state</span>
+
+<span class="nd">@nb</span><span class="o">.</span><span class="n">jit</span><span class="p">(</span><span class="n">nopython</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">bounded_uint</span><span class="p">(</span><span class="n">lb</span><span class="p">,</span> <span class="n">ub</span><span class="p">,</span> <span class="n">state</span><span class="p">):</span>
+    <span class="n">mask</span> <span class="o">=</span> <span class="n">delta</span> <span class="o">=</span> <span class="n">ub</span> <span class="o">-</span> <span class="n">lb</span>
+    <span class="n">mask</span> <span class="o">|=</span> <span class="n">mask</span> <span class="o">&gt;&gt;</span> <span class="mi">1</span>
+    <span class="n">mask</span> <span class="o">|=</span> <span class="n">mask</span> <span class="o">&gt;&gt;</span> <span class="mi">2</span>
+    <span class="n">mask</span> <span class="o">|=</span> <span class="n">mask</span> <span class="o">&gt;&gt;</span> <span class="mi">4</span>
+    <span class="n">mask</span> <span class="o">|=</span> <span class="n">mask</span> <span class="o">&gt;&gt;</span> <span class="mi">8</span>
+    <span class="n">mask</span> <span class="o">|=</span> <span class="n">mask</span> <span class="o">&gt;&gt;</span> <span class="mi">16</span>
+
+    <span class="n">val</span> <span class="o">=</span> <span class="n">next_u32</span><span class="p">(</span><span class="n">state</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">mask</span>
+    <span class="k">while</span> <span class="n">val</span> <span class="o">&gt;</span> <span class="n">delta</span><span class="p">:</span>
+        <span class="n">val</span> <span class="o">=</span> <span class="n">next_u32</span><span class="p">(</span><span class="n">state</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">mask</span>
+
+    <span class="k">return</span> <span class="n">lb</span> <span class="o">+</span> <span class="n">val</span>
+
+
+<span class="nb">print</span><span class="p">(</span><span class="n">bounded_uint</span><span class="p">(</span><span class="mi">323</span><span class="p">,</span> <span class="mi">2394691</span><span class="p">,</span> <span class="n">ctypes_state</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
+
+
+<span class="nd">@nb</span><span class="o">.</span><span class="n">jit</span><span class="p">(</span><span class="n">nopython</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">bounded_uints</span><span class="p">(</span><span class="n">lb</span><span class="p">,</span> <span class="n">ub</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">state</span><span class="p">):</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint32</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+        <span class="n">out</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">bounded_uint</span><span class="p">(</span><span class="n">lb</span><span class="p">,</span> <span class="n">ub</span><span class="p">,</span> <span class="n">state</span><span class="p">)</span>
+
+
+<span class="n">bounded_uints</span><span class="p">(</span><span class="mi">323</span><span class="p">,</span> <span class="mi">2394691</span><span class="p">,</span> <span class="mi">10000000</span><span class="p">,</span> <span class="n">ctypes_state</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+
+
+</pre></div>
+</div>
+</div>
+
+
+              </div>
+              
+              
+              <div class='prev-next-bottom'>
+                
+    <a class='left-prev' id="prev-link" href="../extending.html" title="previous page">Extending</a>
+    <a class='right-next' id="next-link" href="numba_cffi.html" title="next page">Extending via Numba and CFFI</a>
+
+              </div>
+              
+          </main>
+          
+
+      </div>
+    </div>
+
+    
+  <script src="../../../_static/js/index.3da636dd464baa7582d2.js"></script>
+
+
+    <footer class="footer mt-5 mt-md-0">
+  <div class="container">
+    <p>
+          &copy; Copyright 2008-2020, The SciPy community.<br/>
+        Last updated on Jan 30, 2021.<br/>
+        Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.4.4.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

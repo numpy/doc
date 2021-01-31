@@ -1,0 +1,421 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>numpy.polynomial.legendre.leggauss &#8212; NumPy v1.21.dev0 Manual</title>
+    
+  <link rel="stylesheet" href="../../_static/css/index.73d71520a4ca3b99cfee5594769eaaae.css">
+
+    
+  <link rel="stylesheet"
+    href="../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+  <link rel="stylesheet"
+    href="../../_static/vendor/open-sans_all/1.44.1/index.css">
+  <link rel="stylesheet"
+    href="../../_static/vendor/lato_latin-ext/1.44.1/index.css">
+
+    
+    <link rel="stylesheet" href="../../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
+    
+  <link rel="preload" as="script" href="../../_static/js/index.3da636dd464baa7582d2.js">
+
+    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="numpy.polynomial.legendre.legweight" href="numpy.polynomial.legendre.legweight.html" />
+    <link rel="prev" title="numpy.polynomial.legendre.legvander3d" href="numpy.polynomial.legendre.legvander3d.html" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+<link rel="stylesheet" href="../../_static/numpy.css" type="text/css" />
+
+    <!-- PR #17220: This is added via javascript in versionwarning.js  -->
+    <!-- link rel="canonical" href="http://numpy.org/doc/stable/reference/generated/numpy.polynomial.legendre.leggauss.html" / -->
+
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <nav class="navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main">
+<div class="container-xl">
+
+    <a class="navbar-brand" href="../../contents.html">
+    
+      <img src="../../_static/numpylogo.svg" class="logo" alt="logo" />
+    
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-menu" aria-controls="navbar-menu" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div id="navbar-menu" class="col-lg-9 collapse navbar-collapse">
+      <ul id="navbar-main-elements" class="navbar-nav mr-auto">
+        
+        
+        <li class="nav-item ">
+            <a class="nav-link" href="../../user/index.html">User Guide</a>
+        </li>
+        
+        <li class="nav-item active">
+            <a class="nav-link" href="../index.html">API reference</a>
+        </li>
+        
+        <li class="nav-item ">
+            <a class="nav-link" href="../../dev/index.html">Development</a>
+        </li>
+        
+        
+      </ul>
+
+
+      
+
+      <ul class="navbar-nav">
+        
+          <li class="nav-item">
+            <a class="nav-link" href="https://github.com/numpy/numpy" target="_blank" rel="noopener">
+              <span><i class="fab fa-github-square"></i></span>
+            </a>
+          </li>
+        
+        
+          <li class="nav-item">
+            <a class="nav-link" href="https://twitter.com/numpy_team" target="_blank" rel="noopener">
+              <span><i class="fab fa-twitter-square"></i></span>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+</div>
+    </nav>
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+          <div class="col-12 col-md-3 bd-sidebar"><form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form>
+<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+
+    <div class="bd-toc-item active">
+    
+  
+    <ul class="nav bd-sidenav">
+        
+        
+        
+        
+          
+            
+                <li class="">
+                    <a href="../arrays.html">Array objects</a>
+                </li>
+            
+          
+            
+                <li class="">
+                    <a href="../constants.html">Constants</a>
+                </li>
+            
+          
+            
+                <li class="">
+                    <a href="../ufuncs.html">Universal functions (ufunc)</a>
+                </li>
+            
+          
+            
+  
+                <li class="active">
+                    <a href="../routines.html">Routines</a>
+                    <ul>
+                    
+                        <li class="">
+                            <a href="../routines.array-creation.html">Array creation routines</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../routines.array-manipulation.html">Array manipulation routines</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../routines.bitwise.html">Binary operations</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../routines.char.html">String operations</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../routines.ctypeslib.html">C-Types Foreign Function Interface (numpy.ctypeslib)</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../routines.datetime.html">Datetime Support Functions</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../routines.dtype.html">Data type routines</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../routines.dual.html">Optionally SciPy-accelerated routines (numpy.dual)</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../routines.emath.html">Mathematical functions with automatic domain (numpy.emath)</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../routines.err.html">Floating point error handling</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../routines.fft.html">Discrete Fourier Transform (numpy.fft)</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../routines.functional.html">Functional programming</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../routines.help.html">NumPy-specific help functions</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../routines.indexing.html">Indexing routines</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../routines.io.html">Input and output</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../routines.linalg.html">Linear algebra (numpy.linalg)</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../routines.logic.html">Logic functions</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../routines.ma.html">Masked array operations</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../routines.math.html">Mathematical functions</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../routines.matlib.html">Matrix library (numpy.matlib)</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../routines.other.html">Miscellaneous routines</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../routines.padding.html">Padding Arrays</a>
+                        </li>
+                    
+                        <li class="active">
+                            <a href="../routines.polynomials.html">Polynomials</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../random/index.html">Random sampling (numpy.random)</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../routines.set.html">Set routines</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../routines.sort.html">Sorting, searching, and counting</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../routines.statistics.html">Statistics</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../routines.testing.html">Test Support (numpy.testing)</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../routines.window.html">Window functions</a>
+                        </li>
+                    
+                    </ul>
+                </li>
+            
+          
+            
+                <li class="">
+                    <a href="../typing.html">Typing (numpy.typing)</a>
+                </li>
+            
+          
+            
+                <li class="">
+                    <a href="../global_state.html">Global State</a>
+                </li>
+            
+          
+            
+                <li class="">
+                    <a href="../distutils.html">Packaging (numpy.distutils)</a>
+                </li>
+            
+          
+            
+                <li class="">
+                    <a href="../distutils_guide.html">NumPy Distutils - Users Guide</a>
+                </li>
+            
+          
+            
+                <li class="">
+                    <a href="../c-api/index.html">NumPy C-API</a>
+                </li>
+            
+          
+            
+                <li class="">
+                    <a href="../internals.html">NumPy internals</a>
+                </li>
+            
+          
+            
+                <li class="">
+                    <a href="../simd/simd-optimizations.html">SIMD Optimizations</a>
+                </li>
+            
+          
+            
+                <li class="">
+                    <a href="../swig.html">NumPy and SWIG</a>
+                </li>
+            
+          
+        
+        
+        
+        
+      </ul>
+  
+  </nav>
+          </div>
+          
+
+          
+          <div class="d-none d-xl-block col-xl-2 bd-toc">
+              
+
+<nav id="bd-toc-nav">
+    <ul class="nav section-nav flex-column">
+    
+    </ul>
+</nav>
+
+
+              
+          </div>
+          
+
+          
+          <main class="col-12 col-md-9 col-xl-7 py-md-5 pl-md-5 pr-md-4 bd-content" role="main">
+              
+              <div>
+                
+  <div class="section" id="numpy-polynomial-legendre-leggauss">
+<h1>numpy.polynomial.legendre.leggauss<a class="headerlink" href="#numpy-polynomial-legendre-leggauss" title="Permalink to this headline">¶</a></h1>
+<dl class="function">
+<dt id="numpy.polynomial.legendre.leggauss">
+<code class="sig-prename descclassname">polynomial.legendre.</code><code class="sig-name descname">leggauss</code><span class="sig-paren">(</span><em class="sig-param">deg</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/numpy/numpy/blob/master/numpy/polynomial/legendre.py#L1525-L1590"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#numpy.polynomial.legendre.leggauss" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gauss-Legendre quadrature.</p>
+<p>Computes the sample points and weights for Gauss-Legendre quadrature.
+These sample points and weights will correctly integrate polynomials of
+degree <img class="math" src="../../_images/math/56f0e56ecb6f7775c426b1bacd65f652ba02935d.svg" alt="2*deg - 1"/> or less over the interval <img class="math" src="../../_images/math/92b4b754966e4a581f924d4bfd1b0db7ab47c886.svg" alt="[-1, 1]"/> with
+the weight function <img class="math" src="../../_images/math/f053a69acdf71ac49e0e45e0164f9f5e11ea886f.svg" alt="f(x) = 1"/>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>deg</strong><span class="classifier">int</span></dt><dd><p>Number of sample points and weights. It must be &gt;= 1.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>x</strong><span class="classifier">ndarray</span></dt><dd><p>1-D ndarray containing the sample points.</p>
+</dd>
+<dt><strong>y</strong><span class="classifier">ndarray</span></dt><dd><p>1-D ndarray containing the weights.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.7.0.</span></p>
+</div>
+<p>The results have only been tested up to degree 100, higher degrees may
+be problematic. The weights are determined by using the fact that</p>
+<div class="math">
+<p><img src="../../_images/math/f41cdd7a60d9b759082ae0846a1f62b946db7aca.svg" alt="w_k = c / (L'_n(x_k) * L_{n-1}(x_k))"/></p>
+</div><p>where <img class="math" src="../../_images/math/d520a12f1579170834c32ad5f656de081bbb36fe.svg" alt="c"/> is a constant independent of <img class="math" src="../../_images/math/9630132210b904754c9ab272b61cb527d12263ca.svg" alt="k"/> and <img class="math" src="../../_images/math/7d7d74e7994aa052a0d73daf3b7268759632d6aa.svg" alt="x_k"/>
+is the k’th root of <img class="math" src="../../_images/math/fb50d06f0014ebd731edff0140d3881745a2d742.svg" alt="L_n"/>, and then scaling the results to get
+the right value when integrating 1.</p>
+</dd></dl>
+
+</div>
+
+
+              </div>
+              
+              
+              <div class='prev-next-bottom'>
+                
+    <a class='left-prev' id="prev-link" href="numpy.polynomial.legendre.legvander3d.html" title="previous page">numpy.polynomial.legendre.legvander3d</a>
+    <a class='right-next' id="next-link" href="numpy.polynomial.legendre.legweight.html" title="next page">numpy.polynomial.legendre.legweight</a>
+
+              </div>
+              
+          </main>
+          
+
+      </div>
+    </div>
+
+    
+  <script src="../../_static/js/index.3da636dd464baa7582d2.js"></script>
+
+
+    <footer class="footer mt-5 mt-md-0">
+  <div class="container">
+    <p>
+          &copy; Copyright 2008-2020, The SciPy community.<br/>
+        Last updated on Jan 30, 2021.<br/>
+        Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.4.4.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

@@ -1,0 +1,573 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>numpy.histogram_bin_edges &#8212; NumPy v1.21.dev0 Manual</title>
+    
+  <link rel="stylesheet" href="../../_static/css/index.73d71520a4ca3b99cfee5594769eaaae.css">
+
+    
+  <link rel="stylesheet"
+    href="../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+  <link rel="stylesheet"
+    href="../../_static/vendor/open-sans_all/1.44.1/index.css">
+  <link rel="stylesheet"
+    href="../../_static/vendor/lato_latin-ext/1.44.1/index.css">
+
+    
+    <link rel="stylesheet" href="../../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
+    
+  <link rel="preload" as="script" href="../../_static/js/index.3da636dd464baa7582d2.js">
+
+    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="numpy.digitize" href="numpy.digitize.html" />
+    <link rel="prev" title="numpy.bincount" href="numpy.bincount.html" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+<link rel="stylesheet" href="../../_static/numpy.css" type="text/css" />
+
+    <!-- PR #17220: This is added via javascript in versionwarning.js  -->
+    <!-- link rel="canonical" href="http://numpy.org/doc/stable/reference/generated/numpy.histogram_bin_edges.html" / -->
+
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <nav class="navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main">
+<div class="container-xl">
+
+    <a class="navbar-brand" href="../../contents.html">
+    
+      <img src="../../_static/numpylogo.svg" class="logo" alt="logo" />
+    
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-menu" aria-controls="navbar-menu" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div id="navbar-menu" class="col-lg-9 collapse navbar-collapse">
+      <ul id="navbar-main-elements" class="navbar-nav mr-auto">
+        
+        
+        <li class="nav-item ">
+            <a class="nav-link" href="../../user/index.html">User Guide</a>
+        </li>
+        
+        <li class="nav-item active">
+            <a class="nav-link" href="../index.html">API reference</a>
+        </li>
+        
+        <li class="nav-item ">
+            <a class="nav-link" href="../../dev/index.html">Development</a>
+        </li>
+        
+        
+      </ul>
+
+
+      
+
+      <ul class="navbar-nav">
+        
+          <li class="nav-item">
+            <a class="nav-link" href="https://github.com/numpy/numpy" target="_blank" rel="noopener">
+              <span><i class="fab fa-github-square"></i></span>
+            </a>
+          </li>
+        
+        
+          <li class="nav-item">
+            <a class="nav-link" href="https://twitter.com/numpy_team" target="_blank" rel="noopener">
+              <span><i class="fab fa-twitter-square"></i></span>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+</div>
+    </nav>
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+          <div class="col-12 col-md-3 bd-sidebar"><form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form>
+<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+
+    <div class="bd-toc-item active">
+    
+  
+    <ul class="nav bd-sidenav">
+        
+        
+        
+        
+          
+            
+                <li class="">
+                    <a href="../arrays.html">Array objects</a>
+                </li>
+            
+          
+            
+                <li class="">
+                    <a href="../constants.html">Constants</a>
+                </li>
+            
+          
+            
+                <li class="">
+                    <a href="../ufuncs.html">Universal functions (ufunc)</a>
+                </li>
+            
+          
+            
+  
+                <li class="active">
+                    <a href="../routines.html">Routines</a>
+                    <ul>
+                    
+                        <li class="">
+                            <a href="../routines.array-creation.html">Array creation routines</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../routines.array-manipulation.html">Array manipulation routines</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../routines.bitwise.html">Binary operations</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../routines.char.html">String operations</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../routines.ctypeslib.html">C-Types Foreign Function Interface (numpy.ctypeslib)</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../routines.datetime.html">Datetime Support Functions</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../routines.dtype.html">Data type routines</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../routines.dual.html">Optionally SciPy-accelerated routines (numpy.dual)</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../routines.emath.html">Mathematical functions with automatic domain (numpy.emath)</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../routines.err.html">Floating point error handling</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../routines.fft.html">Discrete Fourier Transform (numpy.fft)</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../routines.functional.html">Functional programming</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../routines.help.html">NumPy-specific help functions</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../routines.indexing.html">Indexing routines</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../routines.io.html">Input and output</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../routines.linalg.html">Linear algebra (numpy.linalg)</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../routines.logic.html">Logic functions</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../routines.ma.html">Masked array operations</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../routines.math.html">Mathematical functions</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../routines.matlib.html">Matrix library (numpy.matlib)</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../routines.other.html">Miscellaneous routines</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../routines.padding.html">Padding Arrays</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../routines.polynomials.html">Polynomials</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../random/index.html">Random sampling (numpy.random)</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../routines.set.html">Set routines</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../routines.sort.html">Sorting, searching, and counting</a>
+                        </li>
+                    
+                        <li class="active">
+                            <a href="../routines.statistics.html">Statistics</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../routines.testing.html">Test Support (numpy.testing)</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="../routines.window.html">Window functions</a>
+                        </li>
+                    
+                    </ul>
+                </li>
+            
+          
+            
+                <li class="">
+                    <a href="../typing.html">Typing (numpy.typing)</a>
+                </li>
+            
+          
+            
+                <li class="">
+                    <a href="../global_state.html">Global State</a>
+                </li>
+            
+          
+            
+                <li class="">
+                    <a href="../distutils.html">Packaging (numpy.distutils)</a>
+                </li>
+            
+          
+            
+                <li class="">
+                    <a href="../distutils_guide.html">NumPy Distutils - Users Guide</a>
+                </li>
+            
+          
+            
+                <li class="">
+                    <a href="../c-api/index.html">NumPy C-API</a>
+                </li>
+            
+          
+            
+                <li class="">
+                    <a href="../internals.html">NumPy internals</a>
+                </li>
+            
+          
+            
+                <li class="">
+                    <a href="../simd/simd-optimizations.html">SIMD Optimizations</a>
+                </li>
+            
+          
+            
+                <li class="">
+                    <a href="../swig.html">NumPy and SWIG</a>
+                </li>
+            
+          
+        
+        
+        
+        
+      </ul>
+  
+  </nav>
+          </div>
+          
+
+          
+          <div class="d-none d-xl-block col-xl-2 bd-toc">
+              
+
+<nav id="bd-toc-nav">
+    <ul class="nav section-nav flex-column">
+    
+    </ul>
+</nav>
+
+
+              
+          </div>
+          
+
+          
+          <main class="col-12 col-md-9 col-xl-7 py-md-5 pl-md-5 pr-md-4 bd-content" role="main">
+              
+              <div>
+                
+  <div class="section" id="numpy-histogram-bin-edges">
+<h1>numpy.histogram_bin_edges<a class="headerlink" href="#numpy-histogram-bin-edges" title="Permalink to this headline">¶</a></h1>
+<dl class="function">
+<dt id="numpy.histogram_bin_edges">
+<code class="sig-prename descclassname">numpy.</code><code class="sig-name descname">histogram_bin_edges</code><span class="sig-paren">(</span><em class="sig-param">a</em>, <em class="sig-param">bins=10</em>, <em class="sig-param">range=None</em>, <em class="sig-param">weights=None</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/numpy/numpy/blob/master/numpy/lib/histograms.py#L470-L669"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#numpy.histogram_bin_edges" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to calculate only the edges of the bins used by the <a class="reference internal" href="numpy.histogram.html#numpy.histogram" title="numpy.histogram"><code class="xref py py-obj docutils literal notranslate"><span class="pre">histogram</span></code></a>
+function.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl>
+<dt><strong>a</strong><span class="classifier">array_like</span></dt><dd><p>Input data. The histogram is computed over the flattened array.</p>
+</dd>
+<dt><strong>bins</strong><span class="classifier">int or sequence of scalars or str, optional</span></dt><dd><p>If <em class="xref py py-obj">bins</em> is an int, it defines the number of equal-width
+bins in the given range (10, by default). If <em class="xref py py-obj">bins</em> is a
+sequence, it defines the bin edges, including the rightmost
+edge, allowing for non-uniform bin widths.</p>
+<p>If <em class="xref py py-obj">bins</em> is a string from the list below, <a class="reference internal" href="#numpy.histogram_bin_edges" title="numpy.histogram_bin_edges"><code class="xref py py-obj docutils literal notranslate"><span class="pre">histogram_bin_edges</span></code></a> will use
+the method chosen to calculate the optimal bin width and
+consequently the number of bins (see <em class="xref py py-obj">Notes</em> for more detail on
+the estimators) from the data that falls within the requested
+range. While the bin width will be optimal for the actual data
+in the range, the number of bins will be computed to fill the
+entire range, including the empty portions. For visualisation,
+using the ‘auto’ option is suggested. Weighted data is not
+supported for automated bin size selection.</p>
+<dl class="simple">
+<dt>‘auto’</dt><dd><p>Maximum of the ‘sturges’ and ‘fd’ estimators. Provides good
+all around performance.</p>
+</dd>
+<dt>‘fd’ (Freedman Diaconis Estimator)</dt><dd><p>Robust (resilient to outliers) estimator that takes into
+account data variability and data size.</p>
+</dd>
+<dt>‘doane’</dt><dd><p>An improved version of Sturges’ estimator that works better
+with non-normal datasets.</p>
+</dd>
+<dt>‘scott’</dt><dd><p>Less robust estimator that that takes into account data
+variability and data size.</p>
+</dd>
+<dt>‘stone’</dt><dd><p>Estimator based on leave-one-out cross-validation estimate of
+the integrated squared error. Can be regarded as a generalization
+of Scott’s rule.</p>
+</dd>
+<dt>‘rice’</dt><dd><p>Estimator does not take variability into account, only data
+size. Commonly overestimates number of bins required.</p>
+</dd>
+<dt>‘sturges’</dt><dd><p>R’s default method, only accounts for data size. Only
+optimal for gaussian data and underestimates number of bins
+for large non-gaussian datasets.</p>
+</dd>
+<dt>‘sqrt’</dt><dd><p>Square root (of data size) estimator, used by Excel and
+other programs for its speed and simplicity.</p>
+</dd>
+</dl>
+</dd>
+<dt><strong>range</strong><span class="classifier">(float, float), optional</span></dt><dd><p>The lower and upper range of the bins.  If not provided, range
+is simply <code class="docutils literal notranslate"><span class="pre">(a.min(),</span> <span class="pre">a.max())</span></code>.  Values outside the range are
+ignored. The first element of the range must be less than or
+equal to the second. <em class="xref py py-obj">range</em> affects the automatic bin
+computation as well. While bin width is computed to be optimal
+based on the actual data within <em class="xref py py-obj">range</em>, the bin count will fill
+the entire range including portions containing no data.</p>
+</dd>
+<dt><strong>weights</strong><span class="classifier">array_like, optional</span></dt><dd><p>An array of weights, of the same shape as <em class="xref py py-obj">a</em>.  Each value in
+<em class="xref py py-obj">a</em> only contributes its associated weight towards the bin count
+(instead of 1). This is currently not used by any of the bin estimators,
+but may be in the future.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>bin_edges</strong><span class="classifier">array of dtype float</span></dt><dd><p>The edges to pass into <a class="reference internal" href="numpy.histogram.html#numpy.histogram" title="numpy.histogram"><code class="xref py py-obj docutils literal notranslate"><span class="pre">histogram</span></code></a></p>
+</dd>
+</dl>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><a class="reference internal" href="numpy.histogram.html#numpy.histogram" title="numpy.histogram"><code class="xref py py-obj docutils literal notranslate"><span class="pre">histogram</span></code></a></dt><dd></dd>
+</dl>
+</div>
+<p class="rubric">Notes</p>
+<p>The methods to estimate the optimal number of bins are well founded
+in literature, and are inspired by the choices R provides for
+histogram visualisation. Note that having the number of bins
+proportional to <img class="math" src="../../_images/math/f23dca99aa152271eaf36c79b2f6585d5cc2df51.svg" alt="n^{1/3}"/> is asymptotically optimal, which is
+why it appears in most estimators. These are simply plug-in methods
+that give good starting points for number of bins. In the equations
+below, <img class="math" src="../../_images/math/4c120f773ab4e1c59ad2bd44aae969ce24dd190a.svg" alt="h"/> is the binwidth and <img class="math" src="../../_images/math/a6964690d4ca72cbb84d94823c4ae6ed79783cf2.svg" alt="n_h"/> is the number of
+bins. All estimators that compute bin counts are recast to bin width
+using the <a class="reference internal" href="numpy.ptp.html#numpy.ptp" title="numpy.ptp"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ptp</span></code></a> of the data. The final bin count is obtained from
+<code class="docutils literal notranslate"><span class="pre">np.round(np.ceil(range</span> <span class="pre">/</span> <span class="pre">h))</span></code>.</p>
+<dl>
+<dt>‘auto’ (maximum of the ‘sturges’ and ‘fd’ estimators)</dt><dd><p>A compromise to get a good value. For small datasets the Sturges
+value will usually be chosen, while larger datasets will usually
+default to FD.  Avoids the overly conservative behaviour of FD
+and Sturges for small and large datasets respectively.
+Switchover point is usually <img class="math" src="../../_images/math/c641f9333f8d3a70a4c3a71820e8cc174ada7cb8.svg" alt="a.size \approx 1000"/>.</p>
+</dd>
+<dt>‘fd’ (Freedman Diaconis Estimator)</dt><dd><div class="math">
+<p><img src="../../_images/math/6b1bf2cb787a85208b8a8e37617008829f78fcb9.svg" alt="h = 2 \frac{IQR}{n^{1/3}}"/></p>
+</div><p>The binwidth is proportional to the interquartile range (IQR)
+and inversely proportional to cube root of a.size. Can be too
+conservative for small datasets, but is quite good for large
+datasets. The IQR is very robust to outliers.</p>
+</dd>
+<dt>‘scott’</dt><dd><div class="math">
+<p><img src="../../_images/math/0333976256e58040469149d815088741323ebbb6.svg" alt="h = \sigma \sqrt[3]{\frac{24 * \sqrt{\pi}}{n}}"/></p>
+</div><p>The binwidth is proportional to the standard deviation of the
+data and inversely proportional to cube root of <code class="docutils literal notranslate"><span class="pre">x.size</span></code>. Can
+be too conservative for small datasets, but is quite good for
+large datasets. The standard deviation is not very robust to
+outliers. Values are very similar to the Freedman-Diaconis
+estimator in the absence of outliers.</p>
+</dd>
+<dt>‘rice’</dt><dd><div class="math">
+<p><img src="../../_images/math/78f7fcc630bb8bd520b0591732ec2a1a660bfe63.svg" alt="n_h = 2n^{1/3}"/></p>
+</div><p>The number of bins is only proportional to cube root of
+<code class="docutils literal notranslate"><span class="pre">a.size</span></code>. It tends to overestimate the number of bins and it
+does not take into account data variability.</p>
+</dd>
+<dt>‘sturges’</dt><dd><div class="math">
+<p><img src="../../_images/math/e63f03d9dbf00d7a9ba9e8f47d17267798a42b9c.svg" alt="n_h = \log _{2}n+1"/></p>
+</div><p>The number of bins is the base 2 log of <code class="docutils literal notranslate"><span class="pre">a.size</span></code>.  This
+estimator assumes normality of data and is too conservative for
+larger, non-normal datasets. This is the default method in R’s
+<code class="docutils literal notranslate"><span class="pre">hist</span></code> method.</p>
+</dd>
+<dt>‘doane’</dt><dd><div class="math">
+<p><img src="../../_images/math/4c43e60e7971dd9f5fef9efa8db9c3eb0987800a.svg" alt="n_h = 1 + \log_{2}(n) +
+            \log_{2}(1 + \frac{|g_1|}{\sigma_{g_1}})
+
+g_1 = mean[(\frac{x - \mu}{\sigma})^3]
+
+\sigma_{g_1} = \sqrt{\frac{6(n - 2)}{(n + 1)(n + 3)}}"/></p>
+</div><p>An improved version of Sturges’ formula that produces better
+estimates for non-normal datasets. This estimator attempts to
+account for the skew of the data.</p>
+</dd>
+<dt>‘sqrt’</dt><dd><div class="math">
+<p><img src="../../_images/math/3be23393bcaf22c3cdf72282e4b8e378122eaa2e.svg" alt="n_h = \sqrt n"/></p>
+</div><p>The simplest and fastest estimator. Only takes into account the
+data size.</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">histogram_bin_edges</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">,</span> <span class="nb">range</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+<span class="go">array([0.  , 0.25, 0.5 , 0.75, 1.  ])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">histogram_bin_edges</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="go">array([0. , 2.5, 5. ])</span>
+</pre></div>
+</div>
+<p>For consistency with histogram, an array of pre-computed bins is
+passed through unmodified:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">histogram_bin_edges</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+<span class="go">array([1, 2])</span>
+</pre></div>
+</div>
+<p>This function allows one set of bins to be computed, and reused across
+multiple histograms:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">shared_bins</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">histogram_bin_edges</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">shared_bins</span>
+<span class="go">array([0., 1., 2., 3., 4., 5.])</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">group_id</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">hist_0</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span><span class="n">arr</span><span class="p">[</span><span class="n">group_id</span> <span class="o">==</span> <span class="mi">0</span><span class="p">],</span> <span class="n">bins</span><span class="o">=</span><span class="n">shared_bins</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">hist_1</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span><span class="n">arr</span><span class="p">[</span><span class="n">group_id</span> <span class="o">==</span> <span class="mi">1</span><span class="p">],</span> <span class="n">bins</span><span class="o">=</span><span class="n">shared_bins</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">hist_0</span><span class="p">;</span> <span class="n">hist_1</span>
+<span class="go">array([1, 1, 0, 1, 0])</span>
+<span class="go">array([2, 0, 1, 1, 2])</span>
+</pre></div>
+</div>
+<p>Which gives more easily comparable results than using separate bins for
+each histogram:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">hist_0</span><span class="p">,</span> <span class="n">bins_0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span><span class="n">arr</span><span class="p">[</span><span class="n">group_id</span> <span class="o">==</span> <span class="mi">0</span><span class="p">],</span> <span class="n">bins</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">hist_1</span><span class="p">,</span> <span class="n">bins_1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span><span class="n">arr</span><span class="p">[</span><span class="n">group_id</span> <span class="o">==</span> <span class="mi">1</span><span class="p">],</span> <span class="n">bins</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">hist_0</span><span class="p">;</span> <span class="n">hist_1</span>
+<span class="go">array([1, 1, 1])</span>
+<span class="go">array([2, 1, 1, 2])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">bins_0</span><span class="p">;</span> <span class="n">bins_1</span>
+<span class="go">array([0., 1., 2., 3.])</span>
+<span class="go">array([0.  , 1.25, 2.5 , 3.75, 5.  ])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+
+
+              </div>
+              
+              
+              <div class='prev-next-bottom'>
+                
+    <a class='left-prev' id="prev-link" href="numpy.bincount.html" title="previous page">numpy.bincount</a>
+    <a class='right-next' id="next-link" href="numpy.digitize.html" title="next page">numpy.digitize</a>
+
+              </div>
+              
+          </main>
+          
+
+      </div>
+    </div>
+
+    
+  <script src="../../_static/js/index.3da636dd464baa7582d2.js"></script>
+
+
+    <footer class="footer mt-5 mt-md-0">
+  <div class="container">
+    <p>
+          &copy; Copyright 2008-2020, The SciPy community.<br/>
+        Last updated on Jan 30, 2021.<br/>
+        Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.4.4.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

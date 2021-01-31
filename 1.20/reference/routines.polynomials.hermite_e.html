@@ -1,0 +1,571 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>HermiteE Series, “Probabilists” (numpy.polynomial.hermite_e) &#8212; NumPy v1.21.dev0 Manual</title>
+    
+  <link rel="stylesheet" href="../_static/css/index.73d71520a4ca3b99cfee5594769eaaae.css">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+  <link rel="stylesheet"
+    href="../_static/vendor/open-sans_all/1.44.1/index.css">
+  <link rel="stylesheet"
+    href="../_static/vendor/lato_latin-ext/1.44.1/index.css">
+
+    
+    <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.3da636dd464baa7582d2.js">
+
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="numpy.polynomial.hermite_e.HermiteE" href="generated/numpy.polynomial.hermite_e.HermiteE.html" />
+    <link rel="prev" title="numpy.polynomial.hermite.poly2herm" href="generated/numpy.polynomial.hermite.poly2herm.html" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+<link rel="stylesheet" href="../_static/numpy.css" type="text/css" />
+
+    <!-- PR #17220: This is added via javascript in versionwarning.js  -->
+    <!-- link rel="canonical" href="http://numpy.org/doc/stable/reference/routines.polynomials.hermite_e.html" / -->
+
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <nav class="navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main">
+<div class="container-xl">
+
+    <a class="navbar-brand" href="../contents.html">
+    
+      <img src="../_static/numpylogo.svg" class="logo" alt="logo" />
+    
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-menu" aria-controls="navbar-menu" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div id="navbar-menu" class="col-lg-9 collapse navbar-collapse">
+      <ul id="navbar-main-elements" class="navbar-nav mr-auto">
+        
+        
+        <li class="nav-item ">
+            <a class="nav-link" href="../user/index.html">User Guide</a>
+        </li>
+        
+        <li class="nav-item active">
+            <a class="nav-link" href="index.html">API reference</a>
+        </li>
+        
+        <li class="nav-item ">
+            <a class="nav-link" href="../dev/index.html">Development</a>
+        </li>
+        
+        
+      </ul>
+
+
+      
+
+      <ul class="navbar-nav">
+        
+          <li class="nav-item">
+            <a class="nav-link" href="https://github.com/numpy/numpy" target="_blank" rel="noopener">
+              <span><i class="fab fa-github-square"></i></span>
+            </a>
+          </li>
+        
+        
+          <li class="nav-item">
+            <a class="nav-link" href="https://twitter.com/numpy_team" target="_blank" rel="noopener">
+              <span><i class="fab fa-twitter-square"></i></span>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+</div>
+    </nav>
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+          <div class="col-12 col-md-3 bd-sidebar"><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form>
+<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+
+    <div class="bd-toc-item active">
+    
+  
+    <ul class="nav bd-sidenav">
+        
+        
+        
+        
+          
+            
+                <li class="">
+                    <a href="arrays.html">Array objects</a>
+                </li>
+            
+          
+            
+                <li class="">
+                    <a href="constants.html">Constants</a>
+                </li>
+            
+          
+            
+                <li class="">
+                    <a href="ufuncs.html">Universal functions (ufunc)</a>
+                </li>
+            
+          
+            
+  
+                <li class="active">
+                    <a href="routines.html">Routines</a>
+                    <ul>
+                    
+                        <li class="">
+                            <a href="routines.array-creation.html">Array creation routines</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="routines.array-manipulation.html">Array manipulation routines</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="routines.bitwise.html">Binary operations</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="routines.char.html">String operations</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="routines.ctypeslib.html">C-Types Foreign Function Interface (numpy.ctypeslib)</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="routines.datetime.html">Datetime Support Functions</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="routines.dtype.html">Data type routines</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="routines.dual.html">Optionally SciPy-accelerated routines (numpy.dual)</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="routines.emath.html">Mathematical functions with automatic domain (numpy.emath)</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="routines.err.html">Floating point error handling</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="routines.fft.html">Discrete Fourier Transform (numpy.fft)</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="routines.functional.html">Functional programming</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="routines.help.html">NumPy-specific help functions</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="routines.indexing.html">Indexing routines</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="routines.io.html">Input and output</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="routines.linalg.html">Linear algebra (numpy.linalg)</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="routines.logic.html">Logic functions</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="routines.ma.html">Masked array operations</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="routines.math.html">Mathematical functions</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="routines.matlib.html">Matrix library (numpy.matlib)</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="routines.other.html">Miscellaneous routines</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="routines.padding.html">Padding Arrays</a>
+                        </li>
+                    
+                        <li class="active">
+                            <a href="routines.polynomials.html">Polynomials</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="random/index.html">Random sampling (numpy.random)</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="routines.set.html">Set routines</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="routines.sort.html">Sorting, searching, and counting</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="routines.statistics.html">Statistics</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="routines.testing.html">Test Support (numpy.testing)</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="routines.window.html">Window functions</a>
+                        </li>
+                    
+                    </ul>
+                </li>
+            
+          
+            
+                <li class="">
+                    <a href="typing.html">Typing (numpy.typing)</a>
+                </li>
+            
+          
+            
+                <li class="">
+                    <a href="global_state.html">Global State</a>
+                </li>
+            
+          
+            
+                <li class="">
+                    <a href="distutils.html">Packaging (numpy.distutils)</a>
+                </li>
+            
+          
+            
+                <li class="">
+                    <a href="distutils_guide.html">NumPy Distutils - Users Guide</a>
+                </li>
+            
+          
+            
+                <li class="">
+                    <a href="c-api/index.html">NumPy C-API</a>
+                </li>
+            
+          
+            
+                <li class="">
+                    <a href="internals.html">NumPy internals</a>
+                </li>
+            
+          
+            
+                <li class="">
+                    <a href="simd/simd-optimizations.html">SIMD Optimizations</a>
+                </li>
+            
+          
+            
+                <li class="">
+                    <a href="swig.html">NumPy and SWIG</a>
+                </li>
+            
+          
+        
+        
+        
+        
+      </ul>
+  
+  </nav>
+          </div>
+          
+
+          
+          <div class="d-none d-xl-block col-xl-2 bd-toc">
+              
+<div class="tocsection onthispage pt-5 pb-3">
+    <i class="fas fa-list"></i> On this page
+</div>
+
+<nav id="bd-toc-nav">
+    <ul class="nav section-nav flex-column">
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#classes" class="nav-link">Classes</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#constants" class="nav-link">Constants</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#arithmetic" class="nav-link">Arithmetic</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#calculus" class="nav-link">Calculus</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#misc-functions" class="nav-link">Misc Functions</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#see-also" class="nav-link">See also</a>
+        </li>
+    
+    </ul>
+</nav>
+
+
+              
+          </div>
+          
+
+          
+          <main class="col-12 col-md-9 col-xl-7 py-md-5 pl-md-5 pr-md-4 bd-content" role="main">
+              
+              <div>
+                
+  <div class="versionadded">
+<p><span class="versionmodified added">New in version 1.6.0.</span></p>
+</div>
+<span class="target" id="module-numpy.polynomial.hermite_e"></span><div class="section" id="hermitee-series-probabilists-numpy-polynomial-hermite-e">
+<h1>HermiteE Series, “Probabilists” (<a class="reference internal" href="#module-numpy.polynomial.hermite_e" title="numpy.polynomial.hermite_e"><code class="xref py py-mod docutils literal notranslate"><span class="pre">numpy.polynomial.hermite_e</span></code></a>)<a class="headerlink" href="#hermitee-series-probabilists-numpy-polynomial-hermite-e" title="Permalink to this headline">¶</a></h1>
+<p>This module provides a number of objects (mostly functions) useful for
+dealing with Hermite_e series, including a <a class="reference internal" href="generated/numpy.polynomial.hermite_e.HermiteE.html#numpy.polynomial.hermite_e.HermiteE" title="numpy.polynomial.hermite_e.HermiteE"><code class="xref py py-obj docutils literal notranslate"><span class="pre">HermiteE</span></code></a> class that
+encapsulates the usual arithmetic operations.  (General information
+on how this module represents and works with such polynomials is in the
+docstring for its “parent” sub-package, <a class="reference internal" href="routines.polynomials.package.html#module-numpy.polynomial" title="numpy.polynomial"><code class="xref py py-obj docutils literal notranslate"><span class="pre">numpy.polynomial</span></code></a>).</p>
+<div class="section" id="classes">
+<h2>Classes<a class="headerlink" href="#classes" title="Permalink to this headline">¶</a></h2>
+<table class="longtable table autosummary">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/numpy.polynomial.hermite_e.HermiteE.html#numpy.polynomial.hermite_e.HermiteE" title="numpy.polynomial.hermite_e.HermiteE"><code class="xref py py-obj docutils literal notranslate"><span class="pre">HermiteE</span></code></a>(coef[, domain, window])</p></td>
+<td><p>An HermiteE series class.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="constants">
+<h2>Constants<a class="headerlink" href="#constants" title="Permalink to this headline">¶</a></h2>
+<table class="longtable table autosummary">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/numpy.polynomial.hermite_e.hermedomain.html#numpy.polynomial.hermite_e.hermedomain" title="numpy.polynomial.hermite_e.hermedomain"><code class="xref py py-obj docutils literal notranslate"><span class="pre">hermedomain</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/numpy.polynomial.hermite_e.hermezero.html#numpy.polynomial.hermite_e.hermezero" title="numpy.polynomial.hermite_e.hermezero"><code class="xref py py-obj docutils literal notranslate"><span class="pre">hermezero</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/numpy.polynomial.hermite_e.hermeone.html#numpy.polynomial.hermite_e.hermeone" title="numpy.polynomial.hermite_e.hermeone"><code class="xref py py-obj docutils literal notranslate"><span class="pre">hermeone</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/numpy.polynomial.hermite_e.hermex.html#numpy.polynomial.hermite_e.hermex" title="numpy.polynomial.hermite_e.hermex"><code class="xref py py-obj docutils literal notranslate"><span class="pre">hermex</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="arithmetic">
+<h2>Arithmetic<a class="headerlink" href="#arithmetic" title="Permalink to this headline">¶</a></h2>
+<table class="longtable table autosummary">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/numpy.polynomial.hermite_e.hermeadd.html#numpy.polynomial.hermite_e.hermeadd" title="numpy.polynomial.hermite_e.hermeadd"><code class="xref py py-obj docutils literal notranslate"><span class="pre">hermeadd</span></code></a>(c1, c2)</p></td>
+<td><p>Add one Hermite series to another.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/numpy.polynomial.hermite_e.hermesub.html#numpy.polynomial.hermite_e.hermesub" title="numpy.polynomial.hermite_e.hermesub"><code class="xref py py-obj docutils literal notranslate"><span class="pre">hermesub</span></code></a>(c1, c2)</p></td>
+<td><p>Subtract one Hermite series from another.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/numpy.polynomial.hermite_e.hermemulx.html#numpy.polynomial.hermite_e.hermemulx" title="numpy.polynomial.hermite_e.hermemulx"><code class="xref py py-obj docutils literal notranslate"><span class="pre">hermemulx</span></code></a>(c)</p></td>
+<td><p>Multiply a Hermite series by x.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/numpy.polynomial.hermite_e.hermemul.html#numpy.polynomial.hermite_e.hermemul" title="numpy.polynomial.hermite_e.hermemul"><code class="xref py py-obj docutils literal notranslate"><span class="pre">hermemul</span></code></a>(c1, c2)</p></td>
+<td><p>Multiply one Hermite series by another.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/numpy.polynomial.hermite_e.hermediv.html#numpy.polynomial.hermite_e.hermediv" title="numpy.polynomial.hermite_e.hermediv"><code class="xref py py-obj docutils literal notranslate"><span class="pre">hermediv</span></code></a>(c1, c2)</p></td>
+<td><p>Divide one Hermite series by another.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/numpy.polynomial.hermite_e.hermepow.html#numpy.polynomial.hermite_e.hermepow" title="numpy.polynomial.hermite_e.hermepow"><code class="xref py py-obj docutils literal notranslate"><span class="pre">hermepow</span></code></a>(c, pow[, maxpower])</p></td>
+<td><p>Raise a Hermite series to a power.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/numpy.polynomial.hermite_e.hermeval.html#numpy.polynomial.hermite_e.hermeval" title="numpy.polynomial.hermite_e.hermeval"><code class="xref py py-obj docutils literal notranslate"><span class="pre">hermeval</span></code></a>(x, c[, tensor])</p></td>
+<td><p>Evaluate an HermiteE series at points x.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/numpy.polynomial.hermite_e.hermeval2d.html#numpy.polynomial.hermite_e.hermeval2d" title="numpy.polynomial.hermite_e.hermeval2d"><code class="xref py py-obj docutils literal notranslate"><span class="pre">hermeval2d</span></code></a>(x, y, c)</p></td>
+<td><p>Evaluate a 2-D HermiteE series at points (x, y).</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/numpy.polynomial.hermite_e.hermeval3d.html#numpy.polynomial.hermite_e.hermeval3d" title="numpy.polynomial.hermite_e.hermeval3d"><code class="xref py py-obj docutils literal notranslate"><span class="pre">hermeval3d</span></code></a>(x, y, z, c)</p></td>
+<td><p>Evaluate a 3-D Hermite_e series at points (x, y, z).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/numpy.polynomial.hermite_e.hermegrid2d.html#numpy.polynomial.hermite_e.hermegrid2d" title="numpy.polynomial.hermite_e.hermegrid2d"><code class="xref py py-obj docutils literal notranslate"><span class="pre">hermegrid2d</span></code></a>(x, y, c)</p></td>
+<td><p>Evaluate a 2-D HermiteE series on the Cartesian product of x and y.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/numpy.polynomial.hermite_e.hermegrid3d.html#numpy.polynomial.hermite_e.hermegrid3d" title="numpy.polynomial.hermite_e.hermegrid3d"><code class="xref py py-obj docutils literal notranslate"><span class="pre">hermegrid3d</span></code></a>(x, y, z, c)</p></td>
+<td><p>Evaluate a 3-D HermiteE series on the Cartesian product of x, y, and z.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="calculus">
+<h2>Calculus<a class="headerlink" href="#calculus" title="Permalink to this headline">¶</a></h2>
+<table class="longtable table autosummary">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/numpy.polynomial.hermite_e.hermeder.html#numpy.polynomial.hermite_e.hermeder" title="numpy.polynomial.hermite_e.hermeder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">hermeder</span></code></a>(c[, m, scl, axis])</p></td>
+<td><p>Differentiate a Hermite_e series.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/numpy.polynomial.hermite_e.hermeint.html#numpy.polynomial.hermite_e.hermeint" title="numpy.polynomial.hermite_e.hermeint"><code class="xref py py-obj docutils literal notranslate"><span class="pre">hermeint</span></code></a>(c[, m, k, lbnd, scl, axis])</p></td>
+<td><p>Integrate a Hermite_e series.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="misc-functions">
+<h2>Misc Functions<a class="headerlink" href="#misc-functions" title="Permalink to this headline">¶</a></h2>
+<table class="longtable table autosummary">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/numpy.polynomial.hermite_e.hermefromroots.html#numpy.polynomial.hermite_e.hermefromroots" title="numpy.polynomial.hermite_e.hermefromroots"><code class="xref py py-obj docutils literal notranslate"><span class="pre">hermefromroots</span></code></a>(roots)</p></td>
+<td><p>Generate a HermiteE series with given roots.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/numpy.polynomial.hermite_e.hermeroots.html#numpy.polynomial.hermite_e.hermeroots" title="numpy.polynomial.hermite_e.hermeroots"><code class="xref py py-obj docutils literal notranslate"><span class="pre">hermeroots</span></code></a>(c)</p></td>
+<td><p>Compute the roots of a HermiteE series.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/numpy.polynomial.hermite_e.hermevander.html#numpy.polynomial.hermite_e.hermevander" title="numpy.polynomial.hermite_e.hermevander"><code class="xref py py-obj docutils literal notranslate"><span class="pre">hermevander</span></code></a>(x, deg)</p></td>
+<td><p>Pseudo-Vandermonde matrix of given degree.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/numpy.polynomial.hermite_e.hermevander2d.html#numpy.polynomial.hermite_e.hermevander2d" title="numpy.polynomial.hermite_e.hermevander2d"><code class="xref py py-obj docutils literal notranslate"><span class="pre">hermevander2d</span></code></a>(x, y, deg)</p></td>
+<td><p>Pseudo-Vandermonde matrix of given degrees.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/numpy.polynomial.hermite_e.hermevander3d.html#numpy.polynomial.hermite_e.hermevander3d" title="numpy.polynomial.hermite_e.hermevander3d"><code class="xref py py-obj docutils literal notranslate"><span class="pre">hermevander3d</span></code></a>(x, y, z, deg)</p></td>
+<td><p>Pseudo-Vandermonde matrix of given degrees.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/numpy.polynomial.hermite_e.hermegauss.html#numpy.polynomial.hermite_e.hermegauss" title="numpy.polynomial.hermite_e.hermegauss"><code class="xref py py-obj docutils literal notranslate"><span class="pre">hermegauss</span></code></a>(deg)</p></td>
+<td><p>Gauss-HermiteE quadrature.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/numpy.polynomial.hermite_e.hermeweight.html#numpy.polynomial.hermite_e.hermeweight" title="numpy.polynomial.hermite_e.hermeweight"><code class="xref py py-obj docutils literal notranslate"><span class="pre">hermeweight</span></code></a>(x)</p></td>
+<td><p>Weight function of the Hermite_e polynomials.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/numpy.polynomial.hermite_e.hermecompanion.html#numpy.polynomial.hermite_e.hermecompanion" title="numpy.polynomial.hermite_e.hermecompanion"><code class="xref py py-obj docutils literal notranslate"><span class="pre">hermecompanion</span></code></a>(c)</p></td>
+<td><p>Return the scaled companion matrix of c.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/numpy.polynomial.hermite_e.hermefit.html#numpy.polynomial.hermite_e.hermefit" title="numpy.polynomial.hermite_e.hermefit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">hermefit</span></code></a>(x, y, deg[, rcond, full, w])</p></td>
+<td><p>Least squares fit of Hermite series to data.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/numpy.polynomial.hermite_e.hermetrim.html#numpy.polynomial.hermite_e.hermetrim" title="numpy.polynomial.hermite_e.hermetrim"><code class="xref py py-obj docutils literal notranslate"><span class="pre">hermetrim</span></code></a>(c[, tol])</p></td>
+<td><p>Remove “small” “trailing” coefficients from a polynomial.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/numpy.polynomial.hermite_e.hermeline.html#numpy.polynomial.hermite_e.hermeline" title="numpy.polynomial.hermite_e.hermeline"><code class="xref py py-obj docutils literal notranslate"><span class="pre">hermeline</span></code></a>(off, scl)</p></td>
+<td><p>Hermite series whose graph is a straight line.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/numpy.polynomial.hermite_e.herme2poly.html#numpy.polynomial.hermite_e.herme2poly" title="numpy.polynomial.hermite_e.herme2poly"><code class="xref py py-obj docutils literal notranslate"><span class="pre">herme2poly</span></code></a>(c)</p></td>
+<td><p>Convert a Hermite series to a polynomial.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/numpy.polynomial.hermite_e.poly2herme.html#numpy.polynomial.hermite_e.poly2herme" title="numpy.polynomial.hermite_e.poly2herme"><code class="xref py py-obj docutils literal notranslate"><span class="pre">poly2herme</span></code></a>(pol)</p></td>
+<td><p>Convert a polynomial to a Hermite series.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="see-also">
+<h2>See also<a class="headerlink" href="#see-also" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference internal" href="routines.polynomials.package.html#module-numpy.polynomial" title="numpy.polynomial"><code class="xref py py-obj docutils literal notranslate"><span class="pre">numpy.polynomial</span></code></a></p>
+</div>
+</div>
+
+
+              </div>
+              
+              
+              <div class='prev-next-bottom'>
+                
+    <a class='left-prev' id="prev-link" href="generated/numpy.polynomial.hermite.poly2herm.html" title="previous page">numpy.polynomial.hermite.poly2herm</a>
+    <a class='right-next' id="next-link" href="generated/numpy.polynomial.hermite_e.HermiteE.html" title="next page">numpy.polynomial.hermite_e.HermiteE</a>
+
+              </div>
+              
+          </main>
+          
+
+      </div>
+    </div>
+
+    
+  <script src="../_static/js/index.3da636dd464baa7582d2.js"></script>
+
+
+    <footer class="footer mt-5 mt-md-0">
+  <div class="container">
+    <p>
+          &copy; Copyright 2008-2020, The SciPy community.<br/>
+        Last updated on Jan 30, 2021.<br/>
+        Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.4.4.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

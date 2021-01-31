@@ -1,0 +1,584 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>distutils.misc_util &#8212; NumPy v1.21.dev0 Manual</title>
+    
+  <link rel="stylesheet" href="../../_static/css/index.73d71520a4ca3b99cfee5594769eaaae.css">
+
+    
+  <link rel="stylesheet"
+    href="../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+  <link rel="stylesheet"
+    href="../../_static/vendor/open-sans_all/1.44.1/index.css">
+  <link rel="stylesheet"
+    href="../../_static/vendor/lato_latin-ext/1.44.1/index.css">
+
+    
+    <link rel="stylesheet" href="../../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
+    
+  <link rel="preload" as="script" href="../../_static/js/index.3da636dd464baa7582d2.js">
+
+    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="numpy.distutils.ccompiler" href="../generated/numpy.distutils.ccompiler.html" />
+    <link rel="prev" title="Packaging (numpy.distutils)" href="../distutils.html" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+<link rel="stylesheet" href="../../_static/numpy.css" type="text/css" />
+
+    <!-- PR #17220: This is added via javascript in versionwarning.js  -->
+    <!-- link rel="canonical" href="http://numpy.org/doc/stable/reference/distutils/misc_util.html" / -->
+
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <nav class="navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main">
+<div class="container-xl">
+
+    <a class="navbar-brand" href="../../contents.html">
+    
+      <img src="../../_static/numpylogo.svg" class="logo" alt="logo" />
+    
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-menu" aria-controls="navbar-menu" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div id="navbar-menu" class="col-lg-9 collapse navbar-collapse">
+      <ul id="navbar-main-elements" class="navbar-nav mr-auto">
+        
+        
+        <li class="nav-item ">
+            <a class="nav-link" href="../../user/index.html">User Guide</a>
+        </li>
+        
+        <li class="nav-item active">
+            <a class="nav-link" href="../index.html">API reference</a>
+        </li>
+        
+        <li class="nav-item ">
+            <a class="nav-link" href="../../dev/index.html">Development</a>
+        </li>
+        
+        
+      </ul>
+
+
+      
+
+      <ul class="navbar-nav">
+        
+          <li class="nav-item">
+            <a class="nav-link" href="https://github.com/numpy/numpy" target="_blank" rel="noopener">
+              <span><i class="fab fa-github-square"></i></span>
+            </a>
+          </li>
+        
+        
+          <li class="nav-item">
+            <a class="nav-link" href="https://twitter.com/numpy_team" target="_blank" rel="noopener">
+              <span><i class="fab fa-twitter-square"></i></span>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+</div>
+    </nav>
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+          <div class="col-12 col-md-3 bd-sidebar"><form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form>
+<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+
+    <div class="bd-toc-item active">
+    
+  
+    <ul class="nav bd-sidenav">
+        
+        
+        
+        
+          
+            
+                <li class="">
+                    <a href="../arrays.html">Array objects</a>
+                </li>
+            
+          
+            
+                <li class="">
+                    <a href="../constants.html">Constants</a>
+                </li>
+            
+          
+            
+                <li class="">
+                    <a href="../ufuncs.html">Universal functions (ufunc)</a>
+                </li>
+            
+          
+            
+                <li class="">
+                    <a href="../routines.html">Routines</a>
+                </li>
+            
+          
+            
+                <li class="">
+                    <a href="../typing.html">Typing (numpy.typing)</a>
+                </li>
+            
+          
+            
+                <li class="">
+                    <a href="../global_state.html">Global State</a>
+                </li>
+            
+          
+            
+                <li class="active">
+                    <a href="../distutils.html">Packaging (numpy.distutils)</a>
+                </li>
+            
+          
+            
+                <li class="">
+                    <a href="../distutils_guide.html">NumPy Distutils - Users Guide</a>
+                </li>
+            
+          
+            
+                <li class="">
+                    <a href="../c-api/index.html">NumPy C-API</a>
+                </li>
+            
+          
+            
+                <li class="">
+                    <a href="../internals.html">NumPy internals</a>
+                </li>
+            
+          
+            
+                <li class="">
+                    <a href="../simd/simd-optimizations.html">SIMD Optimizations</a>
+                </li>
+            
+          
+            
+                <li class="">
+                    <a href="../swig.html">NumPy and SWIG</a>
+                </li>
+            
+          
+        
+        
+        
+        
+      </ul>
+  
+  </nav>
+          </div>
+          
+
+          
+          <div class="d-none d-xl-block col-xl-2 bd-toc">
+              
+
+<nav id="bd-toc-nav">
+    <ul class="nav section-nav flex-column">
+    
+    </ul>
+</nav>
+
+
+              
+          </div>
+          
+
+          
+          <main class="col-12 col-md-9 col-xl-7 py-md-5 pl-md-5 pr-md-4 bd-content" role="main">
+              
+              <div>
+                
+  <div class="section" id="module-numpy.distutils.misc_util">
+<span id="distutils-misc-util"></span><h1>distutils.misc_util<a class="headerlink" href="#module-numpy.distutils.misc_util" title="Permalink to this headline">¶</a></h1>
+<dl class="function">
+<dt id="numpy.distutils.misc_util.get_numpy_include_dirs">
+<code class="sig-prename descclassname">numpy.distutils.misc_util.</code><code class="sig-name descname">get_numpy_include_dirs</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/numpy/numpy/blob/master/numpy/distutils/misc_util.py#L2112-L2119"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#numpy.distutils.misc_util.get_numpy_include_dirs" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="numpy.distutils.misc_util.default_config_dict">
+<code class="sig-prename descclassname">numpy.distutils.misc_util.</code><code class="sig-name descname">default_config_dict</code><span class="sig-paren">(</span><em class="sig-param">name=None</em>, <em class="sig-param">parent_name=None</em>, <em class="sig-param">local_path=None</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/numpy/numpy/blob/master/numpy/distutils/misc_util.py#L2251-L2262"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#numpy.distutils.misc_util.default_config_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a configuration dictionary for usage in
+configuration() function defined in file setup_&lt;name&gt;.py.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="numpy.distutils.misc_util.dict_append">
+<code class="sig-prename descclassname">numpy.distutils.misc_util.</code><code class="sig-name descname">dict_append</code><span class="sig-paren">(</span><em class="sig-param">d</em>, <em class="sig-param">**kws</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/numpy/numpy/blob/master/numpy/distutils/misc_util.py#L2265-L2274"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#numpy.distutils.misc_util.dict_append" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="numpy.distutils.misc_util.appendpath">
+<code class="sig-prename descclassname">numpy.distutils.misc_util.</code><code class="sig-name descname">appendpath</code><span class="sig-paren">(</span><em class="sig-param">prefix</em>, <em class="sig-param">path</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/numpy/numpy/blob/master/numpy/distutils/misc_util.py#L2276-L2295"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#numpy.distutils.misc_util.appendpath" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="numpy.distutils.misc_util.generate_config_py">
+<code class="sig-prename descclassname">numpy.distutils.misc_util.</code><code class="sig-name descname">generate_config_py</code><span class="sig-paren">(</span><em class="sig-param">target</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/numpy/numpy/blob/master/numpy/distutils/misc_util.py#L2297-L2386"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#numpy.distutils.misc_util.generate_config_py" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate config.py file containing system_info information
+used during building the package.</p>
+<dl class="simple">
+<dt>Usage:</dt><dd><p>config[‘py_modules’].append((packagename, ‘__config__’,generate_config_py))</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="numpy.distutils.misc_util.get_cmd">
+<code class="sig-prename descclassname">numpy.distutils.misc_util.</code><code class="sig-name descname">get_cmd</code><span class="sig-paren">(</span><em class="sig-param">cmdname</em>, <em class="sig-param">_cache={}</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/numpy/numpy/blob/master/numpy/distutils/misc_util.py#L2100-L2110"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#numpy.distutils.misc_util.get_cmd" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="numpy.distutils.misc_util.allpath">
+<code class="sig-prename descclassname">numpy.distutils.misc_util.</code><code class="sig-name descname">allpath</code><span class="sig-paren">(</span><em class="sig-param">name</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/numpy/numpy/blob/master/numpy/distutils/misc_util.py#L125-L128"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#numpy.distutils.misc_util.allpath" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert a /-separated pathname to one using the OS’s path separator.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="numpy.distutils.misc_util.get_mathlibs">
+<code class="sig-prename descclassname">numpy.distutils.misc_util.</code><code class="sig-name descname">get_mathlibs</code><span class="sig-paren">(</span><em class="sig-param">path=None</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/numpy/numpy/blob/master/numpy/distutils/misc_util.py#L201-L226"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#numpy.distutils.misc_util.get_mathlibs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the MATHLIB line from numpyconfig.h</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="numpy.distutils.misc_util.terminal_has_colors">
+<code class="sig-prename descclassname">numpy.distutils.misc_util.</code><code class="sig-name descname">terminal_has_colors</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/numpy/numpy/blob/master/numpy/distutils/misc_util.py#L319-L344"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#numpy.distutils.misc_util.terminal_has_colors" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="numpy.distutils.misc_util.red_text">
+<code class="sig-prename descclassname">numpy.distutils.misc_util.</code><code class="sig-name descname">red_text</code><span class="sig-paren">(</span><em class="sig-param">s</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/numpy/numpy/blob/master/numpy/distutils/misc_util.py#L369-L370"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#numpy.distutils.misc_util.red_text" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="numpy.distutils.misc_util.green_text">
+<code class="sig-prename descclassname">numpy.distutils.misc_util.</code><code class="sig-name descname">green_text</code><span class="sig-paren">(</span><em class="sig-param">s</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/numpy/numpy/blob/master/numpy/distutils/misc_util.py#L371-L372"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#numpy.distutils.misc_util.green_text" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="numpy.distutils.misc_util.yellow_text">
+<code class="sig-prename descclassname">numpy.distutils.misc_util.</code><code class="sig-name descname">yellow_text</code><span class="sig-paren">(</span><em class="sig-param">s</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/numpy/numpy/blob/master/numpy/distutils/misc_util.py#L373-L374"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#numpy.distutils.misc_util.yellow_text" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="numpy.distutils.misc_util.blue_text">
+<code class="sig-prename descclassname">numpy.distutils.misc_util.</code><code class="sig-name descname">blue_text</code><span class="sig-paren">(</span><em class="sig-param">s</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/numpy/numpy/blob/master/numpy/distutils/misc_util.py#L377-L378"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#numpy.distutils.misc_util.blue_text" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="numpy.distutils.misc_util.cyan_text">
+<code class="sig-prename descclassname">numpy.distutils.misc_util.</code><code class="sig-name descname">cyan_text</code><span class="sig-paren">(</span><em class="sig-param">s</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/numpy/numpy/blob/master/numpy/distutils/misc_util.py#L375-L376"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#numpy.distutils.misc_util.cyan_text" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="numpy.distutils.misc_util.cyg2win32">
+<code class="sig-prename descclassname">numpy.distutils.misc_util.</code><code class="sig-name descname">cyg2win32</code><span class="sig-paren">(</span><em class="sig-param">path</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/numpy/numpy/blob/master/numpy/distutils/misc_util.py#L382-L385"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#numpy.distutils.misc_util.cyg2win32" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="numpy.distutils.misc_util.mingw32">
+<code class="sig-prename descclassname">numpy.distutils.misc_util.</code><code class="sig-name descname">mingw32</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/numpy/numpy/blob/master/numpy/distutils/misc_util.py#L387-L395"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#numpy.distutils.misc_util.mingw32" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return true when using mingw32 environment.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="numpy.distutils.misc_util.all_strings">
+<code class="sig-prename descclassname">numpy.distutils.misc_util.</code><code class="sig-name descname">all_strings</code><span class="sig-paren">(</span><em class="sig-param">lst</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/numpy/numpy/blob/master/numpy/distutils/misc_util.py#L454-L459"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#numpy.distutils.misc_util.all_strings" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return True if all items in lst are string objects.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="numpy.distutils.misc_util.has_f_sources">
+<code class="sig-prename descclassname">numpy.distutils.misc_util.</code><code class="sig-name descname">has_f_sources</code><span class="sig-paren">(</span><em class="sig-param">sources</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/numpy/numpy/blob/master/numpy/distutils/misc_util.py#L492-L497"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#numpy.distutils.misc_util.has_f_sources" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return True if sources contains Fortran files</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="numpy.distutils.misc_util.has_cxx_sources">
+<code class="sig-prename descclassname">numpy.distutils.misc_util.</code><code class="sig-name descname">has_cxx_sources</code><span class="sig-paren">(</span><em class="sig-param">sources</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/numpy/numpy/blob/master/numpy/distutils/misc_util.py#L499-L504"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#numpy.distutils.misc_util.has_cxx_sources" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return True if sources contains C++ files</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="numpy.distutils.misc_util.filter_sources">
+<code class="sig-prename descclassname">numpy.distutils.misc_util.</code><code class="sig-name descname">filter_sources</code><span class="sig-paren">(</span><em class="sig-param">sources</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/numpy/numpy/blob/master/numpy/distutils/misc_util.py#L506-L526"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#numpy.distutils.misc_util.filter_sources" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return four lists of filenames containing
+C, C++, Fortran, and Fortran 90 module sources,
+respectively.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="numpy.distutils.misc_util.get_dependencies">
+<code class="sig-prename descclassname">numpy.distutils.misc_util.</code><code class="sig-name descname">get_dependencies</code><span class="sig-paren">(</span><em class="sig-param">sources</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/numpy/numpy/blob/master/numpy/distutils/misc_util.py#L558-L560"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#numpy.distutils.misc_util.get_dependencies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="numpy.distutils.misc_util.is_local_src_dir">
+<code class="sig-prename descclassname">numpy.distutils.misc_util.</code><code class="sig-name descname">is_local_src_dir</code><span class="sig-paren">(</span><em class="sig-param">directory</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/numpy/numpy/blob/master/numpy/distutils/misc_util.py#L562-L575"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#numpy.distutils.misc_util.is_local_src_dir" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return true if directory is local directory.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="numpy.distutils.misc_util.get_ext_source_files">
+<code class="sig-prename descclassname">numpy.distutils.misc_util.</code><code class="sig-name descname">get_ext_source_files</code><span class="sig-paren">(</span><em class="sig-param">ext</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/numpy/numpy/blob/master/numpy/distutils/misc_util.py#L613-L624"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#numpy.distutils.misc_util.get_ext_source_files" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="numpy.distutils.misc_util.get_script_files">
+<code class="sig-prename descclassname">numpy.distutils.misc_util.</code><code class="sig-name descname">get_script_files</code><span class="sig-paren">(</span><em class="sig-param">scripts</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/numpy/numpy/blob/master/numpy/distutils/misc_util.py#L626-L628"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#numpy.distutils.misc_util.get_script_files" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="numpy.distutils.misc_util.get_lib_source_files">
+<code class="sig-prename descclassname">numpy.distutils.misc_util.</code><code class="sig-name descname">get_lib_source_files</code><span class="sig-paren">(</span><em class="sig-param">lib</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/numpy/numpy/blob/master/numpy/distutils/misc_util.py#L630-L642"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#numpy.distutils.misc_util.get_lib_source_files" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="numpy.distutils.misc_util.get_data_files">
+<code class="sig-prename descclassname">numpy.distutils.misc_util.</code><code class="sig-name descname">get_data_files</code><span class="sig-paren">(</span><em class="sig-param">data</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/numpy/numpy/blob/master/numpy/distutils/misc_util.py#L691-L708"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#numpy.distutils.misc_util.get_data_files" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="numpy.distutils.misc_util.dot_join">
+<code class="sig-prename descclassname">numpy.distutils.misc_util.</code><code class="sig-name descname">dot_join</code><span class="sig-paren">(</span><em class="sig-param">*args</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/numpy/numpy/blob/master/numpy/distutils/misc_util.py#L710-L711"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#numpy.distutils.misc_util.dot_join" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="numpy.distutils.misc_util.get_frame">
+<code class="sig-prename descclassname">numpy.distutils.misc_util.</code><code class="sig-name descname">get_frame</code><span class="sig-paren">(</span><em class="sig-param">level=0</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/numpy/numpy/blob/master/numpy/distutils/misc_util.py#L713-L722"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#numpy.distutils.misc_util.get_frame" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return frame object from call stack with given level.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="numpy.distutils.misc_util.minrelpath">
+<code class="sig-prename descclassname">numpy.distutils.misc_util.</code><code class="sig-name descname">minrelpath</code><span class="sig-paren">(</span><em class="sig-param">path</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/numpy/numpy/blob/master/numpy/distutils/misc_util.py#L228-L255"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#numpy.distutils.misc_util.minrelpath" title="Permalink to this definition">¶</a></dt>
+<dd><p>Resolve <em class="xref py py-obj"></em> and ‘.’ from path.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="numpy.distutils.misc_util.njoin">
+<code class="sig-prename descclassname">numpy.distutils.misc_util.</code><code class="sig-name descname">njoin</code><span class="sig-paren">(</span><em class="sig-param">*path</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/numpy/numpy/blob/master/numpy/distutils/misc_util.py#L174-L199"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#numpy.distutils.misc_util.njoin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Join two or more pathname components +
+- convert a /-separated pathname to one using the OS’s path separator.
+- resolve <em class="xref py py-obj"></em> and <em class="xref py py-obj"></em> from path.</p>
+<p>Either passing n arguments as in njoin(‘a’,’b’), or a sequence
+of n names as in njoin([‘a’,’b’]) is handled, or a mixture of such arguments.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="numpy.distutils.misc_util.is_sequence">
+<code class="sig-prename descclassname">numpy.distutils.misc_util.</code><code class="sig-name descname">is_sequence</code><span class="sig-paren">(</span><em class="sig-param">seq</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/numpy/numpy/blob/master/numpy/distutils/misc_util.py#L461-L468"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#numpy.distutils.misc_util.is_sequence" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="numpy.distutils.misc_util.is_string">
+<code class="sig-prename descclassname">numpy.distutils.misc_util.</code><code class="sig-name descname">is_string</code><span class="sig-paren">(</span><em class="sig-param">s</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/numpy/numpy/blob/master/numpy/distutils/misc_util.py#L451-L452"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#numpy.distutils.misc_util.is_string" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="numpy.distutils.misc_util.as_list">
+<code class="sig-prename descclassname">numpy.distutils.misc_util.</code><code class="sig-name descname">as_list</code><span class="sig-paren">(</span><em class="sig-param">seq</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/numpy/numpy/blob/master/numpy/distutils/misc_util.py#L473-L477"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#numpy.distutils.misc_util.as_list" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="numpy.distutils.misc_util.gpaths">
+<code class="sig-prename descclassname">numpy.distutils.misc_util.</code><code class="sig-name descname">gpaths</code><span class="sig-paren">(</span><em class="sig-param">paths</em>, <em class="sig-param">local_path=''</em>, <em class="sig-param">include_non_existing=True</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/numpy/numpy/blob/master/numpy/distutils/misc_util.py#L299-L304"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#numpy.distutils.misc_util.gpaths" title="Permalink to this definition">¶</a></dt>
+<dd><p>Apply glob to paths and prepend local_path if needed.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="numpy.distutils.misc_util.get_language">
+<code class="sig-prename descclassname">numpy.distutils.misc_util.</code><code class="sig-name descname">get_language</code><span class="sig-paren">(</span><em class="sig-param">sources</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/numpy/numpy/blob/master/numpy/distutils/misc_util.py#L479-L490"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#numpy.distutils.misc_util.get_language" title="Permalink to this definition">¶</a></dt>
+<dd><p>Determine language value (c,f77,f90) from sources</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="numpy.distutils.misc_util.quote_args">
+<code class="sig-prename descclassname">numpy.distutils.misc_util.</code><code class="sig-name descname">quote_args</code><span class="sig-paren">(</span><em class="sig-param">args</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/numpy/numpy/blob/master/numpy/distutils/misc_util.py#L115-L123"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#numpy.distutils.misc_util.quote_args" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="numpy.distutils.misc_util.get_build_architecture">
+<code class="sig-prename descclassname">numpy.distutils.misc_util.</code><code class="sig-name descname">get_build_architecture</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/numpy/numpy/blob/master/numpy/distutils/misc_util.py#L2396-L2400"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#numpy.distutils.misc_util.get_build_architecture" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="numpy.distutils.misc_util.get_info">
+<code class="sig-prename descclassname">numpy.distutils.misc_util.</code><code class="sig-name descname">get_info</code><span class="sig-paren">(</span><em class="sig-param">pkgname</em>, <em class="sig-param">dirs=None</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/numpy/numpy/blob/master/numpy/distutils/misc_util.py#L2179-L2237"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#numpy.distutils.misc_util.get_info" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return an info dict for a given C library.</p>
+<p>The info dict contains the necessary options to use the C library.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>pkgname</strong><span class="classifier">str</span></dt><dd><p>Name of the package (should match the name of the .ini file, without
+the extension, e.g. foo for the file foo.ini).</p>
+</dd>
+<dt><strong>dirs</strong><span class="classifier">sequence, optional</span></dt><dd><p>If given, should be a sequence of additional directories where to look
+for npy-pkg-config files. Those directories are searched prior to the
+NumPy directory.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>info</strong><span class="classifier">dict</span></dt><dd><p>The dictionary with build information.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><dl class="simple">
+<dt>PkgNotFound</dt><dd><p>If the package is not found.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><a class="reference internal" href="../distutils.html#numpy.distutils.misc_util.Configuration.add_npy_pkg_config" title="numpy.distutils.misc_util.Configuration.add_npy_pkg_config"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Configuration.add_npy_pkg_config</span></code></a>, <a class="reference internal" href="../distutils.html#numpy.distutils.misc_util.Configuration.add_installed_library" title="numpy.distutils.misc_util.Configuration.add_installed_library"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Configuration.add_installed_library</span></code></a></dt><dd></dd>
+<dt><a class="reference internal" href="#numpy.distutils.misc_util.get_pkg_info" title="numpy.distutils.misc_util.get_pkg_info"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_pkg_info</span></code></a></dt><dd></dd>
+</dl>
+</div>
+<p class="rubric">Examples</p>
+<p>To get the necessary information for the npymath library from NumPy:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">npymath_info</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">distutils</span><span class="o">.</span><span class="n">misc_util</span><span class="o">.</span><span class="n">get_info</span><span class="p">(</span><span class="s1">&#39;npymath&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">npymath_info</span>                                    
+<span class="go">{&#39;define_macros&#39;: [], &#39;libraries&#39;: [&#39;npymath&#39;], &#39;library_dirs&#39;:</span>
+<span class="go">[&#39;.../numpy/core/lib&#39;], &#39;include_dirs&#39;: [&#39;.../numpy/core/include&#39;]}</span>
+</pre></div>
+</div>
+<p>This info dict can then be used as input to a <a class="reference internal" href="../distutils.html#numpy.distutils.misc_util.Configuration" title="numpy.distutils.misc_util.Configuration"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Configuration</span></code></a> instance:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">config</span><span class="o">.</span><span class="n">add_extension</span><span class="p">(</span><span class="s1">&#39;foo&#39;</span><span class="p">,</span> <span class="n">sources</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;foo.c&#39;</span><span class="p">],</span> <span class="n">extra_info</span><span class="o">=</span><span class="n">npymath_info</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="numpy.distutils.misc_util.get_pkg_info">
+<code class="sig-prename descclassname">numpy.distutils.misc_util.</code><code class="sig-name descname">get_pkg_info</code><span class="sig-paren">(</span><em class="sig-param">pkgname</em>, <em class="sig-param">dirs=None</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/numpy/numpy/blob/master/numpy/distutils/misc_util.py#L2141-L2177"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#numpy.distutils.misc_util.get_pkg_info" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return library info for the given package.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>pkgname</strong><span class="classifier">str</span></dt><dd><p>Name of the package (should match the name of the .ini file, without
+the extension, e.g. foo for the file foo.ini).</p>
+</dd>
+<dt><strong>dirs</strong><span class="classifier">sequence, optional</span></dt><dd><p>If given, should be a sequence of additional directories where to look
+for npy-pkg-config files. Those directories are searched prior to the
+NumPy directory.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>pkginfo</strong><span class="classifier">class instance</span></dt><dd><p>The <em class="xref py py-obj">LibraryInfo</em> instance containing the build information.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><dl class="simple">
+<dt>PkgNotFound</dt><dd><p>If the package is not found.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><a class="reference internal" href="../distutils.html#numpy.distutils.misc_util.Configuration.add_npy_pkg_config" title="numpy.distutils.misc_util.Configuration.add_npy_pkg_config"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Configuration.add_npy_pkg_config</span></code></a>, <a class="reference internal" href="../distutils.html#numpy.distutils.misc_util.Configuration.add_installed_library" title="numpy.distutils.misc_util.Configuration.add_installed_library"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Configuration.add_installed_library</span></code></a></dt><dd></dd>
+<dt><a class="reference internal" href="#numpy.distutils.misc_util.get_info" title="numpy.distutils.misc_util.get_info"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_info</span></code></a></dt><dd></dd>
+</dl>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="numpy.distutils.misc_util.get_num_build_jobs">
+<code class="sig-prename descclassname">numpy.distutils.misc_util.</code><code class="sig-name descname">get_num_build_jobs</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/numpy/numpy/blob/master/numpy/distutils/misc_util.py#L79-L113"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#numpy.distutils.misc_util.get_num_build_jobs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get number of parallel build jobs set by the –parallel command line
+argument of setup.py
+If the command did not receive a setting the environment variable
+NPY_NUM_BUILD_JOBS is checked. If that is unset, return the number of
+processors on the system, with a maximum of 8 (to prevent
+overloading the system if there a lot of CPUs).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>out</strong><span class="classifier">int</span></dt><dd><p>number of parallel jobs that can be run</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+
+
+              </div>
+              
+              
+              <div class='prev-next-bottom'>
+                
+    <a class='left-prev' id="prev-link" href="../distutils.html" title="previous page">Packaging (<code class="xref py py-mod docutils literal notranslate"><span class="pre">numpy.distutils</span></code>)</a>
+    <a class='right-next' id="next-link" href="../generated/numpy.distutils.ccompiler.html" title="next page">numpy.distutils.ccompiler</a>
+
+              </div>
+              
+          </main>
+          
+
+      </div>
+    </div>
+
+    
+  <script src="../../_static/js/index.3da636dd464baa7582d2.js"></script>
+
+
+    <footer class="footer mt-5 mt-md-0">
+  <div class="container">
+    <p>
+          &copy; Copyright 2008-2020, The SciPy community.<br/>
+        Last updated on Jan 30, 2021.<br/>
+        Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.4.4.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>
