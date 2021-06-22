@@ -1,0 +1,392 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Building the NumPy API and reference docs &#8212; NumPy v1.21 Manual</title>
+    
+  <link href="../_static/css/theme.css" rel="stylesheet" />
+  <link href="../_static/css/index.f6b7ca918bee2f46fd9abac01cfb07d5.css" rel="stylesheet" />
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.1e043a052b0af929e4d8.js">
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Reporting bugs" href="../bugs.html" />
+    <link rel="prev" title="A Guide to NumPy Documentation" href="howto_document.html" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+<link rel="stylesheet" href="../_static/numpy.css" type="text/css" />
+
+    <!-- PR #17220: This is added via javascript in versionwarning.js  -->
+    <!-- link rel="canonical" href="http://numpy.org/doc/stable/docs/howto_build_docs.html" / -->
+
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <nav class="navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="container-xl">
+
+
+    
+      
+      <a class="navbar-brand" href="../index.html">
+        <img src="../_static/numpylogo.svg" class="logo" alt="logo">
+      </a>      
+      
+    
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-menu" aria-controls="navbar-menu" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    
+    <div id="navbar-menu" class="col-lg-9 collapse navbar-collapse">
+      <ul id="navbar-main-elements" class="navbar-nav mr-auto">
+        <li class="toctree-l1 current active nav-item">
+ <a class="reference internal nav-link" href="../user/index.html">
+  User Guide
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../reference/index.html">
+  API reference
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../dev/index.html">
+  Development
+ </a>
+</li>
+
+        
+      </ul>
+
+      <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+        <li class="nav-item">
+          <a class="nav-link" href="https://github.com/numpy/numpy" rel="noopener" target="_blank" title="GitHub">
+            <span><i class="fab fa-github-square"></i></span>
+            <label class="sr-only">GitHub</label>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="https://twitter.com/numpy_team" rel="noopener" target="_blank" title="Twitter">
+            <span><i class="fab fa-twitter-square"></i></span>
+            <label class="sr-only">Twitter</label>
+          </a>
+        </li>
+      </ul>
+    </div>
+</div>
+    </nav>
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+            
+            <!-- Only show if we have sidebars configured, else just a small margin  -->
+            <div class="col-12 col-md-3 bd-sidebar"><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form>
+<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <div class="bd-toc-item active">
+    <ul class="current nav bd-sidenav">
+ <li class="toctree-l2">
+  <a class="reference internal" href="../user/whatisnumpy.html">
+   What is NumPy?
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference external" href="https://numpy.org/install/">
+   Installation
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="../user/quickstart.html">
+   NumPy quickstart
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="../user/absolute_beginners.html">
+   NumPy: the absolute basics for beginners
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="../user/basics.html">
+   NumPy fundamentals
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="../user/misc.html">
+   Miscellaneous
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="../user/numpy-for-matlab-users.html">
+   NumPy for MATLAB users
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="../user/building.html">
+   Building from source
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="../user/c-info.html">
+   Using NumPy C-API
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="../user/tutorials_index.html">
+   NumPy Tutorials
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="../user/howtos_index.html">
+   NumPy How Tos
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="../user/depending_on_numpy.html">
+   For downstream package authors
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="../f2py/index.html">
+   F2PY Users Guide and Reference Manual
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="../glossary.html">
+   Glossary
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="../dev/underthehood.html">
+   Under-the-hood Documentation for developers
+  </a>
+ </li>
+ <li class="toctree-l2 current active">
+  <a class="reference internal" href="index.html">
+   NumPy’s Documentation
+  </a>
+  <ul class="current">
+   <li class="toctree-l3">
+    <a class="reference internal" href="howto_document.html">
+     A Guide to NumPy Documentation
+    </a>
+   </li>
+   <li class="toctree-l3 current active">
+    <a class="current reference internal" href="#">
+     Building the NumPy API and reference docs
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="../bugs.html">
+   Reporting bugs
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="../release.html">
+   Release Notes
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="../doc_conventions.html">
+   Documentation conventions
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="../license.html">
+   NumPy license
+  </a>
+ </li>
+</ul>
+  </div>
+</nav>
+            </div>
+            
+          
+
+          
+          <div class="d-none d-xl-block col-xl-2 bd-toc">
+              
+<div class="tocsection onthispage pt-5 pb-3">
+    <i class="fas fa-list"></i> On this page
+</div>
+
+<nav id="bd-toc-nav">
+    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#instructions">
+   Instructions
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#sphinx-extensions">
+   Sphinx extensions
+  </a>
+ </li>
+</ul>
+
+</nav>
+
+
+              
+          </div>
+          
+
+          
+          
+            
+          
+          <main class="col-12 col-md-9 col-xl-7 py-md-5 pl-md-5 pr-md-4 bd-content" role="main">
+              
+              <div>
+                
+  <div class="section" id="building-the-numpy-api-and-reference-docs">
+<span id="howto-build-docs"></span><h1>Building the NumPy API and reference docs<a class="headerlink" href="#building-the-numpy-api-and-reference-docs" title="Permalink to this headline">¶</a></h1>
+<p>We currently use <a class="reference external" href="http://www.sphinx-doc.org/">Sphinx</a> for generating the API and reference
+documentation for NumPy.  You will need Sphinx &gt;= 2.2.0.</p>
+<p>If you only want to get the documentation, note that pre-built
+versions can be found at</p>
+<blockquote>
+<div><p><a class="reference external" href="https://numpy.org/doc/">https://numpy.org/doc/</a></p>
+</div></blockquote>
+<p>in several different formats.</p>
+<div class="section" id="instructions">
+<h2>Instructions<a class="headerlink" href="#instructions" title="Permalink to this headline">¶</a></h2>
+<p>If you obtained NumPy via git, get also the git submodules that contain
+additional parts required for building the documentation:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">submodule</span> <span class="n">update</span> <span class="o">--</span><span class="n">init</span>
+</pre></div>
+</div>
+<p>In addition, building the documentation requires the Sphinx extension
+<em class="xref py py-obj">plot_directive</em>, which is shipped with <a class="reference external" href="https://matplotlib.org/">Matplotlib</a>. This Sphinx extension can
+be installed by installing Matplotlib. You will also need Python&gt;=3.6.</p>
+<p>Since large parts of the main documentation are obtained from numpy via
+<code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">numpy</span></code> and examining the docstrings, you will need to first build
+NumPy, and install it so that the correct version is imported.</p>
+<p>After NumPy is installed, install SciPy since some of the plots in the random
+module require <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/reference/special.html#module-scipy.special" title="(in SciPy v1.7.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scipy.special</span></code></a> to display properly.</p>
+<p>Note that you can eg. install NumPy to a temporary location and set
+the PYTHONPATH environment variable appropriately.
+Alternatively, if using Python virtual environments (via e.g. <code class="docutils literal notranslate"><span class="pre">conda</span></code>,
+<code class="docutils literal notranslate"><span class="pre">virtualenv</span></code> or the <code class="docutils literal notranslate"><span class="pre">venv</span></code> module), installing numpy into a
+new virtual environment is recommended.
+All of the necessary dependencies for building the NumPy docs can be installed
+with:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">r</span> <span class="n">doc_requirements</span><span class="o">.</span><span class="n">txt</span>
+</pre></div>
+</div>
+<p>Now you are ready to generate the docs, so write:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="n">doc</span>
+<span class="n">make</span> <span class="n">html</span>
+</pre></div>
+</div>
+<p>in the <code class="docutils literal notranslate"><span class="pre">doc/</span></code> directory. If all goes well, this will generate a
+<code class="docutils literal notranslate"><span class="pre">build/html</span></code> subdirectory containing the built documentation. If you get
+a message about <code class="docutils literal notranslate"><span class="pre">installed</span> <span class="pre">numpy</span> <span class="pre">!=</span> <span class="pre">current</span> <span class="pre">repo</span> <span class="pre">git</span> <span class="pre">version</span></code>, you must
+either override the check by setting <code class="docutils literal notranslate"><span class="pre">GITVER</span></code> or re-install NumPy.</p>
+<p>If you have built numpy into a virtual environment and get an error
+that says <code class="docutils literal notranslate"><span class="pre">numpy</span> <span class="pre">not</span> <span class="pre">found,</span> <span class="pre">cannot</span> <span class="pre">build</span> <span class="pre">documentation</span> <span class="pre">without...</span></code>,
+you need to override the makefile <code class="docutils literal notranslate"><span class="pre">PYTHON</span></code> variable at the command
+line, so instead of writing <code class="docutils literal notranslate"><span class="pre">make</span>&#160; <span class="pre">html</span></code> write:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">make</span> <span class="n">PYTHON</span><span class="o">=</span><span class="n">python</span> <span class="n">html</span>
+</pre></div>
+</div>
+<p>Note that building the documentation on Windows is currently not actively
+supported, though it should be possible. (See <a class="reference external" href="http://www.sphinx-doc.org/">Sphinx</a> documentation
+for more information.)</p>
+<p>To build the PDF documentation, do instead:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">make</span> <span class="n">latex</span>
+<span class="n">make</span> <span class="o">-</span><span class="n">C</span> <span class="n">build</span><span class="o">/</span><span class="n">latex</span> <span class="nb">all</span><span class="o">-</span><span class="n">pdf</span>
+</pre></div>
+</div>
+<p>You will need to have Latex installed for this, inclusive of support for
+Greek letters.  For example, on Ubuntu xenial <code class="docutils literal notranslate"><span class="pre">texlive-lang-greek</span></code> and
+<code class="docutils literal notranslate"><span class="pre">cm-super</span></code> are needed.  Also <code class="docutils literal notranslate"><span class="pre">latexmk</span></code> is needed on non-Windows systems.</p>
+<p>Instead of the above, you can also do:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">make</span> <span class="n">dist</span>
+</pre></div>
+</div>
+<p>which will rebuild NumPy, install it to a temporary location, and
+build the documentation in all formats. This will most likely again
+only work on Unix platforms.</p>
+<p>The documentation for NumPy distributed at <a class="reference external" href="https://numpy.org/doc">https://numpy.org/doc</a> in html and
+pdf format is also built with <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">dist</span></code>.  See <a class="reference external" href="https://github.com/numpy/numpy/blob/main/doc/HOWTO_RELEASE.rst.txt">HOWTO RELEASE</a> for details
+on how to update <a class="reference external" href="https://numpy.org/doc">https://numpy.org/doc</a>.</p>
+</div>
+<div class="section" id="sphinx-extensions">
+<h2>Sphinx extensions<a class="headerlink" href="#sphinx-extensions" title="Permalink to this headline">¶</a></h2>
+<p>NumPy’s documentation uses several custom extensions to Sphinx.  These
+are shipped in the <code class="docutils literal notranslate"><span class="pre">sphinxext/</span></code> directory (as git submodules, as discussed
+above), and are automatically enabled when building NumPy’s documentation.</p>
+<p>If you want to make use of these extensions in third-party
+projects, they are available on <a class="reference external" href="https://pypi.org/">PyPi</a> as the <a class="reference external" href="https://python.org/pypi/numpydoc">numpydoc</a> package.</p>
+</div>
+</div>
+
+
+              </div>
+              
+              
+              <div class='prev-next-bottom'>
+                
+    <a class='left-prev' id="prev-link" href="howto_document.html" title="previous page">A Guide to NumPy Documentation</a>
+    <a class='right-next' id="next-link" href="../bugs.html" title="next page">Reporting bugs</a>
+
+              </div>
+              
+          </main>
+          
+
+      </div>
+    </div>
+
+    
+  <script src="../_static/js/index.1e043a052b0af929e4d8.js"></script>
+
+
+    <footer class="footer mt-5 mt-md-0">
+  <div class="container">
+    <p>
+          &copy; Copyright 2008-2021, The NumPy community.<br/>
+        Last updated on Jun 22, 2021.<br/>
+        Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.0.1.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

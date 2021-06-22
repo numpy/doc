@@ -1,0 +1,755 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>numpy.linalg.svd &#8212; NumPy v1.21 Manual</title>
+    
+  <link href="../../_static/css/theme.css" rel="stylesheet" />
+  <link href="../../_static/css/index.f6b7ca918bee2f46fd9abac01cfb07d5.css" rel="stylesheet" />
+
+    
+  <link rel="stylesheet"
+    href="../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/basic.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/plot_directive.css" />
+    
+  <link rel="preload" as="script" href="../../_static/js/index.1e043a052b0af929e4d8.js">
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script async="async" src="../../_static/scipy-mathjax/MathJax.js?config=scipy-mathjax"></script>
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="numpy.linalg.eig" href="numpy.linalg.eig.html" />
+    <link rel="prev" title="numpy.linalg.qr" href="numpy.linalg.qr.html" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+<link rel="stylesheet" href="../../_static/numpy.css" type="text/css" />
+
+    <!-- PR #17220: This is added via javascript in versionwarning.js  -->
+    <!-- link rel="canonical" href="http://numpy.org/doc/stable/reference/generated/numpy.linalg.svd.html" / -->
+
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <nav class="navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="container-xl">
+
+
+    
+      
+      <a class="navbar-brand" href="../../index.html">
+        <img src="../../_static/numpylogo.svg" class="logo" alt="logo">
+      </a>      
+      
+    
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-menu" aria-controls="navbar-menu" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    
+    <div id="navbar-menu" class="col-lg-9 collapse navbar-collapse">
+      <ul id="navbar-main-elements" class="navbar-nav mr-auto">
+        <li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../user/index.html">
+  User Guide
+ </a>
+</li>
+
+<li class="toctree-l1 current active nav-item">
+ <a class="reference internal nav-link" href="../index.html">
+  API reference
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../dev/index.html">
+  Development
+ </a>
+</li>
+
+        
+      </ul>
+
+      <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+        <li class="nav-item">
+          <a class="nav-link" href="https://github.com/numpy/numpy" rel="noopener" target="_blank" title="GitHub">
+            <span><i class="fab fa-github-square"></i></span>
+            <label class="sr-only">GitHub</label>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="https://twitter.com/numpy_team" rel="noopener" target="_blank" title="Twitter">
+            <span><i class="fab fa-twitter-square"></i></span>
+            <label class="sr-only">Twitter</label>
+          </a>
+        </li>
+      </ul>
+    </div>
+</div>
+    </nav>
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+            
+            <!-- Only show if we have sidebars configured, else just a small margin  -->
+            <div class="col-12 col-md-3 bd-sidebar"><form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form>
+<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <div class="bd-toc-item active">
+    <ul class="current nav bd-sidenav">
+ <li class="toctree-l2">
+  <a class="reference internal" href="../arrays.html">
+   Array objects
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="../constants.html">
+   Constants
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="../ufuncs.html">
+   Universal functions (
+   <code class="xref py py-class docutils literal notranslate">
+    <span class="pre">
+     ufunc
+    </span>
+   </code>
+   )
+  </a>
+ </li>
+ <li class="toctree-l2 current active">
+  <a class="reference internal" href="../routines.html">
+   Routines
+  </a>
+  <ul class="current">
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.array-creation.html">
+     Array creation routines
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.array-manipulation.html">
+     Array manipulation routines
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.bitwise.html">
+     Binary operations
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.char.html">
+     String operations
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.ctypeslib.html">
+     C-Types Foreign Function Interface (
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       numpy.ctypeslib
+      </span>
+     </code>
+     )
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.datetime.html">
+     Datetime Support Functions
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.dtype.html">
+     Data type routines
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.dual.html">
+     Optionally SciPy-accelerated routines (
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       numpy.dual
+      </span>
+     </code>
+     )
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.emath.html">
+     Mathematical functions with automatic domain (
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       numpy.emath
+      </span>
+     </code>
+     )
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.err.html">
+     Floating point error handling
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.fft.html">
+     Discrete Fourier Transform (
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       numpy.fft
+      </span>
+     </code>
+     )
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.functional.html">
+     Functional programming
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.help.html">
+     NumPy-specific help functions
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.indexing.html">
+     Indexing routines
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.io.html">
+     Input and output
+    </a>
+   </li>
+   <li class="toctree-l3 current active">
+    <a class="reference internal" href="../routines.linalg.html">
+     Linear algebra (
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       numpy.linalg
+      </span>
+     </code>
+     )
+    </a>
+    <ul class="current">
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.dot.html">
+       numpy.dot
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.linalg.multi_dot.html">
+       numpy.linalg.multi_dot
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.vdot.html">
+       numpy.vdot
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.inner.html">
+       numpy.inner
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.outer.html">
+       numpy.outer
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.matmul.html">
+       numpy.matmul
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.tensordot.html">
+       numpy.tensordot
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.einsum.html">
+       numpy.einsum
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.einsum_path.html">
+       numpy.einsum_path
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.linalg.matrix_power.html">
+       numpy.linalg.matrix_power
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.kron.html">
+       numpy.kron
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.linalg.cholesky.html">
+       numpy.linalg.cholesky
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.linalg.qr.html">
+       numpy.linalg.qr
+      </a>
+     </li>
+     <li class="toctree-l4 current active">
+      <a class="current reference internal" href="#">
+       numpy.linalg.svd
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.linalg.eig.html">
+       numpy.linalg.eig
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.linalg.eigh.html">
+       numpy.linalg.eigh
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.linalg.eigvals.html">
+       numpy.linalg.eigvals
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.linalg.eigvalsh.html">
+       numpy.linalg.eigvalsh
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.linalg.norm.html">
+       numpy.linalg.norm
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.linalg.cond.html">
+       numpy.linalg.cond
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.linalg.det.html">
+       numpy.linalg.det
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.linalg.matrix_rank.html">
+       numpy.linalg.matrix_rank
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.linalg.slogdet.html">
+       numpy.linalg.slogdet
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.trace.html">
+       numpy.trace
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.linalg.solve.html">
+       numpy.linalg.solve
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.linalg.tensorsolve.html">
+       numpy.linalg.tensorsolve
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.linalg.lstsq.html">
+       numpy.linalg.lstsq
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.linalg.inv.html">
+       numpy.linalg.inv
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.linalg.pinv.html">
+       numpy.linalg.pinv
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.linalg.tensorinv.html">
+       numpy.linalg.tensorinv
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.linalg.LinAlgError.html">
+       numpy.linalg.LinAlgError
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.logic.html">
+     Logic functions
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.ma.html">
+     Masked array operations
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.math.html">
+     Mathematical functions
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.matlib.html">
+     Matrix library (
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       numpy.matlib
+      </span>
+     </code>
+     )
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.other.html">
+     Miscellaneous routines
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.padding.html">
+     Padding Arrays
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.polynomials.html">
+     Polynomials
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../random/index.html">
+     Random sampling (
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       numpy.random
+      </span>
+     </code>
+     )
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.set.html">
+     Set routines
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.sort.html">
+     Sorting, searching, and counting
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.statistics.html">
+     Statistics
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.testing.html">
+     Test Support (
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       numpy.testing
+      </span>
+     </code>
+     )
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.window.html">
+     Window functions
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="../typing.html">
+   Typing (
+   <code class="xref py py-mod docutils literal notranslate">
+    <span class="pre">
+     numpy.typing
+    </span>
+   </code>
+   )
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="../global_state.html">
+   Global State
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="../distutils.html">
+   Packaging (
+   <code class="xref py py-mod docutils literal notranslate">
+    <span class="pre">
+     numpy.distutils
+    </span>
+   </code>
+   )
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="../distutils_guide.html">
+   NumPy Distutils - Users Guide
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="../c-api/index.html">
+   NumPy C-API
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="../internals.html">
+   NumPy internals
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="../simd/simd-optimizations.html">
+   SIMD Optimizations
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="../swig.html">
+   NumPy and SWIG
+  </a>
+ </li>
+</ul>
+  </div>
+</nav>
+            </div>
+            
+          
+
+          
+          <div class="d-none d-xl-block col-xl-2 bd-toc">
+              
+
+<nav id="bd-toc-nav">
+    
+</nav>
+
+
+              
+          </div>
+          
+
+          
+          
+            
+          
+          <main class="col-12 col-md-9 col-xl-7 py-md-5 pl-md-5 pr-md-4 bd-content" role="main">
+              
+              <div>
+                
+  <div class="section" id="numpy-linalg-svd">
+<h1>numpy.linalg.svd<a class="headerlink" href="#numpy-linalg-svd" title="Permalink to this headline">¶</a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="numpy.linalg.svd">
+<span class="sig-prename descclassname"><span class="pre">linalg.</span></span><span class="sig-name descname"><span class="pre">svd</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">full_matrices</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compute_uv</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hermitian</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/numpy/numpy/blob/v1.21.0/numpy/linalg/linalg.py#L1482-L1674"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#numpy.linalg.svd" title="Permalink to this definition">¶</a></dt>
+<dd><p>Singular Value Decomposition.</p>
+<p>When <em class="xref py py-obj">a</em> is a 2D array, it is factorized as <code class="docutils literal notranslate"><span class="pre">u</span> <span class="pre">&#64;</span> <span class="pre">np.diag(s)</span> <span class="pre">&#64;</span> <span class="pre">vh</span>
+<span class="pre">=</span> <span class="pre">(u</span> <span class="pre">*</span> <span class="pre">s)</span> <span class="pre">&#64;</span> <span class="pre">vh</span></code>, where <em class="xref py py-obj">u</em> and <em class="xref py py-obj">vh</em> are 2D unitary arrays and <em class="xref py py-obj">s</em> is a 1D
+array of <em class="xref py py-obj">a</em>’s singular values. When <em class="xref py py-obj">a</em> is higher-dimensional, SVD is
+applied in stacked mode as explained below.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl>
+<dt><strong>a</strong><span class="classifier">(…, M, N) array_like</span></dt><dd><p>A real or complex array with <code class="docutils literal notranslate"><span class="pre">a.ndim</span> <span class="pre">&gt;=</span> <span class="pre">2</span></code>.</p>
+</dd>
+<dt><strong>full_matrices</strong><span class="classifier">bool, optional</span></dt><dd><p>If True (default), <em class="xref py py-obj">u</em> and <em class="xref py py-obj">vh</em> have the shapes <code class="docutils literal notranslate"><span class="pre">(...,</span> <span class="pre">M,</span> <span class="pre">M)</span></code> and
+<code class="docutils literal notranslate"><span class="pre">(...,</span> <span class="pre">N,</span> <span class="pre">N)</span></code>, respectively.  Otherwise, the shapes are
+<code class="docutils literal notranslate"><span class="pre">(...,</span> <span class="pre">M,</span> <span class="pre">K)</span></code> and <code class="docutils literal notranslate"><span class="pre">(...,</span> <span class="pre">K,</span> <span class="pre">N)</span></code>, respectively, where
+<code class="docutils literal notranslate"><span class="pre">K</span> <span class="pre">=</span> <span class="pre">min(M,</span> <span class="pre">N)</span></code>.</p>
+</dd>
+<dt><strong>compute_uv</strong><span class="classifier">bool, optional</span></dt><dd><p>Whether or not to compute <em class="xref py py-obj">u</em> and <em class="xref py py-obj">vh</em> in addition to <em class="xref py py-obj">s</em>.  True
+by default.</p>
+</dd>
+<dt><strong>hermitian</strong><span class="classifier">bool, optional</span></dt><dd><p>If True, <em class="xref py py-obj">a</em> is assumed to be Hermitian (symmetric if real-valued),
+enabling a more efficient method for finding singular values.
+Defaults to False.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.17.0.</span></p>
+</div>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>u</strong><span class="classifier">{ (…, M, M), (…, M, K) } array</span></dt><dd><p>Unitary array(s). The first <code class="docutils literal notranslate"><span class="pre">a.ndim</span> <span class="pre">-</span> <span class="pre">2</span></code> dimensions have the same
+size as those of the input <em class="xref py py-obj">a</em>. The size of the last two dimensions
+depends on the value of <em class="xref py py-obj">full_matrices</em>. Only returned when
+<em class="xref py py-obj">compute_uv</em> is True.</p>
+</dd>
+<dt><strong>s</strong><span class="classifier">(…, K) array</span></dt><dd><p>Vector(s) with the singular values, within each vector sorted in
+descending order. The first <code class="docutils literal notranslate"><span class="pre">a.ndim</span> <span class="pre">-</span> <span class="pre">2</span></code> dimensions have the same
+size as those of the input <em class="xref py py-obj">a</em>.</p>
+</dd>
+<dt><strong>vh</strong><span class="classifier">{ (…, N, N), (…, K, N) } array</span></dt><dd><p>Unitary array(s). The first <code class="docutils literal notranslate"><span class="pre">a.ndim</span> <span class="pre">-</span> <span class="pre">2</span></code> dimensions have the same
+size as those of the input <em class="xref py py-obj">a</em>. The size of the last two dimensions
+depends on the value of <em class="xref py py-obj">full_matrices</em>. Only returned when
+<em class="xref py py-obj">compute_uv</em> is True.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><dl class="simple">
+<dt>LinAlgError</dt><dd><p>If SVD computation does not converge.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/reference/generated/scipy.linalg.svd.html#scipy.linalg.svd" title="(in SciPy v1.7.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scipy.linalg.svd</span></code></a></dt><dd><p>Similar function in SciPy.</p>
+</dd>
+<dt><a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/reference/generated/scipy.linalg.svdvals.html#scipy.linalg.svdvals" title="(in SciPy v1.7.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scipy.linalg.svdvals</span></code></a></dt><dd><p>Compute singular values of a matrix.</p>
+</dd>
+</dl>
+</div>
+<p class="rubric">Notes</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 1.8.0: </span>Broadcasting rules apply, see the <a class="reference internal" href="../routines.linalg.html#module-numpy.linalg" title="numpy.linalg"><code class="xref py py-obj docutils literal notranslate"><span class="pre">numpy.linalg</span></code></a> documentation for
+details.</p>
+</div>
+<p>The decomposition is performed using LAPACK routine <code class="docutils literal notranslate"><span class="pre">_gesdd</span></code>.</p>
+<p>SVD is usually described for the factorization of a 2D matrix <span class="math notranslate nohighlight">\(A\)</span>.
+The higher-dimensional case will be discussed below. In the 2D case, SVD is
+written as <span class="math notranslate nohighlight">\(A = U S V^H\)</span>, where <span class="math notranslate nohighlight">\(A = a\)</span>, <span class="math notranslate nohighlight">\(U= u\)</span>,
+<span class="math notranslate nohighlight">\(S= \mathtt{np.diag}(s)\)</span> and <span class="math notranslate nohighlight">\(V^H = vh\)</span>. The 1D array <em class="xref py py-obj">s</em>
+contains the singular values of <em class="xref py py-obj">a</em> and <em class="xref py py-obj">u</em> and <em class="xref py py-obj">vh</em> are unitary. The rows
+of <em class="xref py py-obj">vh</em> are the eigenvectors of <span class="math notranslate nohighlight">\(A^H A\)</span> and the columns of <em class="xref py py-obj">u</em> are
+the eigenvectors of <span class="math notranslate nohighlight">\(A A^H\)</span>. In both cases the corresponding
+(possibly non-zero) eigenvalues are given by <code class="docutils literal notranslate"><span class="pre">s**2</span></code>.</p>
+<p>If <em class="xref py py-obj">a</em> has more than two dimensions, then broadcasting rules apply, as
+explained in <a class="reference internal" href="../routines.linalg.html#routines-linalg-broadcasting"><span class="std std-ref">Linear algebra on several matrices at once</span></a>. This means that SVD is
+working in “stacked” mode: it iterates over all indices of the first
+<code class="docutils literal notranslate"><span class="pre">a.ndim</span> <span class="pre">-</span> <span class="pre">2</span></code> dimensions and for each combination SVD is applied to the
+last two indices. The matrix <em class="xref py py-obj">a</em> can be reconstructed from the
+decomposition with either <code class="docutils literal notranslate"><span class="pre">(u</span> <span class="pre">*</span> <span class="pre">s[...,</span> <span class="pre">None,</span> <span class="pre">:])</span> <span class="pre">&#64;</span> <span class="pre">vh</span></code> or
+<code class="docutils literal notranslate"><span class="pre">u</span> <span class="pre">&#64;</span> <span class="pre">(s[...,</span> <span class="pre">None]</span> <span class="pre">*</span> <span class="pre">vh)</span></code>. (The <code class="docutils literal notranslate"><span class="pre">&#64;</span></code> operator can be replaced by the
+function <code class="docutils literal notranslate"><span class="pre">np.matmul</span></code> for python versions below 3.5.)</p>
+<p>If <em class="xref py py-obj">a</em> is a <code class="docutils literal notranslate"><span class="pre">matrix</span></code> object (as opposed to an <code class="docutils literal notranslate"><span class="pre">ndarray</span></code>), then so are
+all the return values.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="n">j</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="n">j</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Reconstruction based on full SVD, 2D case:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">vh</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">svd</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">full_matrices</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">s</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">vh</span><span class="o">.</span><span class="n">shape</span>
+<span class="go">((9, 9), (6,), (6, 6))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">u</span><span class="p">[:,</span> <span class="p">:</span><span class="mi">6</span><span class="p">]</span> <span class="o">*</span> <span class="n">s</span><span class="p">,</span> <span class="n">vh</span><span class="p">))</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">smat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">9</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">smat</span><span class="p">[:</span><span class="mi">6</span><span class="p">,</span> <span class="p">:</span><span class="mi">6</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">smat</span><span class="p">,</span> <span class="n">vh</span><span class="p">)))</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+<p>Reconstruction based on reduced SVD, 2D case:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">vh</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">svd</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">full_matrices</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">s</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">vh</span><span class="o">.</span><span class="n">shape</span>
+<span class="go">((9, 6), (6,), (6, 6))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">u</span> <span class="o">*</span> <span class="n">s</span><span class="p">,</span> <span class="n">vh</span><span class="p">))</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">smat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">smat</span><span class="p">,</span> <span class="n">vh</span><span class="p">)))</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+<p>Reconstruction based on full SVD, 4D case:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">vh</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">svd</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">full_matrices</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">s</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">vh</span><span class="o">.</span><span class="n">shape</span>
+<span class="go">((2, 7, 8, 8), (2, 7, 3), (2, 7, 3, 3))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">u</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">]</span> <span class="o">*</span> <span class="n">s</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="p">:],</span> <span class="n">vh</span><span class="p">))</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">u</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">],</span> <span class="n">s</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="n">vh</span><span class="p">))</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+<p>Reconstruction based on reduced SVD, 4D case:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">vh</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">svd</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">full_matrices</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">s</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">vh</span><span class="o">.</span><span class="n">shape</span>
+<span class="go">((2, 7, 8, 3), (2, 7, 3), (2, 7, 3, 3))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">u</span> <span class="o">*</span> <span class="n">s</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="p">:],</span> <span class="n">vh</span><span class="p">))</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">s</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="n">vh</span><span class="p">))</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+
+
+              </div>
+              
+              
+              <div class='prev-next-bottom'>
+                
+    <a class='left-prev' id="prev-link" href="numpy.linalg.qr.html" title="previous page">numpy.linalg.qr</a>
+    <a class='right-next' id="next-link" href="numpy.linalg.eig.html" title="next page">numpy.linalg.eig</a>
+
+              </div>
+              
+          </main>
+          
+
+      </div>
+    </div>
+
+    
+  <script src="../../_static/js/index.1e043a052b0af929e4d8.js"></script>
+
+
+    <footer class="footer mt-5 mt-md-0">
+  <div class="container">
+    <p>
+          &copy; Copyright 2008-2021, The NumPy community.<br/>
+        Last updated on Jun 22, 2021.<br/>
+        Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.0.1.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

@@ -1,0 +1,704 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>numpy.nanquantile &#8212; NumPy v1.21 Manual</title>
+    
+  <link href="../../_static/css/theme.css" rel="stylesheet" />
+  <link href="../../_static/css/index.f6b7ca918bee2f46fd9abac01cfb07d5.css" rel="stylesheet" />
+
+    
+  <link rel="stylesheet"
+    href="../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/basic.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/plot_directive.css" />
+    
+  <link rel="preload" as="script" href="../../_static/js/index.1e043a052b0af929e4d8.js">
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="numpy.median" href="numpy.median.html" />
+    <link rel="prev" title="numpy.quantile" href="numpy.quantile.html" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+<link rel="stylesheet" href="../../_static/numpy.css" type="text/css" />
+
+    <!-- PR #17220: This is added via javascript in versionwarning.js  -->
+    <!-- link rel="canonical" href="http://numpy.org/doc/stable/reference/generated/numpy.nanquantile.html" / -->
+
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <nav class="navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="container-xl">
+
+
+    
+      
+      <a class="navbar-brand" href="../../index.html">
+        <img src="../../_static/numpylogo.svg" class="logo" alt="logo">
+      </a>      
+      
+    
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-menu" aria-controls="navbar-menu" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    
+    <div id="navbar-menu" class="col-lg-9 collapse navbar-collapse">
+      <ul id="navbar-main-elements" class="navbar-nav mr-auto">
+        <li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../user/index.html">
+  User Guide
+ </a>
+</li>
+
+<li class="toctree-l1 current active nav-item">
+ <a class="reference internal nav-link" href="../index.html">
+  API reference
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../dev/index.html">
+  Development
+ </a>
+</li>
+
+        
+      </ul>
+
+      <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+        <li class="nav-item">
+          <a class="nav-link" href="https://github.com/numpy/numpy" rel="noopener" target="_blank" title="GitHub">
+            <span><i class="fab fa-github-square"></i></span>
+            <label class="sr-only">GitHub</label>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="https://twitter.com/numpy_team" rel="noopener" target="_blank" title="Twitter">
+            <span><i class="fab fa-twitter-square"></i></span>
+            <label class="sr-only">Twitter</label>
+          </a>
+        </li>
+      </ul>
+    </div>
+</div>
+    </nav>
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+            
+            <!-- Only show if we have sidebars configured, else just a small margin  -->
+            <div class="col-12 col-md-3 bd-sidebar"><form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form>
+<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <div class="bd-toc-item active">
+    <ul class="current nav bd-sidenav">
+ <li class="toctree-l2">
+  <a class="reference internal" href="../arrays.html">
+   Array objects
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="../constants.html">
+   Constants
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="../ufuncs.html">
+   Universal functions (
+   <code class="xref py py-class docutils literal notranslate">
+    <span class="pre">
+     ufunc
+    </span>
+   </code>
+   )
+  </a>
+ </li>
+ <li class="toctree-l2 current active">
+  <a class="reference internal" href="../routines.html">
+   Routines
+  </a>
+  <ul class="current">
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.array-creation.html">
+     Array creation routines
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.array-manipulation.html">
+     Array manipulation routines
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.bitwise.html">
+     Binary operations
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.char.html">
+     String operations
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.ctypeslib.html">
+     C-Types Foreign Function Interface (
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       numpy.ctypeslib
+      </span>
+     </code>
+     )
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.datetime.html">
+     Datetime Support Functions
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.dtype.html">
+     Data type routines
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.dual.html">
+     Optionally SciPy-accelerated routines (
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       numpy.dual
+      </span>
+     </code>
+     )
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.emath.html">
+     Mathematical functions with automatic domain (
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       numpy.emath
+      </span>
+     </code>
+     )
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.err.html">
+     Floating point error handling
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.fft.html">
+     Discrete Fourier Transform (
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       numpy.fft
+      </span>
+     </code>
+     )
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.functional.html">
+     Functional programming
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.help.html">
+     NumPy-specific help functions
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.indexing.html">
+     Indexing routines
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.io.html">
+     Input and output
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.linalg.html">
+     Linear algebra (
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       numpy.linalg
+      </span>
+     </code>
+     )
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.logic.html">
+     Logic functions
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.ma.html">
+     Masked array operations
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.math.html">
+     Mathematical functions
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.matlib.html">
+     Matrix library (
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       numpy.matlib
+      </span>
+     </code>
+     )
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.other.html">
+     Miscellaneous routines
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.padding.html">
+     Padding Arrays
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.polynomials.html">
+     Polynomials
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../random/index.html">
+     Random sampling (
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       numpy.random
+      </span>
+     </code>
+     )
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.set.html">
+     Set routines
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.sort.html">
+     Sorting, searching, and counting
+    </a>
+   </li>
+   <li class="toctree-l3 current active">
+    <a class="reference internal" href="../routines.statistics.html">
+     Statistics
+    </a>
+    <ul class="current">
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.amin.html">
+       numpy.amin
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.amax.html">
+       numpy.amax
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.nanmin.html">
+       numpy.nanmin
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.nanmax.html">
+       numpy.nanmax
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.ptp.html">
+       numpy.ptp
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.percentile.html">
+       numpy.percentile
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.nanpercentile.html">
+       numpy.nanpercentile
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.quantile.html">
+       numpy.quantile
+      </a>
+     </li>
+     <li class="toctree-l4 current active">
+      <a class="current reference internal" href="#">
+       numpy.nanquantile
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.median.html">
+       numpy.median
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.average.html">
+       numpy.average
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.mean.html">
+       numpy.mean
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.std.html">
+       numpy.std
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.var.html">
+       numpy.var
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.nanmedian.html">
+       numpy.nanmedian
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.nanmean.html">
+       numpy.nanmean
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.nanstd.html">
+       numpy.nanstd
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.nanvar.html">
+       numpy.nanvar
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.corrcoef.html">
+       numpy.corrcoef
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.correlate.html">
+       numpy.correlate
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.cov.html">
+       numpy.cov
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.histogram.html">
+       numpy.histogram
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.histogram2d.html">
+       numpy.histogram2d
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.histogramdd.html">
+       numpy.histogramdd
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.bincount.html">
+       numpy.bincount
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.histogram_bin_edges.html">
+       numpy.histogram_bin_edges
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.digitize.html">
+       numpy.digitize
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.testing.html">
+     Test Support (
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       numpy.testing
+      </span>
+     </code>
+     )
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.window.html">
+     Window functions
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="../typing.html">
+   Typing (
+   <code class="xref py py-mod docutils literal notranslate">
+    <span class="pre">
+     numpy.typing
+    </span>
+   </code>
+   )
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="../global_state.html">
+   Global State
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="../distutils.html">
+   Packaging (
+   <code class="xref py py-mod docutils literal notranslate">
+    <span class="pre">
+     numpy.distutils
+    </span>
+   </code>
+   )
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="../distutils_guide.html">
+   NumPy Distutils - Users Guide
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="../c-api/index.html">
+   NumPy C-API
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="../internals.html">
+   NumPy internals
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="../simd/simd-optimizations.html">
+   SIMD Optimizations
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="../swig.html">
+   NumPy and SWIG
+  </a>
+ </li>
+</ul>
+  </div>
+</nav>
+            </div>
+            
+          
+
+          
+          <div class="d-none d-xl-block col-xl-2 bd-toc">
+              
+
+<nav id="bd-toc-nav">
+    
+</nav>
+
+
+              
+          </div>
+          
+
+          
+          
+            
+          
+          <main class="col-12 col-md-9 col-xl-7 py-md-5 pl-md-5 pr-md-4 bd-content" role="main">
+              
+              <div>
+                
+  <div class="section" id="numpy-nanquantile">
+<h1>numpy.nanquantile<a class="headerlink" href="#numpy-nanquantile" title="Permalink to this headline">¶</a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="numpy.nanquantile">
+<span class="sig-prename descclassname"><span class="pre">numpy.</span></span><span class="sig-name descname"><span class="pre">nanquantile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">a</span></em>, <em class="sig-param"><span class="pre">q</span></em>, <em class="sig-param"><span class="pre">axis=None</span></em>, <em class="sig-param"><span class="pre">out=None</span></em>, <em class="sig-param"><span class="pre">overwrite_input=False</span></em>, <em class="sig-param"><span class="pre">interpolation='linear'</span></em>, <em class="sig-param"><span class="pre">keepdims=&lt;no</span> <span class="pre">value&gt;</span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/numpy/numpy/blob/v1.21.0/numpy/lib/nanfunctions.py#L1258-L1363"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#numpy.nanquantile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the qth quantile of the data along the specified axis,
+while ignoring nan values.
+Returns the qth quantile(s) of the array elements.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.15.0.</span></p>
+</div>
+<dl class="field-list">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl>
+<dt><strong>a</strong><span class="classifier">array_like</span></dt><dd><p>Input array or object that can be converted to an array, containing
+nan values to be ignored</p>
+</dd>
+<dt><strong>q</strong><span class="classifier">array_like of float</span></dt><dd><p>Quantile or sequence of quantiles to compute, which must be between
+0 and 1 inclusive.</p>
+</dd>
+<dt><strong>axis</strong><span class="classifier">{int, tuple of int, None}, optional</span></dt><dd><p>Axis or axes along which the quantiles are computed. The
+default is to compute the quantile(s) along a flattened
+version of the array.</p>
+</dd>
+<dt><strong>out</strong><span class="classifier">ndarray, optional</span></dt><dd><p>Alternative output array in which to place the result. It must
+have the same shape and buffer length as the expected output,
+but the type (of the output) will be cast if necessary.</p>
+</dd>
+<dt><strong>overwrite_input</strong><span class="classifier">bool, optional</span></dt><dd><p>If True, then allow the input array <em class="xref py py-obj">a</em> to be modified by intermediate
+calculations, to save memory. In this case, the contents of the input
+<em class="xref py py-obj">a</em> after this function completes is undefined.</p>
+</dd>
+<dt><strong>interpolation</strong><span class="classifier">{‘linear’, ‘lower’, ‘higher’, ‘midpoint’, ‘nearest’}</span></dt><dd><p>This optional parameter specifies the interpolation method to
+use when the desired quantile lies between two data points
+<code class="docutils literal notranslate"><span class="pre">i</span> <span class="pre">&lt;</span> <span class="pre">j</span></code>:</p>
+<ul class="simple">
+<li><p>linear: <code class="docutils literal notranslate"><span class="pre">i</span> <span class="pre">+</span> <span class="pre">(j</span> <span class="pre">-</span> <span class="pre">i)</span> <span class="pre">*</span> <span class="pre">fraction</span></code>, where <code class="docutils literal notranslate"><span class="pre">fraction</span></code>
+is the fractional part of the index surrounded by <code class="docutils literal notranslate"><span class="pre">i</span></code>
+and <code class="docutils literal notranslate"><span class="pre">j</span></code>.</p></li>
+<li><p>lower: <code class="docutils literal notranslate"><span class="pre">i</span></code>.</p></li>
+<li><p>higher: <code class="docutils literal notranslate"><span class="pre">j</span></code>.</p></li>
+<li><p>nearest: <code class="docutils literal notranslate"><span class="pre">i</span></code> or <code class="docutils literal notranslate"><span class="pre">j</span></code>, whichever is nearest.</p></li>
+<li><p>midpoint: <code class="docutils literal notranslate"><span class="pre">(i</span> <span class="pre">+</span> <span class="pre">j)</span> <span class="pre">/</span> <span class="pre">2</span></code>.</p></li>
+</ul>
+</dd>
+<dt><strong>keepdims</strong><span class="classifier">bool, optional</span></dt><dd><p>If this is set to True, the axes which are reduced are left in
+the result as dimensions with size one. With this option, the
+result will broadcast correctly against the original array <em class="xref py py-obj">a</em>.</p>
+<p>If this is anything but the default value it will be passed
+through (in the special case of an empty array) to the
+<a class="reference internal" href="numpy.mean.html#numpy.mean" title="numpy.mean"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mean</span></code></a> function of the underlying array.  If the array is
+a sub-class and <a class="reference internal" href="numpy.mean.html#numpy.mean" title="numpy.mean"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mean</span></code></a> does not have the kwarg <em class="xref py py-obj">keepdims</em> this
+will raise a RuntimeError.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>quantile</strong><span class="classifier">scalar or ndarray</span></dt><dd><p>If <em class="xref py py-obj">q</em> is a single percentile and <em class="xref py py-obj">axis=None</em>, then the result
+is a scalar. If multiple quantiles are given, first axis of
+the result corresponds to the quantiles. The other axes are
+the axes that remain after the reduction of <em class="xref py py-obj">a</em>. If the input
+contains integers or floats smaller than <code class="docutils literal notranslate"><span class="pre">float64</span></code>, the output
+data-type is <code class="docutils literal notranslate"><span class="pre">float64</span></code>. Otherwise, the output data-type is the
+same as that of the input. If <em class="xref py py-obj">out</em> is specified, that array is
+returned instead.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><a class="reference internal" href="numpy.quantile.html#numpy.quantile" title="numpy.quantile"><code class="xref py py-obj docutils literal notranslate"><span class="pre">quantile</span></code></a></dt><dd></dd>
+<dt><a class="reference internal" href="numpy.nanmean.html#numpy.nanmean" title="numpy.nanmean"><code class="xref py py-obj docutils literal notranslate"><span class="pre">nanmean</span></code></a>, <a class="reference internal" href="numpy.nanmedian.html#numpy.nanmedian" title="numpy.nanmedian"><code class="xref py py-obj docutils literal notranslate"><span class="pre">nanmedian</span></code></a></dt><dd></dd>
+<dt><a class="reference internal" href="numpy.nanmedian.html#numpy.nanmedian" title="numpy.nanmedian"><code class="xref py py-obj docutils literal notranslate"><span class="pre">nanmedian</span></code></a></dt><dd><p>equivalent to <code class="docutils literal notranslate"><span class="pre">nanquantile(...,</span> <span class="pre">0.5)</span></code></p>
+</dd>
+<dt><a class="reference internal" href="numpy.nanpercentile.html#numpy.nanpercentile" title="numpy.nanpercentile"><code class="xref py py-obj docutils literal notranslate"><span class="pre">nanpercentile</span></code></a></dt><dd><p>same as nanquantile, but with q in the range [0, 100].</p>
+</dd>
+</dl>
+</div>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">10.</span><span class="p">,</span> <span class="mf">7.</span><span class="p">,</span> <span class="mf">4.</span><span class="p">],</span> <span class="p">[</span><span class="mf">3.</span><span class="p">,</span> <span class="mf">2.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span>
+<span class="go">array([[10.,  nan,   4.],</span>
+<span class="go">      [ 3.,   2.,   1.]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span>
+<span class="go">nan</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">nanquantile</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span>
+<span class="go">3.0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">nanquantile</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="go">array([6.5, 2. , 2.5])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">nanquantile</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="go">array([[7.],</span>
+<span class="go">       [2.]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nanquantile</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">out</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">nanquantile</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="n">out</span><span class="p">)</span>
+<span class="go">array([6.5, 2. , 2.5])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span>
+<span class="go">array([6.5,  2. ,  2.5])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">nanquantile</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">overwrite_input</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="go">array([7., 2.])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">a</span><span class="o">==</span><span class="n">b</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+
+
+              </div>
+              
+              
+              <div class='prev-next-bottom'>
+                
+    <a class='left-prev' id="prev-link" href="numpy.quantile.html" title="previous page">numpy.quantile</a>
+    <a class='right-next' id="next-link" href="numpy.median.html" title="next page">numpy.median</a>
+
+              </div>
+              
+          </main>
+          
+
+      </div>
+    </div>
+
+    
+  <script src="../../_static/js/index.1e043a052b0af929e4d8.js"></script>
+
+
+    <footer class="footer mt-5 mt-md-0">
+  <div class="container">
+    <p>
+          &copy; Copyright 2008-2021, The NumPy community.<br/>
+        Last updated on Jun 22, 2021.<br/>
+        Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.0.1.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

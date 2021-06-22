@@ -1,0 +1,775 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tutorial: Masked Arrays &#8212; NumPy v1.21 Manual</title>
+    
+  <link href="../_static/css/theme.css" rel="stylesheet" />
+  <link href="../_static/css/index.f6b7ca918bee2f46fd9abac01cfb07d5.css" rel="stylesheet" />
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.1e043a052b0af929e4d8.js">
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="NumPy How Tos" href="howtos_index.html" />
+    <link rel="prev" title="Tutorial: Linear algebra on n-dimensional arrays" href="tutorial-svd.html" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+<link rel="stylesheet" href="../_static/numpy.css" type="text/css" />
+
+    <!-- PR #17220: This is added via javascript in versionwarning.js  -->
+    <!-- link rel="canonical" href="http://numpy.org/doc/stable/user/tutorial-ma.html" / -->
+
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <nav class="navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="container-xl">
+
+
+    
+      
+      <a class="navbar-brand" href="../index.html">
+        <img src="../_static/numpylogo.svg" class="logo" alt="logo">
+      </a>      
+      
+    
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-menu" aria-controls="navbar-menu" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    
+    <div id="navbar-menu" class="col-lg-9 collapse navbar-collapse">
+      <ul id="navbar-main-elements" class="navbar-nav mr-auto">
+        <li class="toctree-l1 current active nav-item">
+ <a class="reference internal nav-link" href="index.html">
+  User Guide
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../reference/index.html">
+  API reference
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../dev/index.html">
+  Development
+ </a>
+</li>
+
+        
+      </ul>
+
+      <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+        <li class="nav-item">
+          <a class="nav-link" href="https://github.com/numpy/numpy" rel="noopener" target="_blank" title="GitHub">
+            <span><i class="fab fa-github-square"></i></span>
+            <label class="sr-only">GitHub</label>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="https://twitter.com/numpy_team" rel="noopener" target="_blank" title="Twitter">
+            <span><i class="fab fa-twitter-square"></i></span>
+            <label class="sr-only">Twitter</label>
+          </a>
+        </li>
+      </ul>
+    </div>
+</div>
+    </nav>
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+            
+            <!-- Only show if we have sidebars configured, else just a small margin  -->
+            <div class="col-12 col-md-3 bd-sidebar"><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form>
+<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <div class="bd-toc-item active">
+    <ul class="current nav bd-sidenav">
+ <li class="toctree-l2">
+  <a class="reference internal" href="whatisnumpy.html">
+   What is NumPy?
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference external" href="https://numpy.org/install/">
+   Installation
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="quickstart.html">
+   NumPy quickstart
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="absolute_beginners.html">
+   NumPy: the absolute basics for beginners
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="basics.html">
+   NumPy fundamentals
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="misc.html">
+   Miscellaneous
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="numpy-for-matlab-users.html">
+   NumPy for MATLAB users
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="building.html">
+   Building from source
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="c-info.html">
+   Using NumPy C-API
+  </a>
+ </li>
+ <li class="toctree-l2 current active">
+  <a class="reference internal" href="tutorials_index.html">
+   NumPy Tutorials
+  </a>
+  <ul class="current">
+   <li class="toctree-l3">
+    <a class="reference internal" href="tutorial-svd.html">
+     Tutorial: Linear algebra on n-dimensional arrays
+    </a>
+   </li>
+   <li class="toctree-l3 current active">
+    <a class="current reference internal" href="#">
+     Tutorial: Masked Arrays
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="howtos_index.html">
+   NumPy How Tos
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="depending_on_numpy.html">
+   For downstream package authors
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="../f2py/index.html">
+   F2PY Users Guide and Reference Manual
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="../glossary.html">
+   Glossary
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="../dev/underthehood.html">
+   Under-the-hood Documentation for developers
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="../docs/index.html">
+   NumPy’s Documentation
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="../bugs.html">
+   Reporting bugs
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="../release.html">
+   Release Notes
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="../doc_conventions.html">
+   Documentation conventions
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="../license.html">
+   NumPy license
+  </a>
+ </li>
+</ul>
+  </div>
+</nav>
+            </div>
+            
+          
+
+          
+          <div class="d-none d-xl-block col-xl-2 bd-toc">
+              
+<div class="tocsection onthispage pt-5 pb-3">
+    <i class="fas fa-list"></i> On this page
+</div>
+
+<nav id="bd-toc-nav">
+    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#prerequisites">
+   Prerequisites
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#learner-profile">
+   Learner profile
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#learning-objectives">
+   Learning Objectives
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#what-are-masked-arrays">
+   What are masked arrays?
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#when-can-they-be-useful">
+   When can they be useful?
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#using-masked-arrays-to-see-covid-19-data">
+   Using masked arrays to see COVID-19 data
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#exploring-the-data">
+   Exploring the data
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#missing-data">
+   Missing data
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#fitting-data">
+   Fitting Data
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#more-reading">
+   More reading
+  </a>
+ </li>
+</ul>
+
+</nav>
+
+
+              
+          </div>
+          
+
+          
+          
+            
+          
+          <main class="col-12 col-md-9 col-xl-7 py-md-5 pl-md-5 pr-md-4 bd-content" role="main">
+              
+              <div>
+                
+  <div class="section" id="tutorial-masked-arrays">
+<h1>Tutorial: Masked Arrays<a class="headerlink" href="#tutorial-masked-arrays" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="prerequisites">
+<h2>Prerequisites<a class="headerlink" href="#prerequisites" title="Permalink to this headline">¶</a></h2>
+<p>Before reading this tutorial, you should know a bit of Python. If you
+would like to refresh your memory, take a look at the
+<a class="reference external" href="https://docs.python.org/dev/tutorial/index.html" title="(in Python v3.11)"><span class="xref std std-doc">Python tutorial</span></a>.</p>
+<p>If you want to be able to run the examples in this tutorial, you should also
+have <a class="reference external" href="https://matplotlib.org/">matplotlib</a> installed on your computer.</p>
+</div>
+<div class="section" id="learner-profile">
+<h2>Learner profile<a class="headerlink" href="#learner-profile" title="Permalink to this headline">¶</a></h2>
+<p>This tutorial is for people who have a basic understanding of NumPy and want to
+understand how masked arrays and the <a class="reference internal" href="../reference/maskedarray.generic.html#module-numpy.ma" title="numpy.ma"><code class="xref py py-mod docutils literal notranslate"><span class="pre">numpy.ma</span></code></a> module can be used in
+practice.</p>
+</div>
+<div class="section" id="learning-objectives">
+<h2>Learning Objectives<a class="headerlink" href="#learning-objectives" title="Permalink to this headline">¶</a></h2>
+<p>After this tutorial, you should be able to:</p>
+<ul class="simple">
+<li><p>Understand what are masked arrays and how they can be created</p></li>
+<li><p>Understand how to access and modify data for masked arrays</p></li>
+<li><p>Decide when the use of masked arrays is appropriate in some of your
+applications</p></li>
+</ul>
+</div>
+<div class="section" id="what-are-masked-arrays">
+<h2>What are masked arrays?<a class="headerlink" href="#what-are-masked-arrays" title="Permalink to this headline">¶</a></h2>
+<p>Consider the following problem. You have a dataset with missing or invalid
+entries. If you’re doing any kind of processing on this data, and want to
+<em class="xref py py-obj">skip</em> or flag these unwanted entries without just deleting them, you may have
+to use conditionals or filter your data somehow. The <a class="reference internal" href="../reference/maskedarray.generic.html#module-numpy.ma" title="numpy.ma"><code class="xref py py-mod docutils literal notranslate"><span class="pre">numpy.ma</span></code></a> module
+provides some of the same funcionality of
+<a class="reference internal" href="../reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray"><code class="xref py py-class docutils literal notranslate"><span class="pre">NumPy</span> <span class="pre">ndarrays</span></code></a> with added structure to ensure
+invalid entries are not used in computation.</p>
+<p>From the <a class="reference internal" href="../reference/maskedarray.generic.html#module-numpy.ma" title="numpy.ma"><code class="xref py py-mod docutils literal notranslate"><span class="pre">Reference</span> <span class="pre">Guide</span></code></a>:</p>
+<blockquote>
+<div><p>A masked array is the combination of a standard <a class="reference internal" href="../reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> and
+a <strong>mask</strong>. A mask is either <code class="docutils literal notranslate"><span class="pre">nomask</span></code>, indicating that no value of the
+associated array is invalid, or an array of booleans that determines for
+each element of the associated array whether the value is valid or not.
+When an element of the mask is <code class="docutils literal notranslate"><span class="pre">False</span></code>, the corresponding element of the
+associated array is valid and is said to be unmasked. When an element of
+the mask is <code class="docutils literal notranslate"><span class="pre">True</span></code>, the corresponding element of the associated array is
+said to be masked (invalid).</p>
+</div></blockquote>
+<p>We can think of a <a class="reference internal" href="../reference/maskedarray.baseclass.html#numpy.ma.MaskedArray" title="numpy.ma.MaskedArray"><code class="xref py py-class docutils literal notranslate"><span class="pre">MaskedArray</span></code></a> as a
+combination of:</p>
+<ul class="simple">
+<li><p>Data, as a regular <a class="reference internal" href="../reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> of any shape or datatype;</p></li>
+<li><p>A boolean mask with the same shape as the data;</p></li>
+<li><p>A <code class="docutils literal notranslate"><span class="pre">fill_value</span></code>, a value that may be used to replace the invalid entries
+in order to return a standard <a class="reference internal" href="../reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a>.</p></li>
+</ul>
+</div>
+<div class="section" id="when-can-they-be-useful">
+<h2>When can they be useful?<a class="headerlink" href="#when-can-they-be-useful" title="Permalink to this headline">¶</a></h2>
+<p>There are a few situations where masked arrays can be more useful than just
+eliminating the invalid entries of an array:</p>
+<ul class="simple">
+<li><p>When you want to preserve the values you masked for later processing, without
+copying the array;</p></li>
+<li><p>When you have to handle many arrays, each with their own mask. If the mask is
+part of the array, you avoid bugs and the code is possibly more compact;</p></li>
+<li><p>When you have different flags for missing or invalid values, and wish to
+preserve these flags without replacing them in the original dataset, but
+exclude them from computations;</p></li>
+<li><p>If you can’t avoid or eliminate missing values, but don’t want to deal with
+<a class="reference internal" href="../reference/constants.html#numpy.nan" title="numpy.nan"><code class="xref py py-class docutils literal notranslate"><span class="pre">NaN</span></code></a> (Not A Number) values in your operations.</p></li>
+</ul>
+<p>Masked arrays are also a good idea since the <a class="reference internal" href="../reference/maskedarray.generic.html#module-numpy.ma" title="numpy.ma"><code class="xref py py-mod docutils literal notranslate"><span class="pre">numpy.ma</span></code></a> module also
+comes with a specific implementation of most <a class="reference internal" href="../glossary.html#term-ufunc"><span class="xref std std-term">NumPy universal functions
+(ufuncs)</span></a>, which means that you can still apply fast vectorized
+functions and operations on masked data. The output is then a masked array.
+We’ll see some examples of how this works in practice below.</p>
+</div>
+<div class="section" id="using-masked-arrays-to-see-covid-19-data">
+<h2>Using masked arrays to see COVID-19 data<a class="headerlink" href="#using-masked-arrays-to-see-covid-19-data" title="Permalink to this headline">¶</a></h2>
+<p>From <a class="reference external" href="https://www.kaggle.com/atilamadai/covid19">Kaggle</a> it is possible to
+download a dataset with initial data about the COVID-19 outbreak in the
+beginning of 2020. We are going to look at a small subset of this data,
+contained in the file <code class="docutils literal notranslate"><span class="pre">who_covid_19_sit_rep_time_series.csv</span></code>.</p>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [1]: </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="gp">In [2]: </span><span class="kn">import</span> <span class="nn">os</span>
+
+<span class="go"># The os.getcwd() function returns the current folder; you can change</span>
+<span class="go"># the filepath variable to point to the folder where you saved the .csv file</span>
+<span class="gp">In [3]: </span><span class="n">filepath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span>
+
+<span class="gp">In [4]: </span><span class="n">filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="s2">&quot;who_covid_19_sit_rep_time_series.csv&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The data file contains data of different types and is organized as follows:</p>
+<ul class="simple">
+<li><p>The first row is a header line that (mostly) describes the data in each column
+that follow in the rows below, and beginning in the fourth column, the header
+is the date of the observation.</p></li>
+<li><p>The second through seventh row contain summary data that is of a different
+type than that which we are going to examine, so we will need to exclude that
+from the data with which we will work.</p></li>
+<li><p>The numerical data we wish to work with begins at column 4, row 8, and extends
+from there to the rightmost column and the lowermost row.</p></li>
+</ul>
+<p>Let’s explore the data inside this file for the first 14 days of records. To
+gather data from the <code class="docutils literal notranslate"><span class="pre">.csv</span></code> file, we will use the <a class="reference internal" href="../reference/generated/numpy.genfromtxt.html#numpy.genfromtxt" title="numpy.genfromtxt"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.genfromtxt</span></code></a>
+function, making sure we select only the columns with actual numbers instead of
+the first three columns which contain location data. We also skip the first 7
+rows of this file, since they contain other data we are not interested in.
+Separately, we will extract the information about dates and location for this
+data.</p>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="go"># Note we are using skip_header and usecols to read only portions of the</span>
+<span class="go"># data file into each variable.</span>
+<span class="go"># Read just the dates for columns 3-7 from the first row</span>
+<span class="gp">In [5]: </span><span class="n">dates</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">genfromtxt</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">unicode_</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s2">&quot;,&quot;</span><span class="p">,</span>
+<span class="gp">   ...: </span>                      <span class="n">max_rows</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">usecols</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">17</span><span class="p">),</span>
+<span class="gp">   ...: </span>                      <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8-sig&quot;</span><span class="p">)</span>
+<span class="gp">   ...: </span>
+
+<span class="go"># Read the names of the geographic locations from the first two</span>
+<span class="go"># columns, skipping the first seven rows</span>
+<span class="gp">In [6]: </span><span class="n">locations</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">genfromtxt</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">unicode_</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s2">&quot;,&quot;</span><span class="p">,</span>
+<span class="gp">   ...: </span>                          <span class="n">skip_header</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span> <span class="n">usecols</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+<span class="gp">   ...: </span>                          <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8-sig&quot;</span><span class="p">)</span>
+<span class="gp">   ...: </span>
+
+<span class="go"># Read the numeric data from just the first 14 days</span>
+<span class="gp">In [7]: </span><span class="n">nbcases</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">genfromtxt</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int_</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s2">&quot;,&quot;</span><span class="p">,</span>
+<span class="gp">   ...: </span>                        <span class="n">skip_header</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span> <span class="n">usecols</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">17</span><span class="p">),</span>
+<span class="gp">   ...: </span>                        <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8-sig&quot;</span><span class="p">)</span>
+<span class="gp">   ...: </span>
+</pre></div>
+</div>
+<p>Included in the <a class="reference internal" href="../reference/generated/numpy.genfromtxt.html#numpy.genfromtxt" title="numpy.genfromtxt"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.genfromtxt</span></code></a> function call, we have selected the
+<a class="reference internal" href="../reference/generated/numpy.dtype.html#numpy.dtype" title="numpy.dtype"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.dtype</span></code></a> for each subset of the data (either an integer -
+<a class="reference internal" href="../reference/arrays.scalars.html#numpy.int_" title="numpy.int_"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.int_</span></code></a> - or a string of characters - <a class="reference internal" href="../reference/arrays.scalars.html#numpy.unicode_" title="numpy.unicode_"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.unicode_</span></code></a>). We
+have also used the <code class="docutils literal notranslate"><span class="pre">encoding</span></code> argument to select <code class="docutils literal notranslate"><span class="pre">utf-8-sig</span></code> as the encoding
+for the file (read more about encoding in the <a class="reference external" href="https://docs.python.org/3/library/codecs.html#encodings-and-unicode">official Python documentation</a>). You
+can read more about the <a class="reference internal" href="../reference/generated/numpy.genfromtxt.html#numpy.genfromtxt" title="numpy.genfromtxt"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.genfromtxt</span></code></a> function from
+the <a class="reference internal" href="../reference/generated/numpy.genfromtxt.html#numpy.genfromtxt" title="numpy.genfromtxt"><code class="xref py py-func docutils literal notranslate"><span class="pre">Reference</span> <span class="pre">Documentation</span></code></a> or from the
+<a class="reference internal" href="basics.io.genfromtxt.html"><span class="doc">Basic IO tutorial</span></a>.</p>
+</div>
+<div class="section" id="exploring-the-data">
+<h2>Exploring the data<a class="headerlink" href="#exploring-the-data" title="Permalink to this headline">¶</a></h2>
+<p>First of all, we can plot the whole set of data we have and see what it looks
+like. In order to get a readable plot, we select only a few of the dates to
+show in our <a class="reference external" href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.xticks.html#matplotlib.pyplot.xticks" title="(in Matplotlib v3.4.2)"><code class="xref py py-func docutils literal notranslate"><span class="pre">x-axis</span> <span class="pre">ticks</span></code></a>. Note also that in
+our plot command, we use <code class="docutils literal notranslate"><span class="pre">nbcases.T</span></code> (the transpose of the <code class="docutils literal notranslate"><span class="pre">nbcases</span></code> array)
+since this means we will plot each row of the file as a separate line. We choose
+to plot a dashed line (using the <code class="docutils literal notranslate"><span class="pre">'--'</span></code> line style). See the
+<a class="reference external" href="https://matplotlib.org/">matplotlib</a> documentation for more info on this.</p>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [8]: </span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="gp">In [9]: </span><span class="n">selected_dates</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">13</span><span class="p">]</span>
+
+<span class="gp">In [10]: </span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">dates</span><span class="p">,</span> <span class="n">nbcases</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="s1">&#39;--&#39;</span><span class="p">);</span>
+
+<span class="gp">In [11]: </span><span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">selected_dates</span><span class="p">,</span> <span class="n">dates</span><span class="p">[</span><span class="n">selected_dates</span><span class="p">]);</span>
+
+<span class="gp">In [12]: </span><span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;COVID-19 cumulative cases from Jan 21 to Feb 3 2020&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+<img alt="../_images/plot_covid_1.png" src="../_images/plot_covid_1.png" />
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If you are executing the commands above in the IPython shell, it might be
+necessary to use the command <code class="docutils literal notranslate"><span class="pre">plt.show()</span></code> to show the image window. Note
+also that we use a semicolon at the end of a line to suppress its output, but
+this is optional.</p>
+</div>
+<p>The graph has a strange shape from January 24th to February 1st. It would be
+interesing to know where this data comes from. If we look at the <code class="docutils literal notranslate"><span class="pre">locations</span></code>
+array we extracted from the <code class="docutils literal notranslate"><span class="pre">.csv</span></code> file, we can see that we have two columns,
+where the first would contain regions and the second would contain the name of
+the country. However, only the first few rows contain data for the the first
+column (province names in China). Following that, we only have country names. So
+it would make sense to group all the data from China into a single row. For
+this, we’ll select from the <code class="docutils literal notranslate"><span class="pre">nbcases</span></code> array only the rows for which the
+second entry of the <code class="docutils literal notranslate"><span class="pre">locations</span></code> array corresponds to China. Next, we’ll use
+the <a class="reference internal" href="../reference/generated/numpy.sum.html#numpy.sum" title="numpy.sum"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.sum</span></code></a> function to sum all the selected rows (<code class="docutils literal notranslate"><span class="pre">axis=0</span></code>):</p>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [13]: </span><span class="n">china_total</span> <span class="o">=</span> <span class="n">nbcases</span><span class="p">[</span><span class="n">locations</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;China&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="gp">In [14]: </span><span class="n">china_total</span>
+<span class="gh">Out[14]: </span><span class="go"></span>
+<span class="go">array([  247,   288,   556,   817,   -22,   -22,   -15,   -10,    -9,</span>
+<span class="go">          -7,    -4, 11820, 14410, 17237])</span>
+</pre></div>
+</div>
+<p>Something’s wrong with this data - we are not supposed to have negative values
+in a cumulative data set. What’s going on?</p>
+</div>
+<div class="section" id="missing-data">
+<h2>Missing data<a class="headerlink" href="#missing-data" title="Permalink to this headline">¶</a></h2>
+<p>Looking at the data, here’s what we find: there is a period with
+<strong>missing data</strong>:</p>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [15]: </span><span class="n">nbcases</span>
+<span class="gh">Out[15]: </span><span class="go"></span>
+<span class="go">array([[  258,   270,   375, ...,  7153,  9074, 11177],</span>
+<span class="go">       [   14,    17,    26, ...,   520,   604,   683],</span>
+<span class="go">       [   -1,     1,     1, ...,   422,   493,   566],</span>
+<span class="go">       ...,</span>
+<span class="go">       [   -1,    -1,    -1, ...,    -1,    -1,    -1],</span>
+<span class="go">       [   -1,    -1,    -1, ...,    -1,    -1,    -1],</span>
+<span class="go">       [   -1,    -1,    -1, ...,    -1,    -1,    -1]])</span>
+</pre></div>
+</div>
+<p>All the <code class="docutils literal notranslate"><span class="pre">-1</span></code> values we are seeing come from <a class="reference internal" href="../reference/generated/numpy.genfromtxt.html#numpy.genfromtxt" title="numpy.genfromtxt"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.genfromtxt</span></code></a>
+attempting to read missing data from the original <code class="docutils literal notranslate"><span class="pre">.csv</span></code> file. Obviously, we
+don’t want to compute missing data as <code class="docutils literal notranslate"><span class="pre">-1</span></code> - we just want to skip this value
+so it doesn’t interfere in our analysis. After importing the <a class="reference internal" href="../reference/maskedarray.generic.html#module-numpy.ma" title="numpy.ma"><code class="xref py py-mod docutils literal notranslate"><span class="pre">numpy.ma</span></code></a>
+module, we’ll create a new array, this time masking the invalid values:</p>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [16]: </span><span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">ma</span>
+
+<span class="gp">In [17]: </span><span class="n">nbcases_ma</span> <span class="o">=</span> <span class="n">ma</span><span class="o">.</span><span class="n">masked_values</span><span class="p">(</span><span class="n">nbcases</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>If we look at the <code class="docutils literal notranslate"><span class="pre">nbcases_ma</span></code> masked array, this is what we have:</p>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [18]: </span><span class="n">nbcases_ma</span>
+<span class="gh">Out[18]: </span><span class="go"></span>
+<span class="go">masked_array(</span>
+<span class="go">  data=[[258, 270, 375, ..., 7153, 9074, 11177],</span>
+<span class="go">        [14, 17, 26, ..., 520, 604, 683],</span>
+<span class="go">        [--, 1, 1, ..., 422, 493, 566],</span>
+<span class="go">        ...,</span>
+<span class="go">        [--, --, --, ..., --, --, --],</span>
+<span class="go">        [--, --, --, ..., --, --, --],</span>
+<span class="go">        [--, --, --, ..., --, --, --]],</span>
+<span class="go">  mask=[[False, False, False, ..., False, False, False],</span>
+<span class="go">        [False, False, False, ..., False, False, False],</span>
+<span class="go">        [ True, False, False, ..., False, False, False],</span>
+<span class="go">        ...,</span>
+<span class="go">        [ True,  True,  True, ...,  True,  True,  True],</span>
+<span class="go">        [ True,  True,  True, ...,  True,  True,  True],</span>
+<span class="go">        [ True,  True,  True, ...,  True,  True,  True]],</span>
+<span class="go">  fill_value=-1)</span>
+</pre></div>
+</div>
+<p>We can see that this is a different kind of array. As mentioned in the
+introduction, it has three attributes (<code class="docutils literal notranslate"><span class="pre">data</span></code>, <code class="docutils literal notranslate"><span class="pre">mask</span></code> and <code class="docutils literal notranslate"><span class="pre">fill_value</span></code>).
+Keep in mind that the <code class="docutils literal notranslate"><span class="pre">mask</span></code> attribute has a <code class="docutils literal notranslate"><span class="pre">True</span></code> value for elements
+corresponding to <strong>invalid</strong> data (represented by two dashes in the <code class="docutils literal notranslate"><span class="pre">data</span></code>
+attribute).</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Adding <code class="docutils literal notranslate"><span class="pre">-1</span></code> to missing data is not a problem with <a class="reference internal" href="../reference/generated/numpy.genfromtxt.html#numpy.genfromtxt" title="numpy.genfromtxt"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.genfromtxt</span></code></a>;
+in this particular case, substituting the missing value with <code class="docutils literal notranslate"><span class="pre">0</span></code> might have
+been fine, but we’ll see later that this is far from a general solution.
+Also, it is possible to call the <a class="reference internal" href="../reference/generated/numpy.genfromtxt.html#numpy.genfromtxt" title="numpy.genfromtxt"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.genfromtxt</span></code></a> function using the
+<code class="docutils literal notranslate"><span class="pre">usemask</span></code> parameter. If <code class="docutils literal notranslate"><span class="pre">usemask=True</span></code>, <a class="reference internal" href="../reference/generated/numpy.genfromtxt.html#numpy.genfromtxt" title="numpy.genfromtxt"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.genfromtxt</span></code></a>
+automatically returns a masked array.</p>
+</div>
+<p>Let’s try and see what the data looks like excluding the first row
+(data from the Hubei province in China) so we can look at the missing data more
+closely:</p>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [19]: </span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">dates</span><span class="p">,</span> <span class="n">nbcases_ma</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="s1">&#39;--&#39;</span><span class="p">);</span>
+
+<span class="gp">In [20]: </span><span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">selected_dates</span><span class="p">,</span> <span class="n">dates</span><span class="p">[</span><span class="n">selected_dates</span><span class="p">]);</span>
+
+<span class="gp">In [21]: </span><span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;COVID-19 cumulative cases from Jan 21 to Feb 3 2020&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+<img alt="../_images/plot_covid_2.png" src="../_images/plot_covid_2.png" />
+<p>Now that our data has been masked, let’s try summing up all the cases in China:</p>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [22]: </span><span class="n">china_masked</span> <span class="o">=</span> <span class="n">nbcases_ma</span><span class="p">[</span><span class="n">locations</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;China&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="gp">In [23]: </span><span class="n">china_masked</span>
+<span class="gh">Out[23]: </span><span class="go"></span>
+<span class="go">masked_array(data=[278, 309, 574, 835, 10, 10, 17, 22, 23, 25, 28, 11821,</span>
+<span class="go">                   14411, 17238],</span>
+<span class="go">             mask=[False, False, False, False, False, False, False, False,</span>
+<span class="go">                   False, False, False, False, False, False],</span>
+<span class="go">       fill_value=999999)</span>
+</pre></div>
+</div>
+<p>Note that <code class="docutils literal notranslate"><span class="pre">china_masked</span></code> is a masked array, so it has a different data
+structure than a regular NumPy array. Now, we can access its data directly by
+using the <code class="docutils literal notranslate"><span class="pre">.data</span></code> attribute:</p>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [24]: </span><span class="n">china_total</span> <span class="o">=</span> <span class="n">china_masked</span><span class="o">.</span><span class="n">data</span>
+
+<span class="gp">In [25]: </span><span class="n">china_total</span>
+<span class="gh">Out[25]: </span><span class="go"></span>
+<span class="go">array([  278,   309,   574,   835,    10,    10,    17,    22,    23,</span>
+<span class="go">          25,    28, 11821, 14411, 17238])</span>
+</pre></div>
+</div>
+<p>That is better: no more negative values. However, we can still see that for some
+days, the cumulative number of cases seems to go down (from 835 to 10, for
+example), which does not agree with the definition of “cumulative data”. If we
+look more closely at the data, we can see that in the period where there was
+missing data in mainland China, there was valid data for Hong Kong, Taiwan,
+Macau and “Unspecified” regions of China. Maybe we can remove those from the
+total sum of cases in China, to get a better understanding of the data.</p>
+<p>First, we’ll identify the indices of locations in mainland China:</p>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [26]: </span><span class="n">china_mask</span> <span class="o">=</span> <span class="p">((</span><span class="n">locations</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;China&#39;</span><span class="p">)</span> <span class="o">&amp;</span>
+<span class="gp">   ....: </span>              <span class="p">(</span><span class="n">locations</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="s1">&#39;Hong Kong&#39;</span><span class="p">)</span> <span class="o">&amp;</span>
+<span class="gp">   ....: </span>              <span class="p">(</span><span class="n">locations</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="s1">&#39;Taiwan&#39;</span><span class="p">)</span> <span class="o">&amp;</span>
+<span class="gp">   ....: </span>              <span class="p">(</span><span class="n">locations</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="s1">&#39;Macau&#39;</span><span class="p">)</span> <span class="o">&amp;</span>
+<span class="gp">   ....: </span>              <span class="p">(</span><span class="n">locations</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="s1">&#39;Unspecified*&#39;</span><span class="p">))</span>
+<span class="gp">   ....: </span>
+</pre></div>
+</div>
+<p>Now, <code class="docutils literal notranslate"><span class="pre">china_mask</span></code> is an array of boolean values (<code class="docutils literal notranslate"><span class="pre">True</span></code> or <code class="docutils literal notranslate"><span class="pre">False</span></code>); we
+can check that the indices are what we wanted with the <a class="reference internal" href="../reference/generated/numpy.ma.nonzero.html#numpy.ma.nonzero" title="numpy.ma.nonzero"><code class="xref py py-func docutils literal notranslate"><span class="pre">ma.nonzero</span></code></a> method
+for masked arrays:</p>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [27]: </span><span class="n">china_mask</span><span class="o">.</span><span class="n">nonzero</span><span class="p">()</span>
+<span class="gh">Out[27]: </span><span class="go"></span>
+<span class="go">(array([ 0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12, 13, 14, 15, 16,</span>
+<span class="go">        17, 18, 19, 20, 21, 22, 23, 25, 26, 27, 28, 29, 31, 33]),)</span>
+</pre></div>
+</div>
+<p>Now we can correctly sum entries for mainland China:</p>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [28]: </span><span class="n">china_total</span> <span class="o">=</span> <span class="n">nbcases_ma</span><span class="p">[</span><span class="n">china_mask</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="gp">In [29]: </span><span class="n">china_total</span>
+<span class="gh">Out[29]: </span><span class="go"></span>
+<span class="go">masked_array(data=[278, 308, 440, 446, --, --, --, --, --, --, --, 11791,</span>
+<span class="go">                   14380, 17205],</span>
+<span class="go">             mask=[False, False, False, False,  True,  True,  True,  True,</span>
+<span class="go">                    True,  True,  True, False, False, False],</span>
+<span class="go">       fill_value=999999)</span>
+</pre></div>
+</div>
+<p>We can replace the data with this information and plot a new graph, focusing on
+Mainland China:</p>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [30]: </span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">dates</span><span class="p">,</span> <span class="n">china_total</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="s1">&#39;--&#39;</span><span class="p">);</span>
+
+<span class="gp">In [31]: </span><span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">selected_dates</span><span class="p">,</span> <span class="n">dates</span><span class="p">[</span><span class="n">selected_dates</span><span class="p">]);</span>
+
+<span class="gp">In [32]: </span><span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;COVID-19 cumulative cases from Jan 21 to Feb 3 2020 - Mainland China&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+<img alt="../_images/plot_covid_3.png" src="../_images/plot_covid_3.png" />
+<p>It’s clear that masked arrays are the right solution here. We cannot represent
+the missing data without mischaracterizing the evolution of the curve.</p>
+</div>
+<div class="section" id="fitting-data">
+<h2>Fitting Data<a class="headerlink" href="#fitting-data" title="Permalink to this headline">¶</a></h2>
+<p>One possibility we can think of is to interpolate the missing data to estimate
+the number of cases in late January. Observe that we can select the masked
+elements using the <code class="docutils literal notranslate"><span class="pre">.mask</span></code> attribute:</p>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [33]: </span><span class="n">china_total</span><span class="o">.</span><span class="n">mask</span>
+<span class="gh">Out[33]: </span><span class="go"></span>
+<span class="go">array([False, False, False, False,  True,  True,  True,  True,  True,</span>
+<span class="go">        True,  True, False, False, False])</span>
+
+<span class="gp">In [34]: </span><span class="n">invalid</span> <span class="o">=</span> <span class="n">china_total</span><span class="p">[</span><span class="n">china_total</span><span class="o">.</span><span class="n">mask</span><span class="p">]</span>
+
+<span class="gp">In [35]: </span><span class="n">invalid</span>
+<span class="gh">Out[35]: </span><span class="go"></span>
+<span class="go">masked_array(data=[--, --, --, --, --, --, --],</span>
+<span class="go">             mask=[ True,  True,  True,  True,  True,  True,  True],</span>
+<span class="go">       fill_value=999999,</span>
+<span class="go">            dtype=int64)</span>
+</pre></div>
+</div>
+<p>We can also access the valid entries by using the logical negation for this
+mask:</p>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [36]: </span><span class="n">valid</span> <span class="o">=</span> <span class="n">china_total</span><span class="p">[</span><span class="o">~</span><span class="n">china_total</span><span class="o">.</span><span class="n">mask</span><span class="p">]</span>
+
+<span class="gp">In [37]: </span><span class="n">valid</span>
+<span class="gh">Out[37]: </span><span class="go"></span>
+<span class="go">masked_array(data=[278, 308, 440, 446, 11791, 14380, 17205],</span>
+<span class="go">             mask=[False, False, False, False, False, False, False],</span>
+<span class="go">       fill_value=999999)</span>
+</pre></div>
+</div>
+<p>Now, if we want to create a very simple approximation for this data, we should
+take into account the valid entries around the invalid ones. So first let’s
+select the dates for which the data is valid. Note that we can use the mask
+from the <code class="docutils literal notranslate"><span class="pre">china_total</span></code> masked array to index the dates array:</p>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [38]: </span><span class="n">dates</span><span class="p">[</span><span class="o">~</span><span class="n">china_total</span><span class="o">.</span><span class="n">mask</span><span class="p">]</span>
+<span class="gh">Out[38]: </span><span class="go"></span>
+<span class="go">array([&#39;1/21/20&#39;, &#39;1/22/20&#39;, &#39;1/23/20&#39;, &#39;1/24/20&#39;, &#39;2/1/20&#39;, &#39;2/2/20&#39;,</span>
+<span class="go">       &#39;2/3/20&#39;], dtype=&#39;&lt;U7&#39;)</span>
+</pre></div>
+</div>
+<p>Finally, we can use the <a class="reference internal" href="../reference/generated/numpy.polyfit.html#numpy.polyfit" title="numpy.polyfit"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.polyfit</span></code></a> and <a class="reference internal" href="../reference/generated/numpy.polyval.html#numpy.polyval" title="numpy.polyval"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.polyval</span></code></a>
+functions to create a cubic polynomial that fits the data as best as possible:</p>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [39]: </span><span class="n">t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">china_total</span><span class="p">))</span>
+
+<span class="gp">In [40]: </span><span class="n">params</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">polyfit</span><span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="o">~</span><span class="n">china_total</span><span class="o">.</span><span class="n">mask</span><span class="p">],</span> <span class="n">valid</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+
+<span class="gp">In [41]: </span><span class="n">cubic_fit</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">polyval</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">t</span><span class="p">)</span>
+
+<span class="gp">In [42]: </span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">china_total</span><span class="p">);</span>
+
+<span class="gp">In [43]: </span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">cubic_fit</span><span class="p">,</span> <span class="s1">&#39;--&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+<img alt="../_images/plot_covid_4.png" src="../_images/plot_covid_4.png" />
+<p>This plot is not so readable since the lines seem to be over each other, so
+let’s summarize in a more elaborate plot. We’ll plot the real data when
+available, and show the cubic fit for unavailable data, using this fit to
+compute an estimate to the observed number of cases on January 28th 2020, 7 days
+after the beginning of the records:</p>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [44]: </span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">china_total</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Mainland China&#39;</span><span class="p">);</span>
+
+<span class="gp">In [45]: </span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="n">china_total</span><span class="o">.</span><span class="n">mask</span><span class="p">],</span> <span class="n">cubic_fit</span><span class="p">[</span><span class="n">china_total</span><span class="o">.</span><span class="n">mask</span><span class="p">],</span> <span class="s1">&#39;--&#39;</span><span class="p">,</span>
+<span class="gp">   ....: </span>         <span class="n">color</span><span class="o">=</span><span class="s1">&#39;orange&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Cubic estimate&#39;</span><span class="p">);</span>
+<span class="gp">   ....: </span>
+
+<span class="gp">In [46]: </span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">polyval</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="mi">7</span><span class="p">),</span> <span class="s1">&#39;r*&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;7 days after start&#39;</span><span class="p">);</span>
+
+<span class="gp">In [47]: </span><span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">13</span><span class="p">],</span> <span class="n">dates</span><span class="p">[[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">13</span><span class="p">]]);</span>
+
+<span class="gp">In [48]: </span><span class="n">plt</span><span class="o">.</span><span class="n">yticks</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">polyval</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="mi">7</span><span class="p">),</span> <span class="mi">10000</span><span class="p">,</span> <span class="mi">17500</span><span class="p">]);</span>
+
+<span class="gp">In [49]: </span><span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
+
+<span class="gp">In [50]: </span><span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;COVID-19 cumulative cases from Jan 21 to Feb 3 2020 - Mainland China</span><span class="se">\n</span><span class="s2">&quot;</span>
+<span class="gp">   ....: </span>          <span class="s2">&quot;Cubic estimate for 7 days after start&quot;</span><span class="p">);</span>
+<span class="gp">   ....: </span>
+</pre></div>
+</div>
+<img alt="../_images/plot_covid_5.png" src="../_images/plot_covid_5.png" />
+</div>
+<div class="section" id="more-reading">
+<h2>More reading<a class="headerlink" href="#more-reading" title="Permalink to this headline">¶</a></h2>
+<p>Topics not covered in this tutorial can be found in the documentation:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="../reference/generated/numpy.ma.harden_mask.html#numpy.ma.harden_mask" title="numpy.ma.harden_mask"><code class="xref py py-func docutils literal notranslate"><span class="pre">Hardmasks</span></code></a> vs. <a class="reference internal" href="../reference/generated/numpy.ma.soften_mask.html#numpy.ma.soften_mask" title="numpy.ma.soften_mask"><code class="xref py py-func docutils literal notranslate"><span class="pre">softmasks</span></code></a></p></li>
+<li><p><a class="reference internal" href="../reference/maskedarray.generic.html#maskedarray-generic"><span class="std std-ref">The numpy.ma module</span></a></p></li>
+</ul>
+</div>
+</div>
+
+
+              </div>
+              
+              
+              <div class='prev-next-bottom'>
+                
+    <a class='left-prev' id="prev-link" href="tutorial-svd.html" title="previous page">Tutorial: Linear algebra on n-dimensional arrays</a>
+    <a class='right-next' id="next-link" href="howtos_index.html" title="next page">NumPy How Tos</a>
+
+              </div>
+              
+          </main>
+          
+
+      </div>
+    </div>
+
+    
+  <script src="../_static/js/index.1e043a052b0af929e4d8.js"></script>
+
+
+    <footer class="footer mt-5 mt-md-0">
+  <div class="container">
+    <p>
+          &copy; Copyright 2008-2021, The NumPy community.<br/>
+        Last updated on Jun 22, 2021.<br/>
+        Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.0.1.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

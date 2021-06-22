@@ -1,0 +1,746 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Statistics &#8212; NumPy v1.21 Manual</title>
+    
+  <link href="../_static/css/theme.css" rel="stylesheet" />
+  <link href="../_static/css/index.f6b7ca918bee2f46fd9abac01cfb07d5.css" rel="stylesheet" />
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.1e043a052b0af929e4d8.js">
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="numpy.amin" href="generated/numpy.amin.html" />
+    <link rel="prev" title="numpy.count_nonzero" href="generated/numpy.count_nonzero.html" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+<link rel="stylesheet" href="../_static/numpy.css" type="text/css" />
+
+    <!-- PR #17220: This is added via javascript in versionwarning.js  -->
+    <!-- link rel="canonical" href="http://numpy.org/doc/stable/reference/routines.statistics.html" / -->
+
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <nav class="navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="container-xl">
+
+
+    
+      
+      <a class="navbar-brand" href="../index.html">
+        <img src="../_static/numpylogo.svg" class="logo" alt="logo">
+      </a>      
+      
+    
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-menu" aria-controls="navbar-menu" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    
+    <div id="navbar-menu" class="col-lg-9 collapse navbar-collapse">
+      <ul id="navbar-main-elements" class="navbar-nav mr-auto">
+        <li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../user/index.html">
+  User Guide
+ </a>
+</li>
+
+<li class="toctree-l1 current active nav-item">
+ <a class="reference internal nav-link" href="index.html">
+  API reference
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../dev/index.html">
+  Development
+ </a>
+</li>
+
+        
+      </ul>
+
+      <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+        <li class="nav-item">
+          <a class="nav-link" href="https://github.com/numpy/numpy" rel="noopener" target="_blank" title="GitHub">
+            <span><i class="fab fa-github-square"></i></span>
+            <label class="sr-only">GitHub</label>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="https://twitter.com/numpy_team" rel="noopener" target="_blank" title="Twitter">
+            <span><i class="fab fa-twitter-square"></i></span>
+            <label class="sr-only">Twitter</label>
+          </a>
+        </li>
+      </ul>
+    </div>
+</div>
+    </nav>
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+            
+            <!-- Only show if we have sidebars configured, else just a small margin  -->
+            <div class="col-12 col-md-3 bd-sidebar"><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form>
+<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <div class="bd-toc-item active">
+    <ul class="current nav bd-sidenav">
+ <li class="toctree-l2">
+  <a class="reference internal" href="arrays.html">
+   Array objects
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="constants.html">
+   Constants
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="ufuncs.html">
+   Universal functions (
+   <code class="xref py py-class docutils literal notranslate">
+    <span class="pre">
+     ufunc
+    </span>
+   </code>
+   )
+  </a>
+ </li>
+ <li class="toctree-l2 current active">
+  <a class="reference internal" href="routines.html">
+   Routines
+  </a>
+  <ul class="current">
+   <li class="toctree-l3">
+    <a class="reference internal" href="routines.array-creation.html">
+     Array creation routines
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="routines.array-manipulation.html">
+     Array manipulation routines
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="routines.bitwise.html">
+     Binary operations
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="routines.char.html">
+     String operations
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="routines.ctypeslib.html">
+     C-Types Foreign Function Interface (
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       numpy.ctypeslib
+      </span>
+     </code>
+     )
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="routines.datetime.html">
+     Datetime Support Functions
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="routines.dtype.html">
+     Data type routines
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="routines.dual.html">
+     Optionally SciPy-accelerated routines (
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       numpy.dual
+      </span>
+     </code>
+     )
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="routines.emath.html">
+     Mathematical functions with automatic domain (
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       numpy.emath
+      </span>
+     </code>
+     )
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="routines.err.html">
+     Floating point error handling
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="routines.fft.html">
+     Discrete Fourier Transform (
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       numpy.fft
+      </span>
+     </code>
+     )
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="routines.functional.html">
+     Functional programming
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="routines.help.html">
+     NumPy-specific help functions
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="routines.indexing.html">
+     Indexing routines
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="routines.io.html">
+     Input and output
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="routines.linalg.html">
+     Linear algebra (
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       numpy.linalg
+      </span>
+     </code>
+     )
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="routines.logic.html">
+     Logic functions
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="routines.ma.html">
+     Masked array operations
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="routines.math.html">
+     Mathematical functions
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="routines.matlib.html">
+     Matrix library (
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       numpy.matlib
+      </span>
+     </code>
+     )
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="routines.other.html">
+     Miscellaneous routines
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="routines.padding.html">
+     Padding Arrays
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="routines.polynomials.html">
+     Polynomials
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="random/index.html">
+     Random sampling (
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       numpy.random
+      </span>
+     </code>
+     )
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="routines.set.html">
+     Set routines
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="routines.sort.html">
+     Sorting, searching, and counting
+    </a>
+   </li>
+   <li class="toctree-l3 current active">
+    <a class="current reference internal" href="#">
+     Statistics
+    </a>
+    <ul>
+     <li class="toctree-l4">
+      <a class="reference internal" href="generated/numpy.amin.html">
+       numpy.amin
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="generated/numpy.amax.html">
+       numpy.amax
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="generated/numpy.nanmin.html">
+       numpy.nanmin
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="generated/numpy.nanmax.html">
+       numpy.nanmax
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="generated/numpy.ptp.html">
+       numpy.ptp
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="generated/numpy.percentile.html">
+       numpy.percentile
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="generated/numpy.nanpercentile.html">
+       numpy.nanpercentile
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="generated/numpy.quantile.html">
+       numpy.quantile
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="generated/numpy.nanquantile.html">
+       numpy.nanquantile
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="generated/numpy.median.html">
+       numpy.median
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="generated/numpy.average.html">
+       numpy.average
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="generated/numpy.mean.html">
+       numpy.mean
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="generated/numpy.std.html">
+       numpy.std
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="generated/numpy.var.html">
+       numpy.var
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="generated/numpy.nanmedian.html">
+       numpy.nanmedian
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="generated/numpy.nanmean.html">
+       numpy.nanmean
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="generated/numpy.nanstd.html">
+       numpy.nanstd
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="generated/numpy.nanvar.html">
+       numpy.nanvar
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="generated/numpy.corrcoef.html">
+       numpy.corrcoef
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="generated/numpy.correlate.html">
+       numpy.correlate
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="generated/numpy.cov.html">
+       numpy.cov
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="generated/numpy.histogram.html">
+       numpy.histogram
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="generated/numpy.histogram2d.html">
+       numpy.histogram2d
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="generated/numpy.histogramdd.html">
+       numpy.histogramdd
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="generated/numpy.bincount.html">
+       numpy.bincount
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="generated/numpy.histogram_bin_edges.html">
+       numpy.histogram_bin_edges
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="generated/numpy.digitize.html">
+       numpy.digitize
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="routines.testing.html">
+     Test Support (
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       numpy.testing
+      </span>
+     </code>
+     )
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="routines.window.html">
+     Window functions
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="typing.html">
+   Typing (
+   <code class="xref py py-mod docutils literal notranslate">
+    <span class="pre">
+     numpy.typing
+    </span>
+   </code>
+   )
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="global_state.html">
+   Global State
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="distutils.html">
+   Packaging (
+   <code class="xref py py-mod docutils literal notranslate">
+    <span class="pre">
+     numpy.distutils
+    </span>
+   </code>
+   )
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="distutils_guide.html">
+   NumPy Distutils - Users Guide
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="c-api/index.html">
+   NumPy C-API
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="internals.html">
+   NumPy internals
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="simd/simd-optimizations.html">
+   SIMD Optimizations
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="swig.html">
+   NumPy and SWIG
+  </a>
+ </li>
+</ul>
+  </div>
+</nav>
+            </div>
+            
+          
+
+          
+          <div class="d-none d-xl-block col-xl-2 bd-toc">
+              
+<div class="tocsection onthispage pt-5 pb-3">
+    <i class="fas fa-list"></i> On this page
+</div>
+
+<nav id="bd-toc-nav">
+    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#order-statistics">
+   Order statistics
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#averages-and-variances">
+   Averages and variances
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#correlating">
+   Correlating
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#histograms">
+   Histograms
+  </a>
+ </li>
+</ul>
+
+</nav>
+
+
+              
+          </div>
+          
+
+          
+          
+            
+          
+          <main class="col-12 col-md-9 col-xl-7 py-md-5 pl-md-5 pr-md-4 bd-content" role="main">
+              
+              <div>
+                
+  <div class="section" id="statistics">
+<h1>Statistics<a class="headerlink" href="#statistics" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="order-statistics">
+<h2>Order statistics<a class="headerlink" href="#order-statistics" title="Permalink to this headline">¶</a></h2>
+<table class="longtable table autosummary">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/numpy.amin.html#numpy.amin" title="numpy.amin"><code class="xref py py-obj docutils literal notranslate"><span class="pre">amin</span></code></a>(a[, axis, out, keepdims, initial, where])</p></td>
+<td><p>Return the minimum of an array or minimum along an axis.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/numpy.amax.html#numpy.amax" title="numpy.amax"><code class="xref py py-obj docutils literal notranslate"><span class="pre">amax</span></code></a>(a[, axis, out, keepdims, initial, where])</p></td>
+<td><p>Return the maximum of an array or maximum along an axis.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/numpy.nanmin.html#numpy.nanmin" title="numpy.nanmin"><code class="xref py py-obj docutils literal notranslate"><span class="pre">nanmin</span></code></a>(a[, axis, out, keepdims])</p></td>
+<td><p>Return minimum of an array or minimum along an axis, ignoring any NaNs.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/numpy.nanmax.html#numpy.nanmax" title="numpy.nanmax"><code class="xref py py-obj docutils literal notranslate"><span class="pre">nanmax</span></code></a>(a[, axis, out, keepdims])</p></td>
+<td><p>Return the maximum of an array or maximum along an axis, ignoring any NaNs.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/numpy.ptp.html#numpy.ptp" title="numpy.ptp"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ptp</span></code></a>(a[, axis, out, keepdims])</p></td>
+<td><p>Range of values (maximum - minimum) along an axis.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/numpy.percentile.html#numpy.percentile" title="numpy.percentile"><code class="xref py py-obj docutils literal notranslate"><span class="pre">percentile</span></code></a>(a, q[, axis, out, …])</p></td>
+<td><p>Compute the q-th percentile of the data along the specified axis.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/numpy.nanpercentile.html#numpy.nanpercentile" title="numpy.nanpercentile"><code class="xref py py-obj docutils literal notranslate"><span class="pre">nanpercentile</span></code></a>(a, q[, axis, out, …])</p></td>
+<td><p>Compute the qth percentile of the data along the specified axis, while ignoring nan values.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/numpy.quantile.html#numpy.quantile" title="numpy.quantile"><code class="xref py py-obj docutils literal notranslate"><span class="pre">quantile</span></code></a>(a, q[, axis, out, overwrite_input, …])</p></td>
+<td><p>Compute the q-th quantile of the data along the specified axis.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/numpy.nanquantile.html#numpy.nanquantile" title="numpy.nanquantile"><code class="xref py py-obj docutils literal notranslate"><span class="pre">nanquantile</span></code></a>(a, q[, axis, out, …])</p></td>
+<td><p>Compute the qth quantile of the data along the specified axis, while ignoring nan values.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="averages-and-variances">
+<h2>Averages and variances<a class="headerlink" href="#averages-and-variances" title="Permalink to this headline">¶</a></h2>
+<table class="longtable table autosummary">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/numpy.median.html#numpy.median" title="numpy.median"><code class="xref py py-obj docutils literal notranslate"><span class="pre">median</span></code></a>(a[, axis, out, overwrite_input, keepdims])</p></td>
+<td><p>Compute the median along the specified axis.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/numpy.average.html#numpy.average" title="numpy.average"><code class="xref py py-obj docutils literal notranslate"><span class="pre">average</span></code></a>(a[, axis, weights, returned])</p></td>
+<td><p>Compute the weighted average along the specified axis.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/numpy.mean.html#numpy.mean" title="numpy.mean"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mean</span></code></a>(a[, axis, dtype, out, keepdims, where])</p></td>
+<td><p>Compute the arithmetic mean along the specified axis.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/numpy.std.html#numpy.std" title="numpy.std"><code class="xref py py-obj docutils literal notranslate"><span class="pre">std</span></code></a>(a[, axis, dtype, out, ddof, keepdims, where])</p></td>
+<td><p>Compute the standard deviation along the specified axis.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/numpy.var.html#numpy.var" title="numpy.var"><code class="xref py py-obj docutils literal notranslate"><span class="pre">var</span></code></a>(a[, axis, dtype, out, ddof, keepdims, where])</p></td>
+<td><p>Compute the variance along the specified axis.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/numpy.nanmedian.html#numpy.nanmedian" title="numpy.nanmedian"><code class="xref py py-obj docutils literal notranslate"><span class="pre">nanmedian</span></code></a>(a[, axis, out, overwrite_input, …])</p></td>
+<td><p>Compute the median along the specified axis, while ignoring NaNs.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/numpy.nanmean.html#numpy.nanmean" title="numpy.nanmean"><code class="xref py py-obj docutils literal notranslate"><span class="pre">nanmean</span></code></a>(a[, axis, dtype, out, keepdims])</p></td>
+<td><p>Compute the arithmetic mean along the specified axis, ignoring NaNs.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/numpy.nanstd.html#numpy.nanstd" title="numpy.nanstd"><code class="xref py py-obj docutils literal notranslate"><span class="pre">nanstd</span></code></a>(a[, axis, dtype, out, ddof, keepdims])</p></td>
+<td><p>Compute the standard deviation along the specified axis, while ignoring NaNs.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/numpy.nanvar.html#numpy.nanvar" title="numpy.nanvar"><code class="xref py py-obj docutils literal notranslate"><span class="pre">nanvar</span></code></a>(a[, axis, dtype, out, ddof, keepdims])</p></td>
+<td><p>Compute the variance along the specified axis, while ignoring NaNs.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="correlating">
+<h2>Correlating<a class="headerlink" href="#correlating" title="Permalink to this headline">¶</a></h2>
+<table class="longtable table autosummary">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/numpy.corrcoef.html#numpy.corrcoef" title="numpy.corrcoef"><code class="xref py py-obj docutils literal notranslate"><span class="pre">corrcoef</span></code></a>(x[, y, rowvar, bias, ddof, dtype])</p></td>
+<td><p>Return Pearson product-moment correlation coefficients.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/numpy.correlate.html#numpy.correlate" title="numpy.correlate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">correlate</span></code></a>(a, v[, mode])</p></td>
+<td><p>Cross-correlation of two 1-dimensional sequences.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/numpy.cov.html#numpy.cov" title="numpy.cov"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cov</span></code></a>(m[, y, rowvar, bias, ddof, fweights, …])</p></td>
+<td><p>Estimate a covariance matrix, given data and weights.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="histograms">
+<h2>Histograms<a class="headerlink" href="#histograms" title="Permalink to this headline">¶</a></h2>
+<table class="longtable table autosummary">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/numpy.histogram.html#numpy.histogram" title="numpy.histogram"><code class="xref py py-obj docutils literal notranslate"><span class="pre">histogram</span></code></a>(a[, bins, range, normed, weights, …])</p></td>
+<td><p>Compute the histogram of a dataset.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/numpy.histogram2d.html#numpy.histogram2d" title="numpy.histogram2d"><code class="xref py py-obj docutils literal notranslate"><span class="pre">histogram2d</span></code></a>(x, y[, bins, range, normed, …])</p></td>
+<td><p>Compute the bi-dimensional histogram of two data samples.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/numpy.histogramdd.html#numpy.histogramdd" title="numpy.histogramdd"><code class="xref py py-obj docutils literal notranslate"><span class="pre">histogramdd</span></code></a>(sample[, bins, range, normed, …])</p></td>
+<td><p>Compute the multidimensional histogram of some data.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/numpy.bincount.html#numpy.bincount" title="numpy.bincount"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bincount</span></code></a>(x[, weights, minlength])</p></td>
+<td><p>Count number of occurrences of each value in array of non-negative ints.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/numpy.histogram_bin_edges.html#numpy.histogram_bin_edges" title="numpy.histogram_bin_edges"><code class="xref py py-obj docutils literal notranslate"><span class="pre">histogram_bin_edges</span></code></a>(a[, bins, range, weights])</p></td>
+<td><p>Function to calculate only the edges of the bins used by the <a class="reference internal" href="generated/numpy.histogram.html#numpy.histogram" title="numpy.histogram"><code class="xref py py-obj docutils literal notranslate"><span class="pre">histogram</span></code></a> function.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/numpy.digitize.html#numpy.digitize" title="numpy.digitize"><code class="xref py py-obj docutils literal notranslate"><span class="pre">digitize</span></code></a>(x, bins[, right])</p></td>
+<td><p>Return the indices of the bins to which each value in input array belongs.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+              </div>
+              
+              
+              <div class='prev-next-bottom'>
+                
+    <a class='left-prev' id="prev-link" href="generated/numpy.count_nonzero.html" title="previous page">numpy.count_nonzero</a>
+    <a class='right-next' id="next-link" href="generated/numpy.amin.html" title="next page">numpy.amin</a>
+
+              </div>
+              
+          </main>
+          
+
+      </div>
+    </div>
+
+    
+  <script src="../_static/js/index.1e043a052b0af929e4d8.js"></script>
+
+
+    <footer class="footer mt-5 mt-md-0">
+  <div class="container">
+    <p>
+          &copy; Copyright 2008-2021, The NumPy community.<br/>
+        Last updated on Jun 22, 2021.<br/>
+        Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.0.1.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

@@ -1,0 +1,707 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>numpy.nested_iters &#8212; NumPy v1.21 Manual</title>
+    
+  <link href="../../_static/css/theme.css" rel="stylesheet" />
+  <link href="../../_static/css/index.f6b7ca918bee2f46fd9abac01cfb07d5.css" rel="stylesheet" />
+
+    
+  <link rel="stylesheet"
+    href="../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/basic.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/plot_directive.css" />
+    
+  <link rel="preload" as="script" href="../../_static/js/index.1e043a052b0af929e4d8.js">
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="numpy.flatiter" href="numpy.flatiter.html" />
+    <link rel="prev" title="numpy.ndindex.ndincr" href="numpy.ndindex.ndincr.html" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+<link rel="stylesheet" href="../../_static/numpy.css" type="text/css" />
+
+    <!-- PR #17220: This is added via javascript in versionwarning.js  -->
+    <!-- link rel="canonical" href="http://numpy.org/doc/stable/reference/generated/numpy.nested_iters.html" / -->
+
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <nav class="navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="container-xl">
+
+
+    
+      
+      <a class="navbar-brand" href="../../index.html">
+        <img src="../../_static/numpylogo.svg" class="logo" alt="logo">
+      </a>      
+      
+    
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-menu" aria-controls="navbar-menu" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    
+    <div id="navbar-menu" class="col-lg-9 collapse navbar-collapse">
+      <ul id="navbar-main-elements" class="navbar-nav mr-auto">
+        <li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../user/index.html">
+  User Guide
+ </a>
+</li>
+
+<li class="toctree-l1 current active nav-item">
+ <a class="reference internal nav-link" href="../index.html">
+  API reference
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../dev/index.html">
+  Development
+ </a>
+</li>
+
+        
+      </ul>
+
+      <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+        <li class="nav-item">
+          <a class="nav-link" href="https://github.com/numpy/numpy" rel="noopener" target="_blank" title="GitHub">
+            <span><i class="fab fa-github-square"></i></span>
+            <label class="sr-only">GitHub</label>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="https://twitter.com/numpy_team" rel="noopener" target="_blank" title="Twitter">
+            <span><i class="fab fa-twitter-square"></i></span>
+            <label class="sr-only">Twitter</label>
+          </a>
+        </li>
+      </ul>
+    </div>
+</div>
+    </nav>
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+            
+            <!-- Only show if we have sidebars configured, else just a small margin  -->
+            <div class="col-12 col-md-3 bd-sidebar"><form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form>
+<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <div class="bd-toc-item active">
+    <ul class="current nav bd-sidenav">
+ <li class="toctree-l2">
+  <a class="reference internal" href="../arrays.html">
+   Array objects
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="../constants.html">
+   Constants
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="../ufuncs.html">
+   Universal functions (
+   <code class="xref py py-class docutils literal notranslate">
+    <span class="pre">
+     ufunc
+    </span>
+   </code>
+   )
+  </a>
+ </li>
+ <li class="toctree-l2 current active">
+  <a class="reference internal" href="../routines.html">
+   Routines
+  </a>
+  <ul class="current">
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.array-creation.html">
+     Array creation routines
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.array-manipulation.html">
+     Array manipulation routines
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.bitwise.html">
+     Binary operations
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.char.html">
+     String operations
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.ctypeslib.html">
+     C-Types Foreign Function Interface (
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       numpy.ctypeslib
+      </span>
+     </code>
+     )
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.datetime.html">
+     Datetime Support Functions
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.dtype.html">
+     Data type routines
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.dual.html">
+     Optionally SciPy-accelerated routines (
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       numpy.dual
+      </span>
+     </code>
+     )
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.emath.html">
+     Mathematical functions with automatic domain (
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       numpy.emath
+      </span>
+     </code>
+     )
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.err.html">
+     Floating point error handling
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.fft.html">
+     Discrete Fourier Transform (
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       numpy.fft
+      </span>
+     </code>
+     )
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.functional.html">
+     Functional programming
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.help.html">
+     NumPy-specific help functions
+    </a>
+   </li>
+   <li class="toctree-l3 current active">
+    <a class="reference internal" href="../routines.indexing.html">
+     Indexing routines
+    </a>
+    <ul class="current">
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.c_.html">
+       numpy.c_
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.r_.html">
+       numpy.r_
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.s_.html">
+       numpy.s_
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.nonzero.html">
+       numpy.nonzero
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.where.html">
+       numpy.where
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.indices.html">
+       numpy.indices
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.ix_.html">
+       numpy.ix_
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.ogrid.html">
+       numpy.ogrid
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.ravel_multi_index.html">
+       numpy.ravel_multi_index
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.unravel_index.html">
+       numpy.unravel_index
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.diag_indices.html">
+       numpy.diag_indices
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.diag_indices_from.html">
+       numpy.diag_indices_from
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.mask_indices.html">
+       numpy.mask_indices
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.tril_indices.html">
+       numpy.tril_indices
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.tril_indices_from.html">
+       numpy.tril_indices_from
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.triu_indices.html">
+       numpy.triu_indices
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.triu_indices_from.html">
+       numpy.triu_indices_from
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.take.html">
+       numpy.take
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.take_along_axis.html">
+       numpy.take_along_axis
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.choose.html">
+       numpy.choose
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.compress.html">
+       numpy.compress
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.diag.html">
+       numpy.diag
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.diagonal.html">
+       numpy.diagonal
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.select.html">
+       numpy.select
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.lib.stride_tricks.sliding_window_view.html">
+       numpy.lib.stride_tricks.sliding_window_view
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.lib.stride_tricks.as_strided.html">
+       numpy.lib.stride_tricks.as_strided
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.place.html">
+       numpy.place
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.put.html">
+       numpy.put
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.put_along_axis.html">
+       numpy.put_along_axis
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.putmask.html">
+       numpy.putmask
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.fill_diagonal.html">
+       numpy.fill_diagonal
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.nditer.html">
+       numpy.nditer
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.ndenumerate.html">
+       numpy.ndenumerate
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.ndindex.html">
+       numpy.ndindex
+      </a>
+     </li>
+     <li class="toctree-l4 current active">
+      <a class="current reference internal" href="#">
+       numpy.nested_iters
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.flatiter.html">
+       numpy.flatiter
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.lib.Arrayterator.html">
+       numpy.lib.Arrayterator
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.io.html">
+     Input and output
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.linalg.html">
+     Linear algebra (
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       numpy.linalg
+      </span>
+     </code>
+     )
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.logic.html">
+     Logic functions
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.ma.html">
+     Masked array operations
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.math.html">
+     Mathematical functions
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.matlib.html">
+     Matrix library (
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       numpy.matlib
+      </span>
+     </code>
+     )
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.other.html">
+     Miscellaneous routines
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.padding.html">
+     Padding Arrays
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.polynomials.html">
+     Polynomials
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../random/index.html">
+     Random sampling (
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       numpy.random
+      </span>
+     </code>
+     )
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.set.html">
+     Set routines
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.sort.html">
+     Sorting, searching, and counting
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.statistics.html">
+     Statistics
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.testing.html">
+     Test Support (
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       numpy.testing
+      </span>
+     </code>
+     )
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.window.html">
+     Window functions
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="../typing.html">
+   Typing (
+   <code class="xref py py-mod docutils literal notranslate">
+    <span class="pre">
+     numpy.typing
+    </span>
+   </code>
+   )
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="../global_state.html">
+   Global State
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="../distutils.html">
+   Packaging (
+   <code class="xref py py-mod docutils literal notranslate">
+    <span class="pre">
+     numpy.distutils
+    </span>
+   </code>
+   )
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="../distutils_guide.html">
+   NumPy Distutils - Users Guide
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="../c-api/index.html">
+   NumPy C-API
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="../internals.html">
+   NumPy internals
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="../simd/simd-optimizations.html">
+   SIMD Optimizations
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="../swig.html">
+   NumPy and SWIG
+  </a>
+ </li>
+</ul>
+  </div>
+</nav>
+            </div>
+            
+          
+
+          
+          <div class="d-none d-xl-block col-xl-2 bd-toc">
+              
+
+<nav id="bd-toc-nav">
+    
+</nav>
+
+
+              
+          </div>
+          
+
+          
+          
+            
+          
+          <main class="col-12 col-md-9 col-xl-7 py-md-5 pl-md-5 pr-md-4 bd-content" role="main">
+              
+              <div>
+                
+  <div class="section" id="numpy-nested-iters">
+<h1>numpy.nested_iters<a class="headerlink" href="#numpy-nested-iters" title="Permalink to this headline">¶</a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="numpy.nested_iters">
+<span class="sig-prename descclassname"><span class="pre">numpy.</span></span><span class="sig-name descname"><span class="pre">nested_iters</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#numpy.nested_iters" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create nditers for use in nested loops</p>
+<p>Create a tuple of <a class="reference internal" href="numpy.nditer.html#numpy.nditer" title="numpy.nditer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">nditer</span></code></a> objects which iterate in nested loops over
+different axes of the op argument. The first iterator is used in the
+outermost loop, the last in the innermost loop. Advancing one will change
+the subsequent iterators to point at its new element.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>op</strong><span class="classifier">ndarray or sequence of array_like</span></dt><dd><p>The array(s) to iterate over.</p>
+</dd>
+<dt><strong>axes</strong><span class="classifier">list of list of int</span></dt><dd><p>Each item is used as an “op_axes” argument to an nditer</p>
+</dd>
+<dt><strong>flags, op_flags, op_dtypes, order, casting, buffersize (optional)</strong></dt><dd><p>See <a class="reference internal" href="numpy.nditer.html#numpy.nditer" title="numpy.nditer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">nditer</span></code></a> parameters of the same name</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>iters</strong><span class="classifier">tuple of nditer</span></dt><dd><p>An nditer for each item in <em class="xref py py-obj">axes</em>, outermost first</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><a class="reference internal" href="numpy.nditer.html#numpy.nditer" title="numpy.nditer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">nditer</span></code></a></dt><dd></dd>
+</dl>
+</div>
+<p class="rubric">Examples</p>
+<p>Basic usage. Note how y is the “flattened” version of
+[a[:, 0, :], a[:, 1, 0], a[:, 2, :]] since we specified
+the first iter’s axes as [1]</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">12</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nested_iters</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="p">[[</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">]],</span> <span class="n">flags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;multi_index&quot;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">i</span><span class="p">:</span>
+<span class="gp">... </span>     <span class="nb">print</span><span class="p">(</span><span class="n">i</span><span class="o">.</span><span class="n">multi_index</span><span class="p">)</span>
+<span class="gp">... </span>     <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">j</span><span class="p">:</span>
+<span class="gp">... </span>         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">j</span><span class="o">.</span><span class="n">multi_index</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="go">(0,)</span>
+<span class="go"> (0, 0) 0</span>
+<span class="go"> (0, 1) 1</span>
+<span class="go"> (1, 0) 6</span>
+<span class="go"> (1, 1) 7</span>
+<span class="go">(1,)</span>
+<span class="go"> (0, 0) 2</span>
+<span class="go"> (0, 1) 3</span>
+<span class="go"> (1, 0) 8</span>
+<span class="go"> (1, 1) 9</span>
+<span class="go">(2,)</span>
+<span class="go"> (0, 0) 4</span>
+<span class="go"> (0, 1) 5</span>
+<span class="go"> (1, 0) 10</span>
+<span class="go"> (1, 1) 11</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+
+
+              </div>
+              
+              
+              <div class='prev-next-bottom'>
+                
+    <a class='left-prev' id="prev-link" href="numpy.ndindex.ndincr.html" title="previous page">numpy.ndindex.ndincr</a>
+    <a class='right-next' id="next-link" href="numpy.flatiter.html" title="next page">numpy.flatiter</a>
+
+              </div>
+              
+          </main>
+          
+
+      </div>
+    </div>
+
+    
+  <script src="../../_static/js/index.1e043a052b0af929e4d8.js"></script>
+
+
+    <footer class="footer mt-5 mt-md-0">
+  <div class="container">
+    <p>
+          &copy; Copyright 2008-2021, The NumPy community.<br/>
+        Last updated on Jun 22, 2021.<br/>
+        Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.0.1.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

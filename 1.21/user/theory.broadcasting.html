@@ -1,0 +1,435 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Array Broadcasting in Numpy &#8212; NumPy v1.21 Manual</title>
+    
+  <link href="../_static/css/theme.css" rel="stylesheet" />
+  <link href="../_static/css/index.f6b7ca918bee2f46fd9abac01cfb07d5.css" rel="stylesheet" />
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.1e043a052b0af929e4d8.js">
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+<link rel="stylesheet" href="../_static/numpy.css" type="text/css" />
+
+    <!-- PR #17220: This is added via javascript in versionwarning.js  -->
+    <!-- link rel="canonical" href="http://numpy.org/doc/stable/user/theory.broadcasting.html" / -->
+
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <nav class="navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="container-xl">
+
+
+    
+      
+      <a class="navbar-brand" href="../index.html">
+        <img src="../_static/numpylogo.svg" class="logo" alt="logo">
+      </a>      
+      
+    
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-menu" aria-controls="navbar-menu" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    
+    <div id="navbar-menu" class="col-lg-9 collapse navbar-collapse">
+      <ul id="navbar-main-elements" class="navbar-nav mr-auto">
+        <li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="index.html">
+  User Guide
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../reference/index.html">
+  API reference
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../dev/index.html">
+  Development
+ </a>
+</li>
+
+        
+      </ul>
+
+      <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+        <li class="nav-item">
+          <a class="nav-link" href="https://github.com/numpy/numpy" rel="noopener" target="_blank" title="GitHub">
+            <span><i class="fab fa-github-square"></i></span>
+            <label class="sr-only">GitHub</label>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="https://twitter.com/numpy_team" rel="noopener" target="_blank" title="Twitter">
+            <span><i class="fab fa-twitter-square"></i></span>
+            <label class="sr-only">Twitter</label>
+          </a>
+        </li>
+      </ul>
+    </div>
+</div>
+    </nav>
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+            
+            <!-- Only show if we have sidebars configured, else just a small margin  -->
+            <div class="col-12 col-md-3 bd-sidebar"><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form>
+<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <div class="bd-toc-item active">
+    
+  </div>
+</nav>
+            </div>
+            
+          
+
+          
+          <div class="d-none d-xl-block col-xl-2 bd-toc">
+              
+<div class="tocsection onthispage pt-5 pb-3">
+    <i class="fas fa-list"></i> On this page
+</div>
+
+<nav id="bd-toc-nav">
+    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#a-practical-example-vector-quantization">
+   A Practical Example: Vector Quantization.
+  </a>
+ </li>
+</ul>
+
+</nav>
+
+
+              
+          </div>
+          
+
+          
+          
+            
+          
+          <main class="col-12 col-md-9 col-xl-7 py-md-5 pl-md-5 pr-md-4 bd-content" role="main">
+              
+              <div>
+                
+  <div class="section" id="array-broadcasting-in-numpy">
+<span id="id1"></span><h1>Array Broadcasting in Numpy<a class="headerlink" href="#array-broadcasting-in-numpy" title="Permalink to this headline">¶</a></h1>
+<p>Let’s explore a more advanced concept in numpy called broadcasting. The
+term broadcasting describes how numpy treats arrays with different shapes
+during arithmetic operations. Subject to certain constraints, the smaller array
+is “broadcast” across the larger array so that they have compatible shapes.
+Broadcasting provides a means of vectorizing array operations so that looping
+occurs in C instead of Python. It does this without making needless copies of
+data and usually leads to efficient algorithm implementations. There are also
+cases where broadcasting is a bad idea because it leads to inefficient use of
+memory that slows computation. This article provides a gentle introduction to
+broadcasting with numerous examples ranging from simple to involved. It also
+provides hints on when and when not to use broadcasting.</p>
+<p>numpy operations are usually done element-by-element which requires two arrays
+to have exactly the same shape:</p>
+<div class="literal-block-wrapper docutils container" id="example-1">
+<div class="code-block-caption"><span class="caption-text">Example 1</span><a class="headerlink" href="#example-1" title="Permalink to this code">¶</a></div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">array</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">array</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">array</span><span class="p">([</span><span class="mf">2.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">*</span> <span class="n">b</span>
+<span class="go">array([ 2.,  4.,  6.])</span>
+</pre></div>
+</div>
+</div>
+<p>numpy’s broadcasting rule relaxes this constraint when the arrays’ shapes meet
+certain constraints. The simplest broadcasting example occurs when an array and
+a scalar value are combined in an operation:</p>
+<div class="literal-block-wrapper docutils container" id="example-2">
+<div class="code-block-caption"><span class="caption-text">Example 2</span><a class="headerlink" href="#example-2" title="Permalink to this code">¶</a></div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">array</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">array</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">2.0</span><span class="p">,</span><span class="mf">3.0</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="mf">2.0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">*</span> <span class="n">b</span>
+<span class="go">array([ 2.,  4.,  6.])</span>
+</pre></div>
+</div>
+</div>
+<p>The result is equivalent to the previous example where <code class="docutils literal notranslate"><span class="pre">b</span></code> was an array. We
+can think of the scalar <code class="docutils literal notranslate"><span class="pre">b</span></code> being stretched during the arithmetic operation
+into an array with the same shape as <code class="docutils literal notranslate"><span class="pre">a</span></code>. The new elements in <code class="docutils literal notranslate"><span class="pre">b</span></code>, as shown
+in <a class="reference internal" href="#figure-1"><span class="std std-ref">Figure 1</span></a>, are simply copies of the original scalar. The stretching
+analogy is only conceptual. numpy is smart enough to use the original scalar
+value without actually making copies so that broadcasting operations are as
+memory and computationally efficient as possible. Because <a class="reference internal" href="#example-2"><span class="std std-ref">Example 2</span></a>
+moves less memory, (<code class="docutils literal notranslate"><span class="pre">b</span></code> is a scalar, not an array) around during the
+multiplication, it is about 10% faster than <a class="reference internal" href="#example-1"><span class="std std-ref">Example 1</span></a> using the standard
+numpy on Windows 2000 with one million element arrays.</p>
+<div class="figure align-default" id="figure-1">
+<img alt="Vector-Scalar multiplication" src="../_images/theory.broadcast_1.gif" />
+<p class="caption"><span class="caption-text"><em>Figure 1</em></span><a class="headerlink" href="#figure-1" title="Permalink to this image">¶</a></p>
+<div class="legend">
+<p><em>In the simplest example of broadcasting, the scalar ``b`` is
+stretched to become an array of same shape as ``a`` so the shapes
+are compatible for element-by-element multiplication.</em></p>
+</div>
+</div>
+<p>The rule governing whether two arrays have compatible shapes for broadcasting
+can be expressed in a single sentence.</p>
+<div class="admonition-the-broadcasting-rule admonition">
+<p class="admonition-title">The Broadcasting Rule</p>
+<p><strong>In order to broadcast, the size of the trailing axes for both arrays in
+an operation must either be the same size or one of them must be one.</strong></p>
+</div>
+<p>If this condition is not met, a <code class="docutils literal notranslate"><span class="pre">ValueError('frames</span> <span class="pre">are</span> <span class="pre">not</span> <span class="pre">aligned')</span></code>
+exception is thrown indicating that the arrays have incompatible shapes. The
+size of the result array created by broadcast operations is the maximum size
+along each dimension from the input arrays. Note that the rule does not say
+anything about the two arrays needing to have the same number of dimensions.
+So, for example, if you have a 256 x 256 x 3 array of RGB values, and you want
+to scale each color in the image by a different value, you can multiply the
+image by a one-dimensional array with 3 values. Lining up the sizes of the
+trailing axes of these arrays according to the broadcast rule shows that they
+are compatible</p>
+<table class="table">
+<colgroup>
+<col style="width: 19%" />
+<col style="width: 33%" />
+<col style="width: 19%" />
+<col style="width: 19%" />
+<col style="width: 8%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>Image</p></td>
+<td><p>(3d array)</p></td>
+<td><p>256 x</p></td>
+<td><p>256 x</p></td>
+<td><p>3</p></td>
+</tr>
+<tr class="row-even"><td><p>Scale</p></td>
+<td><p>(1d array)</p></td>
+<td></td>
+<td></td>
+<td><p>3</p></td>
+</tr>
+<tr class="row-odd"><td><p>Result</p></td>
+<td><p>(3d array)</p></td>
+<td><p>256 x</p></td>
+<td><p>256 x</p></td>
+<td><p>3</p></td>
+</tr>
+</tbody>
+</table>
+<p>In the following example, both the <code class="docutils literal notranslate"><span class="pre">A</span></code> and <code class="docutils literal notranslate"><span class="pre">B</span></code> arrays have axes with length
+one that are expanded to a larger size in a broadcast operation.</p>
+<table class="table">
+<colgroup>
+<col style="width: 19%" />
+<col style="width: 32%" />
+<col style="width: 14%" />
+<col style="width: 14%" />
+<col style="width: 14%" />
+<col style="width: 8%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>A</p></td>
+<td><p>(4d array)</p></td>
+<td><p>8 x</p></td>
+<td><p>1 x</p></td>
+<td><p>6 x</p></td>
+<td><p>1</p></td>
+</tr>
+<tr class="row-even"><td><p>B</p></td>
+<td><p>(3d array)</p></td>
+<td></td>
+<td><p>7 x</p></td>
+<td><p>1 x</p></td>
+<td><p>5</p></td>
+</tr>
+<tr class="row-odd"><td><p>Result</p></td>
+<td><p>(4d array)</p></td>
+<td><p>8 x</p></td>
+<td><p>7 x</p></td>
+<td><p>6 x</p></td>
+<td><p>5</p></td>
+</tr>
+</tbody>
+</table>
+<p>Below, are several code examples and graphical representations that help make
+the broadcast rule visually obvious. <a class="reference internal" href="#example-3"><span class="std std-ref">Example 3</span></a> adds a one-dimensional array
+to a two-dimensional array:</p>
+<div class="literal-block-wrapper docutils container" id="example-3">
+<div class="code-block-caption"><span class="caption-text">Example 3</span><a class="headerlink" href="#example-3" title="Permalink to this code">¶</a></div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">array</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">array</span><span class="p">([[</span> <span class="mf">0.0</span><span class="p">,</span>  <span class="mf">0.0</span><span class="p">,</span>  <span class="mf">0.0</span><span class="p">],</span>
+<span class="gp">... </span>           <span class="p">[</span><span class="mf">10.0</span><span class="p">,</span> <span class="mf">10.0</span><span class="p">,</span> <span class="mf">10.0</span><span class="p">],</span>
+<span class="gp">... </span>           <span class="p">[</span><span class="mf">20.0</span><span class="p">,</span> <span class="mf">20.0</span><span class="p">,</span> <span class="mf">20.0</span><span class="p">],</span>
+<span class="gp">... </span>           <span class="p">[</span><span class="mf">30.0</span><span class="p">,</span> <span class="mf">30.0</span><span class="p">,</span> <span class="mf">30.0</span><span class="p">]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">array</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
+<span class="go">array([[  1.,   2.,   3.],</span>
+<span class="go">       [ 11.,  12.,  13.],</span>
+<span class="go">       [ 21.,  22.,  23.],</span>
+<span class="go">       [ 31.,  32.,  33.]])</span>
+</pre></div>
+</div>
+</div>
+<p>As shown in <a class="reference internal" href="#figure-2"><span class="std std-ref">Figure 2</span></a>, <code class="docutils literal notranslate"><span class="pre">b</span></code> is added to each row of <code class="docutils literal notranslate"><span class="pre">a</span></code>. When <code class="docutils literal notranslate"><span class="pre">b</span></code> is
+longer than the rows of <code class="docutils literal notranslate"><span class="pre">a</span></code>, as in <a class="reference internal" href="#figure-3"><span class="std std-ref">Figure 3</span></a>, an exception is raised
+because of the incompatible shapes.</p>
+<div class="figure align-default" id="figure-2">
+<img alt="Matrix-Vector" src="../_images/theory.broadcast_2.gif" />
+<p class="caption"><span class="caption-text"><em>Figure 2</em></span><a class="headerlink" href="#figure-2" title="Permalink to this image">¶</a></p>
+<div class="legend">
+<p><em>A two dimensional array multiplied by a one dimensional array results in
+broadcasting if number of 1-d array elements matches the number of 2-d
+array columns.</em></p>
+</div>
+</div>
+<div class="figure align-default" id="figure-3">
+<img alt="Matrix-Vector-with-error" src="../_images/theory.broadcast_3.gif" />
+<p class="caption"><span class="caption-text"><em>Figure 3</em></span><a class="headerlink" href="#figure-3" title="Permalink to this image">¶</a></p>
+<div class="legend">
+<p><em>When the trailing dimensions of the arrays are unequal, broadcasting fails
+because it is impossible to align the values in the rows of the 1st array
+with the elements of the 2nd arrays for element-by-element addition.</em></p>
+</div>
+</div>
+<p>Broadcasting provides a convenient way of taking the outer product (or any
+other outer operation) of two arrays. The following example shows an outer
+addition operation of two 1-d arrays that produces the same result as
+<a class="reference internal" href="#example-3"><span class="std std-ref">Example 3</span></a></p>
+<div class="literal-block-wrapper docutils container" id="example-4">
+<div class="code-block-caption"><span class="caption-text">Example 4</span><a class="headerlink" href="#example-4" title="Permalink to this code">¶</a></div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">array</span><span class="p">,</span> <span class="n">newaxis</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">array</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">10.0</span><span class="p">,</span> <span class="mf">20.0</span><span class="p">,</span> <span class="mf">30.0</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">array</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="p">[:,</span><span class="n">newaxis</span><span class="p">]</span> <span class="o">+</span> <span class="n">b</span>
+<span class="go">array([[  1.,   2.,   3.],</span>
+<span class="go">       [ 11.,  12.,  13.],</span>
+<span class="go">       [ 21.,  22.,  23.],</span>
+<span class="go">       [ 31.,  32.,  33.]])</span>
+</pre></div>
+</div>
+</div>
+<p>Here the newaxis index operator inserts a new axis into <code class="docutils literal notranslate"><span class="pre">a</span></code>, making it a
+two-dimensional 4x1 array. <a class="reference internal" href="#figure-4"><span class="std std-ref">Figure 4</span></a> illustrates the stretching of both
+arrays to produce the desired 4x3 output array.</p>
+<div class="figure align-default" id="figure-4">
+<img alt="vector-vector with newaxis" src="../_images/theory.broadcast_4.gif" />
+<p class="caption"><span class="caption-text"><em>Figure 4</em></span><a class="headerlink" href="#figure-4" title="Permalink to this image">¶</a></p>
+<div class="legend">
+<p>In some cases, broadcasting stretches both arrays to form an output array
+larger than either of the initial arrays.*</p>
+</div>
+</div>
+<div class="section" id="a-practical-example-vector-quantization">
+<h2>A Practical Example: Vector Quantization.<a class="headerlink" href="#a-practical-example-vector-quantization" title="Permalink to this headline">¶</a></h2>
+<p>Broadcasting comes up quite often in real world problems. A typical example
+occurs in the vector quantization (VQ) algorithm used in information theory,
+classification, and other related areas. The basic operation in VQ [#f0] finds
+the closest point in a set of points, called codes in VQ jargon, to a given
+point, called the observation. In the very simple, two-dimensional case shown
+in <a class="reference internal" href="#figure-5"><span class="std std-ref">Figure 5</span></a>, the values in observation describe the weight and height of an
+athlete to be classified. The codes represent different classes of
+athletes. <a class="footnote-reference brackets" href="#f1" id="id2">2</a> Finding the closest point requires calculating the distance
+between observation and each of the codes. The shortest distance provides the
+best match. In this example, <code class="docutils literal notranslate"><span class="pre">codes[0]</span></code> is the closest class indicating that
+the athlete is likely a basketball player.</p>
+<div class="figure align-default" id="figure-5">
+<img alt="vector quantitization example" src="../_images/theory.broadcast_5.png" />
+<p class="caption"><span class="caption-text"><em>Figure 5</em></span><a class="headerlink" href="#figure-5" title="Permalink to this image">¶</a></p>
+<div class="legend">
+<p><em>The basic operation of vector quantization calculates the distance between
+an object to be classified, the dark square, and multiple known codes, the
+gray circles. In this simple case, the codes represent individual classes.
+More complex cases use multiple codes per class.</em></p>
+</div>
+</div>
+<p class="rubric">Footnotes</p>
+<dl class="footnote brackets">
+<dt class="label" id="f0"><span class="brackets">1</span></dt>
+<dd><p>Vector Quantization J. Makhoul, S. Roucos, and H. Gish, “Vector Quantization in Speech Coding,” Proc. IEEE, vol. 73, pp. 1551-1587, Nov. 1985.</p>
+</dd>
+<dt class="label" id="f1"><span class="brackets"><a class="fn-backref" href="#id2">2</a></span></dt>
+<dd><p>In this example, weight has more impact on the distance calculation
+than height because of the larger values. In practice, it is important to
+normalize the height and weight, often by their standard deviation across the
+data set, so that both have equal influence on the distance calculation.</p>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The code to produce the figures is part of the <a class="reference external" href="http://www.astroml.org/book_figures/appendix/fig_broadcast_visual.html">AstroML book</a></p>
+</div>
+</div>
+</div>
+
+
+              </div>
+              
+              
+              <div class='prev-next-bottom'>
+                
+
+              </div>
+              
+          </main>
+          
+
+      </div>
+    </div>
+
+    
+  <script src="../_static/js/index.1e043a052b0af929e4d8.js"></script>
+
+
+    <footer class="footer mt-5 mt-md-0">
+  <div class="container">
+    <p>
+          &copy; Copyright 2008-2021, The NumPy community.<br/>
+        Last updated on Jun 22, 2021.<br/>
+        Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.0.1.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

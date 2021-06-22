@@ -1,0 +1,435 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>numpy.seterrcall &#8212; NumPy v1.21 Manual</title>
+    
+  <link href="../../_static/css/theme.css" rel="stylesheet" />
+  <link href="../../_static/css/index.f6b7ca918bee2f46fd9abac01cfb07d5.css" rel="stylesheet" />
+
+    
+  <link rel="stylesheet"
+    href="../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/basic.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/plot_directive.css" />
+    
+  <link rel="preload" as="script" href="../../_static/js/index.1e043a052b0af929e4d8.js">
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="numpy.ufunc" href="numpy.ufunc.html" />
+    <link rel="prev" title="numpy.seterr" href="numpy.seterr.html" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+<link rel="stylesheet" href="../../_static/numpy.css" type="text/css" />
+
+    <!-- PR #17220: This is added via javascript in versionwarning.js  -->
+    <!-- link rel="canonical" href="http://numpy.org/doc/stable/reference/generated/numpy.seterrcall.html" / -->
+
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <nav class="navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="container-xl">
+
+
+    
+      
+      <a class="navbar-brand" href="../../index.html">
+        <img src="../../_static/numpylogo.svg" class="logo" alt="logo">
+      </a>      
+      
+    
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-menu" aria-controls="navbar-menu" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    
+    <div id="navbar-menu" class="col-lg-9 collapse navbar-collapse">
+      <ul id="navbar-main-elements" class="navbar-nav mr-auto">
+        <li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../user/index.html">
+  User Guide
+ </a>
+</li>
+
+<li class="toctree-l1 current active nav-item">
+ <a class="reference internal nav-link" href="../index.html">
+  API reference
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../dev/index.html">
+  Development
+ </a>
+</li>
+
+        
+      </ul>
+
+      <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+        <li class="nav-item">
+          <a class="nav-link" href="https://github.com/numpy/numpy" rel="noopener" target="_blank" title="GitHub">
+            <span><i class="fab fa-github-square"></i></span>
+            <label class="sr-only">GitHub</label>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="https://twitter.com/numpy_team" rel="noopener" target="_blank" title="Twitter">
+            <span><i class="fab fa-twitter-square"></i></span>
+            <label class="sr-only">Twitter</label>
+          </a>
+        </li>
+      </ul>
+    </div>
+</div>
+    </nav>
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+            
+            <!-- Only show if we have sidebars configured, else just a small margin  -->
+            <div class="col-12 col-md-3 bd-sidebar"><form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form>
+<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <div class="bd-toc-item active">
+    <ul class="current nav bd-sidenav">
+ <li class="toctree-l2">
+  <a class="reference internal" href="../arrays.html">
+   Array objects
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="../constants.html">
+   Constants
+  </a>
+ </li>
+ <li class="toctree-l2 current active">
+  <a class="reference internal" href="../ufuncs.html">
+   Universal functions (
+   <code class="xref py py-class docutils literal notranslate">
+    <span class="pre">
+     ufunc
+    </span>
+   </code>
+   )
+  </a>
+  <ul class="current">
+   <li class="toctree-l3">
+    <a class="reference internal" href="numpy.setbufsize.html">
+     numpy.setbufsize
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="numpy.seterr.html">
+     numpy.seterr
+    </a>
+   </li>
+   <li class="toctree-l3 current active">
+    <a class="current reference internal" href="#">
+     numpy.seterrcall
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="numpy.ufunc.html">
+     numpy.ufunc
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="numpy.ufunc.nin.html">
+     numpy.ufunc.nin
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="numpy.ufunc.nout.html">
+     numpy.ufunc.nout
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="numpy.ufunc.nargs.html">
+     numpy.ufunc.nargs
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="numpy.ufunc.ntypes.html">
+     numpy.ufunc.ntypes
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="numpy.ufunc.types.html">
+     numpy.ufunc.types
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="numpy.ufunc.identity.html">
+     numpy.ufunc.identity
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="numpy.ufunc.signature.html">
+     numpy.ufunc.signature
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="numpy.ufunc.reduce.html">
+     numpy.ufunc.reduce
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="numpy.ufunc.accumulate.html">
+     numpy.ufunc.accumulate
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="numpy.ufunc.reduceat.html">
+     numpy.ufunc.reduceat
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="numpy.ufunc.outer.html">
+     numpy.ufunc.outer
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="numpy.ufunc.at.html">
+     numpy.ufunc.at
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="../routines.html">
+   Routines
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="../typing.html">
+   Typing (
+   <code class="xref py py-mod docutils literal notranslate">
+    <span class="pre">
+     numpy.typing
+    </span>
+   </code>
+   )
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="../global_state.html">
+   Global State
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="../distutils.html">
+   Packaging (
+   <code class="xref py py-mod docutils literal notranslate">
+    <span class="pre">
+     numpy.distutils
+    </span>
+   </code>
+   )
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="../distutils_guide.html">
+   NumPy Distutils - Users Guide
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="../c-api/index.html">
+   NumPy C-API
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="../internals.html">
+   NumPy internals
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="../simd/simd-optimizations.html">
+   SIMD Optimizations
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="../swig.html">
+   NumPy and SWIG
+  </a>
+ </li>
+</ul>
+  </div>
+</nav>
+            </div>
+            
+          
+
+          
+          <div class="d-none d-xl-block col-xl-2 bd-toc">
+              
+
+<nav id="bd-toc-nav">
+    
+</nav>
+
+
+              
+          </div>
+          
+
+          
+          
+            
+          
+          <main class="col-12 col-md-9 col-xl-7 py-md-5 pl-md-5 pr-md-4 bd-content" role="main">
+              
+              <div>
+                
+  <div class="section" id="numpy-seterrcall">
+<h1>numpy.seterrcall<a class="headerlink" href="#numpy-seterrcall" title="Permalink to this headline">¶</a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="numpy.seterrcall">
+<span class="sig-prename descclassname"><span class="pre">numpy.</span></span><span class="sig-name descname"><span class="pre">seterrcall</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/numpy/numpy/blob/v1.21.0/numpy/core/_ufunc_config.py#L220-L310"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#numpy.seterrcall" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the floating-point error callback function or log object.</p>
+<p>There are two ways to capture floating-point error messages.  The first
+is to set the error-handler to ‘call’, using <a class="reference internal" href="numpy.seterr.html#numpy.seterr" title="numpy.seterr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">seterr</span></code></a>.  Then, set
+the function to call using this function.</p>
+<p>The second is to set the error-handler to ‘log’, using <a class="reference internal" href="numpy.seterr.html#numpy.seterr" title="numpy.seterr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">seterr</span></code></a>.
+Floating-point errors then trigger a call to the ‘write’ method of
+the provided object.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl>
+<dt><strong>func</strong><span class="classifier">callable f(err, flag) or object with write method</span></dt><dd><p>Function to call upon floating-point errors (‘call’-mode) or
+object whose ‘write’ method is used to log such message (‘log’-mode).</p>
+<p>The call function takes two arguments. The first is a string describing
+the type of error (such as “divide by zero”, “overflow”, “underflow”,
+or “invalid value”), and the second is the status flag.  The flag is a
+byte, whose four least-significant bits indicate the type of error, one
+of “divide”, “over”, “under”, “invalid”:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="n">divide</span> <span class="n">over</span> <span class="n">under</span> <span class="n">invalid</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>In other words, <code class="docutils literal notranslate"><span class="pre">flags</span> <span class="pre">=</span> <span class="pre">divide</span> <span class="pre">+</span> <span class="pre">2*over</span> <span class="pre">+</span> <span class="pre">4*under</span> <span class="pre">+</span> <span class="pre">8*invalid</span></code>.</p>
+<p>If an object is provided, its write method should take one argument,
+a string.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>h</strong><span class="classifier">callable, log instance or None</span></dt><dd><p>The old error handler.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><a class="reference internal" href="numpy.seterr.html#numpy.seterr" title="numpy.seterr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">seterr</span></code></a>, <a class="reference internal" href="numpy.geterr.html#numpy.geterr" title="numpy.geterr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">geterr</span></code></a>, <a class="reference internal" href="numpy.geterrcall.html#numpy.geterrcall" title="numpy.geterrcall"><code class="xref py py-obj docutils literal notranslate"><span class="pre">geterrcall</span></code></a></dt><dd></dd>
+</dl>
+</div>
+<p class="rubric">Examples</p>
+<p>Callback upon error:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">err_handler</span><span class="p">(</span><span class="nb">type</span><span class="p">,</span> <span class="n">flag</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Floating point error (</span><span class="si">%s</span><span class="s2">), with flag </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">type</span><span class="p">,</span> <span class="n">flag</span><span class="p">))</span>
+<span class="gp">...</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">saved_handler</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">seterrcall</span><span class="p">(</span><span class="n">err_handler</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">save_err</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">seterr</span><span class="p">(</span><span class="nb">all</span><span class="o">=</span><span class="s1">&#39;call&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span> <span class="o">/</span> <span class="mf">0.0</span>
+<span class="go">Floating point error (divide by zero), with flag 1</span>
+<span class="go">array([inf, inf, inf])</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">seterrcall</span><span class="p">(</span><span class="n">saved_handler</span><span class="p">)</span>
+<span class="go">&lt;function err_handler at 0x...&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">seterr</span><span class="p">(</span><span class="o">**</span><span class="n">save_err</span><span class="p">)</span>
+<span class="go">{&#39;divide&#39;: &#39;call&#39;, &#39;over&#39;: &#39;call&#39;, &#39;under&#39;: &#39;call&#39;, &#39;invalid&#39;: &#39;call&#39;}</span>
+</pre></div>
+</div>
+<p>Log error message:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">class</span> <span class="nc">Log</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="k">def</span> <span class="nf">write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msg</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;LOG: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">msg</span><span class="p">)</span>
+<span class="gp">...</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">log</span> <span class="o">=</span> <span class="n">Log</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">saved_handler</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">seterrcall</span><span class="p">(</span><span class="n">log</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">save_err</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">seterr</span><span class="p">(</span><span class="nb">all</span><span class="o">=</span><span class="s1">&#39;log&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span> <span class="o">/</span> <span class="mf">0.0</span>
+<span class="go">LOG: Warning: divide by zero encountered in true_divide</span>
+<span class="go">array([inf, inf, inf])</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">seterrcall</span><span class="p">(</span><span class="n">saved_handler</span><span class="p">)</span>
+<span class="go">&lt;numpy.core.numeric.Log object at 0x...&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">seterr</span><span class="p">(</span><span class="o">**</span><span class="n">save_err</span><span class="p">)</span>
+<span class="go">{&#39;divide&#39;: &#39;log&#39;, &#39;over&#39;: &#39;log&#39;, &#39;under&#39;: &#39;log&#39;, &#39;invalid&#39;: &#39;log&#39;}</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+
+
+              </div>
+              
+              
+              <div class='prev-next-bottom'>
+                
+    <a class='left-prev' id="prev-link" href="numpy.seterr.html" title="previous page">numpy.seterr</a>
+    <a class='right-next' id="next-link" href="numpy.ufunc.html" title="next page">numpy.ufunc</a>
+
+              </div>
+              
+          </main>
+          
+
+      </div>
+    </div>
+
+    
+  <script src="../../_static/js/index.1e043a052b0af929e4d8.js"></script>
+
+
+    <footer class="footer mt-5 mt-md-0">
+  <div class="container">
+    <p>
+          &copy; Copyright 2008-2021, The NumPy community.<br/>
+        Last updated on Jun 22, 2021.<br/>
+        Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.0.1.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

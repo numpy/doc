@@ -1,0 +1,750 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>numpy.take &#8212; NumPy v1.21 Manual</title>
+    
+  <link href="../../_static/css/theme.css" rel="stylesheet" />
+  <link href="../../_static/css/index.f6b7ca918bee2f46fd9abac01cfb07d5.css" rel="stylesheet" />
+
+    
+  <link rel="stylesheet"
+    href="../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/basic.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/plot_directive.css" />
+    
+  <link rel="preload" as="script" href="../../_static/js/index.1e043a052b0af929e4d8.js">
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="numpy.take_along_axis" href="numpy.take_along_axis.html" />
+    <link rel="prev" title="numpy.triu_indices_from" href="numpy.triu_indices_from.html" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+<link rel="stylesheet" href="../../_static/numpy.css" type="text/css" />
+
+    <!-- PR #17220: This is added via javascript in versionwarning.js  -->
+    <!-- link rel="canonical" href="http://numpy.org/doc/stable/reference/generated/numpy.take.html" / -->
+
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <nav class="navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="container-xl">
+
+
+    
+      
+      <a class="navbar-brand" href="../../index.html">
+        <img src="../../_static/numpylogo.svg" class="logo" alt="logo">
+      </a>      
+      
+    
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-menu" aria-controls="navbar-menu" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    
+    <div id="navbar-menu" class="col-lg-9 collapse navbar-collapse">
+      <ul id="navbar-main-elements" class="navbar-nav mr-auto">
+        <li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../user/index.html">
+  User Guide
+ </a>
+</li>
+
+<li class="toctree-l1 current active nav-item">
+ <a class="reference internal nav-link" href="../index.html">
+  API reference
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../dev/index.html">
+  Development
+ </a>
+</li>
+
+        
+      </ul>
+
+      <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+        <li class="nav-item">
+          <a class="nav-link" href="https://github.com/numpy/numpy" rel="noopener" target="_blank" title="GitHub">
+            <span><i class="fab fa-github-square"></i></span>
+            <label class="sr-only">GitHub</label>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="https://twitter.com/numpy_team" rel="noopener" target="_blank" title="Twitter">
+            <span><i class="fab fa-twitter-square"></i></span>
+            <label class="sr-only">Twitter</label>
+          </a>
+        </li>
+      </ul>
+    </div>
+</div>
+    </nav>
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+            
+            <!-- Only show if we have sidebars configured, else just a small margin  -->
+            <div class="col-12 col-md-3 bd-sidebar"><form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form>
+<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <div class="bd-toc-item active">
+    <ul class="current nav bd-sidenav">
+ <li class="toctree-l2">
+  <a class="reference internal" href="../arrays.html">
+   Array objects
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="../constants.html">
+   Constants
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="../ufuncs.html">
+   Universal functions (
+   <code class="xref py py-class docutils literal notranslate">
+    <span class="pre">
+     ufunc
+    </span>
+   </code>
+   )
+  </a>
+ </li>
+ <li class="toctree-l2 current active">
+  <a class="reference internal" href="../routines.html">
+   Routines
+  </a>
+  <ul class="current">
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.array-creation.html">
+     Array creation routines
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.array-manipulation.html">
+     Array manipulation routines
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.bitwise.html">
+     Binary operations
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.char.html">
+     String operations
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.ctypeslib.html">
+     C-Types Foreign Function Interface (
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       numpy.ctypeslib
+      </span>
+     </code>
+     )
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.datetime.html">
+     Datetime Support Functions
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.dtype.html">
+     Data type routines
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.dual.html">
+     Optionally SciPy-accelerated routines (
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       numpy.dual
+      </span>
+     </code>
+     )
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.emath.html">
+     Mathematical functions with automatic domain (
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       numpy.emath
+      </span>
+     </code>
+     )
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.err.html">
+     Floating point error handling
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.fft.html">
+     Discrete Fourier Transform (
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       numpy.fft
+      </span>
+     </code>
+     )
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.functional.html">
+     Functional programming
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.help.html">
+     NumPy-specific help functions
+    </a>
+   </li>
+   <li class="toctree-l3 current active">
+    <a class="reference internal" href="../routines.indexing.html">
+     Indexing routines
+    </a>
+    <ul class="current">
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.c_.html">
+       numpy.c_
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.r_.html">
+       numpy.r_
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.s_.html">
+       numpy.s_
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.nonzero.html">
+       numpy.nonzero
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.where.html">
+       numpy.where
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.indices.html">
+       numpy.indices
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.ix_.html">
+       numpy.ix_
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.ogrid.html">
+       numpy.ogrid
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.ravel_multi_index.html">
+       numpy.ravel_multi_index
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.unravel_index.html">
+       numpy.unravel_index
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.diag_indices.html">
+       numpy.diag_indices
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.diag_indices_from.html">
+       numpy.diag_indices_from
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.mask_indices.html">
+       numpy.mask_indices
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.tril_indices.html">
+       numpy.tril_indices
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.tril_indices_from.html">
+       numpy.tril_indices_from
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.triu_indices.html">
+       numpy.triu_indices
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.triu_indices_from.html">
+       numpy.triu_indices_from
+      </a>
+     </li>
+     <li class="toctree-l4 current active">
+      <a class="current reference internal" href="#">
+       numpy.take
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.take_along_axis.html">
+       numpy.take_along_axis
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.choose.html">
+       numpy.choose
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.compress.html">
+       numpy.compress
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.diag.html">
+       numpy.diag
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.diagonal.html">
+       numpy.diagonal
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.select.html">
+       numpy.select
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.lib.stride_tricks.sliding_window_view.html">
+       numpy.lib.stride_tricks.sliding_window_view
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.lib.stride_tricks.as_strided.html">
+       numpy.lib.stride_tricks.as_strided
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.place.html">
+       numpy.place
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.put.html">
+       numpy.put
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.put_along_axis.html">
+       numpy.put_along_axis
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.putmask.html">
+       numpy.putmask
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.fill_diagonal.html">
+       numpy.fill_diagonal
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.nditer.html">
+       numpy.nditer
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.ndenumerate.html">
+       numpy.ndenumerate
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.ndindex.html">
+       numpy.ndindex
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.nested_iters.html">
+       numpy.nested_iters
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.flatiter.html">
+       numpy.flatiter
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.lib.Arrayterator.html">
+       numpy.lib.Arrayterator
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.io.html">
+     Input and output
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.linalg.html">
+     Linear algebra (
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       numpy.linalg
+      </span>
+     </code>
+     )
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.logic.html">
+     Logic functions
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.ma.html">
+     Masked array operations
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.math.html">
+     Mathematical functions
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.matlib.html">
+     Matrix library (
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       numpy.matlib
+      </span>
+     </code>
+     )
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.other.html">
+     Miscellaneous routines
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.padding.html">
+     Padding Arrays
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.polynomials.html">
+     Polynomials
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../random/index.html">
+     Random sampling (
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       numpy.random
+      </span>
+     </code>
+     )
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.set.html">
+     Set routines
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.sort.html">
+     Sorting, searching, and counting
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.statistics.html">
+     Statistics
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.testing.html">
+     Test Support (
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       numpy.testing
+      </span>
+     </code>
+     )
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.window.html">
+     Window functions
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="../typing.html">
+   Typing (
+   <code class="xref py py-mod docutils literal notranslate">
+    <span class="pre">
+     numpy.typing
+    </span>
+   </code>
+   )
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="../global_state.html">
+   Global State
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="../distutils.html">
+   Packaging (
+   <code class="xref py py-mod docutils literal notranslate">
+    <span class="pre">
+     numpy.distutils
+    </span>
+   </code>
+   )
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="../distutils_guide.html">
+   NumPy Distutils - Users Guide
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="../c-api/index.html">
+   NumPy C-API
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="../internals.html">
+   NumPy internals
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="../simd/simd-optimizations.html">
+   SIMD Optimizations
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="../swig.html">
+   NumPy and SWIG
+  </a>
+ </li>
+</ul>
+  </div>
+</nav>
+            </div>
+            
+          
+
+          
+          <div class="d-none d-xl-block col-xl-2 bd-toc">
+              
+
+<nav id="bd-toc-nav">
+    
+</nav>
+
+
+              
+          </div>
+          
+
+          
+          
+            
+          
+          <main class="col-12 col-md-9 col-xl-7 py-md-5 pl-md-5 pr-md-4 bd-content" role="main">
+              
+              <div>
+                
+  <div class="section" id="numpy-take">
+<h1>numpy.take<a class="headerlink" href="#numpy-take" title="Permalink to this headline">¶</a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="numpy.take">
+<span class="sig-prename descclassname"><span class="pre">numpy.</span></span><span class="sig-name descname"><span class="pre">take</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">indices</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">axis</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">out</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'raise'</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/numpy/numpy/blob/v1.21.0/numpy/core/fromnumeric.py#L93-L190"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#numpy.take" title="Permalink to this definition">¶</a></dt>
+<dd><p>Take elements from an array along an axis.</p>
+<p>When axis is not None, this function does the same thing as “fancy”
+indexing (indexing arrays using arrays); however, it can be easier to use
+if you need elements along a given axis. A call such as
+<code class="docutils literal notranslate"><span class="pre">np.take(arr,</span> <span class="pre">indices,</span> <span class="pre">axis=3)</span></code> is equivalent to
+<code class="docutils literal notranslate"><span class="pre">arr[:,:,:,indices,...]</span></code>.</p>
+<p>Explained without fancy indexing, this is equivalent to the following use
+of <a class="reference internal" href="numpy.ndindex.html#numpy.ndindex" title="numpy.ndindex"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ndindex</span></code></a>, which sets each of <code class="docutils literal notranslate"><span class="pre">ii</span></code>, <code class="docutils literal notranslate"><span class="pre">jj</span></code>, and <code class="docutils literal notranslate"><span class="pre">kk</span></code> to a tuple of
+indices:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Ni</span><span class="p">,</span> <span class="n">Nk</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="n">axis</span><span class="p">],</span> <span class="n">a</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="n">axis</span><span class="o">+</span><span class="mi">1</span><span class="p">:]</span>
+<span class="n">Nj</span> <span class="o">=</span> <span class="n">indices</span><span class="o">.</span><span class="n">shape</span>
+<span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="n">ndindex</span><span class="p">(</span><span class="n">Ni</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">jj</span> <span class="ow">in</span> <span class="n">ndindex</span><span class="p">(</span><span class="n">Nj</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">kk</span> <span class="ow">in</span> <span class="n">ndindex</span><span class="p">(</span><span class="n">Nk</span><span class="p">):</span>
+            <span class="n">out</span><span class="p">[</span><span class="n">ii</span> <span class="o">+</span> <span class="n">jj</span> <span class="o">+</span> <span class="n">kk</span><span class="p">]</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="n">ii</span> <span class="o">+</span> <span class="p">(</span><span class="n">indices</span><span class="p">[</span><span class="n">jj</span><span class="p">],)</span> <span class="o">+</span> <span class="n">kk</span><span class="p">]</span>
+</pre></div>
+</div>
+<dl class="field-list">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl>
+<dt><strong>a</strong><span class="classifier">array_like (Ni…, M, Nk…)</span></dt><dd><p>The source array.</p>
+</dd>
+<dt><strong>indices</strong><span class="classifier">array_like (Nj…)</span></dt><dd><p>The indices of the values to extract.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.8.0.</span></p>
+</div>
+<p>Also allow scalars for indices.</p>
+</dd>
+<dt><strong>axis</strong><span class="classifier">int, optional</span></dt><dd><p>The axis over which to select values. By default, the flattened
+input array is used.</p>
+</dd>
+<dt><strong>out</strong><span class="classifier">ndarray, optional (Ni…, Nj…, Nk…)</span></dt><dd><p>If provided, the result will be placed in this array. It should
+be of the appropriate shape and dtype. Note that <em class="xref py py-obj">out</em> is always
+buffered if <em class="xref py py-obj">mode=’raise’</em>; use other modes for better performance.</p>
+</dd>
+<dt><strong>mode</strong><span class="classifier">{‘raise’, ‘wrap’, ‘clip’}, optional</span></dt><dd><p>Specifies how out-of-bounds indices will behave.</p>
+<ul class="simple">
+<li><p>‘raise’ – raise an error (default)</p></li>
+<li><p>‘wrap’ – wrap around</p></li>
+<li><p>‘clip’ – clip to the range</p></li>
+</ul>
+<p>‘clip’ mode means that all indices that are too large are replaced
+by the index that addresses the last element along that axis. Note
+that this disables indexing with negative numbers.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>out</strong><span class="classifier">ndarray (Ni…, Nj…, Nk…)</span></dt><dd><p>The returned array has the same type as <em class="xref py py-obj">a</em>.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><a class="reference internal" href="numpy.compress.html#numpy.compress" title="numpy.compress"><code class="xref py py-obj docutils literal notranslate"><span class="pre">compress</span></code></a></dt><dd><p>Take elements using a boolean mask</p>
+</dd>
+<dt><a class="reference internal" href="numpy.ndarray.take.html#numpy.ndarray.take" title="numpy.ndarray.take"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ndarray.take</span></code></a></dt><dd><p>equivalent method</p>
+</dd>
+<dt><a class="reference internal" href="numpy.take_along_axis.html#numpy.take_along_axis" title="numpy.take_along_axis"><code class="xref py py-obj docutils literal notranslate"><span class="pre">take_along_axis</span></code></a></dt><dd><p>Take elements by matching the array and the index arrays</p>
+</dd>
+</dl>
+</div>
+<p class="rubric">Notes</p>
+<p>By eliminating the inner loop in the description above, and using <a class="reference internal" href="numpy.s_.html#numpy.s_" title="numpy.s_"><code class="xref py py-obj docutils literal notranslate"><span class="pre">s_</span></code></a> to
+build simple slice objects, <a class="reference internal" href="#numpy.take" title="numpy.take"><code class="xref py py-obj docutils literal notranslate"><span class="pre">take</span></code></a> can be expressed  in terms of applying
+fancy indexing to each 1-d slice:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Ni</span><span class="p">,</span> <span class="n">Nk</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="n">axis</span><span class="p">],</span> <span class="n">a</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="n">axis</span><span class="o">+</span><span class="mi">1</span><span class="p">:]</span>
+<span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="n">ndindex</span><span class="p">(</span><span class="n">Ni</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">kk</span> <span class="ow">in</span> <span class="n">ndindex</span><span class="p">(</span><span class="n">Nj</span><span class="p">):</span>
+        <span class="n">out</span><span class="p">[</span><span class="n">ii</span> <span class="o">+</span> <span class="n">s_</span><span class="p">[</span><span class="o">...</span><span class="p">,]</span> <span class="o">+</span> <span class="n">kk</span><span class="p">]</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="n">ii</span> <span class="o">+</span> <span class="n">s_</span><span class="p">[:,]</span> <span class="o">+</span> <span class="n">kk</span><span class="p">][</span><span class="n">indices</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>For this reason, it is equivalent to (but faster than) the following use
+of <a class="reference internal" href="numpy.apply_along_axis.html#numpy.apply_along_axis" title="numpy.apply_along_axis"><code class="xref py py-obj docutils literal notranslate"><span class="pre">apply_along_axis</span></code></a>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">out</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">apply_along_axis</span><span class="p">(</span><span class="k">lambda</span> <span class="n">a_1d</span><span class="p">:</span> <span class="n">a_1d</span><span class="p">[</span><span class="n">indices</span><span class="p">],</span> <span class="n">axis</span><span class="p">,</span> <span class="n">a</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">8</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">indices</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">take</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">indices</span><span class="p">)</span>
+<span class="go">array([4, 3, 6])</span>
+</pre></div>
+</div>
+<p>In this example if <em class="xref py py-obj">a</em> is an ndarray, “fancy” indexing can be used.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="p">[</span><span class="n">indices</span><span class="p">]</span>
+<span class="go">array([4, 3, 6])</span>
+</pre></div>
+</div>
+<p>If <a class="reference internal" href="numpy.indices.html#numpy.indices" title="numpy.indices"><code class="xref py py-obj docutils literal notranslate"><span class="pre">indices</span></code></a> is not one dimensional, the output also has these dimensions.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">take</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="p">[[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]])</span>
+<span class="go">array([[4, 3],</span>
+<span class="go">       [5, 7]])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+
+
+              </div>
+              
+              
+              <div class='prev-next-bottom'>
+                
+    <a class='left-prev' id="prev-link" href="numpy.triu_indices_from.html" title="previous page">numpy.triu_indices_from</a>
+    <a class='right-next' id="next-link" href="numpy.take_along_axis.html" title="next page">numpy.take_along_axis</a>
+
+              </div>
+              
+          </main>
+          
+
+      </div>
+    </div>
+
+    
+  <script src="../../_static/js/index.1e043a052b0af929e4d8.js"></script>
+
+
+    <footer class="footer mt-5 mt-md-0">
+  <div class="container">
+    <p>
+          &copy; Copyright 2008-2021, The NumPy community.<br/>
+        Last updated on Jun 22, 2021.<br/>
+        Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.0.1.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

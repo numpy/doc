@@ -1,0 +1,453 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>How to write a NumPy how-to &#8212; NumPy v1.21 Manual</title>
+    
+  <link href="../_static/css/theme.css" rel="stylesheet" />
+  <link href="../_static/css/index.f6b7ca918bee2f46fd9abac01cfb07d5.css" rel="stylesheet" />
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.1e043a052b0af929e4d8.js">
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Reading and writing files" href="how-to-io.html" />
+    <link rel="prev" title="NumPy How Tos" href="howtos_index.html" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+<link rel="stylesheet" href="../_static/numpy.css" type="text/css" />
+
+    <!-- PR #17220: This is added via javascript in versionwarning.js  -->
+    <!-- link rel="canonical" href="http://numpy.org/doc/stable/user/how-to-how-to.html" / -->
+
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <nav class="navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="container-xl">
+
+
+    
+      
+      <a class="navbar-brand" href="../index.html">
+        <img src="../_static/numpylogo.svg" class="logo" alt="logo">
+      </a>      
+      
+    
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-menu" aria-controls="navbar-menu" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    
+    <div id="navbar-menu" class="col-lg-9 collapse navbar-collapse">
+      <ul id="navbar-main-elements" class="navbar-nav mr-auto">
+        <li class="toctree-l1 current active nav-item">
+ <a class="reference internal nav-link" href="index.html">
+  User Guide
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../reference/index.html">
+  API reference
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../dev/index.html">
+  Development
+ </a>
+</li>
+
+        
+      </ul>
+
+      <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+        <li class="nav-item">
+          <a class="nav-link" href="https://github.com/numpy/numpy" rel="noopener" target="_blank" title="GitHub">
+            <span><i class="fab fa-github-square"></i></span>
+            <label class="sr-only">GitHub</label>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="https://twitter.com/numpy_team" rel="noopener" target="_blank" title="Twitter">
+            <span><i class="fab fa-twitter-square"></i></span>
+            <label class="sr-only">Twitter</label>
+          </a>
+        </li>
+      </ul>
+    </div>
+</div>
+    </nav>
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+            
+            <!-- Only show if we have sidebars configured, else just a small margin  -->
+            <div class="col-12 col-md-3 bd-sidebar"><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form>
+<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <div class="bd-toc-item active">
+    <ul class="current nav bd-sidenav">
+ <li class="toctree-l2">
+  <a class="reference internal" href="whatisnumpy.html">
+   What is NumPy?
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference external" href="https://numpy.org/install/">
+   Installation
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="quickstart.html">
+   NumPy quickstart
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="absolute_beginners.html">
+   NumPy: the absolute basics for beginners
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="basics.html">
+   NumPy fundamentals
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="misc.html">
+   Miscellaneous
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="numpy-for-matlab-users.html">
+   NumPy for MATLAB users
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="building.html">
+   Building from source
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="c-info.html">
+   Using NumPy C-API
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="tutorials_index.html">
+   NumPy Tutorials
+  </a>
+ </li>
+ <li class="toctree-l2 current active">
+  <a class="reference internal" href="howtos_index.html">
+   NumPy How Tos
+  </a>
+  <ul class="current">
+   <li class="toctree-l3 current active">
+    <a class="current reference internal" href="#">
+     How to write a NumPy how-to
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="how-to-io.html">
+     Reading and writing files
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="depending_on_numpy.html">
+   For downstream package authors
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="../f2py/index.html">
+   F2PY Users Guide and Reference Manual
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="../glossary.html">
+   Glossary
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="../dev/underthehood.html">
+   Under-the-hood Documentation for developers
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="../docs/index.html">
+   NumPy’s Documentation
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="../bugs.html">
+   Reporting bugs
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="../release.html">
+   Release Notes
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="../doc_conventions.html">
+   Documentation conventions
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="../license.html">
+   NumPy license
+  </a>
+ </li>
+</ul>
+  </div>
+</nav>
+            </div>
+            
+          
+
+          
+          <div class="d-none d-xl-block col-xl-2 bd-toc">
+              
+<div class="tocsection onthispage pt-5 pb-3">
+    <i class="fas fa-list"></i> On this page
+</div>
+
+<nav id="bd-toc-nav">
+    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#a-stranger-has-asked-for-directions">
+   A stranger has asked for directions…
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#give-a-brief-but-explicit-answer">
+   Give a brief but explicit answer
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#delegate">
+   Delegate
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#if-the-question-is-broad-narrow-and-redirect-it">
+   If the question is broad, narrow and redirect it
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#if-there-are-many-steps-break-them-up">
+   If there are many steps, break them up
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#why-write-how-tos-when-there-s-stack-overflow-reddit-gitter">
+   Why write how-tos when there’s Stack Overflow, Reddit, Gitter…?
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#aren-t-how-tos-and-tutorials-the-same-thing">
+   Aren’t how-tos and tutorials the same thing?
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#is-this-page-an-example-of-a-how-to">
+   Is this page an example of a how-to?
+  </a>
+ </li>
+</ul>
+
+</nav>
+
+
+              
+          </div>
+          
+
+          
+          
+            
+          
+          <main class="col-12 col-md-9 col-xl-7 py-md-5 pl-md-5 pr-md-4 bd-content" role="main">
+              
+              <div>
+                
+  <div class="section" id="how-to-write-a-numpy-how-to">
+<span id="how-to-how-to"></span><h1>How to write a NumPy how-to<a class="headerlink" href="#how-to-write-a-numpy-how-to" title="Permalink to this headline">¶</a></h1>
+<p>How-tos get straight to the point – they</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>answer a focused question, or</p></li>
+<li><p>narrow a broad question into focused questions that the user can
+choose among.</p></li>
+</ul>
+</div></blockquote>
+<div class="section" id="a-stranger-has-asked-for-directions">
+<h2>A stranger has asked for directions…<a class="headerlink" href="#a-stranger-has-asked-for-directions" title="Permalink to this headline">¶</a></h2>
+<p><strong>“I need to refuel my car.”</strong></p>
+</div>
+<div class="section" id="give-a-brief-but-explicit-answer">
+<h2>Give a brief but explicit answer<a class="headerlink" href="#give-a-brief-but-explicit-answer" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li><p><em class="xref py py-obj">“Three kilometers/miles, take a right at Hayseed Road, it’s on your left.”</em></p></li>
+</ul>
+</div></blockquote>
+<p>Add helpful details for newcomers (“Hayseed Road”, even though it’s the only
+turnoff at three km/mi). But not irrelevant ones:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Don’t also give directions from Route 7.</p></li>
+<li><p>Don’t explain why the town has only one filling station.</p></li>
+</ul>
+</div></blockquote>
+<p>If there’s related background (tutorial, explanation, reference, alternative
+approach), bring it to the user’s attention with a link (“Directions from Route 7,”
+“Why so few filling stations?”).</p>
+</div>
+<div class="section" id="delegate">
+<h2>Delegate<a class="headerlink" href="#delegate" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li><p><em class="xref py py-obj">“Three km/mi, take a right at Hayseed Road, follow the signs.”</em></p></li>
+</ul>
+</div></blockquote>
+<p>If the information is already documented and succinct enough for a how-to,
+just link to it, possibly after an introduction (“Three km/mi, take a right”).</p>
+</div>
+<div class="section" id="if-the-question-is-broad-narrow-and-redirect-it">
+<h2>If the question is broad, narrow and redirect it<a class="headerlink" href="#if-the-question-is-broad-narrow-and-redirect-it" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><p><strong>“I want to see the sights.”</strong></p>
+</div></blockquote>
+<p>The <em class="xref py py-obj">See the sights</em> how-to should link to a set of narrower how-tos:</p>
+<ul class="simple">
+<li><p>Find historic buildings</p></li>
+<li><p>Find scenic lookouts</p></li>
+<li><p>Find the town center</p></li>
+</ul>
+<p>and these might in turn link to still narrower how-tos – so the town center
+page might link to</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Find the court house</p></li>
+<li><p>Find city hall</p></li>
+</ul>
+</div></blockquote>
+<p>By organizing how-tos this way, you not only display the options for people
+who need to narrow their question, you also have provided answers for users
+who start with narrower questions (“I want to see historic buildings,” “Which
+way to city hall?”).</p>
+</div>
+<div class="section" id="if-there-are-many-steps-break-them-up">
+<h2>If there are many steps, break them up<a class="headerlink" href="#if-there-are-many-steps-break-them-up" title="Permalink to this headline">¶</a></h2>
+<p>If a how-to has many steps:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Consider breaking a step out into an individual how-to and linking to it.</p></li>
+<li><p>Include subheadings. They help readers grasp what’s coming and return
+where they left off.</p></li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="why-write-how-tos-when-there-s-stack-overflow-reddit-gitter">
+<h2>Why write how-tos when there’s Stack Overflow, Reddit, Gitter…?<a class="headerlink" href="#why-write-how-tos-when-there-s-stack-overflow-reddit-gitter" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li><p>We have authoritative answers.</p></li>
+<li><p>How-tos make the site less forbidding to non-experts.</p></li>
+<li><p>How-tos bring people into the site and help them discover other information
+that’s here .</p></li>
+<li><p>Creating how-tos helps us see NumPy usability through new eyes.</p></li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="aren-t-how-tos-and-tutorials-the-same-thing">
+<h2>Aren’t how-tos and tutorials the same thing?<a class="headerlink" href="#aren-t-how-tos-and-tutorials-the-same-thing" title="Permalink to this headline">¶</a></h2>
+<p>People use the terms “how-to” and “tutorial” interchangeably, but we draw a
+distinction, following Daniele Procida’s <a class="reference external" href="https://documentation.divio.com/">taxonomy of documentation</a>.</p>
+<blockquote>
+<div></div></blockquote>
+<p>Documentation needs to meet users where they are.  <em class="xref py py-obj">How-tos</em> offer get-it-done
+information; the user wants steps to copy and doesn’t necessarily want to
+understand NumPy. <em class="xref py py-obj">Tutorials</em> are warm-fuzzy information; the user wants a
+feel for some aspect of NumPy (and again, may or may not care about deeper
+knowledge).</p>
+<p>We distinguish both tutorials and how-tos from <em class="xref py py-obj">Explanations</em>, which are
+deep dives intended to give understanding rather than immediate assistance,
+and <em class="xref py py-obj">References</em>, which give complete, autoritative data on some concrete
+part of NumPy (like its API) but aren’t obligated to paint a broader picture.</p>
+<p>For more on tutorials, see the <a class="reference external" href="https://github.com/numpy/numpy-tutorials/blob/master/tutorial_style.ipynb">tutorial how-to</a>.</p>
+</div>
+<div class="section" id="is-this-page-an-example-of-a-how-to">
+<h2>Is this page an example of a how-to?<a class="headerlink" href="#is-this-page-an-example-of-a-how-to" title="Permalink to this headline">¶</a></h2>
+<p>Yes – until the sections with question-mark headings; they explain rather
+than giving directions. In a how-to, those would be links.</p>
+</div>
+</div>
+
+
+              </div>
+              
+              
+              <div class='prev-next-bottom'>
+                
+    <a class='left-prev' id="prev-link" href="howtos_index.html" title="previous page">NumPy How Tos</a>
+    <a class='right-next' id="next-link" href="how-to-io.html" title="next page">Reading and writing files</a>
+
+              </div>
+              
+          </main>
+          
+
+      </div>
+    </div>
+
+    
+  <script src="../_static/js/index.1e043a052b0af929e4d8.js"></script>
+
+
+    <footer class="footer mt-5 mt-md-0">
+  <div class="container">
+    <p>
+          &copy; Copyright 2008-2021, The NumPy community.<br/>
+        Last updated on Jun 22, 2021.<br/>
+        Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.0.1.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

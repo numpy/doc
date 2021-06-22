@@ -1,0 +1,702 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NumPy 1.17.2 Release Notes &#8212; NumPy v1.21 Manual</title>
+    
+  <link href="../_static/css/theme.css" rel="stylesheet" />
+  <link href="../_static/css/index.f6b7ca918bee2f46fd9abac01cfb07d5.css" rel="stylesheet" />
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.1e043a052b0af929e4d8.js">
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="NumPy 1.17.1 Release Notes" href="1.17.1-notes.html" />
+    <link rel="prev" title="NumPy 1.17.3 Release Notes" href="1.17.3-notes.html" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+<link rel="stylesheet" href="../_static/numpy.css" type="text/css" />
+
+    <!-- PR #17220: This is added via javascript in versionwarning.js  -->
+    <!-- link rel="canonical" href="http://numpy.org/doc/stable/release/1.17.2-notes.html" / -->
+
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <nav class="navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="container-xl">
+
+
+    
+      
+      <a class="navbar-brand" href="../index.html">
+        <img src="../_static/numpylogo.svg" class="logo" alt="logo">
+      </a>      
+      
+    
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-menu" aria-controls="navbar-menu" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    
+    <div id="navbar-menu" class="col-lg-9 collapse navbar-collapse">
+      <ul id="navbar-main-elements" class="navbar-nav mr-auto">
+        <li class="toctree-l1 current active nav-item">
+ <a class="reference internal nav-link" href="../user/index.html">
+  User Guide
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../reference/index.html">
+  API reference
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../dev/index.html">
+  Development
+ </a>
+</li>
+
+        
+      </ul>
+
+      <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+        <li class="nav-item">
+          <a class="nav-link" href="https://github.com/numpy/numpy" rel="noopener" target="_blank" title="GitHub">
+            <span><i class="fab fa-github-square"></i></span>
+            <label class="sr-only">GitHub</label>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="https://twitter.com/numpy_team" rel="noopener" target="_blank" title="Twitter">
+            <span><i class="fab fa-twitter-square"></i></span>
+            <label class="sr-only">Twitter</label>
+          </a>
+        </li>
+      </ul>
+    </div>
+</div>
+    </nav>
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+            
+            <!-- Only show if we have sidebars configured, else just a small margin  -->
+            <div class="col-12 col-md-3 bd-sidebar"><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form>
+<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <div class="bd-toc-item active">
+    <ul class="current nav bd-sidenav">
+ <li class="toctree-l2">
+  <a class="reference internal" href="../user/whatisnumpy.html">
+   What is NumPy?
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference external" href="https://numpy.org/install/">
+   Installation
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="../user/quickstart.html">
+   NumPy quickstart
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="../user/absolute_beginners.html">
+   NumPy: the absolute basics for beginners
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="../user/basics.html">
+   NumPy fundamentals
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="../user/misc.html">
+   Miscellaneous
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="../user/numpy-for-matlab-users.html">
+   NumPy for MATLAB users
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="../user/building.html">
+   Building from source
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="../user/c-info.html">
+   Using NumPy C-API
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="../user/tutorials_index.html">
+   NumPy Tutorials
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="../user/howtos_index.html">
+   NumPy How Tos
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="../user/depending_on_numpy.html">
+   For downstream package authors
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="../f2py/index.html">
+   F2PY Users Guide and Reference Manual
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="../glossary.html">
+   Glossary
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="../dev/underthehood.html">
+   Under-the-hood Documentation for developers
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="../docs/index.html">
+   NumPy’s Documentation
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="../bugs.html">
+   Reporting bugs
+  </a>
+ </li>
+ <li class="toctree-l2 current active">
+  <a class="reference internal" href="../release.html">
+   Release Notes
+  </a>
+  <ul class="current">
+   <li class="toctree-l3">
+    <a class="reference internal" href="1.21.0-notes.html">
+     1.21.0
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="1.20.3-notes.html">
+     1.20.3
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="1.20.2-notes.html">
+     1.20.2
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="1.20.1-notes.html">
+     1.20.1
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="1.20.0-notes.html">
+     1.20.0
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="1.19.5-notes.html">
+     1.19.5
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="1.19.4-notes.html">
+     1.19.4
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="1.19.3-notes.html">
+     1.19.3
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="1.19.2-notes.html">
+     1.19.2
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="1.19.1-notes.html">
+     1.19.1
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="1.19.0-notes.html">
+     1.19.0
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="1.18.5-notes.html">
+     1.18.5
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="1.18.4-notes.html">
+     1.18.4
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="1.18.3-notes.html">
+     1.18.3
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="1.18.2-notes.html">
+     1.18.2
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="1.18.1-notes.html">
+     1.18.1
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="1.18.0-notes.html">
+     1.18.0
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="1.17.5-notes.html">
+     1.17.5
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="1.17.4-notes.html">
+     1.17.4
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="1.17.3-notes.html">
+     1.17.3
+    </a>
+   </li>
+   <li class="toctree-l3 current active">
+    <a class="current reference internal" href="#">
+     1.17.2
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="1.17.1-notes.html">
+     1.17.1
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="1.17.0-notes.html">
+     1.17.0
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="1.16.6-notes.html">
+     1.16.6
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="1.16.5-notes.html">
+     1.16.5
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="1.16.4-notes.html">
+     1.16.4
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="1.16.3-notes.html">
+     1.16.3
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="1.16.2-notes.html">
+     1.16.2
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="1.16.1-notes.html">
+     1.16.1
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="1.16.0-notes.html">
+     1.16.0
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="1.15.4-notes.html">
+     1.15.4
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="1.15.3-notes.html">
+     1.15.3
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="1.15.2-notes.html">
+     1.15.2
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="1.15.1-notes.html">
+     1.15.1
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="1.15.0-notes.html">
+     1.15.0
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="1.14.6-notes.html">
+     1.14.6
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="1.14.5-notes.html">
+     1.14.5
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="1.14.4-notes.html">
+     1.14.4
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="1.14.3-notes.html">
+     1.14.3
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="1.14.2-notes.html">
+     1.14.2
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="1.14.1-notes.html">
+     1.14.1
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="1.14.0-notes.html">
+     1.14.0
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="1.13.3-notes.html">
+     1.13.3
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="1.13.2-notes.html">
+     1.13.2
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="1.13.1-notes.html">
+     1.13.1
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="1.13.0-notes.html">
+     1.13.0
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="1.12.1-notes.html">
+     1.12.1
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="1.12.0-notes.html">
+     1.12.0
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="1.11.3-notes.html">
+     1.11.3
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="1.11.2-notes.html">
+     1.11.2
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="1.11.1-notes.html">
+     1.11.1
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="1.11.0-notes.html">
+     1.11.0
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="1.10.4-notes.html">
+     1.10.4
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="1.10.3-notes.html">
+     1.10.3
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="1.10.2-notes.html">
+     1.10.2
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="1.10.1-notes.html">
+     1.10.1
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="1.10.0-notes.html">
+     1.10.0
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="1.9.2-notes.html">
+     1.9.2
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="1.9.1-notes.html">
+     1.9.1
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="1.9.0-notes.html">
+     1.9.0
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="1.8.2-notes.html">
+     1.8.2
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="1.8.1-notes.html">
+     1.8.1
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="1.8.0-notes.html">
+     1.8.0
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="1.7.2-notes.html">
+     1.7.2
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="1.7.1-notes.html">
+     1.7.1
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="1.7.0-notes.html">
+     1.7.0
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="1.6.2-notes.html">
+     1.6.2
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="1.6.1-notes.html">
+     1.6.1
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="1.6.0-notes.html">
+     1.6.0
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="1.5.0-notes.html">
+     1.5.0
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="1.4.0-notes.html">
+     1.4.0
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="1.3.0-notes.html">
+     1.3.0
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="../doc_conventions.html">
+   Documentation conventions
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="../license.html">
+   NumPy license
+  </a>
+ </li>
+</ul>
+  </div>
+</nav>
+            </div>
+            
+          
+
+          
+          <div class="d-none d-xl-block col-xl-2 bd-toc">
+              
+<div class="tocsection onthispage pt-5 pb-3">
+    <i class="fas fa-list"></i> On this page
+</div>
+
+<nav id="bd-toc-nav">
+    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#contributors">
+   Contributors
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#pull-requests-merged">
+   Pull requests merged
+  </a>
+ </li>
+</ul>
+
+</nav>
+
+
+              
+          </div>
+          
+
+          
+          
+            
+          
+          <main class="col-12 col-md-9 col-xl-7 py-md-5 pl-md-5 pr-md-4 bd-content" role="main">
+              
+              <div>
+                
+  <div class="section" id="numpy-1-17-2-release-notes">
+<h1>NumPy 1.17.2 Release Notes<a class="headerlink" href="#numpy-1-17-2-release-notes" title="Permalink to this headline">¶</a></h1>
+<p>This release contains fixes for bugs reported against NumPy 1.17.1 along with a
+some documentation improvements. The most important fix is for lexsort when the
+keys are of type (u)int8 or (u)int16. If you are currently using 1.17 you
+should upgrade.</p>
+<p>The Python versions supported in this release are 3.5-3.7, Python 2.7 has been
+dropped.  Python 3.8b4 should work with the released source packages, but there
+are no future guarantees.</p>
+<p>Downstream developers should use Cython &gt;= 0.29.13 for Python 3.8 support and
+OpenBLAS &gt;= 3.7 to avoid errors on the Skylake architecture. The NumPy wheels
+on PyPI are built from the OpenBLAS development branch in order to avoid those
+errors.</p>
+<div class="section" id="contributors">
+<h2>Contributors<a class="headerlink" href="#contributors" title="Permalink to this headline">¶</a></h2>
+<p>A total of 7 people contributed to this release.  People with a “+” by their
+names contributed a patch for the first time.</p>
+<ul class="simple">
+<li><p>CakeWithSteak +</p></li>
+<li><p>Charles Harris</p></li>
+<li><p>Dan Allan</p></li>
+<li><p>Hameer Abbasi</p></li>
+<li><p>Lars Grueter</p></li>
+<li><p>Matti Picus</p></li>
+<li><p>Sebastian Berg</p></li>
+</ul>
+</div>
+<div class="section" id="pull-requests-merged">
+<h2>Pull requests merged<a class="headerlink" href="#pull-requests-merged" title="Permalink to this headline">¶</a></h2>
+<p>A total of 8 pull requests were merged for this release.</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/numpy/numpy/pull/14418">#14418</a>: BUG: Fix aradixsort indirect indexing.</p></li>
+<li><p><a class="reference external" href="https://github.com/numpy/numpy/pull/14420">#14420</a>: DOC: Fix a minor typo in dispatch documentation.</p></li>
+<li><p><a class="reference external" href="https://github.com/numpy/numpy/pull/14421">#14421</a>: BUG: test, fix regression in converting to ctypes</p></li>
+<li><p><a class="reference external" href="https://github.com/numpy/numpy/pull/14430">#14430</a>: BUG: Do not show Override module in private error classes.</p></li>
+<li><p><a class="reference external" href="https://github.com/numpy/numpy/pull/14432">#14432</a>: BUG: Fixed maximum relative error reporting in assert_allclose.</p></li>
+<li><p><a class="reference external" href="https://github.com/numpy/numpy/pull/14433">#14433</a>: BUG: Fix uint-overflow if padding with linear_ramp and negative…</p></li>
+<li><p><a class="reference external" href="https://github.com/numpy/numpy/pull/14436">#14436</a>: BUG: Update 1.17.x with 1.18.0-dev pocketfft.py.</p></li>
+<li><p><a class="reference external" href="https://github.com/numpy/numpy/pull/14446">#14446</a>: REL: Prepare for NumPy 1.17.2 release.</p></li>
+</ul>
+</div>
+</div>
+
+
+              </div>
+              
+              
+              <div class='prev-next-bottom'>
+                
+    <a class='left-prev' id="prev-link" href="1.17.3-notes.html" title="previous page">NumPy 1.17.3 Release Notes</a>
+    <a class='right-next' id="next-link" href="1.17.1-notes.html" title="next page">NumPy 1.17.1 Release Notes</a>
+
+              </div>
+              
+          </main>
+          
+
+      </div>
+    </div>
+
+    
+  <script src="../_static/js/index.1e043a052b0af929e4d8.js"></script>
+
+
+    <footer class="footer mt-5 mt-md-0">
+  <div class="container">
+    <p>
+          &copy; Copyright 2008-2021, The NumPy community.<br/>
+        Last updated on Jun 22, 2021.<br/>
+        Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.0.1.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

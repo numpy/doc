@@ -1,0 +1,421 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Array objects &#8212; NumPy v1.21 Manual</title>
+    
+  <link href="../_static/css/theme.css" rel="stylesheet" />
+  <link href="../_static/css/index.f6b7ca918bee2f46fd9abac01cfb07d5.css" rel="stylesheet" />
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.1e043a052b0af929e4d8.js">
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="The N-dimensional array (ndarray)" href="arrays.ndarray.html" />
+    <link rel="prev" title="NumPy Reference" href="index.html" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+<link rel="stylesheet" href="../_static/numpy.css" type="text/css" />
+
+    <!-- PR #17220: This is added via javascript in versionwarning.js  -->
+    <!-- link rel="canonical" href="http://numpy.org/doc/stable/reference/arrays.html" / -->
+
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <nav class="navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="container-xl">
+
+
+    
+      
+      <a class="navbar-brand" href="../index.html">
+        <img src="../_static/numpylogo.svg" class="logo" alt="logo">
+      </a>      
+      
+    
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-menu" aria-controls="navbar-menu" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    
+    <div id="navbar-menu" class="col-lg-9 collapse navbar-collapse">
+      <ul id="navbar-main-elements" class="navbar-nav mr-auto">
+        <li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../user/index.html">
+  User Guide
+ </a>
+</li>
+
+<li class="toctree-l1 current active nav-item">
+ <a class="reference internal nav-link" href="index.html">
+  API reference
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../dev/index.html">
+  Development
+ </a>
+</li>
+
+        
+      </ul>
+
+      <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+        <li class="nav-item">
+          <a class="nav-link" href="https://github.com/numpy/numpy" rel="noopener" target="_blank" title="GitHub">
+            <span><i class="fab fa-github-square"></i></span>
+            <label class="sr-only">GitHub</label>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="https://twitter.com/numpy_team" rel="noopener" target="_blank" title="Twitter">
+            <span><i class="fab fa-twitter-square"></i></span>
+            <label class="sr-only">Twitter</label>
+          </a>
+        </li>
+      </ul>
+    </div>
+</div>
+    </nav>
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+            
+            <!-- Only show if we have sidebars configured, else just a small margin  -->
+            <div class="col-12 col-md-3 bd-sidebar"><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form>
+<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <div class="bd-toc-item active">
+    <ul class="current nav bd-sidenav">
+ <li class="toctree-l2 current active">
+  <a class="current reference internal" href="#">
+   Array objects
+  </a>
+  <ul>
+   <li class="toctree-l3">
+    <a class="reference internal" href="arrays.ndarray.html">
+     The N-dimensional array (
+     <code class="xref py py-class docutils literal notranslate">
+      <span class="pre">
+       ndarray
+      </span>
+     </code>
+     )
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="arrays.scalars.html">
+     Scalars
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="arrays.dtypes.html">
+     Data type objects (
+     <code class="xref py py-class docutils literal notranslate">
+      <span class="pre">
+       dtype
+      </span>
+     </code>
+     )
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="arrays.indexing.html">
+     Indexing
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="arrays.nditer.html">
+     Iterating Over Arrays
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="arrays.classes.html">
+     Standard array subclasses
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="maskedarray.html">
+     Masked arrays
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="arrays.interface.html">
+     The Array Interface
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="arrays.datetime.html">
+     Datetimes and Timedeltas
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="constants.html">
+   Constants
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="ufuncs.html">
+   Universal functions (
+   <code class="xref py py-class docutils literal notranslate">
+    <span class="pre">
+     ufunc
+    </span>
+   </code>
+   )
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="routines.html">
+   Routines
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="typing.html">
+   Typing (
+   <code class="xref py py-mod docutils literal notranslate">
+    <span class="pre">
+     numpy.typing
+    </span>
+   </code>
+   )
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="global_state.html">
+   Global State
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="distutils.html">
+   Packaging (
+   <code class="xref py py-mod docutils literal notranslate">
+    <span class="pre">
+     numpy.distutils
+    </span>
+   </code>
+   )
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="distutils_guide.html">
+   NumPy Distutils - Users Guide
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="c-api/index.html">
+   NumPy C-API
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="internals.html">
+   NumPy internals
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="simd/simd-optimizations.html">
+   SIMD Optimizations
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="swig.html">
+   NumPy and SWIG
+  </a>
+ </li>
+</ul>
+  </div>
+</nav>
+            </div>
+            
+          
+
+          
+          <div class="d-none d-xl-block col-xl-2 bd-toc">
+              
+
+<nav id="bd-toc-nav">
+    
+</nav>
+
+
+              
+          </div>
+          
+
+          
+          
+            
+          
+          <main class="col-12 col-md-9 col-xl-7 py-md-5 pl-md-5 pr-md-4 bd-content" role="main">
+              
+              <div>
+                
+  <div class="section" id="array-objects">
+<span id="arrays"></span><h1>Array objects<a class="headerlink" href="#array-objects" title="Permalink to this headline">¶</a></h1>
+<p>NumPy provides an N-dimensional array type, the <a class="reference internal" href="arrays.ndarray.html#arrays-ndarray"><span class="std std-ref">ndarray</span></a>, which describes a collection of “items” of the same
+type. The items can be <a class="reference internal" href="arrays.indexing.html#arrays-indexing"><span class="std std-ref">indexed</span></a> using for
+example N integers.</p>
+<p>All ndarrays are <a class="reference internal" href="../glossary.html#term-homogeneous"><span class="xref std std-term">homogeneous</span></a>: every item takes up the same size
+block of memory, and all blocks are interpreted in exactly the same
+way. How each item in the array is to be interpreted is specified by a
+separate <a class="reference internal" href="arrays.dtypes.html#arrays-dtypes"><span class="std std-ref">data-type object</span></a>, one of which is associated
+with every array. In addition to basic types (integers, floats,
+<em>etc.</em>), the data type objects can also represent data structures.</p>
+<p>An item extracted from an array, <em>e.g.</em>, by indexing, is represented
+by a Python object whose type is one of the <a class="reference internal" href="arrays.scalars.html#arrays-scalars"><span class="std std-ref">array scalar types</span></a> built in NumPy. The array scalars allow easy manipulation
+of also more complicated arrangements of data.</p>
+<div class="figure align-default" id="id1">
+<img alt="../_images/threefundamental.png" src="../_images/threefundamental.png" />
+<p class="caption"><span class="caption-text"><strong>Figure</strong>
+Conceptual diagram showing the relationship between the three
+fundamental objects used to describe the data in an array: 1) the
+ndarray itself, 2) the data-type object that describes the layout
+of a single fixed-size element of the array, 3) the array-scalar
+Python object that is returned when a single element of the array
+is accessed.</span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="arrays.ndarray.html">The N-dimensional array (<code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="arrays.ndarray.html#constructing-arrays">Constructing arrays</a></li>
+<li class="toctree-l2"><a class="reference internal" href="arrays.ndarray.html#indexing-arrays">Indexing arrays</a></li>
+<li class="toctree-l2"><a class="reference internal" href="arrays.ndarray.html#internal-memory-layout-of-an-ndarray">Internal memory layout of an ndarray</a></li>
+<li class="toctree-l2"><a class="reference internal" href="arrays.ndarray.html#array-attributes">Array attributes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="arrays.ndarray.html#array-methods">Array methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="arrays.ndarray.html#arithmetic-matrix-multiplication-and-comparison-operations">Arithmetic, matrix multiplication, and comparison operations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="arrays.ndarray.html#special-methods">Special methods</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="arrays.scalars.html">Scalars</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="arrays.scalars.html#built-in-scalar-types">Built-in scalar types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="arrays.scalars.html#attributes">Attributes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="arrays.scalars.html#indexing">Indexing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="arrays.scalars.html#methods">Methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="arrays.scalars.html#defining-new-types">Defining new types</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="arrays.dtypes.html">Data type objects (<code class="xref py py-class docutils literal notranslate"><span class="pre">dtype</span></code>)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="arrays.dtypes.html#specifying-and-constructing-data-types">Specifying and constructing data types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="arrays.dtypes.html#dtype"><code class="xref py py-class docutils literal notranslate"><span class="pre">dtype</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="arrays.indexing.html">Indexing</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="arrays.indexing.html#basic-slicing-and-indexing">Basic Slicing and Indexing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="arrays.indexing.html#advanced-indexing">Advanced Indexing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="arrays.indexing.html#detailed-notes">Detailed notes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="arrays.indexing.html#field-access">Field Access</a></li>
+<li class="toctree-l2"><a class="reference internal" href="arrays.indexing.html#flat-iterator-indexing">Flat Iterator indexing</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="arrays.nditer.html">Iterating Over Arrays</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="arrays.nditer.html#single-array-iteration">Single Array Iteration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="arrays.nditer.html#broadcasting-array-iteration">Broadcasting Array Iteration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="arrays.nditer.html#putting-the-inner-loop-in-cython">Putting the Inner Loop in Cython</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="arrays.classes.html">Standard array subclasses</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="arrays.classes.html#special-attributes-and-methods">Special attributes and methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="arrays.classes.html#matrix-objects">Matrix objects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="arrays.classes.html#memory-mapped-file-arrays">Memory-mapped file arrays</a></li>
+<li class="toctree-l2"><a class="reference internal" href="arrays.classes.html#character-arrays-numpy-char">Character arrays (<code class="xref py py-mod docutils literal notranslate"><span class="pre">numpy.char</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="arrays.classes.html#record-arrays-numpy-rec">Record arrays (<code class="xref py py-mod docutils literal notranslate"><span class="pre">numpy.rec</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="arrays.classes.html#masked-arrays-numpy-ma">Masked arrays (<code class="xref py py-mod docutils literal notranslate"><span class="pre">numpy.ma</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="arrays.classes.html#standard-container-class">Standard container class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="arrays.classes.html#array-iterators">Array Iterators</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="maskedarray.html">Masked arrays</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="maskedarray.generic.html">The <code class="xref py py-mod docutils literal notranslate"><span class="pre">numpy.ma</span></code> module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="maskedarray.generic.html#using-numpy-ma">Using numpy.ma</a></li>
+<li class="toctree-l2"><a class="reference internal" href="maskedarray.generic.html#examples">Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="maskedarray.baseclass.html">Constants of the <code class="xref py py-mod docutils literal notranslate"><span class="pre">numpy.ma</span></code> module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="maskedarray.baseclass.html#the-maskedarray-class">The <code class="xref py py-class docutils literal notranslate"><span class="pre">MaskedArray</span></code> class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="maskedarray.baseclass.html#maskedarray-methods"><code class="xref py py-class docutils literal notranslate"><span class="pre">MaskedArray</span></code> methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="routines.ma.html">Masked array operations</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="arrays.interface.html">The Array Interface</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="arrays.interface.html#python-side">Python side</a></li>
+<li class="toctree-l2"><a class="reference internal" href="arrays.interface.html#c-struct-access">C-struct access</a></li>
+<li class="toctree-l2"><a class="reference internal" href="arrays.interface.html#type-description-examples">Type description examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="arrays.interface.html#differences-with-array-interface-version-2">Differences with Array interface (Version 2)</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="arrays.datetime.html">Datetimes and Timedeltas</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="arrays.datetime.html#basic-datetimes">Basic Datetimes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="arrays.datetime.html#datetime-and-timedelta-arithmetic">Datetime and Timedelta Arithmetic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="arrays.datetime.html#datetime-units">Datetime Units</a></li>
+<li class="toctree-l2"><a class="reference internal" href="arrays.datetime.html#business-day-functionality">Business Day Functionality</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+
+              </div>
+              
+              
+              <div class='prev-next-bottom'>
+                
+    <a class='left-prev' id="prev-link" href="index.html" title="previous page">NumPy Reference</a>
+    <a class='right-next' id="next-link" href="arrays.ndarray.html" title="next page">The N-dimensional array (<code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>)</a>
+
+              </div>
+              
+          </main>
+          
+
+      </div>
+    </div>
+
+    
+  <script src="../_static/js/index.1e043a052b0af929e4d8.js"></script>
+
+
+    <footer class="footer mt-5 mt-md-0">
+  <div class="container">
+    <p>
+          &copy; Copyright 2008-2021, The NumPy community.<br/>
+        Last updated on Jun 22, 2021.<br/>
+        Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.0.1.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

@@ -1,0 +1,736 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>numpy.loadtxt &#8212; NumPy v1.21 Manual</title>
+    
+  <link href="../../_static/css/theme.css" rel="stylesheet" />
+  <link href="../../_static/css/index.f6b7ca918bee2f46fd9abac01cfb07d5.css" rel="stylesheet" />
+
+    
+  <link rel="stylesheet"
+    href="../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/basic.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/plot_directive.css" />
+    
+  <link rel="preload" as="script" href="../../_static/js/index.1e043a052b0af929e4d8.js">
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="numpy.core.records.array" href="numpy.core.records.array.html" />
+    <link rel="prev" title="numpy.fromstring" href="numpy.fromstring.html" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+<link rel="stylesheet" href="../../_static/numpy.css" type="text/css" />
+
+    <!-- PR #17220: This is added via javascript in versionwarning.js  -->
+    <!-- link rel="canonical" href="http://numpy.org/doc/stable/reference/generated/numpy.loadtxt.html" / -->
+
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <nav class="navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="container-xl">
+
+
+    
+      
+      <a class="navbar-brand" href="../../index.html">
+        <img src="../../_static/numpylogo.svg" class="logo" alt="logo">
+      </a>      
+      
+    
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-menu" aria-controls="navbar-menu" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    
+    <div id="navbar-menu" class="col-lg-9 collapse navbar-collapse">
+      <ul id="navbar-main-elements" class="navbar-nav mr-auto">
+        <li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../user/index.html">
+  User Guide
+ </a>
+</li>
+
+<li class="toctree-l1 current active nav-item">
+ <a class="reference internal nav-link" href="../index.html">
+  API reference
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../dev/index.html">
+  Development
+ </a>
+</li>
+
+        
+      </ul>
+
+      <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+        <li class="nav-item">
+          <a class="nav-link" href="https://github.com/numpy/numpy" rel="noopener" target="_blank" title="GitHub">
+            <span><i class="fab fa-github-square"></i></span>
+            <label class="sr-only">GitHub</label>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="https://twitter.com/numpy_team" rel="noopener" target="_blank" title="Twitter">
+            <span><i class="fab fa-twitter-square"></i></span>
+            <label class="sr-only">Twitter</label>
+          </a>
+        </li>
+      </ul>
+    </div>
+</div>
+    </nav>
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+            
+            <!-- Only show if we have sidebars configured, else just a small margin  -->
+            <div class="col-12 col-md-3 bd-sidebar"><form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form>
+<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <div class="bd-toc-item active">
+    <ul class="current nav bd-sidenav">
+ <li class="toctree-l2">
+  <a class="reference internal" href="../arrays.html">
+   Array objects
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="../constants.html">
+   Constants
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="../ufuncs.html">
+   Universal functions (
+   <code class="xref py py-class docutils literal notranslate">
+    <span class="pre">
+     ufunc
+    </span>
+   </code>
+   )
+  </a>
+ </li>
+ <li class="toctree-l2 current active">
+  <a class="reference internal" href="../routines.html">
+   Routines
+  </a>
+  <ul class="current">
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.array-creation.html">
+     Array creation routines
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.array-manipulation.html">
+     Array manipulation routines
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.bitwise.html">
+     Binary operations
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.char.html">
+     String operations
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.ctypeslib.html">
+     C-Types Foreign Function Interface (
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       numpy.ctypeslib
+      </span>
+     </code>
+     )
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.datetime.html">
+     Datetime Support Functions
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.dtype.html">
+     Data type routines
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.dual.html">
+     Optionally SciPy-accelerated routines (
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       numpy.dual
+      </span>
+     </code>
+     )
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.emath.html">
+     Mathematical functions with automatic domain (
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       numpy.emath
+      </span>
+     </code>
+     )
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.err.html">
+     Floating point error handling
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.fft.html">
+     Discrete Fourier Transform (
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       numpy.fft
+      </span>
+     </code>
+     )
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.functional.html">
+     Functional programming
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.help.html">
+     NumPy-specific help functions
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.indexing.html">
+     Indexing routines
+    </a>
+   </li>
+   <li class="toctree-l3 current active">
+    <a class="reference internal" href="../routines.io.html">
+     Input and output
+    </a>
+    <ul class="current">
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.load.html">
+       numpy.load
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.save.html">
+       numpy.save
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.savez.html">
+       numpy.savez
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.savez_compressed.html">
+       numpy.savez_compressed
+      </a>
+     </li>
+     <li class="toctree-l4 current active">
+      <a class="current reference internal" href="#">
+       numpy.loadtxt
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.savetxt.html">
+       numpy.savetxt
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.genfromtxt.html">
+       numpy.genfromtxt
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.fromregex.html">
+       numpy.fromregex
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.fromstring.html">
+       numpy.fromstring
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.ndarray.tofile.html">
+       numpy.ndarray.tofile
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.ndarray.tolist.html">
+       numpy.ndarray.tolist
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.array2string.html">
+       numpy.array2string
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.array_repr.html">
+       numpy.array_repr
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.array_str.html">
+       numpy.array_str
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.format_float_positional.html">
+       numpy.format_float_positional
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.format_float_scientific.html">
+       numpy.format_float_scientific
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.memmap.html">
+       numpy.memmap
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.lib.format.open_memmap.html">
+       numpy.lib.format.open_memmap
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.set_printoptions.html">
+       numpy.set_printoptions
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.get_printoptions.html">
+       numpy.get_printoptions
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.set_string_function.html">
+       numpy.set_string_function
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.printoptions.html">
+       numpy.printoptions
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.binary_repr.html">
+       numpy.binary_repr
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.base_repr.html">
+       numpy.base_repr
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.DataSource.html">
+       numpy.DataSource
+      </a>
+     </li>
+     <li class="toctree-l4">
+      <a class="reference internal" href="numpy.lib.format.html">
+       numpy.lib.format
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.linalg.html">
+     Linear algebra (
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       numpy.linalg
+      </span>
+     </code>
+     )
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.logic.html">
+     Logic functions
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.ma.html">
+     Masked array operations
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.math.html">
+     Mathematical functions
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.matlib.html">
+     Matrix library (
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       numpy.matlib
+      </span>
+     </code>
+     )
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.other.html">
+     Miscellaneous routines
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.padding.html">
+     Padding Arrays
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.polynomials.html">
+     Polynomials
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../random/index.html">
+     Random sampling (
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       numpy.random
+      </span>
+     </code>
+     )
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.set.html">
+     Set routines
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.sort.html">
+     Sorting, searching, and counting
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.statistics.html">
+     Statistics
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.testing.html">
+     Test Support (
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       numpy.testing
+      </span>
+     </code>
+     )
+    </a>
+   </li>
+   <li class="toctree-l3">
+    <a class="reference internal" href="../routines.window.html">
+     Window functions
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="../typing.html">
+   Typing (
+   <code class="xref py py-mod docutils literal notranslate">
+    <span class="pre">
+     numpy.typing
+    </span>
+   </code>
+   )
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="../global_state.html">
+   Global State
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="../distutils.html">
+   Packaging (
+   <code class="xref py py-mod docutils literal notranslate">
+    <span class="pre">
+     numpy.distutils
+    </span>
+   </code>
+   )
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="../distutils_guide.html">
+   NumPy Distutils - Users Guide
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="../c-api/index.html">
+   NumPy C-API
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="../internals.html">
+   NumPy internals
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="../simd/simd-optimizations.html">
+   SIMD Optimizations
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="../swig.html">
+   NumPy and SWIG
+  </a>
+ </li>
+</ul>
+  </div>
+</nav>
+            </div>
+            
+          
+
+          
+          <div class="d-none d-xl-block col-xl-2 bd-toc">
+              
+
+<nav id="bd-toc-nav">
+    
+</nav>
+
+
+              
+          </div>
+          
+
+          
+          
+            
+          
+          <main class="col-12 col-md-9 col-xl-7 py-md-5 pl-md-5 pr-md-4 bd-content" role="main">
+              
+              <div>
+                
+  <div class="section" id="numpy-loadtxt">
+<h1>numpy.loadtxt<a class="headerlink" href="#numpy-loadtxt" title="Permalink to this headline">¶</a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="numpy.loadtxt">
+<span class="sig-prename descclassname"><span class="pre">numpy.</span></span><span class="sig-name descname"><span class="pre">loadtxt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">fname</span></em>, <em class="sig-param"><span class="pre">dtype=&lt;class</span> <span class="pre">'float'&gt;</span></em>, <em class="sig-param"><span class="pre">comments='#'</span></em>, <em class="sig-param"><span class="pre">delimiter=None</span></em>, <em class="sig-param"><span class="pre">converters=None</span></em>, <em class="sig-param"><span class="pre">skiprows=0</span></em>, <em class="sig-param"><span class="pre">usecols=None</span></em>, <em class="sig-param"><span class="pre">unpack=False</span></em>, <em class="sig-param"><span class="pre">ndmin=0</span></em>, <em class="sig-param"><span class="pre">encoding='bytes'</span></em>, <em class="sig-param"><span class="pre">max_rows=None</span></em>, <em class="sig-param"><span class="pre">*</span></em>, <em class="sig-param"><span class="pre">like=None</span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/numpy/numpy/blob/v1.21.0/numpy/lib/npyio.py#L771-L1188"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#numpy.loadtxt" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load data from a text file.</p>
+<p>Each row in the text file must have the same number of values.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl>
+<dt><strong>fname</strong><span class="classifier">file, str, or pathlib.Path</span></dt><dd><p>File, filename, or generator to read.  If the filename extension is
+<code class="docutils literal notranslate"><span class="pre">.gz</span></code> or <code class="docutils literal notranslate"><span class="pre">.bz2</span></code>, the file is first decompressed. Note that
+generators should return byte strings.</p>
+</dd>
+<dt><strong>dtype</strong><span class="classifier">data-type, optional</span></dt><dd><p>Data-type of the resulting array; default: float.  If this is a
+structured data-type, the resulting array will be 1-dimensional, and
+each row will be interpreted as an element of the array.  In this
+case, the number of columns used must match the number of fields in
+the data-type.</p>
+</dd>
+<dt><strong>comments</strong><span class="classifier">str or sequence of str, optional</span></dt><dd><p>The characters or list of characters used to indicate the start of a
+comment. None implies no comments. For backwards compatibility, byte
+strings will be decoded as ‘latin1’. The default is ‘#’.</p>
+</dd>
+<dt><strong>delimiter</strong><span class="classifier">str, optional</span></dt><dd><p>The string used to separate values. For backwards compatibility, byte
+strings will be decoded as ‘latin1’. The default is whitespace.</p>
+</dd>
+<dt><strong>converters</strong><span class="classifier">dict, optional</span></dt><dd><p>A dictionary mapping column number to a function that will parse the
+column string into the desired value.  E.g., if column 0 is a date
+string: <code class="docutils literal notranslate"><span class="pre">converters</span> <span class="pre">=</span> <span class="pre">{0:</span> <span class="pre">datestr2num}</span></code>.  Converters can also be
+used to provide a default value for missing data (but see also
+<a class="reference internal" href="numpy.genfromtxt.html#numpy.genfromtxt" title="numpy.genfromtxt"><code class="xref py py-obj docutils literal notranslate"><span class="pre">genfromtxt</span></code></a>): <code class="docutils literal notranslate"><span class="pre">converters</span> <span class="pre">=</span> <span class="pre">{3:</span> <span class="pre">lambda</span> <span class="pre">s:</span> <span class="pre">float(s.strip()</span> <span class="pre">or</span> <span class="pre">0)}</span></code>.
+Default: None.</p>
+</dd>
+<dt><strong>skiprows</strong><span class="classifier">int, optional</span></dt><dd><p>Skip the first <em class="xref py py-obj">skiprows</em> lines, including comments; default: 0.</p>
+</dd>
+<dt><strong>usecols</strong><span class="classifier">int or sequence, optional</span></dt><dd><p>Which columns to read, with 0 being the first. For example,
+<code class="docutils literal notranslate"><span class="pre">usecols</span> <span class="pre">=</span> <span class="pre">(1,4,5)</span></code> will extract the 2nd, 5th and 6th columns.
+The default, None, results in all columns being read.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 1.11.0: </span>When a single column has to be read it is possible to use
+an integer instead of a tuple. E.g <code class="docutils literal notranslate"><span class="pre">usecols</span> <span class="pre">=</span> <span class="pre">3</span></code> reads the
+fourth column the same way as <code class="docutils literal notranslate"><span class="pre">usecols</span> <span class="pre">=</span> <span class="pre">(3,)</span></code> would.</p>
+</div>
+</dd>
+<dt><strong>unpack</strong><span class="classifier">bool, optional</span></dt><dd><p>If True, the returned array is transposed, so that arguments may be
+unpacked using <code class="docutils literal notranslate"><span class="pre">x,</span> <span class="pre">y,</span> <span class="pre">z</span> <span class="pre">=</span> <span class="pre">loadtxt(...)</span></code>.  When used with a
+structured data-type, arrays are returned for each field.
+Default is False.</p>
+</dd>
+<dt><strong>ndmin</strong><span class="classifier">int, optional</span></dt><dd><p>The returned array will have at least <em class="xref py py-obj">ndmin</em> dimensions.
+Otherwise mono-dimensional axes will be squeezed.
+Legal values: 0 (default), 1 or 2.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.6.0.</span></p>
+</div>
+</dd>
+<dt><strong>encoding</strong><span class="classifier">str, optional</span></dt><dd><p>Encoding used to decode the inputfile. Does not apply to input streams.
+The special value ‘bytes’ enables backward compatibility workarounds
+that ensures you receive byte arrays as results if possible and passes
+‘latin1’ encoded strings to converters. Override this value to receive
+unicode arrays and pass strings as input to converters.  If set to None
+the system default is used. The default value is ‘bytes’.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.14.0.</span></p>
+</div>
+</dd>
+<dt><strong>max_rows</strong><span class="classifier">int, optional</span></dt><dd><p>Read <em class="xref py py-obj">max_rows</em> lines of content after <em class="xref py py-obj">skiprows</em> lines. The default
+is to read all the lines.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.16.0.</span></p>
+</div>
+</dd>
+<dt><strong>like</strong><span class="classifier">array_like</span></dt><dd><p>Reference object to allow the creation of arrays which are not
+NumPy arrays. If an array-like passed in as <code class="docutils literal notranslate"><span class="pre">like</span></code> supports
+the <code class="docutils literal notranslate"><span class="pre">__array_function__</span></code> protocol, the result will be defined
+by it. In this case, it ensures the creation of an array object
+compatible with that passed in via this argument.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.20.0.</span></p>
+</div>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>out</strong><span class="classifier">ndarray</span></dt><dd><p>Data read from the text file.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><a class="reference internal" href="numpy.load.html#numpy.load" title="numpy.load"><code class="xref py py-obj docutils literal notranslate"><span class="pre">load</span></code></a>, <a class="reference internal" href="numpy.fromstring.html#numpy.fromstring" title="numpy.fromstring"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fromstring</span></code></a>, <a class="reference internal" href="numpy.fromregex.html#numpy.fromregex" title="numpy.fromregex"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fromregex</span></code></a></dt><dd></dd>
+<dt><a class="reference internal" href="numpy.genfromtxt.html#numpy.genfromtxt" title="numpy.genfromtxt"><code class="xref py py-obj docutils literal notranslate"><span class="pre">genfromtxt</span></code></a></dt><dd><p>Load data with missing values handled as specified.</p>
+</dd>
+<dt><a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/reference/generated/scipy.io.loadmat.html#scipy.io.loadmat" title="(in SciPy v1.7.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scipy.io.loadmat</span></code></a></dt><dd><p>reads MATLAB data files</p>
+</dd>
+</dl>
+</div>
+<p class="rubric">Notes</p>
+<p>This function aims to be a fast reader for simply formatted files.  The
+<a class="reference internal" href="numpy.genfromtxt.html#numpy.genfromtxt" title="numpy.genfromtxt"><code class="xref py py-obj docutils literal notranslate"><span class="pre">genfromtxt</span></code></a> function provides more sophisticated handling of, e.g.,
+lines with missing values.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.10.0.</span></p>
+</div>
+<p>The strings produced by the Python float.hex method can be used as
+input for floats.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">io</span> <span class="kn">import</span> <span class="n">StringIO</span>   <span class="c1"># StringIO behaves like a file object</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">StringIO</span><span class="p">(</span><span class="s2">&quot;0 1</span><span class="se">\n</span><span class="s2">2 3&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+<span class="go">array([[0., 1.],</span>
+<span class="go">       [2., 3.]])</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="n">StringIO</span><span class="p">(</span><span class="s2">&quot;M 21 72</span><span class="se">\n</span><span class="s2">F 35 58&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;names&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;gender&#39;</span><span class="p">,</span> <span class="s1">&#39;age&#39;</span><span class="p">,</span> <span class="s1">&#39;weight&#39;</span><span class="p">),</span>
+<span class="gp">... </span>                     <span class="s1">&#39;formats&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;S1&#39;</span><span class="p">,</span> <span class="s1">&#39;i4&#39;</span><span class="p">,</span> <span class="s1">&#39;f4&#39;</span><span class="p">)})</span>
+<span class="go">array([(b&#39;M&#39;, 21, 72.), (b&#39;F&#39;, 35, 58.)],</span>
+<span class="go">      dtype=[(&#39;gender&#39;, &#39;S1&#39;), (&#39;age&#39;, &#39;&lt;i4&#39;), (&#39;weight&#39;, &#39;&lt;f4&#39;)])</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">StringIO</span><span class="p">(</span><span class="s2">&quot;1,0,2</span><span class="se">\n</span><span class="s2">3,0,4&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="p">,</span> <span class="n">usecols</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">unpack</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span>
+<span class="go">array([1., 3.])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">y</span>
+<span class="go">array([2., 4.])</span>
+</pre></div>
+</div>
+<p>This example shows how <em class="xref py py-obj">converters</em> can be used to convert a field
+with a trailing minus sign into a negative number.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="n">StringIO</span><span class="p">(</span><span class="s1">&#39;10.01 31.25-</span><span class="se">\n</span><span class="s1">19.22 64.31</span><span class="se">\n</span><span class="s1">17.57- 63.94&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">conv</span><span class="p">(</span><span class="n">fld</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">return</span> <span class="o">-</span><span class="nb">float</span><span class="p">(</span><span class="n">fld</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="k">if</span> <span class="n">fld</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;-&#39;</span><span class="p">)</span> <span class="k">else</span> <span class="nb">float</span><span class="p">(</span><span class="n">fld</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">converters</span><span class="o">=</span><span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="n">conv</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span> <span class="n">conv</span><span class="p">})</span>
+<span class="go">array([[ 10.01, -31.25],</span>
+<span class="go">       [ 19.22,  64.31],</span>
+<span class="go">       [-17.57,  63.94]])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+
+
+              </div>
+              
+              
+              <div class='prev-next-bottom'>
+                
+    <a class='left-prev' id="prev-link" href="numpy.fromstring.html" title="previous page">numpy.fromstring</a>
+    <a class='right-next' id="next-link" href="numpy.core.records.array.html" title="next page">numpy.core.records.array</a>
+
+              </div>
+              
+          </main>
+          
+
+      </div>
+    </div>
+
+    
+  <script src="../../_static/js/index.1e043a052b0af929e4d8.js"></script>
+
+
+    <footer class="footer mt-5 mt-md-0">
+  <div class="container">
+    <p>
+          &copy; Copyright 2008-2021, The NumPy community.<br/>
+        Last updated on Jun 22, 2021.<br/>
+        Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.0.1.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

@@ -1,0 +1,374 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Global State &#8212; NumPy v1.21 Manual</title>
+    
+  <link href="../_static/css/theme.css" rel="stylesheet" />
+  <link href="../_static/css/index.f6b7ca918bee2f46fd9abac01cfb07d5.css" rel="stylesheet" />
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.1e043a052b0af929e4d8.js">
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Packaging (numpy.distutils)" href="distutils.html" />
+    <link rel="prev" title="Typing (numpy.typing)" href="typing.html" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+<link rel="stylesheet" href="../_static/numpy.css" type="text/css" />
+
+    <!-- PR #17220: This is added via javascript in versionwarning.js  -->
+    <!-- link rel="canonical" href="http://numpy.org/doc/stable/reference/global_state.html" / -->
+
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <nav class="navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="container-xl">
+
+
+    
+      
+      <a class="navbar-brand" href="../index.html">
+        <img src="../_static/numpylogo.svg" class="logo" alt="logo">
+      </a>      
+      
+    
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-menu" aria-controls="navbar-menu" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    
+    <div id="navbar-menu" class="col-lg-9 collapse navbar-collapse">
+      <ul id="navbar-main-elements" class="navbar-nav mr-auto">
+        <li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../user/index.html">
+  User Guide
+ </a>
+</li>
+
+<li class="toctree-l1 current active nav-item">
+ <a class="reference internal nav-link" href="index.html">
+  API reference
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../dev/index.html">
+  Development
+ </a>
+</li>
+
+        
+      </ul>
+
+      <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+        <li class="nav-item">
+          <a class="nav-link" href="https://github.com/numpy/numpy" rel="noopener" target="_blank" title="GitHub">
+            <span><i class="fab fa-github-square"></i></span>
+            <label class="sr-only">GitHub</label>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="https://twitter.com/numpy_team" rel="noopener" target="_blank" title="Twitter">
+            <span><i class="fab fa-twitter-square"></i></span>
+            <label class="sr-only">Twitter</label>
+          </a>
+        </li>
+      </ul>
+    </div>
+</div>
+    </nav>
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+            
+            <!-- Only show if we have sidebars configured, else just a small margin  -->
+            <div class="col-12 col-md-3 bd-sidebar"><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form>
+<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <div class="bd-toc-item active">
+    <ul class="current nav bd-sidenav">
+ <li class="toctree-l2">
+  <a class="reference internal" href="arrays.html">
+   Array objects
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="constants.html">
+   Constants
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="ufuncs.html">
+   Universal functions (
+   <code class="xref py py-class docutils literal notranslate">
+    <span class="pre">
+     ufunc
+    </span>
+   </code>
+   )
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="routines.html">
+   Routines
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="typing.html">
+   Typing (
+   <code class="xref py py-mod docutils literal notranslate">
+    <span class="pre">
+     numpy.typing
+    </span>
+   </code>
+   )
+  </a>
+ </li>
+ <li class="toctree-l2 current active">
+  <a class="current reference internal" href="#">
+   Global State
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="distutils.html">
+   Packaging (
+   <code class="xref py py-mod docutils literal notranslate">
+    <span class="pre">
+     numpy.distutils
+    </span>
+   </code>
+   )
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="distutils_guide.html">
+   NumPy Distutils - Users Guide
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="c-api/index.html">
+   NumPy C-API
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="internals.html">
+   NumPy internals
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="simd/simd-optimizations.html">
+   SIMD Optimizations
+  </a>
+ </li>
+ <li class="toctree-l2">
+  <a class="reference internal" href="swig.html">
+   NumPy and SWIG
+  </a>
+ </li>
+</ul>
+  </div>
+</nav>
+            </div>
+            
+          
+
+          
+          <div class="d-none d-xl-block col-xl-2 bd-toc">
+              
+<div class="tocsection onthispage pt-5 pb-3">
+    <i class="fas fa-list"></i> On this page
+</div>
+
+<nav id="bd-toc-nav">
+    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#performance-related-options">
+   Performance-Related Options
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#number-of-threads-used-for-linear-algebra">
+     Number of Threads used for Linear Algebra
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#madvise-hugepage-on-linux">
+     Madvise Hugepage on Linux
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#interoperability-related-options">
+   Interoperability-Related Options
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#debugging-related-options">
+   Debugging-Related Options
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#relaxed-strides-checking">
+     Relaxed Strides Checking
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+</nav>
+
+
+              
+          </div>
+          
+
+          
+          
+            
+          
+          <main class="col-12 col-md-9 col-xl-7 py-md-5 pl-md-5 pr-md-4 bd-content" role="main">
+              
+              <div>
+                
+  <div class="section" id="global-state">
+<span id="id1"></span><h1>Global State<a class="headerlink" href="#global-state" title="Permalink to this headline">¶</a></h1>
+<p>NumPy has a few import-time, compile-time, or runtime options
+which change the global behaviour.
+Most of these are related to performance or for debugging
+purposes and will not be interesting to the vast majority
+of users.</p>
+<div class="section" id="performance-related-options">
+<h2>Performance-Related Options<a class="headerlink" href="#performance-related-options" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="number-of-threads-used-for-linear-algebra">
+<h3>Number of Threads used for Linear Algebra<a class="headerlink" href="#number-of-threads-used-for-linear-algebra" title="Permalink to this headline">¶</a></h3>
+<p>NumPy itself is normally intentionally limited to a single thread
+during function calls, however it does support multiple Python
+threads running at the same time.
+Note that for performant linear algebra NumPy uses a BLAS backend
+such as OpenBLAS or MKL, which may use multiple threads that may
+be controlled by environment variables such as <code class="docutils literal notranslate"><span class="pre">OMP_NUM_THREADS</span></code>
+depending on what is used.
+One way to control the number of threads is the package
+<a class="reference external" href="https://pypi.org/project/threadpoolctl/">threadpoolctl</a></p>
+</div>
+<div class="section" id="madvise-hugepage-on-linux">
+<h3>Madvise Hugepage on Linux<a class="headerlink" href="#madvise-hugepage-on-linux" title="Permalink to this headline">¶</a></h3>
+<p>When working with very large arrays on modern Linux kernels,
+you can experience a significant speedup when
+<a class="reference external" href="https://www.kernel.org/doc/html/latest/admin-guide/mm/transhuge.html">transparent hugepage</a>
+is used.
+The current system policy for transparent hugepages can be seen by:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cat</span> <span class="o">/</span><span class="n">sys</span><span class="o">/</span><span class="n">kernel</span><span class="o">/</span><span class="n">mm</span><span class="o">/</span><span class="n">transparent_hugepage</span><span class="o">/</span><span class="n">enabled</span>
+</pre></div>
+</div>
+<p>When set to <code class="docutils literal notranslate"><span class="pre">madvise</span></code> NumPy will typically use hugepages for a performance
+boost. This behaviour can be modified by setting the environment variable:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">NUMPY_MADVISE_HUGEPAGE</span><span class="o">=</span><span class="mi">0</span>
+</pre></div>
+</div>
+<p>or setting it to <code class="docutils literal notranslate"><span class="pre">1</span></code> to always enable it. When not set, the default
+is to use madvise on Kernels 4.6 and newer. These kernels presumably
+experience a large speedup with hugepage support.
+This flag is checked at import time.</p>
+</div>
+</div>
+<div class="section" id="interoperability-related-options">
+<h2>Interoperability-Related Options<a class="headerlink" href="#interoperability-related-options" title="Permalink to this headline">¶</a></h2>
+<p>The array function protocol which allows array-like objects to
+hook into the NumPy API is currently enabled by default.
+This option exists since NumPy 1.16 and is enabled by default since
+NumPy 1.17. It can be disabled using:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">NUMPY_EXPERIMENTAL_ARRAY_FUNCTION</span><span class="o">=</span><span class="mi">0</span>
+</pre></div>
+</div>
+<p>See also <a class="reference internal" href="arrays.classes.html#numpy.class.__array_function__" title="numpy.class.__array_function__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">numpy.class.__array_function__</span></code></a> for more information.
+This flag is checked at import time.</p>
+</div>
+<div class="section" id="debugging-related-options">
+<h2>Debugging-Related Options<a class="headerlink" href="#debugging-related-options" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="relaxed-strides-checking">
+<h3>Relaxed Strides Checking<a class="headerlink" href="#relaxed-strides-checking" title="Permalink to this headline">¶</a></h3>
+<p>The <em>compile-time</em> environment variables:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">NPY_RELAXED_STRIDES_DEBUG</span><span class="o">=</span><span class="mi">0</span>
+<span class="n">NPY_RELAXED_STRIDES_CHECKING</span><span class="o">=</span><span class="mi">1</span>
+</pre></div>
+</div>
+<p>control how NumPy reports contiguity for arrays.
+The default that it is enabled and the debug mode is disabled.
+This setting should always be enabled. Setting the
+debug option can be interesting for testing code written
+in C which iterates through arrays that may or may not be
+contiguous in memory.
+Most users will have no reason to change these; for details
+see the <a class="reference internal" href="arrays.ndarray.html#memory-layout"><span class="std std-ref">memory layout</span></a> documentation.</p>
+</div>
+</div>
+</div>
+
+
+              </div>
+              
+              
+              <div class='prev-next-bottom'>
+                
+    <a class='left-prev' id="prev-link" href="typing.html" title="previous page">Typing (<code class="xref py py-mod docutils literal notranslate"><span class="pre">numpy.typing</span></code>)</a>
+    <a class='right-next' id="next-link" href="distutils.html" title="next page">Packaging (<code class="xref py py-mod docutils literal notranslate"><span class="pre">numpy.distutils</span></code>)</a>
+
+              </div>
+              
+          </main>
+          
+
+      </div>
+    </div>
+
+    
+  <script src="../_static/js/index.1e043a052b0af929e4d8.js"></script>
+
+
+    <footer class="footer mt-5 mt-md-0">
+  <div class="container">
+    <p>
+          &copy; Copyright 2008-2021, The NumPy community.<br/>
+        Last updated on Jun 22, 2021.<br/>
+        Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.0.1.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>
