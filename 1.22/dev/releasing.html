@@ -452,6 +452,11 @@
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#facility-preparation">
+     Facility Preparation
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#release-preparation">
      Release Preparation
     </a>
@@ -516,8 +521,8 @@
       </a>
      </li>
      <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#reset-the-maintenance-branch-into-a-development-state">
-       Reset the maintenance branch into a development state
+      <a class="reference internal nav-link" href="#reset-the-maintenance-branch-into-a-development-state-skip-for-prereleases">
+       Reset the maintenance branch into a development state (skip for prereleases)
       </a>
      </li>
      <li class="toc-h4 nav-item toc-entry">
@@ -531,13 +536,13 @@
       </a>
      </li>
      <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#upload-documents-to-numpy-org">
-       Upload documents to numpy.org
+      <a class="reference internal nav-link" href="#upload-documents-to-numpy-org-skip-for-prereleases">
+       Upload documents to numpy.org (skip for prereleases)
       </a>
      </li>
      <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#announce-the-release-on-scipy-org">
-       Announce the release on scipy.org
+      <a class="reference internal nav-link" href="#announce-the-release-on-numpy-org-skip-for-prereleases">
+       Announce the release on numpy.org (skip for prereleases)
       </a>
      </li>
      <li class="toc-h4 nav-item toc-entry">
@@ -546,8 +551,8 @@
       </a>
      </li>
      <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#post-release-tasks">
-       Post-Release Tasks
+      <a class="reference internal nav-link" href="#post-release-tasks-skip-for-prereleases">
+       Post-Release Tasks (skip for prereleases)
       </a>
      </li>
     </ul>
@@ -1037,10 +1042,24 @@ scripts, if any, to main branch.</p></li>
 <section id="step-by-step-directions">
 <h2>Step-by-Step Directions<a class="headerlink" href="#step-by-step-directions" title="Permalink to this headline">¶</a></h2>
 <p>This file contains a walkthrough of the NumPy 1.21.0 release on Linux, modified
-for building on azure and uploading to anaconda.org
-The commands can be copied into the command line, but be sure to
-replace 1.21.0 by the correct version.</p>
-<p>This should be read together with the general directions in <em class="xref py py-obj">releasing</em>.</p>
+for building on azure and uploading to anaconda.org The commands can be copied
+into the command line, but be sure to replace 1.21.0 by the correct version.
+This should be read together with the general directions in <em class="xref py py-obj">releasing</em>.</p>
+<section id="facility-preparation">
+<h3>Facility Preparation<a class="headerlink" href="#facility-preparation" title="Permalink to this headline">¶</a></h3>
+<p>Before beginning to make a release, use the <code class="docutils literal notranslate"><span class="pre">*_requirements.txt</span></code> files to
+ensure that you have the needed software. Most software can be installed with
+pip, but some will require apt-get, dnf, or whatever your system uses for
+software. Note that at this time the documentation cannot be built with Python
+3.10, for that use 3.8-3.9 instead. You will also need a GitHub personal access
+token (PAT) to push the documention. There are a few ways to streamline things.</p>
+<ul class="simple">
+<li><p>Git can be set up to use a keyring to store your GitHub personal access token.
+Search online for the details.</p></li>
+<li><p>You can use the <code class="docutils literal notranslate"><span class="pre">keyring</span></code> app to store the PyPI password for twine. See the
+online twine documentation for details.</p></li>
+</ul>
+</section>
 <section id="release-preparation">
 <h3>Release Preparation<a class="headerlink" href="#release-preparation" title="Permalink to this headline">¶</a></h3>
 <section id="backport-pull-requests">
@@ -1188,8 +1207,8 @@ file is updated for continued development:</p>
 </pre></div>
 </div>
 </section>
-<section id="reset-the-maintenance-branch-into-a-development-state">
-<h4>Reset the maintenance branch into a development state<a class="headerlink" href="#reset-the-maintenance-branch-into-a-development-state" title="Permalink to this headline">¶</a></h4>
+<section id="reset-the-maintenance-branch-into-a-development-state-skip-for-prereleases">
+<h4>Reset the maintenance branch into a development state (skip for prereleases)<a class="headerlink" href="#reset-the-maintenance-branch-into-a-development-state-skip-for-prereleases" title="Permalink to this headline">¶</a></h4>
 <p>Create release notes for next release and edit them to set the version. These
 notes will be a skeleton and have little content:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ cp doc/source/release/template.rst doc/source/release/1.21.1-notes.rst
@@ -1244,59 +1263,76 @@ may take several tries to get it look right. Then</p>
 <li><p>Hit the <code class="docutils literal notranslate"><span class="pre">{Publish,Update}</span> <span class="pre">release</span></code> button at the bottom.</p></li>
 </ul>
 </section>
-<section id="upload-documents-to-numpy-org">
-<h4>Upload documents to numpy.org<a class="headerlink" href="#upload-documents-to-numpy-org" title="Permalink to this headline">¶</a></h4>
+<section id="upload-documents-to-numpy-org-skip-for-prereleases">
+<h4>Upload documents to numpy.org (skip for prereleases)<a class="headerlink" href="#upload-documents-to-numpy-org-skip-for-prereleases" title="Permalink to this headline">¶</a></h4>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>You will need a GitHub personal access token to push the update.</p>
+</div>
 <p>This step is only needed for final releases and can be skipped for pre-releases
 and most patch releases. <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">merge-doc</span></code> clones the <code class="docutils literal notranslate"><span class="pre">numpy/doc</span></code> repo into
-<code class="docutils literal notranslate"><span class="pre">doc/build/merge</span></code> and updates it with the new documentation::
-Note that if you have a <em class="xref py py-obj">local</em> numpy install, you should either remove it or
-install the current version for the docs to pick up the correct NumPy version.</p>
-<blockquote>
-<div><p>$ pushd doc
+<code class="docutils literal notranslate"><span class="pre">doc/build/merge</span></code> and updates it with the new documentation. If you already
+have a numpy installed, you need to locally install the new NumPy version so
+that document generation will use the correct NumPy. This is because <code class="docutils literal notranslate"><span class="pre">make</span>
+<span class="pre">dist</span></code> does not correctly set up the path. Note that Python 3.10 cannot be used
+for generating the docs as it has no <code class="docutils literal notranslate"><span class="pre">easy_install</span></code>, use 3.9 or 3.8 instead:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ pushd doc
 $ make dist
 $ make merge-doc
-$ popd</p>
-</div></blockquote>
+$ pushd build/merge
+</pre></div>
+</div>
 <p>If the release series is a new one, you will need to add a new section to the
 <code class="docutils literal notranslate"><span class="pre">doc/build/merge/index.html</span></code> front page just after the “insert here” comment:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ gvim doc/build/merge/index.html +/&#39;insert here&#39;
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ gvim index.html +/&#39;insert here&#39;
 </pre></div>
 </div>
 <p>Otherwise, only the <code class="docutils literal notranslate"><span class="pre">zip</span></code> and <code class="docutils literal notranslate"><span class="pre">pdf</span></code> links should be updated with the
 new tag name:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ gvim doc/build/merge/index.html +/&#39;tag v1.21&#39;
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ gvim index.html +/&#39;tag v1.21&#39;
 </pre></div>
 </div>
 <p>You can “test run” the new documentation in a browser to make sure the links
 work:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ firefox doc/build/merge/index.html
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ firefox index.html  # or google-chrome, etc.
 </pre></div>
 </div>
-<p>Update the stable link:</p>
+<p>Update the stable link and update:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ ln -sfn 1.21 stable
+$ ls -l  # check the link
 </pre></div>
 </div>
-<p>Once everything seems satisfactory, commit and upload the changes:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ pushd doc/build/merge
+<p>Once everything seems satisfactory, update, commit and upload the changes:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ python3 update.py
 $ git commit -a -m&quot;Add documentation for v1.21.0&quot;
 $ git push
+$ popd
 $ popd
 </pre></div>
 </div>
 </section>
-<section id="announce-the-release-on-scipy-org">
-<h4>Announce the release on scipy.org<a class="headerlink" href="#announce-the-release-on-scipy-org" title="Permalink to this headline">¶</a></h4>
-<p>This assumes that you have forked <a class="reference external" href="https://github.com/scipy/scipy.org">https://github.com/scipy/scipy.org</a>:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ cd ../scipy.org
+<section id="announce-the-release-on-numpy-org-skip-for-prereleases">
+<h4>Announce the release on numpy.org (skip for prereleases)<a class="headerlink" href="#announce-the-release-on-numpy-org-skip-for-prereleases" title="Permalink to this headline">¶</a></h4>
+<p>This assumes that you have forked <a class="reference external" href="https://github.com/numpy/numpy.org">https://github.com/numpy/numpy.org</a>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ cd ../numpy.org
 $ git checkout master
 $ git pull upstream master
-$ git checkout -b numpy-1.21.0
-$ gvim www/index.rst # edit the News section
-$ git commit -a
+$ git checkout -b announce-numpy-1.21.0
+$ gvim content/en/news.md
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>For all releases, go to the bottom of the page and add a one line link. Look
+to the previous links for example.</p></li>
+<li><p>For the <code class="docutils literal notranslate"><span class="pre">*.0</span></code> release in a cycle, add a new section at the top with a short
+description of the new features and point the news link to it.</p></li>
+</ul>
+<p>commit and push:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ git commit -a -m&quot;announce the NumPy 1.21.0 release&quot;
 $ git push origin HEAD
 </pre></div>
 </div>
-<p>Now go to your fork and make a pull request for the branch.</p>
+<p>Go to your Github fork and make a pull request.</p>
 </section>
 <section id="announce-to-mailing-lists">
 <h4>Announce to mailing lists<a class="headerlink" href="#announce-to-mailing-lists" title="Permalink to this headline">¶</a></h4>
@@ -1306,8 +1342,8 @@ announcements for the basic template. The contributor and PR lists are the same
 as generated for the release notes above. If you crosspost, make sure that
 python-announce-list is BCC so that replies will not be sent to that list.</p>
 </section>
-<section id="post-release-tasks">
-<h4>Post-Release Tasks<a class="headerlink" href="#post-release-tasks" title="Permalink to this headline">¶</a></h4>
+<section id="post-release-tasks-skip-for-prereleases">
+<h4>Post-Release Tasks (skip for prereleases)<a class="headerlink" href="#post-release-tasks-skip-for-prereleases" title="Permalink to this headline">¶</a></h4>
 <p>Checkout main and forward port the documentation changes:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ git checkout -b post-1.21.0-release-update
 $ git checkout maintenance/1.21.x doc/source/release/1.21.0-notes.rst
@@ -1360,7 +1396,7 @@ $ git push origin HEAD
     
     <div class="footer-item">
       <p class="copyright">
-    &copy; Copyright 2008-2021, The NumPy community.<br>
+    &copy; Copyright 2008-2022, NumPy Developers.<br>
 </p>
     </div>
     
