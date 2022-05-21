@@ -4,8 +4,7 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Using Python as glue &#8212; NumPy v1.22 Manual</title>
     
   <link href="../_static/css/theme.css" rel="stylesheet">
@@ -28,8 +27,8 @@
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
     <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
     <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/panels-bootstrap.5fd3999ee7762ccc51105388f4a9d115.css" />
     <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/numpy.css" />
     
   <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
 
@@ -42,19 +41,12 @@
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Writing your own ufunc" href="c-info.ufunc-tutorial.html" />
     <link rel="prev" title="How to extend NumPy" href="c-info.how-to-extend.html" />
-
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
 
     <!-- Google Analytics -->
     
-<link rel="stylesheet" href="../_static/numpy.css" type="text/css" />
-
-    <!-- PR #17220: This is added via javascript in versionwarning.js  -->
-    <!-- link rel="canonical" href="http://numpy.org/doc/stable/user/c-info.python-as-glue.html" / -->
-
-
   </head>
   <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
     
@@ -100,6 +92,12 @@
 <li class="toctree-l1 nav-item">
  <a class="reference internal nav-link" href="../dev/index.html">
   Development
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../release.html">
+  Release notes
  </a>
 </li>
 
@@ -452,7 +450,7 @@
               
               <div>
                 
-  <section id="using-python-as-glue">
+  <div class="section" id="using-python-as-glue">
 <h1>Using Python as glue<a class="headerlink" href="#using-python-as-glue" title="Permalink to this headline">¶</a></h1>
 <div class="line-block">
 <div class="line">There is no conversation more boring than the one where everybody</div>
@@ -486,7 +484,7 @@ are many resources available for learning to call other compiled
 libraries from Python and the purpose of this Chapter is not to make
 you an expert. The main goal is to make you aware of some of the
 possibilities so that you will know what to “Google” in order to learn more.</p>
-<section id="calling-other-compiled-libraries-from-python">
+<div class="section" id="calling-other-compiled-libraries-from-python">
 <h2>Calling other compiled libraries from Python<a class="headerlink" href="#calling-other-compiled-libraries-from-python" title="Permalink to this headline">¶</a></h2>
 <p>While Python is a great language and a pleasure to code in, its
 dynamic nature results in overhead that can cause some code ( <em>i.e.</em>
@@ -513,8 +511,8 @@ careful. None of the approaches in this chapter are immune. You have
 to know something about the way data is handled by both NumPy and by
 the third-party library being used.</p>
 </div>
-</section>
-<section id="hand-generated-wrappers">
+</div>
+<div class="section" id="hand-generated-wrappers">
 <h2>Hand-generated wrappers<a class="headerlink" href="#hand-generated-wrappers" title="Permalink to this headline">¶</a></h2>
 <p>Extension modules were discussed in <a class="reference internal" href="c-info.how-to-extend.html#writing-an-extension"><span class="std std-ref">Writing an extension module</span></a>.
 The most basic way to interface with compiled code is to write
@@ -548,8 +546,8 @@ this process easier. One of these code-generation techniques is
 distributed with NumPy and allows easy integration with Fortran and
 (simple) C code. This package, f2py, will be covered briefly in the
 next section.</p>
-</section>
-<section id="f2py">
+</div>
+<div class="section" id="f2py">
 <h2>f2py<a class="headerlink" href="#f2py" title="Permalink to this headline">¶</a></h2>
 <p>F2py allows you to automatically construct an extension module that
 interfaces to routines in Fortran 77/90/95 code. It has the ability to
@@ -557,22 +555,22 @@ parse Fortran 77/90/95 code and automatically generate Python
 signatures for the subroutines it encounters, or you can guide how the
 subroutine interfaces with Python by constructing an interface-definition-file
 (or modifying the f2py-produced one).</p>
-<section id="creating-source-for-a-basic-extension-module">
+<div class="section" id="creating-source-for-a-basic-extension-module">
 <span id="index-0"></span><h3>Creating source for a basic extension module<a class="headerlink" href="#creating-source-for-a-basic-extension-module" title="Permalink to this headline">¶</a></h3>
 <p>Probably the easiest way to introduce f2py is to offer a simple
 example. Here is one of the subroutines contained in a file named
 <code class="file docutils literal notranslate"><span class="pre">add.f</span></code></p>
-<div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span><span class="n">C</span>
-      <span class="k">SUBROUTINE </span><span class="n">ZADD</span><span class="p">(</span><span class="n">A</span><span class="p">,</span><span class="n">B</span><span class="p">,</span><span class="n">C</span><span class="p">,</span><span class="n">N</span><span class="p">)</span>
-<span class="n">C</span>
-      <span class="kt">DOUBLE COMPLEX </span><span class="n">A</span><span class="p">(</span><span class="o">*</span><span class="p">)</span>
-      <span class="kt">DOUBLE COMPLEX </span><span class="n">B</span><span class="p">(</span><span class="o">*</span><span class="p">)</span>
-      <span class="kt">DOUBLE COMPLEX </span><span class="n">C</span><span class="p">(</span><span class="o">*</span><span class="p">)</span>
-      <span class="kt">INTEGER </span><span class="n">N</span>
-      <span class="k">DO </span><span class="mi">20</span> <span class="n">J</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">N</span>
-         <span class="n">C</span><span class="p">(</span><span class="n">J</span><span class="p">)</span> <span class="o">=</span> <span class="n">A</span><span class="p">(</span><span class="n">J</span><span class="p">)</span><span class="o">+</span><span class="n">B</span><span class="p">(</span><span class="n">J</span><span class="p">)</span>
- <span class="mi">20</span>   <span class="k">CONTINUE</span>
-<span class="k">      END</span>
+<div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span><span class="n">C</span><span class="w"></span>
+<span class="w">      </span><span class="k">SUBROUTINE </span><span class="n">ZADD</span><span class="p">(</span><span class="n">A</span><span class="p">,</span><span class="n">B</span><span class="p">,</span><span class="n">C</span><span class="p">,</span><span class="n">N</span><span class="p">)</span><span class="w"></span>
+<span class="n">C</span><span class="w"></span>
+<span class="w">      </span><span class="kt">DOUBLE COMPLEX </span><span class="n">A</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="kt">DOUBLE COMPLEX </span><span class="n">B</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="kt">DOUBLE COMPLEX </span><span class="n">C</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="kt">INTEGER </span><span class="n">N</span><span class="w"></span>
+<span class="w">      </span><span class="k">DO </span><span class="mi">20</span><span class="w"> </span><span class="n">J</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">N</span><span class="w"></span>
+<span class="w">         </span><span class="n">C</span><span class="p">(</span><span class="n">J</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">A</span><span class="p">(</span><span class="n">J</span><span class="p">)</span><span class="o">+</span><span class="n">B</span><span class="p">(</span><span class="n">J</span><span class="p">)</span><span class="w"></span>
+<span class="w"> </span><span class="mi">20</span><span class="w">   </span><span class="k">CONTINUE</span>
+<span class="k">      END</span><span class="w"></span>
 </pre></div>
 </div>
 <p>This routine simply adds the elements in two contiguous arrays and
@@ -586,8 +584,8 @@ routine can be automatically generated by f2py:</p>
 set-up properly. This command will produce an extension module named
 <code class="file docutils literal notranslate"><span class="pre">addmodule.c</span></code> in the current directory. This extension module can now be
 compiled and used from Python just like any other extension module.</p>
-</section>
-<section id="creating-a-compiled-extension-module">
+</div>
+<div class="section" id="creating-a-compiled-extension-module">
 <h3>Creating a compiled extension module<a class="headerlink" href="#creating-a-compiled-extension-module" title="Permalink to this headline">¶</a></h3>
 <p>You can also get f2py to both compile <code class="file docutils literal notranslate"><span class="pre">add.f</span></code> along with the produced
 extension module leaving only a shared-library extension file that can
@@ -615,8 +613,8 @@ information about how the module method may be called:</p>
 <span class="go">n : input int</span>
 </pre></div>
 </div>
-</section>
-<section id="improving-the-basic-interface">
+</div>
+<div class="section" id="improving-the-basic-interface">
 <h3>Improving the basic interface<a class="headerlink" href="#improving-the-basic-interface" title="Permalink to this headline">¶</a></h3>
 <p>The default interface is a very literal translation of the Fortran
 code into Python. The Fortran array arguments must now be NumPy arrays
@@ -642,23 +640,23 @@ interface file use the -h option:</p>
 </div>
 <p>This command leaves the file add.pyf in the current directory. The
 section of this file corresponding to zadd is:</p>
-<div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span><span class="k">subroutine </span><span class="n">zadd</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="p">,</span><span class="n">n</span><span class="p">)</span> <span class="c">! in :add:add.f</span>
-   <span class="kt">double complex </span><span class="k">dimension</span><span class="p">(</span><span class="o">*</span><span class="p">)</span> <span class="kd">::</span> <span class="n">a</span>
-   <span class="kt">double complex </span><span class="k">dimension</span><span class="p">(</span><span class="o">*</span><span class="p">)</span> <span class="kd">::</span> <span class="n">b</span>
-   <span class="kt">double complex </span><span class="k">dimension</span><span class="p">(</span><span class="o">*</span><span class="p">)</span> <span class="kd">::</span> <span class="n">c</span>
-   <span class="kt">integer</span> <span class="kd">::</span> <span class="n">n</span>
-<span class="k">end subroutine </span><span class="n">zadd</span>
+<div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span><span class="k">subroutine </span><span class="n">zadd</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="p">,</span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="c">! in :add:add.f</span>
+<span class="w">   </span><span class="kt">double complex </span><span class="k">dimension</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">a</span><span class="w"></span>
+<span class="w">   </span><span class="kt">double complex </span><span class="k">dimension</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">b</span><span class="w"></span>
+<span class="w">   </span><span class="kt">double complex </span><span class="k">dimension</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">c</span><span class="w"></span>
+<span class="w">   </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">n</span><span class="w"></span>
+<span class="k">end subroutine </span><span class="n">zadd</span><span class="w"></span>
 </pre></div>
 </div>
 <p>By placing intent directives and checking code, the interface can be
 cleaned up quite a bit until the Python module method is both easier
 to use and more robust.</p>
-<div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span><span class="k">subroutine </span><span class="n">zadd</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="p">,</span><span class="n">n</span><span class="p">)</span> <span class="c">! in :add:add.f</span>
-   <span class="kt">double complex </span><span class="k">dimension</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="kd">::</span> <span class="n">a</span>
-   <span class="kt">double complex </span><span class="k">dimension</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="kd">::</span> <span class="n">b</span>
-   <span class="kt">double complex </span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="kd">::</span> <span class="n">c</span>
-   <span class="kt">integer </span><span class="k">intent</span><span class="p">(</span><span class="n">hide</span><span class="p">),</span><span class="n">depend</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="kd">::</span> <span class="n">n</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
-<span class="k">end subroutine </span><span class="n">zadd</span>
+<div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span><span class="k">subroutine </span><span class="n">zadd</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="p">,</span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="c">! in :add:add.f</span>
+<span class="w">   </span><span class="kt">double complex </span><span class="k">dimension</span><span class="p">(</span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">a</span><span class="w"></span>
+<span class="w">   </span><span class="kt">double complex </span><span class="k">dimension</span><span class="p">(</span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">b</span><span class="w"></span>
+<span class="w">   </span><span class="kt">double complex </span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">c</span><span class="w"></span>
+<span class="w">   </span><span class="kt">integer </span><span class="k">intent</span><span class="p">(</span><span class="n">hide</span><span class="p">),</span><span class="n">depend</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">n</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="w"></span>
+<span class="k">end subroutine </span><span class="n">zadd</span><span class="w"></span>
 </pre></div>
 </div>
 <p>The intent directive, intent(out) is used to tell f2py that <code class="docutils literal notranslate"><span class="pre">c</span></code> is
@@ -697,28 +695,28 @@ by compiling both <code class="docutils literal notranslate"><span class="pre">a
 </pre></div>
 </div>
 <p>Notice the automatic conversion to the correct format that occurred.</p>
-</section>
-<section id="inserting-directives-in-fortran-source">
+</div>
+<div class="section" id="inserting-directives-in-fortran-source">
 <h3>Inserting directives in Fortran source<a class="headerlink" href="#inserting-directives-in-fortran-source" title="Permalink to this headline">¶</a></h3>
 <p>The nice interface can also be generated automatically by placing the
 variable directives as special comments in the original Fortran code.
 Thus, if the source code is modified to contain:</p>
-<div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span><span class="n">C</span>
-      <span class="k">SUBROUTINE </span><span class="n">ZADD</span><span class="p">(</span><span class="n">A</span><span class="p">,</span><span class="n">B</span><span class="p">,</span><span class="n">C</span><span class="p">,</span><span class="n">N</span><span class="p">)</span>
-<span class="n">C</span>
-<span class="n">CF2PY</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span> <span class="kd">::</span> <span class="n">C</span>
-<span class="n">CF2PY</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">HIDE</span><span class="p">)</span> <span class="kd">::</span> <span class="n">N</span>
-<span class="n">CF2PY</span> <span class="kt">DOUBLE COMPLEX</span> <span class="kd">::</span> <span class="n">A</span><span class="p">(</span><span class="n">N</span><span class="p">)</span>
-<span class="n">CF2PY</span> <span class="kt">DOUBLE COMPLEX</span> <span class="kd">::</span> <span class="n">B</span><span class="p">(</span><span class="n">N</span><span class="p">)</span>
-<span class="n">CF2PY</span> <span class="kt">DOUBLE COMPLEX</span> <span class="kd">::</span> <span class="n">C</span><span class="p">(</span><span class="n">N</span><span class="p">)</span>
-      <span class="kt">DOUBLE COMPLEX </span><span class="n">A</span><span class="p">(</span><span class="o">*</span><span class="p">)</span>
-      <span class="kt">DOUBLE COMPLEX </span><span class="n">B</span><span class="p">(</span><span class="o">*</span><span class="p">)</span>
-      <span class="kt">DOUBLE COMPLEX </span><span class="n">C</span><span class="p">(</span><span class="o">*</span><span class="p">)</span>
-      <span class="kt">INTEGER </span><span class="n">N</span>
-      <span class="k">DO </span><span class="mi">20</span> <span class="n">J</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">N</span>
-         <span class="n">C</span><span class="p">(</span><span class="n">J</span><span class="p">)</span> <span class="o">=</span> <span class="n">A</span><span class="p">(</span><span class="n">J</span><span class="p">)</span> <span class="o">+</span> <span class="n">B</span><span class="p">(</span><span class="n">J</span><span class="p">)</span>
- <span class="mi">20</span>   <span class="k">CONTINUE</span>
-<span class="k">      END</span>
+<div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span><span class="n">C</span><span class="w"></span>
+<span class="w">      </span><span class="k">SUBROUTINE </span><span class="n">ZADD</span><span class="p">(</span><span class="n">A</span><span class="p">,</span><span class="n">B</span><span class="p">,</span><span class="n">C</span><span class="p">,</span><span class="n">N</span><span class="p">)</span><span class="w"></span>
+<span class="n">C</span><span class="w"></span>
+<span class="n">CF2PY</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">C</span><span class="w"></span>
+<span class="n">CF2PY</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">HIDE</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">N</span><span class="w"></span>
+<span class="n">CF2PY</span><span class="w"> </span><span class="kt">DOUBLE COMPLEX</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">A</span><span class="p">(</span><span class="n">N</span><span class="p">)</span><span class="w"></span>
+<span class="n">CF2PY</span><span class="w"> </span><span class="kt">DOUBLE COMPLEX</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">B</span><span class="p">(</span><span class="n">N</span><span class="p">)</span><span class="w"></span>
+<span class="n">CF2PY</span><span class="w"> </span><span class="kt">DOUBLE COMPLEX</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">C</span><span class="p">(</span><span class="n">N</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="kt">DOUBLE COMPLEX </span><span class="n">A</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="kt">DOUBLE COMPLEX </span><span class="n">B</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="kt">DOUBLE COMPLEX </span><span class="n">C</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="kt">INTEGER </span><span class="n">N</span><span class="w"></span>
+<span class="w">      </span><span class="k">DO </span><span class="mi">20</span><span class="w"> </span><span class="n">J</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">N</span><span class="w"></span>
+<span class="w">         </span><span class="n">C</span><span class="p">(</span><span class="n">J</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">A</span><span class="p">(</span><span class="n">J</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">B</span><span class="p">(</span><span class="n">J</span><span class="p">)</span><span class="w"></span>
+<span class="w"> </span><span class="mi">20</span><span class="w">   </span><span class="k">CONTINUE</span>
+<span class="k">      END</span><span class="w"></span>
 </pre></div>
 </div>
 <p>Then, one can compile the extension module using:</p>
@@ -732,8 +730,8 @@ then nearly the same interface can be obtained by placing the
 <code class="docutils literal notranslate"><span class="pre">INTENT(OUT)</span> <span class="pre">::</span> <span class="pre">C</span></code> comment line in the source code. The only difference
 is that <code class="docutils literal notranslate"><span class="pre">N</span></code> would be an optional input that would default to the length
 of <code class="docutils literal notranslate"><span class="pre">A</span></code>.</p>
-</section>
-<section id="a-filtering-example">
+</div>
+<div class="section" id="a-filtering-example">
 <h3>A filtering example<a class="headerlink" href="#a-filtering-example" title="Permalink to this headline">¶</a></h3>
 <p>For comparison with the other methods to be discussed. Here is another
 example of a function that filters a two-dimensional array of double
@@ -768,8 +766,8 @@ filter using:</p>
 <p>This will produce an extension module named filter.so in the current
 directory with a method named dfilter2d that returns a filtered
 version of the input.</p>
-</section>
-<section id="calling-f2py-from-python">
+</div>
+<div class="section" id="calling-f2py-from-python">
 <h3>Calling f2py from Python<a class="headerlink" href="#calling-f2py-from-python" title="Permalink to this headline">¶</a></h3>
 <p>The f2py program is written in Python and can be run from inside your code
 to compile Fortran code at runtime, as follows:</p>
@@ -783,8 +781,8 @@ to compile Fortran code at runtime, as follows:</p>
 <p>The source string can be any valid Fortran code. If you want to save
 the extension-module source code then a suitable file-name can be
 provided by the <code class="docutils literal notranslate"><span class="pre">source_fn</span></code> keyword to the compile function.</p>
-</section>
-<section id="automatic-extension-module-generation">
+</div>
+<div class="section" id="automatic-extension-module-generation">
 <h3>Automatic extension module generation<a class="headerlink" href="#automatic-extension-module-generation" title="Permalink to this headline">¶</a></h3>
 <p>If you want to distribute your f2py extension module, then you only
 need to include the .pyf file and the Fortran code. The distutils
@@ -813,8 +811,8 @@ resulting package to work, you need to create a file named <code class="docutils
 (in the same directory as <code class="docutils literal notranslate"><span class="pre">add.pyf</span></code>). Notice the extension module is
 defined entirely in terms of the <code class="docutils literal notranslate"><span class="pre">add.pyf</span></code> and <code class="docutils literal notranslate"><span class="pre">add.f</span></code> files. The
 conversion of the .pyf file to a .c file is handled by <em class="xref py py-obj">numpy.disutils</em>.</p>
-</section>
-<section id="conclusion">
+</div>
+<div class="section" id="conclusion">
 <h3>Conclusion<a class="headerlink" href="#conclusion" title="Permalink to this headline">¶</a></h3>
 <p>The interface definition file (.pyf) is how you can fine-tune the interface
 between Python and Fortran. There is decent documentation for f2py at
@@ -834,9 +832,9 @@ computing. It handles complex numbers, and multi-dimensional indexing
 in the most straightforward way. Be aware, however, that some Fortran
 compilers will not be able to optimize code as well as good hand-
 written C-code.</p>
-</section>
-</section>
-<section id="cython">
+</div>
+</div>
+<div class="section" id="cython">
 <span id="index-1"></span><h2>Cython<a class="headerlink" href="#cython" title="Permalink to this headline">¶</a></h2>
 <p><a class="reference external" href="http://cython.org">Cython</a> is a compiler for a Python dialect that adds
 (optional) static typing for speed, and allows mixing C or C++ code
@@ -878,7 +876,7 @@ the <code class="docutils literal notranslate"><span class="pre">cdef</span></co
 <p>Let’s look at two examples we’ve seen before to see how they might be
 implemented using Cython. These examples were compiled into extension
 modules using Cython 0.21.1.</p>
-<section id="complex-addition-in-cython">
+<div class="section" id="complex-addition-in-cython">
 <h3>Complex addition in Cython<a class="headerlink" href="#complex-addition-in-cython" title="Permalink to this headline">¶</a></h3>
 <p>Here is part of a Cython module named <code class="docutils literal notranslate"><span class="pre">add.pyx</span></code> which implements the
 complex addition functions we previously implemented using f2py:</p>
@@ -923,8 +921,8 @@ We can use this to further speed up our code, at the expense of safety
 programmer. Static typing of the variable <code class="docutils literal notranslate"><span class="pre">i</span></code> is implicit. Instead of the
 view syntax, we could also have used Cython’s special NumPy array syntax,
 but the view syntax is preferred.</p>
-</section>
-<section id="image-filter-in-cython">
+</div>
+<div class="section" id="image-filter-in-cython">
 <h3>Image filter in Cython<a class="headerlink" href="#image-filter-in-cython" title="Permalink to this headline">¶</a></h3>
 <p>The two-dimensional example we created using Fortran is just as easy to write
 in Cython:</p>
@@ -965,8 +963,8 @@ created, and then a view <code class="docutils literal notranslate"><span class=
 Secondly, the view <code class="docutils literal notranslate"><span class="pre">b</span></code> is typed <code class="docutils literal notranslate"><span class="pre">double[:,</span> <span class="pre">::1]</span></code>. This means 2-d array
 with contiguous rows, i.e., C matrix order. Specifying the order explicitly
 can speed up some algorithms since they can skip stride computations.</p>
-</section>
-<section id="id2">
+</div>
+<div class="section" id="id2">
 <h3>Conclusion<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
 <p>Cython is the extension mechanism of choice for several scientific Python
 libraries, including Scipy, Pandas, SAGE, scikit-image and scikit-learn,
@@ -991,9 +989,9 @@ easy to distribute. In summary, Cython is a very capable tool for either
 gluing C code or generating an extension module quickly and should not be
 over-looked. It is especially useful for people that can’t or won’t write
 C or Fortran code.</p>
-</section>
-</section>
-<section id="index-3">
+</div>
+</div>
+<div class="section" id="index-3">
 <span id="id3"></span><h2>ctypes<a class="headerlink" href="#index-3" title="Permalink to this headline">¶</a></h2>
 <p><a class="reference external" href="https://docs.python.org/3/library/ctypes.html">Ctypes</a>
 is a Python extension module, included in the stdlib, that
@@ -1028,7 +1026,7 @@ code.</p>
 <li><p>Convert the Python objects to ctypes-understood arguments.</p></li>
 <li><p>Call the function from the library with the ctypes arguments.</p></li>
 </ol>
-<section id="having-a-shared-library">
+<div class="section" id="having-a-shared-library">
 <h3>Having a shared library<a class="headerlink" href="#having-a-shared-library" title="Permalink to this headline">¶</a></h3>
 <p>There are several requirements for a shared library that can be used
 with ctypes that are platform specific. This guide assumes you have
@@ -1058,8 +1056,8 @@ disadvantage of ctypes at the time of writing this book is that it is
 difficult to distribute in a cross-platform manner a Python extension
 that uses ctypes and includes your own code which should be compiled
 as a shared library on the users system.</p>
-</section>
-<section id="loading-the-shared-library">
+</div>
+<div class="section" id="loading-the-shared-library">
 <h3>Loading the shared library<a class="headerlink" href="#loading-the-shared-library" title="Permalink to this headline">¶</a></h3>
 <p>A simple, but robust way to load the shared library is to get the
 absolute path name and load it using the cdll object of ctypes:</p>
@@ -1092,8 +1090,8 @@ ctypes library object (returned from <code class="docutils literal notranslate">
 as items using <code class="docutils literal notranslate"><span class="pre">lib['func_name']</span></code> syntax. The latter method for
 retrieving a function name is particularly useful if the function name
 contains characters that are not allowable in Python variable names.</p>
-</section>
-<section id="converting-arguments">
+</div>
+<div class="section" id="converting-arguments">
 <h3>Converting arguments<a class="headerlink" href="#converting-arguments" title="Permalink to this headline">¶</a></h3>
 <p>Python ints/longs, strings, and unicode objects are automatically
 converted as needed to equivalent ctypes arguments The None object is
@@ -1151,8 +1149,8 @@ For convenience, the <code class="docutils literal notranslate"><span class="pre
 a ctypes integer data-type whose size is the same as the size of
 <code class="docutils literal notranslate"><span class="pre">c_void_p</span></code> on the platform (its value is None if ctypes is not
 installed).</p>
-</section>
-<section id="calling-the-function">
+</div>
+<div class="section" id="calling-the-function">
 <h3>Calling the function<a class="headerlink" href="#calling-the-function" title="Permalink to this headline">¶</a></h3>
 <p>The function is accessed as an attribute of or an item from the loaded
 shared-library. Thus, if <code class="docutils literal notranslate"><span class="pre">./mylib.so</span></code> has a function named
@@ -1198,8 +1196,8 @@ additional Python wrapper to make it user-friendly (hiding some
 obvious arguments and making some arguments output arguments). In this
 process, the <code class="docutils literal notranslate"><span class="pre">requires</span></code> function in NumPy may be useful to return the right
 kind of array from a given input.</p>
-</section>
-<section id="complete-example">
+</div>
+<div class="section" id="complete-example">
 <h3>Complete example<a class="headerlink" href="#complete-example" title="Permalink to this headline">¶</a></h3>
 <p>In this example, we will demonstrate how the addition function and the filter
 function implemented previously using the other approaches can be
@@ -1207,8 +1205,8 @@ implemented using ctypes. First, the C code which implements the
 algorithms contains the functions <code class="docutils literal notranslate"><span class="pre">zadd</span></code>, <code class="docutils literal notranslate"><span class="pre">dadd</span></code>, <code class="docutils literal notranslate"><span class="pre">sadd</span></code>, <code class="docutils literal notranslate"><span class="pre">cadd</span></code>,
 and <code class="docutils literal notranslate"><span class="pre">dfilter2d</span></code>. The <code class="docutils literal notranslate"><span class="pre">zadd</span></code> function is:</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cm">/* Add arrays of contiguous data */</span><span class="w"></span>
-<span class="k">typedef</span><span class="w"> </span><span class="k">struct</span> <span class="p">{</span><span class="kt">double</span><span class="w"> </span><span class="n">real</span><span class="p">;</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">imag</span><span class="p">;}</span><span class="w"> </span><span class="n">cdouble</span><span class="p">;</span><span class="w"></span>
-<span class="k">typedef</span><span class="w"> </span><span class="k">struct</span> <span class="p">{</span><span class="kt">float</span><span class="w"> </span><span class="n">real</span><span class="p">;</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">imag</span><span class="p">;}</span><span class="w"> </span><span class="n">cfloat</span><span class="p">;</span><span class="w"></span>
+<span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span><span class="kt">double</span><span class="w"> </span><span class="n">real</span><span class="p">;</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">imag</span><span class="p">;}</span><span class="w"> </span><span class="n">cdouble</span><span class="p">;</span><span class="w"></span>
+<span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span><span class="kt">float</span><span class="w"> </span><span class="n">real</span><span class="p">;</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">imag</span><span class="p">;}</span><span class="w"> </span><span class="n">cfloat</span><span class="p">;</span><span class="w"></span>
 <span class="kt">void</span><span class="w"> </span><span class="nf">zadd</span><span class="p">(</span><span class="n">cdouble</span><span class="w"> </span><span class="o">*</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">cdouble</span><span class="w"> </span><span class="o">*</span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="n">cdouble</span><span class="w"> </span><span class="o">*</span><span class="n">c</span><span class="p">,</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">n</span><span class="p">)</span><span class="w"></span>
 <span class="p">{</span><span class="w"></span>
 <span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">n</span><span class="o">--</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
@@ -1369,8 +1367,8 @@ written simply as:</p>
     <span class="k">return</span> <span class="n">b</span>
 </pre></div>
 </div>
-</section>
-<section id="id5">
+</div>
+<div class="section" id="id5">
 <h3>Conclusion<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
 <p id="index-5">Using ctypes is a powerful way to connect Python with arbitrary
 C-code. Its advantages for extending Python include</p>
@@ -1404,9 +1402,9 @@ for package creation. However, ctypes is in some cases a useful alternative.
 This should bring more features to ctypes that should
 eliminate the difficulty in extending Python and distributing the
 extension using ctypes.</p>
-</section>
-</section>
-<section id="additional-tools-you-may-find-useful">
+</div>
+</div>
+<div class="section" id="additional-tools-you-may-find-useful">
 <h2>Additional tools you may find useful<a class="headerlink" href="#additional-tools-you-may-find-useful" title="Permalink to this headline">¶</a></h2>
 <p>These tools have been found useful by others using Python and so are
 included here. They are discussed separately because they are
@@ -1419,7 +1417,7 @@ that the package deserves attention. Information about these packages are
 collected here because many people have found them useful and we’d like to give
 you as many options as possible for tackling the problem of easily integrating
 your code.</p>
-<section id="swig">
+<div class="section" id="swig">
 <h3>SWIG<a class="headerlink" href="#swig" title="Permalink to this headline">¶</a></h3>
 <p id="index-6">Simplified Wrapper and Interface Generator (SWIG) is an old and fairly
 stable method for wrapping C/C++-libraries to a large variety of other
@@ -1448,8 +1446,8 @@ specific and are written in a C-like syntax. Therefore, other gluing strategies
 are preferred and SWIG would be probably considered only to
 wrap a very-large C/C++ library. Nonetheless, there are others who use
 SWIG quite happily.</p>
-</section>
-<section id="sip">
+</div>
+<div class="section" id="sip">
 <h3>SIP<a class="headerlink" href="#sip" title="Permalink to this headline">¶</a></h3>
 <p id="index-7">SIP is another tool for wrapping C/C++ libraries that is Python
 specific and appears to have very good support for C++. Riverbank
@@ -1460,8 +1458,8 @@ is not a full C++ parser, it understands quite a bit of C++ syntax as
 well as its own special directives that allow modification of how the
 Python binding is accomplished. It also allows the user to define
 mappings between Python types and C/C++ structures and classes.</p>
-</section>
-<section id="boost-python">
+</div>
+<div class="section" id="boost-python">
 <h3>Boost Python<a class="headerlink" href="#boost-python" title="Permalink to this headline">¶</a></h3>
 <p id="index-8">Boost is a repository of C++ libraries and Boost.Python is one of
 those libraries which provides a concise interface for binding C++
@@ -1473,8 +1471,8 @@ to wrap simple C-subroutines is usually over-kill. Its primary purpose is to
 make C++ classes available in Python. So, if you have a set of C++ classes that
 need to be integrated cleanly into Python, consider learning about and using
 Boost.Python.</p>
-</section>
-<section id="pyfort">
+</div>
+<div class="section" id="pyfort">
 <h3>PyFort<a class="headerlink" href="#pyfort" title="Permalink to this headline">¶</a></h3>
 <p>PyFort is a nice tool for wrapping Fortran and Fortran-like C-code
 into Python with support for Numeric arrays. It was written by Paul
@@ -1482,9 +1480,9 @@ Dubois, a distinguished computer scientist and the very first
 maintainer of Numeric (now retired). It is worth mentioning in the
 hopes that somebody will update PyFort to work with NumPy arrays as
 well which now support either Fortran or C-style contiguous arrays.</p>
-</section>
-</section>
-</section>
+</div>
+</div>
+</div>
 
 
               </div>

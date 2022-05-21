@@ -4,8 +4,7 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Using via cmake &#8212; NumPy v1.22 Manual</title>
     
   <link href="../../_static/css/theme.css" rel="stylesheet">
@@ -28,8 +27,8 @@
     <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/plot_directive.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/panels-bootstrap.5fd3999ee7762ccc51105388f4a9d115.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/numpy.css" />
     
   <link rel="preload" as="script" href="../../_static/js/index.be7d3bbb2ef33a8344ce.js">
 
@@ -42,19 +41,12 @@
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="Using via scikit-build" href="skbuild.html" />
     <link rel="prev" title="Using via meson" href="meson.html" />
-
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
 
     <!-- Google Analytics -->
     
-<link rel="stylesheet" href="../../_static/numpy.css" type="text/css" />
-
-    <!-- PR #17220: This is added via javascript in versionwarning.js  -->
-    <!-- link rel="canonical" href="http://numpy.org/doc/stable/f2py/buildtools/cmake.html" / -->
-
-
   </head>
   <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
     
@@ -100,6 +92,12 @@
 <li class="toctree-l1 nav-item">
  <a class="reference internal nav-link" href="../../dev/index.html">
   Development
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../release.html">
+  Release notes
  </a>
 </li>
 
@@ -371,7 +369,7 @@
               
               <div>
                 
-  <section id="using-via-cmake">
+  <div class="section" id="using-via-cmake">
 <span id="f2py-cmake"></span><h1>Using via <code class="docutils literal notranslate"><span class="pre">cmake</span></code><a class="headerlink" href="#using-via-cmake" title="Permalink to this headline">¶</a></h1>
 <p>In terms of complexity, <code class="docutils literal notranslate"><span class="pre">cmake</span></code> falls between <code class="docutils literal notranslate"><span class="pre">make</span></code> and <code class="docutils literal notranslate"><span class="pre">meson</span></code>. The
 learning curve is steeper since CMake syntax is not pythonic and is closer to
@@ -385,112 +383,112 @@ but this <a class="reference external" href="https://cliutils.gitlab.io/modern-c
 <code class="docutils literal notranslate"><span class="pre">f2py</span></code> is not particularly native or pleasant; and a more natural approach
 is to consider <a class="reference internal" href="skbuild.html#f2py-skbuild"><span class="std std-ref">Using via scikit-build</span></a></p>
 </div>
-<section id="fibonacci-walkthrough-f77">
+<div class="section" id="fibonacci-walkthrough-f77">
 <h2>Fibonacci Walkthrough (F77)<a class="headerlink" href="#fibonacci-walkthrough-f77" title="Permalink to this headline">¶</a></h2>
 <p>Returning to the <code class="docutils literal notranslate"><span class="pre">fib</span></code>  example from <a class="reference internal" href="../f2py.getting-started.html#f2py-getting-started"><span class="std std-ref">Three ways to wrap - getting started</span></a> section.</p>
-<div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span><span class="n">C</span> <span class="k">FILE</span><span class="p">:</span> <span class="n">FIB1</span><span class="p">.</span><span class="n">F</span>
-      <span class="k">SUBROUTINE </span><span class="n">FIB</span><span class="p">(</span><span class="n">A</span><span class="p">,</span><span class="n">N</span><span class="p">)</span>
-<span class="n">C</span>
-<span class="n">C</span>     <span class="n">CALCULATE</span> <span class="n">FIRST</span> <span class="n">N</span> <span class="n">FIBONACCI</span> <span class="n">NUMBERS</span>
-<span class="n">C</span>
-      <span class="kt">INTEGER </span><span class="n">N</span>
-      <span class="kt">REAL</span><span class="o">*</span><span class="mi">8</span> <span class="n">A</span><span class="p">(</span><span class="n">N</span><span class="p">)</span>
-      <span class="k">DO </span><span class="n">I</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">N</span>
-         <span class="k">IF</span> <span class="p">(</span><span class="n">I</span><span class="p">.</span><span class="n">EQ</span><span class="p">.</span><span class="mi">1</span><span class="p">)</span> <span class="k">THEN</span>
-<span class="k">            </span><span class="n">A</span><span class="p">(</span><span class="n">I</span><span class="p">)</span> <span class="o">=</span> <span class="mf">0.0D0</span>
-         <span class="n">ELSEIF</span> <span class="p">(</span><span class="n">I</span><span class="p">.</span><span class="n">EQ</span><span class="p">.</span><span class="mi">2</span><span class="p">)</span> <span class="k">THEN</span>
-<span class="k">            </span><span class="n">A</span><span class="p">(</span><span class="n">I</span><span class="p">)</span> <span class="o">=</span> <span class="mf">1.0D0</span>
-         <span class="k">ELSE </span>
-<span class="k">            </span><span class="n">A</span><span class="p">(</span><span class="n">I</span><span class="p">)</span> <span class="o">=</span> <span class="n">A</span><span class="p">(</span><span class="n">I</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">A</span><span class="p">(</span><span class="n">I</span><span class="o">-</span><span class="mi">2</span><span class="p">)</span>
-         <span class="k">ENDIF</span>
+<div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span><span class="n">C</span><span class="w"> </span><span class="k">FILE</span><span class="p">:</span><span class="w"> </span><span class="n">FIB1</span><span class="p">.</span><span class="n">F</span><span class="w"></span>
+<span class="w">      </span><span class="k">SUBROUTINE </span><span class="n">FIB</span><span class="p">(</span><span class="n">A</span><span class="p">,</span><span class="n">N</span><span class="p">)</span><span class="w"></span>
+<span class="n">C</span><span class="w"></span>
+<span class="n">C</span><span class="w">     </span><span class="n">CALCULATE</span><span class="w"> </span><span class="n">FIRST</span><span class="w"> </span><span class="n">N</span><span class="w"> </span><span class="n">FIBONACCI</span><span class="w"> </span><span class="n">NUMBERS</span><span class="w"></span>
+<span class="n">C</span><span class="w"></span>
+<span class="w">      </span><span class="kt">INTEGER </span><span class="n">N</span><span class="w"></span>
+<span class="w">      </span><span class="kt">REAL</span><span class="o">*</span><span class="mi">8</span><span class="w"> </span><span class="n">A</span><span class="p">(</span><span class="n">N</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">DO </span><span class="n">I</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">N</span><span class="w"></span>
+<span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">I</span><span class="p">.</span><span class="n">EQ</span><span class="p">.</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">            </span><span class="n">A</span><span class="p">(</span><span class="n">I</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0D0</span><span class="w"></span>
+<span class="w">         </span><span class="n">ELSEIF</span><span class="w"> </span><span class="p">(</span><span class="n">I</span><span class="p">.</span><span class="n">EQ</span><span class="p">.</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">            </span><span class="n">A</span><span class="p">(</span><span class="n">I</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.0D0</span><span class="w"></span>
+<span class="w">         </span><span class="k">ELSE </span>
+<span class="k">            </span><span class="n">A</span><span class="p">(</span><span class="n">I</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">A</span><span class="p">(</span><span class="n">I</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">A</span><span class="p">(</span><span class="n">I</span><span class="o">-</span><span class="mi">2</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">ENDIF</span>
 <span class="k">      ENDDO</span>
 <span class="k">      END</span>
-<span class="n">C</span> <span class="k">END FILE </span><span class="n">FIB1</span><span class="p">.</span><span class="n">F</span>
+<span class="n">C</span><span class="w"> </span><span class="k">END FILE </span><span class="n">FIB1</span><span class="p">.</span><span class="n">F</span><span class="w"></span>
 </pre></div>
 </div>
 <p>We do not need to explicitly generate the <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">-m</span> <span class="pre">numpy.f2py</span> <span class="pre">fib1.f</span></code>
 output, which is <code class="docutils literal notranslate"><span class="pre">fib1module.c</span></code>, which is beneficial. With this; we can now
 initialize a <code class="docutils literal notranslate"><span class="pre">CMakeLists.txt</span></code> file as follows:</p>
 <div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="c">### setup project ###</span>
-<span class="nb">cmake_minimum_required</span><span class="p">(</span><span class="s">VERSION</span> <span class="s">3.17.3</span><span class="p">)</span> <span class="c"># 3.17 &gt; for Python3_SOABI</span>
-<span class="nb">set</span><span class="p">(</span><span class="s">CMAKE_CXX_STANDARD_REQUIRED</span> <span class="s">ON</span><span class="p">)</span>
+<span class="nb">cmake_minimum_required</span><span class="p">(</span><span class="s">VERSION</span><span class="w"> </span><span class="s">3.17.3</span><span class="p">)</span><span class="w"> </span><span class="c"># 3.17 &gt; for Python3_SOABI</span>
+<span class="nb">set</span><span class="p">(</span><span class="s">CMAKE_CXX_STANDARD_REQUIRED</span><span class="w"> </span><span class="s">ON</span><span class="p">)</span>
 
 <span class="nb">project</span><span class="p">(</span><span class="s">fibby</span>
-  <span class="s">VERSION</span> <span class="s">1.0</span>
-  <span class="s">DESCRIPTION</span> <span class="s2">&quot;FIB module&quot;</span>
-  <span class="s">LANGUAGES</span> <span class="s">C</span> <span class="s">Fortran</span>
-  <span class="p">)</span>
+<span class="w">  </span><span class="s">VERSION</span><span class="w"> </span><span class="s">1.0</span>
+<span class="w">  </span><span class="s">DESCRIPTION</span><span class="w"> </span><span class="s2">&quot;FIB module&quot;</span>
+<span class="w">  </span><span class="s">LANGUAGES</span><span class="w"> </span><span class="s">C</span><span class="w"> </span><span class="s">Fortran</span>
+<span class="w">  </span><span class="p">)</span>
 
 <span class="c"># Safety net</span>
-<span class="nb">if</span><span class="p">(</span><span class="s">PROJECT_SOURCE_DIR</span> <span class="s">STREQUAL</span> <span class="s">PROJECT_BINARY_DIR</span><span class="p">)</span>
-  <span class="nb">message</span><span class="p">(</span>
-    <span class="s">FATAL_ERROR</span>
-      <span class="s2">&quot;In-source builds not allowed. Please make a new directory (called a build directory) and run CMake from there.\n&quot;</span>
-  <span class="p">)</span>
+<span class="nb">if</span><span class="p">(</span><span class="s">PROJECT_SOURCE_DIR</span><span class="w"> </span><span class="s">STREQUAL</span><span class="w"> </span><span class="s">PROJECT_BINARY_DIR</span><span class="p">)</span>
+<span class="w">  </span><span class="nb">message</span><span class="p">(</span>
+<span class="w">    </span><span class="s">FATAL_ERROR</span>
+<span class="w">      </span><span class="s2">&quot;In-source builds not allowed. Please make a new directory (called a build directory) and run CMake from there.\n&quot;</span>
+<span class="w">  </span><span class="p">)</span>
 <span class="nb">endif</span><span class="p">()</span>
 
 <span class="c"># Grab Python</span>
-<span class="nb">find_package</span><span class="p">(</span><span class="s">Python3</span> <span class="s">3.9</span> <span class="s">REQUIRED</span>
-  <span class="s">COMPONENTS</span> <span class="s">Interpreter</span> <span class="s">Development</span> <span class="s">NumPy</span><span class="p">)</span>
+<span class="nb">find_package</span><span class="p">(</span><span class="s">Python3</span><span class="w"> </span><span class="s">3.9</span><span class="w"> </span><span class="s">REQUIRED</span>
+<span class="w">  </span><span class="s">COMPONENTS</span><span class="w"> </span><span class="s">Interpreter</span><span class="w"> </span><span class="s">Development</span><span class="w"> </span><span class="s">NumPy</span><span class="p">)</span>
 
 <span class="c"># Grab the variables from a local Python installation</span>
 <span class="c"># F2PY headers</span>
 <span class="nb">execute_process</span><span class="p">(</span>
-  <span class="s">COMMAND</span> <span class="s2">&quot;${Python3_EXECUTABLE}&quot;</span>
-  <span class="s">-c</span> <span class="s2">&quot;import numpy.f2py; print(numpy.f2py.get_include())&quot;</span>
-  <span class="s">OUTPUT_VARIABLE</span> <span class="s">F2PY_INCLUDE_DIR</span>
-  <span class="s">OUTPUT_STRIP_TRAILING_WHITESPACE</span>
+<span class="w">  </span><span class="s">COMMAND</span><span class="w"> </span><span class="s2">&quot;${Python3_EXECUTABLE}&quot;</span>
+<span class="w">  </span><span class="s">-c</span><span class="w"> </span><span class="s2">&quot;import numpy.f2py; print(numpy.f2py.get_include())&quot;</span>
+<span class="w">  </span><span class="s">OUTPUT_VARIABLE</span><span class="w"> </span><span class="s">F2PY_INCLUDE_DIR</span>
+<span class="w">  </span><span class="s">OUTPUT_STRIP_TRAILING_WHITESPACE</span>
 <span class="p">)</span>
 
 <span class="c"># Project scope; consider using target_include_directories instead</span>
 <span class="nb">include_directories</span><span class="p">(</span>
-  <span class="s">BEFORE</span>
-  <span class="o">${</span><span class="nv">Python3_INCLUDE_DIRS</span><span class="o">}</span>
-  <span class="o">${</span><span class="nv">Python3_NumPy_INCLUDE_DIRS</span><span class="o">}</span>
-  <span class="o">${</span><span class="nv">F2PY_INCLUDE_DIR</span><span class="o">}</span>
-  <span class="p">)</span>
+<span class="w">  </span><span class="s">BEFORE</span>
+<span class="w">  </span><span class="o">${</span><span class="nv">Python3_INCLUDE_DIRS</span><span class="o">}</span>
+<span class="w">  </span><span class="o">${</span><span class="nv">Python3_NumPy_INCLUDE_DIRS</span><span class="o">}</span>
+<span class="w">  </span><span class="o">${</span><span class="nv">F2PY_INCLUDE_DIR</span><span class="o">}</span>
+<span class="w">  </span><span class="p">)</span>
 
-<span class="nb">message</span><span class="p">(</span><span class="s">STATUS</span> <span class="o">${</span><span class="nv">Python3_INCLUDE_DIRS</span><span class="o">}</span><span class="p">)</span>
-<span class="nb">message</span><span class="p">(</span><span class="s">STATUS</span> <span class="o">${</span><span class="nv">F2PY_INCLUDE_DIR</span><span class="o">}</span><span class="p">)</span>
-<span class="nb">message</span><span class="p">(</span><span class="s">STATUS</span> <span class="o">${</span><span class="nv">Python3_NumPy_INCLUDE_DIRS</span><span class="o">}</span><span class="p">)</span>
+<span class="nb">message</span><span class="p">(</span><span class="s">STATUS</span><span class="w"> </span><span class="o">${</span><span class="nv">Python3_INCLUDE_DIRS</span><span class="o">}</span><span class="p">)</span>
+<span class="nb">message</span><span class="p">(</span><span class="s">STATUS</span><span class="w"> </span><span class="o">${</span><span class="nv">F2PY_INCLUDE_DIR</span><span class="o">}</span><span class="p">)</span>
+<span class="nb">message</span><span class="p">(</span><span class="s">STATUS</span><span class="w"> </span><span class="o">${</span><span class="nv">Python3_NumPy_INCLUDE_DIRS</span><span class="o">}</span><span class="p">)</span>
 
 <span class="c"># Vars</span>
-<span class="nb">set</span><span class="p">(</span><span class="s">f2py_module_name</span> <span class="s2">&quot;fibby&quot;</span><span class="p">)</span>
-<span class="nb">set</span><span class="p">(</span><span class="s">fortran_src_file</span> <span class="s2">&quot;${CMAKE_SOURCE_DIR}/fib1.f&quot;</span><span class="p">)</span>
-<span class="nb">set</span><span class="p">(</span><span class="s">f2py_module_c</span> <span class="s2">&quot;${f2py_module_name}module.c&quot;</span><span class="p">)</span>
-<span class="nb">set</span><span class="p">(</span><span class="s">generated_module_file</span> <span class="s2">&quot;${f2py_module_name}${Python3_SOABI}&quot;</span><span class="p">)</span>
+<span class="nb">set</span><span class="p">(</span><span class="s">f2py_module_name</span><span class="w"> </span><span class="s2">&quot;fibby&quot;</span><span class="p">)</span>
+<span class="nb">set</span><span class="p">(</span><span class="s">fortran_src_file</span><span class="w"> </span><span class="s2">&quot;${CMAKE_SOURCE_DIR}/fib1.f&quot;</span><span class="p">)</span>
+<span class="nb">set</span><span class="p">(</span><span class="s">f2py_module_c</span><span class="w"> </span><span class="s2">&quot;${f2py_module_name}module.c&quot;</span><span class="p">)</span>
+<span class="nb">set</span><span class="p">(</span><span class="s">generated_module_file</span><span class="w"> </span><span class="s2">&quot;${f2py_module_name}${Python3_SOABI}&quot;</span><span class="p">)</span>
 
 <span class="c"># Generate sources</span>
 <span class="nb">add_custom_target</span><span class="p">(</span>
-  <span class="s">genpyf</span>
-  <span class="s">DEPENDS</span> <span class="s2">&quot;${CMAKE_CURRENT_BINARY_DIR}/${f2py_module_c}&quot;</span>
-  <span class="p">)</span>
+<span class="w">  </span><span class="s">genpyf</span>
+<span class="w">  </span><span class="s">DEPENDS</span><span class="w"> </span><span class="s2">&quot;${CMAKE_CURRENT_BINARY_DIR}/${f2py_module_c}&quot;</span>
+<span class="w">  </span><span class="p">)</span>
 <span class="nb">add_custom_command</span><span class="p">(</span>
-  <span class="s">OUTPUT</span> <span class="s2">&quot;${CMAKE_CURRENT_BINARY_DIR}/${f2py_module_c}&quot;</span>
-  <span class="s">COMMAND</span> <span class="o">${</span><span class="nv">Python3_EXECUTABLE</span><span class="o">}</span>  <span class="s">-m</span> <span class="s2">&quot;numpy.f2py&quot;</span>
-                   <span class="s2">&quot;${fortran_src_file}&quot;</span>
-                   <span class="s">-m</span> <span class="s2">&quot;fibby&quot;</span>
-                   <span class="s">--lower</span> <span class="c"># Important</span>
-  <span class="s">DEPENDS</span> <span class="s">fib1.f</span> <span class="c"># Fortran source</span>
-  <span class="p">)</span>
+<span class="w">  </span><span class="s">OUTPUT</span><span class="w"> </span><span class="s2">&quot;${CMAKE_CURRENT_BINARY_DIR}/${f2py_module_c}&quot;</span>
+<span class="w">  </span><span class="s">COMMAND</span><span class="w"> </span><span class="o">${</span><span class="nv">Python3_EXECUTABLE</span><span class="o">}</span><span class="w">  </span><span class="s">-m</span><span class="w"> </span><span class="s2">&quot;numpy.f2py&quot;</span>
+<span class="w">                   </span><span class="s2">&quot;${fortran_src_file}&quot;</span>
+<span class="w">                   </span><span class="s">-m</span><span class="w"> </span><span class="s2">&quot;fibby&quot;</span>
+<span class="w">                   </span><span class="s">--lower</span><span class="w"> </span><span class="c"># Important</span>
+<span class="w">  </span><span class="s">DEPENDS</span><span class="w"> </span><span class="s">fib1.f</span><span class="w"> </span><span class="c"># Fortran source</span>
+<span class="w">  </span><span class="p">)</span>
 
 <span class="c"># Set up target</span>
-<span class="nb">add_library</span><span class="p">(</span><span class="o">${</span><span class="nv">CMAKE_PROJECT_NAME</span><span class="o">}</span> <span class="s">SHARED</span>
-  <span class="s2">&quot;${CMAKE_CURRENT_BINARY_DIR}/${f2py_module_c}&quot;</span> <span class="c"># Generated</span>
-  <span class="s2">&quot;${F2PY_INCLUDE_DIR}/fortranobject.c&quot;</span> <span class="c"># From NumPy</span>
-  <span class="s2">&quot;${fortran_src_file}&quot;</span> <span class="c"># Fortran source(s)</span>
-  <span class="p">)</span>
+<span class="nb">add_library</span><span class="p">(</span><span class="o">${</span><span class="nv">CMAKE_PROJECT_NAME</span><span class="o">}</span><span class="w"> </span><span class="s">SHARED</span>
+<span class="w">  </span><span class="s2">&quot;${CMAKE_CURRENT_BINARY_DIR}/${f2py_module_c}&quot;</span><span class="w"> </span><span class="c"># Generated</span>
+<span class="w">  </span><span class="s2">&quot;${F2PY_INCLUDE_DIR}/fortranobject.c&quot;</span><span class="w"> </span><span class="c"># From NumPy</span>
+<span class="w">  </span><span class="s2">&quot;${fortran_src_file}&quot;</span><span class="w"> </span><span class="c"># Fortran source(s)</span>
+<span class="w">  </span><span class="p">)</span>
 
 <span class="c"># Depend on sources</span>
-<span class="nb">add_dependencies</span><span class="p">(</span><span class="o">${</span><span class="nv">CMAKE_PROJECT_NAME</span><span class="o">}</span> <span class="s">genpyf</span><span class="p">)</span>
+<span class="nb">add_dependencies</span><span class="p">(</span><span class="o">${</span><span class="nv">CMAKE_PROJECT_NAME</span><span class="o">}</span><span class="w"> </span><span class="s">genpyf</span><span class="p">)</span>
 
 <span class="nb">set_target_properties</span><span class="p">(</span>
-     <span class="o">${</span><span class="nv">CMAKE_PROJECT_NAME</span><span class="o">}</span>
-    <span class="s">PROPERTIES</span>
-        <span class="s">PREFIX</span> <span class="s2">&quot;&quot;</span>
-        <span class="s">OUTPUT_NAME</span> <span class="s2">&quot;${CMAKE_PROJECT_NAME}&quot;</span>
-        <span class="s">LINKER_LANGUAGE</span> <span class="s">C</span>
-    <span class="p">)</span>
+<span class="w">     </span><span class="o">${</span><span class="nv">CMAKE_PROJECT_NAME</span><span class="o">}</span>
+<span class="w">    </span><span class="s">PROPERTIES</span>
+<span class="w">        </span><span class="s">PREFIX</span><span class="w"> </span><span class="s2">&quot;&quot;</span>
+<span class="w">        </span><span class="s">OUTPUT_NAME</span><span class="w"> </span><span class="s2">&quot;${CMAKE_PROJECT_NAME}&quot;</span>
+<span class="w">        </span><span class="s">LINKER_LANGUAGE</span><span class="w"> </span><span class="s">C</span>
+<span class="w">    </span><span class="p">)</span>
 </pre></div>
 </div>
 <p>A key element of the <code class="docutils literal notranslate"><span class="pre">CMakeLists.txt</span></code> file defined above is that the
@@ -513,8 +511,8 @@ python -c <span class="s2">&quot;import numpy as np; import fibby; a = np.zeros(
 </div>
 <p>This is particularly useful where an existing toolchain already exists and
 <code class="docutils literal notranslate"><span class="pre">scikit-build</span></code> or other additional <code class="docutils literal notranslate"><span class="pre">python</span></code> dependencies are discouraged.</p>
-</section>
-</section>
+</div>
+</div>
 
 
               </div>

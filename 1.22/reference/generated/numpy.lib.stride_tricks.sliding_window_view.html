@@ -4,8 +4,7 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>numpy.lib.stride_tricks.sliding_window_view &#8212; NumPy v1.22 Manual</title>
     
   <link href="../../_static/css/theme.css" rel="stylesheet">
@@ -28,8 +27,8 @@
     <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/plot_directive.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/panels-bootstrap.5fd3999ee7762ccc51105388f4a9d115.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/numpy.css" />
     
   <link rel="preload" as="script" href="../../_static/js/index.be7d3bbb2ef33a8344ce.js">
 
@@ -42,19 +41,12 @@
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="numpy.lib.stride_tricks.as_strided" href="numpy.lib.stride_tricks.as_strided.html" />
     <link rel="prev" title="numpy.select" href="numpy.select.html" />
-
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
 
     <!-- Google Analytics -->
     
-<link rel="stylesheet" href="../../_static/numpy.css" type="text/css" />
-
-    <!-- PR #17220: This is added via javascript in versionwarning.js  -->
-    <!-- link rel="canonical" href="http://numpy.org/doc/stable/reference/generated/numpy.lib.stride_tricks.sliding_window_view.html" / -->
-
-
   </head>
   <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
     
@@ -100,6 +92,12 @@
 <li class="toctree-l1 nav-item">
  <a class="reference internal nav-link" href="../../dev/index.html">
   Development
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../release.html">
+  Release notes
  </a>
 </li>
 
@@ -514,11 +512,11 @@
               
               <div>
                 
-  <section id="numpy-lib-stride-tricks-sliding-window-view">
+  <div class="section" id="numpy-lib-stride-tricks-sliding-window-view">
 <h1>numpy.lib.stride_tricks.sliding_window_view<a class="headerlink" href="#numpy-lib-stride-tricks-sliding-window-view" title="Permalink to this headline">¶</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="numpy.lib.stride_tricks.sliding_window_view">
-<span class="sig-prename descclassname"><span class="pre">lib.stride_tricks.</span></span><span class="sig-name descname"><span class="pre">sliding_window_view</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">window_shape</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">axis</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subok</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">writeable</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/numpy/numpy/blob/v1.22.0/numpy/lib/stride_tricks.py#L122-L336"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#numpy.lib.stride_tricks.sliding_window_view" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">lib.stride_tricks.</span></span><span class="sig-name descname"><span class="pre">sliding_window_view</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">window_shape</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">axis</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subok</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">writeable</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/numpy/numpy/blob/v1.22.4/numpy/lib/stride_tricks.py#L122-L336"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#numpy.lib.stride_tricks.sliding_window_view" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create a sliding window view into the array with the given window shape.</p>
 <p>Also known as rolling or moving window, the window slides across all
 dimensions of the array and extracts subsets of the array at all window
@@ -578,8 +576,8 @@ than the corresponding window size.</p>
 <p>For many applications using a sliding window view can be convenient, but
 potentially very slow. Often specialized solutions exist, for example:</p>
 <ul class="simple">
-<li><p><a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/reference/generated/scipy.signal.fftconvolve.html#scipy.signal.fftconvolve" title="(in SciPy v1.7.1)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scipy.signal.fftconvolve</span></code></a></p></li>
-<li><p>filtering functions in <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/reference/ndimage.html#module-scipy.ndimage" title="(in SciPy v1.7.1)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scipy.ndimage</span></code></a></p></li>
+<li><p><a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.fftconvolve.html#scipy.signal.fftconvolve" title="(in SciPy v1.8.1)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scipy.signal.fftconvolve</span></code></a></p></li>
+<li><p>filtering functions in <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/ndimage.html#module-scipy.ndimage" title="(in SciPy v1.8.1)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scipy.ndimage</span></code></a></p></li>
 <li><p>moving window functions provided by
 <a class="reference external" href="https://github.com/pydata/bottleneck">bottleneck</a>.</p></li>
 </ul>
@@ -696,7 +694,7 @@ statistics. The simplest example is the
 <p>Note that a sliding window approach is often <strong>not</strong> optimal (see Notes).</p>
 </dd></dl>
 
-</section>
+</div>
 
 
               </div>

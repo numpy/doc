@@ -4,8 +4,7 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Generalized Universal Function API &#8212; NumPy v1.22 Manual</title>
     
   <link href="../../_static/css/theme.css" rel="stylesheet">
@@ -28,8 +27,8 @@
     <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/plot_directive.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/panels-bootstrap.5fd3999ee7762ccc51105388f4a9d115.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/numpy.css" />
     
   <link rel="preload" as="script" href="../../_static/js/index.be7d3bbb2ef33a8344ce.js">
 
@@ -42,19 +41,12 @@
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="NumPy core libraries" href="coremath.html" />
     <link rel="prev" title="UFunc API" href="ufunc.html" />
-
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
 
     <!-- Google Analytics -->
     
-<link rel="stylesheet" href="../../_static/numpy.css" type="text/css" />
-
-    <!-- PR #17220: This is added via javascript in versionwarning.js  -->
-    <!-- link rel="canonical" href="http://numpy.org/doc/stable/reference/c-api/generalized-ufuncs.html" / -->
-
-
   </head>
   <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
     
@@ -100,6 +92,12 @@
 <li class="toctree-l1 nav-item">
  <a class="reference internal nav-link" href="../../dev/index.html">
   Development
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../release.html">
+  Release notes
  </a>
 </li>
 
@@ -335,7 +333,7 @@
               
               <div>
                 
-  <section id="generalized-universal-function-api">
+  <div class="section" id="generalized-universal-function-api">
 <span id="c-api-generalized-ufuncs"></span><h1>Generalized Universal Function API<a class="headerlink" href="#generalized-universal-function-api" title="Permalink to this headline">¶</a></h1>
 <p>There is a general need for looping over not only functions on scalars
 but also over functions on vectors (or arrays).
@@ -394,7 +392,7 @@ raised.</p>
 dimensions were created by prepending 1’s to the shape as necessary, core
 dimensions with the same label were broadcast together, and undetermined
 dimensions were created with size 1.</p>
-<section id="definitions">
+<div class="section" id="definitions">
 <h2>Definitions<a class="headerlink" href="#definitions" title="Permalink to this headline">¶</a></h2>
 <dl class="simple">
 <dt>Elementary Function</dt><dd><p>Each ufunc consists of an elementary function that performs the
@@ -423,8 +421,8 @@ enumerates the dimension names according to the order of the first
 occurrence of each name in the signature.</p>
 </dd>
 </dl>
-</section>
-<section id="details-of-signature">
+</div>
+<div class="section" id="details-of-signature">
 <span id="id1"></span><h2>Details of Signature<a class="headerlink" href="#details-of-signature" title="Permalink to this headline">¶</a></h2>
 <p>The signature defines “core” dimensionality of input and output
 variables, and thereby also defines the contraction of the
@@ -523,8 +521,8 @@ dimension is frozen and must be 3</p></td>
 </table>
 <p id="frozen">The last is an instance of freezing a core dimension and can be used to
 improve ufunc performance</p>
-</section>
-<section id="c-api-for-implementing-elementary-functions">
+</div>
+<div class="section" id="c-api-for-implementing-elementary-functions">
 <h2>C-API for implementing Elementary Functions<a class="headerlink" href="#c-api-for-implementing-elementary-functions" title="Permalink to this headline">¶</a></h2>
 <p>The current interface remains unchanged, and <code class="docutils literal notranslate"><span class="pre">PyUFunc_FromFuncAndData</span></code>
 can still be used to implement (specialized) ufuncs, consisting of
@@ -554,8 +552,8 @@ input/output arrays <code class="docutils literal notranslate"><span class="pre"
 <code class="docutils literal notranslate"><span class="pre">[N,</span> <span class="pre">I,</span> <span class="pre">J]</span></code> to define the size of <code class="docutils literal notranslate"><span class="pre">N</span></code> of the loop and the sizes <code class="docutils literal notranslate"><span class="pre">I</span></code> and <code class="docutils literal notranslate"><span class="pre">J</span></code>
 for the core dimensions <code class="docutils literal notranslate"><span class="pre">i</span></code> and <code class="docutils literal notranslate"><span class="pre">j</span></code>.  Finally, <code class="docutils literal notranslate"><span class="pre">steps</span></code> will be
 <code class="docutils literal notranslate"><span class="pre">[a_N,</span> <span class="pre">b_N,</span> <span class="pre">c_N,</span> <span class="pre">a_i,</span> <span class="pre">a_j,</span> <span class="pre">b_i]</span></code>, containing all necessary strides.</p>
-</section>
-</section>
+</div>
+</div>
 
 
               </div>

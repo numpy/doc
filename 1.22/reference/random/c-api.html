@@ -4,8 +4,7 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>C API for random &#8212; NumPy v1.22 Manual</title>
     
   <link href="../../_static/css/theme.css" rel="stylesheet">
@@ -28,8 +27,8 @@
     <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/plot_directive.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/panels-bootstrap.5fd3999ee7762ccc51105388f4a9d115.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/numpy.css" />
     
   <link rel="preload" as="script" href="../../_static/js/index.be7d3bbb2ef33a8344ce.js">
 
@@ -42,19 +41,12 @@
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="Extending" href="extending.html" />
     <link rel="prev" title="Performance" href="performance.html" />
-
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
 
     <!-- Google Analytics -->
     
-<link rel="stylesheet" href="../../_static/numpy.css" type="text/css" />
-
-    <!-- PR #17220: This is added via javascript in versionwarning.js  -->
-    <!-- link rel="canonical" href="http://numpy.org/doc/stable/reference/random/c-api.html" / -->
-
-
   </head>
   <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
     
@@ -100,6 +92,12 @@
 <li class="toctree-l1 nav-item">
  <a class="reference internal nav-link" href="../../dev/index.html">
   Development
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../release.html">
+  Release notes
  </a>
 </li>
 
@@ -510,7 +508,7 @@
               
               <div>
                 
-  <section id="c-api-for-random">
+  <div class="section" id="c-api-for-random">
 <h1>C API for random<a class="headerlink" href="#c-api-for-random" title="Permalink to this headline">¶</a></h1>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 1.19.0.</span></p>
@@ -526,7 +524,7 @@ first argument.  To access these from Cython or C, you must link with the
 <dd><p>The <a class="reference internal" href="#c.bitgen_t" title="bitgen_t"><code class="xref c c-type docutils literal notranslate"><span class="pre">bitgen_t</span></code></a> holds the current state of the BitGenerator and
 pointers to functions that return standard C types while advancing the
 state.</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">struct</span> <span class="nc">bitgen</span><span class="o">:</span><span class="w"></span>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">struct</span><span class="w"> </span><span class="nc">bitgen</span><span class="o">:</span><span class="w"></span>
 <span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">state</span><span class="w"></span>
 <span class="w">    </span><span class="n">npy_uint64</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">next_uint64</span><span class="p">)(</span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">st</span><span class="p">)</span><span class="w"> </span><span class="n">nogil</span><span class="w"></span>
 <span class="w">    </span><span class="kt">uint32_t</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">next_uint32</span><span class="p">)(</span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">st</span><span class="p">)</span><span class="w"> </span><span class="n">nogil</span><span class="w"></span>
@@ -759,7 +757,7 @@ non-ziggurat variants are used in corner cases and for legacy compatibility.</p>
 <dl class="c type">
 <dt class="sig sig-object c" id="c.binomial_t">
 <span class="k"><span class="pre">type</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">binomial_t</span></span></span><a class="headerlink" href="#c.binomial_t" title="Permalink to this definition">¶</a><br /></dt>
-<dd><div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span> <span class="nc">s_binomial_t</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<dd><div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">s_binomial_t</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">  </span><span class="kt">int</span><span class="w"> </span><span class="n">has_binomial</span><span class="p">;</span><span class="w"> </span><span class="cm">/* !=0: following parameters initialized for binomial */</span><span class="w"></span>
 <span class="w">  </span><span class="kt">double</span><span class="w"> </span><span class="n">psave</span><span class="p">;</span><span class="w"></span>
 <span class="w">  </span><span class="n">RAND_INT_TYPE</span><span class="w"> </span><span class="n">nsave</span><span class="p">;</span><span class="w"></span>
@@ -864,7 +862,7 @@ non-ziggurat variants are used in corner cases and for legacy compatibility.</p>
 <a class="reference internal" href="../c-api/dtype.html#c.npy_uint64" title="npy_uint64"><span class="n"><span class="pre">npy_uint64</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">random_bounded_uint64</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.bitgen_t" title="bitgen_t"><span class="n"><span class="pre">bitgen_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">bitgen_state</span></span>, <a class="reference internal" href="../c-api/dtype.html#c.npy_uint64" title="npy_uint64"><span class="n"><span class="pre">npy_uint64</span></span></a><span class="w"> </span><span class="n"><span class="pre">off</span></span>, <a class="reference internal" href="../c-api/dtype.html#c.npy_uint64" title="npy_uint64"><span class="n"><span class="pre">npy_uint64</span></span></a><span class="w"> </span><span class="n"><span class="pre">rng</span></span>, <a class="reference internal" href="../c-api/dtype.html#c.npy_uint64" title="npy_uint64"><span class="n"><span class="pre">npy_uint64</span></span></a><span class="w"> </span><span class="n"><span class="pre">mask</span></span>, <span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n"><span class="pre">use_masked</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.random_bounded_uint64" title="Permalink to this definition">¶</a><br /></dt>
 <dd></dd></dl>
 
-</section>
+</div>
 
 
               </div>

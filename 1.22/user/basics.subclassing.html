@@ -4,8 +4,7 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Subclassing ndarray &#8212; NumPy v1.22 Manual</title>
     
   <link href="../_static/css/theme.css" rel="stylesheet">
@@ -28,8 +27,8 @@
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
     <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
     <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/panels-bootstrap.5fd3999ee7762ccc51105388f4a9d115.css" />
     <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/numpy.css" />
     
   <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
 
@@ -42,19 +41,12 @@
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Universal functions (ufunc) basics" href="basics.ufuncs.html" />
     <link rel="prev" title="Writing custom array containers" href="basics.dispatch.html" />
-
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
 
     <!-- Google Analytics -->
     
-<link rel="stylesheet" href="../_static/numpy.css" type="text/css" />
-
-    <!-- PR #17220: This is added via javascript in versionwarning.js  -->
-    <!-- link rel="canonical" href="http://numpy.org/doc/stable/user/basics.subclassing.html" / -->
-
-
   </head>
   <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
     
@@ -100,6 +92,12 @@
 <li class="toctree-l1 nav-item">
  <a class="reference internal nav-link" href="../dev/index.html">
   Development
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../release.html">
+  Release notes
  </a>
 </li>
 
@@ -461,15 +459,15 @@
               
               <div>
                 
-  <section id="subclassing-ndarray">
+  <div class="section" id="subclassing-ndarray">
 <span id="basics-subclassing"></span><h1>Subclassing ndarray<a class="headerlink" href="#subclassing-ndarray" title="Permalink to this headline">¶</a></h1>
-<section id="introduction">
+<div class="section" id="introduction">
 <h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
 <p>Subclassing ndarray is relatively simple, but it has some complications
 compared to other Python objects.  On this page we explain the machinery
 that allows you to subclass ndarray, and the implications for
 implementing a subclass.</p>
-<section id="ndarrays-and-object-creation">
+<div class="section" id="ndarrays-and-object-creation">
 <h3>ndarrays and object creation<a class="headerlink" href="#ndarrays-and-object-creation" title="Permalink to this headline">¶</a></h3>
 <p>Subclassing ndarray is complicated by the fact that new instances of
 ndarray classes can come about in three different ways.  These are:</p>
@@ -486,9 +484,9 @@ creating return types from ufuncs, and copying arrays.  See
 things like array slicing.  The complications of subclassing ndarray are
 due to the mechanisms numpy has to support these latter two routes of
 instance creation.</p>
-</section>
-</section>
-<section id="view-casting">
+</div>
+</div>
+<div class="section" id="view-casting">
 <span id="id1"></span><h2>View casting<a class="headerlink" href="#view-casting" title="Permalink to this headline">¶</a></h2>
 <p><em>View casting</em> is the standard ndarray mechanism by which you take an
 ndarray of any subclass, and return a view of the array as another
@@ -504,8 +502,8 @@ ndarray of any subclass, and return a view of the array as another
 <span class="go">&lt;class &#39;C&#39;&gt;</span>
 </pre></div>
 </div>
-</section>
-<section id="creating-new-from-template">
+</div>
+<div class="section" id="creating-new-from-template">
 <span id="new-from-template"></span><h2>Creating new from template<a class="headerlink" href="#creating-new-from-template" title="Permalink to this headline">¶</a></h2>
 <p>New instances of an ndarray subclass can also come about by a very
 similar mechanism to <a class="reference internal" href="#view-casting"><span class="std std-ref">View casting</span></a>, when numpy finds it needs to
@@ -526,8 +524,8 @@ class, that points to the data in the original.</p>
 such as copying arrays (<code class="docutils literal notranslate"><span class="pre">c_arr.copy()</span></code>), creating ufunc output arrays
 (see also <a class="reference internal" href="#array-wrap"><span class="std std-ref">__array_wrap__ for ufuncs and other functions</span></a>), and reducing methods (like
 <code class="docutils literal notranslate"><span class="pre">c_arr.mean()</span></code>).</p>
-</section>
-<section id="relationship-of-view-casting-and-new-from-template">
+</div>
+<div class="section" id="relationship-of-view-casting-and-new-from-template">
 <h2>Relationship of view casting and new-from-template<a class="headerlink" href="#relationship-of-view-casting-and-new-from-template" title="Permalink to this headline">¶</a></h2>
 <p>These paths both use the same machinery.  We make the distinction here,
 because they result in different input to your methods.  Specifically,
@@ -536,8 +534,8 @@ type from any potential subclass of ndarray.  <a class="reference internal" href
 means you have created a new instance of your class from a pre-existing
 instance, allowing you - for example - to copy across attributes that
 are particular to your subclass.</p>
-</section>
-<section id="implications-for-subclassing">
+</div>
+<div class="section" id="implications-for-subclassing">
 <h2>Implications for subclassing<a class="headerlink" href="#implications-for-subclassing" title="Permalink to this headline">¶</a></h2>
 <p>If we subclass ndarray, we need to deal not only with explicit
 construction of our array type, but also <a class="reference internal" href="#view-casting"><span class="std std-ref">View casting</span></a> or
@@ -550,7 +548,7 @@ of object initialization, rather then the more usual <code class="docutils liter
 method.  The second is the use of the <code class="docutils literal notranslate"><span class="pre">__array_finalize__</span></code> method to
 allow subclasses to clean up after the creation of views and new
 instances from templates.</p>
-<section id="a-brief-python-primer-on-new-and-init">
+<div class="section" id="a-brief-python-primer-on-new-and-init">
 <h3>A brief Python primer on <code class="docutils literal notranslate"><span class="pre">__new__</span></code> and <code class="docutils literal notranslate"><span class="pre">__init__</span></code><a class="headerlink" href="#a-brief-python-primer-on-new-and-init" title="Permalink to this headline">¶</a></h3>
 <p><code class="docutils literal notranslate"><span class="pre">__new__</span></code> is a standard Python method, and, if present, is called
 before <code class="docutils literal notranslate"><span class="pre">__init__</span></code> when we create a class instance. See the <a class="reference external" href="https://docs.python.org/reference/datamodel.html#object.__new__">python
@@ -632,8 +630,8 @@ this way, in its standard methods for taking views, but the ndarray
 <code class="docutils literal notranslate"><span class="pre">__new__</span></code> method in order to set attributes, and so on.  (Aside -
 why not call <code class="docutils literal notranslate"><span class="pre">obj</span> <span class="pre">=</span> <span class="pre">subdtype.__new__(...</span></code> then?  Because we may not
 have a <code class="docutils literal notranslate"><span class="pre">__new__</span></code> method with the same call signature).</p>
-</section>
-<section id="the-role-of-array-finalize">
+</div>
+<div class="section" id="the-role-of-array-finalize">
 <h3>The role of <code class="docutils literal notranslate"><span class="pre">__array_finalize__</span></code><a class="headerlink" href="#the-role-of-array-finalize" title="Permalink to this headline">¶</a></h3>
 <p><code class="docutils literal notranslate"><span class="pre">__array_finalize__</span></code> is the mechanism that numpy provides to allow
 subclasses to handle the various ways that new instances get created.</p>
@@ -724,9 +722,9 @@ own subclass, that we might use to update the new <code class="docutils literal 
 instances being created, it is the sensible place to fill in instance
 defaults for new object attributes, among other tasks.</p>
 <p>This may be clearer with an example.</p>
-</section>
-</section>
-<section id="simple-example-adding-an-extra-attribute-to-ndarray">
+</div>
+</div>
+<div class="section" id="simple-example-adding-an-extra-attribute-to-ndarray">
 <h2>Simple example - adding an extra attribute to ndarray<a class="headerlink" href="#simple-example-adding-an-extra-attribute-to-ndarray" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
@@ -800,8 +798,8 @@ bare ndarray object, including passing in buffers and shapes and so on.
 We would probably prefer the constructor to be able to take an already
 formed ndarray from the usual numpy calls to <code class="docutils literal notranslate"><span class="pre">np.array</span></code> and return an
 object.</p>
-</section>
-<section id="slightly-more-realistic-example-attribute-added-to-existing-array">
+</div>
+<div class="section" id="slightly-more-realistic-example-attribute-added-to-existing-array">
 <h2>Slightly more realistic example - attribute added to existing array<a class="headerlink" href="#slightly-more-realistic-example-attribute-added-to-existing-array" title="Permalink to this headline">¶</a></h2>
 <p>Here is a class that takes a standard ndarray that already exists, casts
 as our type, and adds an extra attribute.</p>
@@ -838,8 +836,8 @@ as our type, and adds an extra attribute.</p>
 <span class="go">&#39;information&#39;</span>
 </pre></div>
 </div>
-</section>
-<section id="array-ufunc-for-ufuncs">
+</div>
+<div class="section" id="array-ufunc-for-ufuncs">
 <span id="array-ufunc"></span><h2><code class="docutils literal notranslate"><span class="pre">__array_ufunc__</span></code> for ufuncs<a class="headerlink" href="#array-ufunc-for-ufuncs" title="Permalink to this headline">¶</a></h2>
 <blockquote>
 <div><div class="versionadded">
@@ -849,7 +847,7 @@ as our type, and adds an extra attribute.</p>
 <p>A subclass can override what happens when executing numpy ufuncs on it by
 overriding the default <code class="docutils literal notranslate"><span class="pre">ndarray.__array_ufunc__</span></code> method. This method is
 executed <em>instead</em> of the ufunc and should return either the result of the
-operation, or <a class="reference external" href="https://docs.python.org/dev/library/constants.html#NotImplemented" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NotImplemented</span></code></a> if the operation requested is not
+operation, or <a class="reference external" href="https://docs.python.org/3/library/constants.html#NotImplemented" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NotImplemented</span></code></a> if the operation requested is not
 implemented.</p>
 <p>The signature of <code class="docutils literal notranslate"><span class="pre">__array_ufunc__</span></code> is:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>def __array_ufunc__(ufunc, method, *inputs, **kwargs):
@@ -973,8 +971,8 @@ on both, i.e., <code class="docutils literal notranslate"><span class="pre">clas
 pass on to <code class="docutils literal notranslate"><span class="pre">A.__array_ufunc__</span></code>, the <code class="docutils literal notranslate"><span class="pre">super</span></code> call in <code class="docutils literal notranslate"><span class="pre">A</span></code> would go to
 <code class="docutils literal notranslate"><span class="pre">B.__array_ufunc__</span></code>, and the <code class="docutils literal notranslate"><span class="pre">super</span></code> call in <code class="docutils literal notranslate"><span class="pre">B</span></code> would go to
 <code class="docutils literal notranslate"><span class="pre">ndarray.__array_ufunc__</span></code>, thus allowing <code class="docutils literal notranslate"><span class="pre">A</span></code> and <code class="docutils literal notranslate"><span class="pre">B</span></code> to collaborate.</p>
-</section>
-<section id="array-wrap-for-ufuncs-and-other-functions">
+</div>
+<div class="section" id="array-wrap-for-ufuncs-and-other-functions">
 <span id="array-wrap"></span><h2><code class="docutils literal notranslate"><span class="pre">__array_wrap__</span></code> for ufuncs and other functions<a class="headerlink" href="#array-wrap-for-ufuncs-and-other-functions" title="Permalink to this headline">¶</a></h2>
 <p>Prior to numpy 1.13, the behaviour of ufuncs could only be tuned using
 <code class="docutils literal notranslate"><span class="pre">__array_wrap__</span></code> and <code class="docutils literal notranslate"><span class="pre">__array_prepare__</span></code>. These two allowed one to
@@ -1071,8 +1069,8 @@ output array type, updating attributes and metadata, and performing any
 checks based on the input that may be desired before computation begins.
 Like <code class="docutils literal notranslate"><span class="pre">__array_wrap__</span></code>, <code class="docutils literal notranslate"><span class="pre">__array_prepare__</span></code> must return an ndarray or
 subclass thereof or raise an error.</p>
-</section>
-<section id="extra-gotchas-custom-del-methods-and-ndarray-base">
+</div>
+<div class="section" id="extra-gotchas-custom-del-methods-and-ndarray-base">
 <h2>Extra gotchas - custom <code class="docutils literal notranslate"><span class="pre">__del__</span></code> methods and ndarray.base<a class="headerlink" href="#extra-gotchas-custom-del-methods-and-ndarray-base" title="Permalink to this headline">¶</a></h2>
 <p>One of the problems that ndarray solves is keeping track of memory
 ownership of ndarrays and their views.  Consider the case where we have
@@ -1107,8 +1105,8 @@ array is deleted.  For example, we may only want to do the cleanup if
 the original array is deleted, but not the views.  For an example of
 how this can work, have a look at the <code class="docutils literal notranslate"><span class="pre">memmap</span></code> class in
 <code class="docutils literal notranslate"><span class="pre">numpy.core</span></code>.</p>
-</section>
-<section id="subclassing-and-downstream-compatibility">
+</div>
+<div class="section" id="subclassing-and-downstream-compatibility">
 <h2>Subclassing and Downstream Compatibility<a class="headerlink" href="#subclassing-and-downstream-compatibility" title="Permalink to this headline">¶</a></h2>
 <p>When sub-classing <code class="docutils literal notranslate"><span class="pre">ndarray</span></code> or creating duck-types that mimic the <code class="docutils literal notranslate"><span class="pre">ndarray</span></code>
 interface, it is your responsibility to decide how aligned your APIs will be
@@ -1145,8 +1143,8 @@ your function’s signature should accept <code class="docutils literal notransl
 <p>This object is now compatible with <code class="docutils literal notranslate"><span class="pre">np.sum</span></code> again because any extraneous arguments
 (i.e. keywords that are not <code class="docutils literal notranslate"><span class="pre">axis</span></code> or <code class="docutils literal notranslate"><span class="pre">dtype</span></code>) will be hidden away in the
 <code class="docutils literal notranslate"><span class="pre">**unused_kwargs</span></code> parameter.</p>
-</section>
-</section>
+</div>
+</div>
 
 
               </div>

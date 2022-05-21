@@ -4,8 +4,7 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Development workflow &#8212; NumPy v1.22 Manual</title>
     
   <link href="../_static/css/theme.css" rel="stylesheet">
@@ -28,8 +27,8 @@
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
     <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
     <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/panels-bootstrap.5fd3999ee7762ccc51105388f4a9d115.css" />
     <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/numpy.css" />
     
   <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
 
@@ -42,19 +41,12 @@
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Advanced debugging tools" href="development_advanced_debugging.html" />
     <link rel="prev" title="Building the NumPy API and reference docs" href="howto_build_docs.html" />
-
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
 
     <!-- Google Analytics -->
     
-<link rel="stylesheet" href="../_static/numpy.css" type="text/css" />
-
-    <!-- PR #17220: This is added via javascript in versionwarning.js  -->
-    <!-- link rel="canonical" href="http://numpy.org/doc/stable/dev/development_workflow.html" / -->
-
-
   </head>
   <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
     
@@ -100,6 +92,12 @@
 <li class="toctree-l1 current active nav-item">
  <a class="reference internal nav-link" href="index.html">
   Development
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../release.html">
+  Release notes
  </a>
 </li>
 
@@ -346,14 +344,14 @@
               
               <div>
                 
-  <section id="development-workflow">
+  <div class="section" id="development-workflow">
 <span id="id1"></span><h1>Development workflow<a class="headerlink" href="#development-workflow" title="Permalink to this headline">¶</a></h1>
 <p>You already have your own forked copy of the <a class="reference external" href="https://www.numpy.org">NumPy</a> repository, by
 following <a class="reference internal" href="gitwash/development_setup.html#forking"><span class="std std-ref">Create a NumPy fork</span></a>, <a class="reference internal" href="gitwash/development_setup.html#set-up-fork"><span class="std std-ref">Make the local copy</span></a>, you have configured <a class="reference external" href="https://git-scm.com/">git</a>
 by following <a class="reference internal" href="gitwash/configure_git.html#configure-git"><span class="std std-ref">Git configuration</span></a>, and have linked the upstream
-repository as explained in <a class="reference external" href="https://scikit-image.org/docs/stable/gitwash/set_up_fork.html#linking-to-upstream" title="(in skimage v0.19.0)"><span>Linking your repository to the upstream repo</span></a>.</p>
+repository as explained in <a class="reference external" href="https://scikit-image.org/docs/stable/gitwash/set_up_fork.html#linking-to-upstream" title="(in skimage v0.19.2)"><span>Linking your repository to the upstream repo</span></a>.</p>
 <p>What is described below is a recommended workflow with Git.</p>
-<section id="basic-workflow">
+<div class="section" id="basic-workflow">
 <h2>Basic workflow<a class="headerlink" href="#basic-workflow" title="Permalink to this headline">¶</a></h2>
 <p>In short:</p>
 <ol class="arabic simple">
@@ -377,7 +375,7 @@ as clear as possible.</p>
 of specific git workflows, see these discussions on <a class="reference external" href="https://www.mail-archive.com/dri-devel&#64;lists.sourceforge.net/msg39091.html">linux git workflow</a>,
 and <a class="reference external" href="https://mail.python.org/pipermail/ipython-dev/2010-October/005632.html">ipython git workflow</a>.</p>
 </div>
-<section id="making-a-new-feature-branch">
+<div class="section" id="making-a-new-feature-branch">
 <span id="id2"></span><h3>Making a new feature branch<a class="headerlink" href="#making-a-new-feature-branch" title="Permalink to this headline">¶</a></h3>
 <p>First, fetch new commits from the <code class="docutils literal notranslate"><span class="pre">upstream</span></code> repository:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">fetch</span> <span class="n">upstream</span>
@@ -388,10 +386,10 @@ repository:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">checkout</span> <span class="o">-</span><span class="n">b</span> <span class="n">my</span><span class="o">-</span><span class="n">new</span><span class="o">-</span><span class="n">feature</span> <span class="n">upstream</span><span class="o">/</span><span class="n">main</span>
 </pre></div>
 </div>
-</section>
-<section id="the-editing-workflow">
+</div>
+<div class="section" id="the-editing-workflow">
 <span id="editing-workflow"></span><h3>The editing workflow<a class="headerlink" href="#the-editing-workflow" title="Permalink to this headline">¶</a></h3>
-<section id="overview">
+<div class="section" id="overview">
 <h4>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h4>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># hack hack</span>
 <span class="n">git</span> <span class="n">status</span> <span class="c1"># Optional</span>
@@ -402,8 +400,8 @@ repository:</p>
 <span class="n">git</span> <span class="n">push</span> <span class="n">origin</span> <span class="n">my</span><span class="o">-</span><span class="n">new</span><span class="o">-</span><span class="n">feature</span>
 </pre></div>
 </div>
-</section>
-<section id="in-more-detail">
+</div>
+<div class="section" id="in-more-detail">
 <h4>In more detail<a class="headerlink" href="#in-more-detail" title="Permalink to this headline">¶</a></h4>
 <ol class="arabic">
 <li><p>Make some changes. When you feel that you’ve made a complete, working set
@@ -476,8 +474,8 @@ are then simplified to the following:</p>
 been added to <code class="docutils literal notranslate"><span class="pre">upstream</span></code> that affect your work. In this case, follow the
 <a class="reference internal" href="#rebasing-on-main"><span class="std std-ref">Rebasing on main</span></a> section of this document to apply those changes to
 your branch.</p>
-</section>
-<section id="writing-the-commit-message">
+</div>
+<div class="section" id="writing-the-commit-message">
 <span id="id3"></span><h4>Writing the commit message<a class="headerlink" href="#writing-the-commit-message" title="Permalink to this headline">¶</a></h4>
 <p>Commit messages should be clear and follow a few basic rules.  Example:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ENH</span><span class="p">:</span> <span class="n">add</span> <span class="n">functionality</span> <span class="n">X</span> <span class="n">to</span> <span class="n">numpy</span><span class="o">.&lt;</span><span class="n">submodule</span><span class="o">&gt;.</span>
@@ -510,16 +508,16 @@ what not to do; the reader has to go look for context elsewhere.</p>
 <span class="n">REL</span><span class="p">:</span> <span class="n">related</span> <span class="n">to</span> <span class="n">releasing</span> <span class="n">numpy</span>
 </pre></div>
 </div>
-</section>
-</section>
-<section id="get-the-mailing-list-s-opinion">
+</div>
+</div>
+<div class="section" id="get-the-mailing-list-s-opinion">
 <span id="workflow-mailing-list"></span><h3>Get the mailing list’s opinion<a class="headerlink" href="#get-the-mailing-list-s-opinion" title="Permalink to this headline">¶</a></h3>
 <p>If you plan a new feature or API change, it’s wisest to first email the
 NumPy <a class="reference external" href="https://mail.python.org/mailman/listinfo/numpy-discussion">mailing list</a>
 asking for comment. If you haven’t heard back in a week, it’s
 OK to ping the list again.</p>
-</section>
-<section id="asking-for-your-changes-to-be-merged-with-the-main-repo">
+</div>
+<div class="section" id="asking-for-your-changes-to-be-merged-with-the-main-repo">
 <span id="asking-for-merging"></span><h3>Asking for your changes to be merged with the main repo<a class="headerlink" href="#asking-for-your-changes-to-be-merged-with-the-main-repo" title="Permalink to this headline">¶</a></h3>
 <p>When you feel your work is finished, you can create a pull request (PR). Github
 has a nice help page that outlines the process for <a class="reference external" href="https://help.github.com/articles/using-pull-requests/#initiating-the-pull-request">filing pull requests</a>.</p>
@@ -527,16 +525,16 @@ has a nice help page that outlines the process for <a class="reference external"
 function, add a release note to the <code class="docutils literal notranslate"><span class="pre">doc/release/upcoming_changes/</span></code>
 directory, following the instructions and format in the
 <code class="docutils literal notranslate"><span class="pre">doc/release/upcoming_changes/README.rst</span></code> file.</p>
-</section>
-<section id="getting-your-pr-reviewed">
+</div>
+<div class="section" id="getting-your-pr-reviewed">
 <span id="workflow-pr-timeline"></span><h3>Getting your PR reviewed<a class="headerlink" href="#getting-your-pr-reviewed" title="Permalink to this headline">¶</a></h3>
 <p>We review pull requests as soon as we can, typically within a week. If you get
 no review comments within two weeks, feel free to ask for feedback by
 adding a comment on your PR (this will notify maintainers).</p>
 <p>If your PR is large or complicated, asking for input on the numpy-discussion
 mailing list may also be useful.</p>
-</section>
-<section id="rebasing-on-main">
+</div>
+<div class="section" id="rebasing-on-main">
 <span id="id4"></span><h3>Rebasing on main<a class="headerlink" href="#rebasing-on-main" title="Permalink to this headline">¶</a></h3>
 <p>This updates your feature branch with changes from the upstream <a class="reference external" href="https://github.com/numpy/numpy">NumPy
 github</a> repo. If you do not absolutely need to do this, try to avoid doing
@@ -567,8 +565,8 @@ this may generate merge conflicts that you need to resolve. See
 branch. Using <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">merge</span></code> and <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">pull</span></code> is discouraged when
 working on feature branches.</p>
 </div>
-</section>
-<section id="recovering-from-mess-ups">
+</div>
+<div class="section" id="recovering-from-mess-ups">
 <span id="recovering-from-mess-up"></span><h3>Recovering from mess-ups<a class="headerlink" href="#recovering-from-mess-ups" title="Permalink to this headline">¶</a></h3>
 <p>Sometimes, you mess up merges or rebases. Luckily, in Git it is
 relatively straightforward to recover from such mistakes.</p>
@@ -597,11 +595,11 @@ relatively straightforward to recover from such mistakes.</p>
 <p>If you didn’t actually mess up but there are merge conflicts, you need to
 resolve those.  This can be one of the trickier things to get right.  For a
 good description of how to do this, see <a class="reference external" href="https://git-scm.com/book/en/Git-Branching-Basic-Branching-and-Merging#Basic-Merge-Conflicts">this article on merging conflicts</a>.</p>
-</section>
-</section>
-<section id="additional-things-you-might-want-to-do">
+</div>
+</div>
+<div class="section" id="additional-things-you-might-want-to-do">
 <h2>Additional things you might want to do<a class="headerlink" href="#additional-things-you-might-want-to-do" title="Permalink to this headline">¶</a></h2>
-<section id="rewriting-commit-history">
+<div class="section" id="rewriting-commit-history">
 <span id="id5"></span><h3>Rewriting commit history<a class="headerlink" href="#rewriting-commit-history" title="Permalink to this headline">¶</a></h3>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -680,8 +678,8 @@ message. After revising it, we get the output:</p>
 </pre></div>
 </div>
 <p>If it went wrong, recovery is again possible as explained <a class="reference internal" href="#recovering-from-mess-up"><span class="std std-ref">above</span></a>.</p>
-</section>
-<section id="deleting-a-branch-on-github">
+</div>
+<div class="section" id="deleting-a-branch-on-github">
 <h3>Deleting a branch on <a class="reference external" href="https://github.com/numpy/numpy">github</a><a class="headerlink" href="#deleting-a-branch-on-github" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">checkout</span> <span class="n">main</span>
 <span class="c1"># delete branch locally</span>
@@ -692,8 +690,8 @@ message. After revising it, we get the output:</p>
 </div>
 <p>See also:
 <a class="reference external" href="https://stackoverflow.com/questions/2003505/how-do-i-delete-a-git-branch-locally-and-remotely">https://stackoverflow.com/questions/2003505/how-do-i-delete-a-git-branch-locally-and-remotely</a></p>
-</section>
-<section id="several-people-sharing-a-single-repository">
+</div>
+<div class="section" id="several-people-sharing-a-single-repository">
 <h3>Several people sharing a single repository<a class="headerlink" href="#several-people-sharing-a-single-repository" title="Permalink to this headline">¶</a></h3>
 <p>If you want to work on some stuff with other people, where you are all
 committing into the same repository, or even the same branch, then just
@@ -718,8 +716,8 @@ usual:</p>
 <span class="n">git</span> <span class="n">push</span> <span class="n">origin</span> <span class="n">my</span><span class="o">-</span><span class="n">feature</span><span class="o">-</span><span class="n">branch</span> <span class="c1"># pushes directly into your repo</span>
 </pre></div>
 </div>
-</section>
-<section id="exploring-your-repository">
+</div>
+<div class="section" id="exploring-your-repository">
 <h3>Exploring your repository<a class="headerlink" href="#exploring-your-repository" title="Permalink to this headline">¶</a></h3>
 <p>To see a graphical representation of the repository branches and
 commits:</p>
@@ -732,8 +730,8 @@ commits:</p>
 </div>
 <p>You can also look at the <a class="reference external" href="https://github.blog/2008-04-10-say-hello-to-the-network-graph-visualizer/">network graph visualizer</a> for your <a class="reference external" href="https://github.com/numpy/numpy">github</a>
 repo.</p>
-</section>
-<section id="backporting">
+</div>
+<div class="section" id="backporting">
 <h3>Backporting<a class="headerlink" href="#backporting" title="Permalink to this headline">¶</a></h3>
 <p>Backporting is the process of copying new feature/fixes committed in
 <a class="reference external" href="https://github.com/numpy/numpy">numpy/main</a> back to stable release branches. To do this you make a branch
@@ -778,8 +776,8 @@ backported branch to make sure nothing gets screwed up.</p></li>
 maintenance branch and not main, Github will usually suggest you
 make the pull request against main.</p></li>
 </ol>
-</section>
-<section id="pushing-changes-to-the-main-repo">
+</div>
+<div class="section" id="pushing-changes-to-the-main-repo">
 <span id="pushing-to-main"></span><h3>Pushing changes to the main repo<a class="headerlink" href="#pushing-changes-to-the-main-repo" title="Permalink to this headline">¶</a></h3>
 <p><em>Requires commit rights to the main NumPy repo.</em></p>
 <p>When you have a set of “ready” changes in a feature branch ready for
@@ -821,9 +819,9 @@ them to <code class="docutils literal notranslate"><span class="pre">upstream</s
 first that you’re about to push the changes you want to the place you
 want.</p>
 </div>
-</section>
-</section>
-</section>
+</div>
+</div>
+</div>
 
 
               </div>

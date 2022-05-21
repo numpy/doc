@@ -4,8 +4,7 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Extending &#8212; NumPy v1.22 Manual</title>
     
   <link href="../../_static/css/theme.css" rel="stylesheet">
@@ -28,8 +27,8 @@
     <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/plot_directive.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/panels-bootstrap.5fd3999ee7762ccc51105388f4a9d115.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/numpy.css" />
     
   <link rel="preload" as="script" href="../../_static/js/index.be7d3bbb2ef33a8344ce.js">
 
@@ -42,19 +41,12 @@
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="Extending via Numba" href="examples/numba.html" />
     <link rel="prev" title="C API for random" href="c-api.html" />
-
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
 
     <!-- Google Analytics -->
     
-<link rel="stylesheet" href="../../_static/numpy.css" type="text/css" />
-
-    <!-- PR #17220: This is added via javascript in versionwarning.js  -->
-    <!-- link rel="canonical" href="http://numpy.org/doc/stable/reference/random/extending.html" / -->
-
-
   </head>
   <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
     
@@ -100,6 +92,12 @@
 <li class="toctree-l1 nav-item">
  <a class="reference internal nav-link" href="../../dev/index.html">
   Development
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../release.html">
+  Release notes
  </a>
 </li>
 
@@ -567,13 +565,13 @@
               
               <div>
                 
-  <section id="extending">
+  <div class="section" id="extending">
 <span id="id1"></span><h1>Extending<a class="headerlink" href="#extending" title="Permalink to this headline">¶</a></h1>
 <p>The BitGenerators have been designed to be extendable using standard tools for
 high-performance Python – numba and Cython.  The <a class="reference internal" href="generator.html#numpy.random.Generator" title="numpy.random.Generator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Generator</span></code></a> object can also
 be used with user-provided BitGenerators as long as these export a small set of
 required functions.</p>
-<section id="numba">
+<div class="section" id="numba">
 <h2>Numba<a class="headerlink" href="#numba" title="Permalink to this headline">¶</a></h2>
 <p>Numba can be used with either CTypes or CFFI.  The current iteration of the
 BitGenerators all export a small set of functions through both interfaces.</p>
@@ -636,8 +634,8 @@ provided by <code class="docutils literal notranslate"><span class="pre">ctypes.
 directly in Numba after compiling the file distributions.c into a <code class="docutils literal notranslate"><span class="pre">DLL</span></code> or
 <code class="docutils literal notranslate"><span class="pre">so</span></code>.  An example showing the use of a more complicated distribution is in
 the <em class="xref py py-obj">examples</em> section below.</p>
-</section>
-<section id="cython">
+</div>
+<div class="section" id="cython">
 <span id="random-cython"></span><h2>Cython<a class="headerlink" href="#cython" title="Permalink to this headline">¶</a></h2>
 <p>Cython can be used to unpack the <code class="docutils literal notranslate"><span class="pre">PyCapsule</span></code> provided by a BitGenerator.
 This example uses <a class="reference internal" href="bit_generators/pcg64.html#numpy.random.PCG64" title="numpy.random.PCG64"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PCG64</span></code></a> and the example from above.  The usual caveats
@@ -768,8 +766,8 @@ struct.</p>
 </div>
 <p>See <a class="reference internal" href="examples/cython/index.html#extending-cython-example"><span class="std std-ref">Extending numpy.random via Cython</span></a> for the complete listings of these examples
 and a minimal <code class="docutils literal notranslate"><span class="pre">setup.py</span></code> to build the c-extension modules.</p>
-</section>
-<section id="cffi">
+</div>
+<div class="section" id="cffi">
 <h2>CFFI<a class="headerlink" href="#cffi" title="Permalink to this headline">¶</a></h2>
 <p>CFFI can be used to directly access the functions in
 <code class="docutils literal notranslate"><span class="pre">include/numpy/random/distributions.h</span></code>. Some “massaging” of the header
@@ -819,15 +817,15 @@ directly from the <code class="docutils literal notranslate"><span class="pre">_
     <span class="k">assert</span> <span class="n">vals</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="n">vals_cffi</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
 </pre></div>
 </div>
-</section>
-<section id="new-bit-generators">
+</div>
+<div class="section" id="new-bit-generators">
 <h2>New Bit Generators<a class="headerlink" href="#new-bit-generators" title="Permalink to this headline">¶</a></h2>
 <p><a class="reference internal" href="generator.html#numpy.random.Generator" title="numpy.random.Generator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Generator</span></code></a> can be used with user-provided <a class="reference internal" href="bit_generators/generated/numpy.random.BitGenerator.html#numpy.random.BitGenerator" title="numpy.random.BitGenerator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BitGenerator</span></code></a>s. The simplest
 way to write a new BitGenerator is to examine the pyx file of one of the
 existing BitGenerators. The key structure that must be provided is the
 <code class="docutils literal notranslate"><span class="pre">capsule</span></code> which contains a <code class="docutils literal notranslate"><span class="pre">PyCapsule</span></code> to a struct pointer of type
 <code class="docutils literal notranslate"><span class="pre">bitgen_t</span></code>,</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span> <span class="nc">bitgen</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">bitgen</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">  </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">state</span><span class="p">;</span><span class="w"></span>
 <span class="w">  </span><span class="kt">uint64_t</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">next_uint64</span><span class="p">)(</span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">st</span><span class="p">);</span><span class="w"></span>
 <span class="w">  </span><span class="kt">uint32_t</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">next_uint32</span><span class="p">)(</span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">st</span><span class="p">);</span><span class="w"></span>
@@ -845,8 +843,8 @@ the next 64-bit unsigned integer function if not needed. Functions inside
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">bitgen_state</span><span class="o">-&gt;</span><span class="n">next_uint64</span><span class="p">(</span><span class="n">bitgen_state</span><span class="o">-&gt;</span><span class="n">state</span><span class="p">)</span><span class="w"></span>
 </pre></div>
 </div>
-</section>
-<section id="examples">
+</div>
+<div class="section" id="examples">
 <h2>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h2>
 <div class="toctree-wrapper compound">
 <ul>
@@ -861,8 +859,8 @@ the next 64-bit unsigned integer function if not needed. Functions inside
 <li class="toctree-l1"><a class="reference internal" href="examples/cffi.html">CFFI</a></li>
 </ul>
 </div>
-</section>
-</section>
+</div>
+</div>
 
 
               </div>

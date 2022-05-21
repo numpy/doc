@@ -4,8 +4,7 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Three ways to wrap - getting started &#8212; NumPy v1.22 Manual</title>
     
   <link href="../_static/css/theme.css" rel="stylesheet">
@@ -28,8 +27,8 @@
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
     <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
     <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/panels-bootstrap.5fd3999ee7762ccc51105388f4a9d115.css" />
     <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/numpy.css" />
     
   <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
 
@@ -42,19 +41,12 @@
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Using F2PY bindings in Python" href="python-usage.html" />
     <link rel="prev" title="Using F2PY" href="usage.html" />
-
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
 
     <!-- Google Analytics -->
     
-<link rel="stylesheet" href="../_static/numpy.css" type="text/css" />
-
-    <!-- PR #17220: This is added via javascript in versionwarning.js  -->
-    <!-- link rel="canonical" href="http://numpy.org/doc/stable/f2py/f2py.getting-started.html" / -->
-
-
   </head>
   <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
     
@@ -100,6 +92,12 @@
 <li class="toctree-l1 nav-item">
  <a class="reference internal nav-link" href="../dev/index.html">
   Development
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../release.html">
+  Release notes
  </a>
 </li>
 
@@ -334,7 +332,7 @@
               
               <div>
                 
-  <section id="three-ways-to-wrap-getting-started">
+  <div class="section" id="three-ways-to-wrap-getting-started">
 <span id="f2py-getting-started"></span><h1>Three ways to wrap - getting started<a class="headerlink" href="#three-ways-to-wrap-getting-started" title="Permalink to this headline">¶</a></h1>
 <p>Wrapping Fortran or C functions to Python using F2PY consists of the
 following steps:</p>
@@ -369,27 +367,27 @@ order of increasing effort, but also cater to different access levels depending
 on whether the Fortran code can be freely modified.</p>
 <p>The following example Fortran 77 code will be used for
 illustration, save it as <code class="docutils literal notranslate"><span class="pre">fib1.f</span></code>:</p>
-<div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span><span class="n">C</span> <span class="k">FILE</span><span class="p">:</span> <span class="n">FIB1</span><span class="p">.</span><span class="n">F</span>
-      <span class="k">SUBROUTINE </span><span class="n">FIB</span><span class="p">(</span><span class="n">A</span><span class="p">,</span><span class="n">N</span><span class="p">)</span>
-<span class="n">C</span>
-<span class="n">C</span>     <span class="n">CALCULATE</span> <span class="n">FIRST</span> <span class="n">N</span> <span class="n">FIBONACCI</span> <span class="n">NUMBERS</span>
-<span class="n">C</span>
-      <span class="kt">INTEGER </span><span class="n">N</span>
-      <span class="kt">REAL</span><span class="o">*</span><span class="mi">8</span> <span class="n">A</span><span class="p">(</span><span class="n">N</span><span class="p">)</span>
-      <span class="k">DO </span><span class="n">I</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">N</span>
-         <span class="k">IF</span> <span class="p">(</span><span class="n">I</span><span class="p">.</span><span class="n">EQ</span><span class="p">.</span><span class="mi">1</span><span class="p">)</span> <span class="k">THEN</span>
-<span class="k">            </span><span class="n">A</span><span class="p">(</span><span class="n">I</span><span class="p">)</span> <span class="o">=</span> <span class="mf">0.0D0</span>
-         <span class="n">ELSEIF</span> <span class="p">(</span><span class="n">I</span><span class="p">.</span><span class="n">EQ</span><span class="p">.</span><span class="mi">2</span><span class="p">)</span> <span class="k">THEN</span>
-<span class="k">            </span><span class="n">A</span><span class="p">(</span><span class="n">I</span><span class="p">)</span> <span class="o">=</span> <span class="mf">1.0D0</span>
-         <span class="k">ELSE </span>
-<span class="k">            </span><span class="n">A</span><span class="p">(</span><span class="n">I</span><span class="p">)</span> <span class="o">=</span> <span class="n">A</span><span class="p">(</span><span class="n">I</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">A</span><span class="p">(</span><span class="n">I</span><span class="o">-</span><span class="mi">2</span><span class="p">)</span>
-         <span class="k">ENDIF</span>
+<div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span><span class="n">C</span><span class="w"> </span><span class="k">FILE</span><span class="p">:</span><span class="w"> </span><span class="n">FIB1</span><span class="p">.</span><span class="n">F</span><span class="w"></span>
+<span class="w">      </span><span class="k">SUBROUTINE </span><span class="n">FIB</span><span class="p">(</span><span class="n">A</span><span class="p">,</span><span class="n">N</span><span class="p">)</span><span class="w"></span>
+<span class="n">C</span><span class="w"></span>
+<span class="n">C</span><span class="w">     </span><span class="n">CALCULATE</span><span class="w"> </span><span class="n">FIRST</span><span class="w"> </span><span class="n">N</span><span class="w"> </span><span class="n">FIBONACCI</span><span class="w"> </span><span class="n">NUMBERS</span><span class="w"></span>
+<span class="n">C</span><span class="w"></span>
+<span class="w">      </span><span class="kt">INTEGER </span><span class="n">N</span><span class="w"></span>
+<span class="w">      </span><span class="kt">REAL</span><span class="o">*</span><span class="mi">8</span><span class="w"> </span><span class="n">A</span><span class="p">(</span><span class="n">N</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">DO </span><span class="n">I</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">N</span><span class="w"></span>
+<span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">I</span><span class="p">.</span><span class="n">EQ</span><span class="p">.</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">            </span><span class="n">A</span><span class="p">(</span><span class="n">I</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0D0</span><span class="w"></span>
+<span class="w">         </span><span class="n">ELSEIF</span><span class="w"> </span><span class="p">(</span><span class="n">I</span><span class="p">.</span><span class="n">EQ</span><span class="p">.</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">            </span><span class="n">A</span><span class="p">(</span><span class="n">I</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.0D0</span><span class="w"></span>
+<span class="w">         </span><span class="k">ELSE </span>
+<span class="k">            </span><span class="n">A</span><span class="p">(</span><span class="n">I</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">A</span><span class="p">(</span><span class="n">I</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">A</span><span class="p">(</span><span class="n">I</span><span class="o">-</span><span class="mi">2</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">ENDIF</span>
 <span class="k">      ENDDO</span>
 <span class="k">      END</span>
-<span class="n">C</span> <span class="k">END FILE </span><span class="n">FIB1</span><span class="p">.</span><span class="n">F</span>
+<span class="n">C</span><span class="w"> </span><span class="k">END FILE </span><span class="n">FIB1</span><span class="p">.</span><span class="n">F</span><span class="w"></span>
 </pre></div>
 </div>
-<section id="the-quick-way">
+<div class="section" id="the-quick-way">
 <h2>The quick way<a class="headerlink" href="#the-quick-way" title="Permalink to this headline">¶</a></h2>
 <p>The quickest way to wrap the Fortran subroutine <code class="docutils literal notranslate"><span class="pre">FIB</span></code> for use in Python is to
 run</p>
@@ -499,8 +497,8 @@ F2PY about the true intentions of function arguments, and F2PY is then able to
 generate more explicit, easier to use, and less error prone wrappers for
 Fortran functions.</p>
 </div>
-</section>
-<section id="the-smart-way">
+</div>
+<div class="section" id="the-smart-way">
 <h2>The smart way<a class="headerlink" href="#the-smart-way" title="Permalink to this headline">¶</a></h2>
 <p>Let us apply the steps for wrapping Fortran functions to Python one by
 one.</p>
@@ -512,14 +510,14 @@ one.</p>
 <p>The signature file is saved to <code class="docutils literal notranslate"><span class="pre">fib1.pyf</span></code> (see the <code class="docutils literal notranslate"><span class="pre">-h</span></code> flag) and
 its contents are shown below.</p>
 <div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span><span class="c">!    -*- f90 -*-</span>
-<span class="n">python</span> <span class="k">module </span><span class="n">fib2</span> <span class="c">! in </span>
-    <span class="k">interface</span>  <span class="c">! in :fib2</span>
-        <span class="k">subroutine </span><span class="n">fib</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">n</span><span class="p">)</span> <span class="c">! in :fib2:fib1.f</span>
-            <span class="kt">real</span><span class="o">*</span><span class="mi">8</span> <span class="k">dimension</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="kd">::</span> <span class="n">a</span>
-            <span class="kt">integer </span><span class="k">optional</span><span class="p">,</span><span class="n">check</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="o">&gt;=</span><span class="n">n</span><span class="p">),</span><span class="n">depend</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="kd">::</span> <span class="n">n</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
-        <span class="k">end subroutine </span><span class="n">fib</span>
-    <span class="k">end interface </span>
-<span class="k">end </span><span class="n">python</span> <span class="k">module </span><span class="n">fib2</span>
+<span class="n">python</span><span class="w"> </span><span class="k">module </span><span class="n">fib2</span><span class="w"> </span><span class="c">! in </span>
+<span class="w">    </span><span class="k">interface</span><span class="w">  </span><span class="c">! in :fib2</span>
+<span class="w">        </span><span class="k">subroutine </span><span class="n">fib</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="c">! in :fib2:fib1.f</span>
+<span class="w">            </span><span class="kt">real</span><span class="o">*</span><span class="mi">8</span><span class="w"> </span><span class="k">dimension</span><span class="p">(</span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">a</span><span class="w"></span>
+<span class="w">            </span><span class="kt">integer </span><span class="k">optional</span><span class="p">,</span><span class="n">check</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="o">&gt;=</span><span class="n">n</span><span class="p">),</span><span class="n">depend</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">n</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="k">end subroutine </span><span class="n">fib</span><span class="w"></span>
+<span class="w">    </span><span class="k">end interface </span>
+<span class="k">end </span><span class="n">python</span><span class="w"> </span><span class="k">module </span><span class="n">fib2</span><span class="w"></span>
 
 <span class="c">! This file was auto-generated with f2py (version:2.28.198-1366).</span>
 <span class="c">! See http://cens.ioc.ee/projects/f2py2e/</span>
@@ -535,14 +533,14 @@ dynamically using the size determined by the input argument <code class="docutil
 <p>The contents of a suitably modified version of <code class="docutils literal notranslate"><span class="pre">fib1.pyf</span></code> (saved as
 <code class="docutils literal notranslate"><span class="pre">fib2.pyf</span></code>) is as follows:</p>
 <div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span><span class="c">!    -*- f90 -*-</span>
-<span class="n">python</span> <span class="k">module </span><span class="n">fib2</span> 
-    <span class="k">interface</span>
-<span class="k">        subroutine </span><span class="n">fib</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">n</span><span class="p">)</span>
-            <span class="kt">real</span><span class="o">*</span><span class="mi">8</span> <span class="k">dimension</span><span class="p">(</span><span class="n">n</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">),</span><span class="n">depend</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="kd">::</span> <span class="n">a</span>
-            <span class="kt">integer </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">n</span>
-        <span class="k">end subroutine </span><span class="n">fib</span>
-    <span class="k">end interface </span>
-<span class="k">end </span><span class="n">python</span> <span class="k">module </span><span class="n">fib2</span>
+<span class="n">python</span><span class="w"> </span><span class="k">module </span><span class="n">fib2</span><span class="w"> </span>
+<span class="w">    </span><span class="k">interface</span>
+<span class="k">        subroutine </span><span class="n">fib</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">n</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="kt">real</span><span class="o">*</span><span class="mi">8</span><span class="w"> </span><span class="k">dimension</span><span class="p">(</span><span class="n">n</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">),</span><span class="n">depend</span><span class="p">(</span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">a</span><span class="w"></span>
+<span class="w">            </span><span class="kt">integer </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">n</span><span class="w"></span>
+<span class="w">        </span><span class="k">end subroutine </span><span class="n">fib</span><span class="w"></span>
+<span class="w">    </span><span class="k">end interface </span>
+<span class="k">end </span><span class="n">python</span><span class="w"> </span><span class="k">module </span><span class="n">fib2</span><span class="w"></span>
 </pre></div>
 </div>
 </li>
@@ -583,8 +581,8 @@ The new Python signature <code class="docutils literal notranslate"><span class=
 specified will not be listed in the argument list of a wrapper function.</p></li>
 </ul>
 </div>
-</section>
-<section id="the-quick-and-smart-way">
+</div>
+<div class="section" id="the-quick-and-smart-way">
 <h2>The quick and smart way<a class="headerlink" href="#the-quick-and-smart-way" title="Permalink to this headline">¶</a></h2>
 <p>The “smart way” of wrapping Fortran functions, as explained above, is
 suitable for wrapping (e.g. third party) Fortran codes for which
@@ -598,27 +596,27 @@ directives. A F2PY directive consists of special comment lines (starting with
 interpreted by F2PY as normal lines.</p>
 <p>Consider a modified version of the previous Fortran code with F2PY directives,
 saved as <code class="docutils literal notranslate"><span class="pre">fib3.f</span></code>:</p>
-<div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span><span class="n">C</span> <span class="k">FILE</span><span class="p">:</span> <span class="n">FIB3</span><span class="p">.</span><span class="n">F</span>
-      <span class="k">SUBROUTINE </span><span class="n">FIB</span><span class="p">(</span><span class="n">A</span><span class="p">,</span><span class="n">N</span><span class="p">)</span>
-<span class="n">C</span>
-<span class="n">C</span>     <span class="n">CALCULATE</span> <span class="n">FIRST</span> <span class="n">N</span> <span class="n">FIBONACCI</span> <span class="n">NUMBERS</span>
-<span class="n">C</span>
-      <span class="kt">INTEGER </span><span class="n">N</span>
-      <span class="kt">REAL</span><span class="o">*</span><span class="mi">8</span> <span class="n">A</span><span class="p">(</span><span class="n">N</span><span class="p">)</span>
-<span class="n">Cf2py</span> <span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="n">n</span>
-<span class="n">Cf2py</span> <span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span> <span class="n">a</span>
-<span class="n">Cf2py</span> <span class="n">depend</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="n">a</span>
-      <span class="k">DO </span><span class="n">I</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">N</span>
-         <span class="k">IF</span> <span class="p">(</span><span class="n">I</span><span class="p">.</span><span class="n">EQ</span><span class="p">.</span><span class="mi">1</span><span class="p">)</span> <span class="k">THEN</span>
-<span class="k">            </span><span class="n">A</span><span class="p">(</span><span class="n">I</span><span class="p">)</span> <span class="o">=</span> <span class="mf">0.0D0</span>
-         <span class="n">ELSEIF</span> <span class="p">(</span><span class="n">I</span><span class="p">.</span><span class="n">EQ</span><span class="p">.</span><span class="mi">2</span><span class="p">)</span> <span class="k">THEN</span>
-<span class="k">            </span><span class="n">A</span><span class="p">(</span><span class="n">I</span><span class="p">)</span> <span class="o">=</span> <span class="mf">1.0D0</span>
-         <span class="k">ELSE </span>
-<span class="k">            </span><span class="n">A</span><span class="p">(</span><span class="n">I</span><span class="p">)</span> <span class="o">=</span> <span class="n">A</span><span class="p">(</span><span class="n">I</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">A</span><span class="p">(</span><span class="n">I</span><span class="o">-</span><span class="mi">2</span><span class="p">)</span>
-         <span class="k">ENDIF</span>
+<div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span><span class="n">C</span><span class="w"> </span><span class="k">FILE</span><span class="p">:</span><span class="w"> </span><span class="n">FIB3</span><span class="p">.</span><span class="n">F</span><span class="w"></span>
+<span class="w">      </span><span class="k">SUBROUTINE </span><span class="n">FIB</span><span class="p">(</span><span class="n">A</span><span class="p">,</span><span class="n">N</span><span class="p">)</span><span class="w"></span>
+<span class="n">C</span><span class="w"></span>
+<span class="n">C</span><span class="w">     </span><span class="n">CALCULATE</span><span class="w"> </span><span class="n">FIRST</span><span class="w"> </span><span class="n">N</span><span class="w"> </span><span class="n">FIBONACCI</span><span class="w"> </span><span class="n">NUMBERS</span><span class="w"></span>
+<span class="n">C</span><span class="w"></span>
+<span class="w">      </span><span class="kt">INTEGER </span><span class="n">N</span><span class="w"></span>
+<span class="w">      </span><span class="kt">REAL</span><span class="o">*</span><span class="mi">8</span><span class="w"> </span><span class="n">A</span><span class="p">(</span><span class="n">N</span><span class="p">)</span><span class="w"></span>
+<span class="n">Cf2py</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="n">n</span><span class="w"></span>
+<span class="n">Cf2py</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="n">a</span><span class="w"></span>
+<span class="n">Cf2py</span><span class="w"> </span><span class="n">depend</span><span class="p">(</span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="n">a</span><span class="w"></span>
+<span class="w">      </span><span class="k">DO </span><span class="n">I</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">N</span><span class="w"></span>
+<span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">I</span><span class="p">.</span><span class="n">EQ</span><span class="p">.</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">            </span><span class="n">A</span><span class="p">(</span><span class="n">I</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0D0</span><span class="w"></span>
+<span class="w">         </span><span class="n">ELSEIF</span><span class="w"> </span><span class="p">(</span><span class="n">I</span><span class="p">.</span><span class="n">EQ</span><span class="p">.</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">            </span><span class="n">A</span><span class="p">(</span><span class="n">I</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.0D0</span><span class="w"></span>
+<span class="w">         </span><span class="k">ELSE </span>
+<span class="k">            </span><span class="n">A</span><span class="p">(</span><span class="n">I</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">A</span><span class="p">(</span><span class="n">I</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">A</span><span class="p">(</span><span class="n">I</span><span class="o">-</span><span class="mi">2</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">ENDIF</span>
 <span class="k">      ENDDO</span>
 <span class="k">      END</span>
-<span class="n">C</span> <span class="k">END FILE </span><span class="n">FIB3</span><span class="p">.</span><span class="n">F</span>
+<span class="n">C</span><span class="w"> </span><span class="k">END FILE </span><span class="n">FIB3</span><span class="p">.</span><span class="n">F</span><span class="w"></span>
 </pre></div>
 </div>
 <p>Building the extension module can be now carried out in one command:</p>
@@ -645,8 +643,8 @@ the previous case:</p>
 <span class="go">[  0.   1.   1.   2.   3.   5.   8.  13.]</span>
 </pre></div>
 </div>
-</section>
-</section>
+</div>
+</div>
 
 
               </div>

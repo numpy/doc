@@ -4,8 +4,7 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Universal functions (ufunc) basics &#8212; NumPy v1.22 Manual</title>
     
   <link href="../_static/css/theme.css" rel="stylesheet">
@@ -28,8 +27,8 @@
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
     <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
     <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/panels-bootstrap.5fd3999ee7762ccc51105388f4a9d115.css" />
     <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/numpy.css" />
     
   <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
 
@@ -43,19 +42,12 @@
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Copies and views" href="basics.copies.html" />
     <link rel="prev" title="Subclassing ndarray" href="basics.subclassing.html" />
-
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
 
     <!-- Google Analytics -->
     
-<link rel="stylesheet" href="../_static/numpy.css" type="text/css" />
-
-    <!-- PR #17220: This is added via javascript in versionwarning.js  -->
-    <!-- link rel="canonical" href="http://numpy.org/doc/stable/user/basics.ufuncs.html" / -->
-
-
   </head>
   <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
     
@@ -101,6 +93,12 @@
 <li class="toctree-l1 nav-item">
  <a class="reference internal nav-link" href="../dev/index.html">
   Development
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../release.html">
+  Release notes
  </a>
 </li>
 
@@ -391,7 +389,7 @@
               
               <div>
                 
-  <section id="universal-functions-ufunc-basics">
+  <div class="section" id="universal-functions-ufunc-basics">
 <span id="ufuncs-basics"></span><h1>Universal functions (<a class="reference internal" href="../reference/generated/numpy.ufunc.html#numpy.ufunc" title="numpy.ufunc"><code class="xref py py-class docutils literal notranslate"><span class="pre">ufunc</span></code></a>) basics<a class="headerlink" href="#universal-functions-ufunc-basics" title="Permalink to this headline">¶</a></h1>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
@@ -416,13 +414,13 @@ The simplest example is the addition operator:</p>
 </div>
 <p>One can also produce custom <a class="reference internal" href="../reference/generated/numpy.ufunc.html#numpy.ufunc" title="numpy.ufunc"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ufunc</span></code></a> instances using the
 <a class="reference internal" href="../reference/generated/numpy.frompyfunc.html#numpy.frompyfunc" title="numpy.frompyfunc"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.frompyfunc</span></code></a> factory function.</p>
-<section id="ufunc-methods">
+<div class="section" id="ufunc-methods">
 <h2>Ufunc methods<a class="headerlink" href="#ufunc-methods" title="Permalink to this headline">¶</a></h2>
 <p>All ufuncs have four methods. They can be found at
 <a class="reference internal" href="../reference/ufuncs.html#ufuncs-methods"><span class="std std-ref">Methods</span></a>. However, these methods only make sense on scalar
 ufuncs that take two input arguments and return one output argument.
 Attempting to call these methods on other ufuncs will cause a
-<a class="reference external" href="https://docs.python.org/dev/library/exceptions.html#ValueError" title="(in Python v3.11)"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code></a>.</p>
+<a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.10)"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code></a>.</p>
 <p>The reduce-like methods all take an <em>axis</em> keyword, a <em>dtype</em>
 keyword, and an <em>out</em> keyword, and the arrays must all have dimension &gt;= 1.
 The <em>axis</em> keyword specifies the axis of the array over which the reduction
@@ -479,8 +477,8 @@ operations to be performed using advanced indexing. No
 advanced indexing is used, so the advanced index can
 list an item more than once and the operation will be performed on the result
 of the previous operation for that item.</p>
-</section>
-<section id="output-type-determination">
+</div>
+<div class="section" id="output-type-determination">
 <span id="ufuncs-output-type"></span><h2>Output type determination<a class="headerlink" href="#output-type-determination" title="Permalink to this headline">¶</a></h2>
 <p>The output of the ufunc (and its methods) is not necessarily an
 <a class="reference internal" href="../reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>, if all input arguments are not
@@ -510,8 +508,8 @@ the ufunc domain.) The array object returned by
 Finally, if the class also has an <a class="reference internal" href="../reference/arrays.classes.html#numpy.class.__array_wrap__" title="numpy.class.__array_wrap__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__array_wrap__</span></code></a> method, the
 returned <a class="reference internal" href="../reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a> result will be passed to that method just before
 passing control back to the caller.</p>
-</section>
-<section id="broadcasting">
+</div>
+<div class="section" id="broadcasting">
 <span id="ufuncs-broadcasting"></span><h2>Broadcasting<a class="headerlink" href="#broadcasting" title="Permalink to this headline">¶</a></h2>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
@@ -529,8 +527,8 @@ first data entry in that dimension will be used for all calculations along
 that dimension. In other words, the stepping machinery of the
 <a class="reference internal" href="../glossary.html#term-ufunc"><span class="xref std std-term">ufunc</span></a> will simply not step along that dimension (the
 <a class="reference internal" href="../reference/arrays.ndarray.html#memory-layout"><span class="std std-ref">stride</span></a> will be 0 for that dimension).</p>
-</section>
-<section id="type-casting-rules">
+</div>
+<div class="section" id="type-casting-rules">
 <span id="ufuncs-casting"></span><h2>Type casting rules<a class="headerlink" href="#type-casting-rules" title="Permalink to this headline">¶</a></h2>
 <div class="admonition note" id="index-1">
 <p class="admonition-title">Note</p>
@@ -625,8 +623,8 @@ enables you to use scalar constants in your code (which, as Python
 types, are interpreted accordingly in ufuncs) without worrying about
 whether the precision of the scalar constant will cause upcasting on
 your large (small precision) array.</p>
-</section>
-<section id="use-of-internal-buffers">
+</div>
+<div class="section" id="use-of-internal-buffers">
 <span id="id1"></span><h2>Use of internal buffers<a class="headerlink" href="#use-of-internal-buffers" title="Permalink to this headline">¶</a></h2>
 <p id="index-2">Internally, buffers are used for misaligned data, swapped data, and
 data that has to be converted from one data type to another. The size
@@ -641,8 +639,8 @@ calculation proceeds. Adjusting the size of the buffer may therefore
 alter the speed at which ufunc calculations of various sorts are
 completed. A simple interface for setting this variable is accessible
 using the function <a class="reference internal" href="../reference/generated/numpy.setbufsize.html#numpy.setbufsize" title="numpy.setbufsize"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.setbufsize</span></code></a>.</p>
-</section>
-<section id="error-handling">
+</div>
+<div class="section" id="error-handling">
 <h2>Error handling<a class="headerlink" href="#error-handling" title="Permalink to this headline">¶</a></h2>
 <p id="index-3">Universal functions can trip special floating-point status registers
 in your hardware (such as divide-by-zero). If available on your
@@ -650,14 +648,14 @@ platform, these registers will be regularly checked during
 calculation. Error handling is controlled on a per-thread basis,
 and can be configured using the functions <a class="reference internal" href="../reference/generated/numpy.seterr.html#numpy.seterr" title="numpy.seterr"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.seterr</span></code></a> and
 <a class="reference internal" href="../reference/generated/numpy.seterrcall.html#numpy.seterrcall" title="numpy.seterrcall"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.seterrcall</span></code></a>.</p>
-</section>
-<section id="overriding-ufunc-behavior">
+</div>
+<div class="section" id="overriding-ufunc-behavior">
 <span id="ufuncs-overrides"></span><h2>Overriding ufunc behavior<a class="headerlink" href="#overriding-ufunc-behavior" title="Permalink to this headline">¶</a></h2>
 <p>Classes (including ndarray subclasses) can override how ufuncs act on
 them by defining certain special methods.  For details, see
 <a class="reference internal" href="../reference/arrays.classes.html#arrays-classes"><span class="std std-ref">Standard array subclasses</span></a>.</p>
-</section>
-</section>
+</div>
+</div>
 
 
               </div>

@@ -4,8 +4,7 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>NumPy core libraries &#8212; NumPy v1.22 Manual</title>
     
   <link href="../../_static/css/theme.css" rel="stylesheet">
@@ -28,8 +27,8 @@
     <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/plot_directive.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/panels-bootstrap.5fd3999ee7762ccc51105388f4a9d115.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/numpy.css" />
     
   <link rel="preload" as="script" href="../../_static/js/index.be7d3bbb2ef33a8344ce.js">
 
@@ -43,19 +42,12 @@
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="C API Deprecations" href="deprecations.html" />
     <link rel="prev" title="Generalized Universal Function API" href="generalized-ufuncs.html" />
-
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
 
     <!-- Google Analytics -->
     
-<link rel="stylesheet" href="../../_static/numpy.css" type="text/css" />
-
-    <!-- PR #17220: This is added via javascript in versionwarning.js  -->
-    <!-- link rel="canonical" href="http://numpy.org/doc/stable/reference/c-api/coremath.html" / -->
-
-
   </head>
   <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
     
@@ -101,6 +93,12 @@
 <li class="toctree-l1 nav-item">
  <a class="reference internal nav-link" href="../../dev/index.html">
   Development
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../release.html">
+  Release notes
  </a>
 </li>
 
@@ -358,7 +356,7 @@
               
               <div>
                 
-  <section id="numpy-core-libraries">
+  <div class="section" id="numpy-core-libraries">
 <h1>NumPy core libraries<a class="headerlink" href="#numpy-core-libraries" title="Permalink to this headline">¶</a></h1>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 1.3.0.</span></p>
@@ -367,7 +365,7 @@
 “computational” code from the python dependent code. The goal is twofolds:
 making the code cleaner, and enabling code reuse by other extensions outside
 numpy (scipy, etc…).</p>
-<section id="numpy-core-math-library">
+<div class="section" id="numpy-core-math-library">
 <h2>NumPy core math library<a class="headerlink" href="#numpy-core-math-library" title="Permalink to this headline">¶</a></h2>
 <p>The numpy core math library (‘npymath’) is a first step in this direction. This
 library contains most math-related C99 functionality, which can be used on
@@ -375,7 +373,7 @@ platforms where C99 is not well supported. The core math functions have the
 same API as the C99 ones, except for the npy_* prefix.</p>
 <p>The available functions are defined in &lt;numpy/npy_math.h&gt; - please refer to this header when
 in doubt.</p>
-<section id="floating-point-classification">
+<div class="section" id="floating-point-classification">
 <h3>Floating point classification<a class="headerlink" href="#floating-point-classification" title="Permalink to this headline">¶</a></h3>
 <dl class="c macro">
 <dt class="sig sig-object c" id="c.NPY_NAN">
@@ -449,8 +447,8 @@ precisions are available with suffix f and l.</p>
 </div>
 </dd></dl>
 
-</section>
-<section id="useful-math-constants">
+</div>
+<div class="section" id="useful-math-constants">
 <h3>Useful math constants<a class="headerlink" href="#useful-math-constants" title="Permalink to this headline">¶</a></h3>
 <p>The following math constants are available in <code class="docutils literal notranslate"><span class="pre">npy_math.h</span></code>. Single
 and extended precision are also available by adding the <code class="docutils literal notranslate"><span class="pre">f</span></code> and
@@ -524,8 +522,8 @@ and extended precision are also available by adding the <code class="docutils li
 </dl>
 </dd></dl>
 
-</section>
-<section id="low-level-floating-point-manipulation">
+</div>
+<div class="section" id="low-level-floating-point-manipulation">
 <h3>Low-level floating point manipulation<a class="headerlink" href="#low-level-floating-point-manipulation" title="Permalink to this headline">¶</a></h3>
 <p>Those can be useful for precise floating point comparison.</p>
 <dl class="c function">
@@ -647,8 +645,8 @@ Returns the previous status mask.</p>
 </div>
 </dd></dl>
 
-</section>
-<section id="complex-functions">
+</div>
+<div class="section" id="complex-functions">
 <h3>Complex functions<a class="headerlink" href="#complex-functions" title="Permalink to this headline">¶</a></h3>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 1.4.0.</span></p>
@@ -663,8 +661,8 @@ complex type, you need to restrict to C90-compatible syntax, e.g.:</p>
 <span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">npy_log</span><span class="p">(</span><span class="n">a</span><span class="p">);</span><span class="w"></span>
 </pre></div>
 </div>
-</section>
-<section id="linking-against-the-core-math-library-in-an-extension">
+</div>
+<div class="section" id="linking-against-the-core-math-library-in-an-extension">
 <h3>Linking against the core math library in an extension<a class="headerlink" href="#linking-against-the-core-math-library-in-an-extension" title="Permalink to this headline">¶</a></h3>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 1.4.0.</span></p>
@@ -680,8 +678,8 @@ compile and link options to your extension in your setup.py:</p>
 </div></blockquote>
 <p>In other words, the usage of info is exactly the same as when using blas_info
 and co.</p>
-</section>
-<section id="half-precision-functions">
+</div>
+<div class="section" id="half-precision-functions">
 <h3>Half-precision functions<a class="headerlink" href="#half-precision-functions" title="Permalink to this headline">¶</a></h3>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 1.6.0.</span></p>
@@ -934,9 +932,9 @@ into a 32-bit single-precision float, stored as a uint32.</p>
 into a 64-bit double-precision float, stored as a uint64.</p>
 </dd></dl>
 
-</section>
-</section>
-</section>
+</div>
+</div>
+</div>
 
 
               </div>

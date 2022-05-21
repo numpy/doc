@@ -4,8 +4,7 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Parallel Random Number Generation &#8212; NumPy v1.22 Manual</title>
     
   <link href="../../_static/css/theme.css" rel="stylesheet">
@@ -28,8 +27,8 @@
     <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/plot_directive.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/panels-bootstrap.5fd3999ee7762ccc51105388f4a9d115.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/numpy.css" />
     
   <link rel="preload" as="script" href="../../_static/js/index.be7d3bbb2ef33a8344ce.js">
 
@@ -43,19 +42,12 @@
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="Multithreaded Generation" href="multithreading.html" />
     <link rel="prev" title="Upgrading PCG64 with PCG64DXSM" href="upgrading-pcg64.html" />
-
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
 
     <!-- Google Analytics -->
     
-<link rel="stylesheet" href="../../_static/numpy.css" type="text/css" />
-
-    <!-- PR #17220: This is added via javascript in versionwarning.js  -->
-    <!-- link rel="canonical" href="http://numpy.org/doc/stable/reference/random/parallel.html" / -->
-
-
   </head>
   <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
     
@@ -101,6 +93,12 @@
 <li class="toctree-l1 nav-item">
  <a class="reference internal nav-link" href="../../dev/index.html">
   Development
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../release.html">
+  Release notes
  </a>
 </li>
 
@@ -536,12 +534,12 @@
               
               <div>
                 
-  <section id="parallel-random-number-generation">
+  <div class="section" id="parallel-random-number-generation">
 <h1>Parallel Random Number Generation<a class="headerlink" href="#parallel-random-number-generation" title="Permalink to this headline">¶</a></h1>
 <p>There are three strategies implemented that can be used to produce
 repeatable pseudo-random numbers across multiple processes (local
 or distributed).</p>
-<section id="seedsequence-spawning">
+<div class="section" id="seedsequence-spawning">
 <span id="seedsequence-spawn"></span><h2><a class="reference internal" href="bit_generators/generated/numpy.random.SeedSequence.html#numpy.random.SeedSequence" title="numpy.random.SeedSequence"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SeedSequence</span></code></a> spawning<a class="headerlink" href="#seedsequence-spawning" title="Permalink to this headline">¶</a></h2>
 <p><a class="reference internal" href="bit_generators/generated/numpy.random.SeedSequence.html#numpy.random.SeedSequence" title="numpy.random.SeedSequence"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SeedSequence</span></code></a> <a class="reference external" href="http://www.pcg-random.org/posts/developing-a-seed_seq-alternative.html">implements an algorithm</a> to process a user-provided seed,
 typically as an integer of some size, and to convert it into an initial state for
@@ -625,8 +623,8 @@ a collision internal to <a class="reference internal" href="bit_generators/gener
 observed.</p>
 </dd>
 </dl>
-</section>
-<section id="independent-streams">
+</div>
+<div class="section" id="independent-streams">
 <span id="id5"></span><h2>Independent Streams<a class="headerlink" href="#independent-streams" title="Permalink to this headline">¶</a></h2>
 <p><a class="reference internal" href="bit_generators/philox.html#numpy.random.Philox" title="numpy.random.Philox"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Philox</span></code></a> is a counter-based RNG based which generates values by
 encrypting an incrementing counter using weak cryptographic primitives. The
@@ -644,8 +642,8 @@ will still create independent streams.</p>
 </div>
 <p>This scheme does require that you avoid reusing stream IDs. This may require
 coordination between the parallel processes.</p>
-</section>
-<section id="jumping-the-bitgenerator-state">
+</div>
+<div class="section" id="jumping-the-bitgenerator-state">
 <span id="parallel-jumped"></span><h2>Jumping the BitGenerator state<a class="headerlink" href="#jumping-the-bitgenerator-state" title="Permalink to this headline">¶</a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">jumped</span></code> advances the state of the BitGenerator <em>as-if</em> a large number of
 random numbers have been drawn, and returns a new instance with this state.
@@ -723,8 +721,8 @@ more streams by jumping, then it needs to start with <code class="docutils liter
 otherwise it would recreate the same streams. On the other hand, if you
 carefully construct the streams, then you are guaranteed to have streams that
 do not overlap.</p>
-</section>
-</section>
+</div>
+</div>
 
 
               </div>

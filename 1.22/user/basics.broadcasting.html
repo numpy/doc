@@ -4,8 +4,7 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Broadcasting &#8212; NumPy v1.22 Manual</title>
     
   <link href="../_static/css/theme.css" rel="stylesheet">
@@ -28,8 +27,8 @@
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
     <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
     <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/panels-bootstrap.5fd3999ee7762ccc51105388f4a9d115.css" />
     <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/numpy.css" />
     
   <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
 
@@ -42,19 +41,12 @@
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Byte-swapping" href="basics.byteswapping.html" />
     <link rel="prev" title="Data types" href="basics.types.html" />
-
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
 
     <!-- Google Analytics -->
     
-<link rel="stylesheet" href="../_static/numpy.css" type="text/css" />
-
-    <!-- PR #17220: This is added via javascript in versionwarning.js  -->
-    <!-- link rel="canonical" href="http://numpy.org/doc/stable/user/basics.broadcasting.html" / -->
-
-
   </head>
   <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
     
@@ -100,6 +92,12 @@
 <li class="toctree-l1 nav-item">
  <a class="reference internal nav-link" href="../dev/index.html">
   Development
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../release.html">
+  Release notes
  </a>
 </li>
 
@@ -370,7 +368,7 @@
               
               <div>
                 
-  <section id="broadcasting">
+  <div class="section" id="broadcasting">
 <span id="array-broadcasting-in-numpy"></span><span id="basics-broadcasting"></span><h1>Broadcasting<a class="headerlink" href="#broadcasting" title="Permalink to this headline">¶</a></h1>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
@@ -411,21 +409,19 @@ original scalar. The stretching analogy is
 only conceptual.  NumPy is smart enough to use the original scalar value
 without actually making copies so that broadcasting operations are as
 memory and computationally efficient as possible.</p>
-<figure class="align-default" id="broadcasting-figure-1">
+<div class="figure align-default" id="broadcasting-figure-1">
 <img alt="A scalar is broadcast to match the shape of the 1-d array it is being multiplied to." src="../_images/broadcasting_1.png" />
-<figcaption>
-<p><span class="caption-text"><em>Figure 1</em></span><a class="headerlink" href="#broadcasting-figure-1" title="Permalink to this image">¶</a></p>
+<p class="caption"><span class="caption-text"><em>Figure 1</em></span><a class="headerlink" href="#broadcasting-figure-1" title="Permalink to this image">¶</a></p>
 <div class="legend">
 <p><em>In the simplest example of broadcasting, the scalar</em> <code class="docutils literal notranslate"><span class="pre">b</span></code> <em>is
 stretched to become an array of same shape as</em> <code class="docutils literal notranslate"><span class="pre">a</span></code> <em>so the shapes
 are compatible for element-by-element multiplication.</em></p>
 </div>
-</figcaption>
-</figure>
+</div>
 <p>The code in the second example is more efficient than that in the first
 because broadcasting moves less memory around during the multiplication
 (<code class="docutils literal notranslate"><span class="pre">b</span></code> is a scalar rather than an array).</p>
-<section id="general-broadcasting-rules">
+<div class="section" id="general-broadcasting-rules">
 <span id="id1"></span><h2>General Broadcasting Rules<a class="headerlink" href="#general-broadcasting-rules" title="Permalink to this headline">¶</a></h2>
 <p>When operating on two arrays, NumPy compares their shapes element-wise.
 It starts with the trailing (i.e. rightmost) dimensions and works its
@@ -460,8 +456,8 @@ operation:</p>
 <span class="n">Result</span> <span class="p">(</span><span class="mi">4</span><span class="n">d</span> <span class="n">array</span><span class="p">):</span>  <span class="mi">8</span> <span class="n">x</span> <span class="mi">7</span> <span class="n">x</span> <span class="mi">6</span> <span class="n">x</span> <span class="mi">5</span>
 </pre></div>
 </div>
-</section>
-<section id="broadcastable-arrays">
+</div>
+<div class="section" id="broadcastable-arrays">
 <span id="arrays-broadcasting-broadcastable"></span><h2>Broadcastable arrays<a class="headerlink" href="#broadcastable-arrays" title="Permalink to this headline">¶</a></h2>
 <p id="index-0">A set of arrays is called “broadcastable” to the same shape if
 the above rules produce a valid result.</p>
@@ -527,28 +523,24 @@ where <code class="docutils literal notranslate"><span class="pre">c[:]</span></
 <p>As shown in <a class="reference internal" href="#broadcasting-figure-2"><span class="std std-ref">Figure 2</span></a>, <code class="docutils literal notranslate"><span class="pre">b</span></code> is added to each row of <code class="docutils literal notranslate"><span class="pre">a</span></code>.
 In <a class="reference internal" href="#broadcasting-figure-3"><span class="std std-ref">Figure 3</span></a>, an exception is raised because of the
 incompatible shapes.</p>
-<figure class="align-default" id="broadcasting-figure-2">
+<div class="figure align-default" id="broadcasting-figure-2">
 <img alt="A 1-d array with shape (3) is strectched to match the 2-d array of shape (4, 3) it is being added to, and the result is a 2-d array of shape (4, 3)." src="../_images/broadcasting_2.png" />
-<figcaption>
-<p><span class="caption-text"><em>Figure 2</em></span><a class="headerlink" href="#broadcasting-figure-2" title="Permalink to this image">¶</a></p>
+<p class="caption"><span class="caption-text"><em>Figure 2</em></span><a class="headerlink" href="#broadcasting-figure-2" title="Permalink to this image">¶</a></p>
 <div class="legend">
 <p><em>A one dimensional array added to a two dimensional array results in
 broadcasting if number of 1-d array elements matches the number of 2-d
 array columns.</em></p>
 </div>
-</figcaption>
-</figure>
-<figure class="align-default" id="broadcasting-figure-3">
+</div>
+<div class="figure align-default" id="broadcasting-figure-3">
 <img alt="A huge cross over the 2-d array of shape (4, 3) and the 1-d array of shape (4) shows that they can not be broadcast due to mismatch of shapes and thus produce no result." src="../_images/broadcasting_3.png" />
-<figcaption>
-<p><span class="caption-text"><em>Figure 3</em></span><a class="headerlink" href="#broadcasting-figure-3" title="Permalink to this image">¶</a></p>
+<p class="caption"><span class="caption-text"><em>Figure 3</em></span><a class="headerlink" href="#broadcasting-figure-3" title="Permalink to this image">¶</a></p>
 <div class="legend">
 <p><em>When the trailing dimensions of the arrays are unequal, broadcasting fails
 because it is impossible to align the values in the rows of the 1st array
 with the elements of the 2nd arrays for element-by-element addition.</em></p>
 </div>
-</figcaption>
-</figure>
+</div>
 <p>Broadcasting provides a convenient way of taking the outer product (or
 any other outer operation) of two arrays. The following example shows an
 outer addition operation of two 1-d arrays:</p>
@@ -561,21 +553,19 @@ outer addition operation of two 1-d arrays:</p>
 <span class="go">       [ 31.,  32.,  33.]])</span>
 </pre></div>
 </div>
-<figure class="align-default" id="broadcasting-figure-4">
+<div class="figure align-default" id="broadcasting-figure-4">
 <img alt="A 2-d array of shape (4, 1) and a 1-d array of shape (3) are stretched to match their shapes and produce a resultant array of shape (4, 3)." src="../_images/broadcasting_4.png" />
-<figcaption>
-<p><span class="caption-text"><em>Figure 4</em></span><a class="headerlink" href="#broadcasting-figure-4" title="Permalink to this image">¶</a></p>
+<p class="caption"><span class="caption-text"><em>Figure 4</em></span><a class="headerlink" href="#broadcasting-figure-4" title="Permalink to this image">¶</a></p>
 <div class="legend">
 <p><em>In some cases, broadcasting stretches both arrays to form an output array
 larger than either of the initial arrays.</em></p>
 </div>
-</figcaption>
-</figure>
+</div>
 <p>Here the <code class="docutils literal notranslate"><span class="pre">newaxis</span></code> index operator inserts a new axis into <code class="docutils literal notranslate"><span class="pre">a</span></code>,
 making it a two-dimensional <code class="docutils literal notranslate"><span class="pre">4x1</span></code> array.  Combining the <code class="docutils literal notranslate"><span class="pre">4x1</span></code> array
 with <code class="docutils literal notranslate"><span class="pre">b</span></code>, which has shape <code class="docutils literal notranslate"><span class="pre">(3,)</span></code>, yields a <code class="docutils literal notranslate"><span class="pre">4x3</span></code> array.</p>
-</section>
-<section id="a-practical-example-vector-quantization">
+</div>
+<div class="section" id="a-practical-example-vector-quantization">
 <h2>A Practical Example: Vector Quantization<a class="headerlink" href="#a-practical-example-vector-quantization" title="Permalink to this headline">¶</a></h2>
 <p>Broadcasting comes up quite often in real world problems. A typical example
 occurs in the vector quantization (VQ) algorithm used in information theory,
@@ -607,18 +597,16 @@ the shape of the <code class="docutils literal notranslate"><span class="pre">co
 <span class="n">Diff</span>             <span class="p">(</span><span class="mi">2</span><span class="n">d</span> <span class="n">array</span><span class="p">):</span>  <span class="mi">4</span> <span class="n">x</span> <span class="mi">2</span>
 </pre></div>
 </div>
-<figure class="align-default" id="broadcasting-figure-5">
+<div class="figure align-default" id="broadcasting-figure-5">
 <img alt="A height versus weight graph that shows data of a female gymnast, marathon runner, basketball player, football lineman and the athlete to be classified. Shortest distance is found between the basketball player and the athlete to be classified." src="../_images/broadcasting_5.png" />
-<figcaption>
-<p><span class="caption-text"><em>Figure 5</em></span><a class="headerlink" href="#broadcasting-figure-5" title="Permalink to this image">¶</a></p>
+<p class="caption"><span class="caption-text"><em>Figure 5</em></span><a class="headerlink" href="#broadcasting-figure-5" title="Permalink to this image">¶</a></p>
 <div class="legend">
 <p><em>The basic operation of vector quantization calculates the distance between
 an object to be classified, the dark square, and multiple known codes, the
 gray circles. In this simple case, the codes represent individual classes.
 More complex cases use multiple codes per class.</em></p>
 </div>
-</figcaption>
-</figure>
+</div>
 <p>Typically, a large number of <code class="docutils literal notranslate"><span class="pre">observations</span></code>, perhaps read from a database,
 are compared to a set of <code class="docutils literal notranslate"><span class="pre">codes</span></code>. Consider this scenario:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Observation</span>      <span class="p">(</span><span class="mi">2</span><span class="n">d</span> <span class="n">array</span><span class="p">):</span>      <span class="mi">10</span> <span class="n">x</span> <span class="mi">3</span>
@@ -647,8 +635,8 @@ normalize the height and weight, often by their standard deviation across the
 data set, so that both have equal influence on the distance calculation.</p>
 </dd>
 </dl>
-</section>
-</section>
+</div>
+</div>
 
 
               </div>

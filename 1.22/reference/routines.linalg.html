@@ -4,8 +4,7 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Linear algebra (numpy.linalg) &#8212; NumPy v1.22 Manual</title>
     
   <link href="../_static/css/theme.css" rel="stylesheet">
@@ -28,8 +27,8 @@
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
     <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
     <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/panels-bootstrap.5fd3999ee7762ccc51105388f4a9d115.css" />
     <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/numpy.css" />
     
   <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
 
@@ -42,19 +41,12 @@
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="numpy.dot" href="generated/numpy.dot.html" />
     <link rel="prev" title="numpy.lib.format.write_array_header_2_0" href="generated/numpy.lib.format.write_array_header_2_0.html" />
-
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
 
     <!-- Google Analytics -->
     
-<link rel="stylesheet" href="../_static/numpy.css" type="text/css" />
-
-    <!-- PR #17220: This is added via javascript in versionwarning.js  -->
-    <!-- link rel="canonical" href="http://numpy.org/doc/stable/reference/routines.linalg.html" / -->
-
-
   </head>
   <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
     
@@ -100,6 +92,12 @@
 <li class="toctree-l1 nav-item">
  <a class="reference internal nav-link" href="../dev/index.html">
   Development
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../release.html">
+  Release notes
  </a>
 </li>
 
@@ -666,7 +664,7 @@
               
               <div>
                 
-  <span class="target" id="module-numpy.linalg"><span id="routines-linalg"></span></span><section id="linear-algebra-numpy-linalg">
+  <span class="target" id="module-numpy.linalg"><span id="routines-linalg"></span></span><div class="section" id="linear-algebra-numpy-linalg">
 <h1>Linear algebra (<a class="reference internal" href="#module-numpy.linalg" title="numpy.linalg"><code class="xref py py-mod docutils literal notranslate"><span class="pre">numpy.linalg</span></code></a>)<a class="headerlink" href="#linear-algebra-numpy-linalg" title="Permalink to this headline">¶</a></h1>
 <p>The NumPy linear algebra functions rely on BLAS and LAPACK to provide efficient
 low level implementations of standard linear algebra algorithms. Those
@@ -677,16 +675,16 @@ of such libraries are <a class="reference external" href="https://www.openblas.n
 are multithreaded and processor dependent, environmental variables and external
 packages such as <a class="reference external" href="https://github.com/joblib/threadpoolctl">threadpoolctl</a> may be needed to control the number of threads
 or specify the processor architecture.</p>
-<p>The SciPy library also contains a <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/reference/linalg.html#module-scipy.linalg" title="(in SciPy v1.7.1)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">linalg</span></code></a> submodule, and there is
+<p>The SciPy library also contains a <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/linalg.html#module-scipy.linalg" title="(in SciPy v1.8.1)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">linalg</span></code></a> submodule, and there is
 overlap in the functionality provided by the SciPy and NumPy submodules.  SciPy
 contains functions not found in <a class="reference internal" href="#module-numpy.linalg" title="numpy.linalg"><code class="xref py py-obj docutils literal notranslate"><span class="pre">numpy.linalg</span></code></a>, such as functions related to
 LU decomposition and the Schur decomposition, multiple ways of calculating the
 pseudoinverse, and matrix transcendentals such as the matrix logarithm.  Some
-functions that exist in both have augmented functionality in <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/reference/linalg.html#module-scipy.linalg" title="(in SciPy v1.7.1)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scipy.linalg</span></code></a>.
-For example, <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/reference/generated/scipy.linalg.eig.html#scipy.linalg.eig" title="(in SciPy v1.7.1)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scipy.linalg.eig</span></code></a> can take a second matrix argument for solving
+functions that exist in both have augmented functionality in <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/linalg.html#module-scipy.linalg" title="(in SciPy v1.8.1)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scipy.linalg</span></code></a>.
+For example, <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.linalg.eig.html#scipy.linalg.eig" title="(in SciPy v1.8.1)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scipy.linalg.eig</span></code></a> can take a second matrix argument for solving
 generalized eigenvalue problems.  Some functions in NumPy, however, have more
 flexible broadcasting options.  For example, <a class="reference internal" href="generated/numpy.linalg.solve.html#numpy.linalg.solve" title="numpy.linalg.solve"><code class="xref py py-obj docutils literal notranslate"><span class="pre">numpy.linalg.solve</span></code></a> can handle
-“stacked” arrays, while <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/reference/generated/scipy.linalg.solve.html#scipy.linalg.solve" title="(in SciPy v1.7.1)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scipy.linalg.solve</span></code></a> accepts only a single square
+“stacked” arrays, while <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.linalg.solve.html#scipy.linalg.solve" title="(in SciPy v1.8.1)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scipy.linalg.solve</span></code></a> accepts only a single square
 array as its first argument.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -696,13 +694,13 @@ recommended, even for linear algebra. See
 <a class="reference internal" href="arrays.classes.html#matrix-objects"><span class="std std-ref">the matrix object documentation</span></a> for
 more information.</p>
 </div>
-<section id="the-operator">
+<div class="section" id="the-operator">
 <h2>The <code class="docutils literal notranslate"><span class="pre">&#64;</span></code> operator<a class="headerlink" href="#the-operator" title="Permalink to this headline">¶</a></h2>
 <p>Introduced in NumPy 1.10.0, the <code class="docutils literal notranslate"><span class="pre">&#64;</span></code> operator is preferable to
 other methods when computing the matrix product between 2d arrays. The
 <a class="reference internal" href="generated/numpy.matmul.html#numpy.matmul" title="numpy.matmul"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.matmul</span></code></a> function implements the <code class="docutils literal notranslate"><span class="pre">&#64;</span></code> operator.</p>
-</section>
-<section id="matrix-and-vector-products">
+</div>
+<div class="section" id="matrix-and-vector-products">
 <h2>Matrix and vector products<a class="headerlink" href="#matrix-and-vector-products" title="Permalink to this headline">¶</a></h2>
 <table class="longtable table autosummary">
 <colgroup>
@@ -745,8 +743,8 @@ other methods when computing the matrix product between 2d arrays. The
 </tr>
 </tbody>
 </table>
-</section>
-<section id="decompositions">
+</div>
+<div class="section" id="decompositions">
 <h2>Decompositions<a class="headerlink" href="#decompositions" title="Permalink to this headline">¶</a></h2>
 <table class="longtable table autosummary">
 <colgroup>
@@ -765,8 +763,8 @@ other methods when computing the matrix product between 2d arrays. The
 </tr>
 </tbody>
 </table>
-</section>
-<section id="matrix-eigenvalues">
+</div>
+<div class="section" id="matrix-eigenvalues">
 <h2>Matrix eigenvalues<a class="headerlink" href="#matrix-eigenvalues" title="Permalink to this headline">¶</a></h2>
 <table class="longtable table autosummary">
 <colgroup>
@@ -788,8 +786,8 @@ other methods when computing the matrix product between 2d arrays. The
 </tr>
 </tbody>
 </table>
-</section>
-<section id="norms-and-other-numbers">
+</div>
+<div class="section" id="norms-and-other-numbers">
 <h2>Norms and other numbers<a class="headerlink" href="#norms-and-other-numbers" title="Permalink to this headline">¶</a></h2>
 <table class="longtable table autosummary">
 <colgroup>
@@ -817,8 +815,8 @@ other methods when computing the matrix product between 2d arrays. The
 </tr>
 </tbody>
 </table>
-</section>
-<section id="solving-equations-and-inverting-matrices">
+</div>
+<div class="section" id="solving-equations-and-inverting-matrices">
 <h2>Solving equations and inverting matrices<a class="headerlink" href="#solving-equations-and-inverting-matrices" title="Permalink to this headline">¶</a></h2>
 <table class="longtable table autosummary">
 <colgroup>
@@ -846,8 +844,8 @@ other methods when computing the matrix product between 2d arrays. The
 </tr>
 </tbody>
 </table>
-</section>
-<section id="exceptions">
+</div>
+<div class="section" id="exceptions">
 <h2>Exceptions<a class="headerlink" href="#exceptions" title="Permalink to this headline">¶</a></h2>
 <table class="longtable table autosummary">
 <colgroup>
@@ -860,8 +858,8 @@ other methods when computing the matrix product between 2d arrays. The
 </tr>
 </tbody>
 </table>
-</section>
-<section id="linear-algebra-on-several-matrices-at-once">
+</div>
+<div class="section" id="linear-algebra-on-several-matrices-at-once">
 <span id="routines-linalg-broadcasting"></span><h2>Linear algebra on several matrices at once<a class="headerlink" href="#linear-algebra-on-several-matrices-at-once" title="Permalink to this headline">¶</a></h2>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 1.8.0.</span></p>
@@ -879,8 +877,8 @@ has <code class="docutils literal notranslate"><span class="pre">det</span> <spa
 operations on higher-dimensional arrays: the last 1 or 2 dimensions of
 a multidimensional array are interpreted as vectors or matrices, as
 appropriate for each operation.</p>
-</section>
-</section>
+</div>
+</div>
 
 
               </div>

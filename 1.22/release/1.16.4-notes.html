@@ -4,8 +4,7 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>NumPy 1.16.4 Release Notes &#8212; NumPy v1.22 Manual</title>
     
   <link href="../_static/css/theme.css" rel="stylesheet">
@@ -28,8 +27,8 @@
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
     <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
     <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/panels-bootstrap.5fd3999ee7762ccc51105388f4a9d115.css" />
     <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/numpy.css" />
     
   <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
 
@@ -43,19 +42,12 @@
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="NumPy 1.16.3 Release Notes" href="1.16.3-notes.html" />
     <link rel="prev" title="NumPy 1.16.5 Release Notes" href="1.16.5-notes.html" />
-
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
 
     <!-- Google Analytics -->
     
-<link rel="stylesheet" href="../_static/numpy.css" type="text/css" />
-
-    <!-- PR #17220: This is added via javascript in versionwarning.js  -->
-    <!-- link rel="canonical" href="http://numpy.org/doc/stable/release/1.16.4-notes.html" / -->
-
-
   </head>
   <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
     
@@ -101,6 +93,12 @@
 <li class="toctree-l1 nav-item">
  <a class="reference internal nav-link" href="../dev/index.html">
   Development
+ </a>
+</li>
+
+<li class="toctree-l1 current active nav-item">
+ <a class="reference internal nav-link" href="../release.html">
+  Release notes
  </a>
 </li>
 
@@ -242,6 +240,21 @@
    </i>
   </label>
   <ul class="current">
+   <li class="toctree-l2">
+    <a class="reference internal" href="1.22.4-notes.html">
+     1.22.4
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="1.22.3-notes.html">
+     1.22.3
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="1.22.2-notes.html">
+     1.22.2
+    </a>
+   </li>
    <li class="toctree-l2">
     <a class="reference internal" href="1.22.1-notes.html">
      1.22.1
@@ -731,7 +744,7 @@
               
               <div>
                 
-  <section id="numpy-1-16-4-release-notes">
+  <div class="section" id="numpy-1-16-4-release-notes">
 <h1>NumPy 1.16.4 Release Notes<a class="headerlink" href="#numpy-1-16-4-release-notes" title="Permalink to this headline">¶</a></h1>
 <p>The NumPy 1.16.4 release fixes bugs reported against the 1.16.3 release, and
 also backports several enhancements from master that seem appropriate for a
@@ -741,9 +754,9 @@ cpus.</p>
 <p>Downstream developers building this release should use Cython &gt;= 0.29.2 and,
 if using OpenBLAS, OpenBLAS &gt; v0.3.7. The supported Python versions are 2.7 and
 3.5-3.7.</p>
-<section id="new-deprecations">
+<div class="section" id="new-deprecations">
 <h2>New deprecations<a class="headerlink" href="#new-deprecations" title="Permalink to this headline">¶</a></h2>
-<section id="writeable-flag-of-c-api-wrapped-arrays">
+<div class="section" id="writeable-flag-of-c-api-wrapped-arrays">
 <h3>Writeable flag of C-API wrapped arrays<a class="headerlink" href="#writeable-flag-of-c-api-wrapped-arrays" title="Permalink to this headline">¶</a></h3>
 <p>When an array is created from the C-API to wrap a pointer to data, the only
 indication we have of the read-write nature of the data is the <code class="docutils literal notranslate"><span class="pre">writeable</span></code>
@@ -752,11 +765,11 @@ the future it will not be possible to switch the writeable flag to <code class="
 from python.  This deprecation should not affect many users since arrays
 created in such a manner are very rare in practice and only available through
 the NumPy C-API.</p>
-</section>
-</section>
-<section id="compatibility-notes">
+</div>
+</div>
+<div class="section" id="compatibility-notes">
 <h2>Compatibility notes<a class="headerlink" href="#compatibility-notes" title="Permalink to this headline">¶</a></h2>
-<section id="potential-changes-to-the-random-stream">
+<div class="section" id="potential-changes-to-the-random-stream">
 <h3>Potential changes to the random stream<a class="headerlink" href="#potential-changes-to-the-random-stream" title="Permalink to this headline">¶</a></h3>
 <p>Due to bugs in the application of log to random floating point numbers,
 the stream may change when sampling from <code class="docutils literal notranslate"><span class="pre">np.random.beta</span></code>, <code class="docutils literal notranslate"><span class="pre">np.random.binomial</span></code>,
@@ -766,20 +779,20 @@ There is a 1 in <span class="math notranslate nohighlight">\(10^{53}\)</span> ch
 the stream changes for any given seed is extremely small. If a 0 is encountered in the
 underlying generator, then the incorrect value produced (either <code class="docutils literal notranslate"><span class="pre">np.inf</span></code>
 or <code class="docutils literal notranslate"><span class="pre">np.nan</span></code>) is now dropped.</p>
-</section>
-</section>
-<section id="changes">
+</div>
+</div>
+<div class="section" id="changes">
 <h2>Changes<a class="headerlink" href="#changes" title="Permalink to this headline">¶</a></h2>
-<section id="numpy-lib-recfunctions-structured-to-unstructured-does-not-squeeze-single-field-views">
+<div class="section" id="numpy-lib-recfunctions-structured-to-unstructured-does-not-squeeze-single-field-views">
 <h3><a class="reference internal" href="../user/basics.rec.html#numpy.lib.recfunctions.structured_to_unstructured" title="numpy.lib.recfunctions.structured_to_unstructured"><code class="xref py py-obj docutils literal notranslate"><span class="pre">numpy.lib.recfunctions.structured_to_unstructured</span></code></a> does not squeeze single-field views<a class="headerlink" href="#numpy-lib-recfunctions-structured-to-unstructured-does-not-squeeze-single-field-views" title="Permalink to this headline">¶</a></h3>
 <p>Previously <code class="docutils literal notranslate"><span class="pre">structured_to_unstructured(arr[['a']])</span></code> would produce a squeezed
 result inconsistent with <code class="docutils literal notranslate"><span class="pre">structured_to_unstructured(arr[['a',</span> <span class="pre">b']])</span></code>. This
 was accidental. The old behavior can be retained with
 <code class="docutils literal notranslate"><span class="pre">structured_to_unstructured(arr[['a']]).squeeze(axis=-1)</span></code> or far more simply,
 <code class="docutils literal notranslate"><span class="pre">arr['a']</span></code>.</p>
-</section>
-</section>
-<section id="contributors">
+</div>
+</div>
+<div class="section" id="contributors">
 <h2>Contributors<a class="headerlink" href="#contributors" title="Permalink to this headline">¶</a></h2>
 <p>A total of 10 people contributed to this release.  People with a “+” by their
 names contributed a patch for the first time.</p>
@@ -795,8 +808,8 @@ names contributed a patch for the first time.</p>
 <li><p>Sebastian Berg</p></li>
 <li><p>Tyler Reddy</p></li>
 </ul>
-</section>
-<section id="pull-requests-merged">
+</div>
+<div class="section" id="pull-requests-merged">
 <h2>Pull requests merged<a class="headerlink" href="#pull-requests-merged" title="Permalink to this headline">¶</a></h2>
 <p>A total of 16 pull requests were merged for this release.</p>
 <ul class="simple">
@@ -817,8 +830,8 @@ names contributed a patch for the first time.</p>
 <li><p><a class="reference external" href="https://github.com/numpy/numpy/pull/13641">#13641</a>: MAINT: Prepare for the 1.16.4 release.</p></li>
 <li><p><a class="reference external" href="https://github.com/numpy/numpy/pull/13644">#13644</a>: BUG: special case object arrays when printing rel-, abs-error</p></li>
 </ul>
-</section>
-</section>
+</div>
+</div>
 
 
               </div>

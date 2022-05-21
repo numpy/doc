@@ -4,8 +4,7 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Iterating Over Arrays &#8212; NumPy v1.22 Manual</title>
     
   <link href="../_static/css/theme.css" rel="stylesheet">
@@ -28,8 +27,8 @@
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
     <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
     <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/panels-bootstrap.5fd3999ee7762ccc51105388f4a9d115.css" />
     <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/numpy.css" />
     
   <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
 
@@ -42,19 +41,12 @@
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Standard array subclasses" href="arrays.classes.html" />
     <link rel="prev" title="numpy.lib.Arrayterator" href="generated/numpy.lib.Arrayterator.html" />
-
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
 
     <!-- Google Analytics -->
     
-<link rel="stylesheet" href="../_static/numpy.css" type="text/css" />
-
-    <!-- PR #17220: This is added via javascript in versionwarning.js  -->
-    <!-- link rel="canonical" href="http://numpy.org/doc/stable/reference/arrays.nditer.html" / -->
-
-
   </head>
   <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
     
@@ -100,6 +92,12 @@
 <li class="toctree-l1 nav-item">
  <a class="reference internal nav-link" href="../dev/index.html">
   Development
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../release.html">
+  Release notes
  </a>
 </li>
 
@@ -396,7 +394,7 @@
               
               <div>
                 
-  <section id="iterating-over-arrays">
+  <div class="section" id="iterating-over-arrays">
 <span id="arrays-nditer"></span><h1>Iterating Over Arrays<a class="headerlink" href="#iterating-over-arrays" title="Permalink to this headline">¶</a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -414,7 +412,7 @@ can accelerate the inner loop in Cython. Since the Python exposure of
 <a class="reference internal" href="generated/numpy.nditer.html#numpy.nditer" title="numpy.nditer"><code class="xref py py-class docutils literal notranslate"><span class="pre">nditer</span></code></a> is a relatively straightforward mapping of the C array
 iterator API, these ideas will also provide help working with array
 iteration from C or C++.</p>
-<section id="single-array-iteration">
+<div class="section" id="single-array-iteration">
 <h2>Single Array Iteration<a class="headerlink" href="#single-array-iteration" title="Permalink to this headline">¶</a></h2>
 <p>The most basic task that can be done with the <a class="reference internal" href="generated/numpy.nditer.html#numpy.nditer" title="numpy.nditer"><code class="xref py py-class docutils literal notranslate"><span class="pre">nditer</span></code></a> is to
 visit every element of an array. Each element is provided one by one
@@ -456,7 +454,7 @@ of that transpose in C order.</p>
 namely the order they are stored in memory, whereas the elements of
 <em class="xref py py-obj">a.T.copy(order=’C’)</em> get visited in a different order because they
 have been put into a different memory layout.</p>
-<section id="controlling-iteration-order">
+<div class="section" id="controlling-iteration-order">
 <h3>Controlling Iteration Order<a class="headerlink" href="#controlling-iteration-order" title="Permalink to this headline">¶</a></h3>
 <p>There are times when it is important to visit the elements of an array
 in a specific order, irrespective of the layout of the elements in memory.
@@ -478,8 +476,8 @@ order=’C’ for C order and order=’F’ for Fortran order.</p>
 </pre></div>
 </div>
 </div>
-</section>
-<section id="modifying-array-values">
+</div>
+<div class="section" id="modifying-array-values">
 <span id="nditer-context-manager"></span><h3>Modifying Array Values<a class="headerlink" href="#modifying-array-values" title="Permalink to this headline">¶</a></h3>
 <p>By default, the <a class="reference internal" href="generated/numpy.nditer.html#numpy.nditer" title="numpy.nditer"><code class="xref py py-class docutils literal notranslate"><span class="pre">nditer</span></code></a> treats the input operand as a read-only
 object. To be able to modify the array elements, you must specify either
@@ -519,8 +517,8 @@ context is exited.</p>
 note that prior to 1.15, <a class="reference internal" href="generated/numpy.nditer.html#numpy.nditer" title="numpy.nditer"><code class="xref py py-class docutils literal notranslate"><span class="pre">nditer</span></code></a> was not a context manager and
 did not have a <em class="xref py py-obj">close</em> method. Instead it relied on the destructor to
 initiate the writeback of the buffer.</p>
-</section>
-<section id="using-an-external-loop">
+</div>
+<div class="section" id="using-an-external-loop">
 <h3>Using an External Loop<a class="headerlink" href="#using-an-external-loop" title="Permalink to this headline">¶</a></h3>
 <p>In all the examples so far, the elements of <em class="xref py py-obj">a</em> are provided by the
 iterator one at a time, because all the looping logic is internal to the
@@ -552,8 +550,8 @@ elements each.</p>
 </pre></div>
 </div>
 </div>
-</section>
-<section id="tracking-an-index-or-multi-index">
+</div>
+<div class="section" id="tracking-an-index-or-multi-index">
 <h3>Tracking an Index or Multi-Index<a class="headerlink" href="#tracking-an-index-or-multi-index" title="Permalink to this headline">¶</a></h3>
 <p>During iteration, you may want to use the index of the current
 element in a computation. For example, you may want to visit the
@@ -604,8 +602,8 @@ raise an exception.</p>
 </pre></div>
 </div>
 </div>
-</section>
-<section id="alternative-looping-and-element-access">
+</div>
+<div class="section" id="alternative-looping-and-element-access">
 <h3>Alternative Looping and Element Access<a class="headerlink" href="#alternative-looping-and-element-access" title="Permalink to this headline">¶</a></h3>
 <p>To make its properties more readily accessible during iteration,
 <a class="reference internal" href="generated/numpy.nditer.html#numpy.nditer" title="numpy.nditer"><code class="xref py py-class docutils literal notranslate"><span class="pre">nditer</span></code></a> has an alternative syntax for iterating, which works
@@ -643,8 +641,8 @@ produce identical results to the ones in the previous section.</p>
 </pre></div>
 </div>
 </div>
-</section>
-<section id="buffering-the-array-elements">
+</div>
+<div class="section" id="buffering-the-array-elements">
 <h3>Buffering the Array Elements<a class="headerlink" href="#buffering-the-array-elements" title="Permalink to this headline">¶</a></h3>
 <p>When forcing an iteration order, we observed that the external loop
 option may provide the elements in smaller chunks because the elements
@@ -672,8 +670,8 @@ is enabled.</p>
 </pre></div>
 </div>
 </div>
-</section>
-<section id="iterating-as-a-specific-data-type">
+</div>
+<div class="section" id="iterating-as-a-specific-data-type">
 <h3>Iterating as a Specific Data Type<a class="headerlink" href="#iterating-as-a-specific-data-type" title="Permalink to this headline">¶</a></h3>
 <p>There are times when it is necessary to treat an array as a different
 data type than it is stored as. For instance, one may want to do all
@@ -783,9 +781,9 @@ would violate the casting rule.</p>
 </pre></div>
 </div>
 </div>
-</section>
-</section>
-<section id="broadcasting-array-iteration">
+</div>
+</div>
+<div class="section" id="broadcasting-array-iteration">
 <h2>Broadcasting Array Iteration<a class="headerlink" href="#broadcasting-array-iteration" title="Permalink to this headline">¶</a></h2>
 <p>NumPy has a set of rules for dealing with arrays that have differing
 shapes which are applied whenever functions take multiple operands
@@ -820,7 +818,7 @@ which includes the input shapes to help diagnose the problem.</p>
 </pre></div>
 </div>
 </div>
-<section id="iterator-allocated-output-arrays">
+<div class="section" id="iterator-allocated-output-arrays">
 <h3>Iterator-Allocated Output Arrays<a class="headerlink" href="#iterator-allocated-output-arrays" title="Permalink to this headline">¶</a></h3>
 <p>A common case in NumPy functions is to have outputs allocated based
 on the broadcasting of the input, and additionally have an optional
@@ -898,8 +896,8 @@ reasons.</p>
 </pre></div>
 </div>
 </div>
-</section>
-<section id="outer-product-iteration">
+</div>
+<div class="section" id="outer-product-iteration">
 <h3>Outer Product Iteration<a class="headerlink" href="#outer-product-iteration" title="Permalink to this headline">¶</a></h3>
 <p>Any binary operation can be extended to an array operation in an outer
 product fashion like in <a class="reference internal" href="generated/numpy.outer.html#numpy.outer" title="numpy.outer"><code class="xref py py-func docutils literal notranslate"><span class="pre">outer</span></code></a>, and the <a class="reference internal" href="generated/numpy.nditer.html#numpy.nditer" title="numpy.nditer"><code class="xref py py-class docutils literal notranslate"><span class="pre">nditer</span></code></a> object
@@ -945,8 +943,8 @@ Everything to do with the outer product is handled by the iterator setup.</p>
 </div>
 <p>Note that once the iterator is closed we can not access <a class="reference internal" href="generated/numpy.nditer.operands.html#numpy.nditer.operands" title="numpy.nditer.operands"><code class="xref py py-func docutils literal notranslate"><span class="pre">operands</span></code></a>
 and must use a reference created inside the context manager.</p>
-</section>
-<section id="reduction-iteration">
+</div>
+<div class="section" id="reduction-iteration">
 <h3>Reduction Iteration<a class="headerlink" href="#reduction-iteration" title="Permalink to this headline">¶</a></h3>
 <p>Whenever a writeable operand has fewer elements than the full iteration space,
 that operand is undergoing a reduction. The <a class="reference internal" href="generated/numpy.nditer.html#numpy.nditer" title="numpy.nditer"><code class="xref py py-class docutils literal notranslate"><span class="pre">nditer</span></code></a> object requires
@@ -1027,9 +1025,9 @@ buffering.</p>
 </pre></div>
 </div>
 </div>
-</section>
-</section>
-<section id="putting-the-inner-loop-in-cython">
+</div>
+</div>
+<div class="section" id="putting-the-inner-loop-in-cython">
 <h2>Putting the Inner Loop in Cython<a class="headerlink" href="#putting-the-inner-loop-in-cython" title="Permalink to this headline">¶</a></h2>
 <p>Those who want really good performance out of their low level operations
 should strongly consider directly using the iteration API provided
@@ -1176,8 +1174,8 @@ using NumPy’s built-in sum function.:</p>
 <span class="go">True</span>
 </pre></div>
 </div>
-</section>
-</section>
+</div>
+</div>
 
 
               </div>

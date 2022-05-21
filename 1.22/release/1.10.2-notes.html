@@ -4,8 +4,7 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>NumPy 1.10.2 Release Notes &#8212; NumPy v1.22 Manual</title>
     
   <link href="../_static/css/theme.css" rel="stylesheet">
@@ -28,8 +27,8 @@
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
     <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
     <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/panels-bootstrap.5fd3999ee7762ccc51105388f4a9d115.css" />
     <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/numpy.css" />
     
   <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
 
@@ -42,19 +41,12 @@
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="NumPy 1.10.1 Release Notes" href="1.10.1-notes.html" />
     <link rel="prev" title="NumPy 1.10.3 Release Notes" href="1.10.3-notes.html" />
-
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
 
     <!-- Google Analytics -->
     
-<link rel="stylesheet" href="../_static/numpy.css" type="text/css" />
-
-    <!-- PR #17220: This is added via javascript in versionwarning.js  -->
-    <!-- link rel="canonical" href="http://numpy.org/doc/stable/release/1.10.2-notes.html" / -->
-
-
   </head>
   <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
     
@@ -100,6 +92,12 @@
 <li class="toctree-l1 nav-item">
  <a class="reference internal nav-link" href="../dev/index.html">
   Development
+ </a>
+</li>
+
+<li class="toctree-l1 current active nav-item">
+ <a class="reference internal nav-link" href="../release.html">
+  Release notes
  </a>
 </li>
 
@@ -241,6 +239,21 @@
    </i>
   </label>
   <ul class="current">
+   <li class="toctree-l2">
+    <a class="reference internal" href="1.22.4-notes.html">
+     1.22.4
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="1.22.3-notes.html">
+     1.22.3
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="1.22.2-notes.html">
+     1.22.2
+    </a>
+   </li>
    <li class="toctree-l2">
     <a class="reference internal" href="1.22.1-notes.html">
      1.22.1
@@ -721,27 +734,27 @@
               
               <div>
                 
-  <section id="numpy-1-10-2-release-notes">
+  <div class="section" id="numpy-1-10-2-release-notes">
 <h1>NumPy 1.10.2 Release Notes<a class="headerlink" href="#numpy-1-10-2-release-notes" title="Permalink to this headline">¶</a></h1>
 <p>This release deals with a number of bugs that turned up in 1.10.1 and
 adds various build and release improvements.</p>
 <p>Numpy 1.10.1 supports Python 2.6 - 2.7 and 3.2 - 3.5.</p>
-<section id="compatibility-notes">
+<div class="section" id="compatibility-notes">
 <h2>Compatibility notes<a class="headerlink" href="#compatibility-notes" title="Permalink to this headline">¶</a></h2>
-<section id="relaxed-stride-checking-is-no-longer-the-default">
+<div class="section" id="relaxed-stride-checking-is-no-longer-the-default">
 <h3>Relaxed stride checking is no longer the default<a class="headerlink" href="#relaxed-stride-checking-is-no-longer-the-default" title="Permalink to this headline">¶</a></h3>
 <p>There were back compatibility problems involving views changing the dtype of
 multidimensional Fortran arrays that need to be dealt with over a longer
 timeframe.</p>
-</section>
-<section id="fix-swig-bug-in-numpy-i">
+</div>
+<div class="section" id="fix-swig-bug-in-numpy-i">
 <h3>Fix swig bug in <code class="docutils literal notranslate"><span class="pre">numpy.i</span></code><a class="headerlink" href="#fix-swig-bug-in-numpy-i" title="Permalink to this headline">¶</a></h3>
 <p>Relaxed stride checking revealed a bug in <code class="docutils literal notranslate"><span class="pre">array_is_fortran(a)</span></code>, that was
 using PyArray_ISFORTRAN to check for Fortran contiguity instead of
 PyArray_IS_F_CONTIGUOUS. You may want to regenerate swigged files using the
 updated numpy.i</p>
-</section>
-<section id="deprecate-views-changing-dimensions-in-fortran-order">
+</div>
+<div class="section" id="deprecate-views-changing-dimensions-in-fortran-order">
 <h3>Deprecate views changing dimensions in fortran order<a class="headerlink" href="#deprecate-views-changing-dimensions-in-fortran-order" title="Permalink to this headline">¶</a></h3>
 <p>This deprecates assignment of a new descriptor to the dtype attribute of
 a non-C-contiguous array if it result in changing the shape. This
@@ -752,9 +765,9 @@ enabled, arrays that are both C and Fortran contiguous are always treated
 as C contiguous which breaks some code that depended the two being mutually
 exclusive for non-scalar arrays of ndim &gt; 1. This deprecation prepares the
 way to always enable relaxed stride checking.</p>
-</section>
-</section>
-<section id="issues-fixed">
+</div>
+</div>
+<div class="section" id="issues-fixed">
 <h2>Issues Fixed<a class="headerlink" href="#issues-fixed" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><p>gh-6019 Masked array repr fails for structured array with multi-dimensional column.</p></li>
@@ -787,8 +800,8 @@ way to always enable relaxed stride checking.</p>
 <li><p>gh-6781 The travis-ci script in maintenance/1.10.x needs fixing.</p></li>
 <li><p>gh-6807 Windows testing errors for 1.10.2</p></li>
 </ul>
-</section>
-<section id="merged-prs">
+</div>
+<div class="section" id="merged-prs">
 <h2>Merged PRs<a class="headerlink" href="#merged-prs" title="Permalink to this headline">¶</a></h2>
 <p>The following PRs have been merged into 1.10.2. When the PR is a backport,
 the PR number for the original PR against master is listed.</p>
@@ -865,14 +878,14 @@ arrays that need to be dealt with over a longer timeframe.</p>
 <ul class="simple">
 <li><p>gh-6735 MAINT: Make no relaxed stride checking the default for 1.10.</p></li>
 </ul>
-</section>
-<section id="notes">
+</div>
+<div class="section" id="notes">
 <h2>Notes<a class="headerlink" href="#notes" title="Permalink to this headline">¶</a></h2>
 <p>A bug in the Numpy 1.10.1 release resulted in exceptions being raised for
 <code class="docutils literal notranslate"><span class="pre">RuntimeWarning</span></code> and <code class="docutils literal notranslate"><span class="pre">DeprecationWarning</span></code> in projects depending on Numpy.
 That has been fixed.</p>
-</section>
-</section>
+</div>
+</div>
 
 
               </div>

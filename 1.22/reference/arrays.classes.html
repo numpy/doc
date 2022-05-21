@@ -4,8 +4,7 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Standard array subclasses &#8212; NumPy v1.22 Manual</title>
     
   <link href="../_static/css/theme.css" rel="stylesheet">
@@ -28,8 +27,8 @@
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
     <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
     <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/panels-bootstrap.5fd3999ee7762ccc51105388f4a9d115.css" />
     <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/numpy.css" />
     
   <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
 
@@ -43,19 +42,12 @@
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="numpy.matrix.T" href="generated/numpy.matrix.T.html" />
     <link rel="prev" title="Iterating Over Arrays" href="arrays.nditer.html" />
-
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
 
     <!-- Google Analytics -->
     
-<link rel="stylesheet" href="../_static/numpy.css" type="text/css" />
-
-    <!-- PR #17220: This is added via javascript in versionwarning.js  -->
-    <!-- link rel="canonical" href="http://numpy.org/doc/stable/reference/arrays.classes.html" / -->
-
-
   </head>
   <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
     
@@ -101,6 +93,12 @@
 <li class="toctree-l1 nav-item">
  <a class="reference internal nav-link" href="../dev/index.html">
   Development
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../release.html">
+  Release notes
  </a>
 </li>
 
@@ -502,7 +500,7 @@
               
               <div>
                 
-  <section id="standard-array-subclasses">
+  <div class="section" id="standard-array-subclasses">
 <span id="arrays-classes"></span><h1>Standard array subclasses<a class="headerlink" href="#standard-array-subclasses" title="Permalink to this headline">¶</a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -534,7 +532,7 @@ interface, or the attributes of the array. One important example,
 however, of why your subroutine may not be able to handle an arbitrary
 subclass of an array is that matrices redefine the “*” operator to be
 matrix-multiplication, rather than element-by-element multiplication.</p>
-<section id="special-attributes-and-methods">
+<div class="section" id="special-attributes-and-methods">
 <h2>Special attributes and methods<a class="headerlink" href="#special-attributes-and-methods" title="Permalink to this headline">¶</a></h2>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
@@ -558,19 +556,19 @@ quite similarly to Python’s <code class="docutils literal notranslate"><span c
 <li><p><em>inputs</em> is a tuple of the input arguments to the <code class="docutils literal notranslate"><span class="pre">ufunc</span></code>.</p></li>
 <li><p><em>kwargs</em> is a dictionary containing the optional input arguments
 of the ufunc. If given, any <code class="docutils literal notranslate"><span class="pre">out</span></code> arguments, both positional
-and keyword, are passed as a <a class="reference external" href="https://docs.python.org/dev/library/stdtypes.html#tuple" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tuple</span></code></a> in <em>kwargs</em>. See the
+and keyword, are passed as a <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tuple</span></code></a> in <em>kwargs</em>. See the
 discussion in <a class="reference internal" href="ufuncs.html#ufuncs"><span class="std std-ref">Universal functions (ufunc)</span></a> for details.</p></li>
 </ul>
 <p>The method should return either the result of the operation, or
-<a class="reference external" href="https://docs.python.org/dev/library/constants.html#NotImplemented" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NotImplemented</span></code></a> if the operation requested is not implemented.</p>
+<a class="reference external" href="https://docs.python.org/3/library/constants.html#NotImplemented" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NotImplemented</span></code></a> if the operation requested is not implemented.</p>
 <p>If one of the input or output arguments has a <a class="reference internal" href="#numpy.class.__array_ufunc__" title="numpy.class.__array_ufunc__"><code class="xref py py-func docutils literal notranslate"><span class="pre">__array_ufunc__</span></code></a>
 method, it is executed <em>instead</em> of the ufunc.  If more than one of the
 arguments implements <a class="reference internal" href="#numpy.class.__array_ufunc__" title="numpy.class.__array_ufunc__"><code class="xref py py-func docutils literal notranslate"><span class="pre">__array_ufunc__</span></code></a>, they are tried in the
 order: subclasses before superclasses, inputs before outputs, otherwise
 left to right. The first routine returning something other than
-<a class="reference external" href="https://docs.python.org/dev/library/constants.html#NotImplemented" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NotImplemented</span></code></a> determines the result. If all of the
-<a class="reference internal" href="#numpy.class.__array_ufunc__" title="numpy.class.__array_ufunc__"><code class="xref py py-func docutils literal notranslate"><span class="pre">__array_ufunc__</span></code></a> operations return <a class="reference external" href="https://docs.python.org/dev/library/constants.html#NotImplemented" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NotImplemented</span></code></a>, a
-<a class="reference external" href="https://docs.python.org/dev/library/exceptions.html#TypeError" title="(in Python v3.11)"><code class="xref py py-exc docutils literal notranslate"><span class="pre">TypeError</span></code></a> is raised.</p>
+<a class="reference external" href="https://docs.python.org/3/library/constants.html#NotImplemented" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NotImplemented</span></code></a> determines the result. If all of the
+<a class="reference internal" href="#numpy.class.__array_ufunc__" title="numpy.class.__array_ufunc__"><code class="xref py py-func docutils literal notranslate"><span class="pre">__array_ufunc__</span></code></a> operations return <a class="reference external" href="https://docs.python.org/3/library/constants.html#NotImplemented" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NotImplemented</span></code></a>, a
+<a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.10)"><code class="xref py py-exc docutils literal notranslate"><span class="pre">TypeError</span></code></a> is raised.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>We intend to re-implement numpy functions as (generalized)
@@ -584,7 +582,7 @@ same may happen with functions such as <a class="reference internal" href="gener
 <p>Like with some other special methods in python, such as <code class="docutils literal notranslate"><span class="pre">__hash__</span></code> and
 <code class="docutils literal notranslate"><span class="pre">__iter__</span></code>, it is possible to indicate that your class does <em>not</em>
 support ufuncs by setting <code class="docutils literal notranslate"><span class="pre">__array_ufunc__</span> <span class="pre">=</span> <span class="pre">None</span></code>. Ufuncs always raise
-<a class="reference external" href="https://docs.python.org/dev/library/exceptions.html#TypeError" title="(in Python v3.11)"><code class="xref py py-exc docutils literal notranslate"><span class="pre">TypeError</span></code></a> when called on an object that sets
+<a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.10)"><code class="xref py py-exc docutils literal notranslate"><span class="pre">TypeError</span></code></a> when called on an object that sets
 <code class="docutils literal notranslate"><span class="pre">__array_ufunc__</span> <span class="pre">=</span> <span class="pre">None</span></code>.</p>
 <p>The presence of <a class="reference internal" href="#numpy.class.__array_ufunc__" title="numpy.class.__array_ufunc__"><code class="xref py py-func docutils literal notranslate"><span class="pre">__array_ufunc__</span></code></a> also influences how
 <a class="reference internal" href="generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a> handles binary operations like <code class="docutils literal notranslate"><span class="pre">arr</span> <span class="pre">+</span> <span class="pre">obj</span></code> and <code class="docutils literal notranslate"><span class="pre">arr</span>
@@ -597,7 +595,7 @@ meaning that <code class="docutils literal notranslate"><span class="pre">arr</s
 want to define an object that acts like an array.</p>
 <p>Alternatively, if <code class="docutils literal notranslate"><span class="pre">obj.__array_ufunc__</span></code> is set to None, then as a
 special case, special methods like <code class="docutils literal notranslate"><span class="pre">ndarray.__add__</span></code> will notice this
-and <em>unconditionally</em> raise <a class="reference external" href="https://docs.python.org/dev/library/exceptions.html#TypeError" title="(in Python v3.11)"><code class="xref py py-exc docutils literal notranslate"><span class="pre">TypeError</span></code></a>. This is useful if you want to
+and <em>unconditionally</em> raise <a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.10)"><code class="xref py py-exc docutils literal notranslate"><span class="pre">TypeError</span></code></a>. This is useful if you want to
 create objects that interact with arrays via binary operations, but
 are not themselves arrays. For example, a units handling system might have
 an object <code class="docutils literal notranslate"><span class="pre">m</span></code> representing the “meters” unit, and want to support the
@@ -605,13 +603,13 @@ syntax <code class="docutils literal notranslate"><span class="pre">arr</span> <
 not want to otherwise interact with arrays via ufuncs or otherwise. This
 can be done by setting <code class="docutils literal notranslate"><span class="pre">__array_ufunc__</span> <span class="pre">=</span> <span class="pre">None</span></code> and defining <code class="docutils literal notranslate"><span class="pre">__mul__</span></code>
 and <code class="docutils literal notranslate"><span class="pre">__rmul__</span></code> methods. (Note that this means that writing an
-<code class="docutils literal notranslate"><span class="pre">__array_ufunc__</span></code> that always returns <a class="reference external" href="https://docs.python.org/dev/library/constants.html#NotImplemented" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NotImplemented</span></code></a> is not
+<code class="docutils literal notranslate"><span class="pre">__array_ufunc__</span></code> that always returns <a class="reference external" href="https://docs.python.org/3/library/constants.html#NotImplemented" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NotImplemented</span></code></a> is not
 quite the same as setting <code class="docutils literal notranslate"><span class="pre">__array_ufunc__</span> <span class="pre">=</span> <span class="pre">None</span></code>: in the former
-case, <code class="docutils literal notranslate"><span class="pre">arr</span> <span class="pre">+</span> <span class="pre">obj</span></code> will raise <a class="reference external" href="https://docs.python.org/dev/library/exceptions.html#TypeError" title="(in Python v3.11)"><code class="xref py py-exc docutils literal notranslate"><span class="pre">TypeError</span></code></a>, while in the latter
+case, <code class="docutils literal notranslate"><span class="pre">arr</span> <span class="pre">+</span> <span class="pre">obj</span></code> will raise <a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.10)"><code class="xref py py-exc docutils literal notranslate"><span class="pre">TypeError</span></code></a>, while in the latter
 case it is possible to define a <code class="docutils literal notranslate"><span class="pre">__radd__</span></code> method to prevent this.)</p>
 <p>The above does not hold for in-place operators, for which <a class="reference internal" href="generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>
-never returns <a class="reference external" href="https://docs.python.org/dev/library/constants.html#NotImplemented" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NotImplemented</span></code></a>.  Hence, <code class="docutils literal notranslate"><span class="pre">arr</span> <span class="pre">+=</span> <span class="pre">obj</span></code> would always
-lead to a <a class="reference external" href="https://docs.python.org/dev/library/exceptions.html#TypeError" title="(in Python v3.11)"><code class="xref py py-exc docutils literal notranslate"><span class="pre">TypeError</span></code></a>.  This is because for arrays in-place operations
+never returns <a class="reference external" href="https://docs.python.org/3/library/constants.html#NotImplemented" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NotImplemented</span></code></a>.  Hence, <code class="docutils literal notranslate"><span class="pre">arr</span> <span class="pre">+=</span> <span class="pre">obj</span></code> would always
+lead to a <a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.10)"><code class="xref py py-exc docutils literal notranslate"><span class="pre">TypeError</span></code></a>.  This is because for arrays in-place operations
 cannot generically be replaced by a simple reverse operation.  (For
 instance, by default, <code class="docutils literal notranslate"><span class="pre">arr</span> <span class="pre">+=</span> <span class="pre">obj</span></code> would be translated to <code class="docutils literal notranslate"><span class="pre">arr</span> <span class="pre">=</span>
 <span class="pre">arr</span> <span class="pre">+</span> <span class="pre">obj</span></code>, i.e., <code class="docutils literal notranslate"><span class="pre">arr</span></code> would be replaced, contrary to what is expected
@@ -635,7 +633,7 @@ unexpected and thus confusing, as then the subclass would not work at
 all with ufuncs).</p></li>
 <li><p><a class="reference internal" href="generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a> defines its own <a class="reference internal" href="#numpy.class.__array_ufunc__" title="numpy.class.__array_ufunc__"><code class="xref py py-func docutils literal notranslate"><span class="pre">__array_ufunc__</span></code></a>, which,
 evaluates the ufunc if no arguments have overrides, and returns
-<a class="reference external" href="https://docs.python.org/dev/library/constants.html#NotImplemented" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NotImplemented</span></code></a> otherwise. This may be useful for subclasses
+<a class="reference external" href="https://docs.python.org/3/library/constants.html#NotImplemented" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NotImplemented</span></code></a> otherwise. This may be useful for subclasses
 for which <a class="reference internal" href="#numpy.class.__array_ufunc__" title="numpy.class.__array_ufunc__"><code class="xref py py-func docutils literal notranslate"><span class="pre">__array_ufunc__</span></code></a> converts any instances of its own
 class to <a class="reference internal" href="generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>: it can then pass these on to its
 superclass using <code class="docutils literal notranslate"><span class="pre">super().__array_ufunc__(*inputs,</span> <span class="pre">**kwargs)</span></code>,
@@ -674,7 +672,7 @@ NumPy function overrides.</p></li>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">func</span></code> is an arbitrary callable exposed by NumPy’s public API,
 which was called in the form <code class="docutils literal notranslate"><span class="pre">func(*args,</span> <span class="pre">**kwargs)</span></code>.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">types</span></code> is a collection <a class="reference external" href="https://docs.python.org/dev/library/collections.abc.html#collections.abc.Collection" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">collections.abc.Collection</span></code></a>
+<li><p><code class="docutils literal notranslate"><span class="pre">types</span></code> is a collection <a class="reference external" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Collection" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">collections.abc.Collection</span></code></a>
 of unique argument types from the original NumPy function call that
 implement <code class="docutils literal notranslate"><span class="pre">__array_function__</span></code>.</p></li>
 <li><p>The tuple <code class="docutils literal notranslate"><span class="pre">args</span></code> and dict <code class="docutils literal notranslate"><span class="pre">kwargs</span></code> are directly passed on from the
@@ -837,8 +835,8 @@ method is used as the output object of an <a class="reference internal" href="..
 returned by <a class="reference internal" href="#numpy.class.__array__" title="numpy.class.__array__"><code class="xref py py-func docutils literal notranslate"><span class="pre">__array__</span></code></a>. This practice will return <code class="docutils literal notranslate"><span class="pre">TypeError</span></code>.</p>
 </dd></dl>
 
-</section>
-<section id="matrix-objects">
+</div>
+<div class="section" id="matrix-objects">
 <span id="id1"></span><h2>Matrix objects<a class="headerlink" href="#matrix-objects" title="Permalink to this headline">¶</a></h2>
 <div class="admonition note" id="index-0">
 <p class="admonition-title">Note</p>
@@ -951,8 +949,8 @@ alias for “matrix “in NumPy.</p>
 <span class="go">        [1.14374817e-04, 9.23385948e-02, 3.96767474e-01]])</span>
 </pre></div>
 </div>
-</section>
-<section id="memory-mapped-file-arrays">
+</div>
+<div class="section" id="memory-mapped-file-arrays">
 <h2>Memory-mapped file arrays<a class="headerlink" href="#memory-mapped-file-arrays" title="Permalink to this headline">¶</a></h2>
 <p id="index-1">Memory-mapped files are useful for reading and/or modifying small
 segments of a large file with regular layout, without reading the
@@ -992,8 +990,8 @@ array actually get written to disk.</p>
 <span class="go">10.0 30.0</span>
 </pre></div>
 </div>
-</section>
-<section id="character-arrays-numpy-char">
+</div>
+<div class="section" id="character-arrays-numpy-char">
 <h2>Character arrays (<a class="reference internal" href="routines.char.html#module-numpy.char" title="numpy.char"><code class="xref py py-mod docutils literal notranslate"><span class="pre">numpy.char</span></code></a>)<a class="headerlink" href="#character-arrays-numpy-char" title="Permalink to this headline">¶</a></h2>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
@@ -1013,7 +1011,7 @@ in the <a class="reference internal" href="routines.char.html#module-numpy.char"
 and <code class="docutils literal notranslate"><span class="pre">%</span></code> on a (broadcasting) element-by-element basis.  These
 operations are not available on the standard <a class="reference internal" href="generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a> of
 character type. In addition, the <a class="reference internal" href="generated/numpy.chararray.html#numpy.chararray" title="numpy.chararray"><code class="xref py py-class docutils literal notranslate"><span class="pre">chararray</span></code></a> has all of the
-standard <a class="reference external" href="https://docs.python.org/dev/library/stdtypes.html#str" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a> (and <a class="reference external" href="https://docs.python.org/dev/library/stdtypes.html#bytes" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bytes</span></code></a>) methods,
+standard <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a> (and <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bytes</span></code></a>) methods,
 executing them on an element-by-element basis. Perhaps the easiest
 way to create a chararray is to use <a class="reference internal" href="generated/numpy.ndarray.view.html#numpy.ndarray.view" title="numpy.ndarray.view"><code class="xref py py-meth docutils literal notranslate"><span class="pre">self.view(chararray)</span></code></a> where <em>self</em> is an ndarray of str or unicode
 data-type. However, a chararray can also be created using the
@@ -1037,8 +1035,8 @@ data-type. However, a chararray can also be created using the
 that the chararray inherits the feature introduced by Numarray that
 white-space at the end of any element in the array will be ignored
 on item retrieval and comparison operations.</p>
-</section>
-<section id="record-arrays-numpy-rec">
+</div>
+<div class="section" id="record-arrays-numpy-rec">
 <span id="arrays-classes-rec"></span><h2>Record arrays (<code class="xref py py-mod docutils literal notranslate"><span class="pre">numpy.rec</span></code>)<a class="headerlink" href="#record-arrays-numpy-rec" title="Permalink to this headline">¶</a></h2>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
@@ -1062,15 +1060,15 @@ scalar data type object <a class="reference internal" href="generated/numpy.reco
 </tr>
 </tbody>
 </table>
-</section>
-<section id="masked-arrays-numpy-ma">
+</div>
+<div class="section" id="masked-arrays-numpy-ma">
 <h2>Masked arrays (<a class="reference internal" href="maskedarray.generic.html#module-numpy.ma" title="numpy.ma"><code class="xref py py-mod docutils literal notranslate"><span class="pre">numpy.ma</span></code></a>)<a class="headerlink" href="#masked-arrays-numpy-ma" title="Permalink to this headline">¶</a></h2>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
 <p><a class="reference internal" href="maskedarray.html#maskedarray"><span class="std std-ref">Masked arrays</span></a></p>
 </div>
-</section>
-<section id="standard-container-class">
+</div>
+<div class="section" id="standard-container-class">
 <h2>Standard container class<a class="headerlink" href="#standard-container-class" title="Permalink to this headline">¶</a></h2>
 <p>For backward compatibility and as a standard “container “class, the
 UserArray from Numeric has been brought over to NumPy and named
@@ -1091,8 +1089,8 @@ encouraged to use the ndarray class directly if you can.</p>
 </tr>
 </tbody>
 </table>
-</section>
-<section id="array-iterators">
+</div>
+<div class="section" id="array-iterators">
 <span id="index-3"></span><h2>Array Iterators<a class="headerlink" href="#array-iterators" title="Permalink to this headline">¶</a></h2>
 <p id="index-4">Iterators are a powerful concept for array processing. Essentially,
 iterators implement a generalized for-loop. If <em>myiter</em> is an iterator
@@ -1103,11 +1101,11 @@ object, then the Python code:</p>
     <span class="o">...</span>
 </pre></div>
 </div>
-<p>calls <code class="docutils literal notranslate"><span class="pre">val</span> <span class="pre">=</span> <span class="pre">next(myiter)</span></code> repeatedly until <a class="reference external" href="https://docs.python.org/dev/library/exceptions.html#StopIteration" title="(in Python v3.11)"><code class="xref py py-exc docutils literal notranslate"><span class="pre">StopIteration</span></code></a> is
+<p>calls <code class="docutils literal notranslate"><span class="pre">val</span> <span class="pre">=</span> <span class="pre">next(myiter)</span></code> repeatedly until <a class="reference external" href="https://docs.python.org/3/library/exceptions.html#StopIteration" title="(in Python v3.10)"><code class="xref py py-exc docutils literal notranslate"><span class="pre">StopIteration</span></code></a> is
 raised by the iterator. There are several ways to iterate over an
 array that may be useful: default iteration, flat iteration, and
 <span class="math notranslate nohighlight">\(N\)</span>-dimensional enumeration.</p>
-<section id="default-iteration">
+<div class="section" id="default-iteration">
 <h3>Default iteration<a class="headerlink" href="#default-iteration" title="Permalink to this headline">¶</a></h3>
 <p>The default iterator of an ndarray object is the default Python
 iterator of a sequence type. Thus, when the array object itself is
@@ -1130,8 +1128,8 @@ algorithms. To loop over the entire array requires <span class="math notranslate
 <span class="go"> [30 31 32 33]]</span>
 </pre></div>
 </div>
-</section>
-<section id="flat-iteration">
+</div>
+<div class="section" id="flat-iteration">
 <h3>Flat iteration<a class="headerlink" href="#flat-iteration" title="Permalink to this headline">¶</a></h3>
 <table class="longtable table autosummary">
 <colgroup>
@@ -1158,8 +1156,8 @@ contiguous order.</p>
 </div>
 <p>Here, I’ve used the built-in enumerate iterator to return the iterator
 index as well as the value.</p>
-</section>
-<section id="n-dimensional-enumeration">
+</div>
+<div class="section" id="n-dimensional-enumeration">
 <h3>N-dimensional enumeration<a class="headerlink" href="#n-dimensional-enumeration" title="Permalink to this headline">¶</a></h3>
 <table class="longtable table autosummary">
 <colgroup>
@@ -1182,8 +1180,8 @@ iterating. The ndenumerate iterator can achieve this.</p>
 <span class="go">(2, 1, 2) 32</span>
 </pre></div>
 </div>
-</section>
-<section id="iterator-for-broadcasting">
+</div>
+<div class="section" id="iterator-for-broadcasting">
 <h3>Iterator for broadcasting<a class="headerlink" href="#iterator-for-broadcasting" title="Permalink to this headline">¶</a></h3>
 <table class="longtable table autosummary">
 <colgroup>
@@ -1209,9 +1207,9 @@ result.</p>
 <span class="go">(3, 1)</span>
 </pre></div>
 </div>
-</section>
-</section>
-</section>
+</div>
+</div>
+</div>
 
 
               </div>

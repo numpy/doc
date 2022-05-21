@@ -4,8 +4,7 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>NumPy 1.20.0 Release Notes &#8212; NumPy v1.22 Manual</title>
     
   <link href="../_static/css/theme.css" rel="stylesheet">
@@ -28,8 +27,8 @@
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
     <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
     <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/panels-bootstrap.5fd3999ee7762ccc51105388f4a9d115.css" />
     <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/numpy.css" />
     
   <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
 
@@ -42,19 +41,12 @@
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="NumPy 1.19.5 Release Notes" href="1.19.5-notes.html" />
     <link rel="prev" title="NumPy 1.20.1 Release Notes" href="1.20.1-notes.html" />
-
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
 
     <!-- Google Analytics -->
     
-<link rel="stylesheet" href="../_static/numpy.css" type="text/css" />
-
-    <!-- PR #17220: This is added via javascript in versionwarning.js  -->
-    <!-- link rel="canonical" href="http://numpy.org/doc/stable/release/1.20.0-notes.html" / -->
-
-
   </head>
   <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
     
@@ -100,6 +92,12 @@
 <li class="toctree-l1 nav-item">
  <a class="reference internal nav-link" href="../dev/index.html">
   Development
+ </a>
+</li>
+
+<li class="toctree-l1 current active nav-item">
+ <a class="reference internal nav-link" href="../release.html">
+  Release notes
  </a>
 </li>
 
@@ -241,6 +239,21 @@
    </i>
   </label>
   <ul class="current">
+   <li class="toctree-l2">
+    <a class="reference internal" href="1.22.4-notes.html">
+     1.22.4
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="1.22.3-notes.html">
+     1.22.3
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="1.22.2-notes.html">
+     1.22.2
+    </a>
+   </li>
    <li class="toctree-l2">
     <a class="reference internal" href="1.22.1-notes.html">
      1.22.1
@@ -1352,7 +1365,7 @@
               
               <div>
                 
-  <section id="numpy-1-20-0-release-notes">
+  <div class="section" id="numpy-1-20-0-release-notes">
 <h1>NumPy 1.20.0 Release Notes<a class="headerlink" href="#numpy-1-20-0-release-notes" title="Permalink to this headline">¶</a></h1>
 <p>This NumPy release is the largest so made to date, some 684 PRs contributed by
 184 people have been merged. See the list of highlights below for more details.
@@ -1374,24 +1387,24 @@ and usefulness to new users.</p></li>
 readability and removes technical debt.</p></li>
 <li><p>Preliminary support for the upcoming Cython 3.0.</p></li>
 </ul>
-<section id="new-functions">
+<div class="section" id="new-functions">
 <h2>New functions<a class="headerlink" href="#new-functions" title="Permalink to this headline">¶</a></h2>
-<section id="the-random-generator-class-has-a-new-permuted-function">
+<div class="section" id="the-random-generator-class-has-a-new-permuted-function">
 <h3>The random.Generator class has a new <code class="docutils literal notranslate"><span class="pre">permuted</span></code> function.<a class="headerlink" href="#the-random-generator-class-has-a-new-permuted-function" title="Permalink to this headline">¶</a></h3>
 <p>The new function differs from <code class="docutils literal notranslate"><span class="pre">shuffle</span></code> and <code class="docutils literal notranslate"><span class="pre">permutation</span></code> in that the
 subarrays indexed by an axis are permuted rather than the axis being treated as
 a separate 1-D array for every combination of the other indexes. For example,
 it is now possible to permute the rows or columns of a 2-D array.</p>
 <p>(<a class="reference external" href="https://github.com/numpy/numpy/pull/15121">gh-15121</a>)</p>
-</section>
-<section id="sliding-window-view-provides-a-sliding-window-view-for-numpy-arrays">
+</div>
+<div class="section" id="sliding-window-view-provides-a-sliding-window-view-for-numpy-arrays">
 <h3><code class="docutils literal notranslate"><span class="pre">sliding_window_view</span></code> provides a sliding window view for numpy arrays<a class="headerlink" href="#sliding-window-view-provides-a-sliding-window-view-for-numpy-arrays" title="Permalink to this headline">¶</a></h3>
 <p><a class="reference internal" href="../reference/generated/numpy.lib.stride_tricks.sliding_window_view.html#numpy.lib.stride_tricks.sliding_window_view" title="numpy.lib.stride_tricks.sliding_window_view"><code class="xref py py-obj docutils literal notranslate"><span class="pre">numpy.lib.stride_tricks.sliding_window_view</span></code></a> constructs views on numpy
 arrays that offer a sliding or moving window access to the array. This allows
 for the simple implementation of certain algorithms, such as running means.</p>
 <p>(<a class="reference external" href="https://github.com/numpy/numpy/pull/17394">gh-17394</a>)</p>
-</section>
-<section id="numpy-broadcast-shapes-is-a-new-user-facing-function">
+</div>
+<div class="section" id="numpy-broadcast-shapes-is-a-new-user-facing-function">
 <h3><a class="reference internal" href="../reference/generated/numpy.broadcast_shapes.html#numpy.broadcast_shapes" title="numpy.broadcast_shapes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">numpy.broadcast_shapes</span></code></a> is a new user-facing function<a class="headerlink" href="#numpy-broadcast-shapes-is-a-new-user-facing-function" title="Permalink to this headline">¶</a></h3>
 <p><a class="reference internal" href="../reference/generated/numpy.broadcast_shapes.html#numpy.broadcast_shapes" title="numpy.broadcast_shapes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">broadcast_shapes</span></code></a> gets the resulting shape from
 broadcasting the given shape tuples against each other.</p>
@@ -1406,11 +1419,11 @@ broadcasting the given shape tuples against each other.</p>
 </pre></div>
 </div>
 <p>(<a class="reference external" href="https://github.com/numpy/numpy/pull/17535">gh-17535</a>)</p>
-</section>
-</section>
-<section id="deprecations">
+</div>
+</div>
+<div class="section" id="deprecations">
 <h2>Deprecations<a class="headerlink" href="#deprecations" title="Permalink to this headline">¶</a></h2>
-<section id="using-the-aliases-of-builtin-types-like-np-int-is-deprecated">
+<div class="section" id="using-the-aliases-of-builtin-types-like-np-int-is-deprecated">
 <h3>Using the aliases of builtin types like <code class="docutils literal notranslate"><span class="pre">np.int</span></code> is deprecated<a class="headerlink" href="#using-the-aliases-of-builtin-types-like-np-int-is-deprecated" title="Permalink to this headline">¶</a></h3>
 <p>For a long time, <code class="docutils literal notranslate"><span class="pre">np.int</span></code> has been an alias of the builtin <code class="docutils literal notranslate"><span class="pre">int</span></code>. This is
 repeatedly a cause of confusion for newcomers, and existed mainly for historic
@@ -1498,8 +1511,8 @@ If used as a scalar with:</p>
 version may be useful for consistency with NumPy arrays (for example,
 NumPy behaves differently for things like division by zero).</p>
 <p>(<a class="reference external" href="https://github.com/numpy/numpy/pull/14882">gh-14882</a>)</p>
-</section>
-<section id="passing-shape-none-to-functions-with-a-non-optional-shape-argument-is-deprecated">
+</div>
+<div class="section" id="passing-shape-none-to-functions-with-a-non-optional-shape-argument-is-deprecated">
 <h3>Passing <code class="docutils literal notranslate"><span class="pre">shape=None</span></code> to functions with a non-optional shape argument is deprecated<a class="headerlink" href="#passing-shape-none-to-functions-with-a-non-optional-shape-argument-is-deprecated" title="Permalink to this headline">¶</a></h3>
 <p>Previously, this was an alias for passing <code class="docutils literal notranslate"><span class="pre">shape=()</span></code>.
 This deprecation is emitted by <em class="xref py py-obj">PyArray_IntpConverter</em> in the C API. If your
@@ -1507,8 +1520,8 @@ API is intended to support passing <code class="docutils literal notranslate"><s
 prior to invoking the converter, so as to be able to distinguish <code class="docutils literal notranslate"><span class="pre">None</span></code> and
 <code class="docutils literal notranslate"><span class="pre">()</span></code>.</p>
 <p>(<a class="reference external" href="https://github.com/numpy/numpy/pull/15886">gh-15886</a>)</p>
-</section>
-<section id="indexing-errors-will-be-reported-even-when-index-result-is-empty">
+</div>
+<div class="section" id="indexing-errors-will-be-reported-even-when-index-result-is-empty">
 <h3>Indexing errors will be reported even when index result is empty<a class="headerlink" href="#indexing-errors-will-be-reported-even-when-index-result-is-empty" title="Permalink to this headline">¶</a></h3>
 <p>In the future, NumPy will raise an IndexError when an
 integer array index contains out of bound values even if a non-indexed
@@ -1525,8 +1538,8 @@ slice is involved:</p>
 It will now be checked causing a deprecation warning which will be turned
 into an error. This also applies to assignments.</p>
 <p>(<a class="reference external" href="https://github.com/numpy/numpy/pull/15900">gh-15900</a>)</p>
-</section>
-<section id="inexact-matches-for-mode-and-searchside-are-deprecated">
+</div>
+<div class="section" id="inexact-matches-for-mode-and-searchside-are-deprecated">
 <h3>Inexact matches for <code class="docutils literal notranslate"><span class="pre">mode</span></code> and <code class="docutils literal notranslate"><span class="pre">searchside</span></code> are deprecated<a class="headerlink" href="#inexact-matches-for-mode-and-searchside-are-deprecated" title="Permalink to this headline">¶</a></h3>
 <p>Inexact and case insensitive matches for <code class="docutils literal notranslate"><span class="pre">mode</span></code> and <code class="docutils literal notranslate"><span class="pre">searchside</span></code> were valid
 inputs earlier and will give a DeprecationWarning now.  For example, below are
@@ -1541,23 +1554,23 @@ DeprecationWarning:</p>
 </pre></div>
 </div>
 <p>(<a class="reference external" href="https://github.com/numpy/numpy/pull/16056">gh-16056</a>)</p>
-</section>
-<section id="deprecation-of-numpy-dual">
+</div>
+<div class="section" id="deprecation-of-numpy-dual">
 <h3>Deprecation of <a class="reference internal" href="../reference/routines.dual.html#module-numpy.dual" title="numpy.dual"><code class="xref py py-obj docutils literal notranslate"><span class="pre">numpy.dual</span></code></a><a class="headerlink" href="#deprecation-of-numpy-dual" title="Permalink to this headline">¶</a></h3>
 <p>The module <a class="reference internal" href="../reference/routines.dual.html#module-numpy.dual" title="numpy.dual"><code class="xref py py-obj docutils literal notranslate"><span class="pre">numpy.dual</span></code></a> is deprecated.  Instead of importing functions
 from <a class="reference internal" href="../reference/routines.dual.html#module-numpy.dual" title="numpy.dual"><code class="xref py py-obj docutils literal notranslate"><span class="pre">numpy.dual</span></code></a>, the functions should be imported directly from NumPy
 or SciPy.</p>
 <p>(<a class="reference external" href="https://github.com/numpy/numpy/pull/16156">gh-16156</a>)</p>
-</section>
-<section id="outer-and-ufunc-outer-deprecated-for-matrix">
+</div>
+<div class="section" id="outer-and-ufunc-outer-deprecated-for-matrix">
 <h3><code class="docutils literal notranslate"><span class="pre">outer</span></code> and <code class="docutils literal notranslate"><span class="pre">ufunc.outer</span></code> deprecated for matrix<a class="headerlink" href="#outer-and-ufunc-outer-deprecated-for-matrix" title="Permalink to this headline">¶</a></h3>
 <p><code class="docutils literal notranslate"><span class="pre">np.matrix</span></code> use with <a class="reference internal" href="../reference/generated/numpy.outer.html#numpy.outer" title="numpy.outer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">outer</span></code></a> or generic ufunc outer
 calls such as <code class="docutils literal notranslate"><span class="pre">numpy.add.outer</span></code>. Previously, matrix was
 converted to an array here. This will not be done in the future
 requiring a manual conversion to arrays.</p>
 <p>(<a class="reference external" href="https://github.com/numpy/numpy/pull/16232">gh-16232</a>)</p>
-</section>
-<section id="further-numeric-style-types-deprecated">
+</div>
+<div class="section" id="further-numeric-style-types-deprecated">
 <h3>Further Numeric Style types Deprecated<a class="headerlink" href="#further-numeric-style-types-deprecated" title="Permalink to this headline">¶</a></h3>
 <p>The remaining numeric-style type codes <code class="docutils literal notranslate"><span class="pre">Bytes0</span></code>, <code class="docutils literal notranslate"><span class="pre">Str0</span></code>,
 <code class="docutils literal notranslate"><span class="pre">Uint32</span></code>, <code class="docutils literal notranslate"><span class="pre">Uint64</span></code>, and <code class="docutils literal notranslate"><span class="pre">Datetime64</span></code>
@@ -1565,14 +1578,14 @@ have been deprecated.  The lower-case variants should be used
 instead.  For bytes and string <code class="docutils literal notranslate"><span class="pre">&quot;S&quot;</span></code> and <code class="docutils literal notranslate"><span class="pre">&quot;U&quot;</span></code>
 are further alternatives.</p>
 <p>(<a class="reference external" href="https://github.com/numpy/numpy/pull/16554">gh-16554</a>)</p>
-</section>
-<section id="the-ndincr-method-of-ndindex-is-deprecated">
+</div>
+<div class="section" id="the-ndincr-method-of-ndindex-is-deprecated">
 <h3>The <code class="docutils literal notranslate"><span class="pre">ndincr</span></code> method of <code class="docutils literal notranslate"><span class="pre">ndindex</span></code> is deprecated<a class="headerlink" href="#the-ndincr-method-of-ndindex-is-deprecated" title="Permalink to this headline">¶</a></h3>
 <p>The documentation has warned against using this function since NumPy 1.8.
 Use <code class="docutils literal notranslate"><span class="pre">next(it)</span></code> instead of <code class="docutils literal notranslate"><span class="pre">it.ndincr()</span></code>.</p>
 <p>(<a class="reference external" href="https://github.com/numpy/numpy/pull/17233">gh-17233</a>)</p>
-</section>
-<section id="arraylike-objects-which-do-not-define-len-and-getitem">
+</div>
+<div class="section" id="arraylike-objects-which-do-not-define-len-and-getitem">
 <h3>ArrayLike objects which do not define <code class="docutils literal notranslate"><span class="pre">__len__</span></code> and <code class="docutils literal notranslate"><span class="pre">__getitem__</span></code><a class="headerlink" href="#arraylike-objects-which-do-not-define-len-and-getitem" title="Permalink to this headline">¶</a></h3>
 <p>Objects which define one of the protocols <code class="docutils literal notranslate"><span class="pre">__array__</span></code>,
 <code class="docutils literal notranslate"><span class="pre">__array_interface__</span></code>, or <code class="docutils literal notranslate"><span class="pre">__array_struct__</span></code> but are not sequences
@@ -1605,11 +1618,11 @@ an object array and then fill it explicitly, for example:</p>
 <p>This will ensure NumPy knows to not enter the array-like and use it as
 a object instead.</p>
 <p>(<a class="reference external" href="https://github.com/numpy/numpy/pull/17973">gh-17973</a>)</p>
-</section>
-</section>
-<section id="future-changes">
+</div>
+</div>
+<div class="section" id="future-changes">
 <h2>Future Changes<a class="headerlink" href="#future-changes" title="Permalink to this headline">¶</a></h2>
-<section id="arrays-cannot-be-using-subarray-dtypes">
+<div class="section" id="arrays-cannot-be-using-subarray-dtypes">
 <h3>Arrays cannot be using subarray dtypes<a class="headerlink" href="#arrays-cannot-be-using-subarray-dtypes" title="Permalink to this headline">¶</a></h3>
 <p>Array creation and casting using <code class="docutils literal notranslate"><span class="pre">np.array(arr,</span> <span class="pre">dtype)</span></code>
 and <code class="docutils literal notranslate"><span class="pre">arr.astype(dtype)</span></code> will use different logic when <code class="docutils literal notranslate"><span class="pre">dtype</span></code>
@@ -1638,9 +1651,9 @@ leading to the same result as:</p>
 <code class="docutils literal notranslate"><span class="pre">list</span></code> itself includes at least one array.  In particular, the behaviour
 is unchanged for a list of tuples.</p>
 <p>(<a class="reference external" href="https://github.com/numpy/numpy/pull/17596">gh-17596</a>)</p>
-</section>
-</section>
-<section id="expired-deprecations">
+</div>
+</div>
+<div class="section" id="expired-deprecations">
 <h2>Expired deprecations<a class="headerlink" href="#expired-deprecations" title="Permalink to this headline">¶</a></h2>
 <ul>
 <li><p>The deprecation of numeric style type-codes <code class="docutils literal notranslate"><span class="pre">np.dtype(&quot;Complex64&quot;)</span></code>
@@ -1655,7 +1668,7 @@ Use <a class="reference internal" href="../reference/routines.ctypeslib.html#num
 <p>(<a class="reference external" href="https://github.com/numpy/numpy/pull/17116">gh-17116</a>)</p>
 </li>
 </ul>
-<section id="financial-functions-removed">
+<div class="section" id="financial-functions-removed">
 <h3>Financial functions removed<a class="headerlink" href="#financial-functions-removed" title="Permalink to this headline">¶</a></h3>
 <p>In accordance with NEP 32, the financial functions are removed
 from NumPy 1.20. The functions that have been removed are <code class="docutils literal notranslate"><span class="pre">fv</span></code>,
@@ -1664,11 +1677,11 @@ from NumPy 1.20. The functions that have been removed are <code class="docutils 
 <a class="reference external" href="https://pypi.org/project/numpy-financial">numpy_financial</a>
 library.</p>
 <p>(<a class="reference external" href="https://github.com/numpy/numpy/pull/17067">gh-17067</a>)</p>
-</section>
-</section>
-<section id="compatibility-notes">
+</div>
+</div>
+<div class="section" id="compatibility-notes">
 <h2>Compatibility notes<a class="headerlink" href="#compatibility-notes" title="Permalink to this headline">¶</a></h2>
-<section id="isinstance-dtype-np-dtype-and-not-type-dtype-is-not-np-dtype">
+<div class="section" id="isinstance-dtype-np-dtype-and-not-type-dtype-is-not-np-dtype">
 <h3><code class="docutils literal notranslate"><span class="pre">isinstance(dtype,</span> <span class="pre">np.dtype)</span></code> and not <code class="docutils literal notranslate"><span class="pre">type(dtype)</span> <span class="pre">is</span> <span class="pre">not</span> <span class="pre">np.dtype</span></code><a class="headerlink" href="#isinstance-dtype-np-dtype-and-not-type-dtype-is-not-np-dtype" title="Permalink to this headline">¶</a></h3>
 <p>NumPy dtypes are not direct instances of <code class="docutils literal notranslate"><span class="pre">np.dtype</span></code> anymore.  Code that
 may have used <code class="docutils literal notranslate"><span class="pre">type(dtype)</span> <span class="pre">is</span> <span class="pre">np.dtype</span></code> will always return <code class="docutils literal notranslate"><span class="pre">False</span></code> and
@@ -1677,8 +1690,8 @@ must be updated to use the correct version <code class="docutils literal notrans
 against a NumPy older than 1.16.6. If code uses this macro and wishes to
 compile against an older version of NumPy, it must replace the macro
 (see also <a class="reference internal" href="#c-api-changes">C API changes</a> section).</p>
-</section>
-<section id="same-kind-casting-in-concatenate-with-axis-none">
+</div>
+<div class="section" id="same-kind-casting-in-concatenate-with-axis-none">
 <h3>Same kind casting in concatenate with <code class="docutils literal notranslate"><span class="pre">axis=None</span></code><a class="headerlink" href="#same-kind-casting-in-concatenate-with-axis-none" title="Permalink to this headline">¶</a></h3>
 <p>When <a class="reference internal" href="../reference/generated/numpy.concatenate.html#numpy.concatenate" title="numpy.concatenate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">concatenate</span></code></a> is called with <code class="docutils literal notranslate"><span class="pre">axis=None</span></code>,
 the flattened arrays were cast with <code class="docutils literal notranslate"><span class="pre">unsafe</span></code>. Any other axis
@@ -1687,8 +1700,8 @@ has been deprecated and “same kind” casting will be used
 instead. The new <code class="docutils literal notranslate"><span class="pre">casting</span></code> keyword argument
 can be used to retain the old behaviour.</p>
 <p>(<a class="reference external" href="https://github.com/numpy/numpy/pull/16134">gh-16134</a>)</p>
-</section>
-<section id="numpy-scalars-are-cast-when-assigned-to-arrays">
+</div>
+<div class="section" id="numpy-scalars-are-cast-when-assigned-to-arrays">
 <h3>NumPy Scalars are cast when assigned to arrays<a class="headerlink" href="#numpy-scalars-are-cast-when-assigned-to-arrays" title="Permalink to this headline">¶</a></h3>
 <p>When creating or assigning to arrays, in all relevant cases NumPy
 scalars will now be cast identically to NumPy arrays.  In particular
@@ -1723,8 +1736,8 @@ This means that <code class="docutils literal notranslate"><span class="pre">np.
 succeeds now, when it failed before.  In the long term this may be
 deprecated or the unsafe cast may be allowed generally to make assignment
 of arrays and scalars behave consistently.</p>
-</section>
-<section id="array-coercion-changes-when-strings-and-other-types-are-mixed">
+</div>
+<div class="section" id="array-coercion-changes-when-strings-and-other-types-are-mixed">
 <h3>Array coercion changes when Strings and other types are mixed<a class="headerlink" href="#array-coercion-changes-when-strings-and-other-types-are-mixed" title="Permalink to this headline">¶</a></h3>
 <p>When strings and other types are mixed, such as:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="s2">&quot;string&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">(</span><span class="mf">3.</span><span class="p">)],</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;S&quot;</span><span class="p">)</span>
@@ -1743,8 +1756,8 @@ a uniform string length:</p>
 </pre></div>
 </div>
 <p>Previously the first version gave the same result as the second.</p>
-</section>
-<section id="array-coercion-restructure">
+</div>
+<div class="section" id="array-coercion-restructure">
 <h3>Array coercion restructure<a class="headerlink" href="#array-coercion-restructure" title="Permalink to this headline">¶</a></h3>
 <p>Array coercion has been restructured.  In general, this should not affect
 users.  In extremely rare corner cases where array-likes are nested:</p>
@@ -1765,8 +1778,8 @@ NumPy will now only use the result given by <code class="docutils literal notran
 <code class="docutils literal notranslate"><span class="pre">__array_interface__</span></code>, or <code class="docutils literal notranslate"><span class="pre">__array_struct__</span></code>. This will result in
 differences when the (nested) sequence describes a different shape.</p>
 <p>(<a class="reference external" href="https://github.com/numpy/numpy/pull/16200">gh-16200</a>)</p>
-</section>
-<section id="writing-to-the-result-of-numpy-broadcast-arrays-will-export-readonly-buffers">
+</div>
+<div class="section" id="writing-to-the-result-of-numpy-broadcast-arrays-will-export-readonly-buffers">
 <h3>Writing to the result of <a class="reference internal" href="../reference/generated/numpy.broadcast_arrays.html#numpy.broadcast_arrays" title="numpy.broadcast_arrays"><code class="xref py py-obj docutils literal notranslate"><span class="pre">numpy.broadcast_arrays</span></code></a> will export readonly buffers<a class="headerlink" href="#writing-to-the-result-of-numpy-broadcast-arrays-will-export-readonly-buffers" title="Permalink to this headline">¶</a></h3>
 <p>In NumPy 1.17 <a class="reference internal" href="../reference/generated/numpy.broadcast_arrays.html#numpy.broadcast_arrays" title="numpy.broadcast_arrays"><code class="xref py py-obj docutils literal notranslate"><span class="pre">numpy.broadcast_arrays</span></code></a> started warning when the resulting array
 was written to. This warning was skipped when the array was used through the
@@ -1774,8 +1787,8 @@ buffer interface (e.g. <code class="docutils literal notranslate"><span class="p
 two protocols <code class="docutils literal notranslate"><span class="pre">__array_interface__</span></code>, and <code class="docutils literal notranslate"><span class="pre">__array_struct__</span></code> returning read-only
 buffers instead of giving a warning.</p>
 <p>(<a class="reference external" href="https://github.com/numpy/numpy/pull/16350">gh-16350</a>)</p>
-</section>
-<section id="numeric-style-type-names-have-been-removed-from-type-dictionaries">
+</div>
+<div class="section" id="numeric-style-type-names-have-been-removed-from-type-dictionaries">
 <h3>Numeric-style type names have been removed from type dictionaries<a class="headerlink" href="#numeric-style-type-names-have-been-removed-from-type-dictionaries" title="Permalink to this headline">¶</a></h3>
 <p>To stay in sync with the deprecation for <code class="docutils literal notranslate"><span class="pre">np.dtype(&quot;Complex64&quot;)</span></code>
 and other numeric-style (capital case) types.  These were removed
@@ -1785,14 +1798,14 @@ corresponds to <code class="docutils literal notranslate"><span class="pre">&quo
 to <code class="docutils literal notranslate"><span class="pre">&quot;complex64&quot;</span></code>.  The numpy style (new) versions, denote the full
 size and not the size of the real/imaginary part.</p>
 <p>(<a class="reference external" href="https://github.com/numpy/numpy/pull/16554">gh-16554</a>)</p>
-</section>
-<section id="the-operator-concat-function-now-raises-typeerror-for-array-arguments">
+</div>
+<div class="section" id="the-operator-concat-function-now-raises-typeerror-for-array-arguments">
 <h3>The <code class="docutils literal notranslate"><span class="pre">operator.concat</span></code> function now raises TypeError for array arguments<a class="headerlink" href="#the-operator-concat-function-now-raises-typeerror-for-array-arguments" title="Permalink to this headline">¶</a></h3>
 <p>The previous behavior was to fall back to addition and add the two arrays,
 which was thought to be unexpected behavior for a concatenation function.</p>
 <p>(<a class="reference external" href="https://github.com/numpy/numpy/pull/16570">gh-16570</a>)</p>
-</section>
-<section id="nickname-attribute-removed-from-abcpolybase">
+</div>
+<div class="section" id="nickname-attribute-removed-from-abcpolybase">
 <h3><code class="docutils literal notranslate"><span class="pre">nickname</span></code> attribute removed from ABCPolyBase<a class="headerlink" href="#nickname-attribute-removed-from-abcpolybase" title="Permalink to this headline">¶</a></h3>
 <p>An abstract property <code class="docutils literal notranslate"><span class="pre">nickname</span></code> has been removed from  <code class="docutils literal notranslate"><span class="pre">ABCPolyBase</span></code> as it
 was no longer used in the derived convenience classes.
@@ -1800,8 +1813,8 @@ This may affect users who have derived classes from <code class="docutils litera
 overridden the methods for representation and display, e.g. <code class="docutils literal notranslate"><span class="pre">__str__</span></code>,
 <code class="docutils literal notranslate"><span class="pre">__repr__</span></code>, <code class="docutils literal notranslate"><span class="pre">_repr_latex</span></code>, etc.</p>
 <p>(<a class="reference external" href="https://github.com/numpy/numpy/pull/16589">gh-16589</a>)</p>
-</section>
-<section id="float-timedelta-and-uint64-timedelta-promotion-will-raise-a-typeerror">
+</div>
+<div class="section" id="float-timedelta-and-uint64-timedelta-promotion-will-raise-a-typeerror">
 <h3><code class="docutils literal notranslate"><span class="pre">float-&gt;timedelta</span></code> and <code class="docutils literal notranslate"><span class="pre">uint64-&gt;timedelta</span></code> promotion will raise a TypeError<a class="headerlink" href="#float-timedelta-and-uint64-timedelta-promotion-will-raise-a-typeerror" title="Permalink to this headline">¶</a></h3>
 <p>Float and timedelta promotion consistently raises a TypeError.
 <code class="docutils literal notranslate"><span class="pre">np.promote_types(&quot;float32&quot;,</span> <span class="pre">&quot;m8&quot;)</span></code> aligns with
@@ -1814,8 +1827,8 @@ was considered a bug.</p>
 Previously, <code class="docutils literal notranslate"><span class="pre">np.promote_types(&quot;uint64&quot;,</span> <span class="pre">&quot;m8&quot;)</span></code> returned <code class="docutils literal notranslate"><span class="pre">&quot;m8&quot;</span></code> which
 was considered a bug.</p>
 <p>(<a class="reference external" href="https://github.com/numpy/numpy/pull/16592">gh-16592</a>)</p>
-</section>
-<section id="numpy-genfromtxt-now-correctly-unpacks-structured-arrays">
+</div>
+<div class="section" id="numpy-genfromtxt-now-correctly-unpacks-structured-arrays">
 <h3><code class="docutils literal notranslate"><span class="pre">numpy.genfromtxt</span></code> now correctly unpacks structured arrays<a class="headerlink" href="#numpy-genfromtxt-now-correctly-unpacks-structured-arrays" title="Permalink to this headline">¶</a></h3>
 <p>Previously, <a class="reference internal" href="../reference/generated/numpy.genfromtxt.html#numpy.genfromtxt" title="numpy.genfromtxt"><code class="xref py py-obj docutils literal notranslate"><span class="pre">numpy.genfromtxt</span></code></a> failed to unpack if it was called with
 <code class="docutils literal notranslate"><span class="pre">unpack=True</span></code> and a structured datatype was passed to the <code class="docutils literal notranslate"><span class="pre">dtype</span></code> argument
@@ -1833,8 +1846,8 @@ one for each column:</p>
 </pre></div>
 </div>
 <p>(<a class="reference external" href="https://github.com/numpy/numpy/pull/16650">gh-16650</a>)</p>
-</section>
-<section id="mgrid-r-etc-consistently-return-correct-outputs-for-non-default-precision-input">
+</div>
+<div class="section" id="mgrid-r-etc-consistently-return-correct-outputs-for-non-default-precision-input">
 <h3><code class="docutils literal notranslate"><span class="pre">mgrid</span></code>, <code class="docutils literal notranslate"><span class="pre">r_</span></code>, etc. consistently return correct outputs for non-default precision input<a class="headerlink" href="#mgrid-r-etc-consistently-return-correct-outputs-for-non-default-precision-input" title="Permalink to this headline">¶</a></h3>
 <p>Previously, <code class="docutils literal notranslate"><span class="pre">np.mgrid[np.float32(0.1):np.float32(0.35):np.float32(0.1),]</span></code>
 and <code class="docutils literal notranslate"><span class="pre">np.r_[0:10:np.complex64(3j)]</span></code> failed to return meaningful output.
@@ -1843,8 +1856,8 @@ and <a class="reference internal" href="../reference/generated/numpy.c_.html#num
 <code class="docutils literal notranslate"><span class="pre">float64</span></code> and <code class="docutils literal notranslate"><span class="pre">complex128</span></code> and equivalent Python types were used.
 The methods have been fixed to handle varying precision correctly.</p>
 <p>(<a class="reference external" href="https://github.com/numpy/numpy/pull/16815">gh-16815</a>)</p>
-</section>
-<section id="boolean-array-indices-with-mismatching-shapes-now-properly-give-indexerror">
+</div>
+<div class="section" id="boolean-array-indices-with-mismatching-shapes-now-properly-give-indexerror">
 <h3>Boolean array indices with mismatching shapes now properly give <code class="docutils literal notranslate"><span class="pre">IndexError</span></code><a class="headerlink" href="#boolean-array-indices-with-mismatching-shapes-now-properly-give-indexerror" title="Permalink to this headline">¶</a></h3>
 <p>Previously, if a boolean array index matched the size of the indexed array but
 not the shape, it was incorrectly allowed in some cases. In other cases, it
@@ -1863,8 +1876,8 @@ about broadcasting instead of the correct <code class="docutils literal notransl
 <span class="pre">array</span> <span class="pre">along</span> <span class="pre">dimension</span> <span class="pre">0;</span> <span class="pre">dimension</span> <span class="pre">is</span> <span class="pre">2</span> <span class="pre">but</span> <span class="pre">corresponding</span> <span class="pre">boolean</span> <span class="pre">dimension</span> <span class="pre">is</span>
 <span class="pre">1</span></code>.</p>
 <p>(<a class="reference external" href="https://github.com/numpy/numpy/pull/17010">gh-17010</a>)</p>
-</section>
-<section id="casting-errors-interrupt-iteration">
+</div>
+<div class="section" id="casting-errors-interrupt-iteration">
 <h3>Casting errors interrupt Iteration<a class="headerlink" href="#casting-errors-interrupt-iteration" title="Permalink to this headline">¶</a></h3>
 <p>When iterating while casting values, an error may stop the iteration
 earlier than before. In any case, a failed casting operation always
@@ -1879,36 +1892,36 @@ may be problematic in combination with <code class="docutils literal notranslate
 These issues always existed, but new API could be added
 if required by users.</p>
 <p>(<a class="reference external" href="https://github.com/numpy/numpy/pull/17029">gh-17029</a>)</p>
-</section>
-<section id="f2py-generated-code-may-return-unicode-instead-of-byte-strings">
+</div>
+<div class="section" id="f2py-generated-code-may-return-unicode-instead-of-byte-strings">
 <h3>f2py generated code may return unicode instead of byte strings<a class="headerlink" href="#f2py-generated-code-may-return-unicode-instead-of-byte-strings" title="Permalink to this headline">¶</a></h3>
 <p>Some byte strings previously returned by f2py generated code may now be unicode
 strings. This results from the ongoing Python2 -&gt; Python3 cleanup.</p>
 <p>(<a class="reference external" href="https://github.com/numpy/numpy/pull/17068">gh-17068</a>)</p>
-</section>
-<section id="the-first-element-of-the-array-interface-data-tuple-must-be-an-integer">
+</div>
+<div class="section" id="the-first-element-of-the-array-interface-data-tuple-must-be-an-integer">
 <h3>The first element of the <code class="docutils literal notranslate"><span class="pre">__array_interface__[&quot;data&quot;]</span></code> tuple  must be an integer<a class="headerlink" href="#the-first-element-of-the-array-interface-data-tuple-must-be-an-integer" title="Permalink to this headline">¶</a></h3>
 <p>This has been the documented interface for many years, but there was still
 code that would accept a byte string representation of the pointer address.
 That code has been removed, passing the address as a byte string will now
 raise an error.</p>
 <p>(<a class="reference external" href="https://github.com/numpy/numpy/pull/17241">gh-17241</a>)</p>
-</section>
-<section id="poly1d-respects-the-dtype-of-all-zero-argument">
+</div>
+<div class="section" id="poly1d-respects-the-dtype-of-all-zero-argument">
 <h3>poly1d respects the dtype of all-zero argument<a class="headerlink" href="#poly1d-respects-the-dtype-of-all-zero-argument" title="Permalink to this headline">¶</a></h3>
 <p>Previously, constructing an instance of <code class="docutils literal notranslate"><span class="pre">poly1d</span></code> with all-zero
 coefficients would cast the coefficients to <code class="docutils literal notranslate"><span class="pre">np.float64</span></code>.
 This affected the output dtype of methods which construct
 <code class="docutils literal notranslate"><span class="pre">poly1d</span></code> instances internally, such as <code class="docutils literal notranslate"><span class="pre">np.polymul</span></code>.</p>
 <p>(<a class="reference external" href="https://github.com/numpy/numpy/pull/17577">gh-17577</a>)</p>
-</section>
-<section id="the-numpy-i-file-for-swig-is-python-3-only">
+</div>
+<div class="section" id="the-numpy-i-file-for-swig-is-python-3-only">
 <h3>The numpy.i file for swig is Python 3 only.<a class="headerlink" href="#the-numpy-i-file-for-swig-is-python-3-only" title="Permalink to this headline">¶</a></h3>
 <p>Uses of Python 2.7 C-API functions have been updated to Python 3 only. Users
 who need the old version should take it from an older version of NumPy.</p>
 <p>(<a class="reference external" href="https://github.com/numpy/numpy/pull/17580">gh-17580</a>)</p>
-</section>
-<section id="void-dtype-discovery-in-np-array">
+</div>
+<div class="section" id="void-dtype-discovery-in-np-array">
 <h3>Void dtype discovery in <code class="docutils literal notranslate"><span class="pre">np.array</span></code><a class="headerlink" href="#void-dtype-discovery-in-np-array" title="Permalink to this headline">¶</a></h3>
 <p>In calls using <code class="docutils literal notranslate"><span class="pre">np.array(...,</span> <span class="pre">dtype=&quot;V&quot;)</span></code>, <code class="docutils literal notranslate"><span class="pre">arr.astype(&quot;V&quot;)</span></code>,
 and similar a TypeError will now be correctly raised unless all
@@ -1919,11 +1932,11 @@ elements have the identical void length. An example for this is:</p>
 <p>Which previously returned an array with dtype <code class="docutils literal notranslate"><span class="pre">&quot;V2&quot;</span></code> which
 cannot represent <code class="docutils literal notranslate"><span class="pre">b&quot;1&quot;</span></code> faithfully.</p>
 <p>(<a class="reference external" href="https://github.com/numpy/numpy/pull/17706">gh-17706</a>)</p>
-</section>
-</section>
-<section id="c-api-changes">
+</div>
+</div>
+<div class="section" id="c-api-changes">
 <h2>C API changes<a class="headerlink" href="#c-api-changes" title="Permalink to this headline">¶</a></h2>
-<section id="the-pyarray-descrcheck-macro-is-modified">
+<div class="section" id="the-pyarray-descrcheck-macro-is-modified">
 <h3>The <code class="docutils literal notranslate"><span class="pre">PyArray_DescrCheck</span></code> macro is modified<a class="headerlink" href="#the-pyarray-descrcheck-macro-is-modified" title="Permalink to this headline">¶</a></h3>
 <p>The <code class="docutils literal notranslate"><span class="pre">PyArray_DescrCheck</span></code> macro has been updated since NumPy 1.16.6 to be:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">#define PyArray_DescrCheck(op) PyObject_TypeCheck(op, &amp;PyArrayDescr_Type)</span>
@@ -1938,8 +1951,8 @@ replacing it with the new definition:</p>
 </pre></div>
 </div>
 <p>which is compatible with all NumPy versions.</p>
-</section>
-<section id="size-of-np-ndarray-and-np-void-changed">
+</div>
+<div class="section" id="size-of-np-ndarray-and-np-void-changed">
 <h3>Size of <code class="docutils literal notranslate"><span class="pre">np.ndarray</span></code> and <code class="docutils literal notranslate"><span class="pre">np.void_</span></code> changed<a class="headerlink" href="#size-of-np-ndarray-and-np-void-changed" title="Permalink to this headline">¶</a></h3>
 <p>The size of the <code class="docutils literal notranslate"><span class="pre">PyArrayObject</span></code> and <code class="docutils literal notranslate"><span class="pre">PyVoidScalarObject</span></code>
 structures have changed.  The following header definition has been
@@ -1956,11 +1969,11 @@ the NumPy developers if you are affected by this change.</p>
 <p>NumPy will attempt to give a graceful error but a program expecting a
 fixed structure size may have undefined behaviour and likely crash.</p>
 <p>(<a class="reference external" href="https://github.com/numpy/numpy/pull/16938">gh-16938</a>)</p>
-</section>
-</section>
-<section id="new-features">
+</div>
+</div>
+<div class="section" id="new-features">
 <h2>New Features<a class="headerlink" href="#new-features" title="Permalink to this headline">¶</a></h2>
-<section id="where-keyword-argument-for-numpy-all-and-numpy-any-functions">
+<div class="section" id="where-keyword-argument-for-numpy-all-and-numpy-any-functions">
 <h3><code class="docutils literal notranslate"><span class="pre">where</span></code> keyword argument for <code class="docutils literal notranslate"><span class="pre">numpy.all</span></code> and <code class="docutils literal notranslate"><span class="pre">numpy.any</span></code> functions<a class="headerlink" href="#where-keyword-argument-for-numpy-all-and-numpy-any-functions" title="Permalink to this headline">¶</a></h3>
 <p>The keyword argument <code class="docutils literal notranslate"><span class="pre">where</span></code> is added and allows to only consider specified
 elements or subaxes from an array in the Boolean evaluation of <code class="docutils literal notranslate"><span class="pre">all</span></code> and
@@ -1970,8 +1983,8 @@ both via <code class="docutils literal notranslate"><span class="pre">numpy</spa
 defaults to <code class="docutils literal notranslate"><span class="pre">True</span></code> to evaluate the functions for all elements in an array if
 <code class="docutils literal notranslate"><span class="pre">where</span></code> is not set by the user. Examples are given in the documentation of
 the functions.</p>
-</section>
-<section id="where-keyword-argument-for-numpy-functions-mean-std-var">
+</div>
+<div class="section" id="where-keyword-argument-for-numpy-functions-mean-std-var">
 <h3><code class="docutils literal notranslate"><span class="pre">where</span></code> keyword argument for <code class="docutils literal notranslate"><span class="pre">numpy</span></code> functions <code class="docutils literal notranslate"><span class="pre">mean</span></code>, <code class="docutils literal notranslate"><span class="pre">std</span></code>, <code class="docutils literal notranslate"><span class="pre">var</span></code><a class="headerlink" href="#where-keyword-argument-for-numpy-functions-mean-std-var" title="Permalink to this headline">¶</a></h3>
 <p>The keyword argument <code class="docutils literal notranslate"><span class="pre">where</span></code> is added and allows to limit the scope in the
 calculation of <code class="docutils literal notranslate"><span class="pre">mean</span></code>, <code class="docutils literal notranslate"><span class="pre">std</span></code> and <code class="docutils literal notranslate"><span class="pre">var</span></code> to only a subset of elements. It
@@ -1982,8 +1995,8 @@ defaults to <code class="docutils literal notranslate"><span class="pre">True</s
 <code class="docutils literal notranslate"><span class="pre">where</span></code> is not set by the user. Examples are given in the documentation of
 the functions.</p>
 <p>(<a class="reference external" href="https://github.com/numpy/numpy/pull/15852">gh-15852</a>)</p>
-</section>
-<section id="norm-backward-forward-keyword-options-for-numpy-fft-functions">
+</div>
+<div class="section" id="norm-backward-forward-keyword-options-for-numpy-fft-functions">
 <h3><code class="docutils literal notranslate"><span class="pre">norm=backward</span></code>, <code class="docutils literal notranslate"><span class="pre">forward</span></code> keyword options for <code class="docutils literal notranslate"><span class="pre">numpy.fft</span></code> functions<a class="headerlink" href="#norm-backward-forward-keyword-options-for-numpy-fft-functions" title="Permalink to this headline">¶</a></h3>
 <p>The keyword argument option <code class="docutils literal notranslate"><span class="pre">norm=backward</span></code> is added as an alias for <code class="docutils literal notranslate"><span class="pre">None</span></code>
 and acts as the default option; using it has the direct transforms unscaled
@@ -1992,8 +2005,8 @@ and the inverse transforms scaled by <code class="docutils literal notranslate">
 transforms scaled by <code class="docutils literal notranslate"><span class="pre">1/n</span></code> and the inverse transforms unscaled (i.e. exactly
 opposite to the default option <code class="docutils literal notranslate"><span class="pre">norm=backward</span></code>).</p>
 <p>(<a class="reference external" href="https://github.com/numpy/numpy/pull/16476">gh-16476</a>)</p>
-</section>
-<section id="numpy-is-now-typed">
+</div>
+<div class="section" id="numpy-is-now-typed">
 <h3>NumPy is now typed<a class="headerlink" href="#numpy-is-now-typed" title="Permalink to this headline">¶</a></h3>
 <p>Type annotations have been added for large parts of NumPy. There is
 also a new <a class="reference internal" href="../reference/typing.html#module-numpy.typing" title="numpy.typing"><code class="xref py py-obj docutils literal notranslate"><span class="pre">numpy.typing</span></code></a> module that contains useful types for
@@ -2003,8 +2016,8 @@ end-users. The currently available types are</p>
 <li><p><code class="docutils literal notranslate"><span class="pre">DtypeLike</span></code>: for objects that can be coerced to a dtype</p></li>
 </ul>
 <p>(<a class="reference external" href="https://github.com/numpy/numpy/pull/16515">gh-16515</a>)</p>
-</section>
-<section id="numpy-typing-is-accessible-at-runtime">
+</div>
+<div class="section" id="numpy-typing-is-accessible-at-runtime">
 <h3><code class="docutils literal notranslate"><span class="pre">numpy.typing</span></code> is accessible at runtime<a class="headerlink" href="#numpy-typing-is-accessible-at-runtime" title="Permalink to this headline">¶</a></h3>
 <p>The types in <code class="docutils literal notranslate"><span class="pre">numpy.typing</span></code> can now be imported at runtime. Code
 like the following will now work:</p>
@@ -2013,14 +2026,14 @@ like the following will now work:</p>
 </pre></div>
 </div>
 <p>(<a class="reference external" href="https://github.com/numpy/numpy/pull/16558">gh-16558</a>)</p>
-</section>
-<section id="new-f2py-numpy-version-attribute-for-f2py-generated-modules">
+</div>
+<div class="section" id="new-f2py-numpy-version-attribute-for-f2py-generated-modules">
 <h3>New <code class="docutils literal notranslate"><span class="pre">__f2py_numpy_version__</span></code> attribute for f2py generated modules.<a class="headerlink" href="#new-f2py-numpy-version-attribute-for-f2py-generated-modules" title="Permalink to this headline">¶</a></h3>
 <p>Because f2py is released together with NumPy, <code class="docutils literal notranslate"><span class="pre">__f2py_numpy_version__</span></code>
 provides a way to track the version f2py used to generate the module.</p>
 <p>(<a class="reference external" href="https://github.com/numpy/numpy/pull/16594">gh-16594</a>)</p>
-</section>
-<section id="mypy-tests-can-be-run-via-runtests-py">
+</div>
+<div class="section" id="mypy-tests-can-be-run-via-runtests-py">
 <h3><code class="docutils literal notranslate"><span class="pre">mypy</span></code> tests can be run via runtests.py<a class="headerlink" href="#mypy-tests-can-be-run-via-runtests-py" title="Permalink to this headline">¶</a></h3>
 <p>Currently running mypy with the NumPy stubs configured requires
 either:</p>
@@ -2033,8 +2046,8 @@ that handles setting things up for you. This will also be useful in the future
 for any typing codegen since it will ensure the project is built before type
 checking.</p>
 <p>(<a class="reference external" href="https://github.com/numpy/numpy/pull/17123">gh-17123</a>)</p>
-</section>
-<section id="negation-of-user-defined-blas-lapack-detection-order">
+</div>
+<div class="section" id="negation-of-user-defined-blas-lapack-detection-order">
 <h3>Negation of user defined BLAS/LAPACK detection order<a class="headerlink" href="#negation-of-user-defined-blas-lapack-detection-order" title="Permalink to this headline">¶</a></h3>
 <p><a class="reference internal" href="../reference/distutils.html#module-numpy.distutils" title="numpy.distutils"><code class="xref py py-obj docutils literal notranslate"><span class="pre">distutils</span></code></a> allows negation of libraries when determining BLAS/LAPACK
 libraries.
@@ -2045,30 +2058,30 @@ to disallow NetLIB libraries one could do:</p>
 </div>
 <p>That will use any of the accelerated libraries instead.</p>
 <p>(<a class="reference external" href="https://github.com/numpy/numpy/pull/17219">gh-17219</a>)</p>
-</section>
-<section id="allow-passing-optimizations-arguments-to-asv-build">
+</div>
+<div class="section" id="allow-passing-optimizations-arguments-to-asv-build">
 <h3>Allow passing optimizations arguments to asv build<a class="headerlink" href="#allow-passing-optimizations-arguments-to-asv-build" title="Permalink to this headline">¶</a></h3>
 <p>It is now possible to pass  <code class="docutils literal notranslate"><span class="pre">-j</span></code>, <code class="docutils literal notranslate"><span class="pre">--cpu-baseline</span></code>, <code class="docutils literal notranslate"><span class="pre">--cpu-dispatch</span></code> and
 <code class="docutils literal notranslate"><span class="pre">--disable-optimization</span></code> flags to ASV build when the <code class="docutils literal notranslate"><span class="pre">--bench-compare</span></code>
 argument is used.</p>
 <p>(<a class="reference external" href="https://github.com/numpy/numpy/pull/17284">gh-17284</a>)</p>
-</section>
-<section id="the-nvidia-hpc-sdk-nvfortran-compiler-is-now-supported">
+</div>
+<div class="section" id="the-nvidia-hpc-sdk-nvfortran-compiler-is-now-supported">
 <h3>The NVIDIA HPC SDK nvfortran compiler is now supported<a class="headerlink" href="#the-nvidia-hpc-sdk-nvfortran-compiler-is-now-supported" title="Permalink to this headline">¶</a></h3>
 <p>Support for the nvfortran compiler, a version of pgfortran, has been added.</p>
 <p>(<a class="reference external" href="https://github.com/numpy/numpy/pull/17344">gh-17344</a>)</p>
-</section>
-<section id="dtype-option-for-cov-and-corrcoef">
+</div>
+<div class="section" id="dtype-option-for-cov-and-corrcoef">
 <h3><code class="docutils literal notranslate"><span class="pre">dtype</span></code> option for <code class="docutils literal notranslate"><span class="pre">cov</span></code> and <code class="docutils literal notranslate"><span class="pre">corrcoef</span></code><a class="headerlink" href="#dtype-option-for-cov-and-corrcoef" title="Permalink to this headline">¶</a></h3>
 <p>The <code class="docutils literal notranslate"><span class="pre">dtype</span></code> option is now available for <a class="reference internal" href="../reference/generated/numpy.cov.html#numpy.cov" title="numpy.cov"><code class="xref py py-obj docutils literal notranslate"><span class="pre">numpy.cov</span></code></a> and <a class="reference internal" href="../reference/generated/numpy.corrcoef.html#numpy.corrcoef" title="numpy.corrcoef"><code class="xref py py-obj docutils literal notranslate"><span class="pre">numpy.corrcoef</span></code></a>.
 It specifies which data-type the returned result should have.
 By default the functions still return a <a class="reference internal" href="../reference/arrays.scalars.html#numpy.float64" title="numpy.float64"><code class="xref py py-obj docutils literal notranslate"><span class="pre">numpy.float64</span></code></a> result.</p>
 <p>(<a class="reference external" href="https://github.com/numpy/numpy/pull/17456">gh-17456</a>)</p>
-</section>
-</section>
-<section id="improvements">
+</div>
+</div>
+<div class="section" id="improvements">
 <h2>Improvements<a class="headerlink" href="#improvements" title="Permalink to this headline">¶</a></h2>
-<section id="improved-string-representation-for-polynomials-str">
+<div class="section" id="improved-string-representation-for-polynomials-str">
 <h3>Improved string representation for polynomials (<code class="docutils literal notranslate"><span class="pre">__str__</span></code>)<a class="headerlink" href="#improved-string-representation-for-polynomials-str" title="Permalink to this headline">¶</a></h3>
 <p>The string representation (<code class="docutils literal notranslate"><span class="pre">__str__</span></code>) of all six polynomial types in
 <a class="reference internal" href="../reference/routines.polynomials.package.html#module-numpy.polynomial" title="numpy.polynomial"><code class="xref py py-obj docutils literal notranslate"><span class="pre">numpy.polynomial</span></code></a> has been updated to give the polynomial as a mathematical
@@ -2076,13 +2089,13 @@ expression instead of an array of coefficients. Two package-wide formats for
 the polynomial expressions are available - one using Unicode characters for
 superscripts and subscripts, and another using only ASCII characters.</p>
 <p>(<a class="reference external" href="https://github.com/numpy/numpy/pull/15666">gh-15666</a>)</p>
-</section>
-<section id="remove-the-accelerate-library-as-a-candidate-lapack-library">
+</div>
+<div class="section" id="remove-the-accelerate-library-as-a-candidate-lapack-library">
 <h3>Remove the Accelerate library as a candidate LAPACK library<a class="headerlink" href="#remove-the-accelerate-library-as-a-candidate-lapack-library" title="Permalink to this headline">¶</a></h3>
 <p>Apple no longer supports Accelerate. Remove it.</p>
 <p>(<a class="reference external" href="https://github.com/numpy/numpy/pull/15759">gh-15759</a>)</p>
-</section>
-<section id="object-arrays-containing-multi-line-objects-have-a-more-readable-repr">
+</div>
+<div class="section" id="object-arrays-containing-multi-line-objects-have-a-more-readable-repr">
 <h3>Object arrays containing multi-line objects have a more readable <code class="docutils literal notranslate"><span class="pre">repr</span></code><a class="headerlink" href="#object-arrays-containing-multi-line-objects-have-a-more-readable-repr" title="Permalink to this headline">¶</a></h3>
 <p>If elements of an object array have a <code class="docutils literal notranslate"><span class="pre">repr</span></code> containing new lines, then the
 wrapped lines will be aligned by column. Notably, this improves the <code class="docutils literal notranslate"><span class="pre">repr</span></code> of
@@ -2096,32 +2109,32 @@ nested arrays:</p>
 </pre></div>
 </div>
 <p>(<a class="reference external" href="https://github.com/numpy/numpy/pull/15997">gh-15997</a>)</p>
-</section>
-<section id="concatenate-supports-providing-an-output-dtype">
+</div>
+<div class="section" id="concatenate-supports-providing-an-output-dtype">
 <h3>Concatenate supports providing an output dtype<a class="headerlink" href="#concatenate-supports-providing-an-output-dtype" title="Permalink to this headline">¶</a></h3>
 <p>Support was added to <a class="reference internal" href="../reference/generated/numpy.concatenate.html#numpy.concatenate" title="numpy.concatenate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">concatenate</span></code></a> to provide
 an output <code class="docutils literal notranslate"><span class="pre">dtype</span></code> and <code class="docutils literal notranslate"><span class="pre">casting</span></code> using keyword
 arguments. The <code class="docutils literal notranslate"><span class="pre">dtype</span></code> argument cannot be provided
 in conjunction with the <code class="docutils literal notranslate"><span class="pre">out</span></code> one.</p>
 <p>(<a class="reference external" href="https://github.com/numpy/numpy/pull/16134">gh-16134</a>)</p>
-</section>
-<section id="thread-safe-f2py-callback-functions">
+</div>
+<div class="section" id="thread-safe-f2py-callback-functions">
 <h3>Thread safe f2py callback functions<a class="headerlink" href="#thread-safe-f2py-callback-functions" title="Permalink to this headline">¶</a></h3>
 <p>Callback functions in f2py are now thread safe.</p>
 <p>(<a class="reference external" href="https://github.com/numpy/numpy/pull/16519">gh-16519</a>)</p>
-</section>
-<section id="numpy-core-records-fromfile-now-supports-file-like-objects">
+</div>
+<div class="section" id="numpy-core-records-fromfile-now-supports-file-like-objects">
 <h3><a class="reference internal" href="../reference/generated/numpy.core.records.fromfile.html#numpy.core.records.fromfile" title="numpy.core.records.fromfile"><code class="xref py py-obj docutils literal notranslate"><span class="pre">numpy.core.records.fromfile</span></code></a> now supports file-like objects<a class="headerlink" href="#numpy-core-records-fromfile-now-supports-file-like-objects" title="Permalink to this headline">¶</a></h3>
 <p><code class="xref py py-obj docutils literal notranslate"><span class="pre">numpy.rec.fromfile</span></code> can now use file-like objects, for instance
-<a class="reference external" href="https://docs.python.org/dev/library/io.html#io.BytesIO" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">io.BytesIO</span></code></a></p>
+<a class="reference external" href="https://docs.python.org/3/library/io.html#io.BytesIO" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">io.BytesIO</span></code></a></p>
 <p>(<a class="reference external" href="https://github.com/numpy/numpy/pull/16675">gh-16675</a>)</p>
-</section>
-<section id="rpath-support-on-aix-added-to-distutils">
+</div>
+<div class="section" id="rpath-support-on-aix-added-to-distutils">
 <h3>RPATH support on AIX added to distutils<a class="headerlink" href="#rpath-support-on-aix-added-to-distutils" title="Permalink to this headline">¶</a></h3>
 <p>This allows SciPy to be built on AIX.</p>
 <p>(<a class="reference external" href="https://github.com/numpy/numpy/pull/16710">gh-16710</a>)</p>
-</section>
-<section id="use-f90-compiler-specified-by-the-command-line-args">
+</div>
+<div class="section" id="use-f90-compiler-specified-by-the-command-line-args">
 <h3>Use f90 compiler specified by the command line args<a class="headerlink" href="#use-f90-compiler-specified-by-the-command-line-args" title="Permalink to this headline">¶</a></h3>
 <p>The compiler command selection for Fortran Portland Group Compiler is changed
 in <code class="xref py py-obj docutils literal notranslate"><span class="pre">numpy.distutils.fcompiler</span></code>.  This only affects the linking command.  This
@@ -2130,26 +2143,26 @@ provided) instead of the pgfortran executable.  If no executable is provided to
 the command line option it defaults to the pgf90 executable, which is an alias
 for pgfortran according to the PGI documentation.</p>
 <p>(<a class="reference external" href="https://github.com/numpy/numpy/pull/16730">gh-16730</a>)</p>
-</section>
-<section id="add-numpy-declarations-for-cython-3-0-and-later">
+</div>
+<div class="section" id="add-numpy-declarations-for-cython-3-0-and-later">
 <h3>Add NumPy declarations for Cython 3.0 and later<a class="headerlink" href="#add-numpy-declarations-for-cython-3-0-and-later" title="Permalink to this headline">¶</a></h3>
 <p>The pxd declarations for Cython 3.0 were improved to avoid using deprecated
 NumPy C-API features.  Extension modules built with Cython 3.0+ that use NumPy
 can now set the C macro <code class="docutils literal notranslate"><span class="pre">NPY_NO_DEPRECATED_API=NPY_1_7_API_VERSION</span></code> to avoid
 C compiler warnings about deprecated API usage.</p>
 <p>(<a class="reference external" href="https://github.com/numpy/numpy/pull/16986">gh-16986</a>)</p>
-</section>
-<section id="make-the-window-functions-exactly-symmetric">
+</div>
+<div class="section" id="make-the-window-functions-exactly-symmetric">
 <h3>Make the window functions exactly symmetric<a class="headerlink" href="#make-the-window-functions-exactly-symmetric" title="Permalink to this headline">¶</a></h3>
 <p>Make sure the window functions provided by NumPy are symmetric. There were
 previously small deviations from symmetry due to numerical precision that are
 now avoided by better arrangement of the computation.</p>
 <p>(<a class="reference external" href="https://github.com/numpy/numpy/pull/17195">gh-17195</a>)</p>
-</section>
-</section>
-<section id="performance-improvements-and-changes">
+</div>
+</div>
+<div class="section" id="performance-improvements-and-changes">
 <h2>Performance improvements and changes<a class="headerlink" href="#performance-improvements-and-changes" title="Permalink to this headline">¶</a></h2>
-<section id="enable-multi-platform-simd-compiler-optimizations">
+<div class="section" id="enable-multi-platform-simd-compiler-optimizations">
 <h3>Enable multi-platform SIMD compiler optimizations<a class="headerlink" href="#enable-multi-platform-simd-compiler-optimizations" title="Permalink to this headline">¶</a></h3>
 <p>A series of improvements for NumPy infrastructure to pave the way to
 <strong>NEP-38</strong>, that can be summarized as follow:</p>
@@ -2202,11 +2215,11 @@ specified values to command argument ‘–cpu-dispatch’.</p></li>
 <li><p><strong>Print the supported CPU features during the run of PytestTester</strong></p></li>
 </ul>
 <p>(<a class="reference external" href="https://github.com/numpy/numpy/pull/13516">gh-13516</a>)</p>
-</section>
-</section>
-<section id="changes">
+</div>
+</div>
+<div class="section" id="changes">
 <h2>Changes<a class="headerlink" href="#changes" title="Permalink to this headline">¶</a></h2>
-<section id="changed-behavior-of-divmod-1-0-and-related-functions">
+<div class="section" id="changed-behavior-of-divmod-1-0-and-related-functions">
 <h3>Changed behavior of <code class="docutils literal notranslate"><span class="pre">divmod(1.,</span> <span class="pre">0.)</span></code> and related functions<a class="headerlink" href="#changed-behavior-of-divmod-1-0-and-related-functions" title="Permalink to this headline">¶</a></h3>
 <p>The changes also assure that different compiler versions have the same behavior
 for nan or inf usages in these operations. This was previously compiler
@@ -2256,8 +2269,8 @@ result in the same behavior. The changes are tabulated below:</p>
 </tbody>
 </table>
 <p>(<a class="reference external" href="https://github.com/numpy/numpy/pull/16161">gh-16161</a>)</p>
-</section>
-<section id="np-linspace-on-integers-now-uses-floor">
+</div>
+<div class="section" id="np-linspace-on-integers-now-uses-floor">
 <h3><code class="docutils literal notranslate"><span class="pre">np.linspace</span></code> on integers now uses floor<a class="headerlink" href="#np-linspace-on-integers-now-uses-floor" title="Permalink to this headline">¶</a></h3>
 <p>When using a <code class="docutils literal notranslate"><span class="pre">int</span></code> dtype in <a class="reference internal" href="../reference/generated/numpy.linspace.html#numpy.linspace" title="numpy.linspace"><code class="xref py py-obj docutils literal notranslate"><span class="pre">numpy.linspace</span></code></a>, previously float values would
 be rounded towards zero. Now <a class="reference internal" href="../reference/generated/numpy.floor.html#numpy.floor" title="numpy.floor"><code class="xref py py-obj docutils literal notranslate"><span class="pre">numpy.floor</span></code></a> is used instead, which rounds toward
@@ -2278,9 +2291,9 @@ following would previously give:</p>
 </pre></div>
 </div>
 <p>(<a class="reference external" href="https://github.com/numpy/numpy/pull/16841">gh-16841</a>)</p>
-</section>
-</section>
-</section>
+</div>
+</div>
+</div>
 
 
               </div>

@@ -4,8 +4,7 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>NumPy C code explanations &#8212; NumPy v1.22 Manual</title>
     
   <link href="../_static/css/theme.css" rel="stylesheet">
@@ -28,8 +27,8 @@
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
     <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
     <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/panels-bootstrap.5fd3999ee7762ccc51105388f4a9d115.css" />
     <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/numpy.css" />
     
   <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
 
@@ -43,19 +42,12 @@
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Memory Alignment" href="alignment.html" />
     <link rel="prev" title="Internal organization of NumPy arrays" href="internals.html" />
-
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
 
     <!-- Google Analytics -->
     
-<link rel="stylesheet" href="../_static/numpy.css" type="text/css" />
-
-    <!-- PR #17220: This is added via javascript in versionwarning.js  -->
-    <!-- link rel="canonical" href="http://numpy.org/doc/stable/dev/internals.code-explanations.html" / -->
-
-
   </head>
   <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
     
@@ -101,6 +93,12 @@
 <li class="toctree-l1 nav-item">
  <a class="reference internal nav-link" href="index.html">
   Development
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../release.html">
+  Release notes
  </a>
 </li>
 
@@ -420,7 +418,7 @@
               
               <div>
                 
-  <section id="numpy-c-code-explanations">
+  <div class="section" id="numpy-c-code-explanations">
 <span id="c-code-explanations"></span><h1>NumPy C code explanations<a class="headerlink" href="#numpy-c-code-explanations" title="Permalink to this headline">¶</a></h1>
 <blockquote>
 <div><p>Fanaticism consists of redoubling your efforts when you have forgotten
@@ -436,7 +434,7 @@ somebody to be able to understand the ideas behind the implementation
 somewhat more easily than just staring at the code. Perhaps in this
 way, the algorithms can be improved on, borrowed from, and/or
 optimized by more people.</p>
-<section id="memory-model">
+<div class="section" id="memory-model">
 <h2>Memory model<a class="headerlink" href="#memory-model" title="Permalink to this headline">¶</a></h2>
 <p id="index-0">One fundamental aspect of the <a class="reference internal" href="../reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a> is that an array is seen as a
 “chunk” of memory starting at some location. The interpretation of
@@ -466,8 +464,8 @@ possible to obtain a pointer to an unwritable memory area. Sometimes,
 writing to the memory area when the <a class="reference internal" href="../reference/c-api/array.html#c.NPY_ARRAY_WRITEABLE" title="NPY_ARRAY_WRITEABLE"><code class="xref c c-data docutils literal notranslate"><span class="pre">NPY_ARRAY_WRITEABLE</span></code></a> flag is not
 set will just be rude. Other times it can cause program crashes (<em>e.g.</em>
 a data-area that is a read-only memory-mapped file).</p>
-</section>
-<section id="data-type-encapsulation">
+</div>
+<div class="section" id="data-type-encapsulation">
 <h2>Data-type encapsulation<a class="headerlink" href="#data-type-encapsulation" title="Permalink to this headline">¶</a></h2>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
@@ -493,8 +491,8 @@ through the elements of the dictionary and perform a specific operation based on
 the datatype object stored at the given offset. These offsets can be
 arbitrary numbers. Therefore, the possibility of encountering misaligned
 data must be recognized and taken into account if necessary.</p>
-</section>
-<section id="n-d-iterators">
+</div>
+<div class="section" id="n-d-iterators">
 <h2>N-D Iterators<a class="headerlink" href="#n-d-iterators" title="Permalink to this headline">¶</a></h2>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
@@ -537,8 +535,8 @@ which case the coordinate counting is bypassed. The
 <a class="reference internal" href="../reference/c-api/types-and-structures.html#c.PyArrayIterObject.index" title="PyArrayIterObject.index"><code class="xref c c-member docutils literal notranslate"><span class="pre">index</span></code></a> member of
 the <a class="reference internal" href="../reference/c-api/types-and-structures.html#c.PyArrayIterObject" title="PyArrayIterObject"><code class="xref c c-type docutils literal notranslate"><span class="pre">PyArrayIterObject</span></code></a> keeps track of the current flat index of the
 iterator. It is updated by the <a class="reference internal" href="../reference/c-api/array.html#c.PyArray_ITER_NEXT" title="PyArray_ITER_NEXT"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyArray_ITER_NEXT</span></code></a> macro.</p>
-</section>
-<section id="broadcasting">
+</div>
+<div class="section" id="broadcasting">
 <h2>Broadcasting<a class="headerlink" href="#broadcasting" title="Permalink to this headline">¶</a></h2>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
@@ -574,8 +572,8 @@ track of in a <a class="reference internal" href="../reference/c-api/types-and-s
 broadcast result are kept track of in a <a class="reference internal" href="../reference/c-api/types-and-structures.html#c.PyArrayMultiIterObject" title="PyArrayMultiIterObject"><code class="xref c c-type docutils literal notranslate"><span class="pre">PyArrayMultiIterObject</span></code></a>,
 and the <a class="reference internal" href="../reference/c-api/array.html#c.PyArray_Broadcast" title="PyArray_Broadcast"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyArray_Broadcast</span></code></a> call implements the
 <a class="reference internal" href="../user/basics.broadcasting.html#general-broadcasting-rules"><span class="std std-ref">General Broadcasting Rules</span></a>.</p>
-</section>
-<section id="array-scalars">
+</div>
+<div class="section" id="array-scalars">
 <h2>Array Scalars<a class="headerlink" href="#array-scalars" title="Permalink to this headline">¶</a></h2>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
@@ -595,8 +593,8 @@ dimensions (including 0-dimensions). The array scalars are read-only
 (immutable) with the exception of the void scalar which can also be
 written to so that structured array field setting works more naturally
 (<code class="docutils literal notranslate"><span class="pre">a[0]['f1']</span> <span class="pre">=</span> <span class="pre">value</span></code>).</p>
-</section>
-<section id="indexing">
+</div>
+<div class="section" id="indexing">
 <h2>Indexing<a class="headerlink" href="#indexing" title="Permalink to this headline">¶</a></h2>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
@@ -607,8 +605,8 @@ the index and finding the index type. The supported index types are:</p>
 <ul class="simple">
 <li><p>integer</p></li>
 <li><p><a class="reference internal" href="../reference/constants.html#numpy.newaxis" title="numpy.newaxis"><code class="xref py py-const docutils literal notranslate"><span class="pre">newaxis</span></code></a></p></li>
-<li><p><a class="reference external" href="https://docs.python.org/dev/glossary.html#term-slice" title="(in Python v3.11)"><span>slice</span></a></p></li>
-<li><p><a class="reference external" href="https://docs.python.org/dev/library/constants.html#Ellipsis" title="(in Python v3.11)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Ellipsis</span></code></a></p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/glossary.html#term-slice" title="(in Python v3.10)"><span>slice</span></a></p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#Ellipsis" title="(in Python v3.10)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Ellipsis</span></code></a></p></li>
 <li><p>integer arrays/array-likes (advanced)</p></li>
 <li><p>boolean (single boolean array); if there is more than one boolean array as
 the index or the shape does not match exactly, the boolean array will be
@@ -622,18 +620,18 @@ was interpreted as an integer index, which is important because an integer
 array index forces a copy but is ignored if a scalar is returned (full integer
 index). The prepared index is guaranteed to be valid with the exception of
 out of bound values and broadcasting errors for advanced indexing. This
-includes that an <a class="reference external" href="https://docs.python.org/dev/library/constants.html#Ellipsis" title="(in Python v3.11)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Ellipsis</span></code></a> is added for incomplete indices for
+includes that an <a class="reference external" href="https://docs.python.org/3/library/constants.html#Ellipsis" title="(in Python v3.10)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Ellipsis</span></code></a> is added for incomplete indices for
 example when a two-dimensional array is indexed with a single integer.</p>
 <p>The next step depends on the type of index which was found. If all
 dimensions are indexed with an integer a scalar is returned or set. A
 single boolean indexing array will call specialized boolean functions.
-Indices containing an <a class="reference external" href="https://docs.python.org/dev/library/constants.html#Ellipsis" title="(in Python v3.11)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Ellipsis</span></code></a> or <a class="reference external" href="https://docs.python.org/dev/glossary.html#term-slice" title="(in Python v3.11)"><span>slice</span></a> but no
+Indices containing an <a class="reference external" href="https://docs.python.org/3/library/constants.html#Ellipsis" title="(in Python v3.10)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Ellipsis</span></code></a> or <a class="reference external" href="https://docs.python.org/3/glossary.html#term-slice" title="(in Python v3.10)"><span>slice</span></a> but no
 advanced indexing will always create a view into the old array by calculating
 the new strides and memory offset.  This view can then either be returned or,
 for assignments, filled using <code class="docutils literal notranslate"><span class="pre">PyArray_CopyObject</span></code>. Note that
 <code class="docutils literal notranslate"><span class="pre">PyArray_CopyObject</span></code> may also be called on temporary arrays in other branches
 to support complicated assignments when the array is of object <a class="reference internal" href="../reference/generated/numpy.dtype.html#numpy.dtype" title="numpy.dtype"><code class="xref py py-class docutils literal notranslate"><span class="pre">dtype</span></code></a>.</p>
-<section id="advanced-indexing">
+<div class="section" id="advanced-indexing">
 <h3>Advanced indexing<a class="headerlink" href="#advanced-indexing" title="Permalink to this headline">¶</a></h3>
 <p>By far the most complex case is advanced indexing, which may or may not be
 combined with typical view-based indexing. Here integer indices are
@@ -674,9 +672,9 @@ although the different modes of iteration need to be considered. Unless
 there is only a single indexing array during item getting, the validity of
 the indices is checked beforehand. Otherwise, it is handled in the inner
 loop itself for optimization.</p>
-</section>
-</section>
-<section id="universal-functions">
+</div>
+</div>
+<div class="section" id="universal-functions">
 <span id="ufuncs-internals"></span><h2>Universal functions<a class="headerlink" href="#universal-functions" title="Permalink to this headline">¶</a></h2>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
@@ -694,7 +692,7 @@ from Python functions (<a class="reference internal" href="../reference/generate
 implements the basic function taking the input scalar values and
 placing the resulting scalars into the appropriate output slots as
 explained in implementation.</p>
-<section id="setup">
+<div class="section" id="setup">
 <h3>Setup<a class="headerlink" href="#setup" title="Permalink to this headline">¶</a></h3>
 <p>Every <a class="reference internal" href="../reference/generated/numpy.ufunc.html#numpy.ufunc" title="numpy.ufunc"><code class="xref py py-class docutils literal notranslate"><span class="pre">ufunc</span></code></a> calculation involves some overhead related to setting up
 the calculation. The practical significance of this overhead is that
@@ -775,8 +773,8 @@ type), strided-loop (for non-contiguous but still aligned and correct
 data type), and a buffered loop (for misaligned or incorrect data
 type situations). Depending on which execution method is called for,
 the loop is then set up and computed.</p>
-</section>
-<section id="function-call">
+</div>
+<div class="section" id="function-call">
 <h3>Function call<a class="headerlink" href="#function-call" title="Permalink to this headline">¶</a></h3>
 <p>This section describes how the basic universal function computation loop is
 set up and executed for each of the three different kinds of execution. If
@@ -785,7 +783,7 @@ no object arrays are involved, the Python Global Interpreter Lock (GIL) is
 released prior to calling the loops.  It is re-acquired if necessary to
 handle error conditions. The hardware error flags are checked only after
 the 1-D loop is completed.</p>
-<section id="one-loop">
+<div class="section" id="one-loop">
 <h4>One loop<a class="headerlink" href="#one-loop" title="Permalink to this headline">¶</a></h4>
 <p>This is the simplest case of all. The ufunc is executed by calling the
 underlying 1-D loop exactly once. This is possible only when we have
@@ -795,8 +793,8 @@ and output and all arrays have uniform strides (either <a class="reference inter
 to compute the calculation for the entire array. Note that the
 hardware error flags are only checked after the entire calculation is
 complete.</p>
-</section>
-<section id="strided-loop">
+</div>
+<div class="section" id="strided-loop">
 <h4>Strided loop<a class="headerlink" href="#strided-loop" title="Permalink to this headline">¶</a></h4>
 <p>When the input and output arrays are aligned and of the correct type,
 but the striding is not uniform (non-contiguous and 2-D or larger),
@@ -806,8 +804,8 @@ arguments to iterate over all but the largest dimension. The inner
 loop is then handled by the underlying 1-D computational loop. The
 outer loop is a standard iterator loop on the converted iterators. The
 hardware error flags are checked after each 1-D loop is completed.</p>
-</section>
-<section id="buffered-loop">
+</div>
+<div class="section" id="buffered-loop">
 <h4>Buffered loop<a class="headerlink" href="#buffered-loop" title="Permalink to this headline">¶</a></h4>
 <p>This is the code that handles the situation whenever the input and/or
 output arrays are either misaligned or of the wrong datatype
@@ -833,9 +831,9 @@ remainder).</p></li>
 </ul>
 <p>Again, the hardware error flags are checked at the end of each 1-D
 loop.</p>
-</section>
-</section>
-<section id="final-output-manipulation">
+</div>
+</div>
+<div class="section" id="final-output-manipulation">
 <h3>Final output manipulation<a class="headerlink" href="#final-output-manipulation" title="Permalink to this headline">¶</a></h3>
 <p>Ufuncs allow other array-like classes to be passed seamlessly through
 the interface in that inputs of a particular class will induce the
@@ -851,8 +849,8 @@ The first takes the ndarray as the first argument and a tuple of “context” a
 the second argument. The context is (ufunc, arguments, output argument
 number). This is the first call tried. If a <code class="docutils literal notranslate"><span class="pre">TypeError</span></code> occurs, then the
 function is called with just the ndarray as the first argument.</p>
-</section>
-<section id="methods">
+</div>
+<div class="section" id="methods">
 <h3>Methods<a class="headerlink" href="#methods" title="Permalink to this headline">¶</a></h3>
 <p>There are three methods of ufuncs that require calculation similar to
 the general-purpose ufuncs. These are <a class="reference internal" href="../reference/generated/numpy.ufunc.reduce.html#numpy.ufunc.reduce" title="numpy.ufunc.reduce"><code class="xref py py-meth docutils literal notranslate"><span class="pre">ufunc.reduce</span></code></a>,
@@ -864,7 +862,7 @@ These are the same basic loop styles as implemented for the
 general-purpose function call except for the no-element and one-element
 cases which are special-cases occurring when the input array
 objects have 0 and 1 elements respectively.</p>
-<section id="id1">
+<div class="section" id="id1">
 <h4>Setup<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h4>
 <p>The setup function for all three methods is <code class="docutils literal notranslate"><span class="pre">construct_reduce</span></code>.
 This function creates a reducing loop object and fills it with the
@@ -893,8 +891,8 @@ copied back into the true output array when
 Finally, iterators are set up to loop over the correct <a class="reference internal" href="../glossary.html#term-axis"><span class="xref std std-term">axis</span></a>
 (depending on the value of axis provided to the method) and the setup
 routine returns to the actual computation routine.</p>
-</section>
-<section id="reduce">
+</div>
+<div class="section" id="reduce">
 <h4><a class="reference internal" href="../reference/generated/numpy.ufunc.reduce.html#numpy.ufunc.reduce" title="numpy.ufunc.reduce"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Reduce</span></code></a><a class="headerlink" href="#reduce" title="Permalink to this headline">¶</a></h4>
 <p id="index-7">All of the ufunc methods use the same underlying 1-D computational
 loops with input and output arguments adjusted so that the appropriate
@@ -921,8 +919,8 @@ aligned data of the correct datatype (including byteorder). The
 buffered loop must handle this copying and casting prior to calling
 the loop function on chunks no greater than the user-specified
 <code class="docutils literal notranslate"><span class="pre">bufsize</span></code>.</p>
-</section>
-<section id="accumulate">
+</div>
+<div class="section" id="accumulate">
 <h4><a class="reference internal" href="../reference/generated/numpy.ufunc.accumulate.html#numpy.ufunc.accumulate" title="numpy.ufunc.accumulate"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Accumulate</span></code></a><a class="headerlink" href="#accumulate" title="Permalink to this headline">¶</a></h4>
 <p id="index-8">The <a class="reference internal" href="../reference/generated/numpy.ufunc.accumulate.html#numpy.ufunc.accumulate" title="numpy.ufunc.accumulate"><code class="xref py py-meth docutils literal notranslate"><span class="pre">accumulate</span></code></a> method is very similar to
 the <a class="reference internal" href="../reference/generated/numpy.ufunc.reduce.html#numpy.ufunc.reduce" title="numpy.ufunc.reduce"><code class="xref py py-meth docutils literal notranslate"><span class="pre">reduce</span></code></a> method in that
@@ -937,8 +935,8 @@ o[k] &amp; = &amp; i[k]\textrm{&lt;op&gt;}o[k-1]\quad k=1\ldots N.
 over <span class="math notranslate nohighlight">\(N\)</span> elements when the shape in the selected axis is <span class="math notranslate nohighlight">\(N+1\)</span>.
 Again, buffered loops take care to copy and cast the data before
 calling the underlying 1-D computational loop.</p>
-</section>
-<section id="reduceat">
+</div>
+<div class="section" id="reduceat">
 <h4><a class="reference internal" href="../reference/generated/numpy.ufunc.reduceat.html#numpy.ufunc.reduceat" title="numpy.ufunc.reduceat"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Reduceat</span></code></a><a class="headerlink" href="#reduceat" title="Permalink to this headline">¶</a></h4>
 <p id="index-9">The <a class="reference internal" href="../reference/generated/numpy.ufunc.reduceat.html#numpy.ufunc.reduceat" title="numpy.ufunc.reduceat"><code class="xref py py-meth docutils literal notranslate"><span class="pre">reduceat</span></code></a> function is a generalization of both the
 <a class="reference internal" href="../reference/generated/numpy.ufunc.reduce.html#numpy.ufunc.reduce" title="numpy.ufunc.reduce"><code class="xref py py-meth docutils literal notranslate"><span class="pre">reduce</span></code></a> and <a class="reference internal" href="../reference/generated/numpy.ufunc.accumulate.html#numpy.ufunc.accumulate" title="numpy.ufunc.accumulate"><code class="xref py py-meth docutils literal notranslate"><span class="pre">accumulate</span></code></a>
@@ -966,10 +964,10 @@ buffers are created in (element) sizes no bigger than the user
 settable buffer-size value. Thus, the loop must be flexible enough to
 call the underlying 1-D computational loop enough times to complete
 the total calculation in chunks no bigger than the buffer-size.</p>
-</section>
-</section>
-</section>
-</section>
+</div>
+</div>
+</div>
+</div>
 
 
               </div>

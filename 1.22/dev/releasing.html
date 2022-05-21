@@ -4,8 +4,7 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Releasing a version &#8212; NumPy v1.22 Manual</title>
     
   <link href="../_static/css/theme.css" rel="stylesheet">
@@ -28,8 +27,8 @@
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
     <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
     <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/panels-bootstrap.5fd3999ee7762ccc51105388f4a9d115.css" />
     <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/numpy.css" />
     
   <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
 
@@ -42,19 +41,12 @@
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="NumPy governance" href="governance/index.html" />
     <link rel="prev" title="NumPy benchmarks" href="../benchmarking.html" />
-
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
 
     <!-- Google Analytics -->
     
-<link rel="stylesheet" href="../_static/numpy.css" type="text/css" />
-
-    <!-- PR #17220: This is added via javascript in versionwarning.js  -->
-    <!-- link rel="canonical" href="http://numpy.org/doc/stable/dev/releasing.html" / -->
-
-
   </head>
   <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
     
@@ -100,6 +92,12 @@
 <li class="toctree-l1 current active nav-item">
  <a class="reference internal nav-link" href="index.html">
   Development
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../release.html">
+  Release notes
  </a>
 </li>
 
@@ -580,81 +578,81 @@
               
               <div>
                 
-  <section id="releasing-a-version">
+  <div class="section" id="releasing-a-version">
 <h1>Releasing a version<a class="headerlink" href="#releasing-a-version" title="Permalink to this headline">¶</a></h1>
-<section id="how-to-prepare-a-release">
+<div class="section" id="how-to-prepare-a-release">
 <h2>How to Prepare a Release<a class="headerlink" href="#how-to-prepare-a-release" title="Permalink to this headline">¶</a></h2>
 <p>This file gives an overview of what is necessary to build binary releases for
 NumPy.</p>
-<section id="current-build-and-release-info">
+<div class="section" id="current-build-and-release-info">
 <h3>Current build and release info<a class="headerlink" href="#current-build-and-release-info" title="Permalink to this headline">¶</a></h3>
 <p>The current info on building and releasing NumPy and SciPy is scattered in
 several places. It should be summarized in one place, updated, and where
 necessary described in more detail. The sections below list all places where
 useful info can be found.</p>
-<section id="source-tree">
+<div class="section" id="source-tree">
 <h4>Source tree<a class="headerlink" href="#source-tree" title="Permalink to this headline">¶</a></h4>
 <ul class="simple">
 <li><p>INSTALL.rst.txt</p></li>
 <li><p>pavement.py</p></li>
 </ul>
-</section>
-<section id="numpy-docs">
+</div>
+<div class="section" id="numpy-docs">
 <h4>NumPy Docs<a class="headerlink" href="#numpy-docs" title="Permalink to this headline">¶</a></h4>
 <ul class="simple">
 <li><p><a class="reference external" href="https://github.com/numpy/numpy/blob/main/doc/HOWTO_RELEASE.rst.txt">https://github.com/numpy/numpy/blob/main/doc/HOWTO_RELEASE.rst.txt</a></p></li>
 </ul>
-</section>
-<section id="scipy-org-wiki">
+</div>
+<div class="section" id="scipy-org-wiki">
 <h4>SciPy.org wiki<a class="headerlink" href="#scipy-org-wiki" title="Permalink to this headline">¶</a></h4>
 <ul class="simple">
 <li><p><a class="reference external" href="https://www.scipy.org/Installing_SciPy">https://www.scipy.org/Installing_SciPy</a> and links on that page.</p></li>
 </ul>
-</section>
-<section id="release-scripts">
+</div>
+<div class="section" id="release-scripts">
 <h4>Release Scripts<a class="headerlink" href="#release-scripts" title="Permalink to this headline">¶</a></h4>
 <ul class="simple">
 <li><p><a class="reference external" href="https://github.com/numpy/numpy-vendor">https://github.com/numpy/numpy-vendor</a></p></li>
 </ul>
-</section>
-</section>
-<section id="supported-platforms-and-versions">
+</div>
+</div>
+<div class="section" id="supported-platforms-and-versions">
 <h3>Supported platforms and versions<a class="headerlink" href="#supported-platforms-and-versions" title="Permalink to this headline">¶</a></h3>
 <p><a class="reference external" href="https://numpy.org/neps/nep-0029-deprecation_policy.html#nep29" title="(in NumPy Enhancement Proposals)"><span class="xref std std-ref">NEP 29</span></a> outlines which Python versions
 are supported; For the first half of 2020, this will be Python &gt;= 3.6. We test
 NumPy against all these versions every time we merge code to main.  Binary
 installers may be available for a subset of these versions (see below).</p>
-<section id="os-x">
+<div class="section" id="os-x">
 <h4>OS X<a class="headerlink" href="#os-x" title="Permalink to this headline">¶</a></h4>
 <p>OS X versions &gt;= 10.9 are supported, for Python version support see
 <a class="reference external" href="https://numpy.org/neps/nep-0029-deprecation_policy.html#nep29" title="(in NumPy Enhancement Proposals)"><span class="xref std std-ref">NEP 29</span></a>. We build binary wheels for
 OSX that are compatible with Python.org Python, system Python, homebrew and
 macports - see this <a class="reference external" href="https://github.com/MacPython/wiki/wiki/Spinning-wheels">OSX wheel building summary</a> for details.</p>
-</section>
-<section id="windows">
+</div>
+<div class="section" id="windows">
 <h4>Windows<a class="headerlink" href="#windows" title="Permalink to this headline">¶</a></h4>
 <p>We build 32- and 64-bit wheels on Windows. Windows 7, 8 and 10 are supported.
 We build NumPy using the <a class="reference external" href="https://mingwpy.github.io">mingw-w64 toolchain</a> on Appveyor.</p>
-</section>
-<section id="linux">
+</div>
+<div class="section" id="linux">
 <h4>Linux<a class="headerlink" href="#linux" title="Permalink to this headline">¶</a></h4>
 <p>We build and ship <a class="reference external" href="https://www.python.org/dev/peps/pep-0513">manylinux1</a>
 wheels for NumPy.  Many Linux distributions include their own binary builds
 of NumPy.</p>
-</section>
-<section id="bsd-solaris">
+</div>
+<div class="section" id="bsd-solaris">
 <h4>BSD / Solaris<a class="headerlink" href="#bsd-solaris" title="Permalink to this headline">¶</a></h4>
 <p>No binaries are provided, but successful builds on Solaris and BSD have been
 reported.</p>
-</section>
-</section>
-<section id="tool-chain">
+</div>
+</div>
+<div class="section" id="tool-chain">
 <h3>Tool chain<a class="headerlink" href="#tool-chain" title="Permalink to this headline">¶</a></h3>
 <p>We build all our wheels on cloud infrastructure - so this list of compilers is
 for information and debugging builds locally.  See the <code class="docutils literal notranslate"><span class="pre">.travis.yml</span></code> script
 in the <a class="reference external" href="https://github.com/MacPython/numpy-wheels">numpy wheels</a> repo for the definitive source
 of the build recipes. Packages that are available using pip are noted.</p>
-<section id="compilers">
+<div class="section" id="compilers">
 <h4>Compilers<a class="headerlink" href="#compilers" title="Permalink to this headline">¶</a></h4>
 <p>The same gcc version is used as the one with which Python itself is built on
 each platform. At the moment this means:</p>
@@ -667,14 +665,14 @@ when building against the Python from the Python.org installers;</p></li>
 </ul>
 <p>You will need Cython for building the binaries.  Cython compiles the <code class="docutils literal notranslate"><span class="pre">.pyx</span></code>
 files in the NumPy distribution to <code class="docutils literal notranslate"><span class="pre">.c</span></code> files.</p>
-</section>
-<section id="openblas">
+</div>
+<div class="section" id="openblas">
 <h4>OpenBLAS<a class="headerlink" href="#openblas" title="Permalink to this headline">¶</a></h4>
 <p>All the wheels link to a version of <a class="reference external" href="https://github.com/xianyi/OpenBLAS">OpenBLAS</a> supplied via the <a class="reference external" href="https://github.com/MacPython/openblas-libs">openblas-libs</a> repo.
 The shared object (or DLL) is shipped with in the wheel, renamed to prevent name
 collisions with other OpenBLAS shared objects that may exist in the filesystem.</p>
-</section>
-<section id="building-source-archives-and-wheels">
+</div>
+<div class="section" id="building-source-archives-and-wheels">
 <h4>Building source archives and wheels<a class="headerlink" href="#building-source-archives-and-wheels" title="Permalink to this headline">¶</a></h4>
 <p>You will need write permission for numpy-wheels in order to trigger wheel
 builds.</p>
@@ -686,8 +684,8 @@ builds.</p>
 <li><p>pandoc <a class="reference external" href="https://www.pandoc.org">pandoc.org</a> or linux distro.</p></li>
 <li><p>numpy-wheels <a class="reference external" href="https://github.com/MacPython/numpy-wheels">https://github.com/MacPython/numpy-wheels</a> (clone)</p></li>
 </ul>
-</section>
-<section id="building-docs">
+</div>
+<div class="section" id="building-docs">
 <h4>Building docs<a class="headerlink" href="#building-docs" title="Permalink to this headline">¶</a></h4>
 <p>Building the documents requires a number of latex <code class="docutils literal notranslate"><span class="pre">.sty</span></code> files. Install them
 all to avoid aggravation.</p>
@@ -697,8 +695,8 @@ all to avoid aggravation.</p>
 <li><p>Matplotlib</p></li>
 <li><p>Texlive (or MikTeX on Windows)</p></li>
 </ul>
-</section>
-<section id="uploading-to-pypi">
+</div>
+<div class="section" id="uploading-to-pypi">
 <h4>Uploading to PyPI<a class="headerlink" href="#uploading-to-pypi" title="Permalink to this headline">¶</a></h4>
 <ul class="simple">
 <li><p>terryfy <a class="reference external" href="https://github.com/MacPython/terryfy">https://github.com/MacPython/terryfy</a> (clone).</p></li>
@@ -707,8 +705,8 @@ all to avoid aggravation.</p>
 <li><p>auditwheel (pip)</p></li>
 <li><p>twine (pip)</p></li>
 </ul>
-</section>
-<section id="generating-author-pr-lists">
+</div>
+<div class="section" id="generating-author-pr-lists">
 <h4>Generating author/pr lists<a class="headerlink" href="#generating-author-pr-lists" title="Permalink to this headline">¶</a></h4>
 <p>You will need a personal access token
 <a class="reference external" href="https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/">https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/</a>
@@ -717,16 +715,16 @@ so that scripts can access the github NumPy repository.</p>
 <li><p>gitpython (pip)</p></li>
 <li><p>pygithub (pip)</p></li>
 </ul>
-</section>
-<section id="virtualenv">
+</div>
+<div class="section" id="virtualenv">
 <h4>Virtualenv<a class="headerlink" href="#virtualenv" title="Permalink to this headline">¶</a></h4>
 <p>Virtualenv is a very useful tool to keep several versions of packages around.
 It is also used in the Paver script to build the docs.</p>
-</section>
-</section>
-<section id="what-is-released">
+</div>
+</div>
+<div class="section" id="what-is-released">
 <h3>What is released<a class="headerlink" href="#what-is-released" title="Permalink to this headline">¶</a></h3>
-<section id="wheels">
+<div class="section" id="wheels">
 <h4>Wheels<a class="headerlink" href="#wheels" title="Permalink to this headline">¶</a></h4>
 <p>We currently support Python 3.6-3.8 on Windows, OSX, and Linux</p>
 <ul class="simple">
@@ -735,22 +733,22 @@ It is also used in the Paver script to build the docs.</p>
 <li><p>Linux: 32-bit and 64-bit Manylinux1 wheels built using travis-ci.</p></li>
 </ul>
 <p>See the <a class="reference external" href="https://github.com/MacPython/numpy-wheels">numpy wheels</a> building repository for more detail.</p>
-</section>
-<section id="other">
+</div>
+<div class="section" id="other">
 <h4>Other<a class="headerlink" href="#other" title="Permalink to this headline">¶</a></h4>
 <ul class="simple">
 <li><p>Release Notes</p></li>
 <li><p>Changelog</p></li>
 </ul>
-</section>
-<section id="source-distribution">
+</div>
+<div class="section" id="source-distribution">
 <h4>Source distribution<a class="headerlink" href="#source-distribution" title="Permalink to this headline">¶</a></h4>
 <p>We build source releases in both .zip and .tar.gz formats.</p>
-</section>
-</section>
-<section id="release-process">
+</div>
+</div>
+<div class="section" id="release-process">
 <h3>Release process<a class="headerlink" href="#release-process" title="Permalink to this headline">¶</a></h3>
-<section id="agree-on-a-release-schedule">
+<div class="section" id="agree-on-a-release-schedule">
 <h4>Agree on a release schedule<a class="headerlink" href="#agree-on-a-release-schedule" title="Permalink to this headline">¶</a></h4>
 <p>A typical release schedule is one beta, two release candidates and a final
 release.  It’s best to discuss the timing on the mailing list first, in order
@@ -758,8 +756,8 @@ for people to get their commits in on time, get doc wiki edits merged, etc.
 After a date is set, create a new maintenance/x.y.z branch, add new empty
 release notes for the next version in the main branch and update the Trac
 Milestones.</p>
-</section>
-<section id="make-sure-current-branch-builds-a-package-correctly">
+</div>
+<div class="section" id="make-sure-current-branch-builds-a-package-correctly">
 <h4>Make sure current branch builds a package correctly<a class="headerlink" href="#make-sure-current-branch-builds-a-package-correctly" title="Permalink to this headline">¶</a></h4>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">clean</span> <span class="o">-</span><span class="n">fxd</span>
 <span class="n">python</span> <span class="n">setup</span><span class="o">.</span><span class="n">py</span> <span class="n">bdist_wheel</span>
@@ -773,15 +771,15 @@ best to read the pavement.py script.</p>
 <p>The following steps are repeated for the beta(s), release
 candidates(s) and the final release.</p>
 </div>
-</section>
-<section id="check-deprecations">
+</div>
+<div class="section" id="check-deprecations">
 <h4>Check deprecations<a class="headerlink" href="#check-deprecations" title="Permalink to this headline">¶</a></h4>
 <p>Before the release branch is made, it should be checked that all deprecated
 code that should be removed is actually removed, and all new deprecations say
 in the docstring or deprecation warning at what version the code will be
 removed.</p>
-</section>
-<section id="check-the-c-api-version-number">
+</div>
+<div class="section" id="check-the-c-api-version-number">
 <h4>Check the C API version number<a class="headerlink" href="#check-the-c-api-version-number" title="Permalink to this headline">¶</a></h4>
 <p>The C API version needs to be tracked in three places</p>
 <ul class="simple">
@@ -818,8 +816,8 @@ the include files were deprecated.</p></li>
 </ol>
 <p>The C ABI version number in numpy/core/setup_common.py should only be
 updated for a major release.</p>
-</section>
-<section id="check-the-release-notes">
+</div>
+<div class="section" id="check-the-release-notes">
 <h4>Check the release notes<a class="headerlink" href="#check-the-release-notes" title="Permalink to this headline">¶</a></h4>
 <p>Use <a class="reference external" href="https://pypi.org/project/towncrier/">towncrier</a> to build the release note and
 commit the changes. This will remove all the fragments from
@@ -840,8 +838,8 @@ following:</p>
 <li><p>outlook for the near future</p></li>
 </ul>
 </div></blockquote>
-</section>
-<section id="update-the-release-status-and-create-a-release-tag">
+</div>
+<div class="section" id="update-the-release-status-and-create-a-release-tag">
 <h4>Update the release status and create a release “tag”<a class="headerlink" href="#update-the-release-status-and-create-a-release-tag" title="Permalink to this headline">¶</a></h4>
 <p>Identify the commit hash of the release, e.g. 1b2e1d63ff:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">co</span> <span class="mi">1</span><span class="n">b2e1d63ff</span> <span class="c1"># gives warning about detached head</span>
@@ -893,15 +891,15 @@ to public keyservers, with a command such as:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gpg</span> <span class="o">--</span><span class="n">send</span><span class="o">-</span><span class="n">keys</span> <span class="o">&lt;</span><span class="n">yourkeyid</span><span class="o">&gt;</span>
 </pre></div>
 </div>
-</section>
-<section id="update-the-version-of-the-main-branch">
+</div>
+<div class="section" id="update-the-version-of-the-main-branch">
 <h4>Update the version of the main branch<a class="headerlink" href="#update-the-version-of-the-main-branch" title="Permalink to this headline">¶</a></h4>
 <p>Increment the release number in setup.py. Release candidates should have “rc1”
 (or “rc2”, “rcN”) appended to the X.Y.Z format.</p>
 <p>Also create a new version hash in cversions.txt and a corresponding version
 define NPY_x_y_API_VERSION in numpyconfig.h</p>
-</section>
-<section id="trigger-the-wheel-builds">
+</div>
+<div class="section" id="trigger-the-wheel-builds">
 <h4>Trigger the wheel builds<a class="headerlink" href="#trigger-the-wheel-builds" title="Permalink to this headline">¶</a></h4>
 <p>See the <a class="reference external" href="https://github.com/MacPython/numpy-wheels">numpy wheels</a> repository.</p>
 <p>In that repository edit the files:</p>
@@ -922,15 +920,15 @@ you can do this on a branch, but it must be pushed upstream to the
 <code class="docutils literal notranslate"><span class="pre">MacPython/numpy-wheels</span></code> repository to trigger uploads since only
 that repo has the appropriate tokens to allow uploads.</p>
 <p>The wheels, once built, appear at <a class="reference external" href="https://anaconda.org/multibuild-wheels-staging/numpy">https://anaconda.org/multibuild-wheels-staging/numpy</a></p>
-</section>
-<section id="make-the-release">
+</div>
+<div class="section" id="make-the-release">
 <h4>Make the release<a class="headerlink" href="#make-the-release" title="Permalink to this headline">¶</a></h4>
 <p>Build the changelog and notes for upload with:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">paver</span> <span class="n">write_release</span>
 </pre></div>
 </div>
-</section>
-<section id="build-and-archive-documentation">
+</div>
+<div class="section" id="build-and-archive-documentation">
 <h4>Build and archive documentation<a class="headerlink" href="#build-and-archive-documentation" title="Permalink to this headline">¶</a></h4>
 <p>Do:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="n">doc</span><span class="o">/</span>
@@ -952,8 +950,8 @@ create an archive of the documentation in the numpy/doc repo:</p>
 <span class="n">git</span> <span class="o">-</span><span class="n">C</span> <span class="n">build</span><span class="o">/</span><span class="n">merge</span> <span class="n">push</span>
 </pre></div>
 </div>
-</section>
-<section id="update-pypi">
+</div>
+<div class="section" id="update-pypi">
 <h4>Update PyPI<a class="headerlink" href="#update-pypi" title="Permalink to this headline">¶</a></h4>
 <p>The wheels and source should be uploaded to PyPI.</p>
 <p>You should upload the wheels first, and the source formats last, to make sure
@@ -984,8 +982,8 @@ packages.</p>
 <p>The second way is to upload the PKG_INFO file inside the sdist dir in the
 web interface of PyPI. The source tarball can also be uploaded through this
 interface.</p>
-</section>
-<section id="push-the-release-tag-and-commit">
+</div>
+<div class="section" id="push-the-release-tag-and-commit">
 <span id="push-tag-and-commit"></span><h4>Push the release tag and commit<a class="headerlink" href="#push-the-release-tag-and-commit" title="Permalink to this headline">¶</a></h4>
 <p>Finally, now you are confident this tag correctly defines the source code that
 you released you can push the tag and release commit up to github:</p>
@@ -995,23 +993,23 @@ you released you can push the tag and release commit up to github:</p>
 </div>
 <p>where <code class="docutils literal notranslate"><span class="pre">upstream</span></code> points to the main <a class="reference external" href="https://github.com/numpy/numpy.git">https://github.com/numpy/numpy.git</a>
 repository.</p>
-</section>
-<section id="update-scipy-org">
+</div>
+<div class="section" id="update-scipy-org">
 <h4>Update scipy.org<a class="headerlink" href="#update-scipy-org" title="Permalink to this headline">¶</a></h4>
 <p>A release announcement with a link to the download site should be placed in the
 sidebar of the front page of scipy.org.</p>
 <p>The scipy.org should be a PR at <a class="reference external" href="https://github.com/scipy/scipy.org">https://github.com/scipy/scipy.org</a>. The file
 that needs modification is <code class="docutils literal notranslate"><span class="pre">www/index.rst</span></code>. Search for <code class="docutils literal notranslate"><span class="pre">News</span></code>.</p>
-</section>
-<section id="update-oldest-supported-numpy">
+</div>
+<div class="section" id="update-oldest-supported-numpy">
 <h4>Update oldest-supported-numpy<a class="headerlink" href="#update-oldest-supported-numpy" title="Permalink to this headline">¶</a></h4>
 <p>If this release is the first one to support a new Python version, or the first
 to provide wheels for a new platform or PyPy version, the version pinnings
 in <a class="reference external" href="https://github.com/scipy/oldest-supported-numpy">https://github.com/scipy/oldest-supported-numpy</a> should be updated.
 Either submit a PR with changes to <code class="docutils literal notranslate"><span class="pre">setup.cfg</span></code> there, or open an issue with
 info on needed changes.</p>
-</section>
-<section id="announce-to-the-lists">
+</div>
+<div class="section" id="announce-to-the-lists">
 <h4>Announce to the lists<a class="headerlink" href="#announce-to-the-lists" title="Permalink to this headline">¶</a></h4>
 <p>The release should be announced on the mailing lists of
 NumPy and SciPy, to python-announce, and possibly also those of
@@ -1019,13 +1017,13 @@ Matplotlib, IPython and/or Pygame.</p>
 <p>During the beta/RC phase, an explicit request for testing the binaries with
 several other libraries (SciPy/Matplotlib/Pygame) should be posted on the
 mailing list.</p>
-</section>
-<section id="announce-to-linux-weekly-news">
+</div>
+<div class="section" id="announce-to-linux-weekly-news">
 <h4>Announce to Linux Weekly News<a class="headerlink" href="#announce-to-linux-weekly-news" title="Permalink to this headline">¶</a></h4>
 <p>Email the editor of LWN to let them know of the release.  Directions at:
 <a class="reference external" href="https://lwn.net/op/FAQ.lwn#contact">https://lwn.net/op/FAQ.lwn#contact</a></p>
-</section>
-<section id="after-the-final-release">
+</div>
+<div class="section" id="after-the-final-release">
 <h4>After the final release<a class="headerlink" href="#after-the-final-release" title="Permalink to this headline">¶</a></h4>
 <p>After the final release is announced, a few administrative tasks are left to be
 done:</p>
@@ -1036,16 +1034,16 @@ scripts, if any, to main branch.</p></li>
 <li><p>Update the Milestones in Trac.</p></li>
 </ul>
 </div></blockquote>
-</section>
-</section>
-</section>
-<section id="step-by-step-directions">
+</div>
+</div>
+</div>
+<div class="section" id="step-by-step-directions">
 <h2>Step-by-Step Directions<a class="headerlink" href="#step-by-step-directions" title="Permalink to this headline">¶</a></h2>
 <p>This file contains a walkthrough of the NumPy 1.21.0 release on Linux, modified
 for building on azure and uploading to anaconda.org The commands can be copied
 into the command line, but be sure to replace 1.21.0 by the correct version.
 This should be read together with the general directions in <em class="xref py py-obj">releasing</em>.</p>
-<section id="facility-preparation">
+<div class="section" id="facility-preparation">
 <h3>Facility Preparation<a class="headerlink" href="#facility-preparation" title="Permalink to this headline">¶</a></h3>
 <p>Before beginning to make a release, use the <code class="docutils literal notranslate"><span class="pre">*_requirements.txt</span></code> files to
 ensure that you have the needed software. Most software can be installed with
@@ -1059,15 +1057,15 @@ Search online for the details.</p></li>
 <li><p>You can use the <code class="docutils literal notranslate"><span class="pre">keyring</span></code> app to store the PyPI password for twine. See the
 online twine documentation for details.</p></li>
 </ul>
-</section>
-<section id="release-preparation">
+</div>
+<div class="section" id="release-preparation">
 <h3>Release Preparation<a class="headerlink" href="#release-preparation" title="Permalink to this headline">¶</a></h3>
-<section id="backport-pull-requests">
+<div class="section" id="backport-pull-requests">
 <h4>Backport Pull Requests<a class="headerlink" href="#backport-pull-requests" title="Permalink to this headline">¶</a></h4>
 <p>Changes that have been marked for this release must be backported to the
 maintenance/1.21.x branch.</p>
-</section>
-<section id="update-release-documentation">
+</div>
+<div class="section" id="update-release-documentation">
 <h4>Update Release documentation<a class="headerlink" href="#update-release-documentation" title="Permalink to this headline">¶</a></h4>
 <p>Four documents usually need to be updated or created before making a release:</p>
 <ul class="simple">
@@ -1079,7 +1077,7 @@ maintenance/1.21.x branch.</p>
 <p>These changes should be made as an ordinary PR against the maintenance branch.
 After release all files except <code class="docutils literal notranslate"><span class="pre">doc/source/release.rst</span></code>  will need to be
 forward ported to the main branch.</p>
-<section id="generate-the-changelog">
+<div class="section" id="generate-the-changelog">
 <h5>Generate the changelog<a class="headerlink" href="#generate-the-changelog" title="Permalink to this headline">¶</a></h5>
 <p>The changelog is generated using the changelog tool:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ python tools/changelog.py $GITHUB v1.20.0..maintenance/1.21.x &gt; doc/changelog/1.21.0-changelog.rst
@@ -1093,8 +1091,8 @@ non-standard contributor names should be fixed by updating the <code class="docu
 file, which is a lot of work. It is best to make several trial runs before
 reaching this point and ping the malefactors using a GitHub issue to get the
 needed information.</p>
-</section>
-<section id="finish-the-release-notes">
+</div>
+<div class="section" id="finish-the-release-notes">
 <h5>Finish the release notes<a class="headerlink" href="#finish-the-release-notes" title="Permalink to this headline">¶</a></h5>
 <p>If this is the first release in a series the release note is generated, see
 the release note in <code class="docutils literal notranslate"><span class="pre">doc/release/upcoming_changes/README.rst</span></code> to see how to
@@ -1107,25 +1105,25 @@ release as it is too long. Check previous release notes to see how this is
 done. Note that the <code class="docutils literal notranslate"><span class="pre">:orphan:</span></code> markup at the top, if present, will need
 changing to <code class="docutils literal notranslate"><span class="pre">..</span> <span class="pre">currentmodule::</span> <span class="pre">numpy</span></code> and the <code class="docutils literal notranslate"><span class="pre">doc/source/release.rst</span></code>
 index file will need updating.</p>
-</section>
-<section id="check-the-pavement-py-file">
+</div>
+<div class="section" id="check-the-pavement-py-file">
 <h5>Check the pavement.py file<a class="headerlink" href="#check-the-pavement-py-file" title="Permalink to this headline">¶</a></h5>
 <p>Check that the pavement.py file points to the correct release notes. It should
 have been updated after the last release, but if not, fix it now:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$gvim pavement.py
 </pre></div>
 </div>
-</section>
-</section>
-</section>
-<section id="release-walkthrough">
+</div>
+</div>
+</div>
+<div class="section" id="release-walkthrough">
 <h3>Release  Walkthrough<a class="headerlink" href="#release-walkthrough" title="Permalink to this headline">¶</a></h3>
 <p>Note that in the code snippets below, <code class="docutils literal notranslate"><span class="pre">upstream</span></code> refers to the root repository on
 GitHub and <code class="docutils literal notranslate"><span class="pre">origin</span></code> to its fork in your personal GitHub repositories. You may
 need to make adjustments if you have not forked the repository but simply
 cloned it locally. You can also edit <code class="docutils literal notranslate"><span class="pre">.git/config</span></code> and add <code class="docutils literal notranslate"><span class="pre">upstream</span></code> if it
 isn’t already present.</p>
-<section id="prepare-the-release-commit">
+<div class="section" id="prepare-the-release-commit">
 <h4>Prepare the release commit<a class="headerlink" href="#prepare-the-release-commit" title="Permalink to this headline">¶</a></h4>
 <p>Checkout the branch for the release, make sure it is up to date, and clean the
 repository:</p>
@@ -1145,8 +1143,8 @@ repository:</p>
 $ git push upstream v1.21.0
 </pre></div>
 </div>
-</section>
-<section id="build-source-releases">
+</div>
+<div class="section" id="build-source-releases">
 <h4>Build source releases<a class="headerlink" href="#build-source-releases" title="Permalink to this headline">¶</a></h4>
 <p>Paver is used to build the source releases. It will create the <code class="docutils literal notranslate"><span class="pre">release</span></code> and
 <code class="docutils literal notranslate"><span class="pre">release/installers</span></code> directories and put the <code class="docutils literal notranslate"><span class="pre">*.zip</span></code> and <code class="docutils literal notranslate"><span class="pre">*.tar.gz</span></code>
@@ -1154,8 +1152,8 @@ source releases in the latter.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ paver sdist  # sdist will do a git clean -xdfq, so we omit that
 </pre></div>
 </div>
-</section>
-<section id="build-wheels">
+</div>
+<div class="section" id="build-wheels">
 <h4>Build wheels<a class="headerlink" href="#build-wheels" title="Permalink to this headline">¶</a></h4>
 <p>Trigger the wheels build by pointing the numpy-wheels repository at this
 commit. This can take up to an hour. The numpy-wheels repository is cloned from
@@ -1189,8 +1187,8 @@ uploaded to the staging repository before proceeding.</p>
 <p>Note that sometimes builds, like tests, fail for unrelated reasons and you will
 need to rerun them. You will need to be logged in under ‘numpy’ to do this
 on azure.</p>
-</section>
-<section id="download-wheels">
+</div>
+<div class="section" id="download-wheels">
 <h4>Download wheels<a class="headerlink" href="#download-wheels" title="Permalink to this headline">¶</a></h4>
 <p>When the wheels have all been successfully built and staged, download them from the
 Anaconda staging directory using the <code class="docutils literal notranslate"><span class="pre">tools/download-wheels.py</span></code> script:</p>
@@ -1198,16 +1196,16 @@ Anaconda staging directory using the <code class="docutils literal notranslate">
 $ python3 tools/download-wheels.py 1.21.0
 </pre></div>
 </div>
-</section>
-<section id="generate-the-readme-files">
+</div>
+<div class="section" id="generate-the-readme-files">
 <h4>Generate the README files<a class="headerlink" href="#generate-the-readme-files" title="Permalink to this headline">¶</a></h4>
 <p>This needs to be done after all installers are downloaded, but before the pavement
 file is updated for continued development:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ paver write_release
 </pre></div>
 </div>
-</section>
-<section id="reset-the-maintenance-branch-into-a-development-state-skip-for-prereleases">
+</div>
+<div class="section" id="reset-the-maintenance-branch-into-a-development-state-skip-for-prereleases">
 <h4>Reset the maintenance branch into a development state (skip for prereleases)<a class="headerlink" href="#reset-the-maintenance-branch-into-a-development-state-skip-for-prereleases" title="Permalink to this headline">¶</a></h4>
 <p>Create release notes for next release and edit them to set the version. These
 notes will be a skeleton and have little content:</p>
@@ -1226,8 +1224,8 @@ $ git add doc/source/release/1.21.1-notes.rst
 $ git push upstream HEAD
 </pre></div>
 </div>
-</section>
-<section id="upload-to-pypi">
+</div>
+<div class="section" id="upload-to-pypi">
 <h4>Upload to PyPI<a class="headerlink" href="#upload-to-pypi" title="Permalink to this headline">¶</a></h4>
 <p>Upload to PyPI using <code class="docutils literal notranslate"><span class="pre">twine</span></code>. A recent version of <code class="docutils literal notranslate"><span class="pre">twine</span></code> of is needed
 after recent PyPI changes, version <code class="docutils literal notranslate"><span class="pre">3.4.1</span></code> was used here:</p>
@@ -1243,8 +1241,8 @@ problems that might occur if pip users access the files while this is in
 process, causing pip to build from source rather than downloading a binary
 wheel. PyPI only allows a single source distribution, here we have
 chosen the zip archive.</p>
-</section>
-<section id="upload-files-to-github">
+</div>
+<div class="section" id="upload-files-to-github">
 <h4>Upload files to github<a class="headerlink" href="#upload-files-to-github" title="Permalink to this headline">¶</a></h4>
 <p>Go to <a class="reference external" href="https://github.com/numpy/numpy/releases">https://github.com/numpy/numpy/releases</a>, there should be a <code class="docutils literal notranslate"><span class="pre">v1.21.0</span>
 <span class="pre">tag</span></code>, click on it and hit the edit button for that tag. There are two ways to
@@ -1262,8 +1260,8 @@ may take several tries to get it look right. Then</p>
 <li><p>Check the pre-release button if this is a pre-releases.</p></li>
 <li><p>Hit the <code class="docutils literal notranslate"><span class="pre">{Publish,Update}</span> <span class="pre">release</span></code> button at the bottom.</p></li>
 </ul>
-</section>
-<section id="upload-documents-to-numpy-org-skip-for-prereleases">
+</div>
+<div class="section" id="upload-documents-to-numpy-org-skip-for-prereleases">
 <h4>Upload documents to numpy.org (skip for prereleases)<a class="headerlink" href="#upload-documents-to-numpy-org-skip-for-prereleases" title="Permalink to this headline">¶</a></h4>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -1310,8 +1308,8 @@ $ popd
 $ popd
 </pre></div>
 </div>
-</section>
-<section id="announce-the-release-on-numpy-org-skip-for-prereleases">
+</div>
+<div class="section" id="announce-the-release-on-numpy-org-skip-for-prereleases">
 <h4>Announce the release on numpy.org (skip for prereleases)<a class="headerlink" href="#announce-the-release-on-numpy-org-skip-for-prereleases" title="Permalink to this headline">¶</a></h4>
 <p>This assumes that you have forked <a class="reference external" href="https://github.com/numpy/numpy.org">https://github.com/numpy/numpy.org</a>:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ cd ../numpy.org
@@ -1333,16 +1331,16 @@ $ git push origin HEAD
 </pre></div>
 </div>
 <p>Go to your Github fork and make a pull request.</p>
-</section>
-<section id="announce-to-mailing-lists">
+</div>
+<div class="section" id="announce-to-mailing-lists">
 <h4>Announce to mailing lists<a class="headerlink" href="#announce-to-mailing-lists" title="Permalink to this headline">¶</a></h4>
 <p>The release should be announced on the numpy-discussion, scipy-devel,
 scipy-user, and python-announce-list mailing lists. Look at previous
 announcements for the basic template. The contributor and PR lists are the same
 as generated for the release notes above. If you crosspost, make sure that
 python-announce-list is BCC so that replies will not be sent to that list.</p>
-</section>
-<section id="post-release-tasks-skip-for-prereleases">
+</div>
+<div class="section" id="post-release-tasks-skip-for-prereleases">
 <h4>Post-Release Tasks (skip for prereleases)<a class="headerlink" href="#post-release-tasks-skip-for-prereleases" title="Permalink to this headline">¶</a></h4>
 <p>Checkout main and forward port the documentation changes:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ git checkout -b post-1.21.0-release-update
@@ -1357,10 +1355,10 @@ $ git push origin HEAD
 </pre></div>
 </div>
 <p>Go to GitHub and make a PR.</p>
-</section>
-</section>
-</section>
-</section>
+</div>
+</div>
+</div>
+</div>
 
 
               </div>

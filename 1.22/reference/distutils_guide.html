@@ -4,8 +4,7 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>NumPy Distutils - Users Guide &#8212; NumPy v1.22 Manual</title>
     
   <link href="../_static/css/theme.css" rel="stylesheet">
@@ -28,8 +27,8 @@
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
     <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
     <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/panels-bootstrap.5fd3999ee7762ccc51105388f4a9d115.css" />
     <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/numpy.css" />
     
   <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
 
@@ -42,19 +41,12 @@
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="NumPy C-API" href="c-api/index.html" />
     <link rel="prev" title="numpy.distutils.system_info.get_standard_file" href="generated/numpy.distutils.system_info.get_standard_file.html" />
-
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
 
     <!-- Google Analytics -->
     
-<link rel="stylesheet" href="../_static/numpy.css" type="text/css" />
-
-    <!-- PR #17220: This is added via javascript in versionwarning.js  -->
-    <!-- link rel="canonical" href="http://numpy.org/doc/stable/reference/distutils_guide.html" / -->
-
-
   </head>
   <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
     
@@ -100,6 +92,12 @@
 <li class="toctree-l1 nav-item">
  <a class="reference internal nav-link" href="../dev/index.html">
   Development
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../release.html">
+  Release notes
  </a>
 </li>
 
@@ -427,9 +425,9 @@
               
               <div>
                 
-  <section id="numpy-distutils-users-guide">
+  <div class="section" id="numpy-distutils-users-guide">
 <span id="distutils-user-guide"></span><h1>NumPy Distutils - Users Guide<a class="headerlink" href="#numpy-distutils-users-guide" title="Permalink to this headline">¶</a></h1>
-<section id="scipy-structure">
+<div class="section" id="scipy-structure">
 <h2>SciPy structure<a class="headerlink" href="#scipy-structure" title="Permalink to this headline">¶</a></h2>
 <p>Currently SciPy project consists of two packages:</p>
 <ul class="simple">
@@ -446,8 +444,8 @@
 <li><p>SciPy — a collection of scientific tools for Python.</p></li>
 </ul>
 <p>The aim of this document is to describe how to add new tools to SciPy.</p>
-</section>
-<section id="requirements-for-scipy-packages">
+</div>
+<div class="section" id="requirements-for-scipy-packages">
 <h2>Requirements for SciPy packages<a class="headerlink" href="#requirements-for-scipy-packages" title="Permalink to this headline">¶</a></h2>
 <p>SciPy consists of Python packages, called SciPy packages, that are
 available to Python users via the <code class="docutils literal notranslate"><span class="pre">scipy</span></code> namespace. Each SciPy package
@@ -465,8 +463,8 @@ files and directories:</p>
 </ul>
 </div></blockquote>
 <p>Their contents are described below.</p>
-</section>
-<section id="the-setup-py-file">
+</div>
+<div class="section" id="the-setup-py-file">
 <h2>The <code class="docutils literal notranslate"><span class="pre">setup.py</span></code> file<a class="headerlink" href="#the-setup-py-file" title="Permalink to this headline">¶</a></h2>
 <p>In order to add a Python package to SciPy, its build script (<code class="docutils literal notranslate"><span class="pre">setup.py</span></code>)
 must meet certain requirements. The most important requirement is that the
@@ -475,7 +473,7 @@ which returns a dictionary suitable for passing to
 <code class="docutils literal notranslate"><span class="pre">numpy.distutils.core.setup(..)</span></code>. To simplify the construction of
 this dictionary, <code class="docutils literal notranslate"><span class="pre">numpy.distutils.misc_util</span></code> provides the
 <code class="docutils literal notranslate"><span class="pre">Configuration</span></code> class, described below.</p>
-<section id="scipy-pure-python-package-example">
+<div class="section" id="scipy-pure-python-package-example">
 <h3>SciPy pure Python package example<a class="headerlink" href="#scipy-pure-python-package-example" title="Permalink to this headline">¶</a></h3>
 <p>Below is an example of a minimal <code class="docutils literal notranslate"><span class="pre">setup.py</span></code> file for a pure SciPy package:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env python3</span>
@@ -510,8 +508,8 @@ consistency of SciPy building system.</p>
 <p>Finally, <code class="docutils literal notranslate"><span class="pre">Configuration</span></code> has <code class="docutils literal notranslate"><span class="pre">.todict()</span></code> method that returns all
 the configuration data as a dictionary suitable for passing on to the
 <code class="docutils literal notranslate"><span class="pre">setup(..)</span></code> function.</p>
-</section>
-<section id="configuration-instance-attributes">
+</div>
+<div class="section" id="configuration-instance-attributes">
 <h3><code class="docutils literal notranslate"><span class="pre">Configuration</span></code> instance attributes<a class="headerlink" href="#configuration-instance-attributes" title="Permalink to this headline">¶</a></h3>
 <p>In addition to attributes that can be specified via keyword arguments
 to <code class="docutils literal notranslate"><span class="pre">Configuration</span></code> constructor, <code class="docutils literal notranslate"><span class="pre">Configuration</span></code> instance (let us
@@ -523,8 +521,8 @@ packages can be extracted as <code class="docutils literal notranslate"><span cl
 <li><p><code class="docutils literal notranslate"><span class="pre">config.local_path</span></code> - path to the location of current <code class="docutils literal notranslate"><span class="pre">setup.py</span></code> file.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">config.top_path</span></code> - path to the location of main <code class="docutils literal notranslate"><span class="pre">setup.py</span></code> file.</p></li>
 </ul>
-</section>
-<section id="configuration-instance-methods">
+</div>
+<div class="section" id="configuration-instance-methods">
 <h3><code class="docutils literal notranslate"><span class="pre">Configuration</span></code> instance methods<a class="headerlink" href="#configuration-instance-methods" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p><code class="docutils literal notranslate"><span class="pre">config.todict()</span></code> — returns configuration dictionary suitable for
@@ -687,8 +685,8 @@ instance.</p></li>
 command instance.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">config.get_info(*names)</span></code> —</p></li>
 </ul>
-</section>
-<section id="conversion-of-src-files-using-templates">
+</div>
+<div class="section" id="conversion-of-src-files-using-templates">
 <span id="templating"></span><h3>Conversion of <code class="docutils literal notranslate"><span class="pre">.src</span></code> files using Templates<a class="headerlink" href="#conversion-of-src-files-using-templates" title="Permalink to this headline">¶</a></h3>
 <p>NumPy distutils supports automatic conversion of source files named
 &lt;somefile&gt;.src. This facility can be used to maintain very similar
@@ -700,8 +698,8 @@ forms of template conversion are supported. The first form occurs for
 files named &lt;file&gt;.ext.src where ext is a recognized Fortran
 extension (f, f90, f95, f77, for, ftn, pyf). The second form is used
 for all other cases.</p>
-</section>
-<section id="fortran-files">
+</div>
+<div class="section" id="fortran-files">
 <span id="index-0"></span><h3>Fortran files<a class="headerlink" href="#fortran-files" title="Permalink to this headline">¶</a></h3>
 <p>This template converter will replicate all <strong>function</strong> and
 <strong>subroutine</strong> blocks in the file with names that contain ‘&lt;…&gt;’
@@ -716,7 +714,7 @@ backslash ‘ '. If a word in the repeat rule matches ‘ \&lt;index&gt;’ then
 it will be replaced with the &lt;index&gt;-th word in the same repeat
 specification. There are two forms for the repeat rule: named and
 short.</p>
-<section id="named-repeat-rule">
+<div class="section" id="named-repeat-rule">
 <h4>Named repeat rule<a class="headerlink" href="#named-repeat-rule" title="Permalink to this headline">¶</a></h4>
 <p>A named repeat rule is useful when the same set of repeats must be
 used several times in a block. It is specified using &lt;rule1=item1,
@@ -727,15 +725,15 @@ item2, and so forth until N repeats are accomplished. Once a named
 repeat specification has been introduced, the same repeat rule may be
 used <strong>in the current block</strong> by referring only to the name
 (i.e. &lt;rule1&gt;).</p>
-</section>
-<section id="short-repeat-rule">
+</div>
+<div class="section" id="short-repeat-rule">
 <h4>Short repeat rule<a class="headerlink" href="#short-repeat-rule" title="Permalink to this headline">¶</a></h4>
 <p>A short repeat rule looks like &lt;item1, item2, item3, …, itemN&gt;. The
 rule specifies that the entire expression, ‘&lt;…&gt;’ should be replaced
 first with item1, and then with item2, and so forth until N repeats
 are accomplished.</p>
-</section>
-<section id="pre-defined-names">
+</div>
+<div class="section" id="pre-defined-names">
 <h4>Pre-defined names<a class="headerlink" href="#pre-defined-names" title="Permalink to this headline">¶</a></h4>
 <p>The following predefined named repeat rules are available:</p>
 <ul class="simple">
@@ -747,9 +745,9 @@ are accomplished.</p>
 <li><p>&lt;ftypereal=float, double precision, \0, \1&gt;</p></li>
 <li><p>&lt;ctypereal=float, double, \0, \1&gt;</p></li>
 </ul>
-</section>
-</section>
-<section id="other-files">
+</div>
+</div>
+<div class="section" id="other-files">
 <h3>Other files<a class="headerlink" href="#other-files" title="Permalink to this headline">¶</a></h3>
 <p>Non-Fortran files use a separate syntax for defining template blocks
 that should be repeated using a variable expansion similar to the
@@ -830,8 +828,8 @@ The type-specific C files generated (extension: <code class="docutils literal no
 by these modules during the build process are ready to be compiled. This
 form of generic typing is also supported for C header files (preprocessed
 to produce <code class="docutils literal notranslate"><span class="pre">.h</span></code> files).</p>
-</section>
-<section id="useful-functions-in-numpy-distutils-misc-util">
+</div>
+<div class="section" id="useful-functions-in-numpy-distutils-misc-util">
 <h3>Useful functions in <code class="docutils literal notranslate"><span class="pre">numpy.distutils.misc_util</span></code><a class="headerlink" href="#useful-functions-in-numpy-distutils-misc-util" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">get_numpy_include_dirs()</span></code> — return a list of NumPy base
@@ -876,37 +874,37 @@ relative to parent_path when given. Handles also <code class="docutils literal n
 <li><p><code class="docutils literal notranslate"><span class="pre">cxx_ext_match</span></code>, <code class="docutils literal notranslate"><span class="pre">fortran_ext_match</span></code>, <code class="docutils literal notranslate"><span class="pre">f90_ext_match</span></code>,
 <code class="docutils literal notranslate"><span class="pre">f90_module_name_match</span></code></p></li>
 </ul>
-</section>
-<section id="numpy-distutils-system-info-module">
+</div>
+<div class="section" id="numpy-distutils-system-info-module">
 <h3><code class="docutils literal notranslate"><span class="pre">numpy.distutils.system_info</span></code> module<a class="headerlink" href="#numpy-distutils-system-info-module" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">get_info(name,notfound_action=0)</span></code></p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">combine_paths(*args,**kws)</span></code></p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">show_all()</span></code></p></li>
 </ul>
-</section>
-<section id="numpy-distutils-cpuinfo-module">
+</div>
+<div class="section" id="numpy-distutils-cpuinfo-module">
 <h3><code class="docutils literal notranslate"><span class="pre">numpy.distutils.cpuinfo</span></code> module<a class="headerlink" href="#numpy-distutils-cpuinfo-module" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">cpuinfo</span></code></p></li>
 </ul>
-</section>
-<section id="numpy-distutils-log-module">
+</div>
+<div class="section" id="numpy-distutils-log-module">
 <h3><code class="docutils literal notranslate"><span class="pre">numpy.distutils.log</span></code> module<a class="headerlink" href="#numpy-distutils-log-module" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">set_verbosity(v)</span></code></p></li>
 </ul>
-</section>
-<section id="numpy-distutils-exec-command-module">
+</div>
+<div class="section" id="numpy-distutils-exec-command-module">
 <h3><code class="docutils literal notranslate"><span class="pre">numpy.distutils.exec_command</span></code> module<a class="headerlink" href="#numpy-distutils-exec-command-module" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">get_pythonexe()</span></code></p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">find_executable(exe,</span> <span class="pre">path=None)</span></code></p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">exec_command(</span> <span class="pre">command,</span> <span class="pre">execute_in='',</span> <span class="pre">use_shell=None,</span> <span class="pre">use_tee=None,</span> <span class="pre">**env</span> <span class="pre">)</span></code></p></li>
 </ul>
-</section>
-</section>
-<section id="the-init-py-file">
+</div>
+</div>
+<div class="section" id="the-init-py-file">
 <h2>The <code class="docutils literal notranslate"><span class="pre">__init__.py</span></code> file<a class="headerlink" href="#the-init-py-file" title="Permalink to this headline">¶</a></h2>
 <p>The header of a typical SciPy <code class="docutils literal notranslate"><span class="pre">__init__.py</span></code> is:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;</span>
@@ -924,10 +922,10 @@ relative to parent_path when given. Handles also <code class="docutils literal n
 <span class="n">bench</span> <span class="o">=</span> <span class="n">Tester</span><span class="p">()</span><span class="o">.</span><span class="n">bench</span>
 </pre></div>
 </div>
-</section>
-<section id="extra-features-in-numpy-distutils">
+</div>
+<div class="section" id="extra-features-in-numpy-distutils">
 <h2>Extra features in NumPy Distutils<a class="headerlink" href="#extra-features-in-numpy-distutils" title="Permalink to this headline">¶</a></h2>
-<section id="specifying-config-fc-options-for-libraries-in-setup-py-script">
+<div class="section" id="specifying-config-fc-options-for-libraries-in-setup-py-script">
 <h3>Specifying config_fc options for libraries in setup.py script<a class="headerlink" href="#specifying-config-fc-options-for-libraries-in-setup-py-script" title="Permalink to this headline">¶</a></h3>
 <p>It is possible to specify config_fc options in setup.py scripts.
 For example, using</p>
@@ -941,8 +939,8 @@ config_fc={‘noopt’:(__file__,1)})</p>
 <p>will compile the <code class="docutils literal notranslate"><span class="pre">library</span></code> sources without optimization flags.</p>
 <p>It’s recommended to specify only those config_fc options in such a way
 that are compiler independent.</p>
-</section>
-<section id="getting-extra-fortran-77-compiler-options-from-source">
+</div>
+<div class="section" id="getting-extra-fortran-77-compiler-options-from-source">
 <h3>Getting extra Fortran 77 compiler options from source<a class="headerlink" href="#getting-extra-fortran-77-compiler-options-from-source" title="Permalink to this headline">¶</a></h3>
 <p>Some old Fortran codes need special compiler options in order to
 work correctly. In order to specify compiler options per source
@@ -955,9 +953,9 @@ pattern:</p>
 specified type of the fcompiler (the first character <code class="docutils literal notranslate"><span class="pre">C</span></code> is optional).</p>
 <p>TODO: This feature can be easily extended for Fortran 90 codes as
 well. Let us know if you would need such a feature.</p>
-</section>
-</section>
-</section>
+</div>
+</div>
+</div>
 
 
               </div>

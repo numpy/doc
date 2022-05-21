@@ -4,8 +4,7 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Testing the numpy.i Typemaps &#8212; NumPy v1.22 Manual</title>
     
   <link href="../_static/css/theme.css" rel="stylesheet">
@@ -28,8 +27,8 @@
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
     <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
     <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/panels-bootstrap.5fd3999ee7762ccc51105388f4a9d115.css" />
     <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/numpy.css" />
     
   <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
 
@@ -42,19 +41,12 @@
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Contributing to NumPy" href="../dev/index.html" />
     <link rel="prev" title="numpy.i: a SWIG Interface File for NumPy" href="swig.interface-file.html" />
-
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
 
     <!-- Google Analytics -->
     
-<link rel="stylesheet" href="../_static/numpy.css" type="text/css" />
-
-    <!-- PR #17220: This is added via javascript in versionwarning.js  -->
-    <!-- link rel="canonical" href="http://numpy.org/doc/stable/reference/swig.testing.html" / -->
-
-
   </head>
   <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
     
@@ -100,6 +92,12 @@
 <li class="toctree-l1 nav-item">
  <a class="reference internal nav-link" href="../dev/index.html">
   Development
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../release.html">
+  Release notes
  </a>
 </li>
 
@@ -310,9 +308,9 @@
               
               <div>
                 
-  <section id="testing-the-numpy-i-typemaps">
+  <div class="section" id="testing-the-numpy-i-typemaps">
 <h1>Testing the numpy.i Typemaps<a class="headerlink" href="#testing-the-numpy-i-typemaps" title="Permalink to this headline">¶</a></h1>
-<section id="introduction">
+<div class="section" id="introduction">
 <h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
 <p>Writing tests for the <code class="docutils literal notranslate"><span class="pre">numpy.i</span></code> <a class="reference external" href="http://www.swig.org">SWIG</a>
 interface file is a combinatorial headache.  At present, 12 different
@@ -327,8 +325,8 @@ programming techniques are employed, including C and <a class="reference externa
 as well as Python inheritance.  The purpose of this document is to describe
 the testing infrastructure employed to verify that the <code class="docutils literal notranslate"><span class="pre">numpy.i</span></code>
 typemaps are working as expected.</p>
-</section>
-<section id="testing-organization">
+</div>
+<div class="section" id="testing-organization">
 <h2>Testing Organization<a class="headerlink" href="#testing-organization" title="Permalink to this headline">¶</a></h2>
 <p>There are three independent testing frameworks supported, for one-,
 two-, and three-dimensional arrays respectively.  For one-dimensional
@@ -369,8 +367,8 @@ For the descriptions that follow, we will reference the
 <code class="docutils literal notranslate"><span class="pre">Tensor</span></code> and <code class="docutils literal notranslate"><span class="pre">SuperTensor</span></code> tests.</p>
 <p>The command <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">test</span></code> will ensure that all of the test software is
 built and then run all three test scripts.</p>
-</section>
-<section id="testing-header-files">
+</div>
+<div class="section" id="testing-header-files">
 <h2>Testing Header Files<a class="headerlink" href="#testing-header-files" title="Permalink to this headline">¶</a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">Vector.h</span></code> is a C++ header file that defines a C macro called
 <code class="docutils literal notranslate"><span class="pre">TEST_FUNC_PROTOS</span></code> that takes two arguments: <code class="docutils literal notranslate"><span class="pre">TYPE</span></code>, which is a
@@ -398,16 +396,16 @@ supported by <code class="docutils literal notranslate"><span class="pre">numpy.
 <li><p><code class="docutils literal notranslate"><span class="pre">double</span></code></p></li>
 </ul>
 </div></blockquote>
-</section>
-<section id="testing-source-files">
+</div>
+<div class="section" id="testing-source-files">
 <h2>Testing Source Files<a class="headerlink" href="#testing-source-files" title="Permalink to this headline">¶</a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">Vector.cxx</span></code> is a C++ source file that implements compilable code
 for each of the function prototypes specified in <code class="docutils literal notranslate"><span class="pre">Vector.h</span></code>.  It
 defines a C macro <code class="docutils literal notranslate"><span class="pre">TEST_FUNCS</span></code> that has the same arguments and works
 in the same way as <code class="docutils literal notranslate"><span class="pre">TEST_FUNC_PROTOS</span></code> does in <code class="docutils literal notranslate"><span class="pre">Vector.h</span></code>.
 <code class="docutils literal notranslate"><span class="pre">TEST_FUNCS</span></code> is implemented for each of the 12 data types as above.</p>
-</section>
-<section id="testing-swig-interface-files">
+</div>
+<div class="section" id="testing-swig-interface-files">
 <h2>Testing SWIG Interface Files<a class="headerlink" href="#testing-swig-interface-files" title="Permalink to this headline">¶</a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">Vector.i</span></code> is a <a class="reference external" href="http://www.swig.org">SWIG</a> interface file that defines python module
 <code class="docutils literal notranslate"><span class="pre">Vector</span></code>.  It follows the conventions for using <code class="docutils literal notranslate"><span class="pre">numpy.i</span></code> as
@@ -419,8 +417,8 @@ is then implemented for all of the data types supported by
 <code class="docutils literal notranslate"><span class="pre">numpy.i</span></code>.  It then does a <code class="docutils literal notranslate"><span class="pre">%include</span> <span class="pre">&quot;Vector.h&quot;</span></code> to wrap all of
 the function prototypes in <code class="docutils literal notranslate"><span class="pre">Vector.h</span></code> using the typemaps in
 <code class="docutils literal notranslate"><span class="pre">numpy.i</span></code>.</p>
-</section>
-<section id="testing-python-scripts">
+</div>
+<div class="section" id="testing-python-scripts">
 <h2>Testing Python Scripts<a class="headerlink" href="#testing-python-scripts" title="Permalink to this headline">¶</a></h2>
 <p>After <code class="docutils literal notranslate"><span class="pre">make</span></code> is used to build the testing extension modules,
 <code class="docutils literal notranslate"><span class="pre">testVector.py</span></code> can be run to execute the tests.  As with other
@@ -467,8 +465,8 @@ a short definition such as:</p>
 which is then executed.  Errors and failures are summed together and
 returned as the exit argument.  Any non-zero result indicates that at
 least one test did not pass.</p>
-</section>
-</section>
+</div>
+</div>
 
 
               </div>

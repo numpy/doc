@@ -4,8 +4,7 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Beyond the Basics &#8212; NumPy v1.22 Manual</title>
     
   <link href="../_static/css/theme.css" rel="stylesheet">
@@ -28,8 +27,8 @@
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
     <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
     <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/panels-bootstrap.5fd3999ee7762ccc51105388f4a9d115.css" />
     <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/numpy.css" />
     
   <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
 
@@ -43,19 +42,12 @@
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="NumPy How Tos" href="howtos_index.html" />
     <link rel="prev" title="Writing your own ufunc" href="c-info.ufunc-tutorial.html" />
-
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
 
     <!-- Google Analytics -->
     
-<link rel="stylesheet" href="../_static/numpy.css" type="text/css" />
-
-    <!-- PR #17220: This is added via javascript in versionwarning.js  -->
-    <!-- link rel="canonical" href="http://numpy.org/doc/stable/user/c-info.beyond-basics.html" / -->
-
-
   </head>
   <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
     
@@ -101,6 +93,12 @@
 <li class="toctree-l1 nav-item">
  <a class="reference internal nav-link" href="../dev/index.html">
   Development
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../release.html">
+  Release notes
  </a>
 </li>
 
@@ -398,7 +396,7 @@
               
               <div>
                 
-  <section id="beyond-the-basics">
+  <div class="section" id="beyond-the-basics">
 <h1>Beyond the Basics<a class="headerlink" href="#beyond-the-basics" title="Permalink to this headline">¶</a></h1>
 <div class="line-block">
 <div class="line">The voyage of discovery is not in seeking new landscapes but in having</div>
@@ -410,9 +408,9 @@
 <div class="line">one else has thought.</div>
 <div class="line">— <em>Albert Szent-Gyorgi</em></div>
 </div>
-<section id="iterating-over-elements-in-the-array">
+<div class="section" id="iterating-over-elements-in-the-array">
 <h2>Iterating over elements in the array<a class="headerlink" href="#iterating-over-elements-in-the-array" title="Permalink to this headline">¶</a></h2>
-<section id="basic-iteration">
+<div class="section" id="basic-iteration">
 <span id="sec-array-iterator"></span><h3>Basic Iteration<a class="headerlink" href="#basic-iteration" title="Permalink to this headline">¶</a></h3>
 <p>One common algorithmic requirement is to be able to walk over all
 elements in a multidimensional array. The array iterator object makes
@@ -480,8 +478,8 @@ faster for you in the contiguous case (assuming doubles).</p>
 <span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
-</section>
-<section id="iterating-over-all-but-one-axis">
+</div>
+<div class="section" id="iterating-over-all-but-one-axis">
 <h3>Iterating over all but one axis<a class="headerlink" href="#iterating-over-all-but-one-axis" title="Permalink to this headline">¶</a></h3>
 <p>A common algorithm is to loop over all elements of an array and
 perform some function with each element by issuing a function call. As
@@ -507,8 +505,8 @@ and dimensions of the returned iterator to simulate iterating over
 array[…,0,…] where 0 is placed on the
 <span class="math notranslate nohighlight">\(\textrm{dim}^{\textrm{th}}\)</span> dimension. If dim is negative, then
 the dimension with the largest axis is found and used.</p>
-</section>
-<section id="iterating-over-multiple-arrays">
+</div>
+<div class="section" id="iterating-over-multiple-arrays">
 <h3>Iterating over multiple arrays<a class="headerlink" href="#iterating-over-multiple-arrays" title="Permalink to this headline">¶</a></h3>
 <p>Very often, it is desirable to iterate over several arrays at the
 same time. The universal functions are an example of this kind of
@@ -531,8 +529,8 @@ at least as many total elements as does obj2):</p>
 <span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
-</section>
-<section id="broadcasting-over-multiple-arrays">
+</div>
+<div class="section" id="broadcasting-over-multiple-arrays">
 <h3>Broadcasting over multiple arrays<a class="headerlink" href="#broadcasting-over-multiple-arrays" title="Permalink to this headline">¶</a></h3>
 <p id="index-1">When multiple arrays are involved in an operation, you may want to use the
 same broadcasting rules that the math operations (<em>i.e.</em> the ufuncs) use.
@@ -548,7 +546,7 @@ each array is for PyArray_ITER_NEXT to be called for each of the inputs. This
 incrementing is automatically performed by
 <a class="reference internal" href="../reference/c-api/array.html#c.PyArray_MultiIter_NEXT" title="PyArray_MultiIter_NEXT"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyArray_MultiIter_NEXT</span></code></a> ( <code class="docutils literal notranslate"><span class="pre">obj</span></code> ) macro (which can handle a
 multiterator <code class="docutils literal notranslate"><span class="pre">obj</span></code> as either a <span class="c-expr sig sig-inline c"><a class="reference internal" href="../reference/c-api/types-and-structures.html#c.PyArrayMultiIterObject" title="PyArrayMultiIterObject"><span class="n">PyArrayMultiIterObject</span></a><span class="p">*</span></span> or a
-<span class="c-expr sig sig-inline c"><a class="reference external" href="https://docs.python.org/dev/c-api/structures.html#c.PyObject" title="(in Python v3.11)"><span class="n">PyObject</span></a><span class="p">*</span></span>). The data from input number <code class="docutils literal notranslate"><span class="pre">i</span></code> is available using
+<span class="c-expr sig sig-inline c"><a class="reference external" href="https://docs.python.org/3/c-api/structures.html#c.PyObject" title="(in Python v3.10)"><span class="n">PyObject</span></a><span class="p">*</span></span>). The data from input number <code class="docutils literal notranslate"><span class="pre">i</span></code> is available using
 <a class="reference internal" href="../reference/c-api/array.html#c.PyArray_MultiIter_DATA" title="PyArray_MultiIter_DATA"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyArray_MultiIter_DATA</span></code></a> ( <code class="docutils literal notranslate"><span class="pre">obj</span></code>, <code class="docutils literal notranslate"><span class="pre">i</span></code> ). An example of using this
 feature follows.</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">mobj</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PyArray_MultiIterNew</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">obj1</span><span class="p">,</span><span class="w"> </span><span class="n">obj2</span><span class="p">);</span><span class="w"></span>
@@ -571,9 +569,9 @@ multi-&gt;iters[i]-&gt;strides.</p>
 <p id="index-2">There are several examples of using the multi-iterator in the NumPy
 source code as it makes N-dimensional broadcasting-code very simple to
 write. Browse the source for more examples.</p>
-</section>
-</section>
-<section id="user-defined-data-types">
+</div>
+</div>
+<div class="section" id="user-defined-data-types">
 <span id="user-user-defined-data-types"></span><h2>User-defined data-types<a class="headerlink" href="#user-defined-data-types" title="Permalink to this headline">¶</a></h2>
 <p>NumPy comes with 24 builtin data-types. While this covers a large
 majority of possible use cases, it is conceivable that a user may have
@@ -589,7 +587,7 @@ of its test suite. The file <code class="docutils literal notranslate"><span cla
 directory  <code class="docutils literal notranslate"><span class="pre">numpy/numpy/core/src/umath/</span></code> contains an implementation of
 a data-type that represents a rational number as the ratio of two 32 bit
 integers.</p>
-<section id="adding-the-new-data-type">
+<div class="section" id="adding-the-new-data-type">
 <span id="index-3"></span><h3>Adding the new data-type<a class="headerlink" href="#adding-the-new-data-type" title="Permalink to this headline">¶</a></h3>
 <p>To begin to make use of the new data-type, you need to first define a
 new Python type to hold the scalars of your new data-type. It should
@@ -602,7 +600,7 @@ number, then use a pointer to the object as the data-type). The memory
 layout of the object structure for the new Python type must be
 PyObject_HEAD followed by the fixed-size memory needed for the data-
 type. For example, a suitable structure for the new Python type is:</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span> <span class="p">{</span><span class="w"></span>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">   </span><span class="n">PyObject_HEAD</span><span class="p">;</span><span class="w"></span>
 <span class="w">   </span><span class="n">some_data_type</span><span class="w"> </span><span class="n">obval</span><span class="p">;</span><span class="w"></span>
 <span class="w">   </span><span class="cm">/* the name can be whatever you want */</span><span class="w"></span>
@@ -626,8 +624,8 @@ available by your module so that other modules can use it to recognize
 your data-type (the other mechanism for finding a user-defined
 data-type number is to search based on the name of the type-object
 associated with the data-type using <a class="reference internal" href="../reference/c-api/array.html#c.PyArray_TypeNumFromName" title="PyArray_TypeNumFromName"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyArray_TypeNumFromName</span></code></a> ).</p>
-</section>
-<section id="registering-a-casting-function">
+</div>
+<div class="section" id="registering-a-casting-function">
 <h3>Registering a casting function<a class="headerlink" href="#registering-a-casting-function" title="Permalink to this headline">¶</a></h3>
 <p>You may want to allow builtin (and other user-defined) data-types to
 be cast automatically to your data-type. In order to make this
@@ -665,8 +663,8 @@ code:</p>
 <span class="n">Py_DECREF</span><span class="p">(</span><span class="n">doub</span><span class="p">);</span><span class="w"></span>
 </pre></div>
 </div>
-</section>
-<section id="registering-coercion-rules">
+</div>
+<div class="section" id="registering-coercion-rules">
 <h3>Registering coercion rules<a class="headerlink" href="#registering-coercion-rules" title="Permalink to this headline">¶</a></h3>
 <p>By default, all user-defined data-types are not presumed to be safely
 castable to any builtin data-types. In addition builtin data-types are
@@ -689,8 +687,8 @@ can be cast to separately for each scalar kind that may be returned
 from your user-defined data-type. If you don’t register scalar
 coercion handling, then all of your user-defined data-types will be
 seen as <a class="reference internal" href="../reference/c-api/array.html#c.NPY_SCALARKIND.NPY_NOSCALAR" title="NPY_NOSCALAR"><code class="xref c c-enumerator docutils literal notranslate"><span class="pre">NPY_NOSCALAR</span></code></a>.</p>
-</section>
-<section id="registering-a-ufunc-loop">
+</div>
+<div class="section" id="registering-a-ufunc-loop">
 <h3>Registering a ufunc loop<a class="headerlink" href="#registering-a-ufunc-loop" title="Permalink to this headline">¶</a></h3>
 <p>You may also want to register low-level ufunc loops for your data-type
 so that an ndarray of your data-type can have math applied to it
@@ -702,9 +700,9 @@ previously created. Then you call <a class="reference internal" href="../referen
 (…) with the information needed for the loop. The return value of
 this function is <code class="docutils literal notranslate"><span class="pre">0</span></code> if the process was successful and <code class="docutils literal notranslate"><span class="pre">-1</span></code> with
 an error condition set if it was not successful.</p>
-</section>
-</section>
-<section id="subtyping-the-ndarray-in-c">
+</div>
+</div>
+<div class="section" id="subtyping-the-ndarray-in-c">
 <span id="index-4"></span><h2>Subtyping the ndarray in C<a class="headerlink" href="#subtyping-the-ndarray-in-c" title="Permalink to this headline">¶</a></h2>
 <p>One of the lesser-used features that has been lurking in Python since
 2.2 is the ability to sub-class types in C. This facility is one of
@@ -719,7 +717,7 @@ a restriction on Python sub-types is that they have a binary
 compatible memory layout. Perhaps for this reason, it is somewhat
 easier to sub-type from a single parent type.</p>
 <p id="index-5">All C-structures corresponding to Python objects must begin with
-<a class="reference external" href="https://docs.python.org/dev/c-api/structures.html#c.PyObject_HEAD" title="(in Python v3.11)"><code class="xref c c-macro docutils literal notranslate"><span class="pre">PyObject_HEAD</span></code></a> (or <a class="reference external" href="https://docs.python.org/dev/c-api/structures.html#c.PyObject_VAR_HEAD" title="(in Python v3.11)"><code class="xref c c-macro docutils literal notranslate"><span class="pre">PyObject_VAR_HEAD</span></code></a>). In the same
+<a class="reference external" href="https://docs.python.org/3/c-api/structures.html#c.PyObject_HEAD" title="(in Python v3.10)"><code class="xref c c-macro docutils literal notranslate"><span class="pre">PyObject_HEAD</span></code></a> (or <a class="reference external" href="https://docs.python.org/3/c-api/structures.html#c.PyObject_VAR_HEAD" title="(in Python v3.10)"><code class="xref c c-macro docutils literal notranslate"><span class="pre">PyObject_VAR_HEAD</span></code></a>). In the same
 way, any sub-type must have a C-structure that begins with exactly the
 same memory layout as the parent type (or all of the parent types in
 the case of multiple-inheritance). The reason for this is that Python
@@ -729,7 +727,7 @@ pointer to the parent structure and then dereference one of it’s
 members). If the memory layouts are not compatible, then this attempt
 will cause unpredictable behavior (eventually leading to a memory
 violation and program crash).</p>
-<p>One of the elements in <a class="reference external" href="https://docs.python.org/dev/c-api/structures.html#c.PyObject_HEAD" title="(in Python v3.11)"><code class="xref c c-macro docutils literal notranslate"><span class="pre">PyObject_HEAD</span></code></a> is a pointer to a
+<p>One of the elements in <a class="reference external" href="https://docs.python.org/3/c-api/structures.html#c.PyObject_HEAD" title="(in Python v3.10)"><code class="xref c c-macro docutils literal notranslate"><span class="pre">PyObject_HEAD</span></code></a> is a pointer to a
 type-object structure. A new Python type is created by creating a new
 type-object structure and populating it with functions and pointers to
 describe the desired behavior of the type. Typically, a new
@@ -739,14 +737,14 @@ information needed for each object of the type as well. For example,
 while a <span class="c-expr sig sig-inline c"><a class="reference internal" href="../reference/c-api/types-and-structures.html#c.PyArrayObject" title="PyArrayObject"><span class="n">PyArrayObject</span></a><span class="p">*</span></span> variable is a pointer to a particular instance
 of an ndarray (one of the members of the ndarray structure is, in
 turn, a pointer to the type- object table <a class="reference internal" href="../reference/c-api/types-and-structures.html#c.PyArray_Type" title="PyArray_Type"><code class="xref c c-data docutils literal notranslate"><span class="pre">&amp;PyArray_Type</span></code></a>). Finally
-<a class="reference external" href="https://docs.python.org/dev/c-api/type.html#c.PyType_Ready" title="(in Python v3.11)"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyType_Ready</span></code></a> (&lt;pointer_to_type_object&gt;) must be called for
+<a class="reference external" href="https://docs.python.org/3/c-api/type.html#c.PyType_Ready" title="(in Python v3.10)"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyType_Ready</span></code></a> (&lt;pointer_to_type_object&gt;) must be called for
 every new Python type.</p>
-<section id="creating-sub-types">
+<div class="section" id="creating-sub-types">
 <h3>Creating sub-types<a class="headerlink" href="#creating-sub-types" title="Permalink to this headline">¶</a></h3>
 <p>To create a sub-type, a similar procedure must be followed except
 only behaviors that are different require new entries in the type-
 object structure. All other entries can be NULL and will be filled in
-by <a class="reference external" href="https://docs.python.org/dev/c-api/type.html#c.PyType_Ready" title="(in Python v3.11)"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyType_Ready</span></code></a> with appropriate functions from the parent
+by <a class="reference external" href="https://docs.python.org/3/c-api/type.html#c.PyType_Ready" title="(in Python v3.10)"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyType_Ready</span></code></a> with appropriate functions from the parent
 type(s). In particular, to create a sub-type in C follow these steps:</p>
 <ol class="arabic">
 <li><p>If needed create a new C-structure to handle each instance of your
@@ -771,7 +769,7 @@ also fill in the tp_bases member with a tuple containing all of the
 parent objects in the order they should be used to define inheritance.
 Remember, all parent-types must have the same C-structure for multiple
 inheritance to work properly.</p></li>
-<li><p>Call <a class="reference external" href="https://docs.python.org/dev/c-api/type.html#c.PyType_Ready" title="(in Python v3.11)"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyType_Ready</span></code></a> (&lt;pointer_to_new_type&gt;). If this function
+<li><p>Call <a class="reference external" href="https://docs.python.org/3/c-api/type.html#c.PyType_Ready" title="(in Python v3.10)"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyType_Ready</span></code></a> (&lt;pointer_to_new_type&gt;). If this function
 returns a negative number, a failure occurred and the type is not
 initialized. Otherwise, the type is ready to be used. It is
 generally important to place a reference to the new type into the
@@ -779,12 +777,12 @@ module dictionary so it can be accessed from Python.</p></li>
 </ol>
 <p>More information on creating sub-types in C can be learned by reading
 PEP 253 (available at <a class="reference external" href="https://www.python.org/dev/peps/pep-0253">https://www.python.org/dev/peps/pep-0253</a>).</p>
-</section>
-<section id="specific-features-of-ndarray-sub-typing">
+</div>
+<div class="section" id="specific-features-of-ndarray-sub-typing">
 <h3>Specific features of ndarray sub-typing<a class="headerlink" href="#specific-features-of-ndarray-sub-typing" title="Permalink to this headline">¶</a></h3>
 <p>Some special methods and attributes are used by arrays in order to
 facilitate the interoperation of sub-types with the base ndarray type.</p>
-<section id="the-array-finalize-method">
+<div class="section" id="the-array-finalize-method">
 <h4>The __array_finalize__ method<a class="headerlink" href="#the-array-finalize-method" title="Permalink to this headline">¶</a></h4>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="ndarray.__array_finalize__">
@@ -816,8 +814,8 @@ argument (which could be None if there is no parent), and returns
 nothing. Errors in this method will be caught and handled.</p>
 </dd></dl>
 
-</section>
-<section id="the-array-priority-attribute">
+</div>
+<div class="section" id="the-array-priority-attribute">
 <h4>The __array_priority__ attribute<a class="headerlink" href="#the-array-priority-attribute" title="Permalink to this headline">¶</a></h4>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="ndarray.__array_priority__">
@@ -836,8 +834,8 @@ used to determine which <a class="reference internal" href="../reference/arrays.
 the return output.</p>
 </dd></dl>
 
-</section>
-<section id="the-array-wrap-method">
+</div>
+<div class="section" id="the-array-wrap-method">
 <h4>The __array_wrap__ method<a class="headerlink" href="#the-array-wrap-method" title="Permalink to this headline">¶</a></h4>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="ndarray.__array_wrap__">
@@ -851,10 +849,10 @@ that converts a function that works only with ndarrays to one that
 works with any type with <a class="reference internal" href="../reference/arrays.classes.html#numpy.class.__array__" title="numpy.class.__array__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__array__</span></code></a> and <a class="reference internal" href="../reference/arrays.classes.html#numpy.class.__array_wrap__" title="numpy.class.__array_wrap__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__array_wrap__</span></code></a> methods.</p>
 </dd></dl>
 
-<span class="target" id="index-6"></span></section>
-</section>
-</section>
-</section>
+<span class="target" id="index-6"></span></div>
+</div>
+</div>
+</div>
 
 
               </div>

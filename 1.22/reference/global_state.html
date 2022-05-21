@@ -4,8 +4,7 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Global State &#8212; NumPy v1.22 Manual</title>
     
   <link href="../_static/css/theme.css" rel="stylesheet">
@@ -28,8 +27,8 @@
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
     <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
     <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/panels-bootstrap.5fd3999ee7762ccc51105388f4a9d115.css" />
     <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/numpy.css" />
     
   <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
 
@@ -42,19 +41,12 @@
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Packaging (numpy.distutils)" href="distutils.html" />
     <link rel="prev" title="Typing (numpy.typing)" href="typing.html" />
-
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
 
     <!-- Google Analytics -->
     
-<link rel="stylesheet" href="../_static/numpy.css" type="text/css" />
-
-    <!-- PR #17220: This is added via javascript in versionwarning.js  -->
-    <!-- link rel="canonical" href="http://numpy.org/doc/stable/reference/global_state.html" / -->
-
-
   </head>
   <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
     
@@ -100,6 +92,12 @@
 <li class="toctree-l1 nav-item">
  <a class="reference internal nav-link" href="../dev/index.html">
   Development
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../release.html">
+  Release notes
  </a>
 </li>
 
@@ -302,16 +300,16 @@
               
               <div>
                 
-  <section id="global-state">
+  <div class="section" id="global-state">
 <span id="id1"></span><h1>Global State<a class="headerlink" href="#global-state" title="Permalink to this headline">¶</a></h1>
 <p>NumPy has a few import-time, compile-time, or runtime options
 which change the global behaviour.
 Most of these are related to performance or for debugging
 purposes and will not be interesting to the vast majority
 of users.</p>
-<section id="performance-related-options">
+<div class="section" id="performance-related-options">
 <h2>Performance-Related Options<a class="headerlink" href="#performance-related-options" title="Permalink to this headline">¶</a></h2>
-<section id="number-of-threads-used-for-linear-algebra">
+<div class="section" id="number-of-threads-used-for-linear-algebra">
 <h3>Number of Threads used for Linear Algebra<a class="headerlink" href="#number-of-threads-used-for-linear-algebra" title="Permalink to this headline">¶</a></h3>
 <p>NumPy itself is normally intentionally limited to a single thread
 during function calls, however it does support multiple Python
@@ -322,8 +320,8 @@ be controlled by environment variables such as <code class="docutils literal not
 depending on what is used.
 One way to control the number of threads is the package
 <a class="reference external" href="https://pypi.org/project/threadpoolctl/">threadpoolctl</a></p>
-</section>
-<section id="madvise-hugepage-on-linux">
+</div>
+<div class="section" id="madvise-hugepage-on-linux">
 <h3>Madvise Hugepage on Linux<a class="headerlink" href="#madvise-hugepage-on-linux" title="Permalink to this headline">¶</a></h3>
 <p>When working with very large arrays on modern Linux kernels,
 you can experience a significant speedup when
@@ -342,9 +340,9 @@ boost. This behaviour can be modified by setting the environment variable:</p>
 is to use madvise on Kernels 4.6 and newer. These kernels presumably
 experience a large speedup with hugepage support.
 This flag is checked at import time.</p>
-</section>
-</section>
-<section id="interoperability-related-options">
+</div>
+</div>
+<div class="section" id="interoperability-related-options">
 <h2>Interoperability-Related Options<a class="headerlink" href="#interoperability-related-options" title="Permalink to this headline">¶</a></h2>
 <p>The array function protocol which allows array-like objects to
 hook into the NumPy API is currently enabled by default.
@@ -355,10 +353,10 @@ NumPy 1.17. It can be disabled using:</p>
 </div>
 <p>See also <a class="reference internal" href="arrays.classes.html#numpy.class.__array_function__" title="numpy.class.__array_function__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">numpy.class.__array_function__</span></code></a> for more information.
 This flag is checked at import time.</p>
-</section>
-<section id="debugging-related-options">
+</div>
+<div class="section" id="debugging-related-options">
 <h2>Debugging-Related Options<a class="headerlink" href="#debugging-related-options" title="Permalink to this headline">¶</a></h2>
-<section id="relaxed-strides-checking">
+<div class="section" id="relaxed-strides-checking">
 <h3>Relaxed Strides Checking<a class="headerlink" href="#relaxed-strides-checking" title="Permalink to this headline">¶</a></h3>
 <p>The <em>compile-time</em> environment variables:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">NPY_RELAXED_STRIDES_DEBUG</span><span class="o">=</span><span class="mi">0</span>
@@ -373,8 +371,8 @@ in C which iterates through arrays that may or may not be
 contiguous in memory.
 Most users will have no reason to change these; for details
 see the <a class="reference internal" href="arrays.ndarray.html#memory-layout"><span class="std std-ref">memory layout</span></a> documentation.</p>
-</section>
-<section id="warn-if-no-memory-allocation-policy-when-deallocating-data">
+</div>
+<div class="section" id="warn-if-no-memory-allocation-policy-when-deallocating-data">
 <h3>Warn if no memory allocation policy when deallocating data<a class="headerlink" href="#warn-if-no-memory-allocation-policy-when-deallocating-data" title="Permalink to this headline">¶</a></h3>
 <p>Some users might pass ownership of the data pointer to the <code class="docutils literal notranslate"><span class="pre">ndarray</span></code> by
 setting the <code class="docutils literal notranslate"><span class="pre">OWNDATA</span></code> flag. If they do this without setting (manually) a
@@ -382,9 +380,9 @@ memory allocation policy, the default will be to call <code class="docutils lite
 <code class="docutils literal notranslate"><span class="pre">NUMPY_WARN_IF_NO_MEM_POLICY</span></code> is set to <code class="docutils literal notranslate"><span class="pre">&quot;1&quot;</span></code>, a <code class="docutils literal notranslate"><span class="pre">RuntimeWarning</span></code> will
 be emitted. A better alternative is to use a <code class="docutils literal notranslate"><span class="pre">PyCapsule</span></code> with a deallocator
 and set the <code class="docutils literal notranslate"><span class="pre">ndarray.base</span></code>.</p>
-</section>
-</section>
-</section>
+</div>
+</div>
+</div>
 
 
               </div>

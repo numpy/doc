@@ -4,8 +4,7 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Copies and views &#8212; NumPy v1.22 Manual</title>
     
   <link href="../_static/css/theme.css" rel="stylesheet">
@@ -28,8 +27,8 @@
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
     <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
     <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/panels-bootstrap.5fd3999ee7762ccc51105388f4a9d115.css" />
     <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/numpy.css" />
     
   <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
 
@@ -42,19 +41,12 @@
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Miscellaneous" href="misc.html" />
     <link rel="prev" title="Universal functions (ufunc) basics" href="basics.ufuncs.html" />
-
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
 
     <!-- Google Analytics -->
     
-<link rel="stylesheet" href="../_static/numpy.css" type="text/css" />
-
-    <!-- PR #17220: This is added via javascript in versionwarning.js  -->
-    <!-- link rel="canonical" href="http://numpy.org/doc/stable/user/basics.copies.html" / -->
-
-
   </head>
   <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
     
@@ -100,6 +92,12 @@
 <li class="toctree-l1 nav-item">
  <a class="reference internal nav-link" href="../dev/index.html">
   Development
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../release.html">
+  Release notes
  </a>
 </li>
 
@@ -380,7 +378,7 @@
               
               <div>
                 
-  <section id="copies-and-views">
+  <div class="section" id="copies-and-views">
 <span id="basics-copies-and-views"></span><h1>Copies and views<a class="headerlink" href="#copies-and-views" title="Permalink to this headline">¶</a></h1>
 <p>When operating on NumPy arrays, it is possible to access the internal data
 buffer directly using a <a class="reference internal" href="#view"><span class="std std-ref">view</span></a> without copying data around. This
@@ -394,7 +392,7 @@ metadata that contains information about the data buffer. The metadata
 includes data type, strides, and other important information that helps
 manipulate the <a class="reference internal" href="../reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a> easily. See the <a class="reference internal" href="../dev/internals.html#numpy-internals"><span class="std std-ref">Internal organization of NumPy arrays</span></a>
 section for a detailed look.</p>
-<section id="view">
+<div class="section" id="view">
 <span id="id1"></span><h2>View<a class="headerlink" href="#view" title="Permalink to this headline">¶</a></h2>
 <p>It is possible to access the array differently by just changing certain
 metadata like <a class="reference internal" href="../glossary.html#term-stride"><span class="xref std std-term">stride</span></a> and <a class="reference internal" href="../glossary.html#term-dtype"><span class="xref std std-term">dtype</span></a> without changing the
@@ -402,16 +400,16 @@ data buffer. This creates a new way of looking at the data and these new
 arrays are called views. The data buffer remains the same, so any changes made
 to a view reflects in the original copy. A view can be forced through the
 <a class="reference internal" href="../reference/generated/numpy.ndarray.view.html#numpy.ndarray.view" title="numpy.ndarray.view"><code class="xref py py-meth docutils literal notranslate"><span class="pre">ndarray.view</span></code></a> method.</p>
-</section>
-<section id="copy">
+</div>
+<div class="section" id="copy">
 <h2>Copy<a class="headerlink" href="#copy" title="Permalink to this headline">¶</a></h2>
 <p>When a new array is created by duplicating the data buffer as well as the
 metadata, it is called a copy. Changes made to the copy
 do not reflect on the original array. Making a copy is slower and
 memory-consuming but sometimes necessary. A copy can be forced by using
 <a class="reference internal" href="../reference/generated/numpy.ndarray.copy.html#numpy.ndarray.copy" title="numpy.ndarray.copy"><code class="xref py py-meth docutils literal notranslate"><span class="pre">ndarray.copy</span></code></a>.</p>
-</section>
-<section id="indexing-operations">
+</div>
+<div class="section" id="indexing-operations">
 <h2>Indexing operations<a class="headerlink" href="#indexing-operations" title="Permalink to this headline">¶</a></h2>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
@@ -464,8 +462,8 @@ which in turn will not affect <code class="docutils literal notranslate"><span c
 </div>
 <p>It must be noted here that during the assignment of <code class="docutils literal notranslate"><span class="pre">x[[1,</span> <span class="pre">2]]</span></code> no view
 or copy is created as the assignment happens in-place.</p>
-</section>
-<section id="other-operations">
+</div>
+<div class="section" id="other-operations">
 <h2>Other operations<a class="headerlink" href="#other-operations" title="Permalink to this headline">¶</a></h2>
 <p>The <a class="reference internal" href="../reference/generated/numpy.reshape.html#numpy.reshape" title="numpy.reshape"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.reshape</span></code></a> function creates a view where possible or a copy
 otherwise. In most cases, the strides can be modified to reshape the
@@ -492,8 +490,8 @@ shape attribute of the array. For example:</p>
 flattened view of the array wherever possible. On the other hand,
 <a class="reference internal" href="../reference/generated/numpy.ndarray.flatten.html#numpy.ndarray.flatten" title="numpy.ndarray.flatten"><code class="xref py py-meth docutils literal notranslate"><span class="pre">ndarray.flatten</span></code></a> always returns a flattened copy of the array.
 However, to guarantee a view in most cases, <code class="docutils literal notranslate"><span class="pre">x.reshape(-1)</span></code> may be preferable.</p>
-</section>
-<section id="how-to-tell-if-the-array-is-a-view-or-a-copy">
+</div>
+<div class="section" id="how-to-tell-if-the-array-is-a-view-or-a-copy">
 <h2>How to tell if the array is a view or a copy<a class="headerlink" href="#how-to-tell-if-the-array-is-a-view-or-a-copy" title="Permalink to this headline">¶</a></h2>
 <p>The <a class="reference internal" href="../reference/generated/numpy.ndarray.base.html#numpy.ndarray.base" title="numpy.ndarray.base"><code class="xref py py-attr docutils literal notranslate"><span class="pre">base</span></code></a> attribute of the ndarray makes it easy
 to tell if an array is a view or a copy. The base attribute of a view returns
@@ -519,8 +517,8 @@ the original array while it returns <code class="docutils literal notranslate"><
 <p>Note that the <code class="docutils literal notranslate"><span class="pre">base</span></code> attribute should not be used to determine
 if an ndarray object is <em>new</em>; only if it is a view or a copy
 of another ndarray.</p>
-</section>
-</section>
+</div>
+</div>
 
 
               </div>

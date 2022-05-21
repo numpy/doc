@@ -4,8 +4,7 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Miscellaneous &#8212; NumPy v1.22 Manual</title>
     
   <link href="../_static/css/theme.css" rel="stylesheet">
@@ -28,8 +27,8 @@
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
     <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
     <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/panels-bootstrap.5fd3999ee7762ccc51105388f4a9d115.css" />
     <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/numpy.css" />
     
   <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
 
@@ -42,19 +41,12 @@
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="NumPy for MATLAB users" href="numpy-for-matlab-users.html" />
     <link rel="prev" title="Copies and views" href="basics.copies.html" />
-
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
 
     <!-- Google Analytics -->
     
-<link rel="stylesheet" href="../_static/numpy.css" type="text/css" />
-
-    <!-- PR #17220: This is added via javascript in versionwarning.js  -->
-    <!-- link rel="canonical" href="http://numpy.org/doc/stable/user/misc.html" / -->
-
-
   </head>
   <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
     
@@ -100,6 +92,12 @@
 <li class="toctree-l1 nav-item">
  <a class="reference internal nav-link" href="../dev/index.html">
   Development
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../release.html">
+  Release notes
  </a>
 </li>
 
@@ -312,9 +310,9 @@
               
               <div>
                 
-  <section id="miscellaneous">
+  <div class="section" id="miscellaneous">
 <h1>Miscellaneous<a class="headerlink" href="#miscellaneous" title="Permalink to this headline">¶</a></h1>
-<section id="ieee-754-floating-point-special-values">
+<div class="section" id="ieee-754-floating-point-special-values">
 <h2>IEEE 754 Floating Point Special Values<a class="headerlink" href="#ieee-754-floating-point-special-values" title="Permalink to this headline">¶</a></h2>
 <p>Special values defined in numpy: nan, inf,</p>
 <p>NaNs can be used as a poor-man’s mask (if you don’t care what the
@@ -355,8 +353,8 @@ from the results:</p>
 <span class="mf">42.0</span>
 </pre></div>
 </div>
-</section>
-<section id="how-numpy-handles-numerical-exceptions">
+</div>
+<div class="section" id="how-numpy-handles-numerical-exceptions">
 <h2>How numpy handles numerical exceptions<a class="headerlink" href="#how-numpy-handles-numerical-exceptions" title="Permalink to this headline">¶</a></h2>
 <p>The default is to <code class="docutils literal notranslate"><span class="pre">'warn'</span></code> for <code class="docutils literal notranslate"><span class="pre">invalid</span></code>, <code class="docutils literal notranslate"><span class="pre">divide</span></code>, and <code class="docutils literal notranslate"><span class="pre">overflow</span></code>
 and <code class="docutils literal notranslate"><span class="pre">'ignore'</span></code> for <code class="docutils literal notranslate"><span class="pre">underflow</span></code>.  But this can be changed, and it can be
@@ -365,7 +363,7 @@ are:</p>
 <blockquote>
 <div><ul class="simple">
 <li><p>‘ignore’ : Take no action when the exception occurs.</p></li>
-<li><p>‘warn’   : Print a <em class="xref py py-obj">RuntimeWarning</em> (via the Python <a class="reference external" href="https://docs.python.org/dev/library/warnings.html#module-warnings" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">warnings</span></code></a> module).</p></li>
+<li><p>‘warn’   : Print a <em class="xref py py-obj">RuntimeWarning</em> (via the Python <a class="reference external" href="https://docs.python.org/3/library/warnings.html#module-warnings" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">warnings</span></code></a> module).</p></li>
 <li><p>‘raise’  : Raise a <em class="xref py py-obj">FloatingPointError</em>.</p></li>
 <li><p>‘call’   : Call a function specified using the <em class="xref py py-obj">seterrcall</em> function.</p></li>
 <li><p>‘print’  : Print a warning directly to <code class="docutils literal notranslate"><span class="pre">stdout</span></code>.</p></li>
@@ -384,8 +382,8 @@ are:</p>
 </div></blockquote>
 <p>Note that integer divide-by-zero is handled by the same machinery.
 These behaviors are set on a per-thread basis.</p>
-</section>
-<section id="examples">
+</div>
+<div class="section" id="examples">
 <h2>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">oldsettings</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">seterr</span><span class="p">(</span><span class="nb">all</span><span class="o">=</span><span class="s1">&#39;warn&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span><span class="o">/</span><span class="mf">0.</span>
@@ -407,8 +405,8 @@ These behaviors are set on a per-thread basis.</p>
 <span class="gp">... </span>                             <span class="c1"># error-handling settings</span>
 </pre></div>
 </div>
-</section>
-<section id="interfacing-to-c">
+</div>
+<div class="section" id="interfacing-to-c">
 <h2>Interfacing to C<a class="headerlink" href="#interfacing-to-c" title="Permalink to this headline">¶</a></h2>
 <p>Only a survey of the choices. Little detail on how each works.</p>
 <ol class="arabic simple">
@@ -563,16 +561,16 @@ optimizations</p></li>
 </li>
 </ul>
 </div></blockquote>
-</section>
-<section id="interfacing-to-fortran">
+</div>
+<div class="section" id="interfacing-to-fortran">
 <h2>Interfacing to Fortran:<a class="headerlink" href="#interfacing-to-fortran" title="Permalink to this headline">¶</a></h2>
 <p>The clear choice to wrap Fortran code is
 <a class="reference external" href="https://docs.scipy.org/doc/numpy/f2py/">f2py</a>.</p>
 <p>Pyfort is an older alternative, but not supported any longer.
 Fwrap is a newer project that looked promising but isn’t being developed any
 longer.</p>
-</section>
-<section id="id1">
+</div>
+<div class="section" id="id1">
 <h2>Interfacing to C++:<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
 <blockquote>
 <div><ol class="arabic simple">
@@ -583,8 +581,8 @@ longer.</p>
 <li><p>SIP (used mainly in PyQT)</p></li>
 </ol>
 </div></blockquote>
-</section>
-</section>
+</div>
+</div>
 
 
               </div>

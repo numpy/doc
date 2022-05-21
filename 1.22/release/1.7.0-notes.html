@@ -4,8 +4,7 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>NumPy 1.7.0 Release Notes &#8212; NumPy v1.22 Manual</title>
     
   <link href="../_static/css/theme.css" rel="stylesheet">
@@ -28,8 +27,8 @@
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
     <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
     <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/panels-bootstrap.5fd3999ee7762ccc51105388f4a9d115.css" />
     <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/numpy.css" />
     
   <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
 
@@ -42,19 +41,12 @@
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="NumPy 1.6.2 Release Notes" href="1.6.2-notes.html" />
     <link rel="prev" title="NumPy 1.7.1 Release Notes" href="1.7.1-notes.html" />
-
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
 
     <!-- Google Analytics -->
     
-<link rel="stylesheet" href="../_static/numpy.css" type="text/css" />
-
-    <!-- PR #17220: This is added via javascript in versionwarning.js  -->
-    <!-- link rel="canonical" href="http://numpy.org/doc/stable/release/1.7.0-notes.html" / -->
-
-
   </head>
   <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
     
@@ -100,6 +92,12 @@
 <li class="toctree-l1 nav-item">
  <a class="reference internal nav-link" href="../dev/index.html">
   Development
+ </a>
+</li>
+
+<li class="toctree-l1 current active nav-item">
+ <a class="reference internal nav-link" href="../release.html">
+  Release notes
  </a>
 </li>
 
@@ -241,6 +239,21 @@
    </i>
   </label>
   <ul class="current">
+   <li class="toctree-l2">
+    <a class="reference internal" href="1.22.4-notes.html">
+     1.22.4
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="1.22.3-notes.html">
+     1.22.3
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="1.22.2-notes.html">
+     1.22.2
+    </a>
+   </li>
    <li class="toctree-l2">
     <a class="reference internal" href="1.22.1-notes.html">
      1.22.1
@@ -785,12 +798,12 @@
               
               <div>
                 
-  <section id="numpy-1-7-0-release-notes">
+  <div class="section" id="numpy-1-7-0-release-notes">
 <h1>NumPy 1.7.0 Release Notes<a class="headerlink" href="#numpy-1-7-0-release-notes" title="Permalink to this headline">¶</a></h1>
 <p>This release includes several new features as well as numerous bug fixes and
 refactorings. It supports Python 2.4 - 2.7 and 3.1 - 3.3 and is the last
 release that supports Python 2.4 - 2.5.</p>
-<section id="highlights">
+<div class="section" id="highlights">
 <h2>Highlights<a class="headerlink" href="#highlights" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">where=</span></code> parameter to ufuncs (allows the use of boolean arrays to choose
@@ -799,8 +812,8 @@ where a computation should be done)</p></li>
 cleanup and bug fixes)</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">numpy.random.choice</span></code> (random sample generating function)</p></li>
 </ul>
-</section>
-<section id="compatibility-notes">
+</div>
+<div class="section" id="compatibility-notes">
 <h2>Compatibility notes<a class="headerlink" href="#compatibility-notes" title="Permalink to this headline">¶</a></h2>
 <p>In a future version of numpy, the functions np.diag, np.diagonal, and the
 diagonal method of ndarrays will return a view onto the original array,
@@ -839,25 +852,25 @@ substantial code added and some code paths altered, particularly in the
 areas of type resolution and buffered iteration over universal functions.
 This might have an impact on your code particularly if you relied on
 accidental behavior in the past.</p>
-</section>
-<section id="new-features">
+</div>
+<div class="section" id="new-features">
 <h2>New features<a class="headerlink" href="#new-features" title="Permalink to this headline">¶</a></h2>
-<section id="reduction-ufuncs-generalize-axis-parameter">
+<div class="section" id="reduction-ufuncs-generalize-axis-parameter">
 <h3>Reduction UFuncs Generalize axis= Parameter<a class="headerlink" href="#reduction-ufuncs-generalize-axis-parameter" title="Permalink to this headline">¶</a></h3>
 <p>Any ufunc.reduce function call, as well as other reductions like sum, prod,
 any, all, max and min support the ability to choose a subset of the axes to
 reduce over. Previously, one could say axis=None to mean all the axes or
 axis=# to pick a single axis.  Now, one can also say axis=(#,#) to pick a
 list of axes for reduction.</p>
-</section>
-<section id="reduction-ufuncs-new-keepdims-parameter">
+</div>
+<div class="section" id="reduction-ufuncs-new-keepdims-parameter">
 <h3>Reduction UFuncs New keepdims= Parameter<a class="headerlink" href="#reduction-ufuncs-new-keepdims-parameter" title="Permalink to this headline">¶</a></h3>
 <p>There is a new keepdims= parameter, which if set to True, doesn’t throw
 away the reduction axes but instead sets them to have size one.  When this
 option is set, the reduction result will broadcast correctly to the
 original operand which was reduced.</p>
-</section>
-<section id="datetime-support">
+</div>
+<div class="section" id="datetime-support">
 <h3>Datetime support<a class="headerlink" href="#datetime-support" title="Permalink to this headline">¶</a></h3>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -877,24 +890,24 @@ only certain days of the week are valid)</p></li>
 <p>The notes in <a class="reference external" href="https://github.com/numpy/numpy/blob/maintenance/1.7.x/doc/source/reference/arrays.datetime.rst">doc/source/reference/arrays.datetime.rst</a>
 (also available in the online docs at <a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/arrays.datetime.html">arrays.datetime.html</a>) should be
 consulted for more details.</p>
-</section>
-<section id="custom-formatter-for-printing-arrays">
+</div>
+<div class="section" id="custom-formatter-for-printing-arrays">
 <h3>Custom formatter for printing arrays<a class="headerlink" href="#custom-formatter-for-printing-arrays" title="Permalink to this headline">¶</a></h3>
 <p>See the new <code class="docutils literal notranslate"><span class="pre">formatter</span></code> parameter of the <code class="docutils literal notranslate"><span class="pre">numpy.set_printoptions</span></code>
 function.</p>
-</section>
-<section id="new-function-numpy-random-choice">
+</div>
+<div class="section" id="new-function-numpy-random-choice">
 <h3>New function numpy.random.choice<a class="headerlink" href="#new-function-numpy-random-choice" title="Permalink to this headline">¶</a></h3>
 <p>A generic sampling function has been added which will generate samples from
 a given array-like. The samples can be with or without replacement, and
 with uniform or given non-uniform probabilities.</p>
-</section>
-<section id="new-function-isclose">
+</div>
+<div class="section" id="new-function-isclose">
 <h3>New function isclose<a class="headerlink" href="#new-function-isclose" title="Permalink to this headline">¶</a></h3>
 <p>Returns a boolean array where two arrays are element-wise equal within a
 tolerance. Both relative and absolute tolerance can be specified.</p>
-</section>
-<section id="preliminary-multi-dimensional-support-in-the-polynomial-package">
+</div>
+<div class="section" id="preliminary-multi-dimensional-support-in-the-polynomial-package">
 <h3>Preliminary multi-dimensional support in the polynomial package<a class="headerlink" href="#preliminary-multi-dimensional-support-in-the-polynomial-package" title="Permalink to this headline">¶</a></h3>
 <p>Axis keywords have been added to the integration and differentiation
 functions and a tensor keyword was added to the evaluation functions.
@@ -902,8 +915,8 @@ These additions allow multi-dimensional coefficient arrays to be used in
 those functions. New functions for evaluating 2-D and 3-D coefficient
 arrays on grids or sets of points were added together with 2-D and 3-D
 pseudo-Vandermonde matrices that can be used for fitting.</p>
-</section>
-<section id="ability-to-pad-rank-n-arrays">
+</div>
+<div class="section" id="ability-to-pad-rank-n-arrays">
 <h3>Ability to pad rank-n arrays<a class="headerlink" href="#ability-to-pad-rank-n-arrays" title="Permalink to this headline">¶</a></h3>
 <p>A pad module containing functions for padding n-dimensional arrays has been
 added. The various private padding functions are exposed as options to a
@@ -914,28 +927,28 @@ public ‘pad’ function.  Example:</p>
 <p>Current modes are <code class="docutils literal notranslate"><span class="pre">constant</span></code>, <code class="docutils literal notranslate"><span class="pre">edge</span></code>, <code class="docutils literal notranslate"><span class="pre">linear_ramp</span></code>, <code class="docutils literal notranslate"><span class="pre">maximum</span></code>,
 <code class="docutils literal notranslate"><span class="pre">mean</span></code>, <code class="docutils literal notranslate"><span class="pre">median</span></code>, <code class="docutils literal notranslate"><span class="pre">minimum</span></code>, <code class="docutils literal notranslate"><span class="pre">reflect</span></code>, <code class="docutils literal notranslate"><span class="pre">symmetric</span></code>, <code class="docutils literal notranslate"><span class="pre">wrap</span></code>, and
 <code class="docutils literal notranslate"><span class="pre">&lt;function&gt;</span></code>.</p>
-</section>
-<section id="new-argument-to-searchsorted">
+</div>
+<div class="section" id="new-argument-to-searchsorted">
 <h3>New argument to searchsorted<a class="headerlink" href="#new-argument-to-searchsorted" title="Permalink to this headline">¶</a></h3>
 <p>The function searchsorted now accepts a ‘sorter’ argument that is a
 permutation array that sorts the array to search.</p>
-</section>
-<section id="build-system">
+</div>
+<div class="section" id="build-system">
 <h3>Build system<a class="headerlink" href="#build-system" title="Permalink to this headline">¶</a></h3>
 <p>Added experimental support for the AArch64 architecture.</p>
-</section>
-<section id="c-api">
+</div>
+<div class="section" id="c-api">
 <h3>C API<a class="headerlink" href="#c-api" title="Permalink to this headline">¶</a></h3>
 <p>New function <code class="docutils literal notranslate"><span class="pre">PyArray_RequireWriteable</span></code> provides a consistent interface
 for checking array writeability – any C code which works with arrays whose
 WRITEABLE flag is not known to be True a priori, should make sure to call
 this function before writing.</p>
 <p>NumPy C Style Guide added (<code class="docutils literal notranslate"><span class="pre">doc/C_STYLE_GUIDE.rst.txt</span></code>).</p>
-</section>
-</section>
-<section id="changes">
+</div>
+</div>
+<div class="section" id="changes">
 <h2>Changes<a class="headerlink" href="#changes" title="Permalink to this headline">¶</a></h2>
-<section id="general">
+<div class="section" id="general">
 <h3>General<a class="headerlink" href="#general" title="Permalink to this headline">¶</a></h3>
 <p>The function np.concatenate tries to match the layout of its input arrays.
 Previously, the layout did not follow any particular reason, and depended
@@ -971,8 +984,8 @@ which are all views on the same original <code class="docutils literal notransla
 and so the collapsing process only continues so long as it encounters other
 <code class="docutils literal notranslate"><span class="pre">matrix</span></code> objects. It considers <code class="docutils literal notranslate"><span class="pre">c</span></code>, <code class="docutils literal notranslate"><span class="pre">b</span></code>, and <code class="docutils literal notranslate"><span class="pre">a</span></code> in that order, and
 <code class="docutils literal notranslate"><span class="pre">b</span></code> is the last entry in that list which is a <code class="docutils literal notranslate"><span class="pre">matrix</span></code> object.</p>
-</section>
-<section id="casting-rules">
+</div>
+<div class="section" id="casting-rules">
 <h3>Casting Rules<a class="headerlink" href="#casting-rules" title="Permalink to this headline">¶</a></h3>
 <p>Casting rules have undergone some changes in corner cases, due to the
 NA-related work. In particular for combinations of scalar+scalar:</p>
@@ -1006,21 +1019,21 @@ example:</p>
 <p>Also a <code class="docutils literal notranslate"><span class="pre">complex128</span></code> scalar + <code class="docutils literal notranslate"><span class="pre">float32</span></code> array is cast to <code class="docutils literal notranslate"><span class="pre">complex64</span></code>.</p>
 <p>In NumPy 1.7 the <em class="xref py py-obj">datetime64</em> type (<em class="xref py py-obj">M</em>) must be constructed by explicitly
 specifying the type as the second argument (e.g. <code class="docutils literal notranslate"><span class="pre">np.datetime64(2000,</span> <span class="pre">'Y')</span></code>).</p>
-</section>
-</section>
-<section id="deprecations">
+</div>
+</div>
+<div class="section" id="deprecations">
 <h2>Deprecations<a class="headerlink" href="#deprecations" title="Permalink to this headline">¶</a></h2>
-<section id="id1">
+<div class="section" id="id1">
 <h3>General<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
 <p>Specifying a custom string formatter with a <em class="xref py py-obj">_format</em> array attribute is
-deprecated. The new <code class="xref py py-obj docutils literal notranslate"><span class="pre">formatter</span></code> keyword in <code class="docutils literal notranslate"><span class="pre">numpy.set_printoptions</span></code> or
+deprecated. The new <em class="xref py py-obj">formatter</em> keyword in <code class="docutils literal notranslate"><span class="pre">numpy.set_printoptions</span></code> or
 <code class="docutils literal notranslate"><span class="pre">numpy.array2string</span></code> can be used instead.</p>
 <p>The deprecated imports in the polynomial package have been removed.</p>
 <p><code class="docutils literal notranslate"><span class="pre">concatenate</span></code> now raises DepractionWarning for 1D arrays if <code class="docutils literal notranslate"><span class="pre">axis</span> <span class="pre">!=</span> <span class="pre">0</span></code>.
 Versions of numpy &lt; 1.7.0 ignored axis argument value for 1D arrays. We
 allow this for now, but in due course we will raise an error.</p>
-</section>
-<section id="id2">
+</div>
+<div class="section" id="id2">
 <h3>C-API<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
 <p>Direct access to the fields of PyArrayObject* has been deprecated. Direct
 access has been recommended against for many releases. Expect similar
@@ -1035,9 +1048,9 @@ such as <code class="docutils literal notranslate"><span class="pre">NPY_1_7_API
 <p>The <code class="docutils literal notranslate"><span class="pre">NPY_CHAR</span></code> member of the <code class="docutils literal notranslate"><span class="pre">NPY_TYPES</span></code> enum is deprecated and will be
 removed in NumPy 1.8. See the discussion at
 <a class="reference external" href="https://github.com/numpy/numpy/issues/2801">gh-2801</a> for more details.</p>
-</section>
-</section>
-</section>
+</div>
+</div>
+</div>
 
 
               </div>

@@ -4,8 +4,7 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Structured arrays &#8212; NumPy v1.22 Manual</title>
     
   <link href="../_static/css/theme.css" rel="stylesheet">
@@ -28,8 +27,8 @@
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
     <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
     <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/panels-bootstrap.5fd3999ee7762ccc51105388f4a9d115.css" />
     <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/numpy.css" />
     
   <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
 
@@ -42,19 +41,12 @@
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Writing custom array containers" href="basics.dispatch.html" />
     <link rel="prev" title="Byte-swapping" href="basics.byteswapping.html" />
-
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
 
     <!-- Google Analytics -->
     
-<link rel="stylesheet" href="../_static/numpy.css" type="text/css" />
-
-    <!-- PR #17220: This is added via javascript in versionwarning.js  -->
-    <!-- link rel="canonical" href="http://numpy.org/doc/stable/user/basics.rec.html" / -->
-
-
   </head>
   <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
     
@@ -100,6 +92,12 @@
 <li class="toctree-l1 nav-item">
  <a class="reference internal nav-link" href="../dev/index.html">
   Development
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../release.html">
+  Release notes
  </a>
 </li>
 
@@ -470,9 +468,9 @@
               
               <div>
                 
-  <section id="structured-arrays">
+  <div class="section" id="structured-arrays">
 <span id="id1"></span><h1>Structured arrays<a class="headerlink" href="#structured-arrays" title="Permalink to this headline">¶</a></h1>
-<section id="introduction">
+<div class="section" id="introduction">
 <h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
 <p>Structured arrays are ndarrays whose datatype is a composition of simpler
 datatypes organized as a sequence of named <a class="reference internal" href="../glossary.html#term-field"><span class="xref std std-term">fields</span></a>. For example,</p>
@@ -512,8 +510,8 @@ other pydata projects more suitable, such as xarray, pandas, or DataArray.
 These provide a high-level interface for tabular data analysis and are better
 optimized for that use. For instance, the C-struct-like memory layout of
 structured arrays in numpy can lead to poor cache behavior in comparison.</p>
-</section>
-<section id="structured-datatypes">
+</div>
+<div class="section" id="structured-datatypes">
 <span id="defining-structured-types"></span><h2>Structured Datatypes<a class="headerlink" href="#structured-datatypes" title="Permalink to this headline">¶</a></h2>
 <p>A structured datatype can be thought of as a sequence of bytes of a certain
 length (the structure’s <a class="reference internal" href="../glossary.html#term-itemsize"><span class="xref std std-term">itemsize</span></a>) which is interpreted as a collection
@@ -523,7 +521,7 @@ structured datatypes, and it may also be a <a class="reference internal" href=".
 behaves like an ndarray of a specified shape. The offsets of the fields are
 arbitrary, and fields may even overlap. These offsets are usually determined
 automatically by numpy, but can also be specified.</p>
-<section id="structured-datatype-creation">
+<div class="section" id="structured-datatype-creation">
 <h3>Structured Datatype Creation<a class="headerlink" href="#structured-datatype-creation" title="Permalink to this headline">¶</a></h3>
 <p>Structured datatypes may be created using the function <a class="reference internal" href="../reference/generated/numpy.dtype.html#numpy.dtype" title="numpy.dtype"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.dtype</span></code></a>.
 There are 4 alternative forms of specification which vary in flexibility and
@@ -610,8 +608,8 @@ structured dtype has meaning. <a class="reference internal" href="#titles"><span
 specified by using a 3-tuple, see below.</p>
 </li>
 </ol>
-</section>
-<section id="manipulating-and-displaying-structured-datatypes">
+</div>
+<div class="section" id="manipulating-and-displaying-structured-datatypes">
 <h3>Manipulating and Displaying Structured Datatypes<a class="headerlink" href="#manipulating-and-displaying-structured-datatypes" title="Permalink to this headline">¶</a></h3>
 <p>The list of field names of a structured datatype can be found in the <code class="docutils literal notranslate"><span class="pre">names</span></code>
 attribute of the dtype object:</p>
@@ -636,8 +634,8 @@ with 0 fields.</p>
 <p>The string representation of a structured datatype is shown in the “list of
 tuples” form if possible, otherwise numpy falls back to using the more general
 dictionary form.</p>
-</section>
-<section id="automatic-byte-offsets-and-alignment">
+</div>
+<div class="section" id="automatic-byte-offsets-and-alignment">
 <span id="offsets-and-alignment"></span><h3>Automatic Byte Offsets and Alignment<a class="headerlink" href="#automatic-byte-offsets-and-alignment" title="Permalink to this headline">¶</a></h3>
 <p>Numpy uses one of two methods to automatically determine the field byte offsets
 and the overall itemsize of a structured datatype, depending on whether
@@ -681,8 +679,8 @@ alignment conditions, the array will have the <code class="docutils literal notr
 aligned dtype or array to a packed one and vice versa. It takes either a dtype
 or structured ndarray as an argument, and returns a copy with fields re-packed,
 with or without padding bytes.</p>
-</section>
-<section id="field-titles">
+</div>
+<div class="section" id="field-titles">
 <span id="titles"></span><h3>Field Titles<a class="headerlink" href="#field-titles" title="Permalink to this headline">¶</a></h3>
 <p>In addition to field names, fields may also have an associated <a class="reference internal" href="../glossary.html#term-title"><span class="xref std std-term">title</span></a>,
 an alternate name, which is sometimes used as an additional description or
@@ -719,8 +717,8 @@ in:</p>
 <span class="go">(dtype(&#39;float32&#39;), 8)</span>
 </pre></div>
 </div>
-</section>
-<section id="union-types">
+</div>
+<div class="section" id="union-types">
 <h3>Union types<a class="headerlink" href="#union-types" title="Permalink to this headline">¶</a></h3>
 <p>Structured datatypes are implemented in numpy to have base type
 <a class="reference internal" href="../reference/arrays.scalars.html#numpy.void" title="numpy.void"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.void</span></code></a> by default, but it is possible to interpret other numpy
@@ -729,15 +727,15 @@ specification described in
 <a class="reference internal" href="../reference/arrays.dtypes.html#arrays-dtypes-constructing"><span class="std std-ref">Data Type Objects</span></a>.  Here, <code class="docutils literal notranslate"><span class="pre">base_dtype</span></code> is
 the desired underlying dtype, and fields and flags will be copied from
 <code class="docutils literal notranslate"><span class="pre">dtype</span></code>. This dtype is similar to a ‘union’ in C.</p>
-</section>
-</section>
-<section id="indexing-and-assignment-to-structured-arrays">
+</div>
+</div>
+<div class="section" id="indexing-and-assignment-to-structured-arrays">
 <h2>Indexing and Assignment to Structured arrays<a class="headerlink" href="#indexing-and-assignment-to-structured-arrays" title="Permalink to this headline">¶</a></h2>
-<section id="assigning-data-to-a-structured-array">
+<div class="section" id="assigning-data-to-a-structured-array">
 <h3>Assigning data to a Structured Array<a class="headerlink" href="#assigning-data-to-a-structured-array" title="Permalink to this headline">¶</a></h3>
 <p>There are a number of ways to assign values to a structured array: Using python
 tuples, using scalar values, or using other structured arrays.</p>
-<section id="assignment-from-python-native-types-tuples">
+<div class="section" id="assignment-from-python-native-types-tuples">
 <h4>Assignment from Python Native Types (Tuples)<a class="headerlink" href="#assignment-from-python-native-types-tuples" title="Permalink to this headline">¶</a></h4>
 <p>The simplest way to assign values to a structured array is using python tuples.
 Each assigned value should be a tuple of length equal to the number of fields
@@ -751,8 +749,8 @@ of the array, from left to right:</p>
 <span class="go">     dtype=[(&#39;f0&#39;, &#39;&lt;i8&#39;), (&#39;f1&#39;, &#39;&lt;f4&#39;), (&#39;f2&#39;, &#39;&lt;f8&#39;)])</span>
 </pre></div>
 </div>
-</section>
-<section id="assignment-from-scalars">
+</div>
+<div class="section" id="assignment-from-scalars">
 <h4>Assignment from Scalars<a class="headerlink" href="#assignment-from-scalars" title="Permalink to this headline">¶</a></h4>
 <p>A scalar assigned to a structured element will be assigned to all fields. This
 happens when a scalar is assigned to a structured array, or when an
@@ -779,8 +777,8 @@ structured datatype has just a single field:</p>
 <span class="gr">TypeError</span>: <span class="n">Cannot cast array data from dtype([(&#39;A&#39;, &#39;&lt;i4&#39;), (&#39;B&#39;, &#39;&lt;i4&#39;)]) to dtype(&#39;int32&#39;) according to the rule &#39;unsafe&#39;</span>
 </pre></div>
 </div>
-</section>
-<section id="assignment-from-other-structured-arrays">
+</div>
+<div class="section" id="assignment-from-other-structured-arrays">
 <h4>Assignment from other Structured Arrays<a class="headerlink" href="#assignment-from-other-structured-arrays" title="Permalink to this headline">¶</a></h4>
 <p>Assignment between two structured arrays occurs as if the source elements had
 been converted to tuples and then assigned to the destination elements. That
@@ -797,16 +795,16 @@ included in any of the fields are unaffected.</p>
 <span class="go">      dtype=[(&#39;x&#39;, &#39;&lt;f4&#39;), (&#39;y&#39;, &#39;S3&#39;), (&#39;z&#39;, &#39;O&#39;)])</span>
 </pre></div>
 </div>
-</section>
-<section id="assignment-involving-subarrays">
+</div>
+<div class="section" id="assignment-involving-subarrays">
 <h4>Assignment involving subarrays<a class="headerlink" href="#assignment-involving-subarrays" title="Permalink to this headline">¶</a></h4>
 <p>When assigning to fields which are subarrays, the assigned value will first be
 broadcast to the shape of the subarray.</p>
-</section>
-</section>
-<section id="indexing-structured-arrays">
+</div>
+</div>
+<div class="section" id="indexing-structured-arrays">
 <h3>Indexing Structured Arrays<a class="headerlink" href="#indexing-structured-arrays" title="Permalink to this headline">¶</a></h3>
-<section id="accessing-individual-fields">
+<div class="section" id="accessing-individual-fields">
 <h4>Accessing Individual Fields<a class="headerlink" href="#accessing-individual-fields" title="Permalink to this headline">¶</a></h4>
 <p>Individual fields of a structured array may be accessed and modified by indexing
 the array with the field name.</p>
@@ -843,8 +841,8 @@ are appended to the shape of the result:</p>
 <span class="go">(2, 2, 3, 3)</span>
 </pre></div>
 </div>
-</section>
-<section id="accessing-multiple-fields">
+</div>
+<div class="section" id="accessing-multiple-fields">
 <h4>Accessing Multiple Fields<a class="headerlink" href="#accessing-multiple-fields" title="Permalink to this headline">¶</a></h4>
 <p>One can index and assign to a structured array with a multi-field index, where
 the index is a list of field names.</p>
@@ -931,8 +929,8 @@ multi-field indexes:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="p">[[</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">]]</span> <span class="o">=</span> <span class="n">a</span><span class="p">[[</span><span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">]]</span>
 </pre></div>
 </div>
-</section>
-<section id="indexing-with-an-integer-to-get-a-structured-scalar">
+</div>
+<div class="section" id="indexing-with-an-integer-to-get-a-structured-scalar">
 <h4>Indexing with an Integer to get a Structured Scalar<a class="headerlink" href="#indexing-with-an-integer-to-get-a-structured-scalar" title="Permalink to this headline">¶</a></h4>
 <p>Indexing a single element of a structured array (with an integer index) returns
 a structured scalar:</p>
@@ -971,15 +969,15 @@ calling <a class="reference internal" href="../reference/generated/numpy.ndarray
 <span class="go">((1, 4.0, 3.0), &lt;class &#39;tuple&#39;&gt;)</span>
 </pre></div>
 </div>
-</section>
-</section>
-<section id="viewing-structured-arrays-containing-objects">
+</div>
+</div>
+<div class="section" id="viewing-structured-arrays-containing-objects">
 <h3>Viewing Structured Arrays Containing Objects<a class="headerlink" href="#viewing-structured-arrays-containing-objects" title="Permalink to this headline">¶</a></h3>
 <p>In order to prevent clobbering object pointers in fields of
-<a class="reference external" href="https://docs.python.org/dev/library/functions.html#object" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a> type, numpy currently does not allow views of structured
+<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a> type, numpy currently does not allow views of structured
 arrays containing objects.</p>
-</section>
-<section id="structure-comparison">
+</div>
+<div class="section" id="structure-comparison">
 <h3>Structure Comparison<a class="headerlink" href="#structure-comparison" title="Permalink to this headline">¶</a></h3>
 <p>If the dtypes of two void structured arrays are equal, testing the equality of
 the arrays will result in a boolean array with the dimensions of the original
@@ -999,9 +997,9 @@ deprecated as of numpy 1.10 and will raise an error or perform elementwise
 comparison in the future.</p>
 <p>The <code class="docutils literal notranslate"><span class="pre">&lt;</span></code> and <code class="docutils literal notranslate"><span class="pre">&gt;</span></code> operators always return <code class="docutils literal notranslate"><span class="pre">False</span></code> when comparing void
 structured arrays, and arithmetic and bitwise operations are not supported.</p>
-</section>
-</section>
-<section id="record-arrays">
+</div>
+</div>
+<div class="section" id="record-arrays">
 <h2>Record Arrays<a class="headerlink" href="#record-arrays" title="Permalink to this headline">¶</a></h2>
 <p>As an optional convenience numpy provides an ndarray subclass,
 <a class="reference internal" href="../reference/generated/numpy.recarray.html#numpy.recarray" title="numpy.recarray"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.recarray</span></code></a> that allows access to fields of structured arrays by
@@ -1072,14 +1070,14 @@ array if the field has a structured type but as a plain ndarray otherwise.</p>
 <p>Note that if a field has the same name as an ndarray attribute, the ndarray
 attribute takes precedence. Such fields will be inaccessible by attribute but
 will still be accessible by index.</p>
-<section id="module-numpy.lib.recfunctions">
+<div class="section" id="module-numpy.lib.recfunctions">
 <span id="recarray-helper-functions"></span><h3>Recarray Helper Functions<a class="headerlink" href="#module-numpy.lib.recfunctions" title="Permalink to this headline">¶</a></h3>
 <p>Collection of utilities to manipulate structured arrays.</p>
 <p>Most of these functions were initially implemented by John Hunter for
 matplotlib.  They have been rewritten and extended for convenience.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="numpy.lib.recfunctions.append_fields">
-<span class="sig-prename descclassname"><span class="pre">numpy.lib.recfunctions.</span></span><span class="sig-name descname"><span class="pre">append_fields</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">base</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">names</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtypes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fill_value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-</span> <span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">usemask</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">asrecarray</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/numpy/numpy/blob/v1.22.0/numpy/lib/recfunctions.py#L661-L729"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#numpy.lib.recfunctions.append_fields" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">numpy.lib.recfunctions.</span></span><span class="sig-name descname"><span class="pre">append_fields</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">base</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">names</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtypes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fill_value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-</span> <span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">usemask</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">asrecarray</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/numpy/numpy/blob/v1.22.4/numpy/lib/recfunctions.py#L661-L729"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#numpy.lib.recfunctions.append_fields" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add new fields to an existing array.</p>
 <p>The names of the fields are given with the <em class="xref py py-obj">names</em> arguments,
 the corresponding values with the <em class="xref py py-obj">data</em> arguments.
@@ -1111,7 +1109,7 @@ If None, the datatypes are estimated from the <em class="xref py py-obj">data</e
 
 <dl class="py function">
 <dt class="sig sig-object py" id="numpy.lib.recfunctions.apply_along_fields">
-<span class="sig-prename descclassname"><span class="pre">numpy.lib.recfunctions.</span></span><span class="sig-name descname"><span class="pre">apply_along_fields</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arr</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/numpy/numpy/blob/v1.22.0/numpy/lib/recfunctions.py#L1103-L1144"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#numpy.lib.recfunctions.apply_along_fields" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">numpy.lib.recfunctions.</span></span><span class="sig-name descname"><span class="pre">apply_along_fields</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arr</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/numpy/numpy/blob/v1.22.4/numpy/lib/recfunctions.py#L1103-L1144"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#numpy.lib.recfunctions.apply_along_fields" title="Permalink to this definition">¶</a></dt>
 <dd><p>Apply function ‘func’ as a reduction across fields of a structured array.</p>
 <p>This is similar to <em class="xref py py-obj">apply_along_axis</em>, but treats the fields of a
 structured array as an extra axis. The fields are all first cast to a
@@ -1148,7 +1146,7 @@ support an <em class="xref py py-obj">axis</em> argument, like np.mean, np.sum, 
 
 <dl class="py function">
 <dt class="sig sig-object py" id="numpy.lib.recfunctions.assign_fields_by_name">
-<span class="sig-prename descclassname"><span class="pre">numpy.lib.recfunctions.</span></span><span class="sig-name descname"><span class="pre">assign_fields_by_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dst</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">src</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zero_unassigned</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/numpy/numpy/blob/v1.22.0/numpy/lib/recfunctions.py#L1149-L1185"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#numpy.lib.recfunctions.assign_fields_by_name" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">numpy.lib.recfunctions.</span></span><span class="sig-name descname"><span class="pre">assign_fields_by_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dst</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">src</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zero_unassigned</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/numpy/numpy/blob/v1.22.4/numpy/lib/recfunctions.py#L1149-L1185"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#numpy.lib.recfunctions.assign_fields_by_name" title="Permalink to this definition">¶</a></dt>
 <dd><p>Assigns values from one structured array to another by field name.</p>
 <p>Normally in numpy &gt;= 1.14, assignment of one structured array to another
 copies fields “by position”, meaning that the first field from the src is
@@ -1175,7 +1173,7 @@ are not modified.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="numpy.lib.recfunctions.drop_fields">
-<span class="sig-prename descclassname"><span class="pre">numpy.lib.recfunctions.</span></span><span class="sig-name descname"><span class="pre">drop_fields</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">base</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">drop_names</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">usemask</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">asrecarray</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/numpy/numpy/blob/v1.22.0/numpy/lib/recfunctions.py#L509-L571"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#numpy.lib.recfunctions.drop_fields" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">numpy.lib.recfunctions.</span></span><span class="sig-name descname"><span class="pre">drop_fields</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">base</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">drop_names</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">usemask</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">asrecarray</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/numpy/numpy/blob/v1.22.4/numpy/lib/recfunctions.py#L509-L571"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#numpy.lib.recfunctions.drop_fields" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a new array with fields in <em class="xref py py-obj">drop_names</em> dropped.</p>
 <p>Nested fields are supported.</p>
 <div class="versionchanged">
@@ -1216,7 +1214,7 @@ is False.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="numpy.lib.recfunctions.find_duplicates">
-<span class="sig-prename descclassname"><span class="pre">numpy.lib.recfunctions.</span></span><span class="sig-name descname"><span class="pre">find_duplicates</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ignoremask</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_index</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/numpy/numpy/blob/v1.22.0/numpy/lib/recfunctions.py#L1332-L1387"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#numpy.lib.recfunctions.find_duplicates" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">numpy.lib.recfunctions.</span></span><span class="sig-name descname"><span class="pre">find_duplicates</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ignoremask</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_index</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/numpy/numpy/blob/v1.22.4/numpy/lib/recfunctions.py#L1332-L1387"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#numpy.lib.recfunctions.find_duplicates" title="Permalink to this definition">¶</a></dt>
 <dd><p>Find the duplicates in a structured array along a given key</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -1249,7 +1247,7 @@ If None, the search is performed by records</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="numpy.lib.recfunctions.flatten_descr">
-<span class="sig-prename descclassname"><span class="pre">numpy.lib.recfunctions.</span></span><span class="sig-name descname"><span class="pre">flatten_descr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ndtype</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/numpy/numpy/blob/v1.22.0/numpy/lib/recfunctions.py#L177-L200"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#numpy.lib.recfunctions.flatten_descr" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">numpy.lib.recfunctions.</span></span><span class="sig-name descname"><span class="pre">flatten_descr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ndtype</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/numpy/numpy/blob/v1.22.4/numpy/lib/recfunctions.py#L177-L200"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#numpy.lib.recfunctions.flatten_descr" title="Permalink to this definition">¶</a></dt>
 <dd><p>Flatten a structured data-type description.</p>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">numpy.lib</span> <span class="kn">import</span> <span class="n">recfunctions</span> <span class="k">as</span> <span class="n">rfn</span>
@@ -1262,7 +1260,7 @@ If None, the search is performed by records</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="numpy.lib.recfunctions.get_fieldstructure">
-<span class="sig-prename descclassname"><span class="pre">numpy.lib.recfunctions.</span></span><span class="sig-name descname"><span class="pre">get_fieldstructure</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">adtype</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lastname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parents</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/numpy/numpy/blob/v1.22.0/numpy/lib/recfunctions.py#L233-L277"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#numpy.lib.recfunctions.get_fieldstructure" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">numpy.lib.recfunctions.</span></span><span class="sig-name descname"><span class="pre">get_fieldstructure</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">adtype</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lastname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parents</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/numpy/numpy/blob/v1.22.4/numpy/lib/recfunctions.py#L233-L277"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#numpy.lib.recfunctions.get_fieldstructure" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns a dictionary with fields indexing lists of their parent fields.</p>
 <p>This function is used to simplify access to fields nested in other fields.</p>
 <dl class="field-list simple">
@@ -1291,7 +1289,7 @@ If None, the search is performed by records</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="numpy.lib.recfunctions.get_names">
-<span class="sig-prename descclassname"><span class="pre">numpy.lib.recfunctions.</span></span><span class="sig-name descname"><span class="pre">get_names</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">adtype</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/numpy/numpy/blob/v1.22.0/numpy/lib/recfunctions.py#L106-L139"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#numpy.lib.recfunctions.get_names" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">numpy.lib.recfunctions.</span></span><span class="sig-name descname"><span class="pre">get_names</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">adtype</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/numpy/numpy/blob/v1.22.4/numpy/lib/recfunctions.py#L106-L139"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#numpy.lib.recfunctions.get_names" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the field names of the input datatype as a tuple.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -1322,7 +1320,7 @@ If None, the search is performed by records</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="numpy.lib.recfunctions.get_names_flat">
-<span class="sig-prename descclassname"><span class="pre">numpy.lib.recfunctions.</span></span><span class="sig-name descname"><span class="pre">get_names_flat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">adtype</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/numpy/numpy/blob/v1.22.0/numpy/lib/recfunctions.py#L142-L174"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#numpy.lib.recfunctions.get_names_flat" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">numpy.lib.recfunctions.</span></span><span class="sig-name descname"><span class="pre">get_names_flat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">adtype</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/numpy/numpy/blob/v1.22.4/numpy/lib/recfunctions.py#L142-L174"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#numpy.lib.recfunctions.get_names_flat" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the field names of the input datatype as a tuple. Nested structure
 are flattened beforehand.</p>
 <dl class="field-list simple">
@@ -1352,7 +1350,7 @@ are flattened beforehand.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="numpy.lib.recfunctions.join_by">
-<span class="sig-prename descclassname"><span class="pre">numpy.lib.recfunctions.</span></span><span class="sig-name descname"><span class="pre">join_by</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">r1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">r2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">jointype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'inner'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">r1postfix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'1'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">r2postfix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'2'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">defaults</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">usemask</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">asrecarray</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/numpy/numpy/blob/v1.22.0/numpy/lib/recfunctions.py#L1396-L1573"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#numpy.lib.recfunctions.join_by" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">numpy.lib.recfunctions.</span></span><span class="sig-name descname"><span class="pre">join_by</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">r1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">r2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">jointype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'inner'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">r1postfix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'1'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">r2postfix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'2'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">defaults</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">usemask</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">asrecarray</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/numpy/numpy/blob/v1.22.4/numpy/lib/recfunctions.py#L1396-L1573"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#numpy.lib.recfunctions.join_by" title="Permalink to this definition">¶</a></dt>
 <dd><p>Join arrays <em class="xref py py-obj">r1</em> and <em class="xref py py-obj">r2</em> on key <em class="xref py py-obj">key</em>.</p>
 <p>The key should be either a string or a sequence of string corresponding
 to the fields used to join the array.  An exception is raised if the
@@ -1404,7 +1402,7 @@ preserved if there are some duplicates…</p></li>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="numpy.lib.recfunctions.merge_arrays">
-<span class="sig-prename descclassname"><span class="pre">numpy.lib.recfunctions.</span></span><span class="sig-name descname"><span class="pre">merge_arrays</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">seqarrays</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fill_value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-</span> <span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flatten</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">usemask</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">asrecarray</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/numpy/numpy/blob/v1.22.0/numpy/lib/recfunctions.py#L369-L502"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#numpy.lib.recfunctions.merge_arrays" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">numpy.lib.recfunctions.</span></span><span class="sig-name descname"><span class="pre">merge_arrays</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">seqarrays</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fill_value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-</span> <span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flatten</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">usemask</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">asrecarray</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/numpy/numpy/blob/v1.22.4/numpy/lib/recfunctions.py#L369-L502"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#numpy.lib.recfunctions.merge_arrays" title="Permalink to this definition">¶</a></dt>
 <dd><p>Merge arrays field by field.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -1458,7 +1456,7 @@ depending on what its corresponding type:</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="numpy.lib.recfunctions.rec_append_fields">
-<span class="sig-prename descclassname"><span class="pre">numpy.lib.recfunctions.</span></span><span class="sig-name descname"><span class="pre">rec_append_fields</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">base</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">names</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtypes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/numpy/numpy/blob/v1.22.0/numpy/lib/recfunctions.py#L737-L769"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#numpy.lib.recfunctions.rec_append_fields" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">numpy.lib.recfunctions.</span></span><span class="sig-name descname"><span class="pre">rec_append_fields</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">base</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">names</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtypes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/numpy/numpy/blob/v1.22.4/numpy/lib/recfunctions.py#L737-L769"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#numpy.lib.recfunctions.rec_append_fields" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add new fields to an existing array.</p>
 <p>The names of the fields are given with the <em class="xref py py-obj">names</em> arguments,
 the corresponding values with the <em class="xref py py-obj">data</em> arguments.
@@ -1495,13 +1493,13 @@ If None, the datatypes are estimated from the <em class="xref py py-obj">data</e
 
 <dl class="py function">
 <dt class="sig sig-object py" id="numpy.lib.recfunctions.rec_drop_fields">
-<span class="sig-prename descclassname"><span class="pre">numpy.lib.recfunctions.</span></span><span class="sig-name descname"><span class="pre">rec_drop_fields</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">base</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">drop_names</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/numpy/numpy/blob/v1.22.0/numpy/lib/recfunctions.py#L603-L608"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#numpy.lib.recfunctions.rec_drop_fields" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">numpy.lib.recfunctions.</span></span><span class="sig-name descname"><span class="pre">rec_drop_fields</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">base</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">drop_names</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/numpy/numpy/blob/v1.22.4/numpy/lib/recfunctions.py#L603-L608"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#numpy.lib.recfunctions.rec_drop_fields" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns a new numpy.recarray with fields in <em class="xref py py-obj">drop_names</em> dropped.</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="numpy.lib.recfunctions.rec_join">
-<span class="sig-prename descclassname"><span class="pre">numpy.lib.recfunctions.</span></span><span class="sig-name descname"><span class="pre">rec_join</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">r1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">r2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">jointype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'inner'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">r1postfix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'1'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">r2postfix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'2'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">defaults</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/numpy/numpy/blob/v1.22.0/numpy/lib/recfunctions.py#L1582-L1595"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#numpy.lib.recfunctions.rec_join" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">numpy.lib.recfunctions.</span></span><span class="sig-name descname"><span class="pre">rec_join</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">r1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">r2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">jointype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'inner'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">r1postfix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'1'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">r2postfix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'2'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">defaults</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/numpy/numpy/blob/v1.22.4/numpy/lib/recfunctions.py#L1582-L1595"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#numpy.lib.recfunctions.rec_join" title="Permalink to this definition">¶</a></dt>
 <dd><p>Join arrays <em class="xref py py-obj">r1</em> and <em class="xref py py-obj">r2</em> on keys.
 Alternative to join_by, that always returns a np.recarray.</p>
 <div class="admonition seealso">
@@ -1515,7 +1513,7 @@ Alternative to join_by, that always returns a np.recarray.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="numpy.lib.recfunctions.recursive_fill_fields">
-<span class="sig-prename descclassname"><span class="pre">numpy.lib.recfunctions.</span></span><span class="sig-name descname"><span class="pre">recursive_fill_fields</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/numpy/numpy/blob/v1.22.0/numpy/lib/recfunctions.py#L36-L72"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#numpy.lib.recfunctions.recursive_fill_fields" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">numpy.lib.recfunctions.</span></span><span class="sig-name descname"><span class="pre">recursive_fill_fields</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/numpy/numpy/blob/v1.22.4/numpy/lib/recfunctions.py#L36-L72"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#numpy.lib.recfunctions.recursive_fill_fields" title="Permalink to this definition">¶</a></dt>
 <dd><p>Fills fields from output with fields from input,
 with support for nested structures.</p>
 <dl class="field-list simple">
@@ -1544,7 +1542,7 @@ with support for nested structures.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="numpy.lib.recfunctions.rename_fields">
-<span class="sig-prename descclassname"><span class="pre">numpy.lib.recfunctions.</span></span><span class="sig-name descname"><span class="pre">rename_fields</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">base</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">namemapper</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/numpy/numpy/blob/v1.22.0/numpy/lib/recfunctions.py#L615-L652"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#numpy.lib.recfunctions.rename_fields" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">numpy.lib.recfunctions.</span></span><span class="sig-name descname"><span class="pre">rename_fields</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">base</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">namemapper</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/numpy/numpy/blob/v1.22.4/numpy/lib/recfunctions.py#L615-L652"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#numpy.lib.recfunctions.rename_fields" title="Permalink to this definition">¶</a></dt>
 <dd><p>Rename the fields from a flexible-datatype ndarray or recarray.</p>
 <p>Nested fields are supported.</p>
 <dl class="field-list simple">
@@ -1570,7 +1568,7 @@ with support for nested structures.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="numpy.lib.recfunctions.repack_fields">
-<span class="sig-prename descclassname"><span class="pre">numpy.lib.recfunctions.</span></span><span class="sig-name descname"><span class="pre">repack_fields</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">align</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">recurse</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/numpy/numpy/blob/v1.22.0/numpy/lib/recfunctions.py#L776-L856"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#numpy.lib.recfunctions.repack_fields" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">numpy.lib.recfunctions.</span></span><span class="sig-name descname"><span class="pre">repack_fields</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">align</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">recurse</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/numpy/numpy/blob/v1.22.4/numpy/lib/recfunctions.py#L776-L856"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#numpy.lib.recfunctions.repack_fields" title="Permalink to this definition">¶</a></dt>
 <dd><p>Re-pack the fields of a structured array or dtype in memory.</p>
 <p>The memory layout of structured datatypes allows fields at arbitrary
 byte offsets. This means the fields can be separated by padding bytes,
@@ -1627,7 +1625,7 @@ needed.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="numpy.lib.recfunctions.require_fields">
-<span class="sig-prename descclassname"><span class="pre">numpy.lib.recfunctions.</span></span><span class="sig-name descname"><span class="pre">require_fields</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">required_dtype</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/numpy/numpy/blob/v1.22.0/numpy/lib/recfunctions.py#L1190-L1231"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#numpy.lib.recfunctions.require_fields" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">numpy.lib.recfunctions.</span></span><span class="sig-name descname"><span class="pre">require_fields</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">required_dtype</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/numpy/numpy/blob/v1.22.4/numpy/lib/recfunctions.py#L1190-L1231"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#numpy.lib.recfunctions.require_fields" title="Permalink to this definition">¶</a></dt>
 <dd><p>Casts a structured array to a new dtype using assignment by field-name.</p>
 <p>This function assigns from the old to the new array by name, so the
 value of a field in the output array is the value of the field with the
@@ -1667,7 +1665,7 @@ the input array with the same name</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="numpy.lib.recfunctions.stack_arrays">
-<span class="sig-prename descclassname"><span class="pre">numpy.lib.recfunctions.</span></span><span class="sig-name descname"><span class="pre">stack_arrays</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arrays</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">defaults</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">usemask</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">asrecarray</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">autoconvert</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/numpy/numpy/blob/v1.22.0/numpy/lib/recfunctions.py#L1239-L1324"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#numpy.lib.recfunctions.stack_arrays" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">numpy.lib.recfunctions.</span></span><span class="sig-name descname"><span class="pre">stack_arrays</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arrays</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">defaults</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">usemask</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">asrecarray</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">autoconvert</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/numpy/numpy/blob/v1.22.4/numpy/lib/recfunctions.py#L1239-L1324"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#numpy.lib.recfunctions.stack_arrays" title="Permalink to this definition">¶</a></dt>
 <dd><p>Superposes arrays fields by fields</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -1710,7 +1708,7 @@ or just a flexible-type ndarray.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="numpy.lib.recfunctions.structured_to_unstructured">
-<span class="sig-prename descclassname"><span class="pre">numpy.lib.recfunctions.</span></span><span class="sig-name descname"><span class="pre">structured_to_unstructured</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">copy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">casting</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'unsafe'</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/numpy/numpy/blob/v1.22.0/numpy/lib/recfunctions.py#L900-L989"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#numpy.lib.recfunctions.structured_to_unstructured" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">numpy.lib.recfunctions.</span></span><span class="sig-name descname"><span class="pre">structured_to_unstructured</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">copy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">casting</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'unsafe'</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/numpy/numpy/blob/v1.22.4/numpy/lib/recfunctions.py#L900-L989"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#numpy.lib.recfunctions.structured_to_unstructured" title="Permalink to this definition">¶</a></dt>
 <dd><p>Converts an n-D structured array into an (n+1)-D unstructured array.</p>
 <p>The new array will have a new last dimension equal in size to the
 number of field-elements of the input array. If not supplied, the output
@@ -1764,7 +1762,7 @@ casting may occur.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="numpy.lib.recfunctions.unstructured_to_structured">
-<span class="sig-prename descclassname"><span class="pre">numpy.lib.recfunctions.</span></span><span class="sig-name descname"><span class="pre">unstructured_to_structured</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">align</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">copy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">casting</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'unsafe'</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/numpy/numpy/blob/v1.22.0/numpy/lib/recfunctions.py#L996-L1098"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#numpy.lib.recfunctions.unstructured_to_structured" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">numpy.lib.recfunctions.</span></span><span class="sig-name descname"><span class="pre">unstructured_to_structured</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">align</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">copy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">casting</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'unsafe'</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/numpy/numpy/blob/v1.22.4/numpy/lib/recfunctions.py#L996-L1098"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#numpy.lib.recfunctions.unstructured_to_structured" title="Permalink to this definition">¶</a></dt>
 <dd><p>Converts an n-D unstructured array into an (n-1)-D structured array.</p>
 <p>The last dimension of the input array is converted into a structure, with
 number of field-elements equal to the size of the last dimension of the
@@ -1817,9 +1815,9 @@ casting may occur.</p>
 </div>
 </dd></dl>
 
-</section>
-</section>
-</section>
+</div>
+</div>
+</div>
 
 
               </div>

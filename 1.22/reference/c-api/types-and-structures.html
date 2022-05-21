@@ -4,8 +4,7 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Python Types and C-Structures &#8212; NumPy v1.22 Manual</title>
     
   <link href="../../_static/css/theme.css" rel="stylesheet">
@@ -28,8 +27,8 @@
     <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/plot_directive.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/panels-bootstrap.5fd3999ee7762ccc51105388f4a9d115.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/numpy.css" />
     
   <link rel="preload" as="script" href="../../_static/js/index.be7d3bbb2ef33a8344ce.js">
 
@@ -43,19 +42,12 @@
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="System configuration" href="config.html" />
     <link rel="prev" title="NumPy C-API" href="index.html" />
-
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
 
     <!-- Google Analytics -->
     
-<link rel="stylesheet" href="../../_static/numpy.css" type="text/css" />
-
-    <!-- PR #17220: This is added via javascript in versionwarning.js  -->
-    <!-- link rel="canonical" href="http://numpy.org/doc/stable/reference/c-api/types-and-structures.html" / -->
-
-
   </head>
   <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
     
@@ -101,6 +93,12 @@
 <li class="toctree-l1 nav-item">
  <a class="reference internal nav-link" href="../../dev/index.html">
   Development
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../release.html">
+  Release notes
  </a>
 </li>
 
@@ -395,20 +393,20 @@
               
               <div>
                 
-  <section id="python-types-and-c-structures">
+  <div class="section" id="python-types-and-c-structures">
 <h1>Python Types and C-Structures<a class="headerlink" href="#python-types-and-c-structures" title="Permalink to this headline">¶</a></h1>
 <p>Several new types are defined in the C-code. Most of these are
 accessible from Python, but a few are not exposed due to their limited
-use. Every new Python type has an associated <span class="c-expr sig sig-inline c"><a class="reference external" href="https://docs.python.org/dev/c-api/structures.html#c.PyObject" title="(in Python v3.11)"><span class="n">PyObject</span></a><span class="p">*</span></span> with an
+use. Every new Python type has an associated <span class="c-expr sig sig-inline c"><a class="reference external" href="https://docs.python.org/3/c-api/structures.html#c.PyObject" title="(in Python v3.10)"><span class="n">PyObject</span></a><span class="p">*</span></span> with an
 internal structure that includes a pointer to a “method table” that
 defines how the new object behaves in Python. When you receive a
 Python object into C code, you always get a pointer to a
-<a class="reference external" href="https://docs.python.org/dev/c-api/structures.html#c.PyObject" title="(in Python v3.11)"><code class="xref c c-type docutils literal notranslate"><span class="pre">PyObject</span></code></a> structure. Because a <a class="reference external" href="https://docs.python.org/dev/c-api/structures.html#c.PyObject" title="(in Python v3.11)"><code class="xref c c-type docutils literal notranslate"><span class="pre">PyObject</span></code></a> structure is
-very generic and defines only <a class="reference external" href="https://docs.python.org/dev/c-api/structures.html#c.PyObject_HEAD" title="(in Python v3.11)"><code class="xref c c-macro docutils literal notranslate"><span class="pre">PyObject_HEAD</span></code></a>, by itself it
+<a class="reference external" href="https://docs.python.org/3/c-api/structures.html#c.PyObject" title="(in Python v3.10)"><code class="xref c c-type docutils literal notranslate"><span class="pre">PyObject</span></code></a> structure. Because a <a class="reference external" href="https://docs.python.org/3/c-api/structures.html#c.PyObject" title="(in Python v3.10)"><code class="xref c c-type docutils literal notranslate"><span class="pre">PyObject</span></code></a> structure is
+very generic and defines only <a class="reference external" href="https://docs.python.org/3/c-api/structures.html#c.PyObject_HEAD" title="(in Python v3.10)"><code class="xref c c-macro docutils literal notranslate"><span class="pre">PyObject_HEAD</span></code></a>, by itself it
 is not very interesting. However, different objects contain more
-details after the <a class="reference external" href="https://docs.python.org/dev/c-api/structures.html#c.PyObject_HEAD" title="(in Python v3.11)"><code class="xref c c-macro docutils literal notranslate"><span class="pre">PyObject_HEAD</span></code></a> (but you have to cast to the
+details after the <a class="reference external" href="https://docs.python.org/3/c-api/structures.html#c.PyObject_HEAD" title="(in Python v3.10)"><code class="xref c c-macro docutils literal notranslate"><span class="pre">PyObject_HEAD</span></code></a> (but you have to cast to the
 correct type to access them — or use accessor functions or macros).</p>
-<section id="new-python-types-defined">
+<div class="section" id="new-python-types-defined">
 <h2>New Python Types Defined<a class="headerlink" href="#new-python-types-defined" title="Permalink to this headline">¶</a></h2>
 <p>Python types are the functional equivalent in C of classes in Python.
 By constructing a new Python type you make available a new object for
@@ -416,10 +414,10 @@ Python. The ndarray object is an example of a new type defined in C.
 New types are defined in C by two basic steps:</p>
 <ol class="arabic simple">
 <li><p>creating a C-structure (usually named <code class="docutils literal notranslate"><span class="pre">Py{Name}Object</span></code>) that is
-binary- compatible with the <a class="reference external" href="https://docs.python.org/dev/c-api/structures.html#c.PyObject" title="(in Python v3.11)"><code class="xref c c-type docutils literal notranslate"><span class="pre">PyObject</span></code></a> structure itself but holds
+binary- compatible with the <a class="reference external" href="https://docs.python.org/3/c-api/structures.html#c.PyObject" title="(in Python v3.10)"><code class="xref c c-type docutils literal notranslate"><span class="pre">PyObject</span></code></a> structure itself but holds
 the additional information needed for that particular object;</p></li>
-<li><p>populating the <a class="reference external" href="https://docs.python.org/dev/c-api/type.html#c.PyTypeObject" title="(in Python v3.11)"><code class="xref c c-type docutils literal notranslate"><span class="pre">PyTypeObject</span></code></a> table (pointed to by the ob_type
-member of the <a class="reference external" href="https://docs.python.org/dev/c-api/structures.html#c.PyObject" title="(in Python v3.11)"><code class="xref c c-type docutils literal notranslate"><span class="pre">PyObject</span></code></a> structure) with pointers to functions
+<li><p>populating the <a class="reference external" href="https://docs.python.org/3/c-api/type.html#c.PyTypeObject" title="(in Python v3.10)"><code class="xref c c-type docutils literal notranslate"><span class="pre">PyTypeObject</span></code></a> table (pointed to by the ob_type
+member of the <a class="reference external" href="https://docs.python.org/3/c-api/structures.html#c.PyObject" title="(in Python v3.10)"><code class="xref c c-type docutils literal notranslate"><span class="pre">PyObject</span></code></a> structure) with pointers to functions
 that implement the desired behavior for the type.</p></li>
 </ol>
 <p>Instead of special method names which define behavior for Python
@@ -443,11 +441,11 @@ types which are new Python scalars corresponding to each of the
 fundamental data types available for arrays. An additional 10 other
 types are place holders that allow the array scalars to fit into a
 hierarchy of actual Python types.</p>
-<section id="pyarray-type-and-pyarrayobject">
+<div class="section" id="pyarray-type-and-pyarrayobject">
 <h3>PyArray_Type and PyArrayObject<a class="headerlink" href="#pyarray-type-and-pyarrayobject" title="Permalink to this headline">¶</a></h3>
 <dl class="c var">
 <dt class="sig sig-object c" id="c.PyArray_Type">
-<a class="reference external" href="https://docs.python.org/dev/c-api/type.html#c.PyTypeObject" title="(in Python v3.11)"><span class="n"><span class="pre">PyTypeObject</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PyArray_Type</span></span></span><a class="headerlink" href="#c.PyArray_Type" title="Permalink to this definition">¶</a><br /></dt>
+<a class="reference external" href="https://docs.python.org/3/c-api/type.html#c.PyTypeObject" title="(in Python v3.10)"><span class="n"><span class="pre">PyTypeObject</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PyArray_Type</span></span></span><a class="headerlink" href="#c.PyArray_Type" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>The Python type of the ndarray is <a class="reference internal" href="#c.PyArray_Type" title="PyArray_Type"><code class="xref c c-data docutils literal notranslate"><span class="pre">PyArray_Type</span></code></a>. In C, every
 ndarray is a pointer to a <a class="reference internal" href="#c.PyArrayObject" title="PyArrayObject"><code class="xref c c-type docutils literal notranslate"><span class="pre">PyArrayObject</span></code></a> structure. The ob_type
 member of this structure contains a pointer to the <a class="reference internal" href="#c.PyArray_Type" title="PyArray_Type"><code class="xref c c-data docutils literal notranslate"><span class="pre">PyArray_Type</span></code></a>
@@ -469,7 +467,7 @@ of <a class="reference internal" href="#c.NPY_AO" title="NPY_AO"><code class="xr
 deprecated. Use the <code class="docutils literal notranslate"><span class="pre">PyArray_*(arr)</span></code> form instead.
 As of NumPy 1.20, the size of this struct is not considered part of
 the NumPy ABI (see note at the end of the member list).</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span> <span class="nc">PyArrayObject</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">PyArrayObject</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">    </span><span class="n">PyObject_HEAD</span><span class="w"></span>
 <span class="w">    </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">data</span><span class="p">;</span><span class="w"></span>
 <span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">nd</span><span class="p">;</span><span class="w"></span>
@@ -534,7 +532,7 @@ dimension. Associated with macro <a class="reference internal" href="array.html#
 
 <dl class="c member">
 <dt class="sig sig-object c" id="c.NPY_AO.base">
-<a class="reference external" href="https://docs.python.org/dev/c-api/structures.html#c.PyObject" title="(in Python v3.11)"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">base</span></span></span><a class="headerlink" href="#c.NPY_AO.base" title="Permalink to this definition">¶</a><br /></dt>
+<a class="reference external" href="https://docs.python.org/3/c-api/structures.html#c.PyObject" title="(in Python v3.10)"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">base</span></span></span><a class="headerlink" href="#c.NPY_AO.base" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Pointed to by <a class="reference internal" href="array.html#c.PyArray_BASE" title="PyArray_BASE"><code class="xref c c-data docutils literal notranslate"><span class="pre">PyArray_BASE</span></code></a>, this member is used to hold a
 pointer to another Python object that is related to this array.
 There are two use cases:</p>
@@ -575,7 +573,7 @@ interpreted. Possible flags are <a class="reference internal" href="array.html#c
 
 <dl class="c member">
 <dt class="sig sig-object c" id="c.NPY_AO.weakreflist">
-<a class="reference external" href="https://docs.python.org/dev/c-api/structures.html#c.PyObject" title="(in Python v3.11)"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">weakreflist</span></span></span><a class="headerlink" href="#c.NPY_AO.weakreflist" title="Permalink to this definition">¶</a><br /></dt>
+<a class="reference external" href="https://docs.python.org/3/c-api/structures.html#c.PyObject" title="(in Python v3.10)"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">weakreflist</span></span></span><a class="headerlink" href="#c.NPY_AO.weakreflist" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>This member allows array objects to have weak references (using the
 weakref module).</p>
 </dd></dl>
@@ -601,12 +599,12 @@ requires the use of a runtime calculate offset and allocation size.</p>
 </div>
 </dd></dl>
 
-</section>
-<section id="pyarraydescr-type-and-pyarray-descr">
+</div>
+<div class="section" id="pyarraydescr-type-and-pyarray-descr">
 <h3>PyArrayDescr_Type and PyArray_Descr<a class="headerlink" href="#pyarraydescr-type-and-pyarray-descr" title="Permalink to this headline">¶</a></h3>
 <dl class="c var">
 <dt class="sig sig-object c" id="c.PyArrayDescr_Type">
-<a class="reference external" href="https://docs.python.org/dev/c-api/type.html#c.PyTypeObject" title="(in Python v3.11)"><span class="n"><span class="pre">PyTypeObject</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PyArrayDescr_Type</span></span></span><a class="headerlink" href="#c.PyArrayDescr_Type" title="Permalink to this definition">¶</a><br /></dt>
+<a class="reference external" href="https://docs.python.org/3/c-api/type.html#c.PyTypeObject" title="(in Python v3.10)"><span class="n"><span class="pre">PyTypeObject</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PyArrayDescr_Type</span></span></span><a class="headerlink" href="#c.PyArrayDescr_Type" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>The <a class="reference internal" href="#c.PyArrayDescr_Type" title="PyArrayDescr_Type"><code class="xref c c-data docutils literal notranslate"><span class="pre">PyArrayDescr_Type</span></code></a> is the built-in type of the
 data-type-descriptor objects used to describe how the bytes comprising
 the array are to be interpreted.  There are 21 statically-defined
@@ -635,7 +633,7 @@ compatibility:</p>
 <li><p>Never use <code class="docutils literal notranslate"><span class="pre">sizof(PyArray_Descr)</span></code></p></li>
 </ul>
 <p>It has the following structure:</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span> <span class="p">{</span><span class="w"></span>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">    </span><span class="n">PyObject_HEAD</span><span class="w"></span>
 <span class="w">    </span><span class="n">PyTypeObject</span><span class="w"> </span><span class="o">*</span><span class="n">typeobj</span><span class="p">;</span><span class="w"></span>
 <span class="w">    </span><span class="kt">char</span><span class="w"> </span><span class="n">kind</span><span class="p">;</span><span class="w"></span>
@@ -657,7 +655,7 @@ compatibility:</p>
 </div>
 <dl class="c member">
 <dt class="sig sig-object c" id="c.PyArray_Descr.typeobj">
-<a class="reference external" href="https://docs.python.org/dev/c-api/type.html#c.PyTypeObject" title="(in Python v3.11)"><span class="n"><span class="pre">PyTypeObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">typeobj</span></span></span><a class="headerlink" href="#c.PyArray_Descr.typeobj" title="Permalink to this definition">¶</a><br /></dt>
+<a class="reference external" href="https://docs.python.org/3/c-api/type.html#c.PyTypeObject" title="(in Python v3.10)"><span class="n"><span class="pre">PyTypeObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">typeobj</span></span></span><a class="headerlink" href="#c.PyArray_Descr.typeobj" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Pointer to a typeobject that is the corresponding Python type for
 the elements of this array. For the builtin types, this points to
 the corresponding array scalar. For user-defined types, this
@@ -706,7 +704,7 @@ as:</p>
 <dt class="sig sig-object c" id="c.NPY_ITEM_REFCOUNT">
 <span class="sig-name descname"><span class="n"><span class="pre">NPY_ITEM_REFCOUNT</span></span></span><a class="headerlink" href="#c.NPY_ITEM_REFCOUNT" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Indicates that items of this data-type must be reference
-counted (using <a class="reference external" href="https://docs.python.org/dev/c-api/refcounting.html#c.Py_INCREF" title="(in Python v3.11)"><code class="xref c c-func docutils literal notranslate"><span class="pre">Py_INCREF</span></code></a> and <a class="reference external" href="https://docs.python.org/dev/c-api/refcounting.html#c.Py_DECREF" title="(in Python v3.11)"><code class="xref c c-func docutils literal notranslate"><span class="pre">Py_DECREF</span></code></a> ).</p>
+counted (using <a class="reference external" href="https://docs.python.org/3/c-api/refcounting.html#c.Py_INCREF" title="(in Python v3.10)"><code class="xref c c-func docutils literal notranslate"><span class="pre">Py_INCREF</span></code></a> and <a class="reference external" href="https://docs.python.org/3/c-api/refcounting.html#c.Py_DECREF" title="(in Python v3.10)"><code class="xref c c-func docutils literal notranslate"><span class="pre">Py_DECREF</span></code></a> ).</p>
 <blockquote>
 <div><dl class="c macro">
 <dt class="sig sig-object c" id="c.NPY_ITEM_REFCOUNT.NPY_ITEM_HASOBJECT">
@@ -837,7 +835,7 @@ non- <code class="docutils literal notranslate"><span class="pre">NULL</span></c
 <dl class="c type">
 <dt class="sig sig-object c" id="c.NPY_USE_SETITEM.subarray.PyArray_ArrayDescr">
 <span class="k"><span class="pre">type</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PyArray_ArrayDescr</span></span></span><a class="headerlink" href="#c.NPY_USE_SETITEM.subarray.PyArray_ArrayDescr" title="Permalink to this definition">¶</a><br /></dt>
-<dd><div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span> <span class="p">{</span><span class="w"></span>
+<dd><div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">    </span><span class="n">PyArray_Descr</span><span class="w"> </span><span class="o">*</span><span class="n">base</span><span class="p">;</span><span class="w"></span>
 <span class="w">    </span><span class="n">PyObject</span><span class="w"> </span><span class="o">*</span><span class="n">shape</span><span class="p">;</span><span class="w"></span>
 <span class="p">}</span><span class="w"> </span><span class="n">PyArray_ArrayDescr</span><span class="p">;</span><span class="w"></span>
@@ -851,7 +849,7 @@ non- <code class="docutils literal notranslate"><span class="pre">NULL</span></c
 
 <dl class="c member">
 <dt class="sig sig-object c" id="c.NPY_USE_SETITEM.subarray.PyArray_ArrayDescr.shape">
-<a class="reference external" href="https://docs.python.org/dev/c-api/structures.html#c.PyObject" title="(in Python v3.11)"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">shape</span></span></span><a class="headerlink" href="#c.NPY_USE_SETITEM.subarray.PyArray_ArrayDescr.shape" title="Permalink to this definition">¶</a><br /></dt>
+<a class="reference external" href="https://docs.python.org/3/c-api/structures.html#c.PyObject" title="(in Python v3.10)"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">shape</span></span></span><a class="headerlink" href="#c.NPY_USE_SETITEM.subarray.PyArray_ArrayDescr.shape" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>The shape (always C-style contiguous) of the sub-array as a Python
 tuple.</p>
 </dd></dl>
@@ -862,7 +860,7 @@ tuple.</p>
 
 <dl class="c member">
 <dt class="sig sig-object c" id="c.NPY_USE_SETITEM.fields">
-<a class="reference external" href="https://docs.python.org/dev/c-api/structures.html#c.PyObject" title="(in Python v3.11)"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">fields</span></span></span><a class="headerlink" href="#c.NPY_USE_SETITEM.fields" title="Permalink to this definition">¶</a><br /></dt>
+<a class="reference external" href="https://docs.python.org/3/c-api/structures.html#c.PyObject" title="(in Python v3.10)"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">fields</span></span></span><a class="headerlink" href="#c.NPY_USE_SETITEM.fields" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>If this is non-NULL, then this data-type-descriptor has fields
 described by a Python dictionary whose keys are names (and also
 titles if given) and whose values are tuples that describe the
@@ -877,7 +875,7 @@ dictionary keyed by name (and also title if given).</p>
 
 <dl class="c member">
 <dt class="sig sig-object c" id="c.NPY_USE_SETITEM.names">
-<a class="reference external" href="https://docs.python.org/dev/c-api/structures.html#c.PyObject" title="(in Python v3.11)"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">names</span></span></span><a class="headerlink" href="#c.NPY_USE_SETITEM.names" title="Permalink to this definition">¶</a><br /></dt>
+<a class="reference external" href="https://docs.python.org/3/c-api/structures.html#c.PyObject" title="(in Python v3.10)"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">names</span></span></span><a class="headerlink" href="#c.NPY_USE_SETITEM.names" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>An ordered tuple of field names. It is NULL if no field is
 defined.</p>
 </dd></dl>
@@ -893,7 +891,7 @@ signatures can vary arbitrarily.</p>
 
 <dl class="c member">
 <dt class="sig sig-object c" id="c.NPY_USE_SETITEM.metadata">
-<a class="reference external" href="https://docs.python.org/dev/c-api/structures.html#c.PyObject" title="(in Python v3.11)"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">metadata</span></span></span><a class="headerlink" href="#c.NPY_USE_SETITEM.metadata" title="Permalink to this definition">¶</a><br /></dt>
+<a class="reference external" href="https://docs.python.org/3/c-api/structures.html#c.PyObject" title="(in Python v3.10)"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">metadata</span></span></span><a class="headerlink" href="#c.NPY_USE_SETITEM.metadata" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Metadata about this dtype.</p>
 </dd></dl>
 
@@ -930,7 +928,7 @@ functions may be <code class="docutils literal notranslate"><span class="pre">NU
 functionality for that data-type. (Also, the nonzero function will
 be filled in with a default function if it is <code class="docutils literal notranslate"><span class="pre">NULL</span></code> when you
 register a user-defined data-type).</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span> <span class="p">{</span><span class="w"></span>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">    </span><span class="n">PyArray_VectorUnaryFunc</span><span class="w"> </span><span class="o">*</span><span class="n">cast</span><span class="p">[</span><span class="n">NPY_NTYPES</span><span class="p">];</span><span class="w"></span>
 <span class="w">    </span><span class="n">PyArray_GetItemFunc</span><span class="w"> </span><span class="o">*</span><span class="n">getitem</span><span class="p">;</span><span class="w"></span>
 <span class="w">    </span><span class="n">PyArray_SetItemFunc</span><span class="w"> </span><span class="o">*</span><span class="n">setitem</span><span class="p">;</span><span class="w"></span>
@@ -978,7 +976,7 @@ information.</p>
 
 <dl class="c member">
 <dt class="sig sig-object c" id="c.PyArray_ArrFuncs.getitem">
-<a class="reference external" href="https://docs.python.org/dev/c-api/structures.html#c.PyObject" title="(in Python v3.11)"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">getitem</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span>, <span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">arr</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyArray_ArrFuncs.getitem" title="Permalink to this definition">¶</a><br /></dt>
+<a class="reference external" href="https://docs.python.org/3/c-api/structures.html#c.PyObject" title="(in Python v3.10)"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">getitem</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span>, <span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">arr</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyArray_ArrFuncs.getitem" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>A pointer to a function that returns a standard Python object
 from a single element of the array object <em>arr</em> pointed to by
 <em>data</em>. This function must be able to deal with “misbehaved
@@ -987,7 +985,7 @@ from a single element of the array object <em>arr</em> pointed to by
 
 <dl class="c member">
 <dt class="sig sig-object c" id="c.PyArray_ArrFuncs.setitem">
-<span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setitem</span></span></span><span class="sig-paren">(</span><a class="reference external" href="https://docs.python.org/dev/c-api/structures.html#c.PyObject" title="(in Python v3.11)"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">item</span></span>, <span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span>, <span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">arr</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyArray_ArrFuncs.setitem" title="Permalink to this definition">¶</a><br /></dt>
+<span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setitem</span></span></span><span class="sig-paren">(</span><a class="reference external" href="https://docs.python.org/3/c-api/structures.html#c.PyObject" title="(in Python v3.10)"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">item</span></span>, <span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span>, <span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">arr</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyArray_ArrFuncs.setitem" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>A pointer to a function that sets the Python object <em>item</em>
 into the array, <em>arr</em>, at the position pointed to by <em>data</em>
 . This function deals with “misbehaved” arrays. If successful,
@@ -1131,10 +1129,10 @@ available. The indices producing the sort are returned in
 
 <dl class="c member">
 <dt class="sig sig-object c" id="c.PyArray_ArrFuncs.castdict">
-<a class="reference external" href="https://docs.python.org/dev/c-api/structures.html#c.PyObject" title="(in Python v3.11)"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">castdict</span></span></span><a class="headerlink" href="#c.PyArray_ArrFuncs.castdict" title="Permalink to this definition">¶</a><br /></dt>
+<a class="reference external" href="https://docs.python.org/3/c-api/structures.html#c.PyObject" title="(in Python v3.10)"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">castdict</span></span></span><a class="headerlink" href="#c.PyArray_ArrFuncs.castdict" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Either <code class="docutils literal notranslate"><span class="pre">NULL</span></code> or a dictionary containing low-level casting
 functions for user- defined data-types. Each function is
-wrapped in a <span class="c-expr sig sig-inline c"><a class="reference external" href="https://docs.python.org/dev/c-api/capsule.html#c.PyCapsule" title="(in Python v3.11)"><span class="n">PyCapsule</span></a><span class="p">*</span></span> and keyed by
+wrapped in a <span class="c-expr sig sig-inline c"><a class="reference external" href="https://docs.python.org/3/c-api/capsule.html#c.PyCapsule" title="(in Python v3.10)"><span class="n">PyCapsule</span></a><span class="p">*</span></span> and keyed by
 the data-type number.</p>
 </dd></dl>
 
@@ -1239,9 +1237,9 @@ always 0. The index of the smallest element is returned in
 </dd></dl>
 
 <p>The <a class="reference internal" href="#c.PyArray_Type" title="PyArray_Type"><code class="xref c c-data docutils literal notranslate"><span class="pre">PyArray_Type</span></code></a> typeobject implements many of the features of
-<a class="reference external" href="https://docs.python.org/dev/c-api/type.html#c.PyTypeObject" title="(in Python v3.11)"><code class="xref c c-type docutils literal notranslate"><span class="pre">Python</span> <span class="pre">objects</span></code></a> including the <a class="reference external" href="https://docs.python.org/dev/c-api/typeobj.html#c.PyTypeObject.tp_as_number" title="(in Python v3.11)"><code class="xref c c-member docutils literal notranslate"><span class="pre">tp_as_number</span></code></a>, <a class="reference external" href="https://docs.python.org/dev/c-api/typeobj.html#c.PyTypeObject.tp_as_sequence" title="(in Python v3.11)"><code class="xref c c-member docutils literal notranslate"><span class="pre">tp_as_sequence</span></code></a>, <a class="reference external" href="https://docs.python.org/dev/c-api/typeobj.html#c.PyTypeObject.tp_as_mapping" title="(in Python v3.11)"><code class="xref c c-member docutils literal notranslate"><span class="pre">tp_as_mapping</span></code></a>, and <a class="reference external" href="https://docs.python.org/dev/c-api/typeobj.html#c.PyTypeObject.tp_as_buffer" title="(in Python v3.11)"><code class="xref c c-member docutils literal notranslate"><span class="pre">tp_as_buffer</span></code></a> interfaces. The <a class="reference external" href="https://docs.python.org/dev/c-api/typeobj.html#c.richcmpfunc" title="(in Python v3.11)"><code class="xref c c-type docutils literal notranslate"><span class="pre">rich</span> <span class="pre">comparison</span></code></a>) is also used along with new-style attribute lookup for
-member (<a class="reference external" href="https://docs.python.org/dev/c-api/typeobj.html#c.PyTypeObject.tp_members" title="(in Python v3.11)"><code class="xref c c-member docutils literal notranslate"><span class="pre">tp_members</span></code></a>) and properties
-(<a class="reference external" href="https://docs.python.org/dev/c-api/typeobj.html#c.PyTypeObject.tp_getset" title="(in Python v3.11)"><code class="xref c c-member docutils literal notranslate"><span class="pre">tp_getset</span></code></a>).
+<a class="reference external" href="https://docs.python.org/3/c-api/type.html#c.PyTypeObject" title="(in Python v3.10)"><code class="xref c c-type docutils literal notranslate"><span class="pre">Python</span> <span class="pre">objects</span></code></a> including the <a class="reference external" href="https://docs.python.org/3/c-api/typeobj.html#c.PyTypeObject.tp_as_number" title="(in Python v3.10)"><code class="xref c c-member docutils literal notranslate"><span class="pre">tp_as_number</span></code></a>, <a class="reference external" href="https://docs.python.org/3/c-api/typeobj.html#c.PyTypeObject.tp_as_sequence" title="(in Python v3.10)"><code class="xref c c-member docutils literal notranslate"><span class="pre">tp_as_sequence</span></code></a>, <a class="reference external" href="https://docs.python.org/3/c-api/typeobj.html#c.PyTypeObject.tp_as_mapping" title="(in Python v3.10)"><code class="xref c c-member docutils literal notranslate"><span class="pre">tp_as_mapping</span></code></a>, and <a class="reference external" href="https://docs.python.org/3/c-api/typeobj.html#c.PyTypeObject.tp_as_buffer" title="(in Python v3.10)"><code class="xref c c-member docutils literal notranslate"><span class="pre">tp_as_buffer</span></code></a> interfaces. The <a class="reference external" href="https://docs.python.org/3/c-api/typeobj.html#c.richcmpfunc" title="(in Python v3.10)"><code class="xref c c-type docutils literal notranslate"><span class="pre">rich</span> <span class="pre">comparison</span></code></a>) is also used along with new-style attribute lookup for
+member (<a class="reference external" href="https://docs.python.org/3/c-api/typeobj.html#c.PyTypeObject.tp_members" title="(in Python v3.10)"><code class="xref c c-member docutils literal notranslate"><span class="pre">tp_members</span></code></a>) and properties
+(<a class="reference external" href="https://docs.python.org/3/c-api/typeobj.html#c.PyTypeObject.tp_getset" title="(in Python v3.10)"><code class="xref c c-member docutils literal notranslate"><span class="pre">tp_getset</span></code></a>).
 The <a class="reference internal" href="#c.PyArray_Type" title="PyArray_Type"><code class="xref c c-data docutils literal notranslate"><span class="pre">PyArray_Type</span></code></a> can also be sub-typed.</p>
 <div class="admonition tip">
 <p class="admonition-title">Tip</p>
@@ -1252,12 +1250,12 @@ for all arrays to the corresponding ufuncs. This choice can be changed with
 <a class="reference internal" href="ufunc.html#c.PyUFunc_ReplaceLoopBySignature" title="PyUFunc_ReplaceLoopBySignature"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyUFunc_ReplaceLoopBySignature</span></code></a> The <code class="docutils literal notranslate"><span class="pre">tp_str</span></code> and <code class="docutils literal notranslate"><span class="pre">tp_repr</span></code>
 methods can also be altered using <a class="reference internal" href="array.html#c.PyArray_SetStringFunction" title="PyArray_SetStringFunction"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyArray_SetStringFunction</span></code></a>.</p>
 </div>
-</section>
-<section id="pyufunc-type-and-pyufuncobject">
+</div>
+<div class="section" id="pyufunc-type-and-pyufuncobject">
 <h3>PyUFunc_Type and PyUFuncObject<a class="headerlink" href="#pyufunc-type-and-pyufuncobject" title="Permalink to this headline">¶</a></h3>
 <dl class="c var">
 <dt class="sig sig-object c" id="c.PyUFunc_Type">
-<a class="reference external" href="https://docs.python.org/dev/c-api/type.html#c.PyTypeObject" title="(in Python v3.11)"><span class="n"><span class="pre">PyTypeObject</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PyUFunc_Type</span></span></span><a class="headerlink" href="#c.PyUFunc_Type" title="Permalink to this definition">¶</a><br /></dt>
+<a class="reference external" href="https://docs.python.org/3/c-api/type.html#c.PyTypeObject" title="(in Python v3.10)"><span class="n"><span class="pre">PyTypeObject</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PyUFunc_Type</span></span></span><a class="headerlink" href="#c.PyUFunc_Type" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>The ufunc object is implemented by creation of the
 <a class="reference internal" href="#c.PyUFunc_Type" title="PyUFunc_Type"><code class="xref c c-data docutils literal notranslate"><span class="pre">PyUFunc_Type</span></code></a>. It is a very simple type that implements only
 basic getattribute behavior, printing behavior, and has call
@@ -1287,7 +1285,7 @@ of NumPy. To ensure compatibility:</p>
 <li><p>Never use <code class="docutils literal notranslate"><span class="pre">sizeof(PyUFuncObject)</span></code></p></li>
 </ul>
 <p>It has the following structure:</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span> <span class="p">{</span><span class="w"></span>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">    </span><span class="n">PyObject_HEAD</span><span class="w"></span>
 <span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">nin</span><span class="p">;</span><span class="w"></span>
 <span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">nout</span><span class="p">;</span><span class="w"></span>
@@ -1433,14 +1431,14 @@ the types, data, and name members.</p>
 
 <dl class="c member">
 <dt class="sig sig-object c" id="c.PyUFuncObject.obj">
-<a class="reference external" href="https://docs.python.org/dev/c-api/structures.html#c.PyObject" title="(in Python v3.11)"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obj</span></span></span><a class="headerlink" href="#c.PyUFuncObject.obj" title="Permalink to this definition">¶</a><br /></dt>
+<a class="reference external" href="https://docs.python.org/3/c-api/structures.html#c.PyObject" title="(in Python v3.10)"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obj</span></span></span><a class="headerlink" href="#c.PyUFuncObject.obj" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>For ufuncs dynamically created from python functions, this member
 holds a reference to the underlying Python function.</p>
 </dd></dl>
 
 <dl class="c member">
 <dt class="sig sig-object c" id="c.PyUFuncObject.userloops">
-<a class="reference external" href="https://docs.python.org/dev/c-api/structures.html#c.PyObject" title="(in Python v3.11)"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">userloops</span></span></span><a class="headerlink" href="#c.PyUFuncObject.userloops" title="Permalink to this definition">¶</a><br /></dt>
+<a class="reference external" href="https://docs.python.org/3/c-api/structures.html#c.PyObject" title="(in Python v3.10)"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">userloops</span></span></span><a class="headerlink" href="#c.PyUFuncObject.userloops" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>A dictionary of user-defined 1-d vector loops (stored as CObject
 ptrs) for user-defined types. A loop may be registered by the
 user for any user-defined type. It is retrieved by type number.
@@ -1555,19 +1553,19 @@ and not from a <a class="reference internal" href="generalized-ufuncs.html#froze
 </div></blockquote>
 <dl class="c member">
 <dt class="sig sig-object c" id="c.UFUNC_CORE_DIM_SIZE_INFERRED.identity_value">
-<a class="reference external" href="https://docs.python.org/dev/c-api/structures.html#c.PyObject" title="(in Python v3.11)"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">identity_value</span></span></span><a class="headerlink" href="#c.UFUNC_CORE_DIM_SIZE_INFERRED.identity_value" title="Permalink to this definition">¶</a><br /></dt>
+<a class="reference external" href="https://docs.python.org/3/c-api/structures.html#c.PyObject" title="(in Python v3.10)"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">identity_value</span></span></span><a class="headerlink" href="#c.UFUNC_CORE_DIM_SIZE_INFERRED.identity_value" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Identity for reduction, when <a class="reference internal" href="#c.PyUFuncObject.identity" title="PyUFuncObject.identity"><code class="xref c c-member docutils literal notranslate"><span class="pre">PyUFuncObject.identity</span></code></a>
 is equal to <a class="reference internal" href="ufunc.html#c.PyUFunc_IdentityValue" title="PyUFunc_IdentityValue"><code class="xref c c-data docutils literal notranslate"><span class="pre">PyUFunc_IdentityValue</span></code></a>.</p>
 </dd></dl>
 
 </dd></dl>
 
-</section>
-<section id="pyarrayiter-type-and-pyarrayiterobject">
+</div>
+<div class="section" id="pyarrayiter-type-and-pyarrayiterobject">
 <h3>PyArrayIter_Type and PyArrayIterObject<a class="headerlink" href="#pyarrayiter-type-and-pyarrayiterobject" title="Permalink to this headline">¶</a></h3>
 <dl class="c var">
 <dt class="sig sig-object c" id="c.PyArrayIter_Type">
-<a class="reference external" href="https://docs.python.org/dev/c-api/type.html#c.PyTypeObject" title="(in Python v3.11)"><span class="n"><span class="pre">PyTypeObject</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PyArrayIter_Type</span></span></span><a class="headerlink" href="#c.PyArrayIter_Type" title="Permalink to this definition">¶</a><br /></dt>
+<a class="reference external" href="https://docs.python.org/3/c-api/type.html#c.PyTypeObject" title="(in Python v3.10)"><span class="n"><span class="pre">PyTypeObject</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PyArrayIter_Type</span></span></span><a class="headerlink" href="#c.PyArrayIter_Type" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>This is an iterator object that makes it easy to loop over an
 N-dimensional array. It is the object returned from the flat
 attribute of an ndarray. It is also used extensively throughout the
@@ -1594,7 +1592,7 @@ one-dimensional index into the array. The members of the
 calculations. Iterator objects keep their own dimension and strides
 information about an array. This can be adjusted as needed for
 “broadcasting,” or to loop over only specific dimensions.</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span> <span class="p">{</span><span class="w"></span>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">    </span><span class="n">PyObject_HEAD</span><span class="w"></span>
 <span class="w">    </span><span class="kt">int</span><span class="w">   </span><span class="n">nd_m1</span><span class="p">;</span><span class="w"></span>
 <span class="w">    </span><span class="n">npy_intp</span><span class="w">  </span><span class="n">index</span><span class="p">;</span><span class="w"></span>
@@ -1694,12 +1692,12 @@ with it through the use of the macros <a class="reference internal" href="array.
 <a class="reference internal" href="array.html#c.PyArray_ITER_GOTO" title="PyArray_ITER_GOTO"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyArray_ITER_GOTO</span></code></a> (it, dest), or <a class="reference internal" href="array.html#c.PyArray_ITER_GOTO1D" title="PyArray_ITER_GOTO1D"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyArray_ITER_GOTO1D</span></code></a>
 (it, index). All of these macros require the argument <em>it</em> to be a
 <span class="c-expr sig sig-inline c"><a class="reference internal" href="#c.PyArrayIterObject" title="PyArrayIterObject"><span class="n">PyArrayIterObject</span></a><span class="p">*</span></span>.</p>
-</section>
-<section id="pyarraymultiiter-type-and-pyarraymultiiterobject">
+</div>
+<div class="section" id="pyarraymultiiter-type-and-pyarraymultiiterobject">
 <h3>PyArrayMultiIter_Type and PyArrayMultiIterObject<a class="headerlink" href="#pyarraymultiiter-type-and-pyarraymultiiterobject" title="Permalink to this headline">¶</a></h3>
 <dl class="c var">
 <dt class="sig sig-object c" id="c.PyArrayMultiIter_Type">
-<a class="reference external" href="https://docs.python.org/dev/c-api/type.html#c.PyTypeObject" title="(in Python v3.11)"><span class="n"><span class="pre">PyTypeObject</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PyArrayMultiIter_Type</span></span></span><a class="headerlink" href="#c.PyArrayMultiIter_Type" title="Permalink to this definition">¶</a><br /></dt>
+<a class="reference external" href="https://docs.python.org/3/c-api/type.html#c.PyTypeObject" title="(in Python v3.10)"><span class="n"><span class="pre">PyTypeObject</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PyArrayMultiIter_Type</span></span></span><a class="headerlink" href="#c.PyArrayMultiIter_Type" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>This type provides an iterator that encapsulates the concept of
 broadcasting. It allows <span class="math notranslate nohighlight">\(N\)</span> arrays to be broadcast together
 so that the loop progresses in C-style contiguous fashion over the
@@ -1715,7 +1713,7 @@ is used at each iteration.</p>
 <dl class="c type">
 <dt class="sig sig-object c" id="c.PyArrayMultiIterObject">
 <span class="k"><span class="pre">type</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PyArrayMultiIterObject</span></span></span><a class="headerlink" href="#c.PyArrayMultiIterObject" title="Permalink to this definition">¶</a><br /></dt>
-<dd><div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span> <span class="p">{</span><span class="w"></span>
+<dd><div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">    </span><span class="n">PyObject_HEAD</span><span class="w"></span>
 <span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">numiter</span><span class="p">;</span><span class="w"></span>
 <span class="w">    </span><span class="n">npy_intp</span><span class="w"> </span><span class="n">size</span><span class="p">;</span><span class="w"></span>
@@ -1766,12 +1764,12 @@ adjusted for broadcasting.</p>
 
 </dd></dl>
 
-</section>
-<section id="pyarrayneighborhooditer-type-and-pyarrayneighborhooditerobject">
+</div>
+<div class="section" id="pyarrayneighborhooditer-type-and-pyarrayneighborhooditerobject">
 <h3>PyArrayNeighborhoodIter_Type and PyArrayNeighborhoodIterObject<a class="headerlink" href="#pyarrayneighborhooditer-type-and-pyarrayneighborhooditerobject" title="Permalink to this headline">¶</a></h3>
 <dl class="c var">
 <dt class="sig sig-object c" id="c.PyArrayNeighborhoodIter_Type">
-<a class="reference external" href="https://docs.python.org/dev/c-api/type.html#c.PyTypeObject" title="(in Python v3.11)"><span class="n"><span class="pre">PyTypeObject</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PyArrayNeighborhoodIter_Type</span></span></span><a class="headerlink" href="#c.PyArrayNeighborhoodIter_Type" title="Permalink to this definition">¶</a><br /></dt>
+<a class="reference external" href="https://docs.python.org/3/c-api/type.html#c.PyTypeObject" title="(in Python v3.10)"><span class="n"><span class="pre">PyTypeObject</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PyArrayNeighborhoodIter_Type</span></span></span><a class="headerlink" href="#c.PyArrayNeighborhoodIter_Type" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>This is an iterator object that makes it easy to loop over an
 N-dimensional neighborhood.</p>
 </dd></dl>
@@ -1782,7 +1780,7 @@ N-dimensional neighborhood.</p>
 <dd><p>The C-structure corresponding to an object of
 <a class="reference internal" href="#c.PyArrayNeighborhoodIter_Type" title="PyArrayNeighborhoodIter_Type"><code class="xref c c-data docutils literal notranslate"><span class="pre">PyArrayNeighborhoodIter_Type</span></code></a> is the
 <a class="reference internal" href="#c.PyArrayNeighborhoodIterObject" title="PyArrayNeighborhoodIterObject"><code class="xref c c-type docutils literal notranslate"><span class="pre">PyArrayNeighborhoodIterObject</span></code></a>.</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span> <span class="p">{</span><span class="w"></span>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">    </span><span class="n">PyObject_HEAD</span><span class="w"></span>
 <span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">nd_m1</span><span class="p">;</span><span class="w"></span>
 <span class="w">    </span><span class="n">npy_intp</span><span class="w"> </span><span class="n">index</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="p">;</span><span class="w"></span>
@@ -1808,12 +1806,12 @@ N-dimensional neighborhood.</p>
 </div>
 </dd></dl>
 
-</section>
-<section id="pyarrayflags-type-and-pyarrayflagsobject">
+</div>
+<div class="section" id="pyarrayflags-type-and-pyarrayflagsobject">
 <h3>PyArrayFlags_Type and PyArrayFlagsObject<a class="headerlink" href="#pyarrayflags-type-and-pyarrayflagsobject" title="Permalink to this headline">¶</a></h3>
 <dl class="c var">
 <dt class="sig sig-object c" id="c.PyArrayFlags_Type">
-<a class="reference external" href="https://docs.python.org/dev/c-api/type.html#c.PyTypeObject" title="(in Python v3.11)"><span class="n"><span class="pre">PyTypeObject</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PyArrayFlags_Type</span></span></span><a class="headerlink" href="#c.PyArrayFlags_Type" title="Permalink to this definition">¶</a><br /></dt>
+<a class="reference external" href="https://docs.python.org/3/c-api/type.html#c.PyTypeObject" title="(in Python v3.10)"><span class="n"><span class="pre">PyTypeObject</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PyArrayFlags_Type</span></span></span><a class="headerlink" href="#c.PyArrayFlags_Type" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>When the flags attribute is retrieved from Python, a special
 builtin object of this type is constructed. This special type makes
 it easier to work with the different flags by accessing them as
@@ -1824,7 +1822,7 @@ with the flag names as entries.</p>
 <dl class="c type">
 <dt class="sig sig-object c" id="c.PyArrayFlagsObject">
 <span class="k"><span class="pre">type</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PyArrayFlagsObject</span></span></span><a class="headerlink" href="#c.PyArrayFlagsObject" title="Permalink to this definition">¶</a><br /></dt>
-<dd><div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span> <span class="nc">PyArrayFlagsObject</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<dd><div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">PyArrayFlagsObject</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">        </span><span class="n">PyObject_HEAD</span><span class="w"></span>
 <span class="w">        </span><span class="n">PyObject</span><span class="w"> </span><span class="o">*</span><span class="n">arr</span><span class="p">;</span><span class="w"></span>
 <span class="w">        </span><span class="kt">int</span><span class="w"> </span><span class="n">flags</span><span class="p">;</span><span class="w"></span>
@@ -1833,8 +1831,8 @@ with the flag names as entries.</p>
 </div>
 </dd></dl>
 
-</section>
-<section id="scalararraytypes">
+</div>
+<div class="section" id="scalararraytypes">
 <h3>ScalarArrayTypes<a class="headerlink" href="#scalararraytypes" title="Permalink to this headline">¶</a></h3>
 <p>There is a Python type for each of the different built-in data types
 that can be present in the array Most of these are simple wrappers
@@ -1855,23 +1853,23 @@ of these scalar objects is not exposed to C-code. The function
 <a class="reference internal" href="array.html#c.PyArray_ScalarAsCtype" title="PyArray_ScalarAsCtype"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyArray_ScalarAsCtype</span></code></a> (..) can be used to extract the C-type
 value from the array scalar and the function <a class="reference internal" href="array.html#c.PyArray_Scalar" title="PyArray_Scalar"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyArray_Scalar</span></code></a>
 (…) can be used to construct an array scalar from a C-value.</p>
-</section>
-</section>
-<section id="other-c-structures">
+</div>
+</div>
+<div class="section" id="other-c-structures">
 <h2>Other C-Structures<a class="headerlink" href="#other-c-structures" title="Permalink to this headline">¶</a></h2>
 <p>A few new C-structures were found to be useful in the development of
 NumPy. These C-structures are used in at least one C-API call and are
 therefore documented here. The main reason these structures were
 defined is to make it easy to use the Python ParseTuple C-API to
 convert from Python objects to a useful C-Object.</p>
-<section id="pyarray-dims">
+<div class="section" id="pyarray-dims">
 <h3>PyArray_Dims<a class="headerlink" href="#pyarray-dims" title="Permalink to this headline">¶</a></h3>
 <dl class="c type">
 <dt class="sig sig-object c" id="c.PyArray_Dims">
 <span class="k"><span class="pre">type</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PyArray_Dims</span></span></span><a class="headerlink" href="#c.PyArray_Dims" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>This structure is very useful when shape and/or strides information
 is supposed to be interpreted. The structure is:</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span> <span class="p">{</span><span class="w"></span>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">    </span><span class="n">npy_intp</span><span class="w"> </span><span class="o">*</span><span class="n">ptr</span><span class="p">;</span><span class="w"></span>
 <span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">len</span><span class="p">;</span><span class="w"></span>
 <span class="p">}</span><span class="w"> </span><span class="n">PyArray_Dims</span><span class="p">;</span><span class="w"></span>
@@ -1894,8 +1892,8 @@ access <em>ptr</em> [0] to <em>ptr</em> [len-1].</p>
 
 </dd></dl>
 
-</section>
-<section id="pyarray-chunk">
+</div>
+<div class="section" id="pyarray-chunk">
 <h3>PyArray_Chunk<a class="headerlink" href="#pyarray-chunk" title="Permalink to this headline">¶</a></h3>
 <dl class="c type">
 <dt class="sig sig-object c" id="c.PyArray_Chunk">
@@ -1905,7 +1903,7 @@ the ptr member. On 32-bit platforms (<em>i.e.</em> if <a class="reference intern
 == <a class="reference internal" href="config.html#c.NPY_SIZEOF_INTP" title="NPY_SIZEOF_INTP"><code class="xref c c-data docutils literal notranslate"><span class="pre">NPY_SIZEOF_INTP</span></code></a>), the len member also matches an equivalent
 member of the buffer object. It is useful to represent a generic
 single-segment chunk of memory.</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span> <span class="p">{</span><span class="w"></span>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">    </span><span class="n">PyObject_HEAD</span><span class="w"></span>
 <span class="w">    </span><span class="n">PyObject</span><span class="w"> </span><span class="o">*</span><span class="n">base</span><span class="p">;</span><span class="w"></span>
 <span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">ptr</span><span class="p">;</span><span class="w"></span>
@@ -1917,7 +1915,7 @@ single-segment chunk of memory.</p>
 <p>The members are</p>
 <dl class="c member">
 <dt class="sig sig-object c" id="c.PyArray_Chunk.base">
-<a class="reference external" href="https://docs.python.org/dev/c-api/structures.html#c.PyObject" title="(in Python v3.11)"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">base</span></span></span><a class="headerlink" href="#c.PyArray_Chunk.base" title="Permalink to this definition">¶</a><br /></dt>
+<a class="reference external" href="https://docs.python.org/3/c-api/structures.html#c.PyObject" title="(in Python v3.10)"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">base</span></span></span><a class="headerlink" href="#c.PyArray_Chunk.base" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>The Python object this chunk of memory comes from. Needed so that
 memory can be accounted for properly.</p>
 </dd></dl>
@@ -1943,8 +1941,8 @@ be used to interpret the memory.</p>
 
 </dd></dl>
 
-</section>
-<section id="pyarrayinterface">
+</div>
+<div class="section" id="pyarrayinterface">
 <h3>PyArrayInterface<a class="headerlink" href="#pyarrayinterface" title="Permalink to this headline">¶</a></h3>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
@@ -1957,7 +1955,7 @@ be used to interpret the memory.</p>
 other extension modules can use the rapid array interface
 protocol. The <a class="reference internal" href="../arrays.interface.html#object.__array_struct__" title="object.__array_struct__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__array_struct__</span></code></a> method of an object that
 supports the rapid array interface protocol should return a
-<a class="reference external" href="https://docs.python.org/dev/c-api/capsule.html#c.PyCapsule" title="(in Python v3.11)"><code class="xref c c-type docutils literal notranslate"><span class="pre">PyCapsule</span></code></a> that contains a pointer to a <a class="reference internal" href="#c.PyArrayInterface" title="PyArrayInterface"><code class="xref c c-type docutils literal notranslate"><span class="pre">PyArrayInterface</span></code></a>
+<a class="reference external" href="https://docs.python.org/3/c-api/capsule.html#c.PyCapsule" title="(in Python v3.10)"><code class="xref c c-type docutils literal notranslate"><span class="pre">PyCapsule</span></code></a> that contains a pointer to a <a class="reference internal" href="#c.PyArrayInterface" title="PyArrayInterface"><code class="xref c c-type docutils literal notranslate"><span class="pre">PyArrayInterface</span></code></a>
 structure with the relevant details of the array. After the new
 array is created, the attribute should be <code class="docutils literal notranslate"><span class="pre">DECREF</span></code>’d which will
 free the <a class="reference internal" href="#c.PyArrayInterface" title="PyArrayInterface"><code class="xref c c-type docutils literal notranslate"><span class="pre">PyArrayInterface</span></code></a> structure. Remember to <code class="docutils literal notranslate"><span class="pre">INCREF</span></code> the
@@ -1965,7 +1963,7 @@ object (whose <a class="reference internal" href="../arrays.interface.html#objec
 point the base member of the new <a class="reference internal" href="#c.PyArrayObject" title="PyArrayObject"><code class="xref c c-type docutils literal notranslate"><span class="pre">PyArrayObject</span></code></a> to this same
 object. In this way the memory for the array will be managed
 correctly.</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span> <span class="p">{</span><span class="w"></span>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">two</span><span class="p">;</span><span class="w"></span>
 <span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">nd</span><span class="p">;</span><span class="w"></span>
 <span class="w">    </span><span class="kt">char</span><span class="w"> </span><span class="n">typekind</span><span class="p">;</span><span class="w"></span>
@@ -2043,7 +2041,7 @@ element in each dimension.</p>
 
 <dl class="c member">
 <dt class="sig sig-object c" id="c.PyArrayInterface.descr">
-<a class="reference external" href="https://docs.python.org/dev/c-api/structures.html#c.PyObject" title="(in Python v3.11)"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">descr</span></span></span><a class="headerlink" href="#c.PyArrayInterface.descr" title="Permalink to this definition">¶</a><br /></dt>
+<a class="reference external" href="https://docs.python.org/3/c-api/structures.html#c.PyObject" title="(in Python v3.10)"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">descr</span></span></span><a class="headerlink" href="#c.PyArrayInterface.descr" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>A Python object describing the data-type in more detail (same
 as the <em>descr</em> key in <a class="reference internal" href="../arrays.interface.html#object.__array_interface__" title="object.__array_interface__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__array_interface__</span></code></a>). This can be
 <code class="docutils literal notranslate"><span class="pre">NULL</span></code> if <em>typekind</em> and <em>itemsize</em> provide enough
@@ -2053,8 +2051,8 @@ information. This field is also ignored unless
 
 </dd></dl>
 
-</section>
-<section id="internally-used-structures">
+</div>
+<div class="section" id="internally-used-structures">
 <h3>Internally used structures<a class="headerlink" href="#internally-used-structures" title="Permalink to this headline">¶</a></h3>
 <p>Internally, the code uses some additional Python objects primarily for
 memory management. These types are not accessible directly from
@@ -2089,7 +2087,7 @@ user-defined data-type.</p>
 
 <dl class="c var">
 <dt class="sig sig-object c" id="c.PyArrayMapIter_Type">
-<a class="reference external" href="https://docs.python.org/dev/c-api/type.html#c.PyTypeObject" title="(in Python v3.11)"><span class="n"><span class="pre">PyTypeObject</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PyArrayMapIter_Type</span></span></span><a class="headerlink" href="#c.PyArrayMapIter_Type" title="Permalink to this definition">¶</a><br /></dt>
+<a class="reference external" href="https://docs.python.org/3/c-api/type.html#c.PyTypeObject" title="(in Python v3.10)"><span class="n"><span class="pre">PyTypeObject</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PyArrayMapIter_Type</span></span></span><a class="headerlink" href="#c.PyArrayMapIter_Type" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Advanced indexing is handled with this Python type. It is simply a
 loose wrapper around the C-structure containing the variables
 needed for advanced array indexing. The associated C-structure,
@@ -2100,9 +2098,9 @@ could be replaced with a C-structure. As a Python type it takes
 advantage of reference- counted memory management.</p>
 </dd></dl>
 
-</section>
-</section>
-</section>
+</div>
+</div>
+</div>
 
 
               </div>

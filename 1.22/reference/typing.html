@@ -4,8 +4,7 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Typing (numpy.typing) &#8212; NumPy v1.22 Manual</title>
     
   <link href="../_static/css/theme.css" rel="stylesheet">
@@ -28,8 +27,8 @@
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
     <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
     <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/panels-bootstrap.5fd3999ee7762ccc51105388f4a9d115.css" />
     <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/numpy.css" />
     
   <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
 
@@ -42,19 +41,12 @@
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Global State" href="global_state.html" />
     <link rel="prev" title="numpy.kaiser" href="generated/numpy.kaiser.html" />
-
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
 
     <!-- Google Analytics -->
     
-<link rel="stylesheet" href="../_static/numpy.css" type="text/css" />
-
-    <!-- PR #17220: This is added via javascript in versionwarning.js  -->
-    <!-- link rel="canonical" href="http://numpy.org/doc/stable/reference/typing.html" / -->
-
-
   </head>
   <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
     
@@ -100,6 +92,12 @@
 <li class="toctree-l1 nav-item">
  <a class="reference internal nav-link" href="../dev/index.html">
   Development
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../release.html">
+  Release notes
  </a>
 </li>
 
@@ -322,7 +320,7 @@
               
               <div>
                 
-  <span class="target" id="module-numpy.typing"><span id="typing"></span></span><section id="typing-numpy-typing">
+  <span class="target" id="module-numpy.typing"><span id="typing"></span></span><div class="section" id="typing-numpy-typing">
 <h1>Typing (<a class="reference internal" href="#module-numpy.typing" title="numpy.typing"><code class="xref py py-mod docutils literal notranslate"><span class="pre">numpy.typing</span></code></a>)<a class="headerlink" href="#typing-numpy-typing" title="Permalink to this headline">¶</a></h1>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 1.20.</span></p>
@@ -334,7 +332,7 @@ the two below:</p>
 <li><p><a class="reference internal" href="#numpy.typing.ArrayLike" title="numpy.typing.ArrayLike"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ArrayLike</span></code></a>: objects that can be converted to arrays</p></li>
 <li><p><a class="reference internal" href="#numpy.typing.DTypeLike" title="numpy.typing.DTypeLike"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DTypeLike</span></code></a>: objects that can be converted to dtypes</p></li>
 </ul>
-<section id="mypy-plugin">
+<div class="section" id="mypy-plugin">
 <h2>Mypy plugin<a class="headerlink" href="#mypy-plugin" title="Permalink to this headline">¶</a></h2>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 1.21.</span></p>
@@ -347,36 +345,36 @@ subclasses, including the likes of <a class="reference internal" href="arrays.sc
 <a class="reference internal" href="arrays.scalars.html#numpy.longlong" title="numpy.longlong"><code class="xref py py-obj docutils literal notranslate"><span class="pre">longlong</span></code></a>. See the documentation on
 <a class="reference internal" href="arrays.scalars.html#arrays-scalars-built-in"><span class="std std-ref">scalar types</span></a> for a comprehensive overview
 of the affected classes. Without the plugin the precision of all relevant
-classes will be inferred as <a class="reference external" href="https://docs.python.org/dev/library/typing.html#typing.Any" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Any</span></code></a>.</p></li>
+classes will be inferred as <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Any</span></code></a>.</p></li>
 <li><p>Removing all extended-precision <a class="reference internal" href="arrays.scalars.html#numpy.number" title="numpy.number"><code class="xref py py-obj docutils literal notranslate"><span class="pre">number</span></code></a> subclasses that are
 unavailable for the platform in question. Most notably this includes the
 likes of <a class="reference internal" href="arrays.scalars.html#numpy.float128" title="numpy.float128"><code class="xref py py-obj docutils literal notranslate"><span class="pre">float128</span></code></a> and <a class="reference internal" href="arrays.scalars.html#numpy.complex256" title="numpy.complex256"><code class="xref py py-obj docutils literal notranslate"><span class="pre">complex256</span></code></a>. Without the plugin <em>all</em>
 extended-precision types will, as far as mypy is concerned, be available
 to all platforms.</p></li>
 <li><p>Assigning the (platform-dependent) precision of <a class="reference internal" href="routines.ctypeslib.html#numpy.ctypeslib.c_intp" title="numpy.ctypeslib.c_intp"><code class="xref py py-obj docutils literal notranslate"><span class="pre">c_intp</span></code></a>.
-Without the plugin the type will default to <a class="reference external" href="https://docs.python.org/dev/library/ctypes.html#ctypes.c_int64" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ctypes.c_int64</span></code></a>.</p>
+Without the plugin the type will default to <a class="reference external" href="https://docs.python.org/3/library/ctypes.html#ctypes.c_int64" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ctypes.c_int64</span></code></a>.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 1.22.</span></p>
 </div>
 </li>
 </ul>
-<section id="examples">
+<div class="section" id="examples">
 <h3>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h3>
 <p>To enable the plugin, one must add it to their mypy <a class="reference external" href="https://mypy.readthedocs.io/en/stable/config_file.html">configuration file</a>:</p>
-<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="k">[mypy]</span>
-<span class="na">plugins</span> <span class="o">=</span> <span class="s">numpy.typing.mypy_plugin</span>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="k">[mypy]</span><span class="w"></span>
+<span class="na">plugins</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">numpy.typing.mypy_plugin</span><span class="w"></span>
 </pre></div>
 </div>
-</section>
-</section>
-<section id="differences-from-the-runtime-numpy-api">
+</div>
+</div>
+<div class="section" id="differences-from-the-runtime-numpy-api">
 <h2>Differences from the runtime NumPy API<a class="headerlink" href="#differences-from-the-runtime-numpy-api" title="Permalink to this headline">¶</a></h2>
 <p>NumPy is very flexible. Trying to describe the full range of
 possibilities statically would result in types that are not very
 helpful. For that reason, the typed NumPy API is often stricter than
 the runtime NumPy API. This section describes some notable
 differences.</p>
-<section id="arraylike">
+<div class="section" id="arraylike">
 <h3>ArrayLike<a class="headerlink" href="#arraylike" title="Permalink to this headline">¶</a></h3>
 <p>The <a class="reference internal" href="#numpy.typing.ArrayLike" title="numpy.typing.ArrayLike"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ArrayLike</span></code></a> type tries to avoid creating object arrays. For
 example,</p>
@@ -391,15 +389,15 @@ you can either use a <code class="docutils literal notranslate"><span class="pre
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>  <span class="c1"># type: ignore</span>
 </pre></div>
 </div>
-<p>or explicitly type the array like object as <a class="reference external" href="https://docs.python.org/dev/library/typing.html#typing.Any" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Any</span></code></a>:</p>
+<p>or explicitly type the array like object as <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Any</span></code></a>:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">array_like</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">array_like</span><span class="p">)</span>
 <span class="go">array(&lt;generator object &lt;genexpr&gt; at ...&gt;, dtype=object)</span>
 </pre></div>
 </div>
-</section>
-<section id="ndarray">
+</div>
+<div class="section" id="ndarray">
 <h3>ndarray<a class="headerlink" href="#ndarray" title="Permalink to this headline">¶</a></h3>
 <p>It’s possible to mutate the dtype of an array at runtime. For example,
 the following code is valid:</p>
@@ -410,8 +408,8 @@ the following code is valid:</p>
 <p>This sort of mutation is not allowed by the types. Users who want to
 write statically typed code should instead use the <a class="reference internal" href="generated/numpy.ndarray.view.html#numpy.ndarray.view" title="numpy.ndarray.view"><code class="xref py py-obj docutils literal notranslate"><span class="pre">numpy.ndarray.view</span></code></a>
 method to create a view of the array with a different dtype.</p>
-</section>
-<section id="dtypelike">
+</div>
+<div class="section" id="dtypelike">
 <h3>DTypeLike<a class="headerlink" href="#dtypelike" title="Permalink to this headline">¶</a></h3>
 <p>The <a class="reference internal" href="#numpy.typing.DTypeLike" title="numpy.typing.DTypeLike"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DTypeLike</span></code></a> type tries to avoid creation of dtype objects using
 dictionary of fields like below:</p>
@@ -421,8 +419,8 @@ dictionary of fields like below:</p>
 <p>Although this is valid NumPy code, the type checker will complain about it,
 since its usage is discouraged.
 Please see : <a class="reference internal" href="arrays.dtypes.html#arrays-dtypes"><span class="std std-ref">Data type objects</span></a></p>
-</section>
-<section id="number-precision">
+</div>
+<div class="section" id="number-precision">
 <h3>Number precision<a class="headerlink" href="#number-precision" title="Permalink to this headline">¶</a></h3>
 <p>The precision of <a class="reference internal" href="arrays.scalars.html#numpy.number" title="numpy.number"><code class="xref py py-obj docutils literal notranslate"><span class="pre">numpy.number</span></code></a> subclasses is treated as a covariant generic
 parameter (see <a class="reference internal" href="#numpy.typing.NBitBase" title="numpy.typing.NBitBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">NBitBase</span></code></a>), simplifying the annotating of processes
@@ -439,14 +437,14 @@ involving precision-based casting.</p>
 <p>Consequently, the likes of <a class="reference internal" href="arrays.scalars.html#numpy.float16" title="numpy.float16"><code class="xref py py-obj docutils literal notranslate"><span class="pre">float16</span></code></a>, <a class="reference internal" href="arrays.scalars.html#numpy.float32" title="numpy.float32"><code class="xref py py-obj docutils literal notranslate"><span class="pre">float32</span></code></a> and
 <a class="reference internal" href="arrays.scalars.html#numpy.float64" title="numpy.float64"><code class="xref py py-obj docutils literal notranslate"><span class="pre">float64</span></code></a> are still sub-types of <a class="reference internal" href="arrays.scalars.html#numpy.floating" title="numpy.floating"><code class="xref py py-obj docutils literal notranslate"><span class="pre">floating</span></code></a>, but, contrary to
 runtime, they’re not necessarily considered as sub-classes.</p>
-</section>
-<section id="timedelta64">
+</div>
+<div class="section" id="timedelta64">
 <h3>Timedelta64<a class="headerlink" href="#timedelta64" title="Permalink to this headline">¶</a></h3>
 <p>The <a class="reference internal" href="arrays.scalars.html#numpy.timedelta64" title="numpy.timedelta64"><code class="xref py py-obj docutils literal notranslate"><span class="pre">timedelta64</span></code></a> class is not considered a subclass of
 <a class="reference internal" href="arrays.scalars.html#numpy.signedinteger" title="numpy.signedinteger"><code class="xref py py-obj docutils literal notranslate"><span class="pre">signedinteger</span></code></a>, the former only inheriting from <a class="reference internal" href="arrays.scalars.html#numpy.generic" title="numpy.generic"><code class="xref py py-obj docutils literal notranslate"><span class="pre">generic</span></code></a>
 while static type checking.</p>
-</section>
-<section id="d-arrays">
+</div>
+<div class="section" id="d-arrays">
 <h3>0D arrays<a class="headerlink" href="#d-arrays" title="Permalink to this headline">¶</a></h3>
 <p>During runtime numpy aggressively casts any passed 0D arrays into their
 corresponding <a class="reference internal" href="arrays.scalars.html#numpy.generic" title="numpy.generic"><code class="xref py py-obj docutils literal notranslate"><span class="pre">generic</span></code></a> instance. Until the introduction of shape
@@ -456,9 +454,9 @@ correct, all operations are that can potentially perform a 0D-array -&gt; scalar
 cast are currently annotated as exclusively returning an <em class="xref py py-obj">ndarray</em>.</p>
 <p>If it is known in advance that an operation _will_ perform a
 0D-array -&gt; scalar cast, then one can consider manually remedying the
-situation with either <a class="reference external" href="https://docs.python.org/dev/library/typing.html#typing.cast" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">typing.cast</span></code></a> or a <code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">type:</span> <span class="pre">ignore</span></code> comment.</p>
-</section>
-<section id="record-array-dtypes">
+situation with either <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.cast" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">typing.cast</span></code></a> or a <code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">type:</span> <span class="pre">ignore</span></code> comment.</p>
+</div>
+<div class="section" id="record-array-dtypes">
 <h3>Record array dtypes<a class="headerlink" href="#record-array-dtypes" title="Permalink to this headline">¶</a></h3>
 <p>The dtype of <a class="reference internal" href="generated/numpy.recarray.html#numpy.recarray" title="numpy.recarray"><code class="xref py py-obj docutils literal notranslate"><span class="pre">numpy.recarray</span></code></a>, and the <code class="xref py py-obj docutils literal notranslate"><span class="pre">numpy.rec</span></code> functions in general,
 can be specified in one of two ways:</p>
@@ -472,14 +470,14 @@ can be specified in one of two ways:</p>
 While this mutual exclusivity is not (strictly) enforced during runtime,
 combining both dtype specifiers can lead to unexpected or even downright
 buggy behavior.</p>
-</section>
-</section>
-<section id="api">
+</div>
+</div>
+<div class="section" id="api">
 <h2>API<a class="headerlink" href="#api" title="Permalink to this headline">¶</a></h2>
 <dl class="py data">
 <dt class="sig sig-object py" id="numpy.typing.ArrayLike">
 <span class="sig-prename descclassname"><span class="pre">numpy.typing.</span></span><span class="sig-name descname"><span class="pre">ArrayLike</span></span><em class="property"> <span class="pre">=</span> <span class="pre">typing.Union[...]</span></em><a class="headerlink" href="#numpy.typing.ArrayLike" title="Permalink to this definition">¶</a></dt>
-<dd><p>A <a class="reference external" href="https://docs.python.org/dev/library/typing.html#typing.Union" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Union</span></code></a> representing objects that can be coerced
+<dd><p>A <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Union</span></code></a> representing objects that can be coerced
 into an <a class="reference internal" href="generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ndarray</span></code></a>.</p>
 <p>Among others this includes the likes of:</p>
 <ul class="simple">
@@ -510,12 +508,12 @@ into an <a class="reference internal" href="generated/numpy.ndarray.html#numpy.n
 <dl class="py data">
 <dt class="sig sig-object py" id="numpy.typing.DTypeLike">
 <span class="sig-prename descclassname"><span class="pre">numpy.typing.</span></span><span class="sig-name descname"><span class="pre">DTypeLike</span></span><em class="property"> <span class="pre">=</span> <span class="pre">typing.Union[...]</span></em><a class="headerlink" href="#numpy.typing.DTypeLike" title="Permalink to this definition">¶</a></dt>
-<dd><p>A <a class="reference external" href="https://docs.python.org/dev/library/typing.html#typing.Union" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Union</span></code></a> representing objects that can be coerced
+<dd><p>A <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Union</span></code></a> representing objects that can be coerced
 into a <a class="reference internal" href="generated/numpy.dtype.html#numpy.dtype" title="numpy.dtype"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dtype</span></code></a>.</p>
 <p>Among others this includes the likes of:</p>
 <ul class="simple">
-<li><p><a class="reference external" href="https://docs.python.org/dev/library/functions.html#type" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">type</span></code></a> objects.</p></li>
-<li><p>Character codes or the names of <a class="reference external" href="https://docs.python.org/dev/library/functions.html#type" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">type</span></code></a> objects.</p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#type" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">type</span></code></a> objects.</p></li>
+<li><p>Character codes or the names of <a class="reference external" href="https://docs.python.org/3/library/functions.html#type" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">type</span></code></a> objects.</p></li>
 <li><p>Objects with the <code class="docutils literal notranslate"><span class="pre">.dtype</span></code> attribute.</p></li>
 </ul>
 <div class="versionadded">
@@ -541,8 +539,8 @@ into data types.</p>
 
 <dl class="py data">
 <dt class="sig sig-object py" id="numpy.typing.NDArray">
-<span class="sig-prename descclassname"><span class="pre">numpy.typing.</span></span><span class="sig-name descname"><span class="pre">NDArray</span></span><em class="property"> <span class="pre">=</span> <span class="pre">numpy.ndarray[typing.Any,</span> <span class="pre">numpy.dtype[+ScalarType]]</span></em><a class="reference external" href="https://github.com/numpy/numpy/blob/v1.22.0/numpy/__init__.py"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#numpy.typing.NDArray" title="Permalink to this definition">¶</a></dt>
-<dd><p>A <a class="reference external" href="https://docs.python.org/dev/glossary.html#term-generic-type" title="(in Python v3.11)"><span class="xref std std-term">generic</span></a> version of
+<span class="sig-prename descclassname"><span class="pre">numpy.typing.</span></span><span class="sig-name descname"><span class="pre">NDArray</span></span><em class="property"> <span class="pre">=</span> <span class="pre">numpy.ndarray[typing.Any,</span> <span class="pre">numpy.dtype[+ScalarType]]</span></em><a class="reference external" href="https://github.com/numpy/numpy/blob/v1.22.4/numpy/__init__.py"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#numpy.typing.NDArray" title="Permalink to this definition">¶</a></dt>
+<dd><p>A <a class="reference external" href="https://docs.python.org/3/glossary.html#term-generic-type" title="(in Python v3.10)"><span class="xref std std-term">generic</span></a> version of
 <a class="reference internal" href="generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray"><code class="xref py py-obj docutils literal notranslate"><span class="pre">np.ndarray[Any,</span> <span class="pre">np.dtype[+ScalarType]]</span></code></a>.</p>
 <p>Can be used during runtime for typing arrays with a given dtype
 and unspecified shape.</p>
@@ -570,7 +568,7 @@ and unspecified shape.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="numpy.typing.NBitBase">
-<em class="property"><span class="pre">final</span> <span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">numpy.typing.</span></span><span class="sig-name descname"><span class="pre">NBitBase</span></span><a class="reference external" href="https://github.com/numpy/numpy/blob/v1.22.0/numpy/typing/__init__.py#L176-L228"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#numpy.typing.NBitBase" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">final</span> <span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">numpy.typing.</span></span><span class="sig-name descname"><span class="pre">NBitBase</span></span><a class="reference external" href="https://github.com/numpy/numpy/blob/v1.22.4/numpy/typing/__init__.py#L176-L228"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#numpy.typing.NBitBase" title="Permalink to this definition">¶</a></dt>
 <dd><p>A type representing <a class="reference internal" href="arrays.scalars.html#numpy.number" title="numpy.number"><code class="xref py py-obj docutils literal notranslate"><span class="pre">numpy.number</span></code></a> precision during static type checking.</p>
 <p>Used exclusively for the purpose static type checking, <a class="reference internal" href="#numpy.typing.NBitBase" title="numpy.typing.NBitBase"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NBitBase</span></code></a>
 represents the base of a hierarchical set of subclasses.
@@ -609,8 +607,8 @@ as arguments and returns a new float of whichever precision is largest
 </div>
 </dd></dl>
 
-</section>
-</section>
+</div>
+</div>
 
 
               </div>

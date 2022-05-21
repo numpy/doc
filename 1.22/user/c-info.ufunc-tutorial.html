@@ -4,8 +4,7 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Writing your own ufunc &#8212; NumPy v1.22 Manual</title>
     
   <link href="../_static/css/theme.css" rel="stylesheet">
@@ -28,8 +27,8 @@
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
     <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
     <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/panels-bootstrap.5fd3999ee7762ccc51105388f4a9d115.css" />
     <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/numpy.css" />
     
   <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
 
@@ -42,19 +41,12 @@
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Beyond the Basics" href="c-info.beyond-basics.html" />
     <link rel="prev" title="Using Python as glue" href="c-info.python-as-glue.html" />
-
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
 
     <!-- Google Analytics -->
     
-<link rel="stylesheet" href="../_static/numpy.css" type="text/css" />
-
-    <!-- PR #17220: This is added via javascript in versionwarning.js  -->
-    <!-- link rel="canonical" href="http://numpy.org/doc/stable/user/c-info.ufunc-tutorial.html" / -->
-
-
   </head>
   <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
     
@@ -100,6 +92,12 @@
 <li class="toctree-l1 nav-item">
  <a class="reference internal nav-link" href="../dev/index.html">
   Development
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../release.html">
+  Release notes
  </a>
 </li>
 
@@ -339,13 +337,13 @@
               
               <div>
                 
-  <section id="writing-your-own-ufunc">
+  <div class="section" id="writing-your-own-ufunc">
 <h1>Writing your own ufunc<a class="headerlink" href="#writing-your-own-ufunc" title="Permalink to this headline">¶</a></h1>
 <div class="line-block">
 <div class="line">I have the Power!</div>
 <div class="line">— <em>He-Man</em></div>
 </div>
-<section id="creating-a-new-universal-function">
+<div class="section" id="creating-a-new-universal-function">
 <span id="sec-creating-a-new"></span><h2>Creating a new universal function<a class="headerlink" href="#creating-a-new-universal-function" title="Permalink to this headline">¶</a></h2>
 <p id="index-0">Before reading this, it may help to familiarize yourself with the basics
 of C extensions for Python by reading/skimming the tutorials in Section 1
@@ -388,8 +386,8 @@ automatically have the following behavior.</p>
 </div>
 <p>This is wonderful because the function writer doesn’t have to
 manually propagate infs or nans.</p>
-</section>
-<section id="example-non-ufunc-extension">
+</div>
+<div class="section" id="example-non-ufunc-extension">
 <span id="sec-non-numpy-example"></span><h2>Example Non-ufunc extension<a class="headerlink" href="#example-non-ufunc-extension" title="Permalink to this headline">¶</a></h2>
 <p id="index-1">For comparison and general edification of the reader we provide
 a simple implementation of a C extension of logit that uses no
@@ -456,7 +454,7 @@ the module.</p>
 
 
 <span class="cm">/* This initiates the module using the above definitions. */</span><span class="w"></span>
-<span class="k">static</span><span class="w"> </span><span class="k">struct</span> <span class="nc">PyModuleDef</span><span class="w"> </span><span class="n">moduledef</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="k">static</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">PyModuleDef</span><span class="w"> </span><span class="n">moduledef</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">    </span><span class="n">PyModuleDef_HEAD_INIT</span><span class="p">,</span><span class="w"></span>
 <span class="w">    </span><span class="s">&quot;spam&quot;</span><span class="p">,</span><span class="w"></span>
 <span class="w">    </span><span class="nb">NULL</span><span class="p">,</span><span class="w"></span>
@@ -551,8 +549,8 @@ When the author compared numpy.vectorize(spam.logit) against the
 logit ufuncs constructed below, the logit ufuncs were almost exactly
 4 times faster. Larger or smaller speedups are, of course, possible
 depending on the nature of the function.</p>
-</section>
-<section id="example-numpy-ufunc-for-one-dtype">
+</div>
+<div class="section" id="example-numpy-ufunc-for-one-dtype">
 <span id="sec-numpy-one-loop"></span><h2>Example NumPy ufunc for one dtype<a class="headerlink" href="#example-numpy-ufunc-for-one-dtype" title="Permalink to this headline">¶</a></h2>
 <p id="index-2">For simplicity we give a ufunc for a single dtype, the ‘f8’ double.
 As in the previous section, we first give the .c file and then the
@@ -621,7 +619,7 @@ the primary thing that must be changed to create your own ufunc.</p>
 
 <span class="k">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="nb">NULL</span><span class="p">};</span><span class="w"></span>
 
-<span class="k">static</span><span class="w"> </span><span class="k">struct</span> <span class="nc">PyModuleDef</span><span class="w"> </span><span class="n">moduledef</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="k">static</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">PyModuleDef</span><span class="w"> </span><span class="n">moduledef</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">    </span><span class="n">PyModuleDef_HEAD_INIT</span><span class="p">,</span><span class="w"></span>
 <span class="w">    </span><span class="s">&quot;npufunc&quot;</span><span class="p">,</span><span class="w"></span>
 <span class="w">    </span><span class="nb">NULL</span><span class="p">,</span><span class="w"></span>
@@ -717,8 +715,8 @@ or installed to site-packages via python setup.py install.</p>
 <span class="go">array([       -inf, -1.09861229,  0.        ,  1.09861229,         inf])</span>
 </pre></div>
 </div>
-</section>
-<section id="example-numpy-ufunc-with-multiple-dtypes">
+</div>
+<div class="section" id="example-numpy-ufunc-with-multiple-dtypes">
 <span id="sec-numpy-many-loop"></span><h2>Example NumPy ufunc with multiple dtypes<a class="headerlink" href="#example-numpy-ufunc-with-multiple-dtypes" title="Permalink to this headline">¶</a></h2>
 <p id="index-3">We finally give an example of a full ufunc, with inner loops for
 half-floats, floats, doubles, and long doubles. As in the previous
@@ -867,7 +865,7 @@ the primary thing that must be changed to create your own ufunc.</p>
 <span class="w">                </span><span class="n">NPY_LONGDOUBLE</span><span class="p">,</span><span class="w"> </span><span class="n">NPY_LONGDOUBLE</span><span class="p">};</span><span class="w"></span>
 <span class="k">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">data</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">};</span><span class="w"></span>
 
-<span class="k">static</span><span class="w"> </span><span class="k">struct</span> <span class="nc">PyModuleDef</span><span class="w"> </span><span class="n">moduledef</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="k">static</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">PyModuleDef</span><span class="w"> </span><span class="n">moduledef</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">    </span><span class="n">PyModuleDef_HEAD_INIT</span><span class="p">,</span><span class="w"></span>
 <span class="w">    </span><span class="s">&quot;npufunc&quot;</span><span class="p">,</span><span class="w"></span>
 <span class="w">    </span><span class="nb">NULL</span><span class="p">,</span><span class="w"></span>
@@ -969,8 +967,8 @@ or installed to site-packages via python setup.py install.</p>
 <span class="go">array([       -inf, -1.09861229,  0.        ,  1.09861229,         inf])</span>
 </pre></div>
 </div>
-</section>
-<section id="example-numpy-ufunc-with-multiple-arguments-return-values">
+</div>
+<div class="section" id="example-numpy-ufunc-with-multiple-arguments-return-values">
 <span id="sec-numpy-many-arg"></span><h2>Example NumPy ufunc with multiple arguments/return values<a class="headerlink" href="#example-numpy-ufunc-with-multiple-arguments-return-values" title="Permalink to this headline">¶</a></h2>
 <p>Our final example is a ufunc with multiple arguments. It is a modification
 of the code for a logit ufunc for data with a single dtype. We
@@ -1061,7 +1059,7 @@ as well as all other properties of a ufunc.</p>
 
 <span class="k">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="nb">NULL</span><span class="p">};</span><span class="w"></span>
 
-<span class="k">static</span><span class="w"> </span><span class="k">struct</span> <span class="nc">PyModuleDef</span><span class="w"> </span><span class="n">moduledef</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="k">static</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">PyModuleDef</span><span class="w"> </span><span class="n">moduledef</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">    </span><span class="n">PyModuleDef_HEAD_INIT</span><span class="p">,</span><span class="w"></span>
 <span class="w">    </span><span class="s">&quot;npufunc&quot;</span><span class="p">,</span><span class="w"></span>
 <span class="w">    </span><span class="nb">NULL</span><span class="p">,</span><span class="w"></span>
@@ -1098,8 +1096,8 @@ as well as all other properties of a ufunc.</p>
 </pre></div>
 </div>
 </div></blockquote>
-</section>
-<section id="example-numpy-ufunc-with-structured-array-dtype-arguments">
+</div>
+<div class="section" id="example-numpy-ufunc-with-structured-array-dtype-arguments">
 <span id="sec-numpy-struct-dtype"></span><h2>Example NumPy ufunc with structured array dtype arguments<a class="headerlink" href="#example-numpy-ufunc-with-structured-array-dtype-arguments" title="Permalink to this headline">¶</a></h2>
 <p>This example shows how to create a ufunc for a structured array dtype.
 For the example we show a trivial ufunc for adding two arrays with dtype
@@ -1185,7 +1183,7 @@ the line</p>
 
 <span class="k">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="nb">NULL</span><span class="p">};</span><span class="w"></span>
 
-<span class="k">static</span><span class="w"> </span><span class="k">struct</span> <span class="nc">PyModuleDef</span><span class="w"> </span><span class="n">moduledef</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="k">static</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">PyModuleDef</span><span class="w"> </span><span class="n">moduledef</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">    </span><span class="n">PyModuleDef_HEAD_INIT</span><span class="p">,</span><span class="w"></span>
 <span class="w">    </span><span class="s">&quot;struct_ufunc_test&quot;</span><span class="p">,</span><span class="w"></span>
 <span class="w">    </span><span class="nb">NULL</span><span class="p">,</span><span class="w"></span>
@@ -1275,8 +1273,8 @@ adapted from the umath module</p>
 </pre></div>
 </div>
 </div></blockquote>
-</section>
-</section>
+</div>
+</div>
 
 
               </div>

@@ -4,8 +4,7 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Performance &#8212; NumPy v1.22 Manual</title>
     
   <link href="../../_static/css/theme.css" rel="stylesheet">
@@ -28,8 +27,8 @@
     <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/plot_directive.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/panels-bootstrap.5fd3999ee7762ccc51105388f4a9d115.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/numpy.css" />
     
   <link rel="preload" as="script" href="../../_static/js/index.be7d3bbb2ef33a8344ce.js">
 
@@ -42,19 +41,12 @@
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="C API for random" href="c-api.html" />
     <link rel="prev" title="What’s New or Different" href="new-or-different.html" />
-
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
 
     <!-- Google Analytics -->
     
-<link rel="stylesheet" href="../../_static/numpy.css" type="text/css" />
-
-    <!-- PR #17220: This is added via javascript in versionwarning.js  -->
-    <!-- link rel="canonical" href="http://numpy.org/doc/stable/reference/random/performance.html" / -->
-
-
   </head>
   <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
     
@@ -100,6 +92,12 @@
 <li class="toctree-l1 nav-item">
  <a class="reference internal nav-link" href="../../dev/index.html">
   Development
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../release.html">
+  Release notes
  </a>
 </li>
 
@@ -547,9 +545,9 @@
               
               <div>
                 
-  <section id="performance">
+  <div class="section" id="performance">
 <h1>Performance<a class="headerlink" href="#performance" title="Permalink to this headline">¶</a></h1>
-<section id="recommendation">
+<div class="section" id="recommendation">
 <h2>Recommendation<a class="headerlink" href="#recommendation" title="Permalink to this headline">¶</a></h2>
 <p>The recommended generator for general use is <a class="reference internal" href="bit_generators/pcg64.html#numpy.random.PCG64" title="numpy.random.PCG64"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PCG64</span></code></a> or its upgraded variant
 <a class="reference internal" href="bit_generators/pcg64dxsm.html#numpy.random.PCG64DXSM" title="numpy.random.PCG64DXSM"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PCG64DXSM</span></code></a> for heavily-parallel use cases. They are statistically high quality,
@@ -569,8 +567,8 @@ fast compared to modern PRNGs. For these reasons, we mostly do not recommend
 using it on its own, only through the legacy <a class="reference internal" href="legacy.html#numpy.random.RandomState" title="numpy.random.RandomState"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RandomState</span></code></a> for
 reproducing old results. That said, it has a very long history as a default in
 many systems.</p>
-</section>
-<section id="timings">
+</div>
+<div class="section" id="timings">
 <h2>Timings<a class="headerlink" href="#timings" title="Permalink to this headline">¶</a></h2>
 <p>The timings below are the time in ns to produce 1 random value from a
 specific distribution.  The original <a class="reference internal" href="bit_generators/mt19937.html#numpy.random.MT19937" title="numpy.random.MT19937"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MT19937</span></code></a> generator is
@@ -777,8 +775,8 @@ performance was computed using a geometric mean.</p>
 <p class="admonition-title">Note</p>
 <p>All timings were taken using Linux on an AMD Ryzen 9 3900X processor.</p>
 </div>
-</section>
-<section id="performance-on-different-operating-systems">
+</div>
+<div class="section" id="performance-on-different-operating-systems">
 <h2>Performance on different Operating Systems<a class="headerlink" href="#performance-on-different-operating-systems" title="Permalink to this headline">¶</a></h2>
 <p>Performance differs across platforms due to compiler and hardware availability
 (e.g., register width) differences. The default bit generator has been chosen
@@ -788,7 +786,7 @@ is very different.</p>
 each table. A value of 100 indicates that the performance matches the MT19937.
 Higher values indicate improved performance. These values cannot be compared
 across tables.</p>
-<section id="bit-linux">
+<div class="section" id="bit-linux">
 <h3>64-bit Linux<a class="headerlink" href="#bit-linux" title="Permalink to this headline">¶</a></h3>
 <table class="table">
 <colgroup>
@@ -853,8 +851,8 @@ across tables.</p>
 </tr>
 </tbody>
 </table>
-</section>
-<section id="bit-windows">
+</div>
+<div class="section" id="bit-windows">
 <h3>64-bit Windows<a class="headerlink" href="#bit-windows" title="Permalink to this headline">¶</a></h3>
 <p>The relative performance on 64-bit Linux and 64-bit Windows is broadly similar
 with the notable exception of the Philox generator.</p>
@@ -921,8 +919,8 @@ with the notable exception of the Philox generator.</p>
 </tr>
 </tbody>
 </table>
-</section>
-<section id="id1">
+</div>
+<div class="section" id="id1">
 <h3>32-bit Windows<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
 <p>The performance of 64-bit generators on 32-bit Windows is much lower than on 64-bit
 operating systems due to register width. MT19937, the generator that has been
@@ -996,9 +994,9 @@ in NumPy since 2005, operates on 32-bit integers.</p>
 Windows 10 using Microsoft C/C++ Optimizing Compiler Version 19 (Visual
 Studio 2019). All timings were produced on an AMD Ryzen 9 3900X processor.</p>
 </div>
-</section>
-</section>
-</section>
+</div>
+</div>
+</div>
 
 
               </div>

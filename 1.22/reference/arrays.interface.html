@@ -4,8 +4,7 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>The Array Interface &#8212; NumPy v1.22 Manual</title>
     
   <link href="../_static/css/theme.css" rel="stylesheet">
@@ -28,8 +27,8 @@
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
     <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
     <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/panels-bootstrap.5fd3999ee7762ccc51105388f4a9d115.css" />
     <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/numpy.css" />
     
   <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
 
@@ -42,19 +41,12 @@
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Datetimes and Timedeltas" href="arrays.datetime.html" />
     <link rel="prev" title="numpy.ma.where" href="generated/numpy.ma.where.html" />
-
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
 
     <!-- Google Analytics -->
     
-<link rel="stylesheet" href="../_static/numpy.css" type="text/css" />
-
-    <!-- PR #17220: This is added via javascript in versionwarning.js  -->
-    <!-- link rel="canonical" href="http://numpy.org/doc/stable/reference/arrays.interface.html" / -->
-
-
   </head>
   <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
     
@@ -100,6 +92,12 @@
 <li class="toctree-l1 nav-item">
  <a class="reference internal nav-link" href="../dev/index.html">
   Development
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../release.html">
+  Release notes
  </a>
 </li>
 
@@ -347,13 +345,13 @@
               
               <div>
                 
-  <section id="the-array-interface">
+  <div class="section" id="the-array-interface">
 <span id="arrays-interface"></span><span id="index-0"></span><h1>The Array Interface<a class="headerlink" href="#the-array-interface" title="Permalink to this headline">¶</a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>This page describes the numpy-specific API for accessing the contents of
 a numpy array from other C extensions. <span class="target" id="index-1"></span><a class="pep reference external" href="https://www.python.org/dev/peps/pep-3118"><strong>PEP 3118</strong></a> –
-<a class="reference external" href="https://docs.python.org/dev/c-api/buffer.html#c.PyObject_GetBuffer" title="(in Python v3.11)"><code class="xref c c-func docutils literal notranslate"><span class="pre">The</span> <span class="pre">Revised</span> <span class="pre">Buffer</span> <span class="pre">Protocol</span></code></a> introduces
+<a class="reference external" href="https://docs.python.org/3/c-api/buffer.html#c.PyObject_GetBuffer" title="(in Python v3.10)"><code class="xref c c-func docutils literal notranslate"><span class="pre">The</span> <span class="pre">Revised</span> <span class="pre">Buffer</span> <span class="pre">Protocol</span></code></a> introduces
 similar, standardized API to Python 2.6 and 3.0 for any extension
 module to use. <a class="reference external" href="http://cython.org/">Cython</a>’s buffer array support
 uses the <span class="target" id="index-2"></span><a class="pep reference external" href="https://www.python.org/dev/peps/pep-3118"><strong>PEP 3118</strong></a> API; see the <a class="reference external" href="https://github.com/cython/cython/wiki/tutorials-numpy">Cython numpy
@@ -383,7 +381,7 @@ item of the array has the same “type”.  This type can be very simple
 or it can be a quite arbitrary and complicated C-like structure.</p>
 <p>There are two ways to use the interface: A Python side and a C-side.
 Both are separate attributes.</p>
-<section id="python-side">
+<div class="section" id="python-side">
 <h2>Python side<a class="headerlink" href="#python-side" title="Permalink to this headline">¶</a></h2>
 <p>This approach to the interface consists of the object having an
 <a class="reference internal" href="#object.__array_interface__" title="object.__array_interface__"><code class="xref py py-data docutils literal notranslate"><span class="pre">__array_interface__</span></code></a> attribute.</p>
@@ -396,9 +394,9 @@ provided.</p>
 <p>The keys are:</p>
 <dl>
 <dt><strong>shape</strong> (required)</dt><dd><p>Tuple whose elements are the array size in each dimension. Each
-entry is an integer (a Python <a class="reference external" href="https://docs.python.org/dev/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>).  Note that these
+entry is an integer (a Python <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>).  Note that these
 integers could be larger than the platform <code class="docutils literal notranslate"><span class="pre">int</span></code> or <code class="docutils literal notranslate"><span class="pre">long</span></code>
-could hold (a Python <a class="reference external" href="https://docs.python.org/dev/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a> is a C <code class="docutils literal notranslate"><span class="pre">long</span></code>). It is up to the code
+could hold (a Python <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a> is a C <code class="docutils literal notranslate"><span class="pre">long</span></code>). It is up to the code
 using this attribute to handle this appropriately; either by
 raising an error when overflow is possible, or by using
 <code class="docutils literal notranslate"><span class="pre">long</span> <span class="pre">long</span></code> as the C type for the shapes.</p>
@@ -442,13 +440,13 @@ bits in the bit field).</p></td>
 <td><p>Datetime</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">O</span></code></p></td>
-<td><p>Object (i.e. the memory contains a pointer to <a class="reference external" href="https://docs.python.org/dev/c-api/structures.html#c.PyObject" title="(in Python v3.11)"><code class="xref c c-type docutils literal notranslate"><span class="pre">PyObject</span></code></a>)</p></td>
+<td><p>Object (i.e. the memory contains a pointer to <a class="reference external" href="https://docs.python.org/3/c-api/structures.html#c.PyObject" title="(in Python v3.10)"><code class="xref c c-type docutils literal notranslate"><span class="pre">PyObject</span></code></a>)</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">S</span></code></p></td>
 <td><p>String (fixed-length sequence of char)</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">U</span></code></p></td>
-<td><p>Unicode (fixed-length sequence of <a class="reference external" href="https://docs.python.org/dev/c-api/unicode.html#c.Py_UNICODE" title="(in Python v3.11)"><code class="xref c c-type docutils literal notranslate"><span class="pre">Py_UNICODE</span></code></a>)</p></td>
+<td><p>Unicode (fixed-length sequence of <a class="reference external" href="https://docs.python.org/3/c-api/unicode.html#c.Py_UNICODE" title="(in Python v3.10)"><code class="xref c c-type docutils literal notranslate"><span class="pre">Py_UNICODE</span></code></a>)</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">V</span></code></p></td>
 <td><p>Other (void * – each item is a fixed-size chunk of memory)</p></td>
@@ -489,7 +487,7 @@ data (in other words any offset is always ignored in this
 case). The second entry in the tuple is a read-only flag (true
 means the data area is read-only).</p>
 <p>This attribute can also be an object exposing the
-<a class="reference external" href="https://docs.python.org/dev/c-api/buffer.html#bufferobjects" title="(in Python v3.11)"><span class="xref std std-ref">buffer interface</span></a> which
+<a class="reference external" href="https://docs.python.org/3/c-api/buffer.html#bufferobjects" title="(in Python v3.10)"><span class="xref std std-ref">buffer interface</span></a> which
 will be used to share the data. If this key is not present (or
 returns None), then memory sharing will be done
 through the buffer interface of the object itself.  In this
@@ -503,7 +501,7 @@ secured.</p>
 a Tuple of strides which provides the number of bytes needed
 to jump to the next array element in the corresponding
 dimension. Each entry must be an integer (a Python
-<a class="reference external" href="https://docs.python.org/dev/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>). As with shape, the values may
+<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>). As with shape, the values may
 be larger than can be represented by a C <code class="docutils literal notranslate"><span class="pre">int</span></code> or <code class="docutils literal notranslate"><span class="pre">long</span></code>; the
 calling code should handle this appropriately, either by
 raising an error, or by using <code class="docutils literal notranslate"><span class="pre">long</span> <span class="pre">long</span></code> in C. The
@@ -533,19 +531,19 @@ objects exposing future versions of the interface.</p>
 </dl>
 </dd></dl>
 
-</section>
-<section id="c-struct-access">
+</div>
+<div class="section" id="c-struct-access">
 <h2>C-struct access<a class="headerlink" href="#c-struct-access" title="Permalink to this headline">¶</a></h2>
 <p>This approach to the array interface allows for faster access to an
 array using only one attribute lookup and a well-defined C-structure.</p>
 <dl class="py data">
 <dt class="sig sig-object py" id="object.__array_struct__">
 <span class="sig-prename descclassname"><span class="pre">object.</span></span><span class="sig-name descname"><span class="pre">__array_struct__</span></span><a class="headerlink" href="#object.__array_struct__" title="Permalink to this definition">¶</a></dt>
-<dd><p>A <a class="reference external" href="https://docs.python.org/dev/c-api/capsule.html#c.PyCapsule" title="(in Python v3.11)"><code class="xref c c-type docutils literal notranslate"><span class="pre">PyCapsule</span></code></a> whose <code class="docutils literal notranslate"><span class="pre">pointer</span></code> member contains a
+<dd><p>A <a class="reference external" href="https://docs.python.org/3/c-api/capsule.html#c.PyCapsule" title="(in Python v3.10)"><code class="xref c c-type docutils literal notranslate"><span class="pre">PyCapsule</span></code></a> whose <code class="docutils literal notranslate"><span class="pre">pointer</span></code> member contains a
 pointer to a filled <a class="reference internal" href="c-api/types-and-structures.html#c.PyArrayInterface" title="PyArrayInterface"><code class="xref c c-type docutils literal notranslate"><span class="pre">PyArrayInterface</span></code></a> structure.  Memory
-for the structure is dynamically created and the <a class="reference external" href="https://docs.python.org/dev/c-api/capsule.html#c.PyCapsule" title="(in Python v3.11)"><code class="xref c c-type docutils literal notranslate"><span class="pre">PyCapsule</span></code></a>
+for the structure is dynamically created and the <a class="reference external" href="https://docs.python.org/3/c-api/capsule.html#c.PyCapsule" title="(in Python v3.10)"><code class="xref c c-type docutils literal notranslate"><span class="pre">PyCapsule</span></code></a>
 is also created with an appropriate destructor so the retriever of
-this attribute simply has to apply <a class="reference external" href="https://docs.python.org/dev/c-api/refcounting.html#c.Py_DECREF" title="(in Python v3.11)"><code class="xref c c-func docutils literal notranslate"><span class="pre">Py_DECREF</span></code></a> to the
+this attribute simply has to apply <a class="reference external" href="https://docs.python.org/3/c-api/refcounting.html#c.Py_DECREF" title="(in Python v3.10)"><code class="xref c c-func docutils literal notranslate"><span class="pre">Py_DECREF</span></code></a> to the
 object returned by this attribute when it is finished.  Also,
 either the data needs to be copied out, or a reference to the
 object exposing this attribute must be held to ensure the data is
@@ -590,16 +588,16 @@ flag is present.</p>
 <div class="admonition-new-since-june-16-2006 admonition">
 <p class="admonition-title">New since June 16, 2006:</p>
 <p>In the past most implementations used the <code class="docutils literal notranslate"><span class="pre">desc</span></code> member of the <code class="docutils literal notranslate"><span class="pre">PyCObject</span></code>
-(now <a class="reference external" href="https://docs.python.org/dev/c-api/capsule.html#c.PyCapsule" title="(in Python v3.11)"><code class="xref c c-type docutils literal notranslate"><span class="pre">PyCapsule</span></code></a>) itself (do not confuse this with the “descr” member of
+(now <a class="reference external" href="https://docs.python.org/3/c-api/capsule.html#c.PyCapsule" title="(in Python v3.10)"><code class="xref c c-type docutils literal notranslate"><span class="pre">PyCapsule</span></code></a>) itself (do not confuse this with the “descr” member of
 the <a class="reference internal" href="c-api/types-and-structures.html#c.PyArrayInterface" title="PyArrayInterface"><code class="xref c c-type docutils literal notranslate"><span class="pre">PyArrayInterface</span></code></a> structure above — they are two separate
 things) to hold the pointer to the object exposing the interface.
 This is now an explicit part of the interface.  Be sure to take a
-reference to the object and call <a class="reference external" href="https://docs.python.org/dev/c-api/capsule.html#c.PyCapsule_SetContext" title="(in Python v3.11)"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyCapsule_SetContext</span></code></a> before
-returning the <a class="reference external" href="https://docs.python.org/dev/c-api/capsule.html#c.PyCapsule" title="(in Python v3.11)"><code class="xref c c-type docutils literal notranslate"><span class="pre">PyCapsule</span></code></a>, and configure a destructor to decref this
+reference to the object and call <a class="reference external" href="https://docs.python.org/3/c-api/capsule.html#c.PyCapsule_SetContext" title="(in Python v3.10)"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyCapsule_SetContext</span></code></a> before
+returning the <a class="reference external" href="https://docs.python.org/3/c-api/capsule.html#c.PyCapsule" title="(in Python v3.10)"><code class="xref c c-type docutils literal notranslate"><span class="pre">PyCapsule</span></code></a>, and configure a destructor to decref this
 reference.</p>
 </div>
-</section>
-<section id="type-description-examples">
+</div>
+<div class="section" id="type-description-examples">
 <h2>Type description examples<a class="headerlink" href="#type-description-examples" title="Permalink to this headline">¶</a></h2>
 <p>For clarity it is useful to provide some examples of the type
 description and corresponding <a class="reference internal" href="#object.__array_interface__" title="object.__array_interface__"><code class="xref py py-data docutils literal notranslate"><span class="pre">__array_interface__</span></code></a> ‘descr’
@@ -653,15 +651,15 @@ more information which may be important for various applications:</p>
 </div>
 <p>It should be clear that any structured type could be described using this
 interface.</p>
-</section>
-<section id="differences-with-array-interface-version-2">
+</div>
+<div class="section" id="differences-with-array-interface-version-2">
 <h2>Differences with Array interface (Version 2)<a class="headerlink" href="#differences-with-array-interface-version-2" title="Permalink to this headline">¶</a></h2>
 <p>The version 2 interface was very similar.  The differences were
 largely aesthetic.  In particular:</p>
 <ol class="arabic">
 <li><p>The PyArrayInterface structure had no descr member at the end
 (and therefore no flag ARR_HAS_DESCR)</p></li>
-<li><p>The <code class="docutils literal notranslate"><span class="pre">context</span></code> member of the <a class="reference external" href="https://docs.python.org/dev/c-api/capsule.html#c.PyCapsule" title="(in Python v3.11)"><code class="xref c c-type docutils literal notranslate"><span class="pre">PyCapsule</span></code></a> (formally the <code class="docutils literal notranslate"><span class="pre">desc</span></code>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">context</span></code> member of the <a class="reference external" href="https://docs.python.org/3/c-api/capsule.html#c.PyCapsule" title="(in Python v3.10)"><code class="xref c c-type docutils literal notranslate"><span class="pre">PyCapsule</span></code></a> (formally the <code class="docutils literal notranslate"><span class="pre">desc</span></code>
 member of the <code class="docutils literal notranslate"><span class="pre">PyCObject</span></code>) returned from <code class="docutils literal notranslate"><span class="pre">__array_struct__</span></code> was
 not specified.  Usually, it was the object exposing the array (so
 that a reference to it could be kept and destroyed when the
@@ -699,8 +697,8 @@ had to access separately the attributes:</p>
 </ul>
 </li>
 </ol>
-</section>
-</section>
+</div>
+</div>
 
 
               </div>

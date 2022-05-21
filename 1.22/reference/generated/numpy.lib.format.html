@@ -4,8 +4,7 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>numpy.lib.format &#8212; NumPy v1.22 Manual</title>
     
   <link href="../../_static/css/theme.css" rel="stylesheet">
@@ -28,8 +27,8 @@
     <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/plot_directive.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/panels-bootstrap.5fd3999ee7762ccc51105388f4a9d115.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/numpy.css" />
     
   <link rel="preload" as="script" href="../../_static/js/index.be7d3bbb2ef33a8344ce.js">
 
@@ -42,19 +41,12 @@
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="numpy.lib.format.descr_to_dtype" href="numpy.lib.format.descr_to_dtype.html" />
     <link rel="prev" title="numpy.DataSource.open" href="numpy.DataSource.open.html" />
-
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
 
     <!-- Google Analytics -->
     
-<link rel="stylesheet" href="../../_static/numpy.css" type="text/css" />
-
-    <!-- PR #17220: This is added via javascript in versionwarning.js  -->
-    <!-- link rel="canonical" href="http://numpy.org/doc/stable/reference/generated/numpy.lib.format.html" / -->
-
-
   </head>
   <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
     
@@ -100,6 +92,12 @@
 <li class="toctree-l1 nav-item">
  <a class="reference internal nav-link" href="../../dev/index.html">
   Development
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../release.html">
+  Release notes
  </a>
 </li>
 
@@ -709,10 +707,10 @@
               
               <div>
                 
-  <section id="module-numpy.lib.format">
+  <div class="section" id="module-numpy.lib.format">
 <span id="numpy-lib-format"></span><h1>numpy.lib.format<a class="headerlink" href="#module-numpy.lib.format" title="Permalink to this headline">¶</a></h1>
 <p>Binary serialization</p>
-<section id="npy-format">
+<div class="section" id="npy-format">
 <h2>NPY format<a class="headerlink" href="#npy-format" title="Permalink to this headline">¶</a></h2>
 <p>A simple format for saving numpy arrays to disk with the full
 information about them.</p>
@@ -725,7 +723,7 @@ its limited goals.</p>
 <p>The <code class="docutils literal notranslate"><span class="pre">.npz</span></code> format is the standard format for persisting <em>multiple</em> NumPy
 arrays on disk. A <code class="docutils literal notranslate"><span class="pre">.npz</span></code> file is a zip file containing multiple <code class="docutils literal notranslate"><span class="pre">.npy</span></code>
 files, one for each array.</p>
-<section id="capabilities">
+<div class="section" id="capabilities">
 <h3>Capabilities<a class="headerlink" href="#capabilities" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Can represent all NumPy arrays including nested record arrays and
@@ -752,8 +750,8 @@ documentation.</p></li>
 Python objects. Files with object arrays are not to be mmapable, but
 can be read and written to disk.</p></li>
 </ul>
-</section>
-<section id="limitations">
+</div>
+<div class="section" id="limitations">
 <h3>Limitations<a class="headerlink" href="#limitations" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Arbitrary subclasses of numpy.ndarray are not completely preserved.
@@ -772,22 +770,22 @@ file format. The arrays with such structures can still be saved and
 restored, and the correct dtype may be restored by using the
 <code class="docutils literal notranslate"><span class="pre">loadedarray.view(correct_dtype)</span></code> method.</p>
 </div>
-</section>
-<section id="file-extensions">
+</div>
+<div class="section" id="file-extensions">
 <h3>File extensions<a class="headerlink" href="#file-extensions" title="Permalink to this headline">¶</a></h3>
 <p>We recommend using the <code class="docutils literal notranslate"><span class="pre">.npy</span></code> and <code class="docutils literal notranslate"><span class="pre">.npz</span></code> extensions for files saved
 in this format. This is by no means a requirement; applications may wish
 to use these file formats but use an extension specific to the
 application. In the absence of an obvious alternative, however,
 we suggest using <code class="docutils literal notranslate"><span class="pre">.npy</span></code> and <code class="docutils literal notranslate"><span class="pre">.npz</span></code>.</p>
-</section>
-<section id="version-numbering">
+</div>
+<div class="section" id="version-numbering">
 <h3>Version numbering<a class="headerlink" href="#version-numbering" title="Permalink to this headline">¶</a></h3>
 <p>The version numbering of these formats is independent of NumPy version
 numbering. If the format is upgraded, the code in <em class="xref py py-obj">numpy.io</em> will still
 be able to read and write Version 1.0 files.</p>
-</section>
-<section id="format-version-1-0">
+</div>
+<div class="section" id="format-version-1-0">
 <h3>Format Version 1.0<a class="headerlink" href="#format-version-1-0" title="Permalink to this headline">¶</a></h3>
 <p>The first 6 bytes are a magic string: exactly <code class="docutils literal notranslate"><span class="pre">\x93NUMPY</span></code>.</p>
 <p>The next 1 byte is an unsigned byte: the major version number of the file
@@ -827,8 +825,8 @@ or Fortran-, depending on <code class="docutils literal notranslate"><span class
 Consumers can figure out the number of bytes by multiplying the number
 of elements given by the shape (noting that <code class="docutils literal notranslate"><span class="pre">shape=()</span></code> means there is
 1 element) by <code class="docutils literal notranslate"><span class="pre">dtype.itemsize</span></code>.</p>
-</section>
-<section id="format-version-2-0">
+</div>
+<div class="section" id="format-version-2-0">
 <h3>Format Version 2.0<a class="headerlink" href="#format-version-2-0" title="Permalink to this headline">¶</a></h3>
 <p>The version 1.0 format only allowed the array header to have a total size of
 65535 bytes.  This can be exceeded by structured arrays with a large number of
@@ -838,14 +836,14 @@ else it will always use the more compatible 1.0 format.</p>
 <p>The description of the fourth element of the header therefore has become:
 “The next 4 bytes form a little-endian unsigned int: the length of the header
 data HEADER_LEN.”</p>
-</section>
-<section id="format-version-3-0">
+</div>
+<div class="section" id="format-version-3-0">
 <h3>Format Version 3.0<a class="headerlink" href="#format-version-3-0" title="Permalink to this headline">¶</a></h3>
 <p>This version replaces the ASCII string (which in practice was latin1) with
 a utf8-encoded string, so supports structured types with any unicode field
 names.</p>
-</section>
-<section id="notes">
+</div>
+<div class="section" id="notes">
 <h3>Notes<a class="headerlink" href="#notes" title="Permalink to this headline">¶</a></h3>
 <p>The <code class="docutils literal notranslate"><span class="pre">.npy</span></code> format, including motivation for creating it and a comparison of
 alternatives, is described in the
@@ -896,9 +894,9 @@ evolved with time and this document is more current.</p>
 </tr>
 </tbody>
 </table>
-</section>
-</section>
-</section>
+</div>
+</div>
+</div>
 
 
               </div>

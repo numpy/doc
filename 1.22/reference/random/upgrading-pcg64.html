@@ -4,8 +4,7 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Upgrading PCG64 with PCG64DXSM &#8212; NumPy v1.22 Manual</title>
     
   <link href="../../_static/css/theme.css" rel="stylesheet">
@@ -28,8 +27,8 @@
     <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/plot_directive.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/panels-bootstrap.5fd3999ee7762ccc51105388f4a9d115.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/numpy.css" />
     
   <link rel="preload" as="script" href="../../_static/js/index.be7d3bbb2ef33a8344ce.js">
 
@@ -43,19 +42,12 @@
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="Parallel Random Number Generation" href="parallel.html" />
     <link rel="prev" title="numpy.random.SeedSequence.spawn" href="bit_generators/generated/numpy.random.SeedSequence.spawn.html" />
-
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
 
     <!-- Google Analytics -->
     
-<link rel="stylesheet" href="../../_static/numpy.css" type="text/css" />
-
-    <!-- PR #17220: This is added via javascript in versionwarning.js  -->
-    <!-- link rel="canonical" href="http://numpy.org/doc/stable/reference/random/upgrading-pcg64.html" / -->
-
-
   </head>
   <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
     
@@ -101,6 +93,12 @@
 <li class="toctree-l1 nav-item">
  <a class="reference internal nav-link" href="../../dev/index.html">
   Development
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../release.html">
+  Release notes
  </a>
 </li>
 
@@ -526,7 +524,7 @@
               
               <div>
                 
-  <section id="upgrading-pcg64-with-pcg64dxsm">
+  <div class="section" id="upgrading-pcg64-with-pcg64dxsm">
 <span id="upgrading-pcg64"></span><h1>Upgrading <code class="docutils literal notranslate"><span class="pre">PCG64</span></code> with <code class="docutils literal notranslate"><span class="pre">PCG64DXSM</span></code><a class="headerlink" href="#upgrading-pcg64-with-pcg64dxsm" title="Permalink to this headline">¶</a></h1>
 <p>Uses of the <a class="reference internal" href="bit_generators/pcg64.html#numpy.random.PCG64" title="numpy.random.PCG64"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PCG64</span></code></a> <a class="reference internal" href="bit_generators/generated/numpy.random.BitGenerator.html#numpy.random.BitGenerator" title="numpy.random.BitGenerator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BitGenerator</span></code></a> in a massively-parallel context have been
 shown to have statistical weaknesses that were not apparent at the first
@@ -536,7 +534,7 @@ safe to continue to use <a class="reference internal" href="bit_generators/pcg64
 implementation used by <a class="reference internal" href="generator.html#numpy.random.default_rng" title="numpy.random.default_rng"><code class="xref py py-obj docutils literal notranslate"><span class="pre">default_rng</span></code></a> in future releases. <a class="reference internal" href="bit_generators/pcg64dxsm.html#numpy.random.PCG64DXSM" title="numpy.random.PCG64DXSM"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PCG64DXSM</span></code></a> solves
 the statistical weakness while preserving the performance and the features of
 <a class="reference internal" href="bit_generators/pcg64.html#numpy.random.PCG64" title="numpy.random.PCG64"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PCG64</span></code></a>.</p>
-<section id="does-this-affect-me">
+<div class="section" id="does-this-affect-me">
 <h2>Does this affect me?<a class="headerlink" href="#does-this-affect-me" title="Permalink to this headline">¶</a></h2>
 <p>If you</p>
 <blockquote>
@@ -565,8 +563,8 @@ considered together, might fail a stringent set of statistical tests of
 randomness. The remaining millions of streams would all be perfectly fine, and
 the effect of the bad pair in the whole calculation is very likely to be
 swamped by the remaining streams in most applications.</p>
-</section>
-<section id="technical-details">
+</div>
+<div class="section" id="technical-details">
 <span id="upgrading-pcg64-details"></span><h2>Technical Details<a class="headerlink" href="#technical-details" title="Permalink to this headline">¶</a></h2>
 <p>Like many PRNG algorithms, <a class="reference internal" href="bit_generators/pcg64.html#numpy.random.PCG64" title="numpy.random.PCG64"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PCG64</span></code></a> is constructed from a transition function,
 which advances a 128-bit state, and an output function, that mixes the 128-bit
@@ -664,8 +662,8 @@ machines, so <a class="reference internal" href="bit_generators/pcg64dxsm.html#n
 infinite number of stronger output functions that one could consider, but most
 will have a greater computational cost, and the DXSM output function has now
 received many CPU cycles of testing via <code class="docutils literal notranslate"><span class="pre">PractRand</span></code> at this time.</p>
-</section>
-</section>
+</div>
+</div>
 
 
               </div>
