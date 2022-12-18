@@ -1,0 +1,835 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>Upgrading PCG64 with PCG64DXSM &#8212; NumPy v1.24 Manual</title>
+<script>
+  document.documentElement.dataset.mode = localStorage.getItem("mode") || "light";
+  document.documentElement.dataset.theme = localStorage.getItem("theme") || "light"
+</script>
+
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=92025949c220c2e29695" rel="stylesheet">
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=92025949c220c2e29695" rel="stylesheet">
+
+
+  <link rel="stylesheet"
+    href="../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/plot_directive.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/numpy.css" />
+
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695">
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    <script src="../../_static/design-tabs.js"></script>
+    <script async="async" src="../../_static/scipy-mathjax/MathJax.js?config=scipy-mathjax"></script>
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Parallel Random Number Generation" href="parallel.html" />
+    <link rel="prev" title="numpy.random.SeedSequence.spawn" href="bit_generators/generated/numpy.random.SeedSequence.spawn.html" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="docsearch:language" content="en">
+  </head>
+  
+  
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="180" data-default-mode="light">
+    <div class="bd-header-announcement container-fluid" id="banner">
+      
+
+    </div>
+
+    
+    <nav class="bd-header navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="bd-header__inner container-xl">
+
+  <div id="navbar-start">
+    
+    
+  
+
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+    <img src="../../_static/numpylogo.svg" class="logo__image only-light" alt="Logo image">
+    <img src="../../_static/numpylogo_dark.svg" class="logo__image only-dark" alt="Logo image">
+  
+  
+</a>
+    
+  </div>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapsible" aria-controls="navbar-collapsible" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="fas fa-bars"></span>
+  </button>
+
+  
+  <div id="navbar-collapsible" class="col-lg-9 collapse navbar-collapse">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <ul id="navbar-main-elements" class="navbar-nav">
+    <li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../user/index.html">
+  User Guide
+ </a>
+</li>
+
+<li class="toctree-l1 current active nav-item">
+ <a class="reference internal nav-link" href="../index.html">
+  API reference
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../dev/index.html">
+  Development
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../release.html">
+  Release notes
+ </a>
+</li>
+
+    
+    <li class="nav-item">
+        <a class="nav-link nav-external" href="https://numpy.org/numpy-tutorials/">Learn<i class="fas fa-external-link-alt"></i></a>
+    </li>
+    
+</ul>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      
+      <div class="navbar-end-item">
+        <span id="theme-switch" class="btn btn-sm btn-outline-primary navbar-btn rounded-circle">
+    <a class="theme-switch" data-mode="light"><i class="fas fa-sun"></i></a>
+    <a class="theme-switch" data-mode="dark"><i class="far fa-moon"></i></a>
+    <a class="theme-switch" data-mode="auto"><i class="fas fa-adjust"></i></a>
+</span>
+      </div>
+      
+      <div class="navbar-end-item">
+        <div class="dropdown" id="version_switcher">
+    <button type="button" class="btn btn-sm navbar-btn dropdown-toggle" id="version_switcher_button" data-toggle="dropdown">
+        1.24  <!-- this text may get changed later by javascript -->
+        <span class="caret"></span>
+    </button>
+    <div id="version_switcher_menu" class="dropdown-menu list-group-flush py-0" aria-labelledby="version_switcher_button">
+    <!-- dropdown will be populated by javascript on page load -->
+    </div>
+</div>
+
+<!-- NOTE: this JS must live here (not in our global JS file) because it relies
+     on being processed by Jinja before it is run (specifically for replacing
+     variables reference/random/upgrading-pcg64 and {'version_match': '1.24', 'json_url': 'https://numpy.org/doc/_static/versions.json'}.
+-->
+
+<script type="text/javascript">
+// Check if corresponding page path exists in other version of docs
+// and, if so, go there instead of the homepage of the other docs version
+function checkPageExistsAndRedirect(event) {
+    const currentFilePath = "reference/random/upgrading-pcg64.html",
+          tryUrl = event.target.getAttribute("href");
+    let otherDocsHomepage = tryUrl.replace(currentFilePath, "");
+    $.ajax({
+        type: 'HEAD',
+        url: tryUrl,
+        // if the page exists, go there
+        success: function() {
+            location.href = tryUrl;
+        }
+    }).fail(function() {
+        location.href = otherDocsHomepage;
+    });
+    // this prevents the browser from following the href of the clicked node
+    // (which is fine because this function takes care of redirecting)
+    return false;
+}
+
+// Populate the version switcher from the JSON config file
+(function () {
+    $.getJSON("https://numpy.org/doc/_static/versions.json", function(data, textStatus, jqXHR) {
+        const currentFilePath = "reference/random/upgrading-pcg64.html";
+        let btn = document.getElementById("version_switcher_button");
+        // Set empty strings by default so that these attributes exist and can be used in CSS selectors
+        btn.dataset["activeVersionName"] = "";
+        btn.dataset["activeVersion"] = "";
+        // create links to the corresponding page in the other docs versions
+        $.each(data, function(index, entry) {
+            // if no custom name specified (e.g., "latest"), use version string
+            if (!("name" in entry)) {
+                entry.name = entry.version;
+            }
+            // create the node
+            const node = document.createElement("a");
+            node.setAttribute("class", "list-group-item list-group-item-action py-1");
+            node.textContent = `${entry.name}`;
+            node.setAttribute("href", `${entry.url}${currentFilePath}`);
+            // on click, AJAX calls will check if the linked page exists before
+            // trying to redirect, and if not, will redirect to the homepage
+            // for that version of the docs.
+            node.onclick = checkPageExistsAndRedirect;
+            // Add dataset values for the version and name in case people want
+            // to apply CSS styling based on this information.
+            node.dataset["versionName"] = entry.name;
+            node.dataset["version"] = entry.version;
+
+            $("#version_switcher_menu").append(node);
+            // replace dropdown button text with the preferred display name of
+            // this version, rather than using sphinx's 1.24 variable.
+            // also highlight the dropdown entry for the currently-viewed
+            // version's entry
+            if (entry.version == "1.24") {
+                node.classList.add("active");
+                btn.innerText = btn.dataset["activeVersionName"] = entry.name;
+                btn.dataset["activeVersion"] = entry.version;
+            }
+        });
+    });
+})();
+</script>
+      </div>
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+        <li class="nav-item">
+          <a class="nav-link" href="https://github.com/numpy/numpy" rel="noopener" target="_blank" title="GitHub"><span><i class="fab fa-github-square"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="https://twitter.com/numpy_team" rel="noopener" target="_blank" title="Twitter"><span><i class="fab fa-twitter-square"></i></span>
+            <label class="sr-only">Twitter</label></a>
+        </li>
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+</div>
+    </nav>
+    
+
+    <div class="bd-container container-xl">
+      <div class="bd-container__inner row">
+          
+
+<!-- Only show if we have sidebars configured, else just a small margin  -->
+<div class="bd-sidebar-primary col-12 col-md-3 bd-sidebar">
+  <div class="sidebar-start-items"><form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <div class="bd-toc-item active">
+    <ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../arrays.html">
+   Array objects
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../array_api.html">
+   Array API Standard Compatibility
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../constants.html">
+   Constants
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../ufuncs.html">
+   Universal functions (
+   <code class="xref py py-class docutils literal notranslate">
+    <span class="pre">
+     ufunc
+    </span>
+   </code>
+   )
+  </a>
+ </li>
+ <li class="toctree-l1 current active has-children">
+  <a class="reference internal" href="../routines.html">
+   Routines
+  </a>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul class="current">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../routines.array-creation.html">
+     Array creation routines
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../routines.array-manipulation.html">
+     Array manipulation routines
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../routines.bitwise.html">
+     Binary operations
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../routines.char.html">
+     String operations
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../routines.ctypeslib.html">
+     C-Types Foreign Function Interface (
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       numpy.ctypeslib
+      </span>
+     </code>
+     )
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../routines.datetime.html">
+     Datetime Support Functions
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../routines.dtype.html">
+     Data type routines
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../routines.dual.html">
+     Optionally SciPy-accelerated routines (
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       numpy.dual
+      </span>
+     </code>
+     )
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../routines.emath.html">
+     Mathematical functions with automatic domain
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../routines.err.html">
+     Floating point error handling
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../routines.fft.html">
+     Discrete Fourier Transform (
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       numpy.fft
+      </span>
+     </code>
+     )
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../routines.functional.html">
+     Functional programming
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../routines.help.html">
+     NumPy-specific help functions
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../routines.io.html">
+     Input and output
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../routines.linalg.html">
+     Linear algebra (
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       numpy.linalg
+      </span>
+     </code>
+     )
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../routines.logic.html">
+     Logic functions
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../routines.ma.html">
+     Masked array operations
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../routines.math.html">
+     Mathematical functions
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../routines.matlib.html">
+     Matrix library (
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       numpy.matlib
+      </span>
+     </code>
+     )
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../routines.other.html">
+     Miscellaneous routines
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../routines.padding.html">
+     Padding Arrays
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../routines.polynomials.html">
+     Polynomials
+    </a>
+   </li>
+   <li class="toctree-l2 current active has-children">
+    <a class="reference internal" href="index.html">
+     Random sampling (
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       numpy.random
+      </span>
+     </code>
+     )
+    </a>
+    <input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+    <label for="toctree-checkbox-2">
+     <i class="fas fa-chevron-down">
+     </i>
+    </label>
+    <ul class="current">
+     <li class="toctree-l3">
+      <a class="reference internal" href="generator.html">
+       Random Generator
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="legacy.html">
+       Legacy Random Generation
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="bit_generators/index.html">
+       Bit Generators
+      </a>
+     </li>
+     <li class="toctree-l3 current active">
+      <a class="current reference internal" href="#">
+       Upgrading PCG64 with PCG64DXSM
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="parallel.html">
+       Parallel Applications
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="multithreading.html">
+       Multithreaded Generation
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="new-or-different.html">
+       What’s New or Different
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="performance.html">
+       Comparing Performance
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="c-api.html">
+       C API for random
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="extending.html">
+       Examples of using Numba, Cython, CFFI
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../routines.set.html">
+     Set routines
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../routines.sort.html">
+     Sorting, searching, and counting
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../routines.statistics.html">
+     Statistics
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../routines.testing.html">
+     Test Support (
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       numpy.testing
+      </span>
+     </code>
+     )
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../routines.window.html">
+     Window functions
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../typing.html">
+   Typing (
+   <code class="xref py py-mod docutils literal notranslate">
+    <span class="pre">
+     numpy.typing
+    </span>
+   </code>
+   )
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../global_state.html">
+   Global State
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../distutils.html">
+   Packaging (
+   <code class="xref py py-mod docutils literal notranslate">
+    <span class="pre">
+     numpy.distutils
+    </span>
+   </code>
+   )
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../distutils_guide.html">
+   NumPy Distutils - Users Guide
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../distutils_status_migration.html">
+   Status of
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     numpy.distutils
+    </span>
+   </code>
+   and migration advice
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../c-api/index.html">
+   NumPy C-API
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../simd/index.html">
+   CPU/SIMD Optimizations
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../security.html">
+   NumPy security
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../swig.html">
+   NumPy and SWIG
+  </a>
+ </li>
+</ul>
+
+  </div>
+</nav>
+  </div>
+  <div class="sidebar-end-items">
+  </div>
+</div>
+
+
+          
+
+
+<div class="bd-sidebar-secondary d-none d-xl-block col-xl-2 bd-toc">
+  
+    
+    <div class="toc-item">
+      
+<div class="tocsection onthispage mt-5 pt-1 pb-3">
+    <i class="fas fa-list"></i> On this page
+</div>
+
+<nav id="bd-toc-nav">
+    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#does-this-affect-me">
+   Does this affect me?
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#technical-details">
+   Technical Details
+  </a>
+ </li>
+</ul>
+
+</nav>
+    </div>
+    
+    <div class="toc-item">
+      
+    </div>
+    
+  
+</div>
+
+
+          
+          
+          <div class="bd-content col-12 col-md-9 col-xl-7">
+              
+              <article class="bd-article" role="main">
+                
+  <section id="upgrading-pcg64-with-pcg64dxsm">
+<span id="upgrading-pcg64"></span><h1>Upgrading <code class="docutils literal notranslate"><span class="pre">PCG64</span></code> with <code class="docutils literal notranslate"><span class="pre">PCG64DXSM</span></code><a class="headerlink" href="#upgrading-pcg64-with-pcg64dxsm" title="Permalink to this heading">#</a></h1>
+<p>Uses of the <a class="reference internal" href="bit_generators/pcg64.html#numpy.random.PCG64" title="numpy.random.PCG64"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PCG64</span></code></a> <a class="reference internal" href="bit_generators/generated/numpy.random.BitGenerator.html#numpy.random.BitGenerator" title="numpy.random.BitGenerator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BitGenerator</span></code></a> in a massively-parallel context have been
+shown to have statistical weaknesses that were not apparent at the first
+release in numpy 1.17. Most users will never observe this weakness and are
+safe to continue to use <a class="reference internal" href="bit_generators/pcg64.html#numpy.random.PCG64" title="numpy.random.PCG64"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PCG64</span></code></a>. We have introduced a new <a class="reference internal" href="bit_generators/pcg64dxsm.html#numpy.random.PCG64DXSM" title="numpy.random.PCG64DXSM"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PCG64DXSM</span></code></a>
+<a class="reference internal" href="bit_generators/generated/numpy.random.BitGenerator.html#numpy.random.BitGenerator" title="numpy.random.BitGenerator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BitGenerator</span></code></a> that will eventually become the new default <a class="reference internal" href="bit_generators/generated/numpy.random.BitGenerator.html#numpy.random.BitGenerator" title="numpy.random.BitGenerator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BitGenerator</span></code></a>
+implementation used by <a class="reference internal" href="generator.html#numpy.random.default_rng" title="numpy.random.default_rng"><code class="xref py py-obj docutils literal notranslate"><span class="pre">default_rng</span></code></a> in future releases. <a class="reference internal" href="bit_generators/pcg64dxsm.html#numpy.random.PCG64DXSM" title="numpy.random.PCG64DXSM"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PCG64DXSM</span></code></a> solves
+the statistical weakness while preserving the performance and the features of
+<a class="reference internal" href="bit_generators/pcg64.html#numpy.random.PCG64" title="numpy.random.PCG64"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PCG64</span></code></a>.</p>
+<section id="does-this-affect-me">
+<h2>Does this affect me?<a class="headerlink" href="#does-this-affect-me" title="Permalink to this heading">#</a></h2>
+<p>If you</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>only use a single <a class="reference internal" href="generator.html#numpy.random.Generator" title="numpy.random.Generator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Generator</span></code></a> instance,</p></li>
+<li><p>only use <a class="reference internal" href="legacy.html#numpy.random.RandomState" title="numpy.random.RandomState"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RandomState</span></code></a> or the functions in <a class="reference internal" href="index.html#module-numpy.random" title="numpy.random"><code class="xref py py-obj docutils literal notranslate"><span class="pre">numpy.random</span></code></a>,</p></li>
+<li><p>only use the <a class="reference internal" href="bit_generators/generated/numpy.random.PCG64.jumped.html#numpy.random.PCG64.jumped" title="numpy.random.PCG64.jumped"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PCG64.jumped</span></code></a> method to generate parallel streams,</p></li>
+<li><p>explicitly use a <a class="reference internal" href="bit_generators/generated/numpy.random.BitGenerator.html#numpy.random.BitGenerator" title="numpy.random.BitGenerator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BitGenerator</span></code></a> other than <a class="reference internal" href="bit_generators/pcg64.html#numpy.random.PCG64" title="numpy.random.PCG64"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PCG64</span></code></a>,</p></li>
+</ol>
+</div></blockquote>
+<p>then this weakness does not affect you at all. Carry on.</p>
+<p>If you use moderate numbers of parallel streams created with <a class="reference internal" href="generator.html#numpy.random.default_rng" title="numpy.random.default_rng"><code class="xref py py-obj docutils literal notranslate"><span class="pre">default_rng</span></code></a> or
+<a class="reference internal" href="bit_generators/generated/numpy.random.SeedSequence.spawn.html#numpy.random.SeedSequence.spawn" title="numpy.random.SeedSequence.spawn"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SeedSequence.spawn</span></code></a>, in the 1000s, then the chance of observing this weakness
+is negligibly small. You can continue to use <a class="reference internal" href="bit_generators/pcg64.html#numpy.random.PCG64" title="numpy.random.PCG64"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PCG64</span></code></a> comfortably.</p>
+<p>If you use very large numbers of parallel streams, in the millions, and draw
+large amounts of numbers from each, then the chance of observing this weakness
+can become non-negligible, if still small. An example of such a use case would
+be a very large distributed reinforcement learning problem with millions of
+long Monte Carlo playouts each generating billions of random number draws. Such
+use cases should consider using <a class="reference internal" href="bit_generators/pcg64dxsm.html#numpy.random.PCG64DXSM" title="numpy.random.PCG64DXSM"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PCG64DXSM</span></code></a> explicitly or another
+modern <a class="reference internal" href="bit_generators/generated/numpy.random.BitGenerator.html#numpy.random.BitGenerator" title="numpy.random.BitGenerator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BitGenerator</span></code></a> like <a class="reference internal" href="bit_generators/sfc64.html#numpy.random.SFC64" title="numpy.random.SFC64"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SFC64</span></code></a> or <a class="reference internal" href="bit_generators/philox.html#numpy.random.Philox" title="numpy.random.Philox"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Philox</span></code></a>, but it is unlikely that any
+old results you may have calculated are invalid. In any case, the weakness is
+a kind of <a class="reference external" href="https://en.wikipedia.org/wiki/Birthday_problem">Birthday Paradox</a>
+collision. That is, a single pair of parallel streams out of the millions,
+considered together, might fail a stringent set of statistical tests of
+randomness. The remaining millions of streams would all be perfectly fine, and
+the effect of the bad pair in the whole calculation is very likely to be
+swamped by the remaining streams in most applications.</p>
+</section>
+<section id="technical-details">
+<span id="upgrading-pcg64-details"></span><h2>Technical Details<a class="headerlink" href="#technical-details" title="Permalink to this heading">#</a></h2>
+<p>Like many PRNG algorithms, <a class="reference internal" href="bit_generators/pcg64.html#numpy.random.PCG64" title="numpy.random.PCG64"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PCG64</span></code></a> is constructed from a transition function,
+which advances a 128-bit state, and an output function, that mixes the 128-bit
+state into a 64-bit integer to be output. One of the guiding design principles
+of the PCG family of PRNGs is to balance the computational cost (and
+pseudorandomness strength) between the transition function and the output
+function. The transition function is a 128-bit linear congruential generator
+(LCG), which consists of multiplying the 128-bit state with a fixed
+multiplication constant and then adding a user-chosen increment, in 128-bit
+modular arithmetic. LCGs are well-analyzed PRNGs with known weaknesses, though
+128-bit LCGs are large enough to pass stringent statistical tests on their own,
+with only the trivial output function. The output function of <a class="reference internal" href="bit_generators/pcg64.html#numpy.random.PCG64" title="numpy.random.PCG64"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PCG64</span></code></a> is
+intended to patch up some of those known weaknesses by doing “just enough”
+scrambling of the bits to assist in the statistical properties without adding
+too much computational cost.</p>
+<p>One of these known weaknesses is that advancing the state of the LCG by steps
+numbering a power of two (<code class="docutils literal notranslate"><span class="pre">bg.advance(2**N)</span></code>) will leave the lower <code class="docutils literal notranslate"><span class="pre">N</span></code> bits
+identical to the state that was just left. For a single stream drawn from
+sequentially, this is of little consequence. The remaining <span class="math notranslate nohighlight">\(128-N\)</span> bits provide
+plenty of pseudorandomness that will be mixed in for any practical <code class="docutils literal notranslate"><span class="pre">N</span></code> that can
+be observed in a single stream, which is why one does not need to worry about
+this if you only use a single stream in your application. Similarly, the
+<a class="reference internal" href="bit_generators/generated/numpy.random.PCG64.jumped.html#numpy.random.PCG64.jumped" title="numpy.random.PCG64.jumped"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PCG64.jumped</span></code></a> method uses a carefully chosen number of steps to avoid creating
+these collisions. However, once you start creating “randomly-initialized”
+parallel streams, either using OS entropy by calling <a class="reference internal" href="generator.html#numpy.random.default_rng" title="numpy.random.default_rng"><code class="xref py py-obj docutils literal notranslate"><span class="pre">default_rng</span></code></a> repeatedly
+or using <a class="reference internal" href="bit_generators/generated/numpy.random.SeedSequence.spawn.html#numpy.random.SeedSequence.spawn" title="numpy.random.SeedSequence.spawn"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SeedSequence.spawn</span></code></a>, then we need to consider how many lower bits
+need to “collide” in order to create a bad pair of streams, and then evaluate
+the probability of creating such a collision.
+<a class="reference external" href="https://github.com/numpy/numpy/issues/16313">Empirically</a>, it has been
+determined that if one shares the lower 58 bits of state and shares an
+increment, then the pair of streams, when interleaved, will fail
+<a class="reference external" href="http://pracrand.sourceforge.net/">PractRand</a> in
+a reasonable amount of time, after drawing a few gigabytes of data. Following
+the standard Birthday Paradox calculations for a collision of 58 bits, we can
+see that we can create <span class="math notranslate nohighlight">\(2^{29}\)</span>, or about half a billion, streams which is when
+the probability of such a collision becomes high. Half a billion streams is
+quite high, and the amount of data each stream needs to draw before the
+statistical correlations become apparent to even the strict <code class="docutils literal notranslate"><span class="pre">PractRand</span></code> tests
+is in the gigabytes. But this is on the horizon for very large applications
+like distributed reinforcement learning. There are reasons to expect that even
+in these applications a collision probably will not have a practical effect in
+the total result, since the statistical problem is constrained to just the
+colliding pair.</p>
+<p>Now, let us consider the case when the increment is not constrained to be the
+same. Our implementation of <a class="reference internal" href="bit_generators/pcg64.html#numpy.random.PCG64" title="numpy.random.PCG64"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PCG64</span></code></a> seeds both the state and the increment;
+that is, two calls to <a class="reference internal" href="generator.html#numpy.random.default_rng" title="numpy.random.default_rng"><code class="xref py py-obj docutils literal notranslate"><span class="pre">default_rng</span></code></a> (almost certainly) have different states
+and increments. Upon our first release, we believed that having the seeded
+increment would provide a certain amount of extra protection, that one would
+have to be “close” in both the state space and increment space in order to
+observe correlations (<code class="docutils literal notranslate"><span class="pre">PractRand</span></code> failures) in a pair of streams. If that were
+true, then the “bottleneck” for collisions would be the 128-bit entropy pool
+size inside of <a class="reference internal" href="bit_generators/generated/numpy.random.SeedSequence.html#numpy.random.SeedSequence" title="numpy.random.SeedSequence"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SeedSequence</span></code></a> (and 128-bit collisions are in the
+“preposterously unlikely” category). Unfortunately, this is not true.</p>
+<p>One of the known properties of an LCG is that different increments create
+<em>distinct</em> streams, but with a known relationship. Each LCG has an orbit that
+traverses all <span class="math notranslate nohighlight">\(2^{128}\)</span> different 128-bit states. Two LCGs with different
+increments are related in that one can “rotate” the orbit of the first LCG
+(advance it by a number of steps that we can compute from the two increments)
+such that then both LCGs will always then have the same state, up to an
+additive constant and maybe an inversion of the bits. If you then iterate both
+streams in lockstep, then the states will <em>always</em> remain related by that same
+additive constant (and the inversion, if present). Recall that <a class="reference internal" href="bit_generators/pcg64.html#numpy.random.PCG64" title="numpy.random.PCG64"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PCG64</span></code></a> is
+constructed from both a transition function (the LCG) and an output function.
+It was expected that the scrambling effect of the output function would have
+been strong enough to make the distinct streams practically independent (i.e.
+“passing the <code class="docutils literal notranslate"><span class="pre">PractRand</span></code> tests”) unless the two increments were
+pathologically related to each other (e.g. 1 and 3). The output function XSL-RR
+of the then-standard PCG algorithm that we implemented in <a class="reference internal" href="bit_generators/pcg64.html#numpy.random.PCG64" title="numpy.random.PCG64"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PCG64</span></code></a> turns out to
+be too weak to cover up for the 58-bit collision of the underlying LCG that we
+described above. For any given pair of increments, the size of the “colliding”
+space of states is the same, so for this weakness, the extra distinctness
+provided by the increments does not translate into extra protection from
+statistical correlations that <code class="docutils literal notranslate"><span class="pre">PractRand</span></code> can detect.</p>
+<p>Fortunately, strengthening the output function is able to correct this weakness
+and <em>does</em> turn the extra distinctness provided by differing increments into
+additional protection from these low-bit collisions. To the <a class="reference external" href="https://github.com/numpy/numpy/issues/13635#issuecomment-506088698">PCG author’s
+credit</a>,
+she had developed a stronger output function in response to related discussions
+during the long birth of the new <a class="reference internal" href="bit_generators/generated/numpy.random.BitGenerator.html#numpy.random.BitGenerator" title="numpy.random.BitGenerator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BitGenerator</span></code></a> system. We NumPy developers
+chose to be “conservative” and use the XSL-RR variant that had undergone
+a longer period of testing at that time. The DXSM output function adopts
+a “xorshift-multiply” construction used in strong integer hashes that has much
+better avalanche properties than the XSL-RR output function. While there are
+“pathological” pairs of increments that induce “bad” additive constants that
+relate the two streams, the vast majority of pairs induce “good” additive
+constants that make the merely-distinct streams of LCG states into
+practically-independent output streams. Indeed, now the claim we once made
+about <a class="reference internal" href="bit_generators/pcg64.html#numpy.random.PCG64" title="numpy.random.PCG64"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PCG64</span></code></a> is actually true of <a class="reference internal" href="bit_generators/pcg64dxsm.html#numpy.random.PCG64DXSM" title="numpy.random.PCG64DXSM"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PCG64DXSM</span></code></a>: collisions are possible, but
+both streams have to simultaneously be both “close” in the 128 bit state space
+<em>and</em> “close” in the 127-bit increment space, so that would be less likely than
+the negligible chance of colliding in the 128-bit internal <a class="reference internal" href="bit_generators/generated/numpy.random.SeedSequence.html#numpy.random.SeedSequence" title="numpy.random.SeedSequence"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SeedSequence</span></code></a> pool.
+The DXSM output function is more computationally intensive than XSL-RR, but
+some optimizations in the LCG more than make up for the performance hit on most
+machines, so <a class="reference internal" href="bit_generators/pcg64dxsm.html#numpy.random.PCG64DXSM" title="numpy.random.PCG64DXSM"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PCG64DXSM</span></code></a> is a good, safe upgrade. There are, of course, an
+infinite number of stronger output functions that one could consider, but most
+will have a greater computational cost, and the DXSM output function has now
+received many CPU cycles of testing via <code class="docutils literal notranslate"><span class="pre">PractRand</span></code> at this time.</p>
+</section>
+</section>
+
+
+              </article>
+              
+
+              
+              <footer class="bd-footer-article">
+                  <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+  <a class='left-prev' id="prev-link" href="bit_generators/generated/numpy.random.SeedSequence.spawn.html" title="previous page">
+      <i class="fas fa-angle-left"></i>
+      <div class="prev-next-info">
+          <p class="prev-next-subtitle">previous</p>
+          <p class="prev-next-title">numpy.random.SeedSequence.spawn</p>
+      </div>
+  </a>
+  <a class='right-next' id="next-link" href="parallel.html" title="next page">
+  <div class="prev-next-info">
+      <p class="prev-next-subtitle">next</p>
+      <p class="prev-next-title">Parallel Random Number Generation</p>
+  </div>
+  <i class="fas fa-angle-right"></i>
+  </a>
+</div>
+              </footer>
+              
+          </div>
+          
+      </div>
+    </div>
+
+  
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695"></script>
+
+<footer class="bd-footer"><div class="bd-footer__inner container">
+  
+  <div class="footer-item">
+    <p class="copyright">
+    &copy; Copyright 2008-2022, NumPy Developers.<br>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    <p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.3.0.<br>
+</p>
+  </div>
+  
+</div>
+</footer>
+  </body>
+</html>

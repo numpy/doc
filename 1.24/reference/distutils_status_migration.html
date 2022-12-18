@@ -1,0 +1,594 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>Status of numpy.distutils and migration advice &#8212; NumPy v1.24 Manual</title>
+<script>
+  document.documentElement.dataset.mode = localStorage.getItem("mode") || "light";
+  document.documentElement.dataset.theme = localStorage.getItem("theme") || "light"
+</script>
+
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=92025949c220c2e29695" rel="stylesheet">
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=92025949c220c2e29695" rel="stylesheet">
+
+
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/numpy.css" />
+
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695">
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/design-tabs.js"></script>
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="NumPy C-API" href="c-api/index.html" />
+    <link rel="prev" title="NumPy Distutils - Users Guide" href="distutils_guide.html" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="docsearch:language" content="en">
+  </head>
+  
+  
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="180" data-default-mode="light">
+    <div class="bd-header-announcement container-fluid" id="banner">
+      
+
+    </div>
+
+    
+    <nav class="bd-header navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="bd-header__inner container-xl">
+
+  <div id="navbar-start">
+    
+    
+  
+
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+    <img src="../_static/numpylogo.svg" class="logo__image only-light" alt="Logo image">
+    <img src="../_static/numpylogo_dark.svg" class="logo__image only-dark" alt="Logo image">
+  
+  
+</a>
+    
+  </div>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapsible" aria-controls="navbar-collapsible" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="fas fa-bars"></span>
+  </button>
+
+  
+  <div id="navbar-collapsible" class="col-lg-9 collapse navbar-collapse">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <ul id="navbar-main-elements" class="navbar-nav">
+    <li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../user/index.html">
+  User Guide
+ </a>
+</li>
+
+<li class="toctree-l1 current active nav-item">
+ <a class="reference internal nav-link" href="index.html">
+  API reference
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../dev/index.html">
+  Development
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../release.html">
+  Release notes
+ </a>
+</li>
+
+    
+    <li class="nav-item">
+        <a class="nav-link nav-external" href="https://numpy.org/numpy-tutorials/">Learn<i class="fas fa-external-link-alt"></i></a>
+    </li>
+    
+</ul>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      
+      <div class="navbar-end-item">
+        <span id="theme-switch" class="btn btn-sm btn-outline-primary navbar-btn rounded-circle">
+    <a class="theme-switch" data-mode="light"><i class="fas fa-sun"></i></a>
+    <a class="theme-switch" data-mode="dark"><i class="far fa-moon"></i></a>
+    <a class="theme-switch" data-mode="auto"><i class="fas fa-adjust"></i></a>
+</span>
+      </div>
+      
+      <div class="navbar-end-item">
+        <div class="dropdown" id="version_switcher">
+    <button type="button" class="btn btn-sm navbar-btn dropdown-toggle" id="version_switcher_button" data-toggle="dropdown">
+        1.24  <!-- this text may get changed later by javascript -->
+        <span class="caret"></span>
+    </button>
+    <div id="version_switcher_menu" class="dropdown-menu list-group-flush py-0" aria-labelledby="version_switcher_button">
+    <!-- dropdown will be populated by javascript on page load -->
+    </div>
+</div>
+
+<!-- NOTE: this JS must live here (not in our global JS file) because it relies
+     on being processed by Jinja before it is run (specifically for replacing
+     variables reference/distutils_status_migration and {'version_match': '1.24', 'json_url': 'https://numpy.org/doc/_static/versions.json'}.
+-->
+
+<script type="text/javascript">
+// Check if corresponding page path exists in other version of docs
+// and, if so, go there instead of the homepage of the other docs version
+function checkPageExistsAndRedirect(event) {
+    const currentFilePath = "reference/distutils_status_migration.html",
+          tryUrl = event.target.getAttribute("href");
+    let otherDocsHomepage = tryUrl.replace(currentFilePath, "");
+    $.ajax({
+        type: 'HEAD',
+        url: tryUrl,
+        // if the page exists, go there
+        success: function() {
+            location.href = tryUrl;
+        }
+    }).fail(function() {
+        location.href = otherDocsHomepage;
+    });
+    // this prevents the browser from following the href of the clicked node
+    // (which is fine because this function takes care of redirecting)
+    return false;
+}
+
+// Populate the version switcher from the JSON config file
+(function () {
+    $.getJSON("https://numpy.org/doc/_static/versions.json", function(data, textStatus, jqXHR) {
+        const currentFilePath = "reference/distutils_status_migration.html";
+        let btn = document.getElementById("version_switcher_button");
+        // Set empty strings by default so that these attributes exist and can be used in CSS selectors
+        btn.dataset["activeVersionName"] = "";
+        btn.dataset["activeVersion"] = "";
+        // create links to the corresponding page in the other docs versions
+        $.each(data, function(index, entry) {
+            // if no custom name specified (e.g., "latest"), use version string
+            if (!("name" in entry)) {
+                entry.name = entry.version;
+            }
+            // create the node
+            const node = document.createElement("a");
+            node.setAttribute("class", "list-group-item list-group-item-action py-1");
+            node.textContent = `${entry.name}`;
+            node.setAttribute("href", `${entry.url}${currentFilePath}`);
+            // on click, AJAX calls will check if the linked page exists before
+            // trying to redirect, and if not, will redirect to the homepage
+            // for that version of the docs.
+            node.onclick = checkPageExistsAndRedirect;
+            // Add dataset values for the version and name in case people want
+            // to apply CSS styling based on this information.
+            node.dataset["versionName"] = entry.name;
+            node.dataset["version"] = entry.version;
+
+            $("#version_switcher_menu").append(node);
+            // replace dropdown button text with the preferred display name of
+            // this version, rather than using sphinx's 1.24 variable.
+            // also highlight the dropdown entry for the currently-viewed
+            // version's entry
+            if (entry.version == "1.24") {
+                node.classList.add("active");
+                btn.innerText = btn.dataset["activeVersionName"] = entry.name;
+                btn.dataset["activeVersion"] = entry.version;
+            }
+        });
+    });
+})();
+</script>
+      </div>
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+        <li class="nav-item">
+          <a class="nav-link" href="https://github.com/numpy/numpy" rel="noopener" target="_blank" title="GitHub"><span><i class="fab fa-github-square"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="https://twitter.com/numpy_team" rel="noopener" target="_blank" title="Twitter"><span><i class="fab fa-twitter-square"></i></span>
+            <label class="sr-only">Twitter</label></a>
+        </li>
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+</div>
+    </nav>
+    
+
+    <div class="bd-container container-xl">
+      <div class="bd-container__inner row">
+          
+
+<!-- Only show if we have sidebars configured, else just a small margin  -->
+<div class="bd-sidebar-primary col-12 col-md-3 bd-sidebar">
+  <div class="sidebar-start-items"><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <div class="bd-toc-item active">
+    <ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="arrays.html">
+   Array objects
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="array_api.html">
+   Array API Standard Compatibility
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="constants.html">
+   Constants
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="ufuncs.html">
+   Universal functions (
+   <code class="xref py py-class docutils literal notranslate">
+    <span class="pre">
+     ufunc
+    </span>
+   </code>
+   )
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="routines.html">
+   Routines
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="typing.html">
+   Typing (
+   <code class="xref py py-mod docutils literal notranslate">
+    <span class="pre">
+     numpy.typing
+    </span>
+   </code>
+   )
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="global_state.html">
+   Global State
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="distutils.html">
+   Packaging (
+   <code class="xref py py-mod docutils literal notranslate">
+    <span class="pre">
+     numpy.distutils
+    </span>
+   </code>
+   )
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="distutils_guide.html">
+   NumPy Distutils - Users Guide
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Status of
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     numpy.distutils
+    </span>
+   </code>
+   and migration advice
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="c-api/index.html">
+   NumPy C-API
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="simd/index.html">
+   CPU/SIMD Optimizations
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="security.html">
+   NumPy security
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="swig.html">
+   NumPy and SWIG
+  </a>
+ </li>
+</ul>
+
+  </div>
+</nav>
+  </div>
+  <div class="sidebar-end-items">
+  </div>
+</div>
+
+
+          
+
+
+<div class="bd-sidebar-secondary d-none d-xl-block col-xl-2 bd-toc">
+  
+    
+    <div class="toc-item">
+      
+<div class="tocsection onthispage mt-5 pt-1 pb-3">
+    <i class="fas fa-list"></i> On this page
+</div>
+
+<nav id="bd-toc-nav">
+    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#migration-advice">
+   Migration advice
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#moving-to-meson">
+     Moving to Meson
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#moving-to-cmake-scikit-build">
+     Moving to CMake / scikit-build
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#moving-to-setuptools">
+     Moving to
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       setuptools
+      </span>
+     </code>
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#interaction-of-numpy-distutils-with-setuptools">
+   Interaction of
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     numpy.distutils
+    </span>
+   </code>
+   with
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     setuptools
+    </span>
+   </code>
+  </a>
+ </li>
+</ul>
+
+</nav>
+    </div>
+    
+    <div class="toc-item">
+      
+    </div>
+    
+  
+</div>
+
+
+          
+          
+          <div class="bd-content col-12 col-md-9 col-xl-7">
+              
+              <article class="bd-article" role="main">
+                
+  <section id="status-of-numpy-distutils-and-migration-advice">
+<span id="distutils-status-migration"></span><h1>Status of <code class="docutils literal notranslate"><span class="pre">numpy.distutils</span></code> and migration advice<a class="headerlink" href="#status-of-numpy-distutils-and-migration-advice" title="Permalink to this heading">#</a></h1>
+<p><a class="reference internal" href="distutils.html#module-numpy.distutils" title="numpy.distutils"><code class="xref py py-obj docutils literal notranslate"><span class="pre">numpy.distutils</span></code></a> has been deprecated in NumPy <code class="docutils literal notranslate"><span class="pre">1.23.0</span></code>. It will be removed
+for Python 3.12; for Python &lt;= 3.11 it will not be removed until 2 years after
+the Python 3.12 release (Oct 2025).</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p><code class="docutils literal notranslate"><span class="pre">numpy.distutils</span></code> is only tested with <code class="docutils literal notranslate"><span class="pre">setuptools</span> <span class="pre">&lt;</span> <span class="pre">60.0</span></code>, newer
+versions may break. See <a class="reference internal" href="#numpy-setuptools-interaction"><span class="std std-ref">Interaction of numpy.distutils with setuptools</span></a> for details.</p>
+</div>
+<section id="migration-advice">
+<h2>Migration advice<a class="headerlink" href="#migration-advice" title="Permalink to this heading">#</a></h2>
+<p>It is <strong>not necessary</strong> to migrate immediately - the release date for Python 3.12
+is October 2023. It may be beneficial to wait with migrating until there are
+examples from other projects to follow (see below).</p>
+<p>There are several build systems which are good options to migrate to. Assuming
+you have compiled code in your package (if not, we recommend using <a class="reference external" href="https://flit.readthedocs.io">Flit</a>) and
+you want to be using a well-designed, modern and reliable build system, we
+recommend:</p>
+<ol class="arabic simple">
+<li><p><a class="reference external" href="https://mesonbuild.com/">Meson</a></p></li>
+<li><p><a class="reference external" href="https://cmake.org/">CMake</a> (or <a class="reference external" href="https://scikit-build.readthedocs.io/">scikit-build</a> as an interface to CMake)</p></li>
+</ol>
+<p>If you have modest needs (only simple Cython/C extensions, and perhaps nested
+<code class="docutils literal notranslate"><span class="pre">setup.py</span></code> files) and have been happy with <code class="docutils literal notranslate"><span class="pre">numpy.distutils</span></code> so far, you
+can also consider switching to <code class="docutils literal notranslate"><span class="pre">setuptools</span></code>. Note that most functionality of
+<code class="docutils literal notranslate"><span class="pre">numpy.distutils</span></code> is unlikely to be ported to <code class="docutils literal notranslate"><span class="pre">setuptools</span></code>.</p>
+<section id="moving-to-meson">
+<h3>Moving to Meson<a class="headerlink" href="#moving-to-meson" title="Permalink to this heading">#</a></h3>
+<p>SciPy is moving to Meson for its 1.9.0 release, planned for July 2022. During
+this process, any remaining issues with Meson’s Python support and achieving
+feature parity with <code class="docutils literal notranslate"><span class="pre">numpy.distutils</span></code> will be resolved. <em>Note: parity means a
+large superset, but right now some BLAS/LAPACK support is missing and there are
+a few open issues related to Cython.</em> SciPy uses almost all functionality that
+<code class="docutils literal notranslate"><span class="pre">numpy.distutils</span></code> offers, so if SciPy has successfully made a release with
+Meson as the build system, there should be no blockers left to migrate, and
+SciPy will be a good reference for other packages who are migrating.
+For more details about the SciPy migration, see:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/scipy/scipy/issues/13615">RFC: switch to Meson as a build system</a></p></li>
+<li><p><a class="reference external" href="https://github.com/rgommers/scipy/issues/22">Tracking issue for Meson support</a></p></li>
+</ul>
+<p>NumPy itself will very likely migrate to Meson as well, once the SciPy
+migration is done.</p>
+</section>
+<section id="moving-to-cmake-scikit-build">
+<h3>Moving to CMake / scikit-build<a class="headerlink" href="#moving-to-cmake-scikit-build" title="Permalink to this heading">#</a></h3>
+<p>See the <a class="reference external" href="https://scikit-build.readthedocs.io/en/latest/">scikit-build documentation</a>
+for how to use scikit-build. Please note that as of Feb 2022, scikit-build
+still relies on setuptools, so it’s probably not quite ready yet for a
+post-distutils world. How quickly this changes depends on funding, the current
+(Feb 2022) estimate is that if funding arrives then a viable <code class="docutils literal notranslate"><span class="pre">numpy.distutils</span></code>
+replacement will be ready at the end of 2022, and a very polished replacement
+mid-2023.  For more details on this, see
+<a class="reference external" href="https://iscinumpy.gitlab.io/post/scikit-build-proposal/">this blog post by Henry Schreiner</a>.</p>
+</section>
+<section id="moving-to-setuptools">
+<h3>Moving to <code class="docutils literal notranslate"><span class="pre">setuptools</span></code><a class="headerlink" href="#moving-to-setuptools" title="Permalink to this heading">#</a></h3>
+<p>For projects that only use <code class="docutils literal notranslate"><span class="pre">numpy.distutils</span></code> for historical reasons, and do
+not actually use features beyond those that <code class="docutils literal notranslate"><span class="pre">setuptools</span></code> also supports,
+moving to <code class="docutils literal notranslate"><span class="pre">setuptools</span></code> is likely the solution which costs the least effort.
+To assess that, there are the <code class="docutils literal notranslate"><span class="pre">numpy.distutils</span></code> features that are <em>not</em>
+present in <code class="docutils literal notranslate"><span class="pre">setuptools</span></code>:</p>
+<ul class="simple">
+<li><p>Nested <code class="docutils literal notranslate"><span class="pre">setup.py</span></code> files</p></li>
+<li><p>Fortran build support</p></li>
+<li><p>BLAS/LAPACK library support (OpenBLAS, MKL, ATLAS, Netlib LAPACK/BLAS, BLIS, 64-bit ILP interface, etc.)</p></li>
+<li><p>Support for a few other scientific libraries, like FFTW and UMFPACK</p></li>
+<li><p>Better MinGW support</p></li>
+<li><p>Per-compiler build flag customization (e.g. <em class="xref py py-obj">-O3</em> and <em class="xref py py-obj">SSE2</em> flags are default)</p></li>
+<li><p>a simple user build config system, see [site.cfg.example](<a class="reference external" href="https://github.com/numpy/numpy/blob/master/site.cfg.example">https://github.com/numpy/numpy/blob/master/site.cfg.example</a>)</p></li>
+<li><p>SIMD intrinsics support</p></li>
+</ul>
+<p>The most widely used feature is nested <code class="docutils literal notranslate"><span class="pre">setup.py</span></code> files. This feature will
+likely be ported to <code class="docutils literal notranslate"><span class="pre">setuptools</span></code> (see
+<a class="reference external" href="https://github.com/numpy/numpy/issues/18588">gh-18588</a> for status).
+Projects only using that feature could move to <code class="docutils literal notranslate"><span class="pre">setuptools</span></code> after that is
+done. In case a project uses only a couple of <code class="docutils literal notranslate"><span class="pre">setup.py</span></code> files, it also could
+make sense to simply aggregate all the content of those files into a single
+<code class="docutils literal notranslate"><span class="pre">setup.py</span></code> file and then move to <code class="docutils literal notranslate"><span class="pre">setuptools</span></code>. This involves dropping all
+<code class="docutils literal notranslate"><span class="pre">Configuration</span></code> instances, and using <code class="docutils literal notranslate"><span class="pre">Extension</span></code> instead. E.g.,:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">distutils.core</span> <span class="kn">import</span> <span class="n">setup</span>
+<span class="kn">from</span> <span class="nn">distutils.extension</span> <span class="kn">import</span> <span class="n">Extension</span>
+<span class="n">setup</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;foobar&#39;</span><span class="p">,</span>
+      <span class="n">version</span><span class="o">=</span><span class="s1">&#39;1.0&#39;</span><span class="p">,</span>
+      <span class="n">ext_modules</span><span class="o">=</span><span class="p">[</span>
+          <span class="n">Extension</span><span class="p">(</span><span class="s1">&#39;foopkg.foo&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;foo.c&#39;</span><span class="p">]),</span>
+          <span class="n">Extension</span><span class="p">(</span><span class="s1">&#39;barpkg.bar&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;bar.c&#39;</span><span class="p">]),</span>
+          <span class="p">],</span>
+      <span class="p">)</span>
+</pre></div>
+</div>
+<p>For more details, see the
+<a class="reference external" href="https://setuptools.pypa.io/en/latest/setuptools.html">setuptools documentation</a></p>
+</section>
+</section>
+<section id="interaction-of-numpy-distutils-with-setuptools">
+<span id="numpy-setuptools-interaction"></span><h2>Interaction of <code class="docutils literal notranslate"><span class="pre">numpy.distutils</span></code> with <code class="docutils literal notranslate"><span class="pre">setuptools</span></code><a class="headerlink" href="#interaction-of-numpy-distutils-with-setuptools" title="Permalink to this heading">#</a></h2>
+<p>It is recommended to use <code class="docutils literal notranslate"><span class="pre">setuptools</span> <span class="pre">&lt;</span> <span class="pre">60.0</span></code>. Newer versions may work, but
+are not guaranteed to. The reason for this is that <code class="docutils literal notranslate"><span class="pre">setuptools</span></code> 60.0 enabled
+a vendored copy of <code class="docutils literal notranslate"><span class="pre">distutils</span></code>, including backwards incompatible changes that
+affect some functionality in <code class="docutils literal notranslate"><span class="pre">numpy.distutils</span></code>.</p>
+<p>If you are using only simple Cython or C extensions with minimal use of
+<code class="docutils literal notranslate"><span class="pre">numpy.distutils</span></code> functionality beyond nested <code class="docutils literal notranslate"><span class="pre">setup.py</span></code> files (its most
+popular feature, see <a class="reference internal" href="distutils.html#numpy.distutils.misc_util.Configuration" title="numpy.distutils.misc_util.Configuration"><code class="xref py py-class docutils literal notranslate"><span class="pre">Configuration</span></code></a>),
+then latest <code class="docutils literal notranslate"><span class="pre">setuptools</span></code> is likely to continue working. In case of problems,
+you can also try <code class="docutils literal notranslate"><span class="pre">SETUPTOOLS_USE_DISTUTILS=stdlib</span></code> to avoid the backwards
+incompatible changes in <code class="docutils literal notranslate"><span class="pre">setuptools</span></code>.</p>
+<p>Whatever you do, it is recommended to put an upper bound on your <code class="docutils literal notranslate"><span class="pre">setuptools</span></code>
+build requirement in <code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code> to avoid future breakage - see
+<a class="reference internal" href="../dev/depending_on_numpy.html#for-downstream-package-authors"><span class="std std-ref">For downstream package authors</span></a>.</p>
+</section>
+</section>
+
+
+              </article>
+              
+
+              
+              <footer class="bd-footer-article">
+                  <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+  <a class='left-prev' id="prev-link" href="distutils_guide.html" title="previous page">
+      <i class="fas fa-angle-left"></i>
+      <div class="prev-next-info">
+          <p class="prev-next-subtitle">previous</p>
+          <p class="prev-next-title">NumPy Distutils - Users Guide</p>
+      </div>
+  </a>
+  <a class='right-next' id="next-link" href="c-api/index.html" title="next page">
+  <div class="prev-next-info">
+      <p class="prev-next-subtitle">next</p>
+      <p class="prev-next-title">NumPy C-API</p>
+  </div>
+  <i class="fas fa-angle-right"></i>
+  </a>
+</div>
+              </footer>
+              
+          </div>
+          
+      </div>
+    </div>
+
+  
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695"></script>
+
+<footer class="bd-footer"><div class="bd-footer__inner container">
+  
+  <div class="footer-item">
+    <p class="copyright">
+    &copy; Copyright 2008-2022, NumPy Developers.<br>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    <p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.3.0.<br>
+</p>
+  </div>
+  
+</div>
+</footer>
+  </body>
+</html>

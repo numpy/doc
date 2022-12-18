@@ -1,0 +1,408 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>numpy.char.chararray.flags &#8212; NumPy v1.24 Manual</title>
+<script>
+  document.documentElement.dataset.mode = localStorage.getItem("mode") || "light";
+  document.documentElement.dataset.theme = localStorage.getItem("theme") || "light"
+</script>
+
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=92025949c220c2e29695" rel="stylesheet">
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=92025949c220c2e29695" rel="stylesheet">
+
+
+  <link rel="stylesheet"
+    href="../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/plot_directive.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/numpy.css" />
+
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695">
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    <script src="../../_static/design-tabs.js"></script>
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="docsearch:language" content="en">
+  </head>
+  
+  
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="180" data-default-mode="light">
+    <div class="bd-header-announcement container-fluid" id="banner">
+      
+
+    </div>
+
+    
+    <nav class="bd-header navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="bd-header__inner container-xl">
+
+  <div id="navbar-start">
+    
+    
+  
+
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+    <img src="../../_static/numpylogo.svg" class="logo__image only-light" alt="Logo image">
+    <img src="../../_static/numpylogo_dark.svg" class="logo__image only-dark" alt="Logo image">
+  
+  
+</a>
+    
+  </div>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapsible" aria-controls="navbar-collapsible" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="fas fa-bars"></span>
+  </button>
+
+  
+  <div id="navbar-collapsible" class="col-lg-9 collapse navbar-collapse">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <ul id="navbar-main-elements" class="navbar-nav">
+    <li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../user/index.html">
+  User Guide
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../index.html">
+  API reference
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../dev/index.html">
+  Development
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../release.html">
+  Release notes
+ </a>
+</li>
+
+    
+    <li class="nav-item">
+        <a class="nav-link nav-external" href="https://numpy.org/numpy-tutorials/">Learn<i class="fas fa-external-link-alt"></i></a>
+    </li>
+    
+</ul>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      
+      <div class="navbar-end-item">
+        <span id="theme-switch" class="btn btn-sm btn-outline-primary navbar-btn rounded-circle">
+    <a class="theme-switch" data-mode="light"><i class="fas fa-sun"></i></a>
+    <a class="theme-switch" data-mode="dark"><i class="far fa-moon"></i></a>
+    <a class="theme-switch" data-mode="auto"><i class="fas fa-adjust"></i></a>
+</span>
+      </div>
+      
+      <div class="navbar-end-item">
+        <div class="dropdown" id="version_switcher">
+    <button type="button" class="btn btn-sm navbar-btn dropdown-toggle" id="version_switcher_button" data-toggle="dropdown">
+        1.24  <!-- this text may get changed later by javascript -->
+        <span class="caret"></span>
+    </button>
+    <div id="version_switcher_menu" class="dropdown-menu list-group-flush py-0" aria-labelledby="version_switcher_button">
+    <!-- dropdown will be populated by javascript on page load -->
+    </div>
+</div>
+
+<!-- NOTE: this JS must live here (not in our global JS file) because it relies
+     on being processed by Jinja before it is run (specifically for replacing
+     variables reference/generated/numpy.char.chararray.flags and {'version_match': '1.24', 'json_url': 'https://numpy.org/doc/_static/versions.json'}.
+-->
+
+<script type="text/javascript">
+// Check if corresponding page path exists in other version of docs
+// and, if so, go there instead of the homepage of the other docs version
+function checkPageExistsAndRedirect(event) {
+    const currentFilePath = "reference/generated/numpy.char.chararray.flags.html",
+          tryUrl = event.target.getAttribute("href");
+    let otherDocsHomepage = tryUrl.replace(currentFilePath, "");
+    $.ajax({
+        type: 'HEAD',
+        url: tryUrl,
+        // if the page exists, go there
+        success: function() {
+            location.href = tryUrl;
+        }
+    }).fail(function() {
+        location.href = otherDocsHomepage;
+    });
+    // this prevents the browser from following the href of the clicked node
+    // (which is fine because this function takes care of redirecting)
+    return false;
+}
+
+// Populate the version switcher from the JSON config file
+(function () {
+    $.getJSON("https://numpy.org/doc/_static/versions.json", function(data, textStatus, jqXHR) {
+        const currentFilePath = "reference/generated/numpy.char.chararray.flags.html";
+        let btn = document.getElementById("version_switcher_button");
+        // Set empty strings by default so that these attributes exist and can be used in CSS selectors
+        btn.dataset["activeVersionName"] = "";
+        btn.dataset["activeVersion"] = "";
+        // create links to the corresponding page in the other docs versions
+        $.each(data, function(index, entry) {
+            // if no custom name specified (e.g., "latest"), use version string
+            if (!("name" in entry)) {
+                entry.name = entry.version;
+            }
+            // create the node
+            const node = document.createElement("a");
+            node.setAttribute("class", "list-group-item list-group-item-action py-1");
+            node.textContent = `${entry.name}`;
+            node.setAttribute("href", `${entry.url}${currentFilePath}`);
+            // on click, AJAX calls will check if the linked page exists before
+            // trying to redirect, and if not, will redirect to the homepage
+            // for that version of the docs.
+            node.onclick = checkPageExistsAndRedirect;
+            // Add dataset values for the version and name in case people want
+            // to apply CSS styling based on this information.
+            node.dataset["versionName"] = entry.name;
+            node.dataset["version"] = entry.version;
+
+            $("#version_switcher_menu").append(node);
+            // replace dropdown button text with the preferred display name of
+            // this version, rather than using sphinx's 1.24 variable.
+            // also highlight the dropdown entry for the currently-viewed
+            // version's entry
+            if (entry.version == "1.24") {
+                node.classList.add("active");
+                btn.innerText = btn.dataset["activeVersionName"] = entry.name;
+                btn.dataset["activeVersion"] = entry.version;
+            }
+        });
+    });
+})();
+</script>
+      </div>
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+        <li class="nav-item">
+          <a class="nav-link" href="https://github.com/numpy/numpy" rel="noopener" target="_blank" title="GitHub"><span><i class="fab fa-github-square"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="https://twitter.com/numpy_team" rel="noopener" target="_blank" title="Twitter"><span><i class="fab fa-twitter-square"></i></span>
+            <label class="sr-only">Twitter</label></a>
+        </li>
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+</div>
+    </nav>
+    
+
+    <div class="bd-container container-xl">
+      <div class="bd-container__inner row">
+          
+
+<!-- Only show if we have sidebars configured, else just a small margin  -->
+<div class="bd-sidebar-primary col-12 col-md-3 bd-sidebar">
+  <div class="sidebar-start-items"><form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <div class="bd-toc-item active">
+    
+  </div>
+</nav>
+  </div>
+  <div class="sidebar-end-items">
+  </div>
+</div>
+
+
+          
+
+
+<div class="bd-sidebar-secondary d-none d-xl-block col-xl-2 bd-toc">
+  
+    
+    <div class="toc-item">
+      
+<div class="tocsection onthispage mt-5 pt-1 pb-3">
+    <i class="fas fa-list"></i> On this page
+</div>
+
+<nav id="bd-toc-nav">
+    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#numpy.char.chararray.flags">
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     char.chararray.flags
+    </span>
+   </code>
+  </a>
+ </li>
+</ul>
+
+</nav>
+    </div>
+    
+    <div class="toc-item">
+      
+    </div>
+    
+  
+</div>
+
+
+          
+          
+          <div class="bd-content col-12 col-md-9 col-xl-7">
+              
+              <article class="bd-article" role="main">
+                
+  <section id="numpy-char-chararray-flags">
+<h1>numpy.char.chararray.flags<a class="headerlink" href="#numpy-char-chararray-flags" title="Permalink to this heading">#</a></h1>
+<p>attribute</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="numpy.char.chararray.flags">
+<span class="sig-prename descclassname"><span class="pre">char.chararray.</span></span><span class="sig-name descname"><span class="pre">flags</span></span><a class="headerlink" href="#numpy.char.chararray.flags" title="Permalink to this definition">#</a></dt>
+<dd><p>Information about the memory layout of the array.</p>
+<p class="rubric">Notes</p>
+<p>The <a class="reference internal" href="#numpy.char.chararray.flags" title="numpy.char.chararray.flags"><code class="xref py py-obj docutils literal notranslate"><span class="pre">flags</span></code></a> object can be accessed dictionary-like (as in <code class="docutils literal notranslate"><span class="pre">a.flags['WRITEABLE']</span></code>),
+or by using lowercased attribute names (as in <code class="docutils literal notranslate"><span class="pre">a.flags.writeable</span></code>). Short flag
+names are only supported in dictionary access.</p>
+<p>Only the WRITEBACKIFCOPY, WRITEABLE, and ALIGNED flags can be
+changed by the user, via direct assignment to the attribute or dictionary
+entry, or by calling <a class="reference internal" href="numpy.ndarray.setflags.html#numpy.ndarray.setflags" title="numpy.ndarray.setflags"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ndarray.setflags</span></code></a>.</p>
+<p>The array flags cannot be set arbitrarily:</p>
+<ul class="simple">
+<li><p>WRITEBACKIFCOPY can only be set <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p></li>
+<li><p>ALIGNED can only be set <code class="docutils literal notranslate"><span class="pre">True</span></code> if the data is truly aligned.</p></li>
+<li><p>WRITEABLE can only be set <code class="docutils literal notranslate"><span class="pre">True</span></code> if the array owns its own memory
+or the ultimate owner of the memory exposes a writeable buffer
+interface or is a string.</p></li>
+</ul>
+<p>Arrays can be both C-style and Fortran-style contiguous simultaneously.
+This is clear for 1-dimensional arrays, but can also be true for higher
+dimensional arrays.</p>
+<p>Even for contiguous arrays a stride for a given dimension
+<code class="docutils literal notranslate"><span class="pre">arr.strides[dim]</span></code> may be <em>arbitrary</em> if <code class="docutils literal notranslate"><span class="pre">arr.shape[dim]</span> <span class="pre">==</span> <span class="pre">1</span></code>
+or the array has no elements.
+It does <em>not</em> generally hold that <code class="docutils literal notranslate"><span class="pre">self.strides[-1]</span> <span class="pre">==</span> <span class="pre">self.itemsize</span></code>
+for C-style contiguous arrays or <code class="docutils literal notranslate"><span class="pre">self.strides[0]</span> <span class="pre">==</span> <span class="pre">self.itemsize</span></code> for
+Fortran-style contiguous arrays is true.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attributes<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>C_CONTIGUOUS (C)</strong></dt><dd><p>The data is in a single, C-style contiguous segment.</p>
+</dd>
+<dt><strong>F_CONTIGUOUS (F)</strong></dt><dd><p>The data is in a single, Fortran-style contiguous segment.</p>
+</dd>
+<dt><strong>OWNDATA (O)</strong></dt><dd><p>The array owns the memory it uses or borrows it from another object.</p>
+</dd>
+<dt><strong>WRITEABLE (W)</strong></dt><dd><p>The data area can be written to.  Setting this to False locks
+the data, making it read-only.  A view (slice, etc.) inherits WRITEABLE
+from its base array at creation time, but a view of a writeable
+array may be subsequently locked while the base array remains writeable.
+(The opposite is not true, in that a view of a locked array may not
+be made writeable.  However, currently, locking a base object does not
+lock any views that already reference it, so under that circumstance it
+is possible to alter the contents of a locked array via a previously
+created writeable view onto it.)  Attempting to change a non-writeable
+array raises a RuntimeError exception.</p>
+</dd>
+<dt><strong>ALIGNED (A)</strong></dt><dd><p>The data and all elements are aligned appropriately for the hardware.</p>
+</dd>
+<dt><strong>WRITEBACKIFCOPY (X)</strong></dt><dd><p>This array is a copy of some other array. The C-API function
+PyArray_ResolveWritebackIfCopy must be called before deallocating
+to the base array will be updated with the contents of this array.</p>
+</dd>
+<dt><strong>FNC</strong></dt><dd><p>F_CONTIGUOUS and not C_CONTIGUOUS.</p>
+</dd>
+<dt><strong>FORC</strong></dt><dd><p>F_CONTIGUOUS or C_CONTIGUOUS (one-segment test).</p>
+</dd>
+<dt><strong>BEHAVED (B)</strong></dt><dd><p>ALIGNED and WRITEABLE.</p>
+</dd>
+<dt><strong>CARRAY (CA)</strong></dt><dd><p>BEHAVED and C_CONTIGUOUS.</p>
+</dd>
+<dt><strong>FARRAY (FA)</strong></dt><dd><p>BEHAVED and F_CONTIGUOUS and not C_CONTIGUOUS.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+
+
+              </article>
+              
+
+              
+              <footer class="bd-footer-article">
+                  <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+</div>
+              </footer>
+              
+          </div>
+          
+      </div>
+    </div>
+
+  
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695"></script>
+
+<footer class="bd-footer"><div class="bd-footer__inner container">
+  
+  <div class="footer-item">
+    <p class="copyright">
+    &copy; Copyright 2008-2022, NumPy Developers.<br>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    <p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.3.0.<br>
+</p>
+  </div>
+  
+</div>
+</footer>
+  </body>
+</html>

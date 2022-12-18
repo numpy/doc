@@ -1,0 +1,929 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>Array creation &#8212; NumPy v1.24 Manual</title>
+<script>
+  document.documentElement.dataset.mode = localStorage.getItem("mode") || "light";
+  document.documentElement.dataset.theme = localStorage.getItem("theme") || "light"
+</script>
+
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=92025949c220c2e29695" rel="stylesheet">
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=92025949c220c2e29695" rel="stylesheet">
+
+
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/numpy.css" />
+
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695">
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/design-tabs.js"></script>
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Indexing on ndarrays" href="basics.indexing.html" />
+    <link rel="prev" title="NumPy fundamentals" href="basics.html" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="docsearch:language" content="en">
+  </head>
+  
+  
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="180" data-default-mode="light">
+    <div class="bd-header-announcement container-fluid" id="banner">
+      
+
+    </div>
+
+    
+    <nav class="bd-header navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="bd-header__inner container-xl">
+
+  <div id="navbar-start">
+    
+    
+  
+
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+    <img src="../_static/numpylogo.svg" class="logo__image only-light" alt="Logo image">
+    <img src="../_static/numpylogo_dark.svg" class="logo__image only-dark" alt="Logo image">
+  
+  
+</a>
+    
+  </div>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapsible" aria-controls="navbar-collapsible" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="fas fa-bars"></span>
+  </button>
+
+  
+  <div id="navbar-collapsible" class="col-lg-9 collapse navbar-collapse">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <ul id="navbar-main-elements" class="navbar-nav">
+    <li class="toctree-l1 current active nav-item">
+ <a class="reference internal nav-link" href="index.html">
+  User Guide
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../reference/index.html">
+  API reference
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../dev/index.html">
+  Development
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../release.html">
+  Release notes
+ </a>
+</li>
+
+    
+    <li class="nav-item">
+        <a class="nav-link nav-external" href="https://numpy.org/numpy-tutorials/">Learn<i class="fas fa-external-link-alt"></i></a>
+    </li>
+    
+</ul>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      
+      <div class="navbar-end-item">
+        <span id="theme-switch" class="btn btn-sm btn-outline-primary navbar-btn rounded-circle">
+    <a class="theme-switch" data-mode="light"><i class="fas fa-sun"></i></a>
+    <a class="theme-switch" data-mode="dark"><i class="far fa-moon"></i></a>
+    <a class="theme-switch" data-mode="auto"><i class="fas fa-adjust"></i></a>
+</span>
+      </div>
+      
+      <div class="navbar-end-item">
+        <div class="dropdown" id="version_switcher">
+    <button type="button" class="btn btn-sm navbar-btn dropdown-toggle" id="version_switcher_button" data-toggle="dropdown">
+        1.24  <!-- this text may get changed later by javascript -->
+        <span class="caret"></span>
+    </button>
+    <div id="version_switcher_menu" class="dropdown-menu list-group-flush py-0" aria-labelledby="version_switcher_button">
+    <!-- dropdown will be populated by javascript on page load -->
+    </div>
+</div>
+
+<!-- NOTE: this JS must live here (not in our global JS file) because it relies
+     on being processed by Jinja before it is run (specifically for replacing
+     variables user/basics.creation and {'version_match': '1.24', 'json_url': 'https://numpy.org/doc/_static/versions.json'}.
+-->
+
+<script type="text/javascript">
+// Check if corresponding page path exists in other version of docs
+// and, if so, go there instead of the homepage of the other docs version
+function checkPageExistsAndRedirect(event) {
+    const currentFilePath = "user/basics.creation.html",
+          tryUrl = event.target.getAttribute("href");
+    let otherDocsHomepage = tryUrl.replace(currentFilePath, "");
+    $.ajax({
+        type: 'HEAD',
+        url: tryUrl,
+        // if the page exists, go there
+        success: function() {
+            location.href = tryUrl;
+        }
+    }).fail(function() {
+        location.href = otherDocsHomepage;
+    });
+    // this prevents the browser from following the href of the clicked node
+    // (which is fine because this function takes care of redirecting)
+    return false;
+}
+
+// Populate the version switcher from the JSON config file
+(function () {
+    $.getJSON("https://numpy.org/doc/_static/versions.json", function(data, textStatus, jqXHR) {
+        const currentFilePath = "user/basics.creation.html";
+        let btn = document.getElementById("version_switcher_button");
+        // Set empty strings by default so that these attributes exist and can be used in CSS selectors
+        btn.dataset["activeVersionName"] = "";
+        btn.dataset["activeVersion"] = "";
+        // create links to the corresponding page in the other docs versions
+        $.each(data, function(index, entry) {
+            // if no custom name specified (e.g., "latest"), use version string
+            if (!("name" in entry)) {
+                entry.name = entry.version;
+            }
+            // create the node
+            const node = document.createElement("a");
+            node.setAttribute("class", "list-group-item list-group-item-action py-1");
+            node.textContent = `${entry.name}`;
+            node.setAttribute("href", `${entry.url}${currentFilePath}`);
+            // on click, AJAX calls will check if the linked page exists before
+            // trying to redirect, and if not, will redirect to the homepage
+            // for that version of the docs.
+            node.onclick = checkPageExistsAndRedirect;
+            // Add dataset values for the version and name in case people want
+            // to apply CSS styling based on this information.
+            node.dataset["versionName"] = entry.name;
+            node.dataset["version"] = entry.version;
+
+            $("#version_switcher_menu").append(node);
+            // replace dropdown button text with the preferred display name of
+            // this version, rather than using sphinx's 1.24 variable.
+            // also highlight the dropdown entry for the currently-viewed
+            // version's entry
+            if (entry.version == "1.24") {
+                node.classList.add("active");
+                btn.innerText = btn.dataset["activeVersionName"] = entry.name;
+                btn.dataset["activeVersion"] = entry.version;
+            }
+        });
+    });
+})();
+</script>
+      </div>
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+        <li class="nav-item">
+          <a class="nav-link" href="https://github.com/numpy/numpy" rel="noopener" target="_blank" title="GitHub"><span><i class="fab fa-github-square"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="https://twitter.com/numpy_team" rel="noopener" target="_blank" title="Twitter"><span><i class="fab fa-twitter-square"></i></span>
+            <label class="sr-only">Twitter</label></a>
+        </li>
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+</div>
+    </nav>
+    
+
+    <div class="bd-container container-xl">
+      <div class="bd-container__inner row">
+          
+
+<!-- Only show if we have sidebars configured, else just a small margin  -->
+<div class="bd-sidebar-primary col-12 col-md-3 bd-sidebar">
+  <div class="sidebar-start-items"><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <div class="bd-toc-item active">
+    <p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Getting started
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="whatisnumpy.html">
+   What is NumPy?
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference external" href="https://numpy.org/install/">
+   Installation
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="quickstart.html">
+   NumPy quickstart
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="absolute_beginners.html">
+   NumPy: the absolute basics for beginners
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Fundamentals and usage
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1 current active has-children">
+  <a class="reference internal" href="basics.html">
+   NumPy fundamentals
+  </a>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul class="current">
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
+     Array creation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="basics.indexing.html">
+     Indexing on
+     <code class="xref py py-class docutils literal notranslate">
+      <span class="pre">
+       ndarrays
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="basics.io.html">
+     I/O with NumPy
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="basics.types.html">
+     Data types
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="basics.broadcasting.html">
+     Broadcasting
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="basics.copies.html">
+     Copies and views
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="basics.rec.html">
+     Structured arrays
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="basics.ufuncs.html">
+     Universal functions (
+     <code class="xref py py-class docutils literal notranslate">
+      <span class="pre">
+       ufunc
+      </span>
+     </code>
+     ) basics
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="numpy-for-matlab-users.html">
+   NumPy for MATLAB users
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference external" href="https://numpy.org/numpy-tutorials/features.html">
+   NumPy Tutorials
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="howtos_index.html">
+   NumPy How Tos
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Advanced usage and interoperability
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="building.html">
+   Building from source
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="c-info.html">
+   Using NumPy C-API
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../f2py/index.html">
+   F2PY user guide and reference manual
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../dev/underthehood.html">
+   Under-the-hood documentation for developers
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="basics.interoperability.html">
+   Interoperability with NumPy
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Extras
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../glossary.html">
+   Glossary
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../release.html">
+   Release notes
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../license.html">
+   NumPy license
+  </a>
+ </li>
+</ul>
+
+  </div>
+</nav>
+  </div>
+  <div class="sidebar-end-items">
+  </div>
+</div>
+
+
+          
+
+
+<div class="bd-sidebar-secondary d-none d-xl-block col-xl-2 bd-toc">
+  
+    
+    <div class="toc-item">
+      
+<div class="tocsection onthispage mt-5 pt-1 pb-3">
+    <i class="fas fa-list"></i> On this page
+</div>
+
+<nav id="bd-toc-nav">
+    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#introduction">
+   Introduction
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#converting-python-sequences-to-numpy-arrays">
+   1) Converting Python sequences to NumPy Arrays
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#intrinsic-numpy-array-creation-functions">
+   2) Intrinsic NumPy array creation functions
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#d-array-creation-functions">
+     1 - 1D array creation functions
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id1">
+     2 - 2D array creation functions
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#general-ndarray-creation-functions">
+     3 - general ndarray creation functions
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#replicating-joining-or-mutating-existing-arrays">
+   3) Replicating, joining, or mutating existing arrays
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#reading-arrays-from-disk-either-from-standard-or-custom-formats">
+   4) Reading arrays from disk, either from standard or custom formats
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#standard-binary-formats">
+     Standard Binary Formats
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#common-ascii-formats">
+     Common ASCII Formats
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#creating-arrays-from-raw-bytes-through-the-use-of-strings-or-buffers">
+   5) Creating arrays from raw bytes through the use of strings or buffers
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#use-of-special-library-functions-e-g-scipy-pandas-and-opencv">
+   6) Use of special library functions (e.g., SciPy, Pandas, and OpenCV)
+  </a>
+ </li>
+</ul>
+
+</nav>
+    </div>
+    
+    <div class="toc-item">
+      
+    </div>
+    
+  
+</div>
+
+
+          
+          
+          <div class="bd-content col-12 col-md-9 col-xl-7">
+              
+              <article class="bd-article" role="main">
+                
+  <section id="array-creation">
+<span id="arrays-creation"></span><h1>Array creation<a class="headerlink" href="#array-creation" title="Permalink to this heading">#</a></h1>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="../reference/routines.array-creation.html#routines-array-creation"><span class="std std-ref">Array creation routines</span></a></p>
+</div>
+<section id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading">#</a></h2>
+<p>There are 6 general mechanisms for creating arrays:</p>
+<ol class="arabic simple">
+<li><p>Conversion from other Python structures (i.e. lists and tuples)</p></li>
+<li><p>Intrinsic NumPy array creation functions (e.g. arange, ones, zeros,
+etc.)</p></li>
+<li><p>Replicating, joining, or mutating existing arrays</p></li>
+<li><p>Reading arrays from disk, either from standard or custom formats</p></li>
+<li><p>Creating arrays from raw bytes through the use of strings or buffers</p></li>
+<li><p>Use of special library functions (e.g., random)</p></li>
+</ol>
+<p>You can use these methods to create ndarrays or <a class="reference internal" href="basics.rec.html#structured-arrays"><span class="std std-ref">Structured arrays</span></a>.
+This document will cover general methods for ndarray creation.</p>
+</section>
+<section id="converting-python-sequences-to-numpy-arrays">
+<h2>1) Converting Python sequences to NumPy Arrays<a class="headerlink" href="#converting-python-sequences-to-numpy-arrays" title="Permalink to this heading">#</a></h2>
+<p>NumPy arrays can be defined using Python sequences such as lists and
+tuples. Lists and tuples are defined using <code class="docutils literal notranslate"><span class="pre">[...]</span></code> and <code class="docutils literal notranslate"><span class="pre">(...)</span></code>,
+respectively. Lists and tuples can define ndarray creation:</p>
+<ul class="simple">
+<li><p>a list of numbers will create a 1D array,</p></li>
+<li><p>a list of lists will create a 2D array,</p></li>
+<li><p>further nested lists will create higher-dimensional arrays. In general, any array object is called an <strong>ndarray</strong> in NumPy.</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a1D</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a2D</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a3D</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]],</span> <span class="p">[[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">],</span> <span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">]]])</span>
+</pre></div>
+</div>
+<p>When you use <a class="reference internal" href="../reference/generated/numpy.array.html#numpy.array" title="numpy.array"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.array</span></code></a> to define a new array, you should
+consider the <a class="reference internal" href="basics.types.html"><span class="doc">dtype</span></a> of the elements in the array,
+which can be specified explicitly. This feature gives you
+more control over the underlying data structures and how the elements
+are handled in C/C++ functions. If you are not careful with <code class="docutils literal notranslate"><span class="pre">dtype</span></code>
+assignments, you can get unwanted overflow, as such</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">127</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="mi">129</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int8</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span>
+<span class="go">array([ 127, -128, -127], dtype=int8)</span>
+</pre></div>
+</div>
+<p>An 8-bit signed integer represents integers from -128 to 127.
+Assigning the <code class="docutils literal notranslate"><span class="pre">int8</span></code> array to integers outside of this range results
+in overflow. This feature can often be misunderstood. If you
+perform calculations with mismatching <code class="docutils literal notranslate"><span class="pre">dtypes</span></code>, you can get unwanted
+results,  for example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint32</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint32</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c_unsigned32</span> <span class="o">=</span> <span class="n">a</span> <span class="o">-</span> <span class="n">b</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;unsigned c:&#39;</span><span class="p">,</span> <span class="n">c_unsigned32</span><span class="p">,</span> <span class="n">c_unsigned32</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+<span class="go">unsigned c: [4294967293 4294967293 4294967293] uint32</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c_signed32</span> <span class="o">=</span> <span class="n">a</span> <span class="o">-</span> <span class="n">b</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;signed c:&#39;</span><span class="p">,</span> <span class="n">c_signed32</span><span class="p">,</span> <span class="n">c_signed32</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+<span class="go">signed c: [-3 -3 -3] int64</span>
+</pre></div>
+</div>
+<p>Notice when you perform operations with two arrays of the same
+<code class="docutils literal notranslate"><span class="pre">dtype</span></code>: <code class="docutils literal notranslate"><span class="pre">uint32</span></code>, the resulting array is the same type. When you
+perform operations with different <code class="docutils literal notranslate"><span class="pre">dtype</span></code>, NumPy will
+assign a new type that satisfies all of the array elements involved in
+the computation, here <code class="docutils literal notranslate"><span class="pre">uint32</span></code> and <code class="docutils literal notranslate"><span class="pre">int32</span></code> can both be represented in
+as <code class="docutils literal notranslate"><span class="pre">int64</span></code>.</p>
+<p>The default NumPy behavior is to create arrays in either 32 or 64-bit signed
+integers (platform dependent and matches C int size) or double precision
+floating point numbers, int32/int64 and float, respectively. If you expect your
+integer arrays to be a specific type, then you need to specify the dtype while
+you create the array.</p>
+</section>
+<section id="intrinsic-numpy-array-creation-functions">
+<h2>2) Intrinsic NumPy array creation functions<a class="headerlink" href="#intrinsic-numpy-array-creation-functions" title="Permalink to this heading">#</a></h2>
+<p>NumPy has over 40 built-in functions for creating arrays as laid
+out in the <a class="reference internal" href="../reference/routines.array-creation.html#routines-array-creation"><span class="std std-ref">Array creation routines</span></a>.
+These functions can be split into roughly three categories, based on the
+dimension of the array they create:</p>
+<ol class="arabic simple">
+<li><p>1D arrays</p></li>
+<li><p>2D arrays</p></li>
+<li><p>ndarrays</p></li>
+</ol>
+<section id="d-array-creation-functions">
+<h3>1 - 1D array creation functions<a class="headerlink" href="#d-array-creation-functions" title="Permalink to this heading">#</a></h3>
+<p>The 1D array creation functions e.g. <a class="reference internal" href="../reference/generated/numpy.linspace.html#numpy.linspace" title="numpy.linspace"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.linspace</span></code></a> and
+<a class="reference internal" href="../reference/generated/numpy.arange.html#numpy.arange" title="numpy.arange"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.arange</span></code></a> generally need at least two inputs, <code class="docutils literal notranslate"><span class="pre">start</span></code> and
+<code class="docutils literal notranslate"><span class="pre">stop</span></code>.</p>
+<p><a class="reference internal" href="../reference/generated/numpy.arange.html#numpy.arange" title="numpy.arange"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.arange</span></code></a> creates arrays with regularly incrementing values.
+Check the documentation for complete information and examples. A few
+examples are shown:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="go">array([0, 1, 2, 3, 4, 5, 6, 7, 8, 9])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+<span class="go">array([2., 3., 4., 5., 6., 7., 8., 9.])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">)</span>
+<span class="go">array([2. , 2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 2.7, 2.8, 2.9])</span>
+</pre></div>
+</div>
+<p>Note: best practice for <a class="reference internal" href="../reference/generated/numpy.arange.html#numpy.arange" title="numpy.arange"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.arange</span></code></a> is to use integer start, end, and
+step values. There are some subtleties regarding <code class="docutils literal notranslate"><span class="pre">dtype</span></code>. In the second
+example, the <code class="docutils literal notranslate"><span class="pre">dtype</span></code> is defined. In the third example, the array is
+<code class="docutils literal notranslate"><span class="pre">dtype=float</span></code> to accommodate the step size of <code class="docutils literal notranslate"><span class="pre">0.1</span></code>. Due to roundoff error,
+the <code class="docutils literal notranslate"><span class="pre">stop</span></code> value is sometimes included.</p>
+<p><a class="reference internal" href="../reference/generated/numpy.linspace.html#numpy.linspace" title="numpy.linspace"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.linspace</span></code></a> will create arrays with a specified number of elements, and
+spaced equally between the specified beginning and end values. For
+example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">1.</span><span class="p">,</span> <span class="mf">4.</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
+<span class="go">array([1. ,  1.6,  2.2,  2.8,  3.4,  4. ])</span>
+</pre></div>
+</div>
+<p>The advantage of this creation function is that you guarantee the
+number of elements and the starting and end point. The previous
+<code class="docutils literal notranslate"><span class="pre">arange(start,</span> <span class="pre">stop,</span> <span class="pre">step)</span></code> will not include the value <code class="docutils literal notranslate"><span class="pre">stop</span></code>.</p>
+</section>
+<section id="id1">
+<h3>2 - 2D array creation functions<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h3>
+<p>The 2D array creation functions e.g. <a class="reference internal" href="../reference/generated/numpy.eye.html#numpy.eye" title="numpy.eye"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.eye</span></code></a>, <a class="reference internal" href="../reference/generated/numpy.diag.html#numpy.diag" title="numpy.diag"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.diag</span></code></a>, and <a class="reference internal" href="../reference/generated/numpy.vander.html#numpy.vander" title="numpy.vander"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.vander</span></code></a>
+define properties of special matrices represented as 2D arrays.</p>
+<p><code class="docutils literal notranslate"><span class="pre">np.eye(n,</span> <span class="pre">m)</span></code> defines a 2D identity matrix. The elements where i=j (row index and column index are equal) are 1
+and the rest are 0, as such:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="go">array([[1., 0., 0.],</span>
+<span class="go">       [0., 1., 0.],</span>
+<span class="go">       [0., 0., 1.]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<span class="go">array([[1., 0., 0., 0., 0.],</span>
+<span class="go">       [0., 1., 0., 0., 0.],</span>
+<span class="go">       [0., 0., 1., 0., 0.]])</span>
+</pre></div>
+</div>
+<p><a class="reference internal" href="../reference/generated/numpy.diag.html#numpy.diag" title="numpy.diag"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.diag</span></code></a> can define either a square 2D array with given values along
+the diagonal <em>or</em> if given a 2D array returns a 1D array that is
+only the diagonal elements. The two array creation functions can be helpful while
+doing linear algebra, as such:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+<span class="go">array([[1, 0, 0],</span>
+<span class="go">       [0, 2, 0],</span>
+<span class="go">       [0, 0, 3]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
+<span class="go">array([[0, 1, 0, 0],</span>
+<span class="go">       [0, 0, 2, 0],</span>
+<span class="go">       [0, 0, 0, 3],</span>
+<span class="go">       [0, 0, 0, 0]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="go">array([1, 4])</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">vander(x,</span> <span class="pre">n)</span></code> defines a Vandermonde matrix as a 2D NumPy array. Each column
+of the Vandermonde matrix is a decreasing power of the input 1D array or
+list or tuple,
+<code class="docutils literal notranslate"><span class="pre">x</span></code> where the highest polynomial order is <code class="docutils literal notranslate"><span class="pre">n-1</span></code>. This array creation
+routine is helpful in generating linear least squares models, as such:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">vander</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="mi">2</span><span class="p">)</span>
+<span class="go">array([[0. , 1. ],</span>
+<span class="go">      [0.5, 1. ],</span>
+<span class="go">      [1. , 1. ],</span>
+<span class="go">      [1.5, 1. ],</span>
+<span class="go">      [2. , 1. ]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">vander</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="mi">2</span><span class="p">)</span>
+<span class="go">array([[1, 1],</span>
+<span class="go">       [2, 1],</span>
+<span class="go">       [3, 1],</span>
+<span class="go">       [4, 1]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">vander</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="mi">4</span><span class="p">)</span>
+<span class="go">array([[ 1,  1,  1,  1],</span>
+<span class="go">       [ 8,  4,  2,  1],</span>
+<span class="go">       [27,  9,  3,  1],</span>
+<span class="go">       [64, 16,  4,  1]])</span>
+</pre></div>
+</div>
+</section>
+<section id="general-ndarray-creation-functions">
+<h3>3 - general ndarray creation functions<a class="headerlink" href="#general-ndarray-creation-functions" title="Permalink to this heading">#</a></h3>
+<p>The ndarray creation functions e.g. <a class="reference internal" href="../reference/generated/numpy.ones.html#numpy.ones" title="numpy.ones"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.ones</span></code></a>,
+<a class="reference internal" href="../reference/generated/numpy.zeros.html#numpy.zeros" title="numpy.zeros"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.zeros</span></code></a>, and <a class="reference internal" href="../reference/random/generated/numpy.random.Generator.random.html#numpy.random.Generator.random" title="numpy.random.Generator.random"><code class="xref py py-meth docutils literal notranslate"><span class="pre">random</span></code></a> define
+arrays based upon the desired shape.  The  ndarray creation functions
+can create arrays with any dimension by specifying how many dimensions
+and length along that dimension in a tuple or list.</p>
+<p><a class="reference internal" href="../reference/generated/numpy.zeros.html#numpy.zeros" title="numpy.zeros"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.zeros</span></code></a> will create an array filled with 0 values with the
+specified shape. The default dtype is <code class="docutils literal notranslate"><span class="pre">float64</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="go">array([[0., 0., 0.],</span>
+<span class="go">       [0., 0., 0.]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<span class="go">array([[[0., 0.],</span>
+<span class="go">        [0., 0.],</span>
+<span class="go">        [0., 0.]],</span>
+
+<span class="go">       [[0., 0.],</span>
+<span class="go">        [0., 0.],</span>
+<span class="go">        [0., 0.]]])</span>
+</pre></div>
+</div>
+<p><a class="reference internal" href="../reference/generated/numpy.ones.html#numpy.ones" title="numpy.ones"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.ones</span></code></a> will create an array filled with 1 values. It is identical to
+<code class="docutils literal notranslate"><span class="pre">zeros</span></code> in all other respects as such:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="go">array([[1., 1., 1.],</span>
+<span class="go">       [1., 1., 1.]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<span class="go">array([[[1., 1.],</span>
+<span class="go">        [1., 1.],</span>
+<span class="go">        [1., 1.]],</span>
+
+<span class="go">       [[1., 1.],</span>
+<span class="go">        [1., 1.],</span>
+<span class="go">        [1., 1.]]])</span>
+</pre></div>
+</div>
+<p>The <a class="reference internal" href="../reference/random/generated/numpy.random.Generator.random.html#numpy.random.Generator.random" title="numpy.random.Generator.random"><code class="xref py py-meth docutils literal notranslate"><span class="pre">random</span></code></a> method of the result of
+<code class="docutils literal notranslate"><span class="pre">default_rng</span></code> will create an array filled with random
+values between 0 and 1. It is included with the <a class="reference internal" href="../reference/random/index.html#module-numpy.random" title="numpy.random"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.random</span></code></a>
+library. Below, two arrays are created with shapes (2,3) and (2,3,2),
+respectively. The seed is set to 42 so you can reproduce these
+pseudorandom numbers:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">numpy.random</span> <span class="kn">import</span> <span class="n">default_rng</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">default_rng</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
+<span class="go">array([[0.77395605, 0.43887844, 0.85859792],</span>
+<span class="go">       [0.69736803, 0.09417735, 0.97562235]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">default_rng</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span>
+<span class="go">array([[[0.77395605, 0.43887844],</span>
+<span class="go">        [0.85859792, 0.69736803],</span>
+<span class="go">        [0.09417735, 0.97562235]],</span>
+<span class="go">       [[0.7611397 , 0.78606431],</span>
+<span class="go">        [0.12811363, 0.45038594],</span>
+<span class="go">        [0.37079802, 0.92676499]]])</span>
+</pre></div>
+</div>
+<p><a class="reference internal" href="../reference/generated/numpy.indices.html#numpy.indices" title="numpy.indices"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.indices</span></code></a> will create a set of arrays (stacked as a one-higher
+dimensioned array), one per dimension with each representing variation in that
+dimension:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">indices</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
+<span class="go">array([[[0, 0, 0],</span>
+<span class="go">        [1, 1, 1],</span>
+<span class="go">        [2, 2, 2]],</span>
+<span class="go">       [[0, 1, 2],</span>
+<span class="go">        [0, 1, 2],</span>
+<span class="go">        [0, 1, 2]]])</span>
+</pre></div>
+</div>
+<p>This is particularly useful for evaluating functions of multiple dimensions on
+a regular grid.</p>
+</section>
+</section>
+<section id="replicating-joining-or-mutating-existing-arrays">
+<h2>3) Replicating, joining, or mutating existing arrays<a class="headerlink" href="#replicating-joining-or-mutating-existing-arrays" title="Permalink to this heading">#</a></h2>
+<p>Once you have created arrays, you can replicate, join, or mutate those
+existing arrays to create new arrays. When you assign an array or its
+elements to a new variable, you have to explicitly <a class="reference internal" href="../reference/generated/numpy.copy.html#numpy.copy" title="numpy.copy"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.copy</span></code></a> the array,
+otherwise the variable is a view into the original array. Consider the
+following example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">a</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">+=</span> <span class="mi">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;a =&#39;</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="s1">&#39;; b =&#39;</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+<span class="go">a = [2 3 3 4 5 6] ; b = [2 3]</span>
+</pre></div>
+</div>
+<p>In this example, you did not create a new array. You created a variable,
+<code class="docutils literal notranslate"><span class="pre">b</span></code> that viewed the first 2 elements of <code class="docutils literal notranslate"><span class="pre">a</span></code>. When you added 1 to <code class="docutils literal notranslate"><span class="pre">b</span></code> you
+would get the same result by adding 1 to <code class="docutils literal notranslate"><span class="pre">a[:2]</span></code>. If you want to create a
+<em>new</em> array, use the <a class="reference internal" href="../reference/generated/numpy.copy.html#numpy.copy" title="numpy.copy"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.copy</span></code></a> array creation routine as such:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">a</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">+=</span> <span class="mi">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;a = &#39;</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="s1">&#39;b = &#39;</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+<span class="go">a =  [1 2 3 4] b =  [2 3]</span>
+</pre></div>
+</div>
+<p>For more information and examples look at <a class="reference internal" href="quickstart.html#quickstart-copies-and-views"><span class="std std-ref">Copies and Views</span></a>.</p>
+<p>There are a number of routines to join existing arrays e.g. <a class="reference internal" href="../reference/generated/numpy.vstack.html#numpy.vstack" title="numpy.vstack"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.vstack</span></code></a>,
+<a class="reference internal" href="../reference/generated/numpy.hstack.html#numpy.hstack" title="numpy.hstack"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.hstack</span></code></a>, and <a class="reference internal" href="../reference/generated/numpy.block.html#numpy.block" title="numpy.block"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.block</span></code></a>. Here is an example of joining four 2-by-2
+arrays into a 4-by-4 array using <code class="docutils literal notranslate"><span class="pre">block</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">B</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">C</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">D</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">((</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="o">-</span><span class="mi">4</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">block</span><span class="p">([[</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">],</span> <span class="p">[</span><span class="n">C</span><span class="p">,</span> <span class="n">D</span><span class="p">]])</span>
+<span class="go">array([[ 1.,  1.,  1.,  0.],</span>
+<span class="go">       [ 1.,  1.,  0.,  1.],</span>
+<span class="go">       [ 0.,  0., -3.,  0.],</span>
+<span class="go">       [ 0.,  0.,  0., -4.]])</span>
+</pre></div>
+</div>
+<p>Other routines use similar syntax to join ndarrays. Check the
+routine’s documentation for further examples and syntax.</p>
+</section>
+<section id="reading-arrays-from-disk-either-from-standard-or-custom-formats">
+<h2>4) Reading arrays from disk, either from standard or custom formats<a class="headerlink" href="#reading-arrays-from-disk-either-from-standard-or-custom-formats" title="Permalink to this heading">#</a></h2>
+<p>This is the most common case of large array creation. The details depend
+greatly on the format of data on disk. This section gives general pointers on
+how to handle various formats. For more detailed examples of IO look at
+<a class="reference internal" href="how-to-io.html#how-to-io"><span class="std std-ref">How to Read and Write files</span></a>.</p>
+<section id="standard-binary-formats">
+<h3>Standard Binary Formats<a class="headerlink" href="#standard-binary-formats" title="Permalink to this heading">#</a></h3>
+<p>Various fields have standard formats for array data. The following lists the
+ones with known Python libraries to read them and return NumPy arrays (there
+may be others for which it is possible to read and convert to NumPy arrays so
+check the last section as well)</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">HDF5</span><span class="p">:</span> <span class="n">h5py</span>
+<span class="n">FITS</span><span class="p">:</span> <span class="n">Astropy</span>
+</pre></div>
+</div>
+<p>Examples of formats that cannot be read directly but for which it is not hard to
+convert are those formats supported by libraries like PIL (able to read and
+write many image formats such as jpg, png, etc).</p>
+</section>
+<section id="common-ascii-formats">
+<h3>Common ASCII Formats<a class="headerlink" href="#common-ascii-formats" title="Permalink to this heading">#</a></h3>
+<p>Delimited files such as comma separated value (csv) and tab separated
+value (tsv) files are used for programs like Excel and LabView. Python
+functions can read and parse these files line-by-line. NumPy has two
+standard routines for importing a file with delimited data <a class="reference internal" href="../reference/generated/numpy.loadtxt.html#numpy.loadtxt" title="numpy.loadtxt"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.loadtxt</span></code></a>
+and <a class="reference internal" href="../reference/generated/numpy.genfromtxt.html#numpy.genfromtxt" title="numpy.genfromtxt"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.genfromtxt</span></code></a>. These functions have more involved use cases in
+<a class="reference internal" href="how-to-io.html"><span class="doc">Reading and writing files</span></a>. A simple example given a <code class="docutils literal notranslate"><span class="pre">simple.csv</span></code>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ cat simple.csv
+x, y
+<span class="m">0</span>, <span class="m">0</span>
+<span class="m">1</span>, <span class="m">1</span>
+<span class="m">2</span>, <span class="m">4</span>
+<span class="m">3</span>, <span class="m">9</span>
+</pre></div>
+</div>
+<p>Importing <code class="docutils literal notranslate"><span class="pre">simple.csv</span></code> is accomplished using <code class="xref py py-func docutils literal notranslate"><span class="pre">loadtxt</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="s1">&#39;simple.csv&#39;</span><span class="p">,</span> <span class="n">delimiter</span> <span class="o">=</span> <span class="s1">&#39;,&#39;</span><span class="p">,</span> <span class="n">skiprows</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span> 
+<span class="go">array([[0., 0.],</span>
+<span class="go">       [1., 1.],</span>
+<span class="go">       [2., 4.],</span>
+<span class="go">       [3., 9.]])</span>
+</pre></div>
+</div>
+<p>More generic ASCII files can be read using <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/io.html#module-scipy.io" title="(in SciPy v1.9.3)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scipy.io</span></code></a> and <a class="reference external" href="https://pandas.pydata.org/">Pandas</a>.</p>
+</section>
+</section>
+<section id="creating-arrays-from-raw-bytes-through-the-use-of-strings-or-buffers">
+<h2>5) Creating arrays from raw bytes through the use of strings or buffers<a class="headerlink" href="#creating-arrays-from-raw-bytes-through-the-use-of-strings-or-buffers" title="Permalink to this heading">#</a></h2>
+<p>There are a variety of approaches one can use. If the file has a relatively
+simple format then one can write a simple I/O library and use the NumPy
+<code class="docutils literal notranslate"><span class="pre">fromfile()</span></code> function and <code class="docutils literal notranslate"><span class="pre">.tofile()</span></code> method to read and write NumPy arrays
+directly (mind your byteorder though!) If a good C or C++ library exists that
+read the data, one can wrap that library with a variety of techniques though
+that certainly is much more work and requires significantly more advanced
+knowledge to interface with C or C++.</p>
+</section>
+<section id="use-of-special-library-functions-e-g-scipy-pandas-and-opencv">
+<h2>6) Use of special library functions (e.g., SciPy, Pandas, and OpenCV)<a class="headerlink" href="#use-of-special-library-functions-e-g-scipy-pandas-and-opencv" title="Permalink to this heading">#</a></h2>
+<p>NumPy is the fundamental library for array containers in the Python Scientific Computing
+stack. Many Python libraries, including SciPy, Pandas, and OpenCV, use NumPy ndarrays
+as the common format for data exchange, These libraries can create,
+operate on, and work with NumPy arrays.</p>
+</section>
+</section>
+
+
+              </article>
+              
+
+              
+              <footer class="bd-footer-article">
+                  <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+  <a class='left-prev' id="prev-link" href="basics.html" title="previous page">
+      <i class="fas fa-angle-left"></i>
+      <div class="prev-next-info">
+          <p class="prev-next-subtitle">previous</p>
+          <p class="prev-next-title">NumPy fundamentals</p>
+      </div>
+  </a>
+  <a class='right-next' id="next-link" href="basics.indexing.html" title="next page">
+  <div class="prev-next-info">
+      <p class="prev-next-subtitle">next</p>
+      <p class="prev-next-title">Indexing on <code class="xref py py-class docutils literal notranslate"><span class="pre">ndarrays</span></code></p>
+  </div>
+  <i class="fas fa-angle-right"></i>
+  </a>
+</div>
+              </footer>
+              
+          </div>
+          
+      </div>
+    </div>
+
+  
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695"></script>
+
+<footer class="bd-footer"><div class="bd-footer__inner container">
+  
+  <div class="footer-item">
+    <p class="copyright">
+    &copy; Copyright 2008-2022, NumPy Developers.<br>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    <p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.3.0.<br>
+</p>
+  </div>
+  
+</div>
+</footer>
+  </body>
+</html>

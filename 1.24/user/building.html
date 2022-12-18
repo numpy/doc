@@ -1,0 +1,880 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>Building from source &#8212; NumPy v1.24 Manual</title>
+<script>
+  document.documentElement.dataset.mode = localStorage.getItem("mode") || "light";
+  document.documentElement.dataset.theme = localStorage.getItem("theme") || "light"
+</script>
+
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=92025949c220c2e29695" rel="stylesheet">
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=92025949c220c2e29695" rel="stylesheet">
+
+
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/numpy.css" />
+
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695">
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/design-tabs.js"></script>
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Using NumPy C-API" href="c-info.html" />
+    <link rel="prev" title="How to create arrays with regularly-spaced values" href="how-to-partition.html" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="docsearch:language" content="en">
+  </head>
+  
+  
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="180" data-default-mode="light">
+    <div class="bd-header-announcement container-fluid" id="banner">
+      
+
+    </div>
+
+    
+    <nav class="bd-header navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="bd-header__inner container-xl">
+
+  <div id="navbar-start">
+    
+    
+  
+
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+    <img src="../_static/numpylogo.svg" class="logo__image only-light" alt="Logo image">
+    <img src="../_static/numpylogo_dark.svg" class="logo__image only-dark" alt="Logo image">
+  
+  
+</a>
+    
+  </div>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapsible" aria-controls="navbar-collapsible" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="fas fa-bars"></span>
+  </button>
+
+  
+  <div id="navbar-collapsible" class="col-lg-9 collapse navbar-collapse">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <ul id="navbar-main-elements" class="navbar-nav">
+    <li class="toctree-l1 current active nav-item">
+ <a class="reference internal nav-link" href="index.html">
+  User Guide
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../reference/index.html">
+  API reference
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../dev/index.html">
+  Development
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../release.html">
+  Release notes
+ </a>
+</li>
+
+    
+    <li class="nav-item">
+        <a class="nav-link nav-external" href="https://numpy.org/numpy-tutorials/">Learn<i class="fas fa-external-link-alt"></i></a>
+    </li>
+    
+</ul>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      
+      <div class="navbar-end-item">
+        <span id="theme-switch" class="btn btn-sm btn-outline-primary navbar-btn rounded-circle">
+    <a class="theme-switch" data-mode="light"><i class="fas fa-sun"></i></a>
+    <a class="theme-switch" data-mode="dark"><i class="far fa-moon"></i></a>
+    <a class="theme-switch" data-mode="auto"><i class="fas fa-adjust"></i></a>
+</span>
+      </div>
+      
+      <div class="navbar-end-item">
+        <div class="dropdown" id="version_switcher">
+    <button type="button" class="btn btn-sm navbar-btn dropdown-toggle" id="version_switcher_button" data-toggle="dropdown">
+        1.24  <!-- this text may get changed later by javascript -->
+        <span class="caret"></span>
+    </button>
+    <div id="version_switcher_menu" class="dropdown-menu list-group-flush py-0" aria-labelledby="version_switcher_button">
+    <!-- dropdown will be populated by javascript on page load -->
+    </div>
+</div>
+
+<!-- NOTE: this JS must live here (not in our global JS file) because it relies
+     on being processed by Jinja before it is run (specifically for replacing
+     variables user/building and {'version_match': '1.24', 'json_url': 'https://numpy.org/doc/_static/versions.json'}.
+-->
+
+<script type="text/javascript">
+// Check if corresponding page path exists in other version of docs
+// and, if so, go there instead of the homepage of the other docs version
+function checkPageExistsAndRedirect(event) {
+    const currentFilePath = "user/building.html",
+          tryUrl = event.target.getAttribute("href");
+    let otherDocsHomepage = tryUrl.replace(currentFilePath, "");
+    $.ajax({
+        type: 'HEAD',
+        url: tryUrl,
+        // if the page exists, go there
+        success: function() {
+            location.href = tryUrl;
+        }
+    }).fail(function() {
+        location.href = otherDocsHomepage;
+    });
+    // this prevents the browser from following the href of the clicked node
+    // (which is fine because this function takes care of redirecting)
+    return false;
+}
+
+// Populate the version switcher from the JSON config file
+(function () {
+    $.getJSON("https://numpy.org/doc/_static/versions.json", function(data, textStatus, jqXHR) {
+        const currentFilePath = "user/building.html";
+        let btn = document.getElementById("version_switcher_button");
+        // Set empty strings by default so that these attributes exist and can be used in CSS selectors
+        btn.dataset["activeVersionName"] = "";
+        btn.dataset["activeVersion"] = "";
+        // create links to the corresponding page in the other docs versions
+        $.each(data, function(index, entry) {
+            // if no custom name specified (e.g., "latest"), use version string
+            if (!("name" in entry)) {
+                entry.name = entry.version;
+            }
+            // create the node
+            const node = document.createElement("a");
+            node.setAttribute("class", "list-group-item list-group-item-action py-1");
+            node.textContent = `${entry.name}`;
+            node.setAttribute("href", `${entry.url}${currentFilePath}`);
+            // on click, AJAX calls will check if the linked page exists before
+            // trying to redirect, and if not, will redirect to the homepage
+            // for that version of the docs.
+            node.onclick = checkPageExistsAndRedirect;
+            // Add dataset values for the version and name in case people want
+            // to apply CSS styling based on this information.
+            node.dataset["versionName"] = entry.name;
+            node.dataset["version"] = entry.version;
+
+            $("#version_switcher_menu").append(node);
+            // replace dropdown button text with the preferred display name of
+            // this version, rather than using sphinx's 1.24 variable.
+            // also highlight the dropdown entry for the currently-viewed
+            // version's entry
+            if (entry.version == "1.24") {
+                node.classList.add("active");
+                btn.innerText = btn.dataset["activeVersionName"] = entry.name;
+                btn.dataset["activeVersion"] = entry.version;
+            }
+        });
+    });
+})();
+</script>
+      </div>
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+        <li class="nav-item">
+          <a class="nav-link" href="https://github.com/numpy/numpy" rel="noopener" target="_blank" title="GitHub"><span><i class="fab fa-github-square"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="https://twitter.com/numpy_team" rel="noopener" target="_blank" title="Twitter"><span><i class="fab fa-twitter-square"></i></span>
+            <label class="sr-only">Twitter</label></a>
+        </li>
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+</div>
+    </nav>
+    
+
+    <div class="bd-container container-xl">
+      <div class="bd-container__inner row">
+          
+
+<!-- Only show if we have sidebars configured, else just a small margin  -->
+<div class="bd-sidebar-primary col-12 col-md-3 bd-sidebar">
+  <div class="sidebar-start-items"><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <div class="bd-toc-item active">
+    <p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Getting started
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="whatisnumpy.html">
+   What is NumPy?
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference external" href="https://numpy.org/install/">
+   Installation
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="quickstart.html">
+   NumPy quickstart
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="absolute_beginners.html">
+   NumPy: the absolute basics for beginners
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Fundamentals and usage
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="basics.html">
+   NumPy fundamentals
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="numpy-for-matlab-users.html">
+   NumPy for MATLAB users
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference external" href="https://numpy.org/numpy-tutorials/features.html">
+   NumPy Tutorials
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="howtos_index.html">
+   NumPy How Tos
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Advanced usage and interoperability
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Building from source
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="c-info.html">
+   Using NumPy C-API
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../f2py/index.html">
+   F2PY user guide and reference manual
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../dev/underthehood.html">
+   Under-the-hood documentation for developers
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="basics.interoperability.html">
+   Interoperability with NumPy
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Extras
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../glossary.html">
+   Glossary
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../release.html">
+   Release notes
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../license.html">
+   NumPy license
+  </a>
+ </li>
+</ul>
+
+  </div>
+</nav>
+  </div>
+  <div class="sidebar-end-items">
+  </div>
+</div>
+
+
+          
+
+
+<div class="bd-sidebar-secondary d-none d-xl-block col-xl-2 bd-toc">
+  
+    
+    <div class="toc-item">
+      
+<div class="tocsection onthispage mt-5 pt-1 pb-3">
+    <i class="fas fa-list"></i> On this page
+</div>
+
+<nav id="bd-toc-nav">
+    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#gitpod">
+   Gitpod
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#building-locally">
+   Building locally
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#prerequisites">
+   Prerequisites
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#basic-installation">
+   Basic Installation
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#testing">
+   Testing
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#parallel-builds">
+     Parallel builds
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#choosing-the-fortran-compiler">
+     Choosing the fortran compiler
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#how-to-check-the-abi-of-blas-lapack-libraries">
+     How to check the ABI of BLAS/LAPACK libraries
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#accelerated-blas-lapack-libraries">
+   Accelerated BLAS/LAPACK libraries
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#blas">
+     BLAS
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#lapack">
+     LAPACK
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#disabling-atlas-and-other-accelerated-libraries">
+     Disabling ATLAS and other accelerated libraries
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#bit-blas-and-lapack">
+     64-bit BLAS and LAPACK
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#supplying-additional-compiler-flags">
+   Supplying additional compiler flags
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#cross-compilation">
+   Cross compilation
+  </a>
+ </li>
+</ul>
+
+</nav>
+    </div>
+    
+    <div class="toc-item">
+      
+    </div>
+    
+  
+</div>
+
+
+          
+          
+          <div class="bd-content col-12 col-md-9 col-xl-7">
+              
+              <article class="bd-article" role="main">
+                
+  <section id="building-from-source">
+<span id="id1"></span><h1>Building from source<a class="headerlink" href="#building-from-source" title="Permalink to this heading">#</a></h1>
+<p>There are two options for building NumPy- building with Gitpod or locally from
+source. Your choice depends on your operating system and familiarity with the
+command line.</p>
+<section id="gitpod">
+<h2>Gitpod<a class="headerlink" href="#gitpod" title="Permalink to this heading">#</a></h2>
+<p>Gitpod is an open-source platform that automatically creates
+the correct development environment right in your browser, reducing the need to
+install local development environments and deal with incompatible dependencies.</p>
+<p>If you are a Windows user, unfamiliar with using the command line or building
+NumPy for the first time, it is often faster to build with Gitpod. Here are the
+in-depth instructions for building NumPy with <a class="reference external" href="https://numpy.org/devdocs/dev/development_gitpod.html">building NumPy with Gitpod</a>.</p>
+</section>
+<section id="building-locally">
+<h2>Building locally<a class="headerlink" href="#building-locally" title="Permalink to this heading">#</a></h2>
+<p>Building locally on your machine gives you
+more granular control. If you are a MacOS or Linux user familiar with using the
+command line, you can continue with building NumPy locally by following the
+instructions below.</p>
+</section>
+<section id="prerequisites">
+<h2>Prerequisites<a class="headerlink" href="#prerequisites" title="Permalink to this heading">#</a></h2>
+<p>Building NumPy requires the following software installed:</p>
+<ol class="arabic">
+<li><p>Python 3.8.x or newer</p>
+<p>Please note that the Python development headers also need to be installed,
+e.g., on Debian/Ubuntu one needs to install both <em class="xref py py-obj">python3</em> and
+<em class="xref py py-obj">python3-dev</em>. On Windows and macOS this is normally not an issue.</p>
+</li>
+<li><p>Compilers</p>
+<p>Much of NumPy is written in C.  You will need a C compiler that complies
+with the C99 standard.</p>
+<p>Part of Numpy is now written in C++. You will also need a C++ compiler that
+complies with the C++11 standard.</p>
+<p>While a FORTRAN 77 compiler is not necessary for building NumPy, it is
+needed to run the <code class="docutils literal notranslate"><span class="pre">numpy.f2py</span></code> tests. These tests are skipped if the
+compiler is not auto-detected.</p>
+<p>Note that NumPy is developed mainly using GNU compilers and tested on
+MSVC and Clang compilers. Compilers from other vendors such as Intel,
+Absoft, Sun, NAG, Compaq, Vast, Portland, Lahey, HP, IBM are only
+supported in the form of community feedback, and may not work out of the
+box.  GCC 6.5 (and later) compilers are recommended. On ARM64 (aarch64)
+GCC 8.x (and later) are recommended.</p>
+</li>
+<li><p>Linear Algebra libraries</p>
+<p>NumPy does not require any external linear algebra libraries to be
+installed. However, if these are available, NumPy’s setup script can detect
+them and use them for building. A number of different LAPACK library setups
+can be used, including optimized LAPACK libraries such as OpenBLAS or MKL.
+The choice and location of these libraries as well as include paths and
+other such build options can be specified in a <code class="docutils literal notranslate"><span class="pre">site.cfg</span></code> file located in
+the NumPy root repository or a <code class="docutils literal notranslate"><span class="pre">.numpy-site.cfg</span></code> file in your home
+directory. See the <code class="docutils literal notranslate"><span class="pre">site.cfg.example</span></code> example file included in the NumPy
+repository or sdist for documentation, and below for specifying search
+priority from environmental variables.</p>
+</li>
+<li><p>Cython</p>
+<p>For building NumPy, you’ll need a recent version of Cython.</p>
+</li>
+<li><p>The NumPy source code</p>
+<p>Clone the repository following the instructions in <a class="reference internal" href="../dev/index.html"><span class="doc">Contributing to NumPy</span></a>.</p>
+</li>
+</ol>
+</section>
+<section id="basic-installation">
+<h2>Basic Installation<a class="headerlink" href="#basic-installation" title="Permalink to this heading">#</a></h2>
+<p>To install NumPy, run:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="o">.</span>
+</pre></div>
+</div>
+<p>To perform an in-place build that can be run from the source folder run:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">setup</span><span class="o">.</span><span class="n">py</span> <span class="n">build_ext</span> <span class="o">--</span><span class="n">inplace</span>
+</pre></div>
+</div>
+<p><em>Note: for build instructions to do development work on NumPy itself, see</em>
+<a class="reference internal" href="../dev/development_environment.html#development-environment"><span class="std std-ref">Setting up and using your development environment</span></a>.</p>
+</section>
+<section id="testing">
+<h2>Testing<a class="headerlink" href="#testing" title="Permalink to this heading">#</a></h2>
+<p>Make sure to test your builds. To ensure everything stays in shape, see if
+all tests pass.</p>
+<p>The test suite requires additional dependencies, which can easily be
+installed with:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ python -m pip install -r test_requirements.txt
+</pre></div>
+</div>
+<p>Run tests:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ python runtests.py -v -m full
+</pre></div>
+</div>
+<p>For detailed info on testing, see <a class="reference internal" href="../dev/development_environment.html#testing-builds"><span class="std std-ref">Testing builds</span></a>.</p>
+<section id="parallel-builds">
+<span id="id2"></span><h3>Parallel builds<a class="headerlink" href="#parallel-builds" title="Permalink to this heading">#</a></h3>
+<p>It’s possible to do a parallel build with:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>python setup.py build -j 4 install --prefix $HOME/.local
+</pre></div>
+</div>
+<p>This will compile numpy on 4 CPUs and install it into the specified prefix.
+to perform a parallel in-place build, run:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">setup</span><span class="o">.</span><span class="n">py</span> <span class="n">build_ext</span> <span class="o">--</span><span class="n">inplace</span> <span class="o">-</span><span class="n">j</span> <span class="mi">4</span>
+</pre></div>
+</div>
+<p>The number of build jobs can also be specified via the environment variable
+<code class="docutils literal notranslate"><span class="pre">NPY_NUM_BUILD_JOBS</span></code>.</p>
+</section>
+<section id="choosing-the-fortran-compiler">
+<h3>Choosing the fortran compiler<a class="headerlink" href="#choosing-the-fortran-compiler" title="Permalink to this heading">#</a></h3>
+<p>Compilers are auto-detected; building with a particular compiler can be done
+with <code class="docutils literal notranslate"><span class="pre">--fcompiler</span></code>.  E.g. to select gfortran:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">setup</span><span class="o">.</span><span class="n">py</span> <span class="n">build</span> <span class="o">--</span><span class="n">fcompiler</span><span class="o">=</span><span class="n">gnu95</span>
+</pre></div>
+</div>
+<p>For more information see:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">setup</span><span class="o">.</span><span class="n">py</span> <span class="n">build</span> <span class="o">--</span><span class="n">help</span><span class="o">-</span><span class="n">fcompiler</span>
+</pre></div>
+</div>
+</section>
+<section id="how-to-check-the-abi-of-blas-lapack-libraries">
+<h3>How to check the ABI of BLAS/LAPACK libraries<a class="headerlink" href="#how-to-check-the-abi-of-blas-lapack-libraries" title="Permalink to this heading">#</a></h3>
+<p>One relatively simple and reliable way to check for the compiler used to
+build a library is to use ldd on the library. If libg2c.so is a dependency,
+this means that g77 has been used (note: g77 is no longer supported for
+building NumPy). If libgfortran.so is a dependency, gfortran has been used.
+If both are dependencies, this means both have been used, which is almost
+always a very bad idea.</p>
+</section>
+</section>
+<section id="accelerated-blas-lapack-libraries">
+<span id="id3"></span><h2>Accelerated BLAS/LAPACK libraries<a class="headerlink" href="#accelerated-blas-lapack-libraries" title="Permalink to this heading">#</a></h2>
+<p>NumPy searches for optimized linear algebra libraries such as BLAS and LAPACK.
+There are specific orders for searching these libraries, as described below and
+in the <code class="docutils literal notranslate"><span class="pre">site.cfg.example</span></code> file.</p>
+<section id="blas">
+<h3>BLAS<a class="headerlink" href="#blas" title="Permalink to this heading">#</a></h3>
+<p>Note that both BLAS and CBLAS interfaces are needed for a properly
+optimized build of NumPy.</p>
+<p>The default order for the libraries are:</p>
+<ol class="arabic simple">
+<li><p>MKL</p></li>
+<li><p>BLIS</p></li>
+<li><p>OpenBLAS</p></li>
+<li><p>ATLAS</p></li>
+<li><p>BLAS (NetLIB)</p></li>
+</ol>
+<p>The detection of BLAS libraries may be bypassed by defining the environment
+variable <code class="docutils literal notranslate"><span class="pre">NPY_BLAS_LIBS</span></code> , which should contain the exact linker flags you
+want to use (interface is assumed to be Fortran 77).  Also define
+<code class="docutils literal notranslate"><span class="pre">NPY_CBLAS_LIBS</span></code> (even empty if CBLAS is contained in your BLAS library) to
+trigger use of CBLAS and avoid slow fallback code for matrix calculations.</p>
+<p>If you wish to build against OpenBLAS but you also have BLIS available one
+may predefine the order of searching via the environment variable
+<code class="docutils literal notranslate"><span class="pre">NPY_BLAS_ORDER</span></code> which is a comma-separated list of the above names which
+is used to determine what to search for, for instance:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">NPY_BLAS_ORDER</span><span class="o">=</span><span class="n">ATLAS</span><span class="p">,</span><span class="n">blis</span><span class="p">,</span><span class="n">openblas</span><span class="p">,</span><span class="n">MKL</span> <span class="n">python</span> <span class="n">setup</span><span class="o">.</span><span class="n">py</span> <span class="n">build</span>
+</pre></div>
+</div>
+<p>will prefer to use ATLAS, then BLIS, then OpenBLAS and as a last resort MKL.
+If neither of these exists the build will fail (names are compared
+lower case).</p>
+<p>Alternatively one may use <code class="docutils literal notranslate"><span class="pre">!</span></code> or <code class="docutils literal notranslate"><span class="pre">^</span></code> to negate all items:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">NPY_BLAS_ORDER</span><span class="o">=</span><span class="s1">&#39;^blas,atlas&#39;</span> <span class="n">python</span> <span class="n">setup</span><span class="o">.</span><span class="n">py</span> <span class="n">build</span>
+</pre></div>
+</div>
+<p>will allow using anything <strong>but</strong> NetLIB BLAS and ATLAS libraries, the order
+of the above list is retained.</p>
+<p>One cannot mix negation and positives, nor have multiple negations, such
+cases will raise an error.</p>
+</section>
+<section id="lapack">
+<h3>LAPACK<a class="headerlink" href="#lapack" title="Permalink to this heading">#</a></h3>
+<p>The default order for the libraries are:</p>
+<ol class="arabic simple">
+<li><p>MKL</p></li>
+<li><p>OpenBLAS</p></li>
+<li><p>libFLAME</p></li>
+<li><p>ATLAS</p></li>
+<li><p>LAPACK (NetLIB)</p></li>
+</ol>
+<p>The detection of LAPACK libraries may be bypassed by defining the environment
+variable <code class="docutils literal notranslate"><span class="pre">NPY_LAPACK_LIBS</span></code>, which should contain the exact linker flags you
+want to use (language is assumed to be Fortran 77).</p>
+<p>If you wish to build against OpenBLAS but you also have MKL available one
+may predefine the order of searching via the environment variable
+<code class="docutils literal notranslate"><span class="pre">NPY_LAPACK_ORDER</span></code> which is a comma-separated list of the above names,
+for instance:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">NPY_LAPACK_ORDER</span><span class="o">=</span><span class="n">ATLAS</span><span class="p">,</span><span class="n">openblas</span><span class="p">,</span><span class="n">MKL</span> <span class="n">python</span> <span class="n">setup</span><span class="o">.</span><span class="n">py</span> <span class="n">build</span>
+</pre></div>
+</div>
+<p>will prefer to use ATLAS, then OpenBLAS and as a last resort MKL.
+If neither of these exists the build will fail (names are compared
+lower case).</p>
+<p>Alternatively one may use <code class="docutils literal notranslate"><span class="pre">!</span></code> or <code class="docutils literal notranslate"><span class="pre">^</span></code> to negate all items:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">NPY_LAPACK_ORDER</span><span class="o">=</span><span class="s1">&#39;^lapack&#39;</span> <span class="n">python</span> <span class="n">setup</span><span class="o">.</span><span class="n">py</span> <span class="n">build</span>
+</pre></div>
+</div>
+<p>will allow using anything <strong>but</strong> the NetLIB LAPACK library, the order of
+the above list is retained.</p>
+<p>One cannot mix negation and positives, nor have multiple negations, such
+cases will raise an error.</p>
+<div class="deprecated">
+<p><span class="versionmodified deprecated">Deprecated since version 1.20: </span>The native libraries on macOS, provided by Accelerate, are not fit for use
+in NumPy since they have bugs that cause wrong output under easily
+reproducible conditions. If the vendor fixes those bugs, the library could
+be reinstated, but until then users compiling for themselves should use
+another linear algebra library or use the built-in (but slower) default,
+see the next section.</p>
+</div>
+</section>
+<section id="disabling-atlas-and-other-accelerated-libraries">
+<h3>Disabling ATLAS and other accelerated libraries<a class="headerlink" href="#disabling-atlas-and-other-accelerated-libraries" title="Permalink to this heading">#</a></h3>
+<p>Usage of ATLAS and other accelerated libraries in NumPy can be disabled
+via:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">NPY_BLAS_ORDER</span><span class="o">=</span> <span class="n">NPY_LAPACK_ORDER</span><span class="o">=</span> <span class="n">python</span> <span class="n">setup</span><span class="o">.</span><span class="n">py</span> <span class="n">build</span>
+</pre></div>
+</div>
+<p>or:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">BLAS</span><span class="o">=</span><span class="kc">None</span> <span class="n">LAPACK</span><span class="o">=</span><span class="kc">None</span> <span class="n">ATLAS</span><span class="o">=</span><span class="kc">None</span> <span class="n">python</span> <span class="n">setup</span><span class="o">.</span><span class="n">py</span> <span class="n">build</span>
+</pre></div>
+</div>
+</section>
+<section id="bit-blas-and-lapack">
+<h3>64-bit BLAS and LAPACK<a class="headerlink" href="#bit-blas-and-lapack" title="Permalink to this heading">#</a></h3>
+<p>You can tell Numpy to use 64-bit BLAS/LAPACK libraries by setting the
+environment variable:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">NPY_USE_BLAS_ILP64</span><span class="o">=</span><span class="mi">1</span>
+</pre></div>
+</div>
+<p>when building Numpy. The following 64-bit BLAS/LAPACK libraries are
+supported:</p>
+<ol class="arabic simple">
+<li><p>OpenBLAS ILP64 with <code class="docutils literal notranslate"><span class="pre">64_</span></code> symbol suffix (<code class="docutils literal notranslate"><span class="pre">openblas64_</span></code>)</p></li>
+<li><p>OpenBLAS ILP64 without symbol suffix (<code class="docutils literal notranslate"><span class="pre">openblas_ilp64</span></code>)</p></li>
+</ol>
+<p>The order in which they are preferred is determined by
+<code class="docutils literal notranslate"><span class="pre">NPY_BLAS_ILP64_ORDER</span></code> and <code class="docutils literal notranslate"><span class="pre">NPY_LAPACK_ILP64_ORDER</span></code> environment
+variables. The default value is <code class="docutils literal notranslate"><span class="pre">openblas64_,openblas_ilp64</span></code>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Using non-symbol-suffixed 64-bit BLAS/LAPACK in a program that also
+uses 32-bit BLAS/LAPACK can cause crashes under certain conditions
+(e.g. with embedded Python interpreters on Linux).</p>
+<p>The 64-bit OpenBLAS with <code class="docutils literal notranslate"><span class="pre">64_</span></code> symbol suffix is obtained by
+compiling OpenBLAS with settings:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">make</span> <span class="n">INTERFACE64</span><span class="o">=</span><span class="mi">1</span> <span class="n">SYMBOLSUFFIX</span><span class="o">=</span><span class="mi">64</span><span class="n">_</span>
+</pre></div>
+</div>
+<p>The symbol suffix avoids the symbol name clashes between 32-bit and
+64-bit BLAS/LAPACK libraries.</p>
+</div>
+</section>
+</section>
+<section id="supplying-additional-compiler-flags">
+<h2>Supplying additional compiler flags<a class="headerlink" href="#supplying-additional-compiler-flags" title="Permalink to this heading">#</a></h2>
+<p>Additional compiler flags can be supplied by setting the <code class="docutils literal notranslate"><span class="pre">OPT</span></code>,
+<code class="docutils literal notranslate"><span class="pre">FOPT</span></code> (for Fortran), and <code class="docutils literal notranslate"><span class="pre">CC</span></code> environment variables.
+When providing options that should improve the performance of the code
+ensure that you also set <code class="docutils literal notranslate"><span class="pre">-DNDEBUG</span></code> so that debugging code is not
+executed.</p>
+</section>
+<section id="cross-compilation">
+<h2>Cross compilation<a class="headerlink" href="#cross-compilation" title="Permalink to this heading">#</a></h2>
+<p>Although <code class="docutils literal notranslate"><span class="pre">numpy.distutils</span></code> and <code class="docutils literal notranslate"><span class="pre">setuptools</span></code> do not directly support cross
+compilation, it is possible to build NumPy on one system for different
+architectures with minor modifications to the build environment. This may be
+desirable, for example, to use the power of a high-performance desktop to
+create a NumPy package for a low-power, single-board computer. Because the
+<code class="docutils literal notranslate"><span class="pre">setup.py</span></code> scripts are unaware of cross-compilation environments and tend to
+make decisions based on the environment detected on the build system, it is
+best to compile for the same type of operating system that runs on the builder.
+Attempting to compile a Mac version of NumPy on Windows, for example, is likely
+to be met with challenges not considered here.</p>
+<p>For the purpose of this discussion, the nomenclature adopted by <a class="reference external" href="https://mesonbuild.com/Cross-compilation.html#cross-compilation">meson</a> will
+be used: the “build” system is that which will be running the NumPy build
+process, while the “host” is the platform on which the compiled package will be
+run. A native Python interpreter, the setuptools and Cython packages and the
+desired cross compiler must be available for the build system. In addition, a
+Python interpreter and its development headers as well as any external linear
+algebra libraries must be available for the host platform. For convenience, it
+is assumed that all host software is available under a separate prefix
+directory, here called <code class="docutils literal notranslate"><span class="pre">$CROSS_PREFIX</span></code>.</p>
+<p>When building and installing NumPy for a host system, the <code class="docutils literal notranslate"><span class="pre">CC</span></code> environment
+variable must provide the path the cross compiler that will be used to build
+NumPy C extensions. It may also be necessary to set the <code class="docutils literal notranslate"><span class="pre">LDSHARED</span></code>
+environment variable to the path to the linker that can link compiled objects
+for the host system. The compiler must be told where it can find Python
+libraries and development headers. On Unix-like systems, this generally
+requires adding, <em>e.g.</em>, the following parameters to the <code class="docutils literal notranslate"><span class="pre">CFLAGS</span></code> environment
+variable:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>-I${CROSS_PREFIX}/usr/include
+-I${CROSS_PREFIX}/usr/include/python3.y
+</pre></div>
+</div>
+<p>for Python version 3.y. (Replace the “y” in this path with the actual minor
+number of the installed Python runtime.) Likewise, the linker should be told
+where to find host libraries by adding a parameter to the <code class="docutils literal notranslate"><span class="pre">LDFLAGS</span></code>
+environment variable:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>-L${CROSS_PREFIX}/usr/lib
+</pre></div>
+</div>
+<p>To make sure Python-specific system configuration options are provided for the
+intended host and not the build system, set:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>_PYTHON_SYSCONFIGDATA_NAME=_sysconfigdata_${ARCH_TRIPLET}
+</pre></div>
+</div>
+<p>where <code class="docutils literal notranslate"><span class="pre">${ARCH_TRIPLET}</span></code> is an architecture-dependent suffix appropriate for
+the host architecture. (This should be the name of a <code class="docutils literal notranslate"><span class="pre">_sysconfigdata</span></code> file,
+without the <code class="docutils literal notranslate"><span class="pre">.py</span></code> extension, found in the host Python library directory.)</p>
+<p>When using external linear algebra libraries, include and library directories
+should be provided for the desired libraries in <code class="docutils literal notranslate"><span class="pre">site.cfg</span></code> as described
+above and in the comments of the <code class="docutils literal notranslate"><span class="pre">site.cfg.example</span></code> file included in the
+NumPy repository or sdist. In this example, set:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>include_dirs = ${CROSS_PREFIX}/usr/include
+library_dirs = ${CROSS_PREFIX}/usr/lib
+</pre></div>
+</div>
+<p>under appropriate sections of the file to allow <code class="docutils literal notranslate"><span class="pre">numpy.distutils</span></code> to find the
+libraries.</p>
+<p>As of NumPy 1.22.0, a vendored copy of SVML will be built on <code class="docutils literal notranslate"><span class="pre">x86_64</span></code> Linux
+hosts to provide AVX-512 acceleration of floating-point operations. When using
+an <code class="docutils literal notranslate"><span class="pre">x86_64</span></code> Linux build system to cross compile NumPy for hosts other than
+<code class="docutils literal notranslate"><span class="pre">x86_64</span></code> Linux, set the environment variable <code class="docutils literal notranslate"><span class="pre">NPY_DISABLE_SVML</span></code> to prevent
+the NumPy build script from incorrectly attempting to cross-compile this
+platform-specific library:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">NPY_DISABLE_SVML</span><span class="o">=</span><span class="mi">1</span>
+</pre></div>
+</div>
+<p>With the environment configured, NumPy may be built as it is natively:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">setup</span><span class="o">.</span><span class="n">py</span> <span class="n">build</span>
+</pre></div>
+</div>
+<p>When the <code class="docutils literal notranslate"><span class="pre">wheel</span></code> package is available, the cross-compiled package may be
+packed into a wheel for installation on the host with:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">setup</span><span class="o">.</span><span class="n">py</span> <span class="n">bdist_wheel</span>
+</pre></div>
+</div>
+<p>It may be possible to use <code class="docutils literal notranslate"><span class="pre">pip</span></code> to build a wheel, but <code class="docutils literal notranslate"><span class="pre">pip</span></code> configures its
+own environment; adapting the <code class="docutils literal notranslate"><span class="pre">pip</span></code> environment to cross-compilation is
+beyond the scope of this guide.</p>
+<p>The cross-compiled package may also be installed into the host prefix for
+cross-compilation of other packages using, <em>e.g.</em>, the command:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>python setup.py install --prefix=${CROSS_PREFIX}
+</pre></div>
+</div>
+<p>When cross compiling other packages that depend on NumPy, the host
+npy-pkg-config file must be made available. For further discussion, refer to
+<a class="reference external" href="https://numpy.org/devdocs/reference/distutils.html#numpy.distutils.misc_util.Configuration.add_npy_pkg_config">numpy distutils documentation</a>.</p>
+</section>
+</section>
+
+
+              </article>
+              
+
+              
+              <footer class="bd-footer-article">
+                  <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+  <a class='left-prev' id="prev-link" href="how-to-partition.html" title="previous page">
+      <i class="fas fa-angle-left"></i>
+      <div class="prev-next-info">
+          <p class="prev-next-subtitle">previous</p>
+          <p class="prev-next-title">How to create arrays with regularly-spaced values</p>
+      </div>
+  </a>
+  <a class='right-next' id="next-link" href="c-info.html" title="next page">
+  <div class="prev-next-info">
+      <p class="prev-next-subtitle">next</p>
+      <p class="prev-next-title">Using NumPy C-API</p>
+  </div>
+  <i class="fas fa-angle-right"></i>
+  </a>
+</div>
+              </footer>
+              
+          </div>
+          
+      </div>
+    </div>
+
+  
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695"></script>
+
+<footer class="bd-footer"><div class="bd-footer__inner container">
+  
+  <div class="footer-item">
+    <p class="copyright">
+    &copy; Copyright 2008-2022, NumPy Developers.<br>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    <p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.3.0.<br>
+</p>
+  </div>
+  
+</div>
+</footer>
+  </body>
+</html>

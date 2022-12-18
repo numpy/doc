@@ -1,0 +1,662 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>Memory management in NumPy &#8212; NumPy v1.24 Manual</title>
+<script>
+  document.documentElement.dataset.mode = localStorage.getItem("mode") || "light";
+  document.documentElement.dataset.theme = localStorage.getItem("theme") || "light"
+</script>
+
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=92025949c220c2e29695" rel="stylesheet">
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=92025949c220c2e29695" rel="stylesheet">
+
+
+  <link rel="stylesheet"
+    href="../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/plot_directive.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/numpy.css" />
+
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695">
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    <script src="../../_static/design-tabs.js"></script>
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="CPU/SIMD Optimizations" href="../simd/index.html" />
+    <link rel="prev" title="C API Deprecations" href="deprecations.html" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="docsearch:language" content="en">
+  </head>
+  
+  
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="180" data-default-mode="light">
+    <div class="bd-header-announcement container-fluid" id="banner">
+      
+
+    </div>
+
+    
+    <nav class="bd-header navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="bd-header__inner container-xl">
+
+  <div id="navbar-start">
+    
+    
+  
+
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+    <img src="../../_static/numpylogo.svg" class="logo__image only-light" alt="Logo image">
+    <img src="../../_static/numpylogo_dark.svg" class="logo__image only-dark" alt="Logo image">
+  
+  
+</a>
+    
+  </div>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapsible" aria-controls="navbar-collapsible" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="fas fa-bars"></span>
+  </button>
+
+  
+  <div id="navbar-collapsible" class="col-lg-9 collapse navbar-collapse">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <ul id="navbar-main-elements" class="navbar-nav">
+    <li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../user/index.html">
+  User Guide
+ </a>
+</li>
+
+<li class="toctree-l1 current active nav-item">
+ <a class="reference internal nav-link" href="../index.html">
+  API reference
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../dev/index.html">
+  Development
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../release.html">
+  Release notes
+ </a>
+</li>
+
+    
+    <li class="nav-item">
+        <a class="nav-link nav-external" href="https://numpy.org/numpy-tutorials/">Learn<i class="fas fa-external-link-alt"></i></a>
+    </li>
+    
+</ul>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      
+      <div class="navbar-end-item">
+        <span id="theme-switch" class="btn btn-sm btn-outline-primary navbar-btn rounded-circle">
+    <a class="theme-switch" data-mode="light"><i class="fas fa-sun"></i></a>
+    <a class="theme-switch" data-mode="dark"><i class="far fa-moon"></i></a>
+    <a class="theme-switch" data-mode="auto"><i class="fas fa-adjust"></i></a>
+</span>
+      </div>
+      
+      <div class="navbar-end-item">
+        <div class="dropdown" id="version_switcher">
+    <button type="button" class="btn btn-sm navbar-btn dropdown-toggle" id="version_switcher_button" data-toggle="dropdown">
+        1.24  <!-- this text may get changed later by javascript -->
+        <span class="caret"></span>
+    </button>
+    <div id="version_switcher_menu" class="dropdown-menu list-group-flush py-0" aria-labelledby="version_switcher_button">
+    <!-- dropdown will be populated by javascript on page load -->
+    </div>
+</div>
+
+<!-- NOTE: this JS must live here (not in our global JS file) because it relies
+     on being processed by Jinja before it is run (specifically for replacing
+     variables reference/c-api/data_memory and {'version_match': '1.24', 'json_url': 'https://numpy.org/doc/_static/versions.json'}.
+-->
+
+<script type="text/javascript">
+// Check if corresponding page path exists in other version of docs
+// and, if so, go there instead of the homepage of the other docs version
+function checkPageExistsAndRedirect(event) {
+    const currentFilePath = "reference/c-api/data_memory.html",
+          tryUrl = event.target.getAttribute("href");
+    let otherDocsHomepage = tryUrl.replace(currentFilePath, "");
+    $.ajax({
+        type: 'HEAD',
+        url: tryUrl,
+        // if the page exists, go there
+        success: function() {
+            location.href = tryUrl;
+        }
+    }).fail(function() {
+        location.href = otherDocsHomepage;
+    });
+    // this prevents the browser from following the href of the clicked node
+    // (which is fine because this function takes care of redirecting)
+    return false;
+}
+
+// Populate the version switcher from the JSON config file
+(function () {
+    $.getJSON("https://numpy.org/doc/_static/versions.json", function(data, textStatus, jqXHR) {
+        const currentFilePath = "reference/c-api/data_memory.html";
+        let btn = document.getElementById("version_switcher_button");
+        // Set empty strings by default so that these attributes exist and can be used in CSS selectors
+        btn.dataset["activeVersionName"] = "";
+        btn.dataset["activeVersion"] = "";
+        // create links to the corresponding page in the other docs versions
+        $.each(data, function(index, entry) {
+            // if no custom name specified (e.g., "latest"), use version string
+            if (!("name" in entry)) {
+                entry.name = entry.version;
+            }
+            // create the node
+            const node = document.createElement("a");
+            node.setAttribute("class", "list-group-item list-group-item-action py-1");
+            node.textContent = `${entry.name}`;
+            node.setAttribute("href", `${entry.url}${currentFilePath}`);
+            // on click, AJAX calls will check if the linked page exists before
+            // trying to redirect, and if not, will redirect to the homepage
+            // for that version of the docs.
+            node.onclick = checkPageExistsAndRedirect;
+            // Add dataset values for the version and name in case people want
+            // to apply CSS styling based on this information.
+            node.dataset["versionName"] = entry.name;
+            node.dataset["version"] = entry.version;
+
+            $("#version_switcher_menu").append(node);
+            // replace dropdown button text with the preferred display name of
+            // this version, rather than using sphinx's 1.24 variable.
+            // also highlight the dropdown entry for the currently-viewed
+            // version's entry
+            if (entry.version == "1.24") {
+                node.classList.add("active");
+                btn.innerText = btn.dataset["activeVersionName"] = entry.name;
+                btn.dataset["activeVersion"] = entry.version;
+            }
+        });
+    });
+})();
+</script>
+      </div>
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+        <li class="nav-item">
+          <a class="nav-link" href="https://github.com/numpy/numpy" rel="noopener" target="_blank" title="GitHub"><span><i class="fab fa-github-square"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="https://twitter.com/numpy_team" rel="noopener" target="_blank" title="Twitter"><span><i class="fab fa-twitter-square"></i></span>
+            <label class="sr-only">Twitter</label></a>
+        </li>
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+</div>
+    </nav>
+    
+
+    <div class="bd-container container-xl">
+      <div class="bd-container__inner row">
+          
+
+<!-- Only show if we have sidebars configured, else just a small margin  -->
+<div class="bd-sidebar-primary col-12 col-md-3 bd-sidebar">
+  <div class="sidebar-start-items"><form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <div class="bd-toc-item active">
+    <ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../arrays.html">
+   Array objects
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../array_api.html">
+   Array API Standard Compatibility
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../constants.html">
+   Constants
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../ufuncs.html">
+   Universal functions (
+   <code class="xref py py-class docutils literal notranslate">
+    <span class="pre">
+     ufunc
+    </span>
+   </code>
+   )
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../routines.html">
+   Routines
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../typing.html">
+   Typing (
+   <code class="xref py py-mod docutils literal notranslate">
+    <span class="pre">
+     numpy.typing
+    </span>
+   </code>
+   )
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../global_state.html">
+   Global State
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../distutils.html">
+   Packaging (
+   <code class="xref py py-mod docutils literal notranslate">
+    <span class="pre">
+     numpy.distutils
+    </span>
+   </code>
+   )
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../distutils_guide.html">
+   NumPy Distutils - Users Guide
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../distutils_status_migration.html">
+   Status of
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     numpy.distutils
+    </span>
+   </code>
+   and migration advice
+  </a>
+ </li>
+ <li class="toctree-l1 current active has-children">
+  <a class="reference internal" href="index.html">
+   NumPy C-API
+  </a>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul class="current">
+   <li class="toctree-l2">
+    <a class="reference internal" href="types-and-structures.html">
+     Python Types and C-Structures
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="config.html">
+     System configuration
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="dtype.html">
+     Data Type API
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="array.html">
+     Array API
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="iterator.html">
+     Array Iterator API
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ufunc.html">
+     UFunc API
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="generalized-ufuncs.html">
+     Generalized Universal Function API
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="coremath.html">
+     NumPy core libraries
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="deprecations.html">
+     C API Deprecations
+    </a>
+   </li>
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
+     Memory management in NumPy
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../simd/index.html">
+   CPU/SIMD Optimizations
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../security.html">
+   NumPy security
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../swig.html">
+   NumPy and SWIG
+  </a>
+ </li>
+</ul>
+
+  </div>
+</nav>
+  </div>
+  <div class="sidebar-end-items">
+  </div>
+</div>
+
+
+          
+
+
+<div class="bd-sidebar-secondary d-none d-xl-block col-xl-2 bd-toc">
+  
+    
+    <div class="toc-item">
+      
+<div class="tocsection onthispage mt-5 pt-1 pb-3">
+    <i class="fas fa-list"></i> On this page
+</div>
+
+<nav id="bd-toc-nav">
+    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#historical-overview">
+   Historical overview
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#configurable-memory-routines-in-numpy-nep-49">
+   Configurable memory routines in NumPy (NEP 49)
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#what-happens-when-deallocating-if-there-is-no-policy-set">
+   What happens when deallocating if there is no policy set
+  </a>
+ </li>
+</ul>
+
+</nav>
+    </div>
+    
+    <div class="toc-item">
+      
+    </div>
+    
+  
+</div>
+
+
+          
+          
+          <div class="bd-content col-12 col-md-9 col-xl-7">
+              
+              <article class="bd-article" role="main">
+                
+  <section id="memory-management-in-numpy">
+<span id="data-memory"></span><h1>Memory management in NumPy<a class="headerlink" href="#memory-management-in-numpy" title="Permalink to this heading">#</a></h1>
+<p>The <a class="reference internal" href="../generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray"><code class="xref py py-obj docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> is a python class. It requires additional memory allocations
+to hold <a class="reference internal" href="../generated/numpy.ndarray.strides.html#numpy.ndarray.strides" title="numpy.ndarray.strides"><code class="xref py py-obj docutils literal notranslate"><span class="pre">numpy.ndarray.strides</span></code></a>, <a class="reference internal" href="../generated/numpy.ndarray.shape.html#numpy.ndarray.shape" title="numpy.ndarray.shape"><code class="xref py py-obj docutils literal notranslate"><span class="pre">numpy.ndarray.shape</span></code></a> and
+<a class="reference internal" href="../generated/numpy.ndarray.data.html#numpy.ndarray.data" title="numpy.ndarray.data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">numpy.ndarray.data</span></code></a> attributes. These attributes are specially allocated
+after creating the python object in <em class="xref py py-obj">__new__</em>. The <code class="docutils literal notranslate"><span class="pre">strides</span></code> and
+<code class="docutils literal notranslate"><span class="pre">shape</span></code> are stored in a piece of memory allocated internally.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">data</span></code> allocation used to store the actual array values (which could be
+pointers in the case of <code class="docutils literal notranslate"><span class="pre">object</span></code> arrays) can be very large, so NumPy has
+provided interfaces to manage its allocation and release. This document details
+how those interfaces work.</p>
+<section id="historical-overview">
+<h2>Historical overview<a class="headerlink" href="#historical-overview" title="Permalink to this heading">#</a></h2>
+<p>Since version 1.7.0, NumPy has exposed a set of <code class="docutils literal notranslate"><span class="pre">PyDataMem_*</span></code> functions
+(<a class="reference internal" href="array.html#c.PyDataMem_NEW" title="PyDataMem_NEW"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyDataMem_NEW</span></code></a>, <a class="reference internal" href="array.html#c.PyDataMem_FREE" title="PyDataMem_FREE"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyDataMem_FREE</span></code></a>, <a class="reference internal" href="array.html#c.PyDataMem_RENEW" title="PyDataMem_RENEW"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyDataMem_RENEW</span></code></a>)
+which are backed by <em class="xref py py-obj">alloc</em>, <em class="xref py py-obj">free</em>, <em class="xref py py-obj">realloc</em> respectively. In that version
+NumPy also exposed the <em class="xref py py-obj">PyDataMem_EventHook</em> function (now deprecated)
+described below, which wrap the OS-level calls.</p>
+<p>Since those early days, Python also improved its memory management
+capabilities, and began providing
+various <a class="reference external" href="https://docs.python.org/3/c-api/memory.html#memoryoverview" title="(in Python v3.11)"><span class="xref std std-ref">management policies</span></a> beginning in version
+3.4. These routines are divided into a set of domains, each domain has a
+<a class="reference external" href="https://docs.python.org/3/c-api/memory.html#c.PyMemAllocatorEx" title="(in Python v3.11)"><code class="xref c c-type docutils literal notranslate"><span class="pre">PyMemAllocatorEx</span></code></a> structure of routines for memory management. Python also
+added a <a class="reference external" href="https://docs.python.org/3/library/tracemalloc.html#module-tracemalloc" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tracemalloc</span></code></a> module to trace calls to the various routines. These
+tracking hooks were added to the NumPy <code class="docutils literal notranslate"><span class="pre">PyDataMem_*</span></code> routines.</p>
+<p>NumPy added a small cache of allocated memory in its internal
+<code class="docutils literal notranslate"><span class="pre">npy_alloc_cache</span></code>, <code class="docutils literal notranslate"><span class="pre">npy_alloc_cache_zero</span></code>, and <code class="docutils literal notranslate"><span class="pre">npy_free_cache</span></code>
+functions. These wrap <code class="docutils literal notranslate"><span class="pre">alloc</span></code>, <code class="docutils literal notranslate"><span class="pre">alloc-and-memset(0)</span></code> and <code class="docutils literal notranslate"><span class="pre">free</span></code>
+respectively, but when <code class="docutils literal notranslate"><span class="pre">npy_free_cache</span></code> is called, it adds the pointer to a
+short list of available blocks marked by size. These blocks can be re-used by
+subsequent calls to <code class="docutils literal notranslate"><span class="pre">npy_alloc*</span></code>, avoiding memory thrashing.</p>
+</section>
+<section id="configurable-memory-routines-in-numpy-nep-49">
+<h2>Configurable memory routines in NumPy (NEP 49)<a class="headerlink" href="#configurable-memory-routines-in-numpy-nep-49" title="Permalink to this heading">#</a></h2>
+<p>Users may wish to override the internal data memory routines with ones of their
+own. Since NumPy does not use the Python domain strategy to manage data memory,
+it provides an alternative set of C-APIs to change memory routines. There are
+no Python domain-wide strategies for large chunks of object data, so those are
+less suited to NumPy’s needs. User who wish to change the NumPy data memory
+management routines can use <a class="reference internal" href="#c.PyDataMem_SetHandler" title="PyDataMem_SetHandler"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyDataMem_SetHandler</span></code></a>, which uses a
+<a class="reference internal" href="#c.PyDataMem_Handler" title="PyDataMem_Handler"><code class="xref c c-type docutils literal notranslate"><span class="pre">PyDataMem_Handler</span></code></a> structure to hold pointers to functions used to
+manage the data memory. The calls are still wrapped by internal routines to
+call <a class="reference external" href="https://docs.python.org/3/c-api/memory.html#c.PyTraceMalloc_Track" title="(in Python v3.11)"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyTraceMalloc_Track</span></code></a>, <a class="reference external" href="https://docs.python.org/3/c-api/memory.html#c.PyTraceMalloc_Untrack" title="(in Python v3.11)"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyTraceMalloc_Untrack</span></code></a>, and will
+use the deprecated <a class="reference internal" href="#c.PyDataMem_EventHookFunc" title="PyDataMem_EventHookFunc"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyDataMem_EventHookFunc</span></code></a> mechanism. Since the
+functions may change during the lifetime of the process, each <code class="docutils literal notranslate"><span class="pre">ndarray</span></code>
+carries with it the functions used at the time of its instantiation, and these
+will be used to reallocate or free the data memory of the instance.</p>
+<dl class="c type">
+<dt class="sig sig-object c" id="c.PyDataMem_Handler">
+<span class="k"><span class="pre">type</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PyDataMem_Handler</span></span></span><a class="headerlink" href="#c.PyDataMem_Handler" title="Permalink to this definition">#</a><br /></dt>
+<dd><p>A struct to hold function pointers used to manipulate memory</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kt">char</span><span class="w"> </span><span class="n">name</span><span class="p">[</span><span class="mi">127</span><span class="p">];</span><span class="w">  </span><span class="cm">/* multiple of 64 to keep the struct aligned */</span><span class="w"></span>
+<span class="w">    </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">version</span><span class="p">;</span><span class="w"> </span><span class="cm">/* currently 1 */</span><span class="w"></span>
+<span class="w">    </span><span class="n">PyDataMemAllocator</span><span class="w"> </span><span class="n">allocator</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"> </span><span class="n">PyDataMem_Handler</span><span class="p">;</span><span class="w"></span>
+</pre></div>
+</div>
+<p>where the allocator structure is</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cm">/* The declaration of free differs from PyMemAllocatorEx */</span><span class="w"></span>
+<span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">ctx</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="kt">void</span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">malloc</span><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">ctx</span><span class="p">,</span><span class="w"> </span><span class="kt">size_t</span><span class="w"> </span><span class="n">size</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="kt">void</span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">calloc</span><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">ctx</span><span class="p">,</span><span class="w"> </span><span class="kt">size_t</span><span class="w"> </span><span class="n">nelem</span><span class="p">,</span><span class="w"> </span><span class="kt">size_t</span><span class="w"> </span><span class="n">elsize</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="kt">void</span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">realloc</span><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">ctx</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">ptr</span><span class="p">,</span><span class="w"> </span><span class="kt">size_t</span><span class="w"> </span><span class="n">new_size</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">free</span><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">ctx</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">ptr</span><span class="p">,</span><span class="w"> </span><span class="kt">size_t</span><span class="w"> </span><span class="n">size</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"> </span><span class="n">PyDataMemAllocator</span><span class="p">;</span><span class="w"></span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyDataMem_SetHandler">
+<a class="reference external" href="https://docs.python.org/3/c-api/structures.html#c.PyObject" title="(in Python v3.11)"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">PyDataMem_SetHandler</span></span></span><span class="sig-paren">(</span><a class="reference external" href="https://docs.python.org/3/c-api/structures.html#c.PyObject" title="(in Python v3.11)"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">handler</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyDataMem_SetHandler" title="Permalink to this definition">#</a><br /></dt>
+<dd><p>Set a new allocation policy. If the input value is <code class="docutils literal notranslate"><span class="pre">NULL</span></code>, will reset the
+policy to the default. Return the previous policy, or
+return <code class="docutils literal notranslate"><span class="pre">NULL</span></code> if an error has occurred. We wrap the user-provided functions
+so they will still call the python and numpy memory management callback
+hooks.</p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyDataMem_GetHandler">
+<a class="reference external" href="https://docs.python.org/3/c-api/structures.html#c.PyObject" title="(in Python v3.11)"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">PyDataMem_GetHandler</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyDataMem_GetHandler" title="Permalink to this definition">#</a><br /></dt>
+<dd><p>Return the current policy that will be used to allocate data for the
+next <code class="docutils literal notranslate"><span class="pre">PyArrayObject</span></code>. On failure, return <code class="docutils literal notranslate"><span class="pre">NULL</span></code>.</p>
+</dd></dl>
+
+<p>For an example of setting up and using the PyDataMem_Handler, see the test in
+<code class="file docutils literal notranslate"><span class="pre">numpy/core/tests/test_mem_policy.py</span></code></p>
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyDataMem_EventHookFunc">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PyDataMem_EventHookFunc</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">inp</span></span>, <span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">outp</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n"><span class="pre">size</span></span>, <span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">user_data</span></span><span class="sig-paren">)</span><span class="p"><span class="pre">;</span></span><a class="headerlink" href="#c.PyDataMem_EventHookFunc" title="Permalink to this definition">#</a><br /></dt>
+<dd><p>This function will be called during data memory manipulation</p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyDataMem_SetEventHook">
+<a class="reference internal" href="#c.PyDataMem_EventHookFunc" title="PyDataMem_EventHookFunc"><span class="n"><span class="pre">PyDataMem_EventHookFunc</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">PyDataMem_SetEventHook</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.PyDataMem_EventHookFunc" title="PyDataMem_EventHookFunc"><span class="n"><span class="pre">PyDataMem_EventHookFunc</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">newhook</span></span>, <span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">user_data</span></span>, <span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">old_data</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyDataMem_SetEventHook" title="Permalink to this definition">#</a><br /></dt>
+<dd><p>Sets the allocation event hook for numpy array data.</p>
+<p>Returns a pointer to the previous hook or <code class="docutils literal notranslate"><span class="pre">NULL</span></code>.  If old_data is
+non-<code class="docutils literal notranslate"><span class="pre">NULL</span></code>, the previous user_data pointer will be copied to it.</p>
+<p>If not <code class="docutils literal notranslate"><span class="pre">NULL</span></code>, hook will be called at the end of each <code class="docutils literal notranslate"><span class="pre">PyDataMem_NEW/FREE/RENEW</span></code>:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PyDataMem_NEW</span><span class="p">(</span><span class="n">size</span><span class="p">)</span><span class="w">        </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">hook</span><span class="p">)(</span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="n">result</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="p">,</span><span class="w"> </span><span class="n">user_data</span><span class="p">)</span><span class="w"></span>
+<span class="n">PyDataMem_FREE</span><span class="p">(</span><span class="n">ptr</span><span class="p">)</span><span class="w">                 </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">hook</span><span class="p">)(</span><span class="n">ptr</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">user_data</span><span class="p">)</span><span class="w"></span>
+<span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PyDataMem_RENEW</span><span class="p">(</span><span class="n">ptr</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">hook</span><span class="p">)(</span><span class="n">ptr</span><span class="p">,</span><span class="w"> </span><span class="n">result</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="p">,</span><span class="w"> </span><span class="n">user_data</span><span class="p">)</span><span class="w"></span>
+</pre></div>
+</div>
+<p>When the hook is called, the GIL will be held by the calling
+thread.  The hook should be written to be reentrant, if it performs
+operations that might cause new allocation events (such as the
+creation/destruction numpy objects, or creating/destroying Python
+objects which might cause a gc).</p>
+<p>Deprecated in v1.23</p>
+</dd></dl>
+
+</section>
+<section id="what-happens-when-deallocating-if-there-is-no-policy-set">
+<h2>What happens when deallocating if there is no policy set<a class="headerlink" href="#what-happens-when-deallocating-if-there-is-no-policy-set" title="Permalink to this heading">#</a></h2>
+<p>A rare but useful technique is to allocate a buffer outside NumPy, use
+<a class="reference internal" href="array.html#c.PyArray_NewFromDescr" title="PyArray_NewFromDescr"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyArray_NewFromDescr</span></code></a> to wrap the buffer in a <code class="docutils literal notranslate"><span class="pre">ndarray</span></code>, then switch
+the <code class="docutils literal notranslate"><span class="pre">OWNDATA</span></code> flag to true. When the <code class="docutils literal notranslate"><span class="pre">ndarray</span></code> is released, the
+appropriate function from the <code class="docutils literal notranslate"><span class="pre">ndarray</span></code>’s <code class="docutils literal notranslate"><span class="pre">PyDataMem_Handler</span></code> should be
+called to free the buffer. But the <code class="docutils literal notranslate"><span class="pre">PyDataMem_Handler</span></code> field was never set,
+it will be <code class="docutils literal notranslate"><span class="pre">NULL</span></code>. For backward compatibility, NumPy will call <code class="docutils literal notranslate"><span class="pre">free()</span></code> to
+release the buffer. If <code class="docutils literal notranslate"><span class="pre">NUMPY_WARN_IF_NO_MEM_POLICY</span></code> is set to <code class="docutils literal notranslate"><span class="pre">1</span></code>, a
+warning will be emitted. The current default is not to emit a warning, this may
+change in a future version of NumPy.</p>
+<p>A better technique would be to use a <code class="docutils literal notranslate"><span class="pre">PyCapsule</span></code> as a base object:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cm">/* define a PyCapsule_Destructor, using the correct deallocator for buff */</span><span class="w"></span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">free_wrap</span><span class="p">(</span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">capsule</span><span class="p">){</span><span class="w"></span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">obj</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PyCapsule_GetPointer</span><span class="p">(</span><span class="n">capsule</span><span class="p">,</span><span class="w"> </span><span class="n">PyCapsule_GetName</span><span class="p">(</span><span class="n">capsule</span><span class="p">));</span><span class="w"></span>
+<span class="w">    </span><span class="n">free</span><span class="p">(</span><span class="n">obj</span><span class="p">);</span><span class="w"></span>
+<span class="p">};</span><span class="w"></span>
+
+<span class="cm">/* then inside the function that creates arr from buff */</span><span class="w"></span>
+<span class="p">...</span><span class="w"></span>
+<span class="n">arr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PyArray_NewFromDescr</span><span class="p">(...</span><span class="w"> </span><span class="n">buf</span><span class="p">,</span><span class="w"> </span><span class="p">...);</span><span class="w"></span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">arr</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">NULL</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+<span class="n">capsule</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PyCapsule_New</span><span class="p">(</span><span class="n">buf</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;my_wrapped_buffer&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">                        </span><span class="p">(</span><span class="n">PyCapsule_Destructor</span><span class="p">)</span><span class="o">&amp;</span><span class="n">free_wrap</span><span class="p">);</span><span class="w"></span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">PyArray_SetBaseObject</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span><span class="w"> </span><span class="n">capsule</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">-1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">Py_DECREF</span><span class="p">(</span><span class="n">arr</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+<span class="p">...</span><span class="w"></span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+              </article>
+              
+
+              
+              <footer class="bd-footer-article">
+                  <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+  <a class='left-prev' id="prev-link" href="deprecations.html" title="previous page">
+      <i class="fas fa-angle-left"></i>
+      <div class="prev-next-info">
+          <p class="prev-next-subtitle">previous</p>
+          <p class="prev-next-title">C API Deprecations</p>
+      </div>
+  </a>
+  <a class='right-next' id="next-link" href="../simd/index.html" title="next page">
+  <div class="prev-next-info">
+      <p class="prev-next-subtitle">next</p>
+      <p class="prev-next-title">CPU/SIMD Optimizations</p>
+  </div>
+  <i class="fas fa-angle-right"></i>
+  </a>
+</div>
+              </footer>
+              
+          </div>
+          
+      </div>
+    </div>
+
+  
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695"></script>
+
+<footer class="bd-footer"><div class="bd-footer__inner container">
+  
+  <div class="footer-item">
+    <p class="copyright">
+    &copy; Copyright 2008-2022, NumPy Developers.<br>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    <p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.3.0.<br>
+</p>
+  </div>
+  
+</div>
+</footer>
+  </body>
+</html>

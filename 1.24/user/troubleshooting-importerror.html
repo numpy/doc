@@ -1,0 +1,536 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>Troubleshooting ImportError &#8212; NumPy v1.24 Manual</title>
+<script>
+  document.documentElement.dataset.mode = localStorage.getItem("mode") || "light";
+  document.documentElement.dataset.theme = localStorage.getItem("theme") || "light"
+</script>
+
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=92025949c220c2e29695" rel="stylesheet">
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=92025949c220c2e29695" rel="stylesheet">
+
+
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/numpy.css" />
+
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695">
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/design-tabs.js"></script>
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="docsearch:language" content="en">
+  </head>
+  
+  
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="180" data-default-mode="light">
+    <div class="bd-header-announcement container-fluid" id="banner">
+      
+
+    </div>
+
+    
+    <nav class="bd-header navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="bd-header__inner container-xl">
+
+  <div id="navbar-start">
+    
+    
+  
+
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+    <img src="../_static/numpylogo.svg" class="logo__image only-light" alt="Logo image">
+    <img src="../_static/numpylogo_dark.svg" class="logo__image only-dark" alt="Logo image">
+  
+  
+</a>
+    
+  </div>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapsible" aria-controls="navbar-collapsible" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="fas fa-bars"></span>
+  </button>
+
+  
+  <div id="navbar-collapsible" class="col-lg-9 collapse navbar-collapse">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <ul id="navbar-main-elements" class="navbar-nav">
+    <li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="index.html">
+  User Guide
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../reference/index.html">
+  API reference
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../dev/index.html">
+  Development
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../release.html">
+  Release notes
+ </a>
+</li>
+
+    
+    <li class="nav-item">
+        <a class="nav-link nav-external" href="https://numpy.org/numpy-tutorials/">Learn<i class="fas fa-external-link-alt"></i></a>
+    </li>
+    
+</ul>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      
+      <div class="navbar-end-item">
+        <span id="theme-switch" class="btn btn-sm btn-outline-primary navbar-btn rounded-circle">
+    <a class="theme-switch" data-mode="light"><i class="fas fa-sun"></i></a>
+    <a class="theme-switch" data-mode="dark"><i class="far fa-moon"></i></a>
+    <a class="theme-switch" data-mode="auto"><i class="fas fa-adjust"></i></a>
+</span>
+      </div>
+      
+      <div class="navbar-end-item">
+        <div class="dropdown" id="version_switcher">
+    <button type="button" class="btn btn-sm navbar-btn dropdown-toggle" id="version_switcher_button" data-toggle="dropdown">
+        1.24  <!-- this text may get changed later by javascript -->
+        <span class="caret"></span>
+    </button>
+    <div id="version_switcher_menu" class="dropdown-menu list-group-flush py-0" aria-labelledby="version_switcher_button">
+    <!-- dropdown will be populated by javascript on page load -->
+    </div>
+</div>
+
+<!-- NOTE: this JS must live here (not in our global JS file) because it relies
+     on being processed by Jinja before it is run (specifically for replacing
+     variables user/troubleshooting-importerror and {'version_match': '1.24', 'json_url': 'https://numpy.org/doc/_static/versions.json'}.
+-->
+
+<script type="text/javascript">
+// Check if corresponding page path exists in other version of docs
+// and, if so, go there instead of the homepage of the other docs version
+function checkPageExistsAndRedirect(event) {
+    const currentFilePath = "user/troubleshooting-importerror.html",
+          tryUrl = event.target.getAttribute("href");
+    let otherDocsHomepage = tryUrl.replace(currentFilePath, "");
+    $.ajax({
+        type: 'HEAD',
+        url: tryUrl,
+        // if the page exists, go there
+        success: function() {
+            location.href = tryUrl;
+        }
+    }).fail(function() {
+        location.href = otherDocsHomepage;
+    });
+    // this prevents the browser from following the href of the clicked node
+    // (which is fine because this function takes care of redirecting)
+    return false;
+}
+
+// Populate the version switcher from the JSON config file
+(function () {
+    $.getJSON("https://numpy.org/doc/_static/versions.json", function(data, textStatus, jqXHR) {
+        const currentFilePath = "user/troubleshooting-importerror.html";
+        let btn = document.getElementById("version_switcher_button");
+        // Set empty strings by default so that these attributes exist and can be used in CSS selectors
+        btn.dataset["activeVersionName"] = "";
+        btn.dataset["activeVersion"] = "";
+        // create links to the corresponding page in the other docs versions
+        $.each(data, function(index, entry) {
+            // if no custom name specified (e.g., "latest"), use version string
+            if (!("name" in entry)) {
+                entry.name = entry.version;
+            }
+            // create the node
+            const node = document.createElement("a");
+            node.setAttribute("class", "list-group-item list-group-item-action py-1");
+            node.textContent = `${entry.name}`;
+            node.setAttribute("href", `${entry.url}${currentFilePath}`);
+            // on click, AJAX calls will check if the linked page exists before
+            // trying to redirect, and if not, will redirect to the homepage
+            // for that version of the docs.
+            node.onclick = checkPageExistsAndRedirect;
+            // Add dataset values for the version and name in case people want
+            // to apply CSS styling based on this information.
+            node.dataset["versionName"] = entry.name;
+            node.dataset["version"] = entry.version;
+
+            $("#version_switcher_menu").append(node);
+            // replace dropdown button text with the preferred display name of
+            // this version, rather than using sphinx's 1.24 variable.
+            // also highlight the dropdown entry for the currently-viewed
+            // version's entry
+            if (entry.version == "1.24") {
+                node.classList.add("active");
+                btn.innerText = btn.dataset["activeVersionName"] = entry.name;
+                btn.dataset["activeVersion"] = entry.version;
+            }
+        });
+    });
+})();
+</script>
+      </div>
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+        <li class="nav-item">
+          <a class="nav-link" href="https://github.com/numpy/numpy" rel="noopener" target="_blank" title="GitHub"><span><i class="fab fa-github-square"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="https://twitter.com/numpy_team" rel="noopener" target="_blank" title="Twitter"><span><i class="fab fa-twitter-square"></i></span>
+            <label class="sr-only">Twitter</label></a>
+        </li>
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+</div>
+    </nav>
+    
+
+    <div class="bd-container container-xl">
+      <div class="bd-container__inner row">
+          
+
+<!-- Only show if we have sidebars configured, else just a small margin  -->
+<div class="bd-sidebar-primary col-12 col-md-3 bd-sidebar">
+  <div class="sidebar-start-items"><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <div class="bd-toc-item active">
+    
+  </div>
+</nav>
+  </div>
+  <div class="sidebar-end-items">
+  </div>
+</div>
+
+
+          
+
+
+<div class="bd-sidebar-secondary d-none d-xl-block col-xl-2 bd-toc">
+  
+    
+    <div class="toc-item">
+      
+<div class="tocsection onthispage mt-5 pt-1 pb-3">
+    <i class="fas fa-list"></i> On this page
+</div>
+
+<nav id="bd-toc-nav">
+    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#importerror">
+   ImportError
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#using-python-from-conda-anaconda">
+     Using Python from
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       conda
+      </span>
+     </code>
+     (Anaconda)
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#using-pycharm-with-anaconda-conda-python">
+     Using PyCharm with Anaconda/conda Python
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#using-vscode-with-anaconda-conda-python-or-environments">
+     Using VSCode with Anaconda/conda Python (or environments)
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#using-eclipse-pydev-with-anaconda-conda-python-or-environments">
+     Using Eclipse/PyDev with Anaconda/conda Python (or environments)
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#raspberry-pi">
+     Raspberry Pi
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#debug-build-on-windows">
+     Debug build on Windows
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#all-setups">
+     All Setups
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#development-setup">
+     Development Setup
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#check-environment-variables">
+     Check Environment Variables
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#c-api-incompatibility">
+     C-API incompatibility
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+</nav>
+    </div>
+    
+    <div class="toc-item">
+      
+    </div>
+    
+  
+</div>
+
+
+          
+          
+          <div class="bd-content col-12 col-md-9 col-xl-7">
+              
+              <article class="bd-article" role="main">
+                
+  <section id="troubleshooting-importerror">
+<h1>Troubleshooting ImportError<a class="headerlink" href="#troubleshooting-importerror" title="Permalink to this heading">#</a></h1>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Since this information may be updated regularly, please ensure you are
+viewing the most <a class="reference external" href="https://numpy.org/devdocs/user/troubleshooting-importerror.html">up-to-date version</a>.</p>
+</div>
+<section id="importerror">
+<h2>ImportError<a class="headerlink" href="#importerror" title="Permalink to this heading">#</a></h2>
+<p>In certain cases a failed installation or setup issue can cause you to
+see the following error message:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>IMPORTANT: PLEASE READ THIS FOR ADVICE ON HOW TO SOLVE THIS ISSUE!
+
+Importing the numpy c-extensions failed. This error can happen for
+different reasons, often due to issues with your setup.
+</pre></div>
+</div>
+<p>The error also has additional information to help you troubleshoot:</p>
+<ul class="simple">
+<li><p>Your Python version</p></li>
+<li><p>Your NumPy version</p></li>
+</ul>
+<p>Please check both of these carefully to see if they are what you expect.
+You may need to check your <code class="docutils literal notranslate"><span class="pre">PATH</span></code> or <code class="docutils literal notranslate"><span class="pre">PYTHONPATH</span></code> environment variables
+(see <a class="reference internal" href="#check-environment-variables">Check Environment Variables</a> below).</p>
+<p>The following sections list commonly reported issues depending on your setup.
+If you have an issue/solution that you think should appear please open a
+NumPy issue so that it will be added.</p>
+<p>There are a few commonly reported issues depending on your system/setup.
+If none of the following tips help you, please be sure to note the following:</p>
+<ul class="simple">
+<li><p>how you installed Python</p></li>
+<li><p>how you installed NumPy</p></li>
+<li><p>your operating system</p></li>
+<li><p>whether or not you have multiple versions of Python installed</p></li>
+<li><p>if you built from source, your compiler versions and ideally a build log</p></li>
+</ul>
+<p>when investigating further and asking for support.</p>
+<section id="using-python-from-conda-anaconda">
+<h3>Using Python from <code class="docutils literal notranslate"><span class="pre">conda</span></code> (Anaconda)<a class="headerlink" href="#using-python-from-conda-anaconda" title="Permalink to this heading">#</a></h3>
+<p>Please make sure that you have activated your conda environment.
+See also the <a class="reference external" href="https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html#activating-an-environment">conda user-guide</a>.
+If you use an external editor/development environment it will have to be set
+up correctly.  See below for solutions for some common setups.</p>
+</section>
+<section id="using-pycharm-with-anaconda-conda-python">
+<h3>Using PyCharm with Anaconda/conda Python<a class="headerlink" href="#using-pycharm-with-anaconda-conda-python" title="Permalink to this heading">#</a></h3>
+<p>There are fairly common issues when using PyCharm together with Anaconda,
+please see the <a class="reference external" href="https://www.jetbrains.com/help/pycharm/conda-support-creating-conda-virtual-environment.html">PyCharm support</a></p>
+</section>
+<section id="using-vscode-with-anaconda-conda-python-or-environments">
+<h3>Using VSCode with Anaconda/conda Python (or environments)<a class="headerlink" href="#using-vscode-with-anaconda-conda-python-or-environments" title="Permalink to this heading">#</a></h3>
+<p>A commonly reported issue is related to the environment activation within
+VSCode. Please see the <a class="reference external" href="https://code.visualstudio.com/docs/python/environments">VSCode support</a>
+for information on how to correctly set up VSCode with virtual environments
+or conda.</p>
+</section>
+<section id="using-eclipse-pydev-with-anaconda-conda-python-or-environments">
+<h3>Using Eclipse/PyDev with Anaconda/conda Python (or environments)<a class="headerlink" href="#using-eclipse-pydev-with-anaconda-conda-python-or-environments" title="Permalink to this heading">#</a></h3>
+<p>Please see the
+<a class="reference external" href="https://docs.anaconda.com/anaconda/user-guide/tasks/integration/eclipse-pydev/">Anaconda Documentation</a>
+on how to properly configure Eclipse/PyDev to use Anaconda Python with specific
+conda environments.</p>
+</section>
+<section id="raspberry-pi">
+<h3>Raspberry Pi<a class="headerlink" href="#raspberry-pi" title="Permalink to this heading">#</a></h3>
+<p>There are sometimes issues reported on Raspberry Pi setups when installing
+using <code class="docutils literal notranslate"><span class="pre">pip3</span> <span class="pre">install</span></code> (or <code class="docutils literal notranslate"><span class="pre">pip</span></code> install). These will typically mention:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">libf77blas</span><span class="o">.</span><span class="n">so</span><span class="mf">.3</span><span class="p">:</span> <span class="n">cannot</span> <span class="nb">open</span> <span class="n">shared</span> <span class="nb">object</span> <span class="n">file</span><span class="p">:</span> <span class="n">No</span> <span class="n">such</span> <span class="n">file</span> <span class="ow">or</span> <span class="n">directory</span>
+</pre></div>
+</div>
+<p>The solution will be to either:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="n">libatlas</span><span class="o">-</span><span class="n">base</span><span class="o">-</span><span class="n">dev</span>
+</pre></div>
+</div>
+<p>to install the missing libraries expected by the self-compiled NumPy
+(ATLAS is a possible provider of linear algebra).</p>
+<p><em>Alternatively</em> use the NumPy provided by Raspbian. In which case run:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip3</span> <span class="n">uninstall</span> <span class="n">numpy</span>  <span class="c1"># remove previously installed version</span>
+<span class="n">apt</span> <span class="n">install</span> <span class="n">python3</span><span class="o">-</span><span class="n">numpy</span>
+</pre></div>
+</div>
+</section>
+<section id="debug-build-on-windows">
+<h3>Debug build on Windows<a class="headerlink" href="#debug-build-on-windows" title="Permalink to this heading">#</a></h3>
+<p>Rather than building your project in <code class="docutils literal notranslate"><span class="pre">DEBUG</span></code> mode on windows, try
+building in <code class="docutils literal notranslate"><span class="pre">RELEASE</span></code> mode with debug symbols and no optimization.
+Full <code class="docutils literal notranslate"><span class="pre">DEBUG</span></code> mode on windows changes the names of the DLLs python
+expects to find, so if you wish to truly work in <code class="docutils literal notranslate"><span class="pre">DEBUG</span></code> mode you will
+need to recompile the entire stack of python modules you work with
+including NumPy</p>
+</section>
+<section id="all-setups">
+<h3>All Setups<a class="headerlink" href="#all-setups" title="Permalink to this heading">#</a></h3>
+<p>Occasionally there may be simple issues with old or bad installations
+of NumPy. In this case you may just try to uninstall and reinstall NumPy.
+Make sure that NumPy is not found after uninstalling.</p>
+</section>
+<section id="development-setup">
+<h3>Development Setup<a class="headerlink" href="#development-setup" title="Permalink to this heading">#</a></h3>
+<p>If you are using a development setup, make sure to run <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">clean</span> <span class="pre">-xdf</span></code>
+to delete all files not under version control (be careful not to lose
+any modifications you made, e.g. <code class="docutils literal notranslate"><span class="pre">site.cfg</span></code>).
+In many cases files from old builds may lead to incorrect builds.</p>
+</section>
+<section id="check-environment-variables">
+<h3>Check Environment Variables<a class="headerlink" href="#check-environment-variables" title="Permalink to this heading">#</a></h3>
+<p>In general how to set and check your environment variables depends on
+your system. If you can open a correct python shell, you can also run the
+following in python:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;PYTHONPATH:&quot;</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;PYTHONPATH&#39;</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;PATH:&quot;</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;PATH&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>This may mainly help you if you are not running the python and/or NumPy
+version you are expecting to run.</p>
+</section>
+<section id="c-api-incompatibility">
+<h3>C-API incompatibility<a class="headerlink" href="#c-api-incompatibility" title="Permalink to this heading">#</a></h3>
+<p>If you see an error like:</p>
+<blockquote>
+<div><p>RuntimeError: module compiled against API version v1 but this version of numpy is v2</p>
+</div></blockquote>
+<p>You may have:</p>
+<ul class="simple">
+<li><p>A bad extension “wheel” (binary install) that should use
+<a class="reference external" href="https://pypi.org/project/oldest-supported-numpy/">oldest-support-numpy</a> (
+with manual constraints if necessary) to build their binary packages.</p></li>
+<li><p>An environment issue messing with package versions.</p></li>
+<li><p>Incompatible package versions somehow enforced manually.</p></li>
+<li><p>An extension module compiled locally against a very recent version
+followed by a NumPy downgrade.</p></li>
+<li><p>A compiled extension copied to a different computer with an
+older NumPy version.</p></li>
+</ul>
+<p>The best thing to do if you see this error is to contact
+the maintainers of the package that is causing problem
+so that they can solve the problem properly.</p>
+<p>However, while you wait for a solution, a work around
+that usually works is to upgrade the NumPy version:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">numpy</span> <span class="o">--</span><span class="n">upgrade</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+              </article>
+              
+
+              
+              <footer class="bd-footer-article">
+                  <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+</div>
+              </footer>
+              
+          </div>
+          
+      </div>
+    </div>
+
+  
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695"></script>
+
+<footer class="bd-footer"><div class="bd-footer__inner container">
+  
+  <div class="footer-item">
+    <p class="copyright">
+    &copy; Copyright 2008-2022, NumPy Developers.<br>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    <p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.3.0.<br>
+</p>
+  </div>
+  
+</div>
+</footer>
+  </body>
+</html>

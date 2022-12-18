@@ -1,0 +1,981 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>numpy.matrix.sort &#8212; NumPy v1.24 Manual</title>
+<script>
+  document.documentElement.dataset.mode = localStorage.getItem("mode") || "light";
+  document.documentElement.dataset.theme = localStorage.getItem("theme") || "light"
+</script>
+
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=92025949c220c2e29695" rel="stylesheet">
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=92025949c220c2e29695" rel="stylesheet">
+
+
+  <link rel="stylesheet"
+    href="../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/plot_directive.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/numpy.css" />
+
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695">
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    <script src="../../_static/design-tabs.js"></script>
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="numpy.matrix.squeeze" href="numpy.matrix.squeeze.html" />
+    <link rel="prev" title="numpy.matrix.setflags" href="numpy.matrix.setflags.html" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="docsearch:language" content="en">
+  </head>
+  
+  
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="180" data-default-mode="light">
+    <div class="bd-header-announcement container-fluid" id="banner">
+      
+
+    </div>
+
+    
+    <nav class="bd-header navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="bd-header__inner container-xl">
+
+  <div id="navbar-start">
+    
+    
+  
+
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+    <img src="../../_static/numpylogo.svg" class="logo__image only-light" alt="Logo image">
+    <img src="../../_static/numpylogo_dark.svg" class="logo__image only-dark" alt="Logo image">
+  
+  
+</a>
+    
+  </div>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapsible" aria-controls="navbar-collapsible" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="fas fa-bars"></span>
+  </button>
+
+  
+  <div id="navbar-collapsible" class="col-lg-9 collapse navbar-collapse">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <ul id="navbar-main-elements" class="navbar-nav">
+    <li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../user/index.html">
+  User Guide
+ </a>
+</li>
+
+<li class="toctree-l1 current active nav-item">
+ <a class="reference internal nav-link" href="../index.html">
+  API reference
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../dev/index.html">
+  Development
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../release.html">
+  Release notes
+ </a>
+</li>
+
+    
+    <li class="nav-item">
+        <a class="nav-link nav-external" href="https://numpy.org/numpy-tutorials/">Learn<i class="fas fa-external-link-alt"></i></a>
+    </li>
+    
+</ul>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      
+      <div class="navbar-end-item">
+        <span id="theme-switch" class="btn btn-sm btn-outline-primary navbar-btn rounded-circle">
+    <a class="theme-switch" data-mode="light"><i class="fas fa-sun"></i></a>
+    <a class="theme-switch" data-mode="dark"><i class="far fa-moon"></i></a>
+    <a class="theme-switch" data-mode="auto"><i class="fas fa-adjust"></i></a>
+</span>
+      </div>
+      
+      <div class="navbar-end-item">
+        <div class="dropdown" id="version_switcher">
+    <button type="button" class="btn btn-sm navbar-btn dropdown-toggle" id="version_switcher_button" data-toggle="dropdown">
+        1.24  <!-- this text may get changed later by javascript -->
+        <span class="caret"></span>
+    </button>
+    <div id="version_switcher_menu" class="dropdown-menu list-group-flush py-0" aria-labelledby="version_switcher_button">
+    <!-- dropdown will be populated by javascript on page load -->
+    </div>
+</div>
+
+<!-- NOTE: this JS must live here (not in our global JS file) because it relies
+     on being processed by Jinja before it is run (specifically for replacing
+     variables reference/generated/numpy.matrix.sort and {'version_match': '1.24', 'json_url': 'https://numpy.org/doc/_static/versions.json'}.
+-->
+
+<script type="text/javascript">
+// Check if corresponding page path exists in other version of docs
+// and, if so, go there instead of the homepage of the other docs version
+function checkPageExistsAndRedirect(event) {
+    const currentFilePath = "reference/generated/numpy.matrix.sort.html",
+          tryUrl = event.target.getAttribute("href");
+    let otherDocsHomepage = tryUrl.replace(currentFilePath, "");
+    $.ajax({
+        type: 'HEAD',
+        url: tryUrl,
+        // if the page exists, go there
+        success: function() {
+            location.href = tryUrl;
+        }
+    }).fail(function() {
+        location.href = otherDocsHomepage;
+    });
+    // this prevents the browser from following the href of the clicked node
+    // (which is fine because this function takes care of redirecting)
+    return false;
+}
+
+// Populate the version switcher from the JSON config file
+(function () {
+    $.getJSON("https://numpy.org/doc/_static/versions.json", function(data, textStatus, jqXHR) {
+        const currentFilePath = "reference/generated/numpy.matrix.sort.html";
+        let btn = document.getElementById("version_switcher_button");
+        // Set empty strings by default so that these attributes exist and can be used in CSS selectors
+        btn.dataset["activeVersionName"] = "";
+        btn.dataset["activeVersion"] = "";
+        // create links to the corresponding page in the other docs versions
+        $.each(data, function(index, entry) {
+            // if no custom name specified (e.g., "latest"), use version string
+            if (!("name" in entry)) {
+                entry.name = entry.version;
+            }
+            // create the node
+            const node = document.createElement("a");
+            node.setAttribute("class", "list-group-item list-group-item-action py-1");
+            node.textContent = `${entry.name}`;
+            node.setAttribute("href", `${entry.url}${currentFilePath}`);
+            // on click, AJAX calls will check if the linked page exists before
+            // trying to redirect, and if not, will redirect to the homepage
+            // for that version of the docs.
+            node.onclick = checkPageExistsAndRedirect;
+            // Add dataset values for the version and name in case people want
+            // to apply CSS styling based on this information.
+            node.dataset["versionName"] = entry.name;
+            node.dataset["version"] = entry.version;
+
+            $("#version_switcher_menu").append(node);
+            // replace dropdown button text with the preferred display name of
+            // this version, rather than using sphinx's 1.24 variable.
+            // also highlight the dropdown entry for the currently-viewed
+            // version's entry
+            if (entry.version == "1.24") {
+                node.classList.add("active");
+                btn.innerText = btn.dataset["activeVersionName"] = entry.name;
+                btn.dataset["activeVersion"] = entry.version;
+            }
+        });
+    });
+})();
+</script>
+      </div>
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+        <li class="nav-item">
+          <a class="nav-link" href="https://github.com/numpy/numpy" rel="noopener" target="_blank" title="GitHub"><span><i class="fab fa-github-square"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="https://twitter.com/numpy_team" rel="noopener" target="_blank" title="Twitter"><span><i class="fab fa-twitter-square"></i></span>
+            <label class="sr-only">Twitter</label></a>
+        </li>
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+</div>
+    </nav>
+    
+
+    <div class="bd-container container-xl">
+      <div class="bd-container__inner row">
+          
+
+<!-- Only show if we have sidebars configured, else just a small margin  -->
+<div class="bd-sidebar-primary col-12 col-md-3 bd-sidebar">
+  <div class="sidebar-start-items"><form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <div class="bd-toc-item active">
+    <ul class="current nav bd-sidenav">
+ <li class="toctree-l1 current active has-children">
+  <a class="reference internal" href="../arrays.html">
+   Array objects
+  </a>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul class="current">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../arrays.ndarray.html">
+     The N-dimensional array (
+     <code class="xref py py-class docutils literal notranslate">
+      <span class="pre">
+       ndarray
+      </span>
+     </code>
+     )
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../arrays.scalars.html">
+     Scalars
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../arrays.dtypes.html">
+     Data type objects (
+     <code class="xref py py-class docutils literal notranslate">
+      <span class="pre">
+       dtype
+      </span>
+     </code>
+     )
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../arrays.indexing.html">
+     Indexing routines
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../arrays.nditer.html">
+     Iterating Over Arrays
+    </a>
+   </li>
+   <li class="toctree-l2 current active has-children">
+    <a class="reference internal" href="../arrays.classes.html">
+     Standard array subclasses
+    </a>
+    <input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+    <label for="toctree-checkbox-2">
+     <i class="fas fa-chevron-down">
+     </i>
+    </label>
+    <ul class="current">
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.matrix.T.html">
+       numpy.matrix.T
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.matrix.H.html">
+       numpy.matrix.H
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.matrix.I.html">
+       numpy.matrix.I
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.matrix.A.html">
+       numpy.matrix.A
+      </a>
+     </li>
+     <li class="toctree-l3 current active has-children">
+      <a class="reference internal" href="numpy.matrix.html">
+       numpy.matrix
+      </a>
+      <input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+      <label for="toctree-checkbox-3">
+       <i class="fas fa-chevron-down">
+       </i>
+      </label>
+      <ul class="current">
+       <li class="toctree-l4">
+        <a class="reference internal" href="numpy.matrix.all.html">
+         numpy.matrix.all
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="numpy.matrix.any.html">
+         numpy.matrix.any
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="numpy.matrix.argmax.html">
+         numpy.matrix.argmax
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="numpy.matrix.argmin.html">
+         numpy.matrix.argmin
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="numpy.matrix.argpartition.html">
+         numpy.matrix.argpartition
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="numpy.matrix.argsort.html">
+         numpy.matrix.argsort
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="numpy.matrix.astype.html">
+         numpy.matrix.astype
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="numpy.matrix.byteswap.html">
+         numpy.matrix.byteswap
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="numpy.matrix.choose.html">
+         numpy.matrix.choose
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="numpy.matrix.clip.html">
+         numpy.matrix.clip
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="numpy.matrix.compress.html">
+         numpy.matrix.compress
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="numpy.matrix.conj.html">
+         numpy.matrix.conj
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="numpy.matrix.conjugate.html">
+         numpy.matrix.conjugate
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="numpy.matrix.copy.html">
+         numpy.matrix.copy
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="numpy.matrix.cumprod.html">
+         numpy.matrix.cumprod
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="numpy.matrix.cumsum.html">
+         numpy.matrix.cumsum
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="numpy.matrix.diagonal.html">
+         numpy.matrix.diagonal
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="numpy.matrix.dump.html">
+         numpy.matrix.dump
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="numpy.matrix.dumps.html">
+         numpy.matrix.dumps
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="numpy.matrix.fill.html">
+         numpy.matrix.fill
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="numpy.matrix.flatten.html">
+         numpy.matrix.flatten
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="numpy.matrix.getA.html">
+         numpy.matrix.getA
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="numpy.matrix.getA1.html">
+         numpy.matrix.getA1
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="numpy.matrix.getH.html">
+         numpy.matrix.getH
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="numpy.matrix.getI.html">
+         numpy.matrix.getI
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="numpy.matrix.getT.html">
+         numpy.matrix.getT
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="numpy.matrix.getfield.html">
+         numpy.matrix.getfield
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="numpy.matrix.item.html">
+         numpy.matrix.item
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="numpy.matrix.itemset.html">
+         numpy.matrix.itemset
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="numpy.matrix.max.html">
+         numpy.matrix.max
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="numpy.matrix.mean.html">
+         numpy.matrix.mean
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="numpy.matrix.min.html">
+         numpy.matrix.min
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="numpy.matrix.newbyteorder.html">
+         numpy.matrix.newbyteorder
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="numpy.matrix.nonzero.html">
+         numpy.matrix.nonzero
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="numpy.matrix.partition.html">
+         numpy.matrix.partition
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="numpy.matrix.prod.html">
+         numpy.matrix.prod
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="numpy.matrix.ptp.html">
+         numpy.matrix.ptp
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="numpy.matrix.put.html">
+         numpy.matrix.put
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="numpy.matrix.ravel.html">
+         numpy.matrix.ravel
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="numpy.matrix.repeat.html">
+         numpy.matrix.repeat
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="numpy.matrix.reshape.html">
+         numpy.matrix.reshape
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="numpy.matrix.resize.html">
+         numpy.matrix.resize
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="numpy.matrix.round.html">
+         numpy.matrix.round
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="numpy.matrix.searchsorted.html">
+         numpy.matrix.searchsorted
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="numpy.matrix.setfield.html">
+         numpy.matrix.setfield
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="numpy.matrix.setflags.html">
+         numpy.matrix.setflags
+        </a>
+       </li>
+       <li class="toctree-l4 current active">
+        <a class="current reference internal" href="#">
+         numpy.matrix.sort
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="numpy.matrix.squeeze.html">
+         numpy.matrix.squeeze
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="numpy.matrix.std.html">
+         numpy.matrix.std
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="numpy.matrix.sum.html">
+         numpy.matrix.sum
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="numpy.matrix.swapaxes.html">
+         numpy.matrix.swapaxes
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="numpy.matrix.take.html">
+         numpy.matrix.take
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="numpy.matrix.tobytes.html">
+         numpy.matrix.tobytes
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="numpy.matrix.tofile.html">
+         numpy.matrix.tofile
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="numpy.matrix.tolist.html">
+         numpy.matrix.tolist
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="numpy.matrix.tostring.html">
+         numpy.matrix.tostring
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="numpy.matrix.trace.html">
+         numpy.matrix.trace
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="numpy.matrix.transpose.html">
+         numpy.matrix.transpose
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="numpy.matrix.var.html">
+         numpy.matrix.var
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="numpy.matrix.view.html">
+         numpy.matrix.view
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.asmatrix.html">
+       numpy.asmatrix
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.bmat.html">
+       numpy.bmat
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.memmap.html">
+       numpy.memmap
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.memmap.flush.html">
+       numpy.memmap.flush
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.chararray.html">
+       numpy.chararray
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.core.defchararray.array.html">
+       numpy.core.defchararray.array
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.recarray.html">
+       numpy.recarray
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.record.html">
+       numpy.record
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.lib.user_array.container.html">
+       numpy.lib.user_array.container
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ndarray.flat.html">
+       numpy.ndarray.flat
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ndenumerate.html">
+       numpy.ndenumerate
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.broadcast.html">
+       numpy.broadcast
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../maskedarray.html">
+     Masked arrays
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../arrays.interface.html">
+     The array interface protocol
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../arrays.datetime.html">
+     Datetimes and Timedeltas
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../array_api.html">
+   Array API Standard Compatibility
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../constants.html">
+   Constants
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../ufuncs.html">
+   Universal functions (
+   <code class="xref py py-class docutils literal notranslate">
+    <span class="pre">
+     ufunc
+    </span>
+   </code>
+   )
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../routines.html">
+   Routines
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../typing.html">
+   Typing (
+   <code class="xref py py-mod docutils literal notranslate">
+    <span class="pre">
+     numpy.typing
+    </span>
+   </code>
+   )
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../global_state.html">
+   Global State
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../distutils.html">
+   Packaging (
+   <code class="xref py py-mod docutils literal notranslate">
+    <span class="pre">
+     numpy.distutils
+    </span>
+   </code>
+   )
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../distutils_guide.html">
+   NumPy Distutils - Users Guide
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../distutils_status_migration.html">
+   Status of
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     numpy.distutils
+    </span>
+   </code>
+   and migration advice
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../c-api/index.html">
+   NumPy C-API
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../simd/index.html">
+   CPU/SIMD Optimizations
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../security.html">
+   NumPy security
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../swig.html">
+   NumPy and SWIG
+  </a>
+ </li>
+</ul>
+
+  </div>
+</nav>
+  </div>
+  <div class="sidebar-end-items">
+  </div>
+</div>
+
+
+          
+
+
+<div class="bd-sidebar-secondary d-none d-xl-block col-xl-2 bd-toc">
+  
+    
+    <div class="toc-item">
+      
+<div class="tocsection onthispage mt-5 pt-1 pb-3">
+    <i class="fas fa-list"></i> On this page
+</div>
+
+<nav id="bd-toc-nav">
+    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#numpy.matrix.sort">
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     matrix.sort
+    </span>
+   </code>
+  </a>
+ </li>
+</ul>
+
+</nav>
+    </div>
+    
+    <div class="toc-item">
+      
+    </div>
+    
+  
+</div>
+
+
+          
+          
+          <div class="bd-content col-12 col-md-9 col-xl-7">
+              
+              <article class="bd-article" role="main">
+                
+  <section id="numpy-matrix-sort">
+<h1>numpy.matrix.sort<a class="headerlink" href="#numpy-matrix-sort" title="Permalink to this heading">#</a></h1>
+<p>method</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="numpy.matrix.sort">
+<span class="sig-prename descclassname"><span class="pre">matrix.</span></span><span class="sig-name descname"><span class="pre">sort</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">axis</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kind</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">order</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#numpy.matrix.sort" title="Permalink to this definition">#</a></dt>
+<dd><p>Sort an array in-place. Refer to <a class="reference internal" href="numpy.sort.html#numpy.sort" title="numpy.sort"><code class="xref py py-obj docutils literal notranslate"><span class="pre">numpy.sort</span></code></a> for full documentation.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl>
+<dt><strong>axis</strong><span class="classifier">int, optional</span></dt><dd><p>Axis along which to sort. Default is -1, which means sort along the
+last axis.</p>
+</dd>
+<dt><strong>kind</strong><span class="classifier">{‘quicksort’, ‘mergesort’, ‘heapsort’, ‘stable’}, optional</span></dt><dd><p>Sorting algorithm. The default is ‘quicksort’. Note that both ‘stable’
+and ‘mergesort’ use timsort under the covers and, in general, the
+actual implementation will vary with datatype. The ‘mergesort’ option
+is retained for backwards compatibility.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 1.15.0: </span>The ‘stable’ option was added.</p>
+</div>
+</dd>
+<dt><strong>order</strong><span class="classifier">str or list of str, optional</span></dt><dd><p>When <em class="xref py py-obj">a</em> is an array with fields defined, this argument specifies
+which fields to compare first, second, etc.  A single field can
+be specified as a string, and not all fields need be specified,
+but unspecified fields will still be used, in the order in which
+they come up in the dtype, to break ties.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><a class="reference internal" href="numpy.sort.html#numpy.sort" title="numpy.sort"><code class="xref py py-obj docutils literal notranslate"><span class="pre">numpy.sort</span></code></a></dt><dd><p>Return a sorted copy of an array.</p>
+</dd>
+<dt><a class="reference internal" href="numpy.argsort.html#numpy.argsort" title="numpy.argsort"><code class="xref py py-obj docutils literal notranslate"><span class="pre">numpy.argsort</span></code></a></dt><dd><p>Indirect sort.</p>
+</dd>
+<dt><a class="reference internal" href="numpy.lexsort.html#numpy.lexsort" title="numpy.lexsort"><code class="xref py py-obj docutils literal notranslate"><span class="pre">numpy.lexsort</span></code></a></dt><dd><p>Indirect stable sort on multiple keys.</p>
+</dd>
+<dt><a class="reference internal" href="numpy.searchsorted.html#numpy.searchsorted" title="numpy.searchsorted"><code class="xref py py-obj docutils literal notranslate"><span class="pre">numpy.searchsorted</span></code></a></dt><dd><p>Find elements in sorted array.</p>
+</dd>
+<dt><a class="reference internal" href="numpy.partition.html#numpy.partition" title="numpy.partition"><code class="xref py py-obj docutils literal notranslate"><span class="pre">numpy.partition</span></code></a></dt><dd><p>Partial sort.</p>
+</dd>
+</dl>
+</div>
+<p class="rubric">Notes</p>
+<p>See <a class="reference internal" href="numpy.sort.html#numpy.sort" title="numpy.sort"><code class="xref py py-obj docutils literal notranslate"><span class="pre">numpy.sort</span></code></a> for notes on the different sorting algorithms.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span>
+<span class="go">array([[1, 4],</span>
+<span class="go">       [1, 3]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span>
+<span class="go">array([[1, 3],</span>
+<span class="go">       [1, 4]])</span>
+</pre></div>
+</div>
+<p>Use the <em class="xref py py-obj">order</em> keyword to specify a field to use when sorting a
+structured array:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([(</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)],</span> <span class="n">dtype</span><span class="o">=</span><span class="p">[(</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="s1">&#39;S1&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="nb">int</span><span class="p">)])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">order</span><span class="o">=</span><span class="s1">&#39;y&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span>
+<span class="go">array([(b&#39;c&#39;, 1), (b&#39;a&#39;, 2)],</span>
+<span class="go">      dtype=[(&#39;x&#39;, &#39;S1&#39;), (&#39;y&#39;, &#39;&lt;i8&#39;)])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</section>
+
+
+              </article>
+              
+
+              
+              <footer class="bd-footer-article">
+                  <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+  <a class='left-prev' id="prev-link" href="numpy.matrix.setflags.html" title="previous page">
+      <i class="fas fa-angle-left"></i>
+      <div class="prev-next-info">
+          <p class="prev-next-subtitle">previous</p>
+          <p class="prev-next-title">numpy.matrix.setflags</p>
+      </div>
+  </a>
+  <a class='right-next' id="next-link" href="numpy.matrix.squeeze.html" title="next page">
+  <div class="prev-next-info">
+      <p class="prev-next-subtitle">next</p>
+      <p class="prev-next-title">numpy.matrix.squeeze</p>
+  </div>
+  <i class="fas fa-angle-right"></i>
+  </a>
+</div>
+              </footer>
+              
+          </div>
+          
+      </div>
+    </div>
+
+  
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695"></script>
+
+<footer class="bd-footer"><div class="bd-footer__inner container">
+  
+  <div class="footer-item">
+    <p class="copyright">
+    &copy; Copyright 2008-2022, NumPy Developers.<br>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    <p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.3.0.<br>
+</p>
+  </div>
+  
+</div>
+</footer>
+  </body>
+</html>

@@ -1,0 +1,1107 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>Array creation routines &#8212; NumPy v1.24 Manual</title>
+<script>
+  document.documentElement.dataset.mode = localStorage.getItem("mode") || "light";
+  document.documentElement.dataset.theme = localStorage.getItem("theme") || "light"
+</script>
+
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=92025949c220c2e29695" rel="stylesheet">
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=92025949c220c2e29695" rel="stylesheet">
+
+
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/numpy.css" />
+
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695">
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/design-tabs.js"></script>
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="numpy.empty" href="generated/numpy.empty.html" />
+    <link rel="prev" title="Routines" href="routines.html" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="docsearch:language" content="en">
+  </head>
+  
+  
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="180" data-default-mode="light">
+    <div class="bd-header-announcement container-fluid" id="banner">
+      
+
+    </div>
+
+    
+    <nav class="bd-header navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="bd-header__inner container-xl">
+
+  <div id="navbar-start">
+    
+    
+  
+
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+    <img src="../_static/numpylogo.svg" class="logo__image only-light" alt="Logo image">
+    <img src="../_static/numpylogo_dark.svg" class="logo__image only-dark" alt="Logo image">
+  
+  
+</a>
+    
+  </div>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapsible" aria-controls="navbar-collapsible" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="fas fa-bars"></span>
+  </button>
+
+  
+  <div id="navbar-collapsible" class="col-lg-9 collapse navbar-collapse">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <ul id="navbar-main-elements" class="navbar-nav">
+    <li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../user/index.html">
+  User Guide
+ </a>
+</li>
+
+<li class="toctree-l1 current active nav-item">
+ <a class="reference internal nav-link" href="index.html">
+  API reference
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../dev/index.html">
+  Development
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../release.html">
+  Release notes
+ </a>
+</li>
+
+    
+    <li class="nav-item">
+        <a class="nav-link nav-external" href="https://numpy.org/numpy-tutorials/">Learn<i class="fas fa-external-link-alt"></i></a>
+    </li>
+    
+</ul>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      
+      <div class="navbar-end-item">
+        <span id="theme-switch" class="btn btn-sm btn-outline-primary navbar-btn rounded-circle">
+    <a class="theme-switch" data-mode="light"><i class="fas fa-sun"></i></a>
+    <a class="theme-switch" data-mode="dark"><i class="far fa-moon"></i></a>
+    <a class="theme-switch" data-mode="auto"><i class="fas fa-adjust"></i></a>
+</span>
+      </div>
+      
+      <div class="navbar-end-item">
+        <div class="dropdown" id="version_switcher">
+    <button type="button" class="btn btn-sm navbar-btn dropdown-toggle" id="version_switcher_button" data-toggle="dropdown">
+        1.24  <!-- this text may get changed later by javascript -->
+        <span class="caret"></span>
+    </button>
+    <div id="version_switcher_menu" class="dropdown-menu list-group-flush py-0" aria-labelledby="version_switcher_button">
+    <!-- dropdown will be populated by javascript on page load -->
+    </div>
+</div>
+
+<!-- NOTE: this JS must live here (not in our global JS file) because it relies
+     on being processed by Jinja before it is run (specifically for replacing
+     variables reference/routines.array-creation and {'version_match': '1.24', 'json_url': 'https://numpy.org/doc/_static/versions.json'}.
+-->
+
+<script type="text/javascript">
+// Check if corresponding page path exists in other version of docs
+// and, if so, go there instead of the homepage of the other docs version
+function checkPageExistsAndRedirect(event) {
+    const currentFilePath = "reference/routines.array-creation.html",
+          tryUrl = event.target.getAttribute("href");
+    let otherDocsHomepage = tryUrl.replace(currentFilePath, "");
+    $.ajax({
+        type: 'HEAD',
+        url: tryUrl,
+        // if the page exists, go there
+        success: function() {
+            location.href = tryUrl;
+        }
+    }).fail(function() {
+        location.href = otherDocsHomepage;
+    });
+    // this prevents the browser from following the href of the clicked node
+    // (which is fine because this function takes care of redirecting)
+    return false;
+}
+
+// Populate the version switcher from the JSON config file
+(function () {
+    $.getJSON("https://numpy.org/doc/_static/versions.json", function(data, textStatus, jqXHR) {
+        const currentFilePath = "reference/routines.array-creation.html";
+        let btn = document.getElementById("version_switcher_button");
+        // Set empty strings by default so that these attributes exist and can be used in CSS selectors
+        btn.dataset["activeVersionName"] = "";
+        btn.dataset["activeVersion"] = "";
+        // create links to the corresponding page in the other docs versions
+        $.each(data, function(index, entry) {
+            // if no custom name specified (e.g., "latest"), use version string
+            if (!("name" in entry)) {
+                entry.name = entry.version;
+            }
+            // create the node
+            const node = document.createElement("a");
+            node.setAttribute("class", "list-group-item list-group-item-action py-1");
+            node.textContent = `${entry.name}`;
+            node.setAttribute("href", `${entry.url}${currentFilePath}`);
+            // on click, AJAX calls will check if the linked page exists before
+            // trying to redirect, and if not, will redirect to the homepage
+            // for that version of the docs.
+            node.onclick = checkPageExistsAndRedirect;
+            // Add dataset values for the version and name in case people want
+            // to apply CSS styling based on this information.
+            node.dataset["versionName"] = entry.name;
+            node.dataset["version"] = entry.version;
+
+            $("#version_switcher_menu").append(node);
+            // replace dropdown button text with the preferred display name of
+            // this version, rather than using sphinx's 1.24 variable.
+            // also highlight the dropdown entry for the currently-viewed
+            // version's entry
+            if (entry.version == "1.24") {
+                node.classList.add("active");
+                btn.innerText = btn.dataset["activeVersionName"] = entry.name;
+                btn.dataset["activeVersion"] = entry.version;
+            }
+        });
+    });
+})();
+</script>
+      </div>
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+        <li class="nav-item">
+          <a class="nav-link" href="https://github.com/numpy/numpy" rel="noopener" target="_blank" title="GitHub"><span><i class="fab fa-github-square"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="https://twitter.com/numpy_team" rel="noopener" target="_blank" title="Twitter"><span><i class="fab fa-twitter-square"></i></span>
+            <label class="sr-only">Twitter</label></a>
+        </li>
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+</div>
+    </nav>
+    
+
+    <div class="bd-container container-xl">
+      <div class="bd-container__inner row">
+          
+
+<!-- Only show if we have sidebars configured, else just a small margin  -->
+<div class="bd-sidebar-primary col-12 col-md-3 bd-sidebar">
+  <div class="sidebar-start-items"><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <div class="bd-toc-item active">
+    <ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="arrays.html">
+   Array objects
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="array_api.html">
+   Array API Standard Compatibility
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="constants.html">
+   Constants
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="ufuncs.html">
+   Universal functions (
+   <code class="xref py py-class docutils literal notranslate">
+    <span class="pre">
+     ufunc
+    </span>
+   </code>
+   )
+  </a>
+ </li>
+ <li class="toctree-l1 current active has-children">
+  <a class="reference internal" href="routines.html">
+   Routines
+  </a>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul class="current">
+   <li class="toctree-l2 current active has-children">
+    <a class="current reference internal" href="#">
+     Array creation routines
+    </a>
+    <input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+    <label for="toctree-checkbox-2">
+     <i class="fas fa-chevron-down">
+     </i>
+    </label>
+    <ul>
+     <li class="toctree-l3">
+      <a class="reference internal" href="generated/numpy.empty.html">
+       numpy.empty
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="generated/numpy.empty_like.html">
+       numpy.empty_like
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="generated/numpy.eye.html">
+       numpy.eye
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="generated/numpy.identity.html">
+       numpy.identity
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="generated/numpy.ones.html">
+       numpy.ones
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="generated/numpy.ones_like.html">
+       numpy.ones_like
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="generated/numpy.zeros.html">
+       numpy.zeros
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="generated/numpy.zeros_like.html">
+       numpy.zeros_like
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="generated/numpy.full.html">
+       numpy.full
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="generated/numpy.full_like.html">
+       numpy.full_like
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="generated/numpy.array.html">
+       numpy.array
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="generated/numpy.asarray.html">
+       numpy.asarray
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="generated/numpy.asanyarray.html">
+       numpy.asanyarray
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="generated/numpy.ascontiguousarray.html">
+       numpy.ascontiguousarray
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="generated/numpy.asmatrix.html">
+       numpy.asmatrix
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="generated/numpy.copy.html">
+       numpy.copy
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="generated/numpy.frombuffer.html">
+       numpy.frombuffer
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="generated/numpy.from_dlpack.html">
+       numpy.from_dlpack
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="generated/numpy.fromfile.html">
+       numpy.fromfile
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="generated/numpy.fromfunction.html">
+       numpy.fromfunction
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="generated/numpy.fromiter.html">
+       numpy.fromiter
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="generated/numpy.fromstring.html">
+       numpy.fromstring
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="generated/numpy.loadtxt.html">
+       numpy.loadtxt
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="generated/numpy.core.records.array.html">
+       numpy.core.records.array
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="generated/numpy.core.records.fromarrays.html">
+       numpy.core.records.fromarrays
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="generated/numpy.core.records.fromrecords.html">
+       numpy.core.records.fromrecords
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="generated/numpy.core.records.fromstring.html">
+       numpy.core.records.fromstring
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="generated/numpy.core.records.fromfile.html">
+       numpy.core.records.fromfile
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="generated/numpy.core.defchararray.array.html">
+       numpy.core.defchararray.array
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="generated/numpy.core.defchararray.asarray.html">
+       numpy.core.defchararray.asarray
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="generated/numpy.arange.html">
+       numpy.arange
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="generated/numpy.linspace.html">
+       numpy.linspace
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="generated/numpy.logspace.html">
+       numpy.logspace
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="generated/numpy.geomspace.html">
+       numpy.geomspace
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="generated/numpy.meshgrid.html">
+       numpy.meshgrid
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="generated/numpy.mgrid.html">
+       numpy.mgrid
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="generated/numpy.ogrid.html">
+       numpy.ogrid
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="generated/numpy.diag.html">
+       numpy.diag
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="generated/numpy.diagflat.html">
+       numpy.diagflat
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="generated/numpy.tri.html">
+       numpy.tri
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="generated/numpy.tril.html">
+       numpy.tril
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="generated/numpy.triu.html">
+       numpy.triu
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="generated/numpy.vander.html">
+       numpy.vander
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="generated/numpy.mat.html">
+       numpy.mat
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="generated/numpy.bmat.html">
+       numpy.bmat
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="routines.array-manipulation.html">
+     Array manipulation routines
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="routines.bitwise.html">
+     Binary operations
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="routines.char.html">
+     String operations
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="routines.ctypeslib.html">
+     C-Types Foreign Function Interface (
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       numpy.ctypeslib
+      </span>
+     </code>
+     )
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="routines.datetime.html">
+     Datetime Support Functions
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="routines.dtype.html">
+     Data type routines
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="routines.dual.html">
+     Optionally SciPy-accelerated routines (
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       numpy.dual
+      </span>
+     </code>
+     )
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="routines.emath.html">
+     Mathematical functions with automatic domain
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="routines.err.html">
+     Floating point error handling
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="routines.fft.html">
+     Discrete Fourier Transform (
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       numpy.fft
+      </span>
+     </code>
+     )
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="routines.functional.html">
+     Functional programming
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="routines.help.html">
+     NumPy-specific help functions
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="routines.io.html">
+     Input and output
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="routines.linalg.html">
+     Linear algebra (
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       numpy.linalg
+      </span>
+     </code>
+     )
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="routines.logic.html">
+     Logic functions
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="routines.ma.html">
+     Masked array operations
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="routines.math.html">
+     Mathematical functions
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="routines.matlib.html">
+     Matrix library (
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       numpy.matlib
+      </span>
+     </code>
+     )
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="routines.other.html">
+     Miscellaneous routines
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="routines.padding.html">
+     Padding Arrays
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="routines.polynomials.html">
+     Polynomials
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="random/index.html">
+     Random sampling (
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       numpy.random
+      </span>
+     </code>
+     )
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="routines.set.html">
+     Set routines
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="routines.sort.html">
+     Sorting, searching, and counting
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="routines.statistics.html">
+     Statistics
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="routines.testing.html">
+     Test Support (
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       numpy.testing
+      </span>
+     </code>
+     )
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="routines.window.html">
+     Window functions
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="typing.html">
+   Typing (
+   <code class="xref py py-mod docutils literal notranslate">
+    <span class="pre">
+     numpy.typing
+    </span>
+   </code>
+   )
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="global_state.html">
+   Global State
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="distutils.html">
+   Packaging (
+   <code class="xref py py-mod docutils literal notranslate">
+    <span class="pre">
+     numpy.distutils
+    </span>
+   </code>
+   )
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="distutils_guide.html">
+   NumPy Distutils - Users Guide
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="distutils_status_migration.html">
+   Status of
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     numpy.distutils
+    </span>
+   </code>
+   and migration advice
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="c-api/index.html">
+   NumPy C-API
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="simd/index.html">
+   CPU/SIMD Optimizations
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="security.html">
+   NumPy security
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="swig.html">
+   NumPy and SWIG
+  </a>
+ </li>
+</ul>
+
+  </div>
+</nav>
+  </div>
+  <div class="sidebar-end-items">
+  </div>
+</div>
+
+
+          
+
+
+<div class="bd-sidebar-secondary d-none d-xl-block col-xl-2 bd-toc">
+  
+    
+    <div class="toc-item">
+      
+<div class="tocsection onthispage mt-5 pt-1 pb-3">
+    <i class="fas fa-list"></i> On this page
+</div>
+
+<nav id="bd-toc-nav">
+    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#from-shape-or-value">
+   From shape or value
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#from-existing-data">
+   From existing data
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#creating-record-arrays-numpy-rec">
+   Creating record arrays (
+   <code class="xref py py-mod docutils literal notranslate">
+    <span class="pre">
+     numpy.rec
+    </span>
+   </code>
+   )
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#creating-character-arrays-numpy-char">
+   Creating character arrays (
+   <code class="xref py py-mod docutils literal notranslate">
+    <span class="pre">
+     numpy.char
+    </span>
+   </code>
+   )
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#numerical-ranges">
+   Numerical ranges
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#building-matrices">
+   Building matrices
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#the-matrix-class">
+   The Matrix class
+  </a>
+ </li>
+</ul>
+
+</nav>
+    </div>
+    
+    <div class="toc-item">
+      
+    </div>
+    
+  
+</div>
+
+
+          
+          
+          <div class="bd-content col-12 col-md-9 col-xl-7">
+              
+              <article class="bd-article" role="main">
+                
+  <section id="array-creation-routines">
+<span id="routines-array-creation"></span><h1>Array creation routines<a class="headerlink" href="#array-creation-routines" title="Permalink to this heading">#</a></h1>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="../user/basics.creation.html#arrays-creation"><span class="std std-ref">Array creation</span></a></p>
+</div>
+<section id="from-shape-or-value">
+<h2>From shape or value<a class="headerlink" href="#from-shape-or-value" title="Permalink to this heading">#</a></h2>
+<table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/numpy.empty.html#numpy.empty" title="numpy.empty"><code class="xref py py-obj docutils literal notranslate"><span class="pre">empty</span></code></a>(shape[, dtype, order, like])</p></td>
+<td><p>Return a new array of given shape and type, without initializing entries.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/numpy.empty_like.html#numpy.empty_like" title="numpy.empty_like"><code class="xref py py-obj docutils literal notranslate"><span class="pre">empty_like</span></code></a>(prototype[, dtype, order, subok, ...])</p></td>
+<td><p>Return a new array with the same shape and type as a given array.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/numpy.eye.html#numpy.eye" title="numpy.eye"><code class="xref py py-obj docutils literal notranslate"><span class="pre">eye</span></code></a>(N[, M, k, dtype, order, like])</p></td>
+<td><p>Return a 2-D array with ones on the diagonal and zeros elsewhere.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/numpy.identity.html#numpy.identity" title="numpy.identity"><code class="xref py py-obj docutils literal notranslate"><span class="pre">identity</span></code></a>(n[, dtype, like])</p></td>
+<td><p>Return the identity array.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/numpy.ones.html#numpy.ones" title="numpy.ones"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ones</span></code></a>(shape[, dtype, order, like])</p></td>
+<td><p>Return a new array of given shape and type, filled with ones.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/numpy.ones_like.html#numpy.ones_like" title="numpy.ones_like"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ones_like</span></code></a>(a[, dtype, order, subok, shape])</p></td>
+<td><p>Return an array of ones with the same shape and type as a given array.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/numpy.zeros.html#numpy.zeros" title="numpy.zeros"><code class="xref py py-obj docutils literal notranslate"><span class="pre">zeros</span></code></a>(shape[, dtype, order, like])</p></td>
+<td><p>Return a new array of given shape and type, filled with zeros.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/numpy.zeros_like.html#numpy.zeros_like" title="numpy.zeros_like"><code class="xref py py-obj docutils literal notranslate"><span class="pre">zeros_like</span></code></a>(a[, dtype, order, subok, shape])</p></td>
+<td><p>Return an array of zeros with the same shape and type as a given array.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/numpy.full.html#numpy.full" title="numpy.full"><code class="xref py py-obj docutils literal notranslate"><span class="pre">full</span></code></a>(shape, fill_value[, dtype, order, like])</p></td>
+<td><p>Return a new array of given shape and type, filled with <em class="xref py py-obj">fill_value</em>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/numpy.full_like.html#numpy.full_like" title="numpy.full_like"><code class="xref py py-obj docutils literal notranslate"><span class="pre">full_like</span></code></a>(a, fill_value[, dtype, order, ...])</p></td>
+<td><p>Return a full array with the same shape and type as a given array.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="from-existing-data">
+<h2>From existing data<a class="headerlink" href="#from-existing-data" title="Permalink to this heading">#</a></h2>
+<table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/numpy.array.html#numpy.array" title="numpy.array"><code class="xref py py-obj docutils literal notranslate"><span class="pre">array</span></code></a>(object[, dtype, copy, order, subok, ...])</p></td>
+<td><p>Create an array.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/numpy.asarray.html#numpy.asarray" title="numpy.asarray"><code class="xref py py-obj docutils literal notranslate"><span class="pre">asarray</span></code></a>(a[, dtype, order, like])</p></td>
+<td><p>Convert the input to an array.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/numpy.asanyarray.html#numpy.asanyarray" title="numpy.asanyarray"><code class="xref py py-obj docutils literal notranslate"><span class="pre">asanyarray</span></code></a>(a[, dtype, order, like])</p></td>
+<td><p>Convert the input to an ndarray, but pass ndarray subclasses through.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/numpy.ascontiguousarray.html#numpy.ascontiguousarray" title="numpy.ascontiguousarray"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ascontiguousarray</span></code></a>(a[, dtype, like])</p></td>
+<td><p>Return a contiguous array (ndim &gt;= 1) in memory (C order).</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/numpy.asmatrix.html#numpy.asmatrix" title="numpy.asmatrix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">asmatrix</span></code></a>(data[, dtype])</p></td>
+<td><p>Interpret the input as a matrix.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/numpy.copy.html#numpy.copy" title="numpy.copy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">copy</span></code></a>(a[, order, subok])</p></td>
+<td><p>Return an array copy of the given object.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/numpy.frombuffer.html#numpy.frombuffer" title="numpy.frombuffer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">frombuffer</span></code></a>(buffer[, dtype, count, offset, like])</p></td>
+<td><p>Interpret a buffer as a 1-dimensional array.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/numpy.from_dlpack.html#numpy.from_dlpack" title="numpy.from_dlpack"><code class="xref py py-obj docutils literal notranslate"><span class="pre">from_dlpack</span></code></a>(x, /)</p></td>
+<td><p>Create a NumPy array from an object implementing the <code class="docutils literal notranslate"><span class="pre">__dlpack__</span></code> protocol.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/numpy.fromfile.html#numpy.fromfile" title="numpy.fromfile"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fromfile</span></code></a>(file[, dtype, count, sep, offset, like])</p></td>
+<td><p>Construct an array from data in a text or binary file.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/numpy.fromfunction.html#numpy.fromfunction" title="numpy.fromfunction"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fromfunction</span></code></a>(function, shape, *[, dtype, like])</p></td>
+<td><p>Construct an array by executing a function over each coordinate.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/numpy.fromiter.html#numpy.fromiter" title="numpy.fromiter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fromiter</span></code></a>(iter, dtype[, count, like])</p></td>
+<td><p>Create a new 1-dimensional array from an iterable object.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/numpy.fromstring.html#numpy.fromstring" title="numpy.fromstring"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fromstring</span></code></a>(string[, dtype, count, like])</p></td>
+<td><p>A new 1-D array initialized from text data in a string.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/numpy.loadtxt.html#numpy.loadtxt" title="numpy.loadtxt"><code class="xref py py-obj docutils literal notranslate"><span class="pre">loadtxt</span></code></a>(fname[, dtype, comments, delimiter, ...])</p></td>
+<td><p>Load data from a text file.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="creating-record-arrays-numpy-rec">
+<span id="routines-array-creation-rec"></span><h2>Creating record arrays (<code class="xref py py-mod docutils literal notranslate"><span class="pre">numpy.rec</span></code>)<a class="headerlink" href="#creating-record-arrays-numpy-rec" title="Permalink to this heading">#</a></h2>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><code class="xref py py-mod docutils literal notranslate"><span class="pre">numpy.rec</span></code> is the preferred alias for
+<code class="xref py py-mod docutils literal notranslate"><span class="pre">numpy.core.records</span></code>.</p>
+</div>
+<table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/numpy.core.records.array.html#numpy.core.records.array" title="numpy.core.records.array"><code class="xref py py-obj docutils literal notranslate"><span class="pre">core.records.array</span></code></a>(obj[, dtype, shape, ...])</p></td>
+<td><p>Construct a record array from a wide-variety of objects.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/numpy.core.records.fromarrays.html#numpy.core.records.fromarrays" title="numpy.core.records.fromarrays"><code class="xref py py-obj docutils literal notranslate"><span class="pre">core.records.fromarrays</span></code></a>(arrayList[, dtype, ...])</p></td>
+<td><p>Create a record array from a (flat) list of arrays</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/numpy.core.records.fromrecords.html#numpy.core.records.fromrecords" title="numpy.core.records.fromrecords"><code class="xref py py-obj docutils literal notranslate"><span class="pre">core.records.fromrecords</span></code></a>(recList[, dtype, ...])</p></td>
+<td><p>Create a recarray from a list of records in text form.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/numpy.core.records.fromstring.html#numpy.core.records.fromstring" title="numpy.core.records.fromstring"><code class="xref py py-obj docutils literal notranslate"><span class="pre">core.records.fromstring</span></code></a>(datastring[, dtype, ...])</p></td>
+<td><p>Create a record array from binary data</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/numpy.core.records.fromfile.html#numpy.core.records.fromfile" title="numpy.core.records.fromfile"><code class="xref py py-obj docutils literal notranslate"><span class="pre">core.records.fromfile</span></code></a>(fd[, dtype, shape, ...])</p></td>
+<td><p>Create an array from binary file data</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="creating-character-arrays-numpy-char">
+<span id="routines-array-creation-char"></span><h2>Creating character arrays (<a class="reference internal" href="routines.char.html#module-numpy.char" title="numpy.char"><code class="xref py py-mod docutils literal notranslate"><span class="pre">numpy.char</span></code></a>)<a class="headerlink" href="#creating-character-arrays-numpy-char" title="Permalink to this heading">#</a></h2>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><a class="reference internal" href="routines.char.html#module-numpy.char" title="numpy.char"><code class="xref py py-mod docutils literal notranslate"><span class="pre">numpy.char</span></code></a> is the preferred alias for
+<code class="xref py py-mod docutils literal notranslate"><span class="pre">numpy.core.defchararray</span></code>.</p>
+</div>
+<table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/numpy.core.defchararray.array.html#numpy.core.defchararray.array" title="numpy.core.defchararray.array"><code class="xref py py-obj docutils literal notranslate"><span class="pre">core.defchararray.array</span></code></a>(obj[, itemsize, ...])</p></td>
+<td><p>Create a <a class="reference internal" href="generated/numpy.chararray.html#numpy.chararray" title="numpy.chararray"><code class="xref py py-obj docutils literal notranslate"><span class="pre">chararray</span></code></a>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/numpy.core.defchararray.asarray.html#numpy.core.defchararray.asarray" title="numpy.core.defchararray.asarray"><code class="xref py py-obj docutils literal notranslate"><span class="pre">core.defchararray.asarray</span></code></a>(obj[, itemsize, ...])</p></td>
+<td><p>Convert the input to a <a class="reference internal" href="generated/numpy.chararray.html#numpy.chararray" title="numpy.chararray"><code class="xref py py-obj docutils literal notranslate"><span class="pre">chararray</span></code></a>, copying the data only if necessary.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="numerical-ranges">
+<h2>Numerical ranges<a class="headerlink" href="#numerical-ranges" title="Permalink to this heading">#</a></h2>
+<table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/numpy.arange.html#numpy.arange" title="numpy.arange"><code class="xref py py-obj docutils literal notranslate"><span class="pre">arange</span></code></a>([start,] stop[, step,][, dtype, like])</p></td>
+<td><p>Return evenly spaced values within a given interval.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/numpy.linspace.html#numpy.linspace" title="numpy.linspace"><code class="xref py py-obj docutils literal notranslate"><span class="pre">linspace</span></code></a>(start, stop[, num, endpoint, ...])</p></td>
+<td><p>Return evenly spaced numbers over a specified interval.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/numpy.logspace.html#numpy.logspace" title="numpy.logspace"><code class="xref py py-obj docutils literal notranslate"><span class="pre">logspace</span></code></a>(start, stop[, num, endpoint, base, ...])</p></td>
+<td><p>Return numbers spaced evenly on a log scale.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/numpy.geomspace.html#numpy.geomspace" title="numpy.geomspace"><code class="xref py py-obj docutils literal notranslate"><span class="pre">geomspace</span></code></a>(start, stop[, num, endpoint, ...])</p></td>
+<td><p>Return numbers spaced evenly on a log scale (a geometric progression).</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/numpy.meshgrid.html#numpy.meshgrid" title="numpy.meshgrid"><code class="xref py py-obj docutils literal notranslate"><span class="pre">meshgrid</span></code></a>(*xi[, copy, sparse, indexing])</p></td>
+<td><p>Return coordinate matrices from coordinate vectors.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/numpy.mgrid.html#numpy.mgrid" title="numpy.mgrid"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mgrid</span></code></a></p></td>
+<td><p><em class="xref py py-obj">nd_grid</em> instance which returns a dense multi-dimensional &quot;meshgrid&quot;.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/numpy.ogrid.html#numpy.ogrid" title="numpy.ogrid"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ogrid</span></code></a></p></td>
+<td><p><em class="xref py py-obj">nd_grid</em> instance which returns an open multi-dimensional &quot;meshgrid&quot;.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="building-matrices">
+<h2>Building matrices<a class="headerlink" href="#building-matrices" title="Permalink to this heading">#</a></h2>
+<table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/numpy.diag.html#numpy.diag" title="numpy.diag"><code class="xref py py-obj docutils literal notranslate"><span class="pre">diag</span></code></a>(v[, k])</p></td>
+<td><p>Extract a diagonal or construct a diagonal array.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/numpy.diagflat.html#numpy.diagflat" title="numpy.diagflat"><code class="xref py py-obj docutils literal notranslate"><span class="pre">diagflat</span></code></a>(v[, k])</p></td>
+<td><p>Create a two-dimensional array with the flattened input as a diagonal.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/numpy.tri.html#numpy.tri" title="numpy.tri"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tri</span></code></a>(N[, M, k, dtype, like])</p></td>
+<td><p>An array with ones at and below the given diagonal and zeros elsewhere.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/numpy.tril.html#numpy.tril" title="numpy.tril"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tril</span></code></a>(m[, k])</p></td>
+<td><p>Lower triangle of an array.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/numpy.triu.html#numpy.triu" title="numpy.triu"><code class="xref py py-obj docutils literal notranslate"><span class="pre">triu</span></code></a>(m[, k])</p></td>
+<td><p>Upper triangle of an array.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/numpy.vander.html#numpy.vander" title="numpy.vander"><code class="xref py py-obj docutils literal notranslate"><span class="pre">vander</span></code></a>(x[, N, increasing])</p></td>
+<td><p>Generate a Vandermonde matrix.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="the-matrix-class">
+<h2>The Matrix class<a class="headerlink" href="#the-matrix-class" title="Permalink to this heading">#</a></h2>
+<table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/numpy.mat.html#numpy.mat" title="numpy.mat"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mat</span></code></a>(data[, dtype])</p></td>
+<td><p>Interpret the input as a matrix.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/numpy.bmat.html#numpy.bmat" title="numpy.bmat"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bmat</span></code></a>(obj[, ldict, gdict])</p></td>
+<td><p>Build a matrix object from a string, nested sequence, or array.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+
+
+              </article>
+              
+
+              
+              <footer class="bd-footer-article">
+                  <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+  <a class='left-prev' id="prev-link" href="routines.html" title="previous page">
+      <i class="fas fa-angle-left"></i>
+      <div class="prev-next-info">
+          <p class="prev-next-subtitle">previous</p>
+          <p class="prev-next-title">Routines</p>
+      </div>
+  </a>
+  <a class='right-next' id="next-link" href="generated/numpy.empty.html" title="next page">
+  <div class="prev-next-info">
+      <p class="prev-next-subtitle">next</p>
+      <p class="prev-next-title">numpy.empty</p>
+  </div>
+  <i class="fas fa-angle-right"></i>
+  </a>
+</div>
+              </footer>
+              
+          </div>
+          
+      </div>
+    </div>
+
+  
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695"></script>
+
+<footer class="bd-footer"><div class="bd-footer__inner container">
+  
+  <div class="footer-item">
+    <p class="copyright">
+    &copy; Copyright 2008-2022, NumPy Developers.<br>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    <p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.3.0.<br>
+</p>
+  </div>
+  
+</div>
+</footer>
+  </body>
+</html>

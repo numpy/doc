@@ -1,0 +1,808 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>Broadcasting &#8212; NumPy v1.24 Manual</title>
+<script>
+  document.documentElement.dataset.mode = localStorage.getItem("mode") || "light";
+  document.documentElement.dataset.theme = localStorage.getItem("theme") || "light"
+</script>
+
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=92025949c220c2e29695" rel="stylesheet">
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=92025949c220c2e29695" rel="stylesheet">
+
+
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/numpy.css" />
+
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695">
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/design-tabs.js"></script>
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Copies and views" href="basics.copies.html" />
+    <link rel="prev" title="Data types" href="basics.types.html" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="docsearch:language" content="en">
+  </head>
+  
+  
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="180" data-default-mode="light">
+    <div class="bd-header-announcement container-fluid" id="banner">
+      
+
+    </div>
+
+    
+    <nav class="bd-header navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="bd-header__inner container-xl">
+
+  <div id="navbar-start">
+    
+    
+  
+
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+    <img src="../_static/numpylogo.svg" class="logo__image only-light" alt="Logo image">
+    <img src="../_static/numpylogo_dark.svg" class="logo__image only-dark" alt="Logo image">
+  
+  
+</a>
+    
+  </div>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapsible" aria-controls="navbar-collapsible" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="fas fa-bars"></span>
+  </button>
+
+  
+  <div id="navbar-collapsible" class="col-lg-9 collapse navbar-collapse">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <ul id="navbar-main-elements" class="navbar-nav">
+    <li class="toctree-l1 current active nav-item">
+ <a class="reference internal nav-link" href="index.html">
+  User Guide
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../reference/index.html">
+  API reference
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../dev/index.html">
+  Development
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../release.html">
+  Release notes
+ </a>
+</li>
+
+    
+    <li class="nav-item">
+        <a class="nav-link nav-external" href="https://numpy.org/numpy-tutorials/">Learn<i class="fas fa-external-link-alt"></i></a>
+    </li>
+    
+</ul>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      
+      <div class="navbar-end-item">
+        <span id="theme-switch" class="btn btn-sm btn-outline-primary navbar-btn rounded-circle">
+    <a class="theme-switch" data-mode="light"><i class="fas fa-sun"></i></a>
+    <a class="theme-switch" data-mode="dark"><i class="far fa-moon"></i></a>
+    <a class="theme-switch" data-mode="auto"><i class="fas fa-adjust"></i></a>
+</span>
+      </div>
+      
+      <div class="navbar-end-item">
+        <div class="dropdown" id="version_switcher">
+    <button type="button" class="btn btn-sm navbar-btn dropdown-toggle" id="version_switcher_button" data-toggle="dropdown">
+        1.24  <!-- this text may get changed later by javascript -->
+        <span class="caret"></span>
+    </button>
+    <div id="version_switcher_menu" class="dropdown-menu list-group-flush py-0" aria-labelledby="version_switcher_button">
+    <!-- dropdown will be populated by javascript on page load -->
+    </div>
+</div>
+
+<!-- NOTE: this JS must live here (not in our global JS file) because it relies
+     on being processed by Jinja before it is run (specifically for replacing
+     variables user/basics.broadcasting and {'version_match': '1.24', 'json_url': 'https://numpy.org/doc/_static/versions.json'}.
+-->
+
+<script type="text/javascript">
+// Check if corresponding page path exists in other version of docs
+// and, if so, go there instead of the homepage of the other docs version
+function checkPageExistsAndRedirect(event) {
+    const currentFilePath = "user/basics.broadcasting.html",
+          tryUrl = event.target.getAttribute("href");
+    let otherDocsHomepage = tryUrl.replace(currentFilePath, "");
+    $.ajax({
+        type: 'HEAD',
+        url: tryUrl,
+        // if the page exists, go there
+        success: function() {
+            location.href = tryUrl;
+        }
+    }).fail(function() {
+        location.href = otherDocsHomepage;
+    });
+    // this prevents the browser from following the href of the clicked node
+    // (which is fine because this function takes care of redirecting)
+    return false;
+}
+
+// Populate the version switcher from the JSON config file
+(function () {
+    $.getJSON("https://numpy.org/doc/_static/versions.json", function(data, textStatus, jqXHR) {
+        const currentFilePath = "user/basics.broadcasting.html";
+        let btn = document.getElementById("version_switcher_button");
+        // Set empty strings by default so that these attributes exist and can be used in CSS selectors
+        btn.dataset["activeVersionName"] = "";
+        btn.dataset["activeVersion"] = "";
+        // create links to the corresponding page in the other docs versions
+        $.each(data, function(index, entry) {
+            // if no custom name specified (e.g., "latest"), use version string
+            if (!("name" in entry)) {
+                entry.name = entry.version;
+            }
+            // create the node
+            const node = document.createElement("a");
+            node.setAttribute("class", "list-group-item list-group-item-action py-1");
+            node.textContent = `${entry.name}`;
+            node.setAttribute("href", `${entry.url}${currentFilePath}`);
+            // on click, AJAX calls will check if the linked page exists before
+            // trying to redirect, and if not, will redirect to the homepage
+            // for that version of the docs.
+            node.onclick = checkPageExistsAndRedirect;
+            // Add dataset values for the version and name in case people want
+            // to apply CSS styling based on this information.
+            node.dataset["versionName"] = entry.name;
+            node.dataset["version"] = entry.version;
+
+            $("#version_switcher_menu").append(node);
+            // replace dropdown button text with the preferred display name of
+            // this version, rather than using sphinx's 1.24 variable.
+            // also highlight the dropdown entry for the currently-viewed
+            // version's entry
+            if (entry.version == "1.24") {
+                node.classList.add("active");
+                btn.innerText = btn.dataset["activeVersionName"] = entry.name;
+                btn.dataset["activeVersion"] = entry.version;
+            }
+        });
+    });
+})();
+</script>
+      </div>
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+        <li class="nav-item">
+          <a class="nav-link" href="https://github.com/numpy/numpy" rel="noopener" target="_blank" title="GitHub"><span><i class="fab fa-github-square"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="https://twitter.com/numpy_team" rel="noopener" target="_blank" title="Twitter"><span><i class="fab fa-twitter-square"></i></span>
+            <label class="sr-only">Twitter</label></a>
+        </li>
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+</div>
+    </nav>
+    
+
+    <div class="bd-container container-xl">
+      <div class="bd-container__inner row">
+          
+
+<!-- Only show if we have sidebars configured, else just a small margin  -->
+<div class="bd-sidebar-primary col-12 col-md-3 bd-sidebar">
+  <div class="sidebar-start-items"><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <div class="bd-toc-item active">
+    <p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Getting started
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="whatisnumpy.html">
+   What is NumPy?
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference external" href="https://numpy.org/install/">
+   Installation
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="quickstart.html">
+   NumPy quickstart
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="absolute_beginners.html">
+   NumPy: the absolute basics for beginners
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Fundamentals and usage
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1 current active has-children">
+  <a class="reference internal" href="basics.html">
+   NumPy fundamentals
+  </a>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul class="current">
+   <li class="toctree-l2">
+    <a class="reference internal" href="basics.creation.html">
+     Array creation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="basics.indexing.html">
+     Indexing on
+     <code class="xref py py-class docutils literal notranslate">
+      <span class="pre">
+       ndarrays
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="basics.io.html">
+     I/O with NumPy
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="basics.types.html">
+     Data types
+    </a>
+   </li>
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
+     Broadcasting
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="basics.copies.html">
+     Copies and views
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="basics.rec.html">
+     Structured arrays
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="basics.ufuncs.html">
+     Universal functions (
+     <code class="xref py py-class docutils literal notranslate">
+      <span class="pre">
+       ufunc
+      </span>
+     </code>
+     ) basics
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="numpy-for-matlab-users.html">
+   NumPy for MATLAB users
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference external" href="https://numpy.org/numpy-tutorials/features.html">
+   NumPy Tutorials
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="howtos_index.html">
+   NumPy How Tos
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Advanced usage and interoperability
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="building.html">
+   Building from source
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="c-info.html">
+   Using NumPy C-API
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../f2py/index.html">
+   F2PY user guide and reference manual
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../dev/underthehood.html">
+   Under-the-hood documentation for developers
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="basics.interoperability.html">
+   Interoperability with NumPy
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Extras
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../glossary.html">
+   Glossary
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../release.html">
+   Release notes
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../license.html">
+   NumPy license
+  </a>
+ </li>
+</ul>
+
+  </div>
+</nav>
+  </div>
+  <div class="sidebar-end-items">
+  </div>
+</div>
+
+
+          
+
+
+<div class="bd-sidebar-secondary d-none d-xl-block col-xl-2 bd-toc">
+  
+    
+    <div class="toc-item">
+      
+<div class="tocsection onthispage mt-5 pt-1 pb-3">
+    <i class="fas fa-list"></i> On this page
+</div>
+
+<nav id="bd-toc-nav">
+    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#general-broadcasting-rules">
+   General Broadcasting Rules
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#broadcastable-arrays">
+   Broadcastable arrays
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#a-practical-example-vector-quantization">
+   A Practical Example: Vector Quantization
+  </a>
+ </li>
+</ul>
+
+</nav>
+    </div>
+    
+    <div class="toc-item">
+      
+    </div>
+    
+  
+</div>
+
+
+          
+          
+          <div class="bd-content col-12 col-md-9 col-xl-7">
+              
+              <article class="bd-article" role="main">
+                
+  <section id="broadcasting">
+<span id="array-broadcasting-in-numpy"></span><span id="basics-broadcasting"></span><h1>Broadcasting<a class="headerlink" href="#broadcasting" title="Permalink to this heading">#</a></h1>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="../reference/generated/numpy.broadcast.html#numpy.broadcast" title="numpy.broadcast"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.broadcast</span></code></a></p>
+</div>
+<p>The term broadcasting describes how NumPy treats arrays with different
+shapes during arithmetic operations. Subject to certain constraints,
+the smaller array is “broadcast” across the larger array so that they
+have compatible shapes. Broadcasting provides a means of vectorizing
+array operations so that looping occurs in C instead of Python. It does
+this without making needless copies of data and usually leads to
+efficient algorithm implementations. There are, however, cases where
+broadcasting is a bad idea because it leads to inefficient use of memory
+that slows computation.</p>
+<p>NumPy operations are usually done on pairs of arrays on an
+element-by-element basis.  In the simplest case, the two arrays must
+have exactly the same shape, as in the following example:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">2.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">*</span> <span class="n">b</span>
+<span class="go">array([2.,  4.,  6.])</span>
+</pre></div>
+</div>
+<p>NumPy’s broadcasting rule relaxes this constraint when the arrays’
+shapes meet certain constraints. The simplest broadcasting example occurs
+when an array and a scalar value are combined in an operation:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="mf">2.0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">*</span> <span class="n">b</span>
+<span class="go">array([2.,  4.,  6.])</span>
+</pre></div>
+</div>
+<p>The result is equivalent to the previous example where <code class="docutils literal notranslate"><span class="pre">b</span></code> was an array.
+We can think of the scalar <code class="docutils literal notranslate"><span class="pre">b</span></code> being <em>stretched</em> during the arithmetic
+operation into an array with the same shape as <code class="docutils literal notranslate"><span class="pre">a</span></code>. The new elements in
+<code class="docutils literal notranslate"><span class="pre">b</span></code>, as shown in <a class="reference internal" href="#broadcasting-figure-1"><span class="std std-ref">Figure 1</span></a>, are simply copies of the
+original scalar. The stretching analogy is
+only conceptual.  NumPy is smart enough to use the original scalar value
+without actually making copies so that broadcasting operations are as
+memory and computationally efficient as possible.</p>
+<figure class="align-default" id="broadcasting-figure-1">
+<img alt="A scalar is broadcast to match the shape of the 1-d array it is being multiplied to." src="../_images/broadcasting_1.png" />
+<figcaption>
+<p><span class="caption-text"><em>Figure 1</em></span><a class="headerlink" href="#broadcasting-figure-1" title="Permalink to this image">#</a></p>
+<div class="legend">
+<p><em>In the simplest example of broadcasting, the scalar</em> <code class="docutils literal notranslate"><span class="pre">b</span></code> <em>is
+stretched to become an array of same shape as</em> <code class="docutils literal notranslate"><span class="pre">a</span></code> <em>so the shapes
+are compatible for element-by-element multiplication.</em></p>
+</div>
+</figcaption>
+</figure>
+<p>The code in the second example is more efficient than that in the first
+because broadcasting moves less memory around during the multiplication
+(<code class="docutils literal notranslate"><span class="pre">b</span></code> is a scalar rather than an array).</p>
+<section id="general-broadcasting-rules">
+<span id="id1"></span><h2>General Broadcasting Rules<a class="headerlink" href="#general-broadcasting-rules" title="Permalink to this heading">#</a></h2>
+<p>When operating on two arrays, NumPy compares their shapes element-wise.
+It starts with the trailing (i.e. rightmost) dimension and works its
+way left.  Two dimensions are compatible when</p>
+<ol class="arabic simple">
+<li><p>they are equal, or</p></li>
+<li><p>one of them is 1.</p></li>
+</ol>
+<p>If these conditions are not met, a
+<code class="docutils literal notranslate"><span class="pre">ValueError:</span> <span class="pre">operands</span> <span class="pre">could</span> <span class="pre">not</span> <span class="pre">be</span> <span class="pre">broadcast</span> <span class="pre">together</span></code> exception is
+thrown, indicating that the arrays have incompatible shapes.</p>
+<p>Input arrays do not need to have the same <em>number</em> of dimensions.  The
+resulting array will have the same number of dimensions as the input array
+with the greatest number of dimensions, where the <em>size</em> of each dimension is
+the largest size of the corresponding dimension among the input arrays.  Note
+that missing dimensions are assumed to have size one.</p>
+<p>For example, if you have a <code class="docutils literal notranslate"><span class="pre">256x256x3</span></code> array of RGB values, and you want
+to scale each color in the image by a different value, you can multiply the
+image by a one-dimensional array with 3 values. Lining up the sizes of the
+trailing axes of these arrays according to the broadcast rules, shows that
+they are compatible:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Image</span>  <span class="p">(</span><span class="mi">3</span><span class="n">d</span> <span class="n">array</span><span class="p">):</span> <span class="mi">256</span> <span class="n">x</span> <span class="mi">256</span> <span class="n">x</span> <span class="mi">3</span>
+<span class="n">Scale</span>  <span class="p">(</span><span class="mi">1</span><span class="n">d</span> <span class="n">array</span><span class="p">):</span>             <span class="mi">3</span>
+<span class="n">Result</span> <span class="p">(</span><span class="mi">3</span><span class="n">d</span> <span class="n">array</span><span class="p">):</span> <span class="mi">256</span> <span class="n">x</span> <span class="mi">256</span> <span class="n">x</span> <span class="mi">3</span>
+</pre></div>
+</div>
+<p>When either of the dimensions compared is one, the other is
+used.  In other words, dimensions with size 1 are stretched or “copied”
+to match the other.</p>
+<p>In the following example, both the <code class="docutils literal notranslate"><span class="pre">A</span></code> and <code class="docutils literal notranslate"><span class="pre">B</span></code> arrays have axes with
+length one that are expanded to a larger size during the broadcast
+operation:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">A</span>      <span class="p">(</span><span class="mi">4</span><span class="n">d</span> <span class="n">array</span><span class="p">):</span>  <span class="mi">8</span> <span class="n">x</span> <span class="mi">1</span> <span class="n">x</span> <span class="mi">6</span> <span class="n">x</span> <span class="mi">1</span>
+<span class="n">B</span>      <span class="p">(</span><span class="mi">3</span><span class="n">d</span> <span class="n">array</span><span class="p">):</span>      <span class="mi">7</span> <span class="n">x</span> <span class="mi">1</span> <span class="n">x</span> <span class="mi">5</span>
+<span class="n">Result</span> <span class="p">(</span><span class="mi">4</span><span class="n">d</span> <span class="n">array</span><span class="p">):</span>  <span class="mi">8</span> <span class="n">x</span> <span class="mi">7</span> <span class="n">x</span> <span class="mi">6</span> <span class="n">x</span> <span class="mi">5</span>
+</pre></div>
+</div>
+</section>
+<section id="broadcastable-arrays">
+<span id="arrays-broadcasting-broadcastable"></span><h2>Broadcastable arrays<a class="headerlink" href="#broadcastable-arrays" title="Permalink to this heading">#</a></h2>
+<p id="index-0">A set of arrays is called “broadcastable” to the same shape if
+the above rules produce a valid result.</p>
+<p>For example, if <code class="docutils literal notranslate"><span class="pre">a.shape</span></code> is (5,1), <code class="docutils literal notranslate"><span class="pre">b.shape</span></code> is (1,6), <code class="docutils literal notranslate"><span class="pre">c.shape</span></code> is (6,)
+and <code class="docutils literal notranslate"><span class="pre">d.shape</span></code> is () so that <em>d</em> is a scalar, then <em>a</em>, <em>b</em>, <em>c</em>,
+and <em>d</em> are all broadcastable to dimension (5,6); and</p>
+<ul class="simple">
+<li><p><em>a</em> acts like a (5,6) array where <code class="docutils literal notranslate"><span class="pre">a[:,0]</span></code> is broadcast to the other
+columns,</p></li>
+<li><p><em>b</em> acts like a (5,6) array where <code class="docutils literal notranslate"><span class="pre">b[0,:]</span></code> is broadcast
+to the other rows,</p></li>
+<li><p><em>c</em> acts like a (1,6) array and therefore like a (5,6) array
+where <code class="docutils literal notranslate"><span class="pre">c[:]</span></code> is broadcast to every row, and finally,</p></li>
+<li><p><em>d</em> acts like a (5,6) array where the single value is repeated.</p></li>
+</ul>
+<p>Here are some more examples:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">A</span>      <span class="p">(</span><span class="mi">2</span><span class="n">d</span> <span class="n">array</span><span class="p">):</span>  <span class="mi">5</span> <span class="n">x</span> <span class="mi">4</span>
+<span class="n">B</span>      <span class="p">(</span><span class="mi">1</span><span class="n">d</span> <span class="n">array</span><span class="p">):</span>      <span class="mi">1</span>
+<span class="n">Result</span> <span class="p">(</span><span class="mi">2</span><span class="n">d</span> <span class="n">array</span><span class="p">):</span>  <span class="mi">5</span> <span class="n">x</span> <span class="mi">4</span>
+
+<span class="n">A</span>      <span class="p">(</span><span class="mi">2</span><span class="n">d</span> <span class="n">array</span><span class="p">):</span>  <span class="mi">5</span> <span class="n">x</span> <span class="mi">4</span>
+<span class="n">B</span>      <span class="p">(</span><span class="mi">1</span><span class="n">d</span> <span class="n">array</span><span class="p">):</span>      <span class="mi">4</span>
+<span class="n">Result</span> <span class="p">(</span><span class="mi">2</span><span class="n">d</span> <span class="n">array</span><span class="p">):</span>  <span class="mi">5</span> <span class="n">x</span> <span class="mi">4</span>
+
+<span class="n">A</span>      <span class="p">(</span><span class="mi">3</span><span class="n">d</span> <span class="n">array</span><span class="p">):</span>  <span class="mi">15</span> <span class="n">x</span> <span class="mi">3</span> <span class="n">x</span> <span class="mi">5</span>
+<span class="n">B</span>      <span class="p">(</span><span class="mi">3</span><span class="n">d</span> <span class="n">array</span><span class="p">):</span>  <span class="mi">15</span> <span class="n">x</span> <span class="mi">1</span> <span class="n">x</span> <span class="mi">5</span>
+<span class="n">Result</span> <span class="p">(</span><span class="mi">3</span><span class="n">d</span> <span class="n">array</span><span class="p">):</span>  <span class="mi">15</span> <span class="n">x</span> <span class="mi">3</span> <span class="n">x</span> <span class="mi">5</span>
+
+<span class="n">A</span>      <span class="p">(</span><span class="mi">3</span><span class="n">d</span> <span class="n">array</span><span class="p">):</span>  <span class="mi">15</span> <span class="n">x</span> <span class="mi">3</span> <span class="n">x</span> <span class="mi">5</span>
+<span class="n">B</span>      <span class="p">(</span><span class="mi">2</span><span class="n">d</span> <span class="n">array</span><span class="p">):</span>       <span class="mi">3</span> <span class="n">x</span> <span class="mi">5</span>
+<span class="n">Result</span> <span class="p">(</span><span class="mi">3</span><span class="n">d</span> <span class="n">array</span><span class="p">):</span>  <span class="mi">15</span> <span class="n">x</span> <span class="mi">3</span> <span class="n">x</span> <span class="mi">5</span>
+
+<span class="n">A</span>      <span class="p">(</span><span class="mi">3</span><span class="n">d</span> <span class="n">array</span><span class="p">):</span>  <span class="mi">15</span> <span class="n">x</span> <span class="mi">3</span> <span class="n">x</span> <span class="mi">5</span>
+<span class="n">B</span>      <span class="p">(</span><span class="mi">2</span><span class="n">d</span> <span class="n">array</span><span class="p">):</span>       <span class="mi">3</span> <span class="n">x</span> <span class="mi">1</span>
+<span class="n">Result</span> <span class="p">(</span><span class="mi">3</span><span class="n">d</span> <span class="n">array</span><span class="p">):</span>  <span class="mi">15</span> <span class="n">x</span> <span class="mi">3</span> <span class="n">x</span> <span class="mi">5</span>
+</pre></div>
+</div>
+<p>Here are examples of shapes that do not broadcast:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">A</span>      <span class="p">(</span><span class="mi">1</span><span class="n">d</span> <span class="n">array</span><span class="p">):</span>  <span class="mi">3</span>
+<span class="n">B</span>      <span class="p">(</span><span class="mi">1</span><span class="n">d</span> <span class="n">array</span><span class="p">):</span>  <span class="mi">4</span> <span class="c1"># trailing dimensions do not match</span>
+
+<span class="n">A</span>      <span class="p">(</span><span class="mi">2</span><span class="n">d</span> <span class="n">array</span><span class="p">):</span>      <span class="mi">2</span> <span class="n">x</span> <span class="mi">1</span>
+<span class="n">B</span>      <span class="p">(</span><span class="mi">3</span><span class="n">d</span> <span class="n">array</span><span class="p">):</span>  <span class="mi">8</span> <span class="n">x</span> <span class="mi">4</span> <span class="n">x</span> <span class="mi">3</span> <span class="c1"># second from last dimensions mismatched</span>
+</pre></div>
+</div>
+<p>An example of broadcasting when a 1-d array is added to a 2-d array:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span> <span class="mf">0.0</span><span class="p">,</span>  <span class="mf">0.0</span><span class="p">,</span>  <span class="mf">0.0</span><span class="p">],</span>
+<span class="gp">... </span>              <span class="p">[</span><span class="mf">10.0</span><span class="p">,</span> <span class="mf">10.0</span><span class="p">,</span> <span class="mf">10.0</span><span class="p">],</span>
+<span class="gp">... </span>              <span class="p">[</span><span class="mf">20.0</span><span class="p">,</span> <span class="mf">20.0</span><span class="p">,</span> <span class="mf">20.0</span><span class="p">],</span>
+<span class="gp">... </span>              <span class="p">[</span><span class="mf">30.0</span><span class="p">,</span> <span class="mf">30.0</span><span class="p">,</span> <span class="mf">30.0</span><span class="p">]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
+<span class="go">array([[  1.,   2.,   3.],</span>
+<span class="go">        [11.,  12.,  13.],</span>
+<span class="go">        [21.,  22.,  23.],</span>
+<span class="go">        [31.,  32.,  33.]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
+<span class="gt">Traceback (most recent call last):</span>
+<span class="gr">ValueError</span>: <span class="n">operands could not be broadcast together with shapes (4,3) (4,)</span>
+</pre></div>
+</div>
+<p>As shown in <a class="reference internal" href="#broadcasting-figure-2"><span class="std std-ref">Figure 2</span></a>, <code class="docutils literal notranslate"><span class="pre">b</span></code> is added to each row of <code class="docutils literal notranslate"><span class="pre">a</span></code>.
+In <a class="reference internal" href="#broadcasting-figure-3"><span class="std std-ref">Figure 3</span></a>, an exception is raised because of the
+incompatible shapes.</p>
+<figure class="align-default" id="broadcasting-figure-2">
+<img alt="A 1-d array with shape (3) is stretched to match the 2-d array of shape (4, 3) it is being added to, and the result is a 2-d array of shape (4, 3)." src="../_images/broadcasting_2.png" />
+<figcaption>
+<p><span class="caption-text"><em>Figure 2</em></span><a class="headerlink" href="#broadcasting-figure-2" title="Permalink to this image">#</a></p>
+<div class="legend">
+<p><em>A one dimensional array added to a two dimensional array results in
+broadcasting if number of 1-d array elements matches the number of 2-d
+array columns.</em></p>
+</div>
+</figcaption>
+</figure>
+<figure class="align-default" id="broadcasting-figure-3">
+<img alt="A huge cross over the 2-d array of shape (4, 3) and the 1-d array of shape (4) shows that they can not be broadcast due to mismatch of shapes and thus produce no result." src="../_images/broadcasting_3.png" />
+<figcaption>
+<p><span class="caption-text"><em>Figure 3</em></span><a class="headerlink" href="#broadcasting-figure-3" title="Permalink to this image">#</a></p>
+<div class="legend">
+<p><em>When the trailing dimensions of the arrays are unequal, broadcasting fails
+because it is impossible to align the values in the rows of the 1st array
+with the elements of the 2nd arrays for element-by-element addition.</em></p>
+</div>
+</figcaption>
+</figure>
+<p>Broadcasting provides a convenient way of taking the outer product (or
+any other outer operation) of two arrays. The following example shows an
+outer addition operation of two 1-d arrays:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">10.0</span><span class="p">,</span> <span class="mf">20.0</span><span class="p">,</span> <span class="mf">30.0</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="p">[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span> <span class="o">+</span> <span class="n">b</span>
+<span class="go">array([[ 1.,   2.,   3.],</span>
+<span class="go">       [11.,  12.,  13.],</span>
+<span class="go">       [21.,  22.,  23.],</span>
+<span class="go">       [31.,  32.,  33.]])</span>
+</pre></div>
+</div>
+<figure class="align-default" id="broadcasting-figure-4">
+<img alt="A 2-d array of shape (4, 1) and a 1-d array of shape (3) are stretched to match their shapes and produce a resultant array of shape (4, 3)." src="../_images/broadcasting_4.png" />
+<figcaption>
+<p><span class="caption-text"><em>Figure 4</em></span><a class="headerlink" href="#broadcasting-figure-4" title="Permalink to this image">#</a></p>
+<div class="legend">
+<p><em>In some cases, broadcasting stretches both arrays to form an output array
+larger than either of the initial arrays.</em></p>
+</div>
+</figcaption>
+</figure>
+<p>Here the <code class="docutils literal notranslate"><span class="pre">newaxis</span></code> index operator inserts a new axis into <code class="docutils literal notranslate"><span class="pre">a</span></code>,
+making it a two-dimensional <code class="docutils literal notranslate"><span class="pre">4x1</span></code> array.  Combining the <code class="docutils literal notranslate"><span class="pre">4x1</span></code> array
+with <code class="docutils literal notranslate"><span class="pre">b</span></code>, which has shape <code class="docutils literal notranslate"><span class="pre">(3,)</span></code>, yields a <code class="docutils literal notranslate"><span class="pre">4x3</span></code> array.</p>
+</section>
+<section id="a-practical-example-vector-quantization">
+<h2>A Practical Example: Vector Quantization<a class="headerlink" href="#a-practical-example-vector-quantization" title="Permalink to this heading">#</a></h2>
+<p>Broadcasting comes up quite often in real world problems. A typical example
+occurs in the vector quantization (VQ) algorithm used in information theory,
+classification, and other related areas. The basic operation in VQ finds
+the closest point in a set of points, called <code class="docutils literal notranslate"><span class="pre">codes</span></code> in VQ jargon, to a given
+point, called the <code class="docutils literal notranslate"><span class="pre">observation</span></code>. In the very simple, two-dimensional case
+shown below, the values in <code class="docutils literal notranslate"><span class="pre">observation</span></code> describe the weight and height of an
+athlete to be classified. The <code class="docutils literal notranslate"><span class="pre">codes</span></code> represent different classes of
+athletes. <a class="footnote-reference brackets" href="#f1" id="id2" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a> Finding the closest point requires calculating the distance
+between observation and each of the codes. The shortest distance provides the
+best match. In this example, <code class="docutils literal notranslate"><span class="pre">codes[0]</span></code> is the closest class indicating that
+the athlete is likely a basketball player.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">array</span><span class="p">,</span> <span class="n">argmin</span><span class="p">,</span> <span class="n">sqrt</span><span class="p">,</span> <span class="nb">sum</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">observation</span> <span class="o">=</span> <span class="n">array</span><span class="p">([</span><span class="mf">111.0</span><span class="p">,</span> <span class="mf">188.0</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">codes</span> <span class="o">=</span> <span class="n">array</span><span class="p">([[</span><span class="mf">102.0</span><span class="p">,</span> <span class="mf">203.0</span><span class="p">],</span>
+<span class="gp">... </span>               <span class="p">[</span><span class="mf">132.0</span><span class="p">,</span> <span class="mf">193.0</span><span class="p">],</span>
+<span class="gp">... </span>               <span class="p">[</span><span class="mf">45.0</span><span class="p">,</span> <span class="mf">155.0</span><span class="p">],</span>
+<span class="gp">... </span>               <span class="p">[</span><span class="mf">57.0</span><span class="p">,</span> <span class="mf">173.0</span><span class="p">]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">diff</span> <span class="o">=</span> <span class="n">codes</span> <span class="o">-</span> <span class="n">observation</span>    <span class="c1"># the broadcast happens here</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dist</span> <span class="o">=</span> <span class="n">sqrt</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">diff</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span><span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">argmin</span><span class="p">(</span><span class="n">dist</span><span class="p">)</span>
+<span class="go">0</span>
+</pre></div>
+</div>
+<p>In this example, the <code class="docutils literal notranslate"><span class="pre">observation</span></code> array is stretched to match
+the shape of the <code class="docutils literal notranslate"><span class="pre">codes</span></code> array:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Observation</span>      <span class="p">(</span><span class="mi">1</span><span class="n">d</span> <span class="n">array</span><span class="p">):</span>      <span class="mi">2</span>
+<span class="n">Codes</span>            <span class="p">(</span><span class="mi">2</span><span class="n">d</span> <span class="n">array</span><span class="p">):</span>  <span class="mi">4</span> <span class="n">x</span> <span class="mi">2</span>
+<span class="n">Diff</span>             <span class="p">(</span><span class="mi">2</span><span class="n">d</span> <span class="n">array</span><span class="p">):</span>  <span class="mi">4</span> <span class="n">x</span> <span class="mi">2</span>
+</pre></div>
+</div>
+<figure class="align-default" id="broadcasting-figure-5">
+<img alt="A height versus weight graph that shows data of a female gymnast, marathon runner, basketball player, football lineman and the athlete to be classified. Shortest distance is found between the basketball player and the athlete to be classified." src="../_images/broadcasting_5.png" />
+<figcaption>
+<p><span class="caption-text"><em>Figure 5</em></span><a class="headerlink" href="#broadcasting-figure-5" title="Permalink to this image">#</a></p>
+<div class="legend">
+<p><em>The basic operation of vector quantization calculates the distance between
+an object to be classified, the dark square, and multiple known codes, the
+gray circles. In this simple case, the codes represent individual classes.
+More complex cases use multiple codes per class.</em></p>
+</div>
+</figcaption>
+</figure>
+<p>Typically, a large number of <code class="docutils literal notranslate"><span class="pre">observations</span></code>, perhaps read from a database,
+are compared to a set of <code class="docutils literal notranslate"><span class="pre">codes</span></code>. Consider this scenario:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Observation</span>      <span class="p">(</span><span class="mi">2</span><span class="n">d</span> <span class="n">array</span><span class="p">):</span>      <span class="mi">10</span> <span class="n">x</span> <span class="mi">3</span>
+<span class="n">Codes</span>            <span class="p">(</span><span class="mi">3</span><span class="n">d</span> <span class="n">array</span><span class="p">):</span>   <span class="mi">5</span> <span class="n">x</span> <span class="mi">1</span> <span class="n">x</span> <span class="mi">3</span>
+<span class="n">Diff</span>             <span class="p">(</span><span class="mi">3</span><span class="n">d</span> <span class="n">array</span><span class="p">):</span>  <span class="mi">5</span> <span class="n">x</span> <span class="mi">10</span> <span class="n">x</span> <span class="mi">3</span>
+</pre></div>
+</div>
+<p>The three-dimensional array, <code class="docutils literal notranslate"><span class="pre">diff</span></code>, is a consequence of broadcasting, not a
+necessity for the calculation. Large data sets will generate a large
+intermediate array that is computationally inefficient. Instead, if each
+observation is calculated individually using a Python loop around the code
+in the two-dimensional example above, a much smaller array is used.</p>
+<p>Broadcasting is a powerful tool for writing short and usually intuitive code
+that does its computations very efficiently in C. However, there are cases
+when broadcasting uses unnecessarily large amounts of memory for a particular
+algorithm. In these cases, it is better to write the algorithm’s outer loop in
+Python. This may also produce more readable code, as algorithms that use
+broadcasting tend to become more difficult to interpret as the number of
+dimensions in the broadcast increases.</p>
+<p class="rubric">Footnotes</p>
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="f1" role="note">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id2">1</a><span class="fn-bracket">]</span></span>
+<p>In this example, weight has more impact on the distance calculation
+than height because of the larger values. In practice, it is important to
+normalize the height and weight, often by their standard deviation across the
+data set, so that both have equal influence on the distance calculation.</p>
+</aside>
+</aside>
+</section>
+</section>
+
+
+              </article>
+              
+
+              
+              <footer class="bd-footer-article">
+                  <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+  <a class='left-prev' id="prev-link" href="basics.types.html" title="previous page">
+      <i class="fas fa-angle-left"></i>
+      <div class="prev-next-info">
+          <p class="prev-next-subtitle">previous</p>
+          <p class="prev-next-title">Data types</p>
+      </div>
+  </a>
+  <a class='right-next' id="next-link" href="basics.copies.html" title="next page">
+  <div class="prev-next-info">
+      <p class="prev-next-subtitle">next</p>
+      <p class="prev-next-title">Copies and views</p>
+  </div>
+  <i class="fas fa-angle-right"></i>
+  </a>
+</div>
+              </footer>
+              
+          </div>
+          
+      </div>
+    </div>
+
+  
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695"></script>
+
+<footer class="bd-footer"><div class="bd-footer__inner container">
+  
+  <div class="footer-item">
+    <p class="copyright">
+    &copy; Copyright 2008-2022, NumPy Developers.<br>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    <p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.3.0.<br>
+</p>
+  </div>
+  
+</div>
+</footer>
+  </body>
+</html>

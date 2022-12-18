@@ -1,0 +1,870 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>Routines &#8212; NumPy v1.24 Manual</title>
+<script>
+  document.documentElement.dataset.mode = localStorage.getItem("mode") || "light";
+  document.documentElement.dataset.theme = localStorage.getItem("theme") || "light"
+</script>
+
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=92025949c220c2e29695" rel="stylesheet">
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=92025949c220c2e29695" rel="stylesheet">
+
+
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/numpy.css" />
+
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695">
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/design-tabs.js"></script>
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Array creation routines" href="routines.array-creation.html" />
+    <link rel="prev" title="numpy.ufunc.signature" href="generated/numpy.ufunc.signature.html" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="docsearch:language" content="en">
+  </head>
+  
+  
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="180" data-default-mode="light">
+    <div class="bd-header-announcement container-fluid" id="banner">
+      
+
+    </div>
+
+    
+    <nav class="bd-header navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="bd-header__inner container-xl">
+
+  <div id="navbar-start">
+    
+    
+  
+
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+    <img src="../_static/numpylogo.svg" class="logo__image only-light" alt="Logo image">
+    <img src="../_static/numpylogo_dark.svg" class="logo__image only-dark" alt="Logo image">
+  
+  
+</a>
+    
+  </div>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapsible" aria-controls="navbar-collapsible" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="fas fa-bars"></span>
+  </button>
+
+  
+  <div id="navbar-collapsible" class="col-lg-9 collapse navbar-collapse">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <ul id="navbar-main-elements" class="navbar-nav">
+    <li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../user/index.html">
+  User Guide
+ </a>
+</li>
+
+<li class="toctree-l1 current active nav-item">
+ <a class="reference internal nav-link" href="index.html">
+  API reference
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../dev/index.html">
+  Development
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../release.html">
+  Release notes
+ </a>
+</li>
+
+    
+    <li class="nav-item">
+        <a class="nav-link nav-external" href="https://numpy.org/numpy-tutorials/">Learn<i class="fas fa-external-link-alt"></i></a>
+    </li>
+    
+</ul>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      
+      <div class="navbar-end-item">
+        <span id="theme-switch" class="btn btn-sm btn-outline-primary navbar-btn rounded-circle">
+    <a class="theme-switch" data-mode="light"><i class="fas fa-sun"></i></a>
+    <a class="theme-switch" data-mode="dark"><i class="far fa-moon"></i></a>
+    <a class="theme-switch" data-mode="auto"><i class="fas fa-adjust"></i></a>
+</span>
+      </div>
+      
+      <div class="navbar-end-item">
+        <div class="dropdown" id="version_switcher">
+    <button type="button" class="btn btn-sm navbar-btn dropdown-toggle" id="version_switcher_button" data-toggle="dropdown">
+        1.24  <!-- this text may get changed later by javascript -->
+        <span class="caret"></span>
+    </button>
+    <div id="version_switcher_menu" class="dropdown-menu list-group-flush py-0" aria-labelledby="version_switcher_button">
+    <!-- dropdown will be populated by javascript on page load -->
+    </div>
+</div>
+
+<!-- NOTE: this JS must live here (not in our global JS file) because it relies
+     on being processed by Jinja before it is run (specifically for replacing
+     variables reference/routines and {'version_match': '1.24', 'json_url': 'https://numpy.org/doc/_static/versions.json'}.
+-->
+
+<script type="text/javascript">
+// Check if corresponding page path exists in other version of docs
+// and, if so, go there instead of the homepage of the other docs version
+function checkPageExistsAndRedirect(event) {
+    const currentFilePath = "reference/routines.html",
+          tryUrl = event.target.getAttribute("href");
+    let otherDocsHomepage = tryUrl.replace(currentFilePath, "");
+    $.ajax({
+        type: 'HEAD',
+        url: tryUrl,
+        // if the page exists, go there
+        success: function() {
+            location.href = tryUrl;
+        }
+    }).fail(function() {
+        location.href = otherDocsHomepage;
+    });
+    // this prevents the browser from following the href of the clicked node
+    // (which is fine because this function takes care of redirecting)
+    return false;
+}
+
+// Populate the version switcher from the JSON config file
+(function () {
+    $.getJSON("https://numpy.org/doc/_static/versions.json", function(data, textStatus, jqXHR) {
+        const currentFilePath = "reference/routines.html";
+        let btn = document.getElementById("version_switcher_button");
+        // Set empty strings by default so that these attributes exist and can be used in CSS selectors
+        btn.dataset["activeVersionName"] = "";
+        btn.dataset["activeVersion"] = "";
+        // create links to the corresponding page in the other docs versions
+        $.each(data, function(index, entry) {
+            // if no custom name specified (e.g., "latest"), use version string
+            if (!("name" in entry)) {
+                entry.name = entry.version;
+            }
+            // create the node
+            const node = document.createElement("a");
+            node.setAttribute("class", "list-group-item list-group-item-action py-1");
+            node.textContent = `${entry.name}`;
+            node.setAttribute("href", `${entry.url}${currentFilePath}`);
+            // on click, AJAX calls will check if the linked page exists before
+            // trying to redirect, and if not, will redirect to the homepage
+            // for that version of the docs.
+            node.onclick = checkPageExistsAndRedirect;
+            // Add dataset values for the version and name in case people want
+            // to apply CSS styling based on this information.
+            node.dataset["versionName"] = entry.name;
+            node.dataset["version"] = entry.version;
+
+            $("#version_switcher_menu").append(node);
+            // replace dropdown button text with the preferred display name of
+            // this version, rather than using sphinx's 1.24 variable.
+            // also highlight the dropdown entry for the currently-viewed
+            // version's entry
+            if (entry.version == "1.24") {
+                node.classList.add("active");
+                btn.innerText = btn.dataset["activeVersionName"] = entry.name;
+                btn.dataset["activeVersion"] = entry.version;
+            }
+        });
+    });
+})();
+</script>
+      </div>
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+        <li class="nav-item">
+          <a class="nav-link" href="https://github.com/numpy/numpy" rel="noopener" target="_blank" title="GitHub"><span><i class="fab fa-github-square"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="https://twitter.com/numpy_team" rel="noopener" target="_blank" title="Twitter"><span><i class="fab fa-twitter-square"></i></span>
+            <label class="sr-only">Twitter</label></a>
+        </li>
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+</div>
+    </nav>
+    
+
+    <div class="bd-container container-xl">
+      <div class="bd-container__inner row">
+          
+
+<!-- Only show if we have sidebars configured, else just a small margin  -->
+<div class="bd-sidebar-primary col-12 col-md-3 bd-sidebar">
+  <div class="sidebar-start-items"><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <div class="bd-toc-item active">
+    <ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="arrays.html">
+   Array objects
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="array_api.html">
+   Array API Standard Compatibility
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="constants.html">
+   Constants
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="ufuncs.html">
+   Universal functions (
+   <code class="xref py py-class docutils literal notranslate">
+    <span class="pre">
+     ufunc
+    </span>
+   </code>
+   )
+  </a>
+ </li>
+ <li class="toctree-l1 current active has-children">
+  <a class="current reference internal" href="#">
+   Routines
+  </a>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="routines.array-creation.html">
+     Array creation routines
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="routines.array-manipulation.html">
+     Array manipulation routines
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="routines.bitwise.html">
+     Binary operations
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="routines.char.html">
+     String operations
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="routines.ctypeslib.html">
+     C-Types Foreign Function Interface (
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       numpy.ctypeslib
+      </span>
+     </code>
+     )
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="routines.datetime.html">
+     Datetime Support Functions
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="routines.dtype.html">
+     Data type routines
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="routines.dual.html">
+     Optionally SciPy-accelerated routines (
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       numpy.dual
+      </span>
+     </code>
+     )
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="routines.emath.html">
+     Mathematical functions with automatic domain
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="routines.err.html">
+     Floating point error handling
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="routines.fft.html">
+     Discrete Fourier Transform (
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       numpy.fft
+      </span>
+     </code>
+     )
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="routines.functional.html">
+     Functional programming
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="routines.help.html">
+     NumPy-specific help functions
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="routines.io.html">
+     Input and output
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="routines.linalg.html">
+     Linear algebra (
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       numpy.linalg
+      </span>
+     </code>
+     )
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="routines.logic.html">
+     Logic functions
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="routines.ma.html">
+     Masked array operations
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="routines.math.html">
+     Mathematical functions
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="routines.matlib.html">
+     Matrix library (
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       numpy.matlib
+      </span>
+     </code>
+     )
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="routines.other.html">
+     Miscellaneous routines
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="routines.padding.html">
+     Padding Arrays
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="routines.polynomials.html">
+     Polynomials
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="random/index.html">
+     Random sampling (
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       numpy.random
+      </span>
+     </code>
+     )
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="routines.set.html">
+     Set routines
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="routines.sort.html">
+     Sorting, searching, and counting
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="routines.statistics.html">
+     Statistics
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="routines.testing.html">
+     Test Support (
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       numpy.testing
+      </span>
+     </code>
+     )
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="routines.window.html">
+     Window functions
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="typing.html">
+   Typing (
+   <code class="xref py py-mod docutils literal notranslate">
+    <span class="pre">
+     numpy.typing
+    </span>
+   </code>
+   )
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="global_state.html">
+   Global State
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="distutils.html">
+   Packaging (
+   <code class="xref py py-mod docutils literal notranslate">
+    <span class="pre">
+     numpy.distutils
+    </span>
+   </code>
+   )
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="distutils_guide.html">
+   NumPy Distutils - Users Guide
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="distutils_status_migration.html">
+   Status of
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     numpy.distutils
+    </span>
+   </code>
+   and migration advice
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="c-api/index.html">
+   NumPy C-API
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="simd/index.html">
+   CPU/SIMD Optimizations
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="security.html">
+   NumPy security
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="swig.html">
+   NumPy and SWIG
+  </a>
+ </li>
+</ul>
+
+  </div>
+</nav>
+  </div>
+  <div class="sidebar-end-items">
+  </div>
+</div>
+
+
+          
+
+
+<div class="bd-sidebar-secondary d-none d-xl-block col-xl-2 bd-toc">
+  
+    
+    <div class="toc-item">
+      
+
+<nav id="bd-toc-nav">
+    
+</nav>
+    </div>
+    
+    <div class="toc-item">
+      
+    </div>
+    
+  
+</div>
+
+
+          
+          
+          <div class="bd-content col-12 col-md-9 col-xl-7">
+              
+              <article class="bd-article" role="main">
+                
+  <section id="routines">
+<span id="id1"></span><h1>Routines<a class="headerlink" href="#routines" title="Permalink to this heading">#</a></h1>
+<p>In this chapter routine docstrings are presented, grouped by functionality.
+Many docstrings contain example code, which demonstrates basic usage
+of the routine. The examples assume that NumPy is imported with:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+</pre></div>
+</div>
+<p>A convenient way to execute examples is the <code class="docutils literal notranslate"><span class="pre">%doctest_mode</span></code> mode of
+IPython, which allows for pasting of multi-line examples and preserves
+indentation.</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="routines.array-creation.html">Array creation routines</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="routines.array-creation.html#from-shape-or-value">From shape or value</a></li>
+<li class="toctree-l2"><a class="reference internal" href="routines.array-creation.html#from-existing-data">From existing data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="routines.array-creation.html#creating-record-arrays-numpy-rec">Creating record arrays (<code class="xref py py-mod docutils literal notranslate"><span class="pre">numpy.rec</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="routines.array-creation.html#creating-character-arrays-numpy-char">Creating character arrays (<code class="xref py py-mod docutils literal notranslate"><span class="pre">numpy.char</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="routines.array-creation.html#numerical-ranges">Numerical ranges</a></li>
+<li class="toctree-l2"><a class="reference internal" href="routines.array-creation.html#building-matrices">Building matrices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="routines.array-creation.html#the-matrix-class">The Matrix class</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="routines.array-manipulation.html">Array manipulation routines</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="routines.array-manipulation.html#basic-operations">Basic operations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="routines.array-manipulation.html#changing-array-shape">Changing array shape</a></li>
+<li class="toctree-l2"><a class="reference internal" href="routines.array-manipulation.html#transpose-like-operations">Transpose-like operations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="routines.array-manipulation.html#changing-number-of-dimensions">Changing number of dimensions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="routines.array-manipulation.html#changing-kind-of-array">Changing kind of array</a></li>
+<li class="toctree-l2"><a class="reference internal" href="routines.array-manipulation.html#joining-arrays">Joining arrays</a></li>
+<li class="toctree-l2"><a class="reference internal" href="routines.array-manipulation.html#splitting-arrays">Splitting arrays</a></li>
+<li class="toctree-l2"><a class="reference internal" href="routines.array-manipulation.html#tiling-arrays">Tiling arrays</a></li>
+<li class="toctree-l2"><a class="reference internal" href="routines.array-manipulation.html#adding-and-removing-elements">Adding and removing elements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="routines.array-manipulation.html#rearranging-elements">Rearranging elements</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="routines.bitwise.html">Binary operations</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="routines.bitwise.html#elementwise-bit-operations">Elementwise bit operations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="routines.bitwise.html#bit-packing">Bit packing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="routines.bitwise.html#output-formatting">Output formatting</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="routines.char.html">String operations</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="routines.char.html#id1">String operations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="routines.char.html#comparison">Comparison</a></li>
+<li class="toctree-l2"><a class="reference internal" href="routines.char.html#string-information">String information</a></li>
+<li class="toctree-l2"><a class="reference internal" href="routines.char.html#convenience-class">Convenience class</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="routines.ctypeslib.html">C-Types Foreign Function Interface (<code class="xref py py-mod docutils literal notranslate"><span class="pre">numpy.ctypeslib</span></code>)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="routines.ctypeslib.html#numpy.ctypeslib.as_array"><code class="docutils literal notranslate"><span class="pre">as_array</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="routines.ctypeslib.html#numpy.ctypeslib.as_ctypes"><code class="docutils literal notranslate"><span class="pre">as_ctypes</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="routines.ctypeslib.html#numpy.ctypeslib.as_ctypes_type"><code class="docutils literal notranslate"><span class="pre">as_ctypes_type</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="routines.ctypeslib.html#numpy.ctypeslib.load_library"><code class="docutils literal notranslate"><span class="pre">load_library</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="routines.ctypeslib.html#numpy.ctypeslib.ndpointer"><code class="docutils literal notranslate"><span class="pre">ndpointer</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="routines.ctypeslib.html#numpy.ctypeslib.c_intp"><code class="docutils literal notranslate"><span class="pre">c_intp</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="routines.datetime.html">Datetime Support Functions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/numpy.datetime_as_string.html">numpy.datetime_as_string</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/numpy.datetime_data.html">numpy.datetime_data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="routines.datetime.html#business-day-functions">Business Day Functions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="routines.dtype.html">Data type routines</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/numpy.can_cast.html">numpy.can_cast</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/numpy.promote_types.html">numpy.promote_types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/numpy.min_scalar_type.html">numpy.min_scalar_type</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/numpy.result_type.html">numpy.result_type</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/numpy.common_type.html">numpy.common_type</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/numpy.obj2sctype.html">numpy.obj2sctype</a></li>
+<li class="toctree-l2"><a class="reference internal" href="routines.dtype.html#creating-data-types">Creating data types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="routines.dtype.html#data-type-information">Data type information</a></li>
+<li class="toctree-l2"><a class="reference internal" href="routines.dtype.html#data-type-testing">Data type testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="routines.dtype.html#miscellaneous">Miscellaneous</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="routines.dual.html">Optionally SciPy-accelerated routines (<code class="xref py py-mod docutils literal notranslate"><span class="pre">numpy.dual</span></code>)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="routines.dual.html#linear-algebra">Linear algebra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="routines.dual.html#fft">FFT</a></li>
+<li class="toctree-l2"><a class="reference internal" href="routines.dual.html#other">Other</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="routines.emath.html">Mathematical functions with automatic domain</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="routines.emath.html#functions">Functions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="routines.err.html">Floating point error handling</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="routines.err.html#setting-and-getting-error-handling">Setting and getting error handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="routines.err.html#internal-functions">Internal functions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="routines.fft.html">Discrete Fourier Transform (<code class="xref py py-mod docutils literal notranslate"><span class="pre">numpy.fft</span></code>)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="routines.fft.html#standard-ffts">Standard FFTs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="routines.fft.html#real-ffts">Real FFTs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="routines.fft.html#hermitian-ffts">Hermitian FFTs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="routines.fft.html#helper-routines">Helper routines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="routines.fft.html#background-information">Background information</a></li>
+<li class="toctree-l2"><a class="reference internal" href="routines.fft.html#implementation-details">Implementation details</a></li>
+<li class="toctree-l2"><a class="reference internal" href="routines.fft.html#type-promotion">Type Promotion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="routines.fft.html#normalization">Normalization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="routines.fft.html#real-and-hermitian-transforms">Real and Hermitian transforms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="routines.fft.html#higher-dimensions">Higher dimensions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="routines.fft.html#references">References</a></li>
+<li class="toctree-l2"><a class="reference internal" href="routines.fft.html#examples">Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="routines.functional.html">Functional programming</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/numpy.apply_along_axis.html">numpy.apply_along_axis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/numpy.apply_over_axes.html">numpy.apply_over_axes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/numpy.vectorize.html">numpy.vectorize</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/numpy.frompyfunc.html">numpy.frompyfunc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/numpy.piecewise.html">numpy.piecewise</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="routines.help.html">NumPy-specific help functions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="routines.help.html#finding-help">Finding help</a></li>
+<li class="toctree-l2"><a class="reference internal" href="routines.help.html#reading-help">Reading help</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="routines.io.html">Input and output</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="routines.io.html#numpy-binary-files-npy-npz">NumPy binary files (NPY, NPZ)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="routines.io.html#text-files">Text files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="routines.io.html#raw-binary-files">Raw binary files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="routines.io.html#string-formatting">String formatting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="routines.io.html#memory-mapping-files">Memory mapping files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="routines.io.html#text-formatting-options">Text formatting options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="routines.io.html#base-n-representations">Base-n representations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="routines.io.html#data-sources">Data sources</a></li>
+<li class="toctree-l2"><a class="reference internal" href="routines.io.html#binary-format-description">Binary Format Description</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="routines.linalg.html">Linear algebra (<code class="xref py py-mod docutils literal notranslate"><span class="pre">numpy.linalg</span></code>)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="routines.linalg.html#the-operator">The <code class="docutils literal notranslate"><span class="pre">&#64;</span></code> operator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="routines.linalg.html#matrix-and-vector-products">Matrix and vector products</a></li>
+<li class="toctree-l2"><a class="reference internal" href="routines.linalg.html#decompositions">Decompositions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="routines.linalg.html#matrix-eigenvalues">Matrix eigenvalues</a></li>
+<li class="toctree-l2"><a class="reference internal" href="routines.linalg.html#norms-and-other-numbers">Norms and other numbers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="routines.linalg.html#solving-equations-and-inverting-matrices">Solving equations and inverting matrices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="routines.linalg.html#exceptions">Exceptions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="routines.linalg.html#linear-algebra-on-several-matrices-at-once">Linear algebra on several matrices at once</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="routines.logic.html">Logic functions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="routines.logic.html#truth-value-testing">Truth value testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="routines.logic.html#array-contents">Array contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="routines.logic.html#array-type-testing">Array type testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="routines.logic.html#logical-operations">Logical operations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="routines.logic.html#comparison">Comparison</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="routines.ma.html">Masked array operations</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="routines.ma.html#constants">Constants</a></li>
+<li class="toctree-l2"><a class="reference internal" href="routines.ma.html#creation">Creation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="routines.ma.html#inspecting-the-array">Inspecting the array</a></li>
+<li class="toctree-l2"><a class="reference internal" href="routines.ma.html#manipulating-a-maskedarray">Manipulating a MaskedArray</a></li>
+<li class="toctree-l2"><a class="reference internal" href="routines.ma.html#operations-on-masks">Operations on masks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="routines.ma.html#conversion-operations">Conversion operations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="routines.ma.html#masked-arrays-arithmetic">Masked arrays arithmetic</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="routines.math.html">Mathematical functions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="routines.math.html#trigonometric-functions">Trigonometric functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="routines.math.html#hyperbolic-functions">Hyperbolic functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="routines.math.html#rounding">Rounding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="routines.math.html#sums-products-differences">Sums, products, differences</a></li>
+<li class="toctree-l2"><a class="reference internal" href="routines.math.html#exponents-and-logarithms">Exponents and logarithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="routines.math.html#other-special-functions">Other special functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="routines.math.html#floating-point-routines">Floating point routines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="routines.math.html#rational-routines">Rational routines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="routines.math.html#arithmetic-operations">Arithmetic operations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="routines.math.html#handling-complex-numbers">Handling complex numbers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="routines.math.html#extrema-finding">Extrema Finding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="routines.math.html#miscellaneous">Miscellaneous</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="routines.matlib.html">Matrix library (<code class="xref py py-mod docutils literal notranslate"><span class="pre">numpy.matlib</span></code>)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/numpy.matlib.empty.html">numpy.matlib.empty</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/numpy.matlib.zeros.html">numpy.matlib.zeros</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/numpy.matlib.ones.html">numpy.matlib.ones</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/numpy.matlib.eye.html">numpy.matlib.eye</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/numpy.matlib.identity.html">numpy.matlib.identity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/numpy.matlib.repmat.html">numpy.matlib.repmat</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/numpy.matlib.rand.html">numpy.matlib.rand</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/numpy.matlib.randn.html">numpy.matlib.randn</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="routines.other.html">Miscellaneous routines</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="routines.other.html#performance-tuning">Performance tuning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="routines.other.html#memory-ranges">Memory ranges</a></li>
+<li class="toctree-l2"><a class="reference internal" href="routines.other.html#array-mixins">Array mixins</a></li>
+<li class="toctree-l2"><a class="reference internal" href="routines.other.html#numpy-version-comparison">NumPy version comparison</a></li>
+<li class="toctree-l2"><a class="reference internal" href="routines.other.html#utility">Utility</a></li>
+<li class="toctree-l2"><a class="reference internal" href="routines.other.html#matlab-like-functions">Matlab-like Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="routines.other.html#exceptions">Exceptions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="routines.padding.html">Padding Arrays</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/numpy.pad.html">numpy.pad</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="routines.polynomials.html">Polynomials</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="routines.polynomials.html#transitioning-from-numpy-poly1d-to-numpy-polynomial">Transitioning from <code class="xref py py-obj docutils literal notranslate"><span class="pre">numpy.poly1d</span></code> to <code class="xref py py-obj docutils literal notranslate"><span class="pre">numpy.polynomial</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="routines.polynomials.html#documentation-for-the-polynomial-package">Documentation for the <code class="xref py py-obj docutils literal notranslate"><span class="pre">polynomial</span></code> Package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="routines.polynomials.html#documentation-for-legacy-polynomials">Documentation for Legacy Polynomials</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="random/index.html">Random sampling (<code class="xref py py-mod docutils literal notranslate"><span class="pre">numpy.random</span></code>)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="random/index.html#quick-start">Quick Start</a></li>
+<li class="toctree-l2"><a class="reference internal" href="random/index.html#introduction">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="random/index.html#concepts">Concepts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="random/index.html#features">Features</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="routines.set.html">Set routines</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/numpy.lib.arraysetops.html">numpy.lib.arraysetops</a></li>
+<li class="toctree-l2"><a class="reference internal" href="routines.set.html#making-proper-sets">Making proper sets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="routines.set.html#boolean-operations">Boolean operations</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="routines.sort.html">Sorting, searching, and counting</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="routines.sort.html#sorting">Sorting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="routines.sort.html#searching">Searching</a></li>
+<li class="toctree-l2"><a class="reference internal" href="routines.sort.html#counting">Counting</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="routines.statistics.html">Statistics</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="routines.statistics.html#order-statistics">Order statistics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="routines.statistics.html#averages-and-variances">Averages and variances</a></li>
+<li class="toctree-l2"><a class="reference internal" href="routines.statistics.html#correlating">Correlating</a></li>
+<li class="toctree-l2"><a class="reference internal" href="routines.statistics.html#histograms">Histograms</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="routines.testing.html">Test Support (<code class="xref py py-mod docutils literal notranslate"><span class="pre">numpy.testing</span></code>)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="routines.testing.html#asserts">Asserts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="routines.testing.html#asserts-not-recommended">Asserts (not recommended)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="routines.testing.html#decorators">Decorators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="routines.testing.html#test-running">Test Running</a></li>
+<li class="toctree-l2"><a class="reference internal" href="routines.testing.html#guidelines">Guidelines</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="routines.window.html">Window functions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="routines.window.html#various-windows">Various windows</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+
+
+              </article>
+              
+
+              
+              <footer class="bd-footer-article">
+                  <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+  <a class='left-prev' id="prev-link" href="generated/numpy.ufunc.signature.html" title="previous page">
+      <i class="fas fa-angle-left"></i>
+      <div class="prev-next-info">
+          <p class="prev-next-subtitle">previous</p>
+          <p class="prev-next-title">numpy.ufunc.signature</p>
+      </div>
+  </a>
+  <a class='right-next' id="next-link" href="routines.array-creation.html" title="next page">
+  <div class="prev-next-info">
+      <p class="prev-next-subtitle">next</p>
+      <p class="prev-next-title">Array creation routines</p>
+  </div>
+  <i class="fas fa-angle-right"></i>
+  </a>
+</div>
+              </footer>
+              
+          </div>
+          
+      </div>
+    </div>
+
+  
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695"></script>
+
+<footer class="bd-footer"><div class="bd-footer__inner container">
+  
+  <div class="footer-item">
+    <p class="copyright">
+    &copy; Copyright 2008-2022, NumPy Developers.<br>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    <p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.3.0.<br>
+</p>
+  </div>
+  
+</div>
+</footer>
+  </body>
+</html>

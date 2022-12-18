@@ -1,0 +1,751 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>Using via meson &#8212; NumPy v1.24 Manual</title>
+<script>
+  document.documentElement.dataset.mode = localStorage.getItem("mode") || "light";
+  document.documentElement.dataset.theme = localStorage.getItem("theme") || "light"
+</script>
+
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=92025949c220c2e29695" rel="stylesheet">
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=92025949c220c2e29695" rel="stylesheet">
+
+
+  <link rel="stylesheet"
+    href="../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/plot_directive.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/numpy.css" />
+
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695">
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    <script src="../../_static/design-tabs.js"></script>
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Using via cmake" href="cmake.html" />
+    <link rel="prev" title="Using via numpy.distutils" href="distutils.html" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="docsearch:language" content="en">
+  </head>
+  
+  
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="180" data-default-mode="light">
+    <div class="bd-header-announcement container-fluid" id="banner">
+      
+
+    </div>
+
+    
+    <nav class="bd-header navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="bd-header__inner container-xl">
+
+  <div id="navbar-start">
+    
+    
+  
+
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+    <img src="../../_static/numpylogo.svg" class="logo__image only-light" alt="Logo image">
+    <img src="../../_static/numpylogo_dark.svg" class="logo__image only-dark" alt="Logo image">
+  
+  
+</a>
+    
+  </div>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapsible" aria-controls="navbar-collapsible" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="fas fa-bars"></span>
+  </button>
+
+  
+  <div id="navbar-collapsible" class="col-lg-9 collapse navbar-collapse">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <ul id="navbar-main-elements" class="navbar-nav">
+    <li class="toctree-l1 current active nav-item">
+ <a class="reference internal nav-link" href="../../user/index.html">
+  User Guide
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../reference/index.html">
+  API reference
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../dev/index.html">
+  Development
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../release.html">
+  Release notes
+ </a>
+</li>
+
+    
+    <li class="nav-item">
+        <a class="nav-link nav-external" href="https://numpy.org/numpy-tutorials/">Learn<i class="fas fa-external-link-alt"></i></a>
+    </li>
+    
+</ul>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      
+      <div class="navbar-end-item">
+        <span id="theme-switch" class="btn btn-sm btn-outline-primary navbar-btn rounded-circle">
+    <a class="theme-switch" data-mode="light"><i class="fas fa-sun"></i></a>
+    <a class="theme-switch" data-mode="dark"><i class="far fa-moon"></i></a>
+    <a class="theme-switch" data-mode="auto"><i class="fas fa-adjust"></i></a>
+</span>
+      </div>
+      
+      <div class="navbar-end-item">
+        <div class="dropdown" id="version_switcher">
+    <button type="button" class="btn btn-sm navbar-btn dropdown-toggle" id="version_switcher_button" data-toggle="dropdown">
+        1.24  <!-- this text may get changed later by javascript -->
+        <span class="caret"></span>
+    </button>
+    <div id="version_switcher_menu" class="dropdown-menu list-group-flush py-0" aria-labelledby="version_switcher_button">
+    <!-- dropdown will be populated by javascript on page load -->
+    </div>
+</div>
+
+<!-- NOTE: this JS must live here (not in our global JS file) because it relies
+     on being processed by Jinja before it is run (specifically for replacing
+     variables f2py/buildtools/meson and {'version_match': '1.24', 'json_url': 'https://numpy.org/doc/_static/versions.json'}.
+-->
+
+<script type="text/javascript">
+// Check if corresponding page path exists in other version of docs
+// and, if so, go there instead of the homepage of the other docs version
+function checkPageExistsAndRedirect(event) {
+    const currentFilePath = "f2py/buildtools/meson.html",
+          tryUrl = event.target.getAttribute("href");
+    let otherDocsHomepage = tryUrl.replace(currentFilePath, "");
+    $.ajax({
+        type: 'HEAD',
+        url: tryUrl,
+        // if the page exists, go there
+        success: function() {
+            location.href = tryUrl;
+        }
+    }).fail(function() {
+        location.href = otherDocsHomepage;
+    });
+    // this prevents the browser from following the href of the clicked node
+    // (which is fine because this function takes care of redirecting)
+    return false;
+}
+
+// Populate the version switcher from the JSON config file
+(function () {
+    $.getJSON("https://numpy.org/doc/_static/versions.json", function(data, textStatus, jqXHR) {
+        const currentFilePath = "f2py/buildtools/meson.html";
+        let btn = document.getElementById("version_switcher_button");
+        // Set empty strings by default so that these attributes exist and can be used in CSS selectors
+        btn.dataset["activeVersionName"] = "";
+        btn.dataset["activeVersion"] = "";
+        // create links to the corresponding page in the other docs versions
+        $.each(data, function(index, entry) {
+            // if no custom name specified (e.g., "latest"), use version string
+            if (!("name" in entry)) {
+                entry.name = entry.version;
+            }
+            // create the node
+            const node = document.createElement("a");
+            node.setAttribute("class", "list-group-item list-group-item-action py-1");
+            node.textContent = `${entry.name}`;
+            node.setAttribute("href", `${entry.url}${currentFilePath}`);
+            // on click, AJAX calls will check if the linked page exists before
+            // trying to redirect, and if not, will redirect to the homepage
+            // for that version of the docs.
+            node.onclick = checkPageExistsAndRedirect;
+            // Add dataset values for the version and name in case people want
+            // to apply CSS styling based on this information.
+            node.dataset["versionName"] = entry.name;
+            node.dataset["version"] = entry.version;
+
+            $("#version_switcher_menu").append(node);
+            // replace dropdown button text with the preferred display name of
+            // this version, rather than using sphinx's 1.24 variable.
+            // also highlight the dropdown entry for the currently-viewed
+            // version's entry
+            if (entry.version == "1.24") {
+                node.classList.add("active");
+                btn.innerText = btn.dataset["activeVersionName"] = entry.name;
+                btn.dataset["activeVersion"] = entry.version;
+            }
+        });
+    });
+})();
+</script>
+      </div>
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+        <li class="nav-item">
+          <a class="nav-link" href="https://github.com/numpy/numpy" rel="noopener" target="_blank" title="GitHub"><span><i class="fab fa-github-square"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="https://twitter.com/numpy_team" rel="noopener" target="_blank" title="Twitter"><span><i class="fab fa-twitter-square"></i></span>
+            <label class="sr-only">Twitter</label></a>
+        </li>
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+</div>
+    </nav>
+    
+
+    <div class="bd-container container-xl">
+      <div class="bd-container__inner row">
+          
+
+<!-- Only show if we have sidebars configured, else just a small margin  -->
+<div class="bd-sidebar-primary col-12 col-md-3 bd-sidebar">
+  <div class="sidebar-start-items"><form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <div class="bd-toc-item active">
+    <p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Getting started
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../user/whatisnumpy.html">
+   What is NumPy?
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference external" href="https://numpy.org/install/">
+   Installation
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../user/quickstart.html">
+   NumPy quickstart
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../user/absolute_beginners.html">
+   NumPy: the absolute basics for beginners
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Fundamentals and usage
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../user/basics.html">
+   NumPy fundamentals
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../user/numpy-for-matlab-users.html">
+   NumPy for MATLAB users
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference external" href="https://numpy.org/numpy-tutorials/features.html">
+   NumPy Tutorials
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../user/howtos_index.html">
+   NumPy How Tos
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Advanced usage and interoperability
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../user/building.html">
+   Building from source
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../user/c-info.html">
+   Using NumPy C-API
+  </a>
+ </li>
+ <li class="toctree-l1 current active has-children">
+  <a class="reference internal" href="../index.html">
+   F2PY user guide and reference manual
+  </a>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul class="current">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../f2py.getting-started.html">
+     Three ways to wrap - getting started
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../f2py-user.html">
+     F2PY user guide
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../f2py-reference.html">
+     F2PY reference manual
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../usage.html">
+     Using F2PY
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../python-usage.html">
+     Using F2PY bindings in Python
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../signature-file.html">
+     Signature file
+    </a>
+   </li>
+   <li class="toctree-l2 current active has-children">
+    <a class="reference internal" href="index.html">
+     F2PY and Build Systems
+    </a>
+    <input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+    <label for="toctree-checkbox-2">
+     <i class="fas fa-chevron-down">
+     </i>
+    </label>
+    <ul class="current">
+     <li class="toctree-l3">
+      <a class="reference internal" href="distutils.html">
+       Using via
+       <code class="xref py py-obj docutils literal notranslate">
+        <span class="pre">
+         numpy.distutils
+        </span>
+       </code>
+      </a>
+     </li>
+     <li class="toctree-l3 current active">
+      <a class="current reference internal" href="#">
+       Using via
+       <code class="docutils literal notranslate">
+        <span class="pre">
+         meson
+        </span>
+       </code>
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="cmake.html">
+       Using via
+       <code class="docutils literal notranslate">
+        <span class="pre">
+         cmake
+        </span>
+       </code>
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="skbuild.html">
+       Using via
+       <code class="docutils literal notranslate">
+        <span class="pre">
+         scikit-build
+        </span>
+       </code>
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../advanced.html">
+     Advanced F2PY use cases
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../windows/index.html">
+     F2PY and Windows
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../dev/underthehood.html">
+   Under-the-hood documentation for developers
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../user/basics.interoperability.html">
+   Interoperability with NumPy
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Extras
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../glossary.html">
+   Glossary
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../release.html">
+   Release notes
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../license.html">
+   NumPy license
+  </a>
+ </li>
+</ul>
+
+  </div>
+</nav>
+  </div>
+  <div class="sidebar-end-items">
+  </div>
+</div>
+
+
+          
+
+
+<div class="bd-sidebar-secondary d-none d-xl-block col-xl-2 bd-toc">
+  
+    
+    <div class="toc-item">
+      
+<div class="tocsection onthispage mt-5 pt-1 pb-3">
+    <i class="fas fa-list"></i> On this page
+</div>
+
+<nav id="bd-toc-nav">
+    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#fibonacci-walkthrough-f77">
+   Fibonacci Walkthrough (F77)
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#automating-wrapper-generation">
+     Automating wrapper generation
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#salient-points">
+   Salient points
+  </a>
+ </li>
+</ul>
+
+</nav>
+    </div>
+    
+    <div class="toc-item">
+      
+    </div>
+    
+  
+</div>
+
+
+          
+          
+          <div class="bd-content col-12 col-md-9 col-xl-7">
+              
+              <article class="bd-article" role="main">
+                
+  <section id="using-via-meson">
+<span id="f2py-meson"></span><h1>Using via <code class="docutils literal notranslate"><span class="pre">meson</span></code><a class="headerlink" href="#using-via-meson" title="Permalink to this heading">#</a></h1>
+<p>The key advantage gained by leveraging <code class="docutils literal notranslate"><span class="pre">meson</span></code> over the techniques described
+in <a class="reference internal" href="distutils.html#f2py-distutils"><span class="std std-ref">Using via numpy.distutils</span></a> is that this feeds into existing systems and larger
+projects with ease. <code class="docutils literal notranslate"><span class="pre">meson</span></code> has a rather pythonic syntax which makes it more
+comfortable and amenable to extension for <code class="docutils literal notranslate"><span class="pre">python</span></code> users.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Meson needs to be at-least <code class="docutils literal notranslate"><span class="pre">0.46.0</span></code> in order to resolve the <code class="docutils literal notranslate"><span class="pre">python</span></code> include directories.</p>
+</div>
+<section id="fibonacci-walkthrough-f77">
+<h2>Fibonacci Walkthrough (F77)<a class="headerlink" href="#fibonacci-walkthrough-f77" title="Permalink to this heading">#</a></h2>
+<p>We will need the generated <code class="docutils literal notranslate"><span class="pre">C</span></code> wrapper before we can use a general purpose
+build system like <code class="docutils literal notranslate"><span class="pre">meson</span></code>. We will acquire this by:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python -n numpy.f2py fib1.f -m fib2
+</pre></div>
+</div>
+<p>Now, consider the following <code class="docutils literal notranslate"><span class="pre">meson.build</span></code> file for the <code class="docutils literal notranslate"><span class="pre">fib</span></code> and <code class="docutils literal notranslate"><span class="pre">scalar</span></code>
+examples from <a class="reference internal" href="../f2py.getting-started.html#f2py-getting-started"><span class="std std-ref">Three ways to wrap - getting started</span></a> section:</p>
+<div class="highlight-meson notranslate"><div class="highlight"><pre><span></span><span class="nb">project</span><span class="p">(</span><span class="s">&#39;f2py_examples&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;c&#39;</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">version</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s">&#39;0.1&#39;</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">default_options</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s">&#39;warning_level=2&#39;</span><span class="p">])</span><span class="w"></span>
+
+<span class="nb">add_languages</span><span class="p">(</span><span class="s">&#39;fortran&#39;</span><span class="p">)</span><span class="w"></span>
+
+<span class="n">py_mod</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nn">import</span><span class="p">(</span><span class="s">&#39;python&#39;</span><span class="p">)</span><span class="w"></span>
+<span class="n">py3</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">py_mod</span><span class="p">.</span><span class="n">find_installation</span><span class="p">(</span><span class="s">&#39;python3&#39;</span><span class="p">)</span><span class="w"></span>
+<span class="n">py3_dep</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">py3</span><span class="p">.</span><span class="n">dependency</span><span class="p">()</span><span class="w"></span>
+<span class="nb">message</span><span class="p">(</span><span class="n">py3</span><span class="p">.</span><span class="n">path</span><span class="p">())</span><span class="w"></span>
+<span class="nb">message</span><span class="p">(</span><span class="n">py3</span><span class="p">.</span><span class="n">get_install_dir</span><span class="p">())</span><span class="w"></span>
+
+<span class="n">incdir_numpy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">run_command</span><span class="p">(</span><span class="n">py3</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="p">[</span><span class="s">&#39;-c&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;import os; os.chdir(&quot;..&quot;); import numpy; print(numpy.get_include())&#39;</span><span class="p">],</span><span class="w"></span>
+<span class="w">  </span><span class="n">check</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w"></span>
+<span class="p">).</span><span class="n">stdout</span><span class="p">().</span><span class="n">strip</span><span class="p">()</span><span class="w"></span>
+
+<span class="n">incdir_f2py</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">run_command</span><span class="p">(</span><span class="n">py3</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="p">[</span><span class="s">&#39;-c&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;import os; os.chdir(&quot;..&quot;); import numpy.f2py; print(numpy.f2py.get_include())&#39;</span><span class="p">],</span><span class="w"></span>
+<span class="w">    </span><span class="n">check</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w"></span>
+<span class="p">).</span><span class="n">stdout</span><span class="p">().</span><span class="n">strip</span><span class="p">()</span><span class="w"></span>
+
+<span class="n">inc_np</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">include_directories</span><span class="p">(</span><span class="n">incdir_numpy</span><span class="p">,</span><span class="w"> </span><span class="n">incdir_f2py</span><span class="p">)</span><span class="w"></span>
+
+<span class="n">py3</span><span class="p">.</span><span class="n">extension_module</span><span class="p">(</span><span class="s">&#39;fib2&#39;</span><span class="p">,</span><span class="w"></span>
+<span class="w">           </span><span class="s">&#39;fib1.f&#39;</span><span class="p">,</span><span class="w"></span>
+<span class="w">           </span><span class="s">&#39;fib2module.c&#39;</span><span class="p">,</span><span class="w"></span>
+<span class="w">           </span><span class="n">incdir_f2py</span><span class="o">+</span><span class="s">&#39;/fortranobject.c&#39;</span><span class="p">,</span><span class="w"></span>
+<span class="w">           </span><span class="nb">include_directories</span><span class="p">:</span><span class="w"> </span><span class="n">inc_np</span><span class="p">,</span><span class="w"></span>
+<span class="w">           </span><span class="n">dependencies</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">py3_dep</span><span class="p">,</span><span class="w"></span>
+<span class="w">           </span><span class="n">install</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">)</span><span class="w"></span>
+</pre></div>
+</div>
+<p>At this point the build will complete, but the import will fail:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>meson setup builddir
+meson compile -C builddir
+<span class="nb">cd</span> builddir
+python -c <span class="s1">&#39;import fib2&#39;</span>
+Traceback <span class="o">(</span>most recent call last<span class="o">)</span>:
+File <span class="s2">&quot;&lt;string&gt;&quot;</span>, line <span class="m">1</span>, <span class="k">in</span> &lt;module&gt;
+ImportError: fib2.cpython-39-x86_64-linux-gnu.so: undefined symbol: FIB_
+<span class="c1"># Check this isn&#39;t a false positive</span>
+nm -A fib2.cpython-39-x86_64-linux-gnu.so <span class="p">|</span> grep FIB_
+fib2.cpython-39-x86_64-linux-gnu.so: U FIB_
+</pre></div>
+</div>
+<p>Recall that the original example, as reproduced below, was in SCREAMCASE:</p>
+<div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span><span class="n">C</span><span class="w"> </span><span class="k">FILE</span><span class="p">:</span><span class="w"> </span><span class="n">FIB1</span><span class="p">.</span><span class="n">F</span><span class="w"></span>
+<span class="w">      </span><span class="k">SUBROUTINE </span><span class="n">FIB</span><span class="p">(</span><span class="n">A</span><span class="p">,</span><span class="n">N</span><span class="p">)</span><span class="w"></span>
+<span class="n">C</span><span class="w"></span>
+<span class="n">C</span><span class="w">     </span><span class="n">CALCULATE</span><span class="w"> </span><span class="n">FIRST</span><span class="w"> </span><span class="n">N</span><span class="w"> </span><span class="n">FIBONACCI</span><span class="w"> </span><span class="n">NUMBERS</span><span class="w"></span>
+<span class="n">C</span><span class="w"></span>
+<span class="w">      </span><span class="kt">INTEGER </span><span class="n">N</span><span class="w"></span>
+<span class="w">      </span><span class="kt">REAL</span><span class="o">*</span><span class="mi">8</span><span class="w"> </span><span class="n">A</span><span class="p">(</span><span class="n">N</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">DO </span><span class="n">I</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">N</span><span class="w"></span>
+<span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">I</span><span class="p">.</span><span class="n">EQ</span><span class="p">.</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">            </span><span class="n">A</span><span class="p">(</span><span class="n">I</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0D0</span><span class="w"></span>
+<span class="w">         </span><span class="n">ELSEIF</span><span class="w"> </span><span class="p">(</span><span class="n">I</span><span class="p">.</span><span class="n">EQ</span><span class="p">.</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">            </span><span class="n">A</span><span class="p">(</span><span class="n">I</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.0D0</span><span class="w"></span>
+<span class="w">         </span><span class="k">ELSE </span>
+<span class="k">            </span><span class="n">A</span><span class="p">(</span><span class="n">I</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">A</span><span class="p">(</span><span class="n">I</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">A</span><span class="p">(</span><span class="n">I</span><span class="o">-</span><span class="mi">2</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="k">ENDIF</span>
+<span class="k">      ENDDO</span>
+<span class="k">      END</span>
+<span class="n">C</span><span class="w"> </span><span class="k">END FILE </span><span class="n">FIB1</span><span class="p">.</span><span class="n">F</span><span class="w"></span>
+</pre></div>
+</div>
+<p>With the standard approach, the subroutine exposed to <code class="docutils literal notranslate"><span class="pre">python</span></code> is <code class="docutils literal notranslate"><span class="pre">fib</span></code> and
+not <code class="docutils literal notranslate"><span class="pre">FIB</span></code>. This means we have a few options. One approach (where possible) is
+to lowercase the original Fortran file with say:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>tr <span class="s2">&quot;[:upper:]&quot;</span> <span class="s2">&quot;[:lower:]&quot;</span> &lt; fib1.f &gt; fib1.f
+python -n numpy.f2py fib1.f -m fib2
+meson --wipe builddir
+meson compile -C builddir
+<span class="nb">cd</span> builddir
+python -c <span class="s1">&#39;import fib2&#39;</span>
+</pre></div>
+</div>
+<p>However this requires the ability to modify the source which is not always
+possible. The easiest way to solve this is to let <code class="docutils literal notranslate"><span class="pre">f2py</span></code> deal with it:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python -n numpy.f2py fib1.f -m fib2 --lower
+meson --wipe builddir
+meson compile -C builddir
+<span class="nb">cd</span> builddir
+python -c <span class="s1">&#39;import fib2&#39;</span>
+</pre></div>
+</div>
+<section id="automating-wrapper-generation">
+<h3>Automating wrapper generation<a class="headerlink" href="#automating-wrapper-generation" title="Permalink to this heading">#</a></h3>
+<p>A major pain point in the workflow defined above, is the manual tracking of
+inputs. Although it would require more effort to figure out the actual outputs
+for reasons discussed in <a class="reference internal" href="index.html#f2py-bldsys"><span class="std std-ref">F2PY and Build Systems</span></a>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>From NumPy <code class="docutils literal notranslate"><span class="pre">1.22.4</span></code> onwards, <code class="docutils literal notranslate"><span class="pre">f2py</span></code> will deterministically generate
+wrapper files based on the input file Fortran standard (F77 or greater).
+<code class="docutils literal notranslate"><span class="pre">--skip-empty-wrappers</span></code> can be passed to <code class="docutils literal notranslate"><span class="pre">f2py</span></code> to restore the previous
+behaviour of only generating wrappers when needed by the input .</p>
+</div>
+<p>However, we can augment our workflow in a straightforward to take into account
+files for which the outputs are known when the build system is set up.</p>
+<div class="highlight-meson notranslate"><div class="highlight"><pre><span></span><span class="nb">project</span><span class="p">(</span><span class="s">&#39;f2py_examples&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;c&#39;</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">version</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s">&#39;0.1&#39;</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">default_options</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s">&#39;warning_level=2&#39;</span><span class="p">])</span><span class="w"></span>
+
+<span class="nb">add_languages</span><span class="p">(</span><span class="s">&#39;fortran&#39;</span><span class="p">)</span><span class="w"></span>
+
+<span class="n">py_mod</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nn">import</span><span class="p">(</span><span class="s">&#39;python&#39;</span><span class="p">)</span><span class="w"></span>
+<span class="n">py3</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">py_mod</span><span class="p">.</span><span class="n">find_installation</span><span class="p">(</span><span class="s">&#39;python3&#39;</span><span class="p">)</span><span class="w"></span>
+<span class="n">py3_dep</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">py3</span><span class="p">.</span><span class="n">dependency</span><span class="p">()</span><span class="w"></span>
+<span class="nb">message</span><span class="p">(</span><span class="n">py3</span><span class="p">.</span><span class="n">path</span><span class="p">())</span><span class="w"></span>
+<span class="nb">message</span><span class="p">(</span><span class="n">py3</span><span class="p">.</span><span class="n">get_install_dir</span><span class="p">())</span><span class="w"></span>
+
+<span class="n">incdir_numpy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">run_command</span><span class="p">(</span><span class="n">py3</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="p">[</span><span class="s">&#39;-c&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;import os; os.chdir(&quot;..&quot;); import numpy; print(numpy.get_include())&#39;</span><span class="p">],</span><span class="w"></span>
+<span class="w">  </span><span class="n">check</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w"></span>
+<span class="p">).</span><span class="n">stdout</span><span class="p">().</span><span class="n">strip</span><span class="p">()</span><span class="w"></span>
+
+<span class="n">incdir_f2py</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">run_command</span><span class="p">(</span><span class="n">py3</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="p">[</span><span class="s">&#39;-c&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;import os; os.chdir(&quot;..&quot;); import numpy.f2py; print(numpy.f2py.get_include())&#39;</span><span class="p">],</span><span class="w"></span>
+<span class="w">    </span><span class="n">check</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w"></span>
+<span class="p">).</span><span class="n">stdout</span><span class="p">().</span><span class="n">strip</span><span class="p">()</span><span class="w"></span>
+
+<span class="n">fibby_source</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">custom_target</span><span class="p">(</span><span class="s">&#39;fibbymodule.c&#39;</span><span class="p">,</span><span class="w"></span>
+<span class="w">                            </span><span class="n">input</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s">&#39;fib1.f&#39;</span><span class="p">],</span><span class="w"> </span><span class="c"># .f so no F90 wrappers</span><span class="w"></span>
+<span class="w">                            </span><span class="n">output</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s">&#39;fibbymodule.c&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;fibby-f2pywrappers.f&#39;</span><span class="p">],</span><span class="w"></span>
+<span class="w">                            </span><span class="n">command</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="n">py3</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;-m&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;numpy.f2py&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;@INPUT@&#39;</span><span class="p">,</span><span class="w"></span>
+<span class="w">                            </span><span class="s">&#39;-m&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;fibby&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;--lower&#39;</span><span class="p">])</span><span class="w"></span>
+
+<span class="n">inc_np</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">include_directories</span><span class="p">(</span><span class="n">incdir_numpy</span><span class="p">,</span><span class="w"> </span><span class="n">incdir_f2py</span><span class="p">)</span><span class="w"></span>
+
+<span class="n">py3</span><span class="p">.</span><span class="n">extension_module</span><span class="p">(</span><span class="s">&#39;fibby&#39;</span><span class="p">,</span><span class="w"></span>
+<span class="w">           </span><span class="s">&#39;fib1.f&#39;</span><span class="p">,</span><span class="w"></span>
+<span class="w">           </span><span class="n">fibby_source</span><span class="p">,</span><span class="w"></span>
+<span class="w">           </span><span class="n">incdir_f2py</span><span class="o">+</span><span class="s">&#39;/fortranobject.c&#39;</span><span class="p">,</span><span class="w"></span>
+<span class="w">           </span><span class="nb">include_directories</span><span class="p">:</span><span class="w"> </span><span class="n">inc_np</span><span class="p">,</span><span class="w"></span>
+<span class="w">           </span><span class="n">dependencies</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">py3_dep</span><span class="p">,</span><span class="w"></span>
+<span class="w">           </span><span class="n">install</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">)</span><span class="w"></span>
+</pre></div>
+</div>
+<p>This can be compiled and run as before.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>rm -rf builddir
+meson setup builddir
+meson compile -C builddir
+<span class="nb">cd</span> builddir
+python -c <span class="s2">&quot;import numpy as np; import fibby; a = np.zeros(9); fibby.fib(a); print (a)&quot;</span>
+<span class="c1"># [ 0.  1.  1.  2.  3.  5.  8. 13. 21.]</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="salient-points">
+<h2>Salient points<a class="headerlink" href="#salient-points" title="Permalink to this heading">#</a></h2>
+<p>It is worth keeping in mind the following:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">meson</span></code> will default to passing <code class="docutils literal notranslate"><span class="pre">-fimplicit-none</span></code> under <code class="docutils literal notranslate"><span class="pre">gfortran</span></code> by
+default, which differs from that of the standard <code class="docutils literal notranslate"><span class="pre">np.distutils</span></code> behaviour</p></li>
+<li><p>It is not possible to use SCREAMCASE in this context, so either the contents
+of the <code class="docutils literal notranslate"><span class="pre">.f</span></code> file or the generated wrapper <code class="docutils literal notranslate"><span class="pre">.c</span></code> needs to be lowered to
+regular letters; which can be facilitated by the <code class="docutils literal notranslate"><span class="pre">--lower</span></code> option of
+<code class="docutils literal notranslate"><span class="pre">F2PY</span></code></p></li>
+</ul>
+</section>
+</section>
+
+
+              </article>
+              
+
+              
+              <footer class="bd-footer-article">
+                  <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+  <a class='left-prev' id="prev-link" href="distutils.html" title="previous page">
+      <i class="fas fa-angle-left"></i>
+      <div class="prev-next-info">
+          <p class="prev-next-subtitle">previous</p>
+          <p class="prev-next-title">Using via <code class="xref py py-obj docutils literal notranslate"><span class="pre">numpy.distutils</span></code></p>
+      </div>
+  </a>
+  <a class='right-next' id="next-link" href="cmake.html" title="next page">
+  <div class="prev-next-info">
+      <p class="prev-next-subtitle">next</p>
+      <p class="prev-next-title">Using via <code class="docutils literal notranslate"><span class="pre">cmake</span></code></p>
+  </div>
+  <i class="fas fa-angle-right"></i>
+  </a>
+</div>
+              </footer>
+              
+          </div>
+          
+      </div>
+    </div>
+
+  
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695"></script>
+
+<footer class="bd-footer"><div class="bd-footer__inner container">
+  
+  <div class="footer-item">
+    <p class="copyright">
+    &copy; Copyright 2008-2022, NumPy Developers.<br>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    <p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.3.0.<br>
+</p>
+  </div>
+  
+</div>
+</footer>
+  </body>
+</html>

@@ -1,0 +1,824 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>Typing (numpy.typing) &#8212; NumPy v1.24 Manual</title>
+<script>
+  document.documentElement.dataset.mode = localStorage.getItem("mode") || "light";
+  document.documentElement.dataset.theme = localStorage.getItem("theme") || "light"
+</script>
+
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=92025949c220c2e29695" rel="stylesheet">
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=92025949c220c2e29695" rel="stylesheet">
+
+
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/numpy.css" />
+
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695">
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/design-tabs.js"></script>
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Global State" href="global_state.html" />
+    <link rel="prev" title="numpy.kaiser" href="generated/numpy.kaiser.html" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="docsearch:language" content="en">
+  </head>
+  
+  
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="180" data-default-mode="light">
+    <div class="bd-header-announcement container-fluid" id="banner">
+      
+
+    </div>
+
+    
+    <nav class="bd-header navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="bd-header__inner container-xl">
+
+  <div id="navbar-start">
+    
+    
+  
+
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+    <img src="../_static/numpylogo.svg" class="logo__image only-light" alt="Logo image">
+    <img src="../_static/numpylogo_dark.svg" class="logo__image only-dark" alt="Logo image">
+  
+  
+</a>
+    
+  </div>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapsible" aria-controls="navbar-collapsible" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="fas fa-bars"></span>
+  </button>
+
+  
+  <div id="navbar-collapsible" class="col-lg-9 collapse navbar-collapse">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <ul id="navbar-main-elements" class="navbar-nav">
+    <li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../user/index.html">
+  User Guide
+ </a>
+</li>
+
+<li class="toctree-l1 current active nav-item">
+ <a class="reference internal nav-link" href="index.html">
+  API reference
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../dev/index.html">
+  Development
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../release.html">
+  Release notes
+ </a>
+</li>
+
+    
+    <li class="nav-item">
+        <a class="nav-link nav-external" href="https://numpy.org/numpy-tutorials/">Learn<i class="fas fa-external-link-alt"></i></a>
+    </li>
+    
+</ul>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      
+      <div class="navbar-end-item">
+        <span id="theme-switch" class="btn btn-sm btn-outline-primary navbar-btn rounded-circle">
+    <a class="theme-switch" data-mode="light"><i class="fas fa-sun"></i></a>
+    <a class="theme-switch" data-mode="dark"><i class="far fa-moon"></i></a>
+    <a class="theme-switch" data-mode="auto"><i class="fas fa-adjust"></i></a>
+</span>
+      </div>
+      
+      <div class="navbar-end-item">
+        <div class="dropdown" id="version_switcher">
+    <button type="button" class="btn btn-sm navbar-btn dropdown-toggle" id="version_switcher_button" data-toggle="dropdown">
+        1.24  <!-- this text may get changed later by javascript -->
+        <span class="caret"></span>
+    </button>
+    <div id="version_switcher_menu" class="dropdown-menu list-group-flush py-0" aria-labelledby="version_switcher_button">
+    <!-- dropdown will be populated by javascript on page load -->
+    </div>
+</div>
+
+<!-- NOTE: this JS must live here (not in our global JS file) because it relies
+     on being processed by Jinja before it is run (specifically for replacing
+     variables reference/typing and {'version_match': '1.24', 'json_url': 'https://numpy.org/doc/_static/versions.json'}.
+-->
+
+<script type="text/javascript">
+// Check if corresponding page path exists in other version of docs
+// and, if so, go there instead of the homepage of the other docs version
+function checkPageExistsAndRedirect(event) {
+    const currentFilePath = "reference/typing.html",
+          tryUrl = event.target.getAttribute("href");
+    let otherDocsHomepage = tryUrl.replace(currentFilePath, "");
+    $.ajax({
+        type: 'HEAD',
+        url: tryUrl,
+        // if the page exists, go there
+        success: function() {
+            location.href = tryUrl;
+        }
+    }).fail(function() {
+        location.href = otherDocsHomepage;
+    });
+    // this prevents the browser from following the href of the clicked node
+    // (which is fine because this function takes care of redirecting)
+    return false;
+}
+
+// Populate the version switcher from the JSON config file
+(function () {
+    $.getJSON("https://numpy.org/doc/_static/versions.json", function(data, textStatus, jqXHR) {
+        const currentFilePath = "reference/typing.html";
+        let btn = document.getElementById("version_switcher_button");
+        // Set empty strings by default so that these attributes exist and can be used in CSS selectors
+        btn.dataset["activeVersionName"] = "";
+        btn.dataset["activeVersion"] = "";
+        // create links to the corresponding page in the other docs versions
+        $.each(data, function(index, entry) {
+            // if no custom name specified (e.g., "latest"), use version string
+            if (!("name" in entry)) {
+                entry.name = entry.version;
+            }
+            // create the node
+            const node = document.createElement("a");
+            node.setAttribute("class", "list-group-item list-group-item-action py-1");
+            node.textContent = `${entry.name}`;
+            node.setAttribute("href", `${entry.url}${currentFilePath}`);
+            // on click, AJAX calls will check if the linked page exists before
+            // trying to redirect, and if not, will redirect to the homepage
+            // for that version of the docs.
+            node.onclick = checkPageExistsAndRedirect;
+            // Add dataset values for the version and name in case people want
+            // to apply CSS styling based on this information.
+            node.dataset["versionName"] = entry.name;
+            node.dataset["version"] = entry.version;
+
+            $("#version_switcher_menu").append(node);
+            // replace dropdown button text with the preferred display name of
+            // this version, rather than using sphinx's 1.24 variable.
+            // also highlight the dropdown entry for the currently-viewed
+            // version's entry
+            if (entry.version == "1.24") {
+                node.classList.add("active");
+                btn.innerText = btn.dataset["activeVersionName"] = entry.name;
+                btn.dataset["activeVersion"] = entry.version;
+            }
+        });
+    });
+})();
+</script>
+      </div>
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+        <li class="nav-item">
+          <a class="nav-link" href="https://github.com/numpy/numpy" rel="noopener" target="_blank" title="GitHub"><span><i class="fab fa-github-square"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="https://twitter.com/numpy_team" rel="noopener" target="_blank" title="Twitter"><span><i class="fab fa-twitter-square"></i></span>
+            <label class="sr-only">Twitter</label></a>
+        </li>
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+</div>
+    </nav>
+    
+
+    <div class="bd-container container-xl">
+      <div class="bd-container__inner row">
+          
+
+<!-- Only show if we have sidebars configured, else just a small margin  -->
+<div class="bd-sidebar-primary col-12 col-md-3 bd-sidebar">
+  <div class="sidebar-start-items"><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <div class="bd-toc-item active">
+    <ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="arrays.html">
+   Array objects
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="array_api.html">
+   Array API Standard Compatibility
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="constants.html">
+   Constants
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="ufuncs.html">
+   Universal functions (
+   <code class="xref py py-class docutils literal notranslate">
+    <span class="pre">
+     ufunc
+    </span>
+   </code>
+   )
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="routines.html">
+   Routines
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Typing (
+   <code class="xref py py-mod docutils literal notranslate">
+    <span class="pre">
+     numpy.typing
+    </span>
+   </code>
+   )
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="global_state.html">
+   Global State
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="distutils.html">
+   Packaging (
+   <code class="xref py py-mod docutils literal notranslate">
+    <span class="pre">
+     numpy.distutils
+    </span>
+   </code>
+   )
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="distutils_guide.html">
+   NumPy Distutils - Users Guide
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="distutils_status_migration.html">
+   Status of
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     numpy.distutils
+    </span>
+   </code>
+   and migration advice
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="c-api/index.html">
+   NumPy C-API
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="simd/index.html">
+   CPU/SIMD Optimizations
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="security.html">
+   NumPy security
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="swig.html">
+   NumPy and SWIG
+  </a>
+ </li>
+</ul>
+
+  </div>
+</nav>
+  </div>
+  <div class="sidebar-end-items">
+  </div>
+</div>
+
+
+          
+
+
+<div class="bd-sidebar-secondary d-none d-xl-block col-xl-2 bd-toc">
+  
+    
+    <div class="toc-item">
+      
+<div class="tocsection onthispage mt-5 pt-1 pb-3">
+    <i class="fas fa-list"></i> On this page
+</div>
+
+<nav id="bd-toc-nav">
+    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#mypy-plugin">
+   Mypy plugin
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#examples">
+     Examples
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#differences-from-the-runtime-numpy-api">
+   Differences from the runtime NumPy API
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#arraylike">
+     ArrayLike
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ndarray">
+     ndarray
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#dtypelike">
+     DTypeLike
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#number-precision">
+     Number precision
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#timedelta64">
+     Timedelta64
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#d-arrays">
+     0D arrays
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#record-array-dtypes">
+     Record array dtypes
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#api">
+   API
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#numpy.typing.ArrayLike">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       ArrayLike
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#numpy.typing.DTypeLike">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       DTypeLike
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#numpy.typing.NDArray">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       NDArray
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#numpy.typing.NBitBase">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       NBitBase
+      </span>
+     </code>
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+</nav>
+    </div>
+    
+    <div class="toc-item">
+      
+    </div>
+    
+  
+</div>
+
+
+          
+          
+          <div class="bd-content col-12 col-md-9 col-xl-7">
+              
+              <article class="bd-article" role="main">
+                
+  <span class="target" id="module-numpy.typing"><span id="typing"></span></span><section id="typing-numpy-typing">
+<h1>Typing (<a class="reference internal" href="#module-numpy.typing" title="numpy.typing"><code class="xref py py-mod docutils literal notranslate"><span class="pre">numpy.typing</span></code></a>)<a class="headerlink" href="#typing-numpy-typing" title="Permalink to this heading">#</a></h1>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.20.</span></p>
+</div>
+<p>Large parts of the NumPy API have <span class="target" id="index-0"></span><a class="pep reference external" href="https://peps.python.org/pep-0484/"><strong>PEP 484</strong></a>-style type annotations. In
+addition a number of type aliases are available to users, most prominently
+the two below:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#numpy.typing.ArrayLike" title="numpy.typing.ArrayLike"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ArrayLike</span></code></a>: objects that can be converted to arrays</p></li>
+<li><p><a class="reference internal" href="#numpy.typing.DTypeLike" title="numpy.typing.DTypeLike"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DTypeLike</span></code></a>: objects that can be converted to dtypes</p></li>
+</ul>
+<section id="mypy-plugin">
+<h2>Mypy plugin<a class="headerlink" href="#mypy-plugin" title="Permalink to this heading">#</a></h2>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.21.</span></p>
+</div>
+<span class="target" id="module-numpy.typing.mypy_plugin"></span><p>A <a class="reference external" href="http://mypy-lang.org/">mypy</a> plugin for managing a number of platform-specific annotations.
+Its functionality can be split into three distinct parts:</p>
+<ul>
+<li><p>Assigning the (platform-dependent) precisions of certain <a class="reference internal" href="arrays.scalars.html#numpy.number" title="numpy.number"><code class="xref py py-obj docutils literal notranslate"><span class="pre">number</span></code></a>
+subclasses, including the likes of <a class="reference internal" href="arrays.scalars.html#numpy.int_" title="numpy.int_"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int_</span></code></a>, <a class="reference internal" href="arrays.scalars.html#numpy.intp" title="numpy.intp"><code class="xref py py-obj docutils literal notranslate"><span class="pre">intp</span></code></a> and
+<a class="reference internal" href="arrays.scalars.html#numpy.longlong" title="numpy.longlong"><code class="xref py py-obj docutils literal notranslate"><span class="pre">longlong</span></code></a>. See the documentation on
+<a class="reference internal" href="arrays.scalars.html#arrays-scalars-built-in"><span class="std std-ref">scalar types</span></a> for a comprehensive overview
+of the affected classes. Without the plugin the precision of all relevant
+classes will be inferred as <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Any</span></code></a>.</p></li>
+<li><p>Removing all extended-precision <a class="reference internal" href="arrays.scalars.html#numpy.number" title="numpy.number"><code class="xref py py-obj docutils literal notranslate"><span class="pre">number</span></code></a> subclasses that are
+unavailable for the platform in question. Most notably this includes the
+likes of <a class="reference internal" href="arrays.scalars.html#numpy.float128" title="numpy.float128"><code class="xref py py-obj docutils literal notranslate"><span class="pre">float128</span></code></a> and <a class="reference internal" href="arrays.scalars.html#numpy.complex256" title="numpy.complex256"><code class="xref py py-obj docutils literal notranslate"><span class="pre">complex256</span></code></a>. Without the plugin <em>all</em>
+extended-precision types will, as far as mypy is concerned, be available
+to all platforms.</p></li>
+<li><p>Assigning the (platform-dependent) precision of <a class="reference internal" href="routines.ctypeslib.html#numpy.ctypeslib.c_intp" title="numpy.ctypeslib.c_intp"><code class="xref py py-obj docutils literal notranslate"><span class="pre">c_intp</span></code></a>.
+Without the plugin the type will default to <a class="reference external" href="https://docs.python.org/3/library/ctypes.html#ctypes.c_int64" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ctypes.c_int64</span></code></a>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.22.</span></p>
+</div>
+</li>
+</ul>
+<section id="examples">
+<h3>Examples<a class="headerlink" href="#examples" title="Permalink to this heading">#</a></h3>
+<p>To enable the plugin, one must add it to their mypy <a class="reference external" href="https://mypy.readthedocs.io/en/stable/config_file.html">configuration file</a>:</p>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="k">[mypy]</span><span class="w"></span>
+<span class="na">plugins</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">numpy.typing.mypy_plugin</span><span class="w"></span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="differences-from-the-runtime-numpy-api">
+<h2>Differences from the runtime NumPy API<a class="headerlink" href="#differences-from-the-runtime-numpy-api" title="Permalink to this heading">#</a></h2>
+<p>NumPy is very flexible. Trying to describe the full range of
+possibilities statically would result in types that are not very
+helpful. For that reason, the typed NumPy API is often stricter than
+the runtime NumPy API. This section describes some notable
+differences.</p>
+<section id="arraylike">
+<h3>ArrayLike<a class="headerlink" href="#arraylike" title="Permalink to this heading">#</a></h3>
+<p>The <a class="reference internal" href="#numpy.typing.ArrayLike" title="numpy.typing.ArrayLike"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ArrayLike</span></code></a> type tries to avoid creating object arrays. For
+example,</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
+<span class="go">array(&lt;generator object &lt;genexpr&gt; at ...&gt;, dtype=object)</span>
+</pre></div>
+</div>
+<p>is valid NumPy code which will create a 0-dimensional object
+array. Type checkers will complain about the above example when using
+the NumPy types however. If you really intended to do the above, then
+you can either use a <code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">type:</span> <span class="pre">ignore</span></code> comment:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>  <span class="c1"># type: ignore</span>
+</pre></div>
+</div>
+<p>or explicitly type the array like object as <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Any</span></code></a>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">array_like</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">array_like</span><span class="p">)</span>
+<span class="go">array(&lt;generator object &lt;genexpr&gt; at ...&gt;, dtype=object)</span>
+</pre></div>
+</div>
+</section>
+<section id="ndarray">
+<h3>ndarray<a class="headerlink" href="#ndarray" title="Permalink to this heading">#</a></h3>
+<p>It’s possible to mutate the dtype of an array at runtime. For example,
+the following code is valid:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="o">.</span><span class="n">dtype</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">bool_</span>
+</pre></div>
+</div>
+<p>This sort of mutation is not allowed by the types. Users who want to
+write statically typed code should instead use the <a class="reference internal" href="generated/numpy.ndarray.view.html#numpy.ndarray.view" title="numpy.ndarray.view"><code class="xref py py-obj docutils literal notranslate"><span class="pre">numpy.ndarray.view</span></code></a>
+method to create a view of the array with a different dtype.</p>
+</section>
+<section id="dtypelike">
+<h3>DTypeLike<a class="headerlink" href="#dtypelike" title="Permalink to this heading">#</a></h3>
+<p>The <a class="reference internal" href="#numpy.typing.DTypeLike" title="numpy.typing.DTypeLike"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DTypeLike</span></code></a> type tries to avoid creation of dtype objects using
+dictionary of fields like below:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">({</span><span class="s2">&quot;field1&quot;</span><span class="p">:</span> <span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="s2">&quot;field2&quot;</span><span class="p">:</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="mi">3</span><span class="p">)})</span>
+</pre></div>
+</div>
+<p>Although this is valid NumPy code, the type checker will complain about it,
+since its usage is discouraged.
+Please see : <a class="reference internal" href="arrays.dtypes.html#arrays-dtypes"><span class="std std-ref">Data type objects</span></a></p>
+</section>
+<section id="number-precision">
+<h3>Number precision<a class="headerlink" href="#number-precision" title="Permalink to this heading">#</a></h3>
+<p>The precision of <a class="reference internal" href="arrays.scalars.html#numpy.number" title="numpy.number"><code class="xref py py-obj docutils literal notranslate"><span class="pre">numpy.number</span></code></a> subclasses is treated as a covariant generic
+parameter (see <a class="reference internal" href="#numpy.typing.NBitBase" title="numpy.typing.NBitBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">NBitBase</span></code></a>), simplifying the annotating of processes
+involving precision-based casting.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">TypeVar</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy.typing</span> <span class="k">as</span> <span class="nn">npt</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">T</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s2">&quot;T&quot;</span><span class="p">,</span> <span class="n">bound</span><span class="o">=</span><span class="n">npt</span><span class="o">.</span><span class="n">NBitBase</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">func</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="s2">&quot;np.floating[T]&quot;</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="s2">&quot;np.floating[T]&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;np.floating[T]&quot;</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="o">...</span>
+</pre></div>
+</div>
+<p>Consequently, the likes of <a class="reference internal" href="arrays.scalars.html#numpy.float16" title="numpy.float16"><code class="xref py py-obj docutils literal notranslate"><span class="pre">float16</span></code></a>, <a class="reference internal" href="arrays.scalars.html#numpy.float32" title="numpy.float32"><code class="xref py py-obj docutils literal notranslate"><span class="pre">float32</span></code></a> and
+<a class="reference internal" href="arrays.scalars.html#numpy.float64" title="numpy.float64"><code class="xref py py-obj docutils literal notranslate"><span class="pre">float64</span></code></a> are still sub-types of <a class="reference internal" href="arrays.scalars.html#numpy.floating" title="numpy.floating"><code class="xref py py-obj docutils literal notranslate"><span class="pre">floating</span></code></a>, but, contrary to
+runtime, they’re not necessarily considered as sub-classes.</p>
+</section>
+<section id="timedelta64">
+<h3>Timedelta64<a class="headerlink" href="#timedelta64" title="Permalink to this heading">#</a></h3>
+<p>The <a class="reference internal" href="arrays.scalars.html#numpy.timedelta64" title="numpy.timedelta64"><code class="xref py py-obj docutils literal notranslate"><span class="pre">timedelta64</span></code></a> class is not considered a subclass of
+<a class="reference internal" href="arrays.scalars.html#numpy.signedinteger" title="numpy.signedinteger"><code class="xref py py-obj docutils literal notranslate"><span class="pre">signedinteger</span></code></a>, the former only inheriting from <a class="reference internal" href="arrays.scalars.html#numpy.generic" title="numpy.generic"><code class="xref py py-obj docutils literal notranslate"><span class="pre">generic</span></code></a>
+while static type checking.</p>
+</section>
+<section id="d-arrays">
+<h3>0D arrays<a class="headerlink" href="#d-arrays" title="Permalink to this heading">#</a></h3>
+<p>During runtime numpy aggressively casts any passed 0D arrays into their
+corresponding <a class="reference internal" href="arrays.scalars.html#numpy.generic" title="numpy.generic"><code class="xref py py-obj docutils literal notranslate"><span class="pre">generic</span></code></a> instance. Until the introduction of shape
+typing (see <span class="target" id="index-1"></span><a class="pep reference external" href="https://peps.python.org/pep-0646/"><strong>PEP 646</strong></a>) it is unfortunately not possible to make the
+necessary distinction between 0D and &gt;0D arrays. While thus not strictly
+correct, all operations are that can potentially perform a 0D-array -&gt; scalar
+cast are currently annotated as exclusively returning an <em class="xref py py-obj">ndarray</em>.</p>
+<p>If it is known in advance that an operation _will_ perform a
+0D-array -&gt; scalar cast, then one can consider manually remedying the
+situation with either <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.cast" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">typing.cast</span></code></a> or a <code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">type:</span> <span class="pre">ignore</span></code> comment.</p>
+</section>
+<section id="record-array-dtypes">
+<h3>Record array dtypes<a class="headerlink" href="#record-array-dtypes" title="Permalink to this heading">#</a></h3>
+<p>The dtype of <a class="reference internal" href="generated/numpy.recarray.html#numpy.recarray" title="numpy.recarray"><code class="xref py py-obj docutils literal notranslate"><span class="pre">numpy.recarray</span></code></a>, and the <code class="xref py py-obj docutils literal notranslate"><span class="pre">numpy.rec</span></code> functions in general,
+can be specified in one of two ways:</p>
+<ul class="simple">
+<li><p>Directly via the <code class="docutils literal notranslate"><span class="pre">dtype</span></code> argument.</p></li>
+<li><p>With up to five helper arguments that operate via <a class="reference internal" href="generated/numpy.format_parser.html#numpy.format_parser" title="numpy.format_parser"><code class="xref py py-obj docutils literal notranslate"><span class="pre">numpy.format_parser</span></code></a>:
+<code class="docutils literal notranslate"><span class="pre">formats</span></code>, <code class="docutils literal notranslate"><span class="pre">names</span></code>, <code class="docutils literal notranslate"><span class="pre">titles</span></code>, <code class="docutils literal notranslate"><span class="pre">aligned</span></code> and <code class="docutils literal notranslate"><span class="pre">byteorder</span></code>.</p></li>
+</ul>
+<p>These two approaches are currently typed as being mutually exclusive,
+<em>i.e.</em> if <code class="docutils literal notranslate"><span class="pre">dtype</span></code> is specified than one may not specify <code class="docutils literal notranslate"><span class="pre">formats</span></code>.
+While this mutual exclusivity is not (strictly) enforced during runtime,
+combining both dtype specifiers can lead to unexpected or even downright
+buggy behavior.</p>
+</section>
+</section>
+<section id="api">
+<h2>API<a class="headerlink" href="#api" title="Permalink to this heading">#</a></h2>
+<dl class="py data">
+<dt class="sig sig-object py" id="numpy.typing.ArrayLike">
+<span class="sig-prename descclassname"><span class="pre">numpy.typing.</span></span><span class="sig-name descname"><span class="pre">ArrayLike</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">typing.Union[...]</span></em><a class="headerlink" href="#numpy.typing.ArrayLike" title="Permalink to this definition">#</a></dt>
+<dd><p>A <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Union</span></code></a> representing objects that can be coerced
+into an <a class="reference internal" href="generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ndarray</span></code></a>.</p>
+<p>Among others this includes the likes of:</p>
+<ul class="simple">
+<li><p>Scalars.</p></li>
+<li><p>(Nested) sequences.</p></li>
+<li><p>Objects implementing the <em class="xref py py-obj">__array__</em> protocol.</p></li>
+</ul>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.20.</span></p>
+</div>
+<div class="admonition-see-also admonition">
+<p class="admonition-title">See Also</p>
+<dl class="simple">
+<dt><a class="reference internal" href="../glossary.html#term-array_like"><span class="xref std std-term">array_like</span></a>:</dt><dd><p>Any scalar or sequence that can be interpreted as an ndarray.</p>
+</dd>
+</dl>
+</div>
+<p class="rubric">Examples</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy.typing</span> <span class="k">as</span> <span class="nn">npt</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">as_array</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="n">npt</span><span class="o">.</span><span class="n">ArrayLike</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="numpy.typing.DTypeLike">
+<span class="sig-prename descclassname"><span class="pre">numpy.typing.</span></span><span class="sig-name descname"><span class="pre">DTypeLike</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">typing.Union[...]</span></em><a class="headerlink" href="#numpy.typing.DTypeLike" title="Permalink to this definition">#</a></dt>
+<dd><p>A <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Union</span></code></a> representing objects that can be coerced
+into a <a class="reference internal" href="generated/numpy.dtype.html#numpy.dtype" title="numpy.dtype"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dtype</span></code></a>.</p>
+<p>Among others this includes the likes of:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#type" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">type</span></code></a> objects.</p></li>
+<li><p>Character codes or the names of <a class="reference external" href="https://docs.python.org/3/library/functions.html#type" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">type</span></code></a> objects.</p></li>
+<li><p>Objects with the <code class="docutils literal notranslate"><span class="pre">.dtype</span></code> attribute.</p></li>
+</ul>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.20.</span></p>
+</div>
+<div class="admonition-see-also admonition">
+<p class="admonition-title">See Also</p>
+<dl class="simple">
+<dt><a class="reference internal" href="arrays.dtypes.html#arrays-dtypes-constructing"><span class="std std-ref">Specifying and constructing data types</span></a></dt><dd><p>A comprehensive overview of all objects that can be coerced
+into data types.</p>
+</dd>
+</dl>
+</div>
+<p class="rubric">Examples</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy.typing</span> <span class="k">as</span> <span class="nn">npt</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">as_dtype</span><span class="p">(</span><span class="n">d</span><span class="p">:</span> <span class="n">npt</span><span class="o">.</span><span class="n">DTypeLike</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="numpy.typing.NDArray">
+<span class="sig-prename descclassname"><span class="pre">numpy.typing.</span></span><span class="sig-name descname"><span class="pre">NDArray</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">numpy.ndarray[typing.Any,</span> <span class="pre">numpy.dtype[+ScalarType]]</span></em><a class="headerlink" href="#numpy.typing.NDArray" title="Permalink to this definition">#</a></dt>
+<dd><p>A <a class="reference external" href="https://docs.python.org/3/glossary.html#term-generic-type" title="(in Python v3.11)"><span class="xref std std-term">generic</span></a> version of
+<a class="reference internal" href="generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray"><code class="xref py py-obj docutils literal notranslate"><span class="pre">np.ndarray[Any,</span> <span class="pre">np.dtype[+ScalarType]]</span></code></a>.</p>
+<p>Can be used during runtime for typing arrays with a given dtype
+and unspecified shape.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.21.</span></p>
+</div>
+<p class="rubric">Examples</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy.typing</span> <span class="k">as</span> <span class="nn">npt</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span><span class="p">)</span>
+<span class="go">numpy.ndarray[typing.Any, numpy.dtype[+ScalarType]]</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">])</span>
+<span class="go">numpy.ndarray[typing.Any, numpy.dtype[numpy.float64]]</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">NDArrayInt</span> <span class="o">=</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">int_</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="p">:</span> <span class="n">NDArrayInt</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">func</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="n">npt</span><span class="o">.</span><span class="n">ArrayLike</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span><span class="p">[</span><span class="n">Any</span><span class="p">]:</span>
+<span class="gp">... </span>    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="numpy.typing.NBitBase">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">numpy.typing.</span></span><span class="sig-name descname"><span class="pre">NBitBase</span></span><a class="reference external" href="https://github.com/numpy/numpy/blob/v1.24.0/numpy/typing/__init__.py"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#numpy.typing.NBitBase" title="Permalink to this definition">#</a></dt>
+<dd><p>A type representing <a class="reference internal" href="arrays.scalars.html#numpy.number" title="numpy.number"><code class="xref py py-obj docutils literal notranslate"><span class="pre">numpy.number</span></code></a> precision during static type checking.</p>
+<p>Used exclusively for the purpose static type checking, <a class="reference internal" href="#numpy.typing.NBitBase" title="numpy.typing.NBitBase"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NBitBase</span></code></a>
+represents the base of a hierarchical set of subclasses.
+Each subsequent subclass is herein used for representing a lower level
+of precision, <em>e.g.</em> <code class="docutils literal notranslate"><span class="pre">64Bit</span> <span class="pre">&gt;</span> <span class="pre">32Bit</span> <span class="pre">&gt;</span> <span class="pre">16Bit</span></code>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.20.</span></p>
+</div>
+<p class="rubric">Examples</p>
+<p>Below is a typical usage example: <a class="reference internal" href="#numpy.typing.NBitBase" title="numpy.typing.NBitBase"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NBitBase</span></code></a> is herein used for annotating
+a function that takes a float and integer of arbitrary precision
+as arguments and returns a new float of whichever precision is largest
+(<em>e.g.</em> <code class="docutils literal notranslate"><span class="pre">np.float16</span> <span class="pre">+</span> <span class="pre">np.int64</span> <span class="pre">-&gt;</span> <span class="pre">np.float64</span></code>).</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">TypeVar</span><span class="p">,</span> <span class="n">TYPE_CHECKING</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy.typing</span> <span class="k">as</span> <span class="nn">npt</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">T1</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s2">&quot;T1&quot;</span><span class="p">,</span> <span class="n">bound</span><span class="o">=</span><span class="n">npt</span><span class="o">.</span><span class="n">NBitBase</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">T2</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s2">&quot;T2&quot;</span><span class="p">,</span> <span class="n">bound</span><span class="o">=</span><span class="n">npt</span><span class="o">.</span><span class="n">NBitBase</span><span class="p">)</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">floating</span><span class="p">[</span><span class="n">T1</span><span class="p">],</span> <span class="n">b</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">integer</span><span class="p">[</span><span class="n">T2</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">floating</span><span class="p">[</span><span class="n">T1</span> <span class="o">|</span> <span class="n">T2</span><span class="p">]:</span>
+<span class="gp">... </span>    <span class="k">return</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float16</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">out</span> <span class="o">=</span> <span class="n">add</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="n">reveal_locals</span><span class="p">()</span>
+<span class="gp">... </span>    <span class="c1"># note: Revealed local types are:</span>
+<span class="gp">... </span>    <span class="c1"># note:     a: numpy.floating[numpy.typing._16Bit*]</span>
+<span class="gp">... </span>    <span class="c1"># note:     b: numpy.signedinteger[numpy.typing._64Bit*]</span>
+<span class="gp">... </span>    <span class="c1"># note:     out: numpy.floating[numpy.typing._64Bit*]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</section>
+</section>
+
+
+              </article>
+              
+
+              
+              <footer class="bd-footer-article">
+                  <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+  <a class='left-prev' id="prev-link" href="generated/numpy.kaiser.html" title="previous page">
+      <i class="fas fa-angle-left"></i>
+      <div class="prev-next-info">
+          <p class="prev-next-subtitle">previous</p>
+          <p class="prev-next-title">numpy.kaiser</p>
+      </div>
+  </a>
+  <a class='right-next' id="next-link" href="global_state.html" title="next page">
+  <div class="prev-next-info">
+      <p class="prev-next-subtitle">next</p>
+      <p class="prev-next-title">Global State</p>
+  </div>
+  <i class="fas fa-angle-right"></i>
+  </a>
+</div>
+              </footer>
+              
+          </div>
+          
+      </div>
+    </div>
+
+  
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695"></script>
+
+<footer class="bd-footer"><div class="bd-footer__inner container">
+  
+  <div class="footer-item">
+    <p class="copyright">
+    &copy; Copyright 2008-2022, NumPy Developers.<br>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    <p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.3.0.<br>
+</p>
+  </div>
+  
+</div>
+</footer>
+  </body>
+</html>

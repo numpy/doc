@@ -1,0 +1,1647 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>numpy.ma.MaskedArray.argmin &#8212; NumPy v1.24 Manual</title>
+<script>
+  document.documentElement.dataset.mode = localStorage.getItem("mode") || "light";
+  document.documentElement.dataset.theme = localStorage.getItem("theme") || "light"
+</script>
+
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=92025949c220c2e29695" rel="stylesheet">
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=92025949c220c2e29695" rel="stylesheet">
+
+
+  <link rel="stylesheet"
+    href="../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/plot_directive.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/numpy.css" />
+
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695">
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    <script src="../../_static/design-tabs.js"></script>
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="numpy.ma.MaskedArray.argsort" href="numpy.ma.MaskedArray.argsort.html" />
+    <link rel="prev" title="numpy.ma.MaskedArray.argmax" href="numpy.ma.MaskedArray.argmax.html" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="docsearch:language" content="en">
+  </head>
+  
+  
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="180" data-default-mode="light">
+    <div class="bd-header-announcement container-fluid" id="banner">
+      
+
+    </div>
+
+    
+    <nav class="bd-header navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="bd-header__inner container-xl">
+
+  <div id="navbar-start">
+    
+    
+  
+
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+    <img src="../../_static/numpylogo.svg" class="logo__image only-light" alt="Logo image">
+    <img src="../../_static/numpylogo_dark.svg" class="logo__image only-dark" alt="Logo image">
+  
+  
+</a>
+    
+  </div>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapsible" aria-controls="navbar-collapsible" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="fas fa-bars"></span>
+  </button>
+
+  
+  <div id="navbar-collapsible" class="col-lg-9 collapse navbar-collapse">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <ul id="navbar-main-elements" class="navbar-nav">
+    <li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../user/index.html">
+  User Guide
+ </a>
+</li>
+
+<li class="toctree-l1 current active nav-item">
+ <a class="reference internal nav-link" href="../index.html">
+  API reference
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../dev/index.html">
+  Development
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../release.html">
+  Release notes
+ </a>
+</li>
+
+    
+    <li class="nav-item">
+        <a class="nav-link nav-external" href="https://numpy.org/numpy-tutorials/">Learn<i class="fas fa-external-link-alt"></i></a>
+    </li>
+    
+</ul>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      
+      <div class="navbar-end-item">
+        <span id="theme-switch" class="btn btn-sm btn-outline-primary navbar-btn rounded-circle">
+    <a class="theme-switch" data-mode="light"><i class="fas fa-sun"></i></a>
+    <a class="theme-switch" data-mode="dark"><i class="far fa-moon"></i></a>
+    <a class="theme-switch" data-mode="auto"><i class="fas fa-adjust"></i></a>
+</span>
+      </div>
+      
+      <div class="navbar-end-item">
+        <div class="dropdown" id="version_switcher">
+    <button type="button" class="btn btn-sm navbar-btn dropdown-toggle" id="version_switcher_button" data-toggle="dropdown">
+        1.24  <!-- this text may get changed later by javascript -->
+        <span class="caret"></span>
+    </button>
+    <div id="version_switcher_menu" class="dropdown-menu list-group-flush py-0" aria-labelledby="version_switcher_button">
+    <!-- dropdown will be populated by javascript on page load -->
+    </div>
+</div>
+
+<!-- NOTE: this JS must live here (not in our global JS file) because it relies
+     on being processed by Jinja before it is run (specifically for replacing
+     variables reference/generated/numpy.ma.MaskedArray.argmin and {'version_match': '1.24', 'json_url': 'https://numpy.org/doc/_static/versions.json'}.
+-->
+
+<script type="text/javascript">
+// Check if corresponding page path exists in other version of docs
+// and, if so, go there instead of the homepage of the other docs version
+function checkPageExistsAndRedirect(event) {
+    const currentFilePath = "reference/generated/numpy.ma.MaskedArray.argmin.html",
+          tryUrl = event.target.getAttribute("href");
+    let otherDocsHomepage = tryUrl.replace(currentFilePath, "");
+    $.ajax({
+        type: 'HEAD',
+        url: tryUrl,
+        // if the page exists, go there
+        success: function() {
+            location.href = tryUrl;
+        }
+    }).fail(function() {
+        location.href = otherDocsHomepage;
+    });
+    // this prevents the browser from following the href of the clicked node
+    // (which is fine because this function takes care of redirecting)
+    return false;
+}
+
+// Populate the version switcher from the JSON config file
+(function () {
+    $.getJSON("https://numpy.org/doc/_static/versions.json", function(data, textStatus, jqXHR) {
+        const currentFilePath = "reference/generated/numpy.ma.MaskedArray.argmin.html";
+        let btn = document.getElementById("version_switcher_button");
+        // Set empty strings by default so that these attributes exist and can be used in CSS selectors
+        btn.dataset["activeVersionName"] = "";
+        btn.dataset["activeVersion"] = "";
+        // create links to the corresponding page in the other docs versions
+        $.each(data, function(index, entry) {
+            // if no custom name specified (e.g., "latest"), use version string
+            if (!("name" in entry)) {
+                entry.name = entry.version;
+            }
+            // create the node
+            const node = document.createElement("a");
+            node.setAttribute("class", "list-group-item list-group-item-action py-1");
+            node.textContent = `${entry.name}`;
+            node.setAttribute("href", `${entry.url}${currentFilePath}`);
+            // on click, AJAX calls will check if the linked page exists before
+            // trying to redirect, and if not, will redirect to the homepage
+            // for that version of the docs.
+            node.onclick = checkPageExistsAndRedirect;
+            // Add dataset values for the version and name in case people want
+            // to apply CSS styling based on this information.
+            node.dataset["versionName"] = entry.name;
+            node.dataset["version"] = entry.version;
+
+            $("#version_switcher_menu").append(node);
+            // replace dropdown button text with the preferred display name of
+            // this version, rather than using sphinx's 1.24 variable.
+            // also highlight the dropdown entry for the currently-viewed
+            // version's entry
+            if (entry.version == "1.24") {
+                node.classList.add("active");
+                btn.innerText = btn.dataset["activeVersionName"] = entry.name;
+                btn.dataset["activeVersion"] = entry.version;
+            }
+        });
+    });
+})();
+</script>
+      </div>
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+        <li class="nav-item">
+          <a class="nav-link" href="https://github.com/numpy/numpy" rel="noopener" target="_blank" title="GitHub"><span><i class="fab fa-github-square"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="https://twitter.com/numpy_team" rel="noopener" target="_blank" title="Twitter"><span><i class="fab fa-twitter-square"></i></span>
+            <label class="sr-only">Twitter</label></a>
+        </li>
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+</div>
+    </nav>
+    
+
+    <div class="bd-container container-xl">
+      <div class="bd-container__inner row">
+          
+
+<!-- Only show if we have sidebars configured, else just a small margin  -->
+<div class="bd-sidebar-primary col-12 col-md-3 bd-sidebar">
+  <div class="sidebar-start-items"><form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <div class="bd-toc-item active">
+    <ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../arrays.html">
+   Array objects
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../array_api.html">
+   Array API Standard Compatibility
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../constants.html">
+   Constants
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../ufuncs.html">
+   Universal functions (
+   <code class="xref py py-class docutils literal notranslate">
+    <span class="pre">
+     ufunc
+    </span>
+   </code>
+   )
+  </a>
+ </li>
+ <li class="toctree-l1 current active has-children">
+  <a class="reference internal" href="../routines.html">
+   Routines
+  </a>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul class="current">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../routines.array-creation.html">
+     Array creation routines
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../routines.array-manipulation.html">
+     Array manipulation routines
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../routines.bitwise.html">
+     Binary operations
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../routines.char.html">
+     String operations
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../routines.ctypeslib.html">
+     C-Types Foreign Function Interface (
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       numpy.ctypeslib
+      </span>
+     </code>
+     )
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../routines.datetime.html">
+     Datetime Support Functions
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../routines.dtype.html">
+     Data type routines
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../routines.dual.html">
+     Optionally SciPy-accelerated routines (
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       numpy.dual
+      </span>
+     </code>
+     )
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../routines.emath.html">
+     Mathematical functions with automatic domain
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../routines.err.html">
+     Floating point error handling
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../routines.fft.html">
+     Discrete Fourier Transform (
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       numpy.fft
+      </span>
+     </code>
+     )
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../routines.functional.html">
+     Functional programming
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../routines.help.html">
+     NumPy-specific help functions
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../routines.io.html">
+     Input and output
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../routines.linalg.html">
+     Linear algebra (
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       numpy.linalg
+      </span>
+     </code>
+     )
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../routines.logic.html">
+     Logic functions
+    </a>
+   </li>
+   <li class="toctree-l2 current active has-children">
+    <a class="reference internal" href="../routines.ma.html">
+     Masked array operations
+    </a>
+    <input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+    <label for="toctree-checkbox-2">
+     <i class="fas fa-chevron-down">
+     </i>
+    </label>
+    <ul class="current">
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.MaskType.html">
+       numpy.ma.MaskType
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.masked_array.html">
+       numpy.ma.masked_array
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.array.html">
+       numpy.ma.array
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.copy.html">
+       numpy.ma.copy
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.frombuffer.html">
+       numpy.ma.frombuffer
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.fromfunction.html">
+       numpy.ma.fromfunction
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.MaskedArray.copy.html">
+       numpy.ma.MaskedArray.copy
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.empty.html">
+       numpy.ma.empty
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.empty_like.html">
+       numpy.ma.empty_like
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.masked_all.html">
+       numpy.ma.masked_all
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.masked_all_like.html">
+       numpy.ma.masked_all_like
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.ones.html">
+       numpy.ma.ones
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.ones_like.html">
+       numpy.ma.ones_like
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.zeros.html">
+       numpy.ma.zeros
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.zeros_like.html">
+       numpy.ma.zeros_like
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.all.html">
+       numpy.ma.all
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.any.html">
+       numpy.ma.any
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.count.html">
+       numpy.ma.count
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.count_masked.html">
+       numpy.ma.count_masked
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.getmask.html">
+       numpy.ma.getmask
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.getmaskarray.html">
+       numpy.ma.getmaskarray
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.getdata.html">
+       numpy.ma.getdata
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.nonzero.html">
+       numpy.ma.nonzero
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.shape.html">
+       numpy.ma.shape
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.size.html">
+       numpy.ma.size
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.is_masked.html">
+       numpy.ma.is_masked
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.is_mask.html">
+       numpy.ma.is_mask
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.isMaskedArray.html">
+       numpy.ma.isMaskedArray
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.isMA.html">
+       numpy.ma.isMA
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.isarray.html">
+       numpy.ma.isarray
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.MaskedArray.all.html">
+       numpy.ma.MaskedArray.all
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.MaskedArray.any.html">
+       numpy.ma.MaskedArray.any
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.MaskedArray.count.html">
+       numpy.ma.MaskedArray.count
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.MaskedArray.nonzero.html">
+       numpy.ma.MaskedArray.nonzero
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.shape.html">
+       numpy.ma.shape
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.size.html">
+       numpy.ma.size
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.ravel.html">
+       numpy.ma.ravel
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.reshape.html">
+       numpy.ma.reshape
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.resize.html">
+       numpy.ma.resize
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.MaskedArray.flatten.html">
+       numpy.ma.MaskedArray.flatten
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.MaskedArray.ravel.html">
+       numpy.ma.MaskedArray.ravel
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.MaskedArray.reshape.html">
+       numpy.ma.MaskedArray.reshape
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.MaskedArray.resize.html">
+       numpy.ma.MaskedArray.resize
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.swapaxes.html">
+       numpy.ma.swapaxes
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.transpose.html">
+       numpy.ma.transpose
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.MaskedArray.swapaxes.html">
+       numpy.ma.MaskedArray.swapaxes
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.MaskedArray.transpose.html">
+       numpy.ma.MaskedArray.transpose
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.atleast_1d.html">
+       numpy.ma.atleast_1d
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.atleast_2d.html">
+       numpy.ma.atleast_2d
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.atleast_3d.html">
+       numpy.ma.atleast_3d
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.expand_dims.html">
+       numpy.ma.expand_dims
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.squeeze.html">
+       numpy.ma.squeeze
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.MaskedArray.squeeze.html">
+       numpy.ma.MaskedArray.squeeze
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.stack.html">
+       numpy.ma.stack
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.column_stack.html">
+       numpy.ma.column_stack
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.concatenate.html">
+       numpy.ma.concatenate
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.dstack.html">
+       numpy.ma.dstack
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.hstack.html">
+       numpy.ma.hstack
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.hsplit.html">
+       numpy.ma.hsplit
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.mr_.html">
+       numpy.ma.mr_
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.row_stack.html">
+       numpy.ma.row_stack
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.vstack.html">
+       numpy.ma.vstack
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.concatenate.html">
+       numpy.ma.concatenate
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.stack.html">
+       numpy.ma.stack
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.vstack.html">
+       numpy.ma.vstack
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.hstack.html">
+       numpy.ma.hstack
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.dstack.html">
+       numpy.ma.dstack
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.column_stack.html">
+       numpy.ma.column_stack
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.append.html">
+       numpy.ma.append
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.make_mask.html">
+       numpy.ma.make_mask
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.make_mask_none.html">
+       numpy.ma.make_mask_none
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.mask_or.html">
+       numpy.ma.mask_or
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.make_mask_descr.html">
+       numpy.ma.make_mask_descr
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.getmask.html">
+       numpy.ma.getmask
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.getmaskarray.html">
+       numpy.ma.getmaskarray
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.masked_array.mask.html">
+       numpy.ma.masked_array.mask
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.ndenumerate.html">
+       numpy.ma.ndenumerate
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.flatnotmasked_contiguous.html">
+       numpy.ma.flatnotmasked_contiguous
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.flatnotmasked_edges.html">
+       numpy.ma.flatnotmasked_edges
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.notmasked_contiguous.html">
+       numpy.ma.notmasked_contiguous
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.notmasked_edges.html">
+       numpy.ma.notmasked_edges
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.clump_masked.html">
+       numpy.ma.clump_masked
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.clump_unmasked.html">
+       numpy.ma.clump_unmasked
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.mask_cols.html">
+       numpy.ma.mask_cols
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.mask_or.html">
+       numpy.ma.mask_or
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.mask_rowcols.html">
+       numpy.ma.mask_rowcols
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.mask_rows.html">
+       numpy.ma.mask_rows
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.harden_mask.html">
+       numpy.ma.harden_mask
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.soften_mask.html">
+       numpy.ma.soften_mask
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.MaskedArray.harden_mask.html">
+       numpy.ma.MaskedArray.harden_mask
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.MaskedArray.soften_mask.html">
+       numpy.ma.MaskedArray.soften_mask
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.MaskedArray.shrink_mask.html">
+       numpy.ma.MaskedArray.shrink_mask
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.MaskedArray.unshare_mask.html">
+       numpy.ma.MaskedArray.unshare_mask
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.asarray.html">
+       numpy.ma.asarray
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.asanyarray.html">
+       numpy.ma.asanyarray
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.fix_invalid.html">
+       numpy.ma.fix_invalid
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.masked_equal.html">
+       numpy.ma.masked_equal
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.masked_greater.html">
+       numpy.ma.masked_greater
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.masked_greater_equal.html">
+       numpy.ma.masked_greater_equal
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.masked_inside.html">
+       numpy.ma.masked_inside
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.masked_invalid.html">
+       numpy.ma.masked_invalid
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.masked_less.html">
+       numpy.ma.masked_less
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.masked_less_equal.html">
+       numpy.ma.masked_less_equal
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.masked_not_equal.html">
+       numpy.ma.masked_not_equal
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.masked_object.html">
+       numpy.ma.masked_object
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.masked_outside.html">
+       numpy.ma.masked_outside
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.masked_values.html">
+       numpy.ma.masked_values
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.masked_where.html">
+       numpy.ma.masked_where
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.compress_cols.html">
+       numpy.ma.compress_cols
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.compress_rowcols.html">
+       numpy.ma.compress_rowcols
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.compress_rows.html">
+       numpy.ma.compress_rows
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.compressed.html">
+       numpy.ma.compressed
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.filled.html">
+       numpy.ma.filled
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.MaskedArray.compressed.html">
+       numpy.ma.MaskedArray.compressed
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.MaskedArray.filled.html">
+       numpy.ma.MaskedArray.filled
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.MaskedArray.tofile.html">
+       numpy.ma.MaskedArray.tofile
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.MaskedArray.tolist.html">
+       numpy.ma.MaskedArray.tolist
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.MaskedArray.torecords.html">
+       numpy.ma.MaskedArray.torecords
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.MaskedArray.tobytes.html">
+       numpy.ma.MaskedArray.tobytes
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.common_fill_value.html">
+       numpy.ma.common_fill_value
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.default_fill_value.html">
+       numpy.ma.default_fill_value
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.maximum_fill_value.html">
+       numpy.ma.maximum_fill_value
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.minimum_fill_value.html">
+       numpy.ma.minimum_fill_value
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.set_fill_value.html">
+       numpy.ma.set_fill_value
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.MaskedArray.get_fill_value.html">
+       numpy.ma.MaskedArray.get_fill_value
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.MaskedArray.set_fill_value.html">
+       numpy.ma.MaskedArray.set_fill_value
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.anom.html">
+       numpy.ma.anom
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.anomalies.html">
+       numpy.ma.anomalies
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.average.html">
+       numpy.ma.average
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.conjugate.html">
+       numpy.ma.conjugate
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.corrcoef.html">
+       numpy.ma.corrcoef
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.cov.html">
+       numpy.ma.cov
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.cumsum.html">
+       numpy.ma.cumsum
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.cumprod.html">
+       numpy.ma.cumprod
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.mean.html">
+       numpy.ma.mean
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.median.html">
+       numpy.ma.median
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.power.html">
+       numpy.ma.power
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.prod.html">
+       numpy.ma.prod
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.std.html">
+       numpy.ma.std
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.sum.html">
+       numpy.ma.sum
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.var.html">
+       numpy.ma.var
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.MaskedArray.anom.html">
+       numpy.ma.MaskedArray.anom
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.MaskedArray.cumprod.html">
+       numpy.ma.MaskedArray.cumprod
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.MaskedArray.cumsum.html">
+       numpy.ma.MaskedArray.cumsum
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.MaskedArray.mean.html">
+       numpy.ma.MaskedArray.mean
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.MaskedArray.prod.html">
+       numpy.ma.MaskedArray.prod
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.MaskedArray.std.html">
+       numpy.ma.MaskedArray.std
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.MaskedArray.sum.html">
+       numpy.ma.MaskedArray.sum
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.MaskedArray.var.html">
+       numpy.ma.MaskedArray.var
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.argmax.html">
+       numpy.ma.argmax
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.argmin.html">
+       numpy.ma.argmin
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.max.html">
+       numpy.ma.max
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.min.html">
+       numpy.ma.min
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.ptp.html">
+       numpy.ma.ptp
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.diff.html">
+       numpy.ma.diff
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.MaskedArray.argmax.html">
+       numpy.ma.MaskedArray.argmax
+      </a>
+     </li>
+     <li class="toctree-l3 current active">
+      <a class="current reference internal" href="#">
+       numpy.ma.MaskedArray.argmin
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.MaskedArray.max.html">
+       numpy.ma.MaskedArray.max
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.MaskedArray.min.html">
+       numpy.ma.MaskedArray.min
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.MaskedArray.ptp.html">
+       numpy.ma.MaskedArray.ptp
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.argsort.html">
+       numpy.ma.argsort
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.sort.html">
+       numpy.ma.sort
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.MaskedArray.argsort.html">
+       numpy.ma.MaskedArray.argsort
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.MaskedArray.sort.html">
+       numpy.ma.MaskedArray.sort
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.diag.html">
+       numpy.ma.diag
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.dot.html">
+       numpy.ma.dot
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.identity.html">
+       numpy.ma.identity
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.inner.html">
+       numpy.ma.inner
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.innerproduct.html">
+       numpy.ma.innerproduct
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.outer.html">
+       numpy.ma.outer
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.outerproduct.html">
+       numpy.ma.outerproduct
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.trace.html">
+       numpy.ma.trace
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.transpose.html">
+       numpy.ma.transpose
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.MaskedArray.trace.html">
+       numpy.ma.MaskedArray.trace
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.MaskedArray.transpose.html">
+       numpy.ma.MaskedArray.transpose
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.vander.html">
+       numpy.ma.vander
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.polyfit.html">
+       numpy.ma.polyfit
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.around.html">
+       numpy.ma.around
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.clip.html">
+       numpy.ma.clip
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.round.html">
+       numpy.ma.round
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.MaskedArray.clip.html">
+       numpy.ma.MaskedArray.clip
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.MaskedArray.round.html">
+       numpy.ma.MaskedArray.round
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.allequal.html">
+       numpy.ma.allequal
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.allclose.html">
+       numpy.ma.allclose
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.apply_along_axis.html">
+       numpy.ma.apply_along_axis
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.apply_over_axes.html">
+       numpy.ma.apply_over_axes
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.arange.html">
+       numpy.ma.arange
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.choose.html">
+       numpy.ma.choose
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.ediff1d.html">
+       numpy.ma.ediff1d
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.indices.html">
+       numpy.ma.indices
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ma.where.html">
+       numpy.ma.where
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../routines.math.html">
+     Mathematical functions
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../routines.matlib.html">
+     Matrix library (
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       numpy.matlib
+      </span>
+     </code>
+     )
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../routines.other.html">
+     Miscellaneous routines
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../routines.padding.html">
+     Padding Arrays
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../routines.polynomials.html">
+     Polynomials
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../random/index.html">
+     Random sampling (
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       numpy.random
+      </span>
+     </code>
+     )
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../routines.set.html">
+     Set routines
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../routines.sort.html">
+     Sorting, searching, and counting
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../routines.statistics.html">
+     Statistics
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../routines.testing.html">
+     Test Support (
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       numpy.testing
+      </span>
+     </code>
+     )
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../routines.window.html">
+     Window functions
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../typing.html">
+   Typing (
+   <code class="xref py py-mod docutils literal notranslate">
+    <span class="pre">
+     numpy.typing
+    </span>
+   </code>
+   )
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../global_state.html">
+   Global State
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../distutils.html">
+   Packaging (
+   <code class="xref py py-mod docutils literal notranslate">
+    <span class="pre">
+     numpy.distutils
+    </span>
+   </code>
+   )
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../distutils_guide.html">
+   NumPy Distutils - Users Guide
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../distutils_status_migration.html">
+   Status of
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     numpy.distutils
+    </span>
+   </code>
+   and migration advice
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../c-api/index.html">
+   NumPy C-API
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../simd/index.html">
+   CPU/SIMD Optimizations
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../security.html">
+   NumPy security
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../swig.html">
+   NumPy and SWIG
+  </a>
+ </li>
+</ul>
+
+  </div>
+</nav>
+  </div>
+  <div class="sidebar-end-items">
+  </div>
+</div>
+
+
+          
+
+
+<div class="bd-sidebar-secondary d-none d-xl-block col-xl-2 bd-toc">
+  
+    
+    <div class="toc-item">
+      
+<div class="tocsection onthispage mt-5 pt-1 pb-3">
+    <i class="fas fa-list"></i> On this page
+</div>
+
+<nav id="bd-toc-nav">
+    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#numpy.ma.MaskedArray.argmin">
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     ma.MaskedArray.argmin
+    </span>
+   </code>
+  </a>
+ </li>
+</ul>
+
+</nav>
+    </div>
+    
+    <div class="toc-item">
+      
+    </div>
+    
+  
+</div>
+
+
+          
+          
+          <div class="bd-content col-12 col-md-9 col-xl-7">
+              
+              <article class="bd-article" role="main">
+                
+  <section id="numpy-ma-maskedarray-argmin">
+<h1>numpy.ma.MaskedArray.argmin<a class="headerlink" href="#numpy-ma-maskedarray-argmin" title="Permalink to this heading">#</a></h1>
+<p>method</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="numpy.ma.MaskedArray.argmin">
+<span class="sig-prename descclassname"><span class="pre">ma.MaskedArray.</span></span><span class="sig-name descname"><span class="pre">argmin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">axis=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fill_value=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">out=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keepdims=&lt;no</span> <span class="pre">value&gt;</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/numpy/numpy/blob/v1.24.0/numpy/ma/core.py#L5557-L5602"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#numpy.ma.MaskedArray.argmin" title="Permalink to this definition">#</a></dt>
+<dd><p>Return array of indices to the minimum values along the given axis.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>axis</strong><span class="classifier">{None, integer}</span></dt><dd><p>If None, the index is into the flattened array, otherwise along
+the specified axis</p>
+</dd>
+<dt><strong>fill_value</strong><span class="classifier">scalar or None, optional</span></dt><dd><p>Value used to fill in the masked values.  If None, the output of
+minimum_fill_value(self._data) is used instead.</p>
+</dd>
+<dt><strong>out</strong><span class="classifier">{None, array}, optional</span></dt><dd><p>Array into which the result can be placed. Its type is preserved
+and it must be of the right shape to hold the output.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>ndarray or scalar</dt><dd><p>If multi-dimension input, returns a new ndarray of indices to the
+minimum values along the given axis.  Otherwise, returns a scalar
+of index to the minimum values along the given axis.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="n">mask</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="o">.</span><span class="n">shape</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span>
+<span class="go">masked_array(</span>
+<span class="go">  data=[[--, --],</span>
+<span class="go">        [2, 3]],</span>
+<span class="go">  mask=[[ True,  True],</span>
+<span class="go">        [False, False]],</span>
+<span class="go">  fill_value=999999)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">fill_value</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+<span class="go">array([0, 0])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">fill_value</span><span class="o">=</span><span class="mi">9</span><span class="p">)</span>
+<span class="go">array([1, 1])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</section>
+
+
+              </article>
+              
+
+              
+              <footer class="bd-footer-article">
+                  <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+  <a class='left-prev' id="prev-link" href="numpy.ma.MaskedArray.argmax.html" title="previous page">
+      <i class="fas fa-angle-left"></i>
+      <div class="prev-next-info">
+          <p class="prev-next-subtitle">previous</p>
+          <p class="prev-next-title">numpy.ma.MaskedArray.argmax</p>
+      </div>
+  </a>
+  <a class='right-next' id="next-link" href="numpy.ma.MaskedArray.argsort.html" title="next page">
+  <div class="prev-next-info">
+      <p class="prev-next-subtitle">next</p>
+      <p class="prev-next-title">numpy.ma.MaskedArray.argsort</p>
+  </div>
+  <i class="fas fa-angle-right"></i>
+  </a>
+</div>
+              </footer>
+              
+          </div>
+          
+      </div>
+    </div>
+
+  
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695"></script>
+
+<footer class="bd-footer"><div class="bd-footer__inner container">
+  
+  <div class="footer-item">
+    <p class="copyright">
+    &copy; Copyright 2008-2022, NumPy Developers.<br>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    <p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.3.0.<br>
+</p>
+  </div>
+  
+</div>
+</footer>
+  </body>
+</html>

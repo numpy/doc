@@ -1,0 +1,641 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>Using via numpy.distutils &#8212; NumPy v1.24 Manual</title>
+<script>
+  document.documentElement.dataset.mode = localStorage.getItem("mode") || "light";
+  document.documentElement.dataset.theme = localStorage.getItem("theme") || "light"
+</script>
+
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=92025949c220c2e29695" rel="stylesheet">
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=92025949c220c2e29695" rel="stylesheet">
+
+
+  <link rel="stylesheet"
+    href="../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/plot_directive.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/numpy.css" />
+
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695">
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    <script src="../../_static/design-tabs.js"></script>
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Using via meson" href="meson.html" />
+    <link rel="prev" title="F2PY and Build Systems" href="index.html" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="docsearch:language" content="en">
+  </head>
+  
+  
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="180" data-default-mode="light">
+    <div class="bd-header-announcement container-fluid" id="banner">
+      
+
+    </div>
+
+    
+    <nav class="bd-header navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="bd-header__inner container-xl">
+
+  <div id="navbar-start">
+    
+    
+  
+
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+    <img src="../../_static/numpylogo.svg" class="logo__image only-light" alt="Logo image">
+    <img src="../../_static/numpylogo_dark.svg" class="logo__image only-dark" alt="Logo image">
+  
+  
+</a>
+    
+  </div>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapsible" aria-controls="navbar-collapsible" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="fas fa-bars"></span>
+  </button>
+
+  
+  <div id="navbar-collapsible" class="col-lg-9 collapse navbar-collapse">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <ul id="navbar-main-elements" class="navbar-nav">
+    <li class="toctree-l1 current active nav-item">
+ <a class="reference internal nav-link" href="../../user/index.html">
+  User Guide
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../reference/index.html">
+  API reference
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../dev/index.html">
+  Development
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../release.html">
+  Release notes
+ </a>
+</li>
+
+    
+    <li class="nav-item">
+        <a class="nav-link nav-external" href="https://numpy.org/numpy-tutorials/">Learn<i class="fas fa-external-link-alt"></i></a>
+    </li>
+    
+</ul>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      
+      <div class="navbar-end-item">
+        <span id="theme-switch" class="btn btn-sm btn-outline-primary navbar-btn rounded-circle">
+    <a class="theme-switch" data-mode="light"><i class="fas fa-sun"></i></a>
+    <a class="theme-switch" data-mode="dark"><i class="far fa-moon"></i></a>
+    <a class="theme-switch" data-mode="auto"><i class="fas fa-adjust"></i></a>
+</span>
+      </div>
+      
+      <div class="navbar-end-item">
+        <div class="dropdown" id="version_switcher">
+    <button type="button" class="btn btn-sm navbar-btn dropdown-toggle" id="version_switcher_button" data-toggle="dropdown">
+        1.24  <!-- this text may get changed later by javascript -->
+        <span class="caret"></span>
+    </button>
+    <div id="version_switcher_menu" class="dropdown-menu list-group-flush py-0" aria-labelledby="version_switcher_button">
+    <!-- dropdown will be populated by javascript on page load -->
+    </div>
+</div>
+
+<!-- NOTE: this JS must live here (not in our global JS file) because it relies
+     on being processed by Jinja before it is run (specifically for replacing
+     variables f2py/buildtools/distutils and {'version_match': '1.24', 'json_url': 'https://numpy.org/doc/_static/versions.json'}.
+-->
+
+<script type="text/javascript">
+// Check if corresponding page path exists in other version of docs
+// and, if so, go there instead of the homepage of the other docs version
+function checkPageExistsAndRedirect(event) {
+    const currentFilePath = "f2py/buildtools/distutils.html",
+          tryUrl = event.target.getAttribute("href");
+    let otherDocsHomepage = tryUrl.replace(currentFilePath, "");
+    $.ajax({
+        type: 'HEAD',
+        url: tryUrl,
+        // if the page exists, go there
+        success: function() {
+            location.href = tryUrl;
+        }
+    }).fail(function() {
+        location.href = otherDocsHomepage;
+    });
+    // this prevents the browser from following the href of the clicked node
+    // (which is fine because this function takes care of redirecting)
+    return false;
+}
+
+// Populate the version switcher from the JSON config file
+(function () {
+    $.getJSON("https://numpy.org/doc/_static/versions.json", function(data, textStatus, jqXHR) {
+        const currentFilePath = "f2py/buildtools/distutils.html";
+        let btn = document.getElementById("version_switcher_button");
+        // Set empty strings by default so that these attributes exist and can be used in CSS selectors
+        btn.dataset["activeVersionName"] = "";
+        btn.dataset["activeVersion"] = "";
+        // create links to the corresponding page in the other docs versions
+        $.each(data, function(index, entry) {
+            // if no custom name specified (e.g., "latest"), use version string
+            if (!("name" in entry)) {
+                entry.name = entry.version;
+            }
+            // create the node
+            const node = document.createElement("a");
+            node.setAttribute("class", "list-group-item list-group-item-action py-1");
+            node.textContent = `${entry.name}`;
+            node.setAttribute("href", `${entry.url}${currentFilePath}`);
+            // on click, AJAX calls will check if the linked page exists before
+            // trying to redirect, and if not, will redirect to the homepage
+            // for that version of the docs.
+            node.onclick = checkPageExistsAndRedirect;
+            // Add dataset values for the version and name in case people want
+            // to apply CSS styling based on this information.
+            node.dataset["versionName"] = entry.name;
+            node.dataset["version"] = entry.version;
+
+            $("#version_switcher_menu").append(node);
+            // replace dropdown button text with the preferred display name of
+            // this version, rather than using sphinx's 1.24 variable.
+            // also highlight the dropdown entry for the currently-viewed
+            // version's entry
+            if (entry.version == "1.24") {
+                node.classList.add("active");
+                btn.innerText = btn.dataset["activeVersionName"] = entry.name;
+                btn.dataset["activeVersion"] = entry.version;
+            }
+        });
+    });
+})();
+</script>
+      </div>
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+        <li class="nav-item">
+          <a class="nav-link" href="https://github.com/numpy/numpy" rel="noopener" target="_blank" title="GitHub"><span><i class="fab fa-github-square"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="https://twitter.com/numpy_team" rel="noopener" target="_blank" title="Twitter"><span><i class="fab fa-twitter-square"></i></span>
+            <label class="sr-only">Twitter</label></a>
+        </li>
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+</div>
+    </nav>
+    
+
+    <div class="bd-container container-xl">
+      <div class="bd-container__inner row">
+          
+
+<!-- Only show if we have sidebars configured, else just a small margin  -->
+<div class="bd-sidebar-primary col-12 col-md-3 bd-sidebar">
+  <div class="sidebar-start-items"><form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <div class="bd-toc-item active">
+    <p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Getting started
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../user/whatisnumpy.html">
+   What is NumPy?
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference external" href="https://numpy.org/install/">
+   Installation
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../user/quickstart.html">
+   NumPy quickstart
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../user/absolute_beginners.html">
+   NumPy: the absolute basics for beginners
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Fundamentals and usage
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../user/basics.html">
+   NumPy fundamentals
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../user/numpy-for-matlab-users.html">
+   NumPy for MATLAB users
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference external" href="https://numpy.org/numpy-tutorials/features.html">
+   NumPy Tutorials
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../user/howtos_index.html">
+   NumPy How Tos
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Advanced usage and interoperability
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../user/building.html">
+   Building from source
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../user/c-info.html">
+   Using NumPy C-API
+  </a>
+ </li>
+ <li class="toctree-l1 current active has-children">
+  <a class="reference internal" href="../index.html">
+   F2PY user guide and reference manual
+  </a>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul class="current">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../f2py.getting-started.html">
+     Three ways to wrap - getting started
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../f2py-user.html">
+     F2PY user guide
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../f2py-reference.html">
+     F2PY reference manual
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../usage.html">
+     Using F2PY
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../python-usage.html">
+     Using F2PY bindings in Python
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../signature-file.html">
+     Signature file
+    </a>
+   </li>
+   <li class="toctree-l2 current active has-children">
+    <a class="reference internal" href="index.html">
+     F2PY and Build Systems
+    </a>
+    <input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+    <label for="toctree-checkbox-2">
+     <i class="fas fa-chevron-down">
+     </i>
+    </label>
+    <ul class="current">
+     <li class="toctree-l3 current active">
+      <a class="current reference internal" href="#">
+       Using via
+       <code class="xref py py-obj docutils literal notranslate">
+        <span class="pre">
+         numpy.distutils
+        </span>
+       </code>
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="meson.html">
+       Using via
+       <code class="docutils literal notranslate">
+        <span class="pre">
+         meson
+        </span>
+       </code>
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="cmake.html">
+       Using via
+       <code class="docutils literal notranslate">
+        <span class="pre">
+         cmake
+        </span>
+       </code>
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="skbuild.html">
+       Using via
+       <code class="docutils literal notranslate">
+        <span class="pre">
+         scikit-build
+        </span>
+       </code>
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../advanced.html">
+     Advanced F2PY use cases
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../windows/index.html">
+     F2PY and Windows
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../dev/underthehood.html">
+   Under-the-hood documentation for developers
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../user/basics.interoperability.html">
+   Interoperability with NumPy
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Extras
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../glossary.html">
+   Glossary
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../release.html">
+   Release notes
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../license.html">
+   NumPy license
+  </a>
+ </li>
+</ul>
+
+  </div>
+</nav>
+  </div>
+  <div class="sidebar-end-items">
+  </div>
+</div>
+
+
+          
+
+
+<div class="bd-sidebar-secondary d-none d-xl-block col-xl-2 bd-toc">
+  
+    
+    <div class="toc-item">
+      
+<div class="tocsection onthispage mt-5 pt-1 pb-3">
+    <i class="fas fa-list"></i> On this page
+</div>
+
+<nav id="bd-toc-nav">
+    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#extensions-to-distutils">
+   Extensions to
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     distutils
+    </span>
+   </code>
+  </a>
+ </li>
+</ul>
+
+</nav>
+    </div>
+    
+    <div class="toc-item">
+      
+    </div>
+    
+  
+</div>
+
+
+          
+          
+          <div class="bd-content col-12 col-md-9 col-xl-7">
+              
+              <article class="bd-article" role="main">
+                
+  <section id="using-via-numpy-distutils">
+<span id="f2py-distutils"></span><h1>Using via <a class="reference internal" href="../../reference/distutils.html#module-numpy.distutils" title="numpy.distutils"><code class="xref py py-obj docutils literal notranslate"><span class="pre">numpy.distutils</span></code></a><a class="headerlink" href="#using-via-numpy-distutils" title="Permalink to this heading">#</a></h1>
+<p><a class="reference internal" href="../../reference/distutils.html#module-numpy.distutils" title="numpy.distutils"><code class="xref py py-mod docutils literal notranslate"><span class="pre">numpy.distutils</span></code></a> is part of NumPy, and extends the standard Python
+<code class="docutils literal notranslate"><span class="pre">distutils</span></code> module to deal with Fortran sources and F2PY signature files, e.g.
+compile Fortran sources, call F2PY to construct extension modules, etc.</p>
+<aside class="topic">
+<p class="topic-title">Example</p>
+<p>Consider the following <code class="docutils literal notranslate"><span class="pre">setup_file.py</span></code> for the <code class="docutils literal notranslate"><span class="pre">fib</span></code> and <code class="docutils literal notranslate"><span class="pre">scalar</span></code>
+examples from <a class="reference internal" href="../f2py.getting-started.html#f2py-getting-started"><span class="std std-ref">Three ways to wrap - getting started</span></a> section:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">numpy.distutils.core</span> <span class="kn">import</span> <span class="n">Extension</span>
+
+<span class="n">ext1</span> <span class="o">=</span> <span class="n">Extension</span><span class="p">(</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;scalar&#39;</span><span class="p">,</span>
+                 <span class="n">sources</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;scalar.f&#39;</span><span class="p">])</span>
+<span class="n">ext2</span> <span class="o">=</span> <span class="n">Extension</span><span class="p">(</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;fib2&#39;</span><span class="p">,</span>
+                 <span class="n">sources</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;fib2.pyf&#39;</span><span class="p">,</span> <span class="s1">&#39;fib1.f&#39;</span><span class="p">])</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">numpy.distutils.core</span> <span class="kn">import</span> <span class="n">setup</span>
+    <span class="n">setup</span><span class="p">(</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;f2py_example&#39;</span><span class="p">,</span>
+          <span class="n">description</span>       <span class="o">=</span> <span class="s2">&quot;F2PY Users Guide examples&quot;</span><span class="p">,</span>
+          <span class="n">author</span>            <span class="o">=</span> <span class="s2">&quot;Pearu Peterson&quot;</span><span class="p">,</span>
+          <span class="n">author_email</span>      <span class="o">=</span> <span class="s2">&quot;pearu@cens.ioc.ee&quot;</span><span class="p">,</span>
+          <span class="n">ext_modules</span> <span class="o">=</span> <span class="p">[</span><span class="n">ext1</span><span class="p">,</span> <span class="n">ext2</span><span class="p">]</span>
+          <span class="p">)</span>
+<span class="c1"># End of setup_example.py</span>
+</pre></div>
+</div>
+<p>Running</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python setup_example.py build
+</pre></div>
+</div>
+<p>will build two extension modules <code class="docutils literal notranslate"><span class="pre">scalar</span></code> and <code class="docutils literal notranslate"><span class="pre">fib2</span></code> to the
+build directory.</p>
+</aside>
+<section id="extensions-to-distutils">
+<h2>Extensions to <code class="docutils literal notranslate"><span class="pre">distutils</span></code><a class="headerlink" href="#extensions-to-distutils" title="Permalink to this heading">#</a></h2>
+<p><a class="reference internal" href="../../reference/distutils.html#module-numpy.distutils" title="numpy.distutils"><code class="xref py py-mod docutils literal notranslate"><span class="pre">numpy.distutils</span></code></a> extends <code class="docutils literal notranslate"><span class="pre">distutils</span></code> with the following features:</p>
+<ul>
+<li><p><a class="reference internal" href="../../reference/generated/numpy.distutils.core.Extension.html#numpy.distutils.core.Extension" title="numpy.distutils.core.Extension"><code class="xref py py-class docutils literal notranslate"><span class="pre">Extension</span></code></a> class argument <code class="docutils literal notranslate"><span class="pre">sources</span></code> may contain Fortran source
+files. In addition, the list <code class="docutils literal notranslate"><span class="pre">sources</span></code> may contain at most one
+F2PY signature file, and in this case, the name of an Extension module must
+match with the <code class="docutils literal notranslate"><span class="pre">&lt;modulename&gt;</span></code> used in signature file. It is
+assumed that an F2PY signature file contains exactly one <code class="docutils literal notranslate"><span class="pre">python</span>
+<span class="pre">module</span></code> block.</p>
+<p>If <code class="docutils literal notranslate"><span class="pre">sources</span></code> do not contain a signature file, then F2PY is used to scan
+Fortran source files to construct wrappers to the Fortran codes.</p>
+<p>Additional options to the F2PY executable can be given using the
+<a class="reference internal" href="../../reference/generated/numpy.distutils.core.Extension.html#numpy.distutils.core.Extension" title="numpy.distutils.core.Extension"><code class="xref py py-class docutils literal notranslate"><span class="pre">Extension</span></code></a> class argument <code class="docutils literal notranslate"><span class="pre">f2py_options</span></code>.</p>
+</li>
+<li><p>The following new <code class="docutils literal notranslate"><span class="pre">distutils</span></code> commands are defined:</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">build_src</span></code></dt><dd><p>to construct Fortran wrapper extension modules, among many other things.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">config_fc</span></code></dt><dd><p>to change Fortran compiler options.</p>
+</dd>
+</dl>
+<p>Additionally, the <code class="docutils literal notranslate"><span class="pre">build_ext</span></code> and <code class="docutils literal notranslate"><span class="pre">build_clib</span></code> commands are also enhanced
+to support Fortran sources.</p>
+<p>Run</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python &lt;setup.py file&gt; config_fc build_src build_ext --help
+</pre></div>
+</div>
+<p>to see available options for these commands.</p>
+</li>
+<li><p>When building Python packages containing Fortran sources, one
+can choose different Fortran compilers by using the <code class="docutils literal notranslate"><span class="pre">build_ext</span></code>
+command option <code class="docutils literal notranslate"><span class="pre">--fcompiler=&lt;Vendor&gt;</span></code>. Here <code class="docutils literal notranslate"><span class="pre">&lt;Vendor&gt;</span></code> can be one of the
+following names (on <code class="docutils literal notranslate"><span class="pre">linux</span></code> systems):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">absoft</span> <span class="n">compaq</span> <span class="n">fujitsu</span> <span class="n">g95</span> <span class="n">gnu</span> <span class="n">gnu95</span> <span class="n">intel</span> <span class="n">intele</span> <span class="n">intelem</span> <span class="n">lahey</span> <span class="n">nag</span> <span class="n">nagfor</span> <span class="n">nv</span> <span class="n">pathf95</span> <span class="n">pg</span> <span class="n">vast</span>
+</pre></div>
+</div>
+<p>See <code class="docutils literal notranslate"><span class="pre">numpy_distutils/fcompiler.py</span></code> for an up-to-date list of
+supported compilers for different platforms, or run</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python -m numpy.f2py -c --help-fcompiler
+</pre></div>
+</div>
+</li>
+</ul>
+</section>
+</section>
+
+
+              </article>
+              
+
+              
+              <footer class="bd-footer-article">
+                  <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+  <a class='left-prev' id="prev-link" href="index.html" title="previous page">
+      <i class="fas fa-angle-left"></i>
+      <div class="prev-next-info">
+          <p class="prev-next-subtitle">previous</p>
+          <p class="prev-next-title">F2PY and Build Systems</p>
+      </div>
+  </a>
+  <a class='right-next' id="next-link" href="meson.html" title="next page">
+  <div class="prev-next-info">
+      <p class="prev-next-subtitle">next</p>
+      <p class="prev-next-title">Using via <code class="docutils literal notranslate"><span class="pre">meson</span></code></p>
+  </div>
+  <i class="fas fa-angle-right"></i>
+  </a>
+</div>
+              </footer>
+              
+          </div>
+          
+      </div>
+    </div>
+
+  
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695"></script>
+
+<footer class="bd-footer"><div class="bd-footer__inner container">
+  
+  <div class="footer-item">
+    <p class="copyright">
+    &copy; Copyright 2008-2022, NumPy Developers.<br>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    <p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.3.0.<br>
+</p>
+  </div>
+  
+</div>
+</footer>
+  </body>
+</html>

@@ -1,0 +1,511 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>Convenience Classes &#8212; NumPy v1.24 Manual</title>
+<script>
+  document.documentElement.dataset.mode = localStorage.getItem("mode") || "light";
+  document.documentElement.dataset.theme = localStorage.getItem("theme") || "light"
+</script>
+
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=92025949c220c2e29695" rel="stylesheet">
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=92025949c220c2e29695" rel="stylesheet">
+
+
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/numpy.css" />
+
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695">
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/design-tabs.js"></script>
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="docsearch:language" content="en">
+  </head>
+  
+  
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="180" data-default-mode="light">
+    <div class="bd-header-announcement container-fluid" id="banner">
+      
+
+    </div>
+
+    
+    <nav class="bd-header navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="bd-header__inner container-xl">
+
+  <div id="navbar-start">
+    
+    
+  
+
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+    <img src="../_static/numpylogo.svg" class="logo__image only-light" alt="Logo image">
+    <img src="../_static/numpylogo_dark.svg" class="logo__image only-dark" alt="Logo image">
+  
+  
+</a>
+    
+  </div>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapsible" aria-controls="navbar-collapsible" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="fas fa-bars"></span>
+  </button>
+
+  
+  <div id="navbar-collapsible" class="col-lg-9 collapse navbar-collapse">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <ul id="navbar-main-elements" class="navbar-nav">
+    <li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../user/index.html">
+  User Guide
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="index.html">
+  API reference
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../dev/index.html">
+  Development
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../release.html">
+  Release notes
+ </a>
+</li>
+
+    
+    <li class="nav-item">
+        <a class="nav-link nav-external" href="https://numpy.org/numpy-tutorials/">Learn<i class="fas fa-external-link-alt"></i></a>
+    </li>
+    
+</ul>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      
+      <div class="navbar-end-item">
+        <span id="theme-switch" class="btn btn-sm btn-outline-primary navbar-btn rounded-circle">
+    <a class="theme-switch" data-mode="light"><i class="fas fa-sun"></i></a>
+    <a class="theme-switch" data-mode="dark"><i class="far fa-moon"></i></a>
+    <a class="theme-switch" data-mode="auto"><i class="fas fa-adjust"></i></a>
+</span>
+      </div>
+      
+      <div class="navbar-end-item">
+        <div class="dropdown" id="version_switcher">
+    <button type="button" class="btn btn-sm navbar-btn dropdown-toggle" id="version_switcher_button" data-toggle="dropdown">
+        1.24  <!-- this text may get changed later by javascript -->
+        <span class="caret"></span>
+    </button>
+    <div id="version_switcher_menu" class="dropdown-menu list-group-flush py-0" aria-labelledby="version_switcher_button">
+    <!-- dropdown will be populated by javascript on page load -->
+    </div>
+</div>
+
+<!-- NOTE: this JS must live here (not in our global JS file) because it relies
+     on being processed by Jinja before it is run (specifically for replacing
+     variables reference/routines.polynomials.package and {'version_match': '1.24', 'json_url': 'https://numpy.org/doc/_static/versions.json'}.
+-->
+
+<script type="text/javascript">
+// Check if corresponding page path exists in other version of docs
+// and, if so, go there instead of the homepage of the other docs version
+function checkPageExistsAndRedirect(event) {
+    const currentFilePath = "reference/routines.polynomials.package.html",
+          tryUrl = event.target.getAttribute("href");
+    let otherDocsHomepage = tryUrl.replace(currentFilePath, "");
+    $.ajax({
+        type: 'HEAD',
+        url: tryUrl,
+        // if the page exists, go there
+        success: function() {
+            location.href = tryUrl;
+        }
+    }).fail(function() {
+        location.href = otherDocsHomepage;
+    });
+    // this prevents the browser from following the href of the clicked node
+    // (which is fine because this function takes care of redirecting)
+    return false;
+}
+
+// Populate the version switcher from the JSON config file
+(function () {
+    $.getJSON("https://numpy.org/doc/_static/versions.json", function(data, textStatus, jqXHR) {
+        const currentFilePath = "reference/routines.polynomials.package.html";
+        let btn = document.getElementById("version_switcher_button");
+        // Set empty strings by default so that these attributes exist and can be used in CSS selectors
+        btn.dataset["activeVersionName"] = "";
+        btn.dataset["activeVersion"] = "";
+        // create links to the corresponding page in the other docs versions
+        $.each(data, function(index, entry) {
+            // if no custom name specified (e.g., "latest"), use version string
+            if (!("name" in entry)) {
+                entry.name = entry.version;
+            }
+            // create the node
+            const node = document.createElement("a");
+            node.setAttribute("class", "list-group-item list-group-item-action py-1");
+            node.textContent = `${entry.name}`;
+            node.setAttribute("href", `${entry.url}${currentFilePath}`);
+            // on click, AJAX calls will check if the linked page exists before
+            // trying to redirect, and if not, will redirect to the homepage
+            // for that version of the docs.
+            node.onclick = checkPageExistsAndRedirect;
+            // Add dataset values for the version and name in case people want
+            // to apply CSS styling based on this information.
+            node.dataset["versionName"] = entry.name;
+            node.dataset["version"] = entry.version;
+
+            $("#version_switcher_menu").append(node);
+            // replace dropdown button text with the preferred display name of
+            // this version, rather than using sphinx's 1.24 variable.
+            // also highlight the dropdown entry for the currently-viewed
+            // version's entry
+            if (entry.version == "1.24") {
+                node.classList.add("active");
+                btn.innerText = btn.dataset["activeVersionName"] = entry.name;
+                btn.dataset["activeVersion"] = entry.version;
+            }
+        });
+    });
+})();
+</script>
+      </div>
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+        <li class="nav-item">
+          <a class="nav-link" href="https://github.com/numpy/numpy" rel="noopener" target="_blank" title="GitHub"><span><i class="fab fa-github-square"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="https://twitter.com/numpy_team" rel="noopener" target="_blank" title="Twitter"><span><i class="fab fa-twitter-square"></i></span>
+            <label class="sr-only">Twitter</label></a>
+        </li>
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+</div>
+    </nav>
+    
+
+    <div class="bd-container container-xl">
+      <div class="bd-container__inner row">
+          
+
+<!-- Only show if we have sidebars configured, else just a small margin  -->
+<div class="bd-sidebar-primary col-12 col-md-3 bd-sidebar">
+  <div class="sidebar-start-items"><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <div class="bd-toc-item active">
+    
+  </div>
+</nav>
+  </div>
+  <div class="sidebar-end-items">
+  </div>
+</div>
+
+
+          
+
+
+<div class="bd-sidebar-secondary d-none d-xl-block col-xl-2 bd-toc">
+  
+    
+    <div class="toc-item">
+      
+<div class="tocsection onthispage mt-5 pt-1 pb-3">
+    <i class="fas fa-list"></i> On this page
+</div>
+
+<nav id="bd-toc-nav">
+    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#">
+   Convenience Classes
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#constants">
+     Constants
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#creation">
+     Creation
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#conversion">
+     Conversion
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#calculus">
+     Calculus
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#validation">
+     Validation
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#misc">
+     Misc
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#configuration">
+   Configuration
+  </a>
+ </li>
+</ul>
+
+</nav>
+    </div>
+    
+    <div class="toc-item">
+      
+    </div>
+    
+  
+</div>
+
+
+          
+          
+          <div class="bd-content col-12 col-md-9 col-xl-7">
+              
+              <article class="bd-article" role="main">
+                
+  <span class="target" id="module-numpy.polynomial"></span><p>A sub-package for efficiently dealing with polynomials.</p>
+<p>Within the documentation for this sub-package, a “finite power series,”
+i.e., a polynomial (also referred to simply as a “series”) is represented
+by a 1-D numpy array of the polynomial’s coefficients, ordered from lowest
+order term to highest.  For example, array([1,2,3]) represents
+<code class="docutils literal notranslate"><span class="pre">P_0</span> <span class="pre">+</span> <span class="pre">2*P_1</span> <span class="pre">+</span> <span class="pre">3*P_2</span></code>, where P_n is the n-th order basis polynomial
+applicable to the specific module in question, e.g., <a class="reference internal" href="routines.polynomials.polynomial.html#module-numpy.polynomial.polynomial" title="numpy.polynomial.polynomial"><code class="xref py py-obj docutils literal notranslate"><span class="pre">polynomial</span></code></a> (which
+“wraps” the “standard” basis) or <a class="reference internal" href="routines.polynomials.chebyshev.html#module-numpy.polynomial.chebyshev" title="numpy.polynomial.chebyshev"><code class="xref py py-obj docutils literal notranslate"><span class="pre">chebyshev</span></code></a>.  For optimal performance,
+all operations on polynomials, including evaluation at an argument, are
+implemented as operations on the coefficients.  Additional (module-specific)
+information can be found in the docstring for the module of interest.</p>
+<p>This package provides <em>convenience classes</em> for each of six different kinds
+of polynomials:</p>
+<blockquote>
+<div><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p><strong>Name</strong></p></th>
+<th class="head"><p><strong>Provides</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/numpy.polynomial.polynomial.Polynomial.html#numpy.polynomial.polynomial.Polynomial" title="numpy.polynomial.polynomial.Polynomial"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Polynomial</span></code></a></p></td>
+<td><p>Power series</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/numpy.polynomial.chebyshev.Chebyshev.html#numpy.polynomial.chebyshev.Chebyshev" title="numpy.polynomial.chebyshev.Chebyshev"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Chebyshev</span></code></a></p></td>
+<td><p>Chebyshev series</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/numpy.polynomial.legendre.Legendre.html#numpy.polynomial.legendre.Legendre" title="numpy.polynomial.legendre.Legendre"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Legendre</span></code></a></p></td>
+<td><p>Legendre series</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/numpy.polynomial.laguerre.Laguerre.html#numpy.polynomial.laguerre.Laguerre" title="numpy.polynomial.laguerre.Laguerre"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Laguerre</span></code></a></p></td>
+<td><p>Laguerre series</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/numpy.polynomial.hermite.Hermite.html#numpy.polynomial.hermite.Hermite" title="numpy.polynomial.hermite.Hermite"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Hermite</span></code></a></p></td>
+<td><p>Hermite series</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/numpy.polynomial.hermite_e.HermiteE.html#numpy.polynomial.hermite_e.HermiteE" title="numpy.polynomial.hermite_e.HermiteE"><code class="xref py py-obj docutils literal notranslate"><span class="pre">HermiteE</span></code></a></p></td>
+<td><p>HermiteE series</p></td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<p>These <em>convenience classes</em> provide a consistent interface for creating,
+manipulating, and fitting data with polynomials of different bases.
+The convenience classes are the preferred interface for the <a class="reference internal" href="#module-numpy.polynomial" title="numpy.polynomial"><code class="xref py py-obj docutils literal notranslate"><span class="pre">polynomial</span></code></a>
+package, and are available from the <code class="docutils literal notranslate"><span class="pre">numpy.polynomial</span></code> namespace.
+This eliminates the need to navigate to the corresponding submodules, e.g.
+<code class="docutils literal notranslate"><span class="pre">np.polynomial.Polynomial</span></code> or <code class="docutils literal notranslate"><span class="pre">np.polynomial.Chebyshev</span></code> instead of
+<code class="docutils literal notranslate"><span class="pre">np.polynomial.polynomial.Polynomial</span></code> or
+<code class="docutils literal notranslate"><span class="pre">np.polynomial.chebyshev.Chebyshev</span></code>, respectively.
+The classes provide a more consistent and concise interface than the
+type-specific functions defined in the submodules for each type of polynomial.
+For example, to fit a Chebyshev polynomial with degree <code class="docutils literal notranslate"><span class="pre">1</span></code> to data given
+by arrays <code class="docutils literal notranslate"><span class="pre">xdata</span></code> and <code class="docutils literal notranslate"><span class="pre">ydata</span></code>, the
+<a class="reference internal" href="generated/numpy.polynomial.chebyshev.Chebyshev.fit.html#numpy.polynomial.chebyshev.Chebyshev.fit" title="numpy.polynomial.chebyshev.Chebyshev.fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit</span></code></a> class method:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">numpy.polynomial</span> <span class="kn">import</span> <span class="n">Chebyshev</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">Chebyshev</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">xdata</span><span class="p">,</span> <span class="n">ydata</span><span class="p">,</span> <span class="n">deg</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>is preferred over the <a class="reference internal" href="generated/numpy.polynomial.chebyshev.chebfit.html#numpy.polynomial.chebyshev.chebfit" title="numpy.polynomial.chebyshev.chebfit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">chebyshev.chebfit</span></code></a> function from the
+<code class="docutils literal notranslate"><span class="pre">np.polynomial.chebyshev</span></code> module:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">numpy.polynomial.chebyshev</span> <span class="kn">import</span> <span class="n">chebfit</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">chebfit</span><span class="p">(</span><span class="n">xdata</span><span class="p">,</span> <span class="n">ydata</span><span class="p">,</span> <span class="n">deg</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>See <a class="reference internal" href="routines.polynomials.classes.html"><span class="doc">Using the Convenience Classes</span></a> for more details.</p>
+<section id="convenience-classes">
+<h1>Convenience Classes<a class="headerlink" href="#convenience-classes" title="Permalink to this heading">#</a></h1>
+<p>The following lists the various constants and methods common to all of
+the classes representing the various kinds of polynomials. In the following,
+the term <code class="docutils literal notranslate"><span class="pre">Poly</span></code> represents any one of the convenience classes (e.g.
+<a class="reference internal" href="generated/numpy.polynomial.polynomial.Polynomial.html#numpy.polynomial.polynomial.Polynomial" title="numpy.polynomial.polynomial.Polynomial"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Polynomial</span></code></a>, <a class="reference internal" href="generated/numpy.polynomial.chebyshev.Chebyshev.html#numpy.polynomial.chebyshev.Chebyshev" title="numpy.polynomial.chebyshev.Chebyshev"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Chebyshev</span></code></a>, <a class="reference internal" href="generated/numpy.polynomial.hermite.Hermite.html#numpy.polynomial.hermite.Hermite" title="numpy.polynomial.hermite.Hermite"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Hermite</span></code></a>, etc.)
+while the lowercase <code class="docutils literal notranslate"><span class="pre">p</span></code> represents an <strong>instance</strong> of a polynomial class.</p>
+<section id="constants">
+<h2>Constants<a class="headerlink" href="#constants" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Poly.domain</span></code>     – Default domain</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Poly.window</span></code>     – Default window</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Poly.basis_name</span></code> – String used to represent the basis</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Poly.maxpower</span></code>   – Maximum value <code class="docutils literal notranslate"><span class="pre">n</span></code> such that <code class="docutils literal notranslate"><span class="pre">p**n</span></code> is allowed</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Poly.nickname</span></code>   – String used in printing</p></li>
+</ul>
+</section>
+<section id="creation">
+<h2>Creation<a class="headerlink" href="#creation" title="Permalink to this heading">#</a></h2>
+<p>Methods for creating polynomial instances.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Poly.basis(degree)</span></code>    – Basis polynomial of given degree</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Poly.identity()</span></code>       – <code class="docutils literal notranslate"><span class="pre">p</span></code> where <code class="docutils literal notranslate"><span class="pre">p(x)</span> <span class="pre">=</span> <span class="pre">x</span></code> for all <code class="docutils literal notranslate"><span class="pre">x</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Poly.fit(x,</span> <span class="pre">y,</span> <span class="pre">deg)</span></code>   – <code class="docutils literal notranslate"><span class="pre">p</span></code> of degree <code class="docutils literal notranslate"><span class="pre">deg</span></code> with coefficients
+determined by the least-squares fit to the data <code class="docutils literal notranslate"><span class="pre">x</span></code>, <code class="docutils literal notranslate"><span class="pre">y</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Poly.fromroots(roots)</span></code> – <code class="docutils literal notranslate"><span class="pre">p</span></code> with specified roots</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">p.copy()</span></code>              – Create a copy of <code class="docutils literal notranslate"><span class="pre">p</span></code></p></li>
+</ul>
+</section>
+<section id="conversion">
+<h2>Conversion<a class="headerlink" href="#conversion" title="Permalink to this heading">#</a></h2>
+<p>Methods for converting a polynomial instance of one kind to another.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">p.cast(Poly)</span></code>    – Convert <code class="docutils literal notranslate"><span class="pre">p</span></code> to instance of kind <code class="docutils literal notranslate"><span class="pre">Poly</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">p.convert(Poly)</span></code> – Convert <code class="docutils literal notranslate"><span class="pre">p</span></code> to instance of kind <code class="docutils literal notranslate"><span class="pre">Poly</span></code> or map
+between <code class="docutils literal notranslate"><span class="pre">domain</span></code> and <code class="docutils literal notranslate"><span class="pre">window</span></code></p></li>
+</ul>
+</section>
+<section id="calculus">
+<h2>Calculus<a class="headerlink" href="#calculus" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">p.deriv()</span></code> – Take the derivative of <code class="docutils literal notranslate"><span class="pre">p</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">p.integ()</span></code> – Integrate <code class="docutils literal notranslate"><span class="pre">p</span></code></p></li>
+</ul>
+</section>
+<section id="validation">
+<h2>Validation<a class="headerlink" href="#validation" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Poly.has_samecoef(p1,</span> <span class="pre">p2)</span></code>   – Check if coefficients match</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Poly.has_samedomain(p1,</span> <span class="pre">p2)</span></code> – Check if domains match</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Poly.has_sametype(p1,</span> <span class="pre">p2)</span></code>   – Check if types match</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Poly.has_samewindow(p1,</span> <span class="pre">p2)</span></code> – Check if windows match</p></li>
+</ul>
+</section>
+<section id="misc">
+<h2>Misc<a class="headerlink" href="#misc" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">p.linspace()</span></code> – Return <code class="docutils literal notranslate"><span class="pre">x,</span> <span class="pre">p(x)</span></code> at equally-spaced points in <code class="docutils literal notranslate"><span class="pre">domain</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">p.mapparms()</span></code> – Return the parameters for the linear mapping between
+<code class="docutils literal notranslate"><span class="pre">domain</span></code> and <code class="docutils literal notranslate"><span class="pre">window</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">p.roots()</span></code>    – Return the roots of <em class="xref py py-obj">p</em>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">p.trim()</span></code>     – Remove trailing coefficients.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">p.cutdeg(degree)</span></code> – Truncate p to given degree</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">p.truncate(size)</span></code> – Truncate p to given size</p></li>
+</ul>
+</section>
+</section>
+<section id="configuration">
+<h1>Configuration<a class="headerlink" href="#configuration" title="Permalink to this heading">#</a></h1>
+<table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/numpy.polynomial.set_default_printstyle.html#numpy.polynomial.set_default_printstyle" title="numpy.polynomial.set_default_printstyle"><code class="xref py py-obj docutils literal notranslate"><span class="pre">numpy.polynomial.set_default_printstyle</span></code></a>(style)</p></td>
+<td><p>Set the default format for the string representation of polynomials.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+
+
+              </article>
+              
+
+              
+              <footer class="bd-footer-article">
+                  <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+</div>
+              </footer>
+              
+          </div>
+          
+      </div>
+    </div>
+
+  
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695"></script>
+
+<footer class="bd-footer"><div class="bd-footer__inner container">
+  
+  <div class="footer-item">
+    <p class="copyright">
+    &copy; Copyright 2008-2022, NumPy Developers.<br>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    <p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.3.0.<br>
+</p>
+  </div>
+  
+</div>
+</footer>
+  </body>
+</html>

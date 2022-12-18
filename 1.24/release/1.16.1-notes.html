@@ -1,0 +1,1094 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>NumPy 1.16.1 Release Notes &#8212; NumPy v1.24 Manual</title>
+<script>
+  document.documentElement.dataset.mode = localStorage.getItem("mode") || "light";
+  document.documentElement.dataset.theme = localStorage.getItem("theme") || "light"
+</script>
+
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=92025949c220c2e29695" rel="stylesheet">
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=92025949c220c2e29695" rel="stylesheet">
+
+
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/numpy.css" />
+
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695">
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/design-tabs.js"></script>
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="NumPy 1.16.0 Release Notes" href="1.16.0-notes.html" />
+    <link rel="prev" title="NumPy 1.16.2 Release Notes" href="1.16.2-notes.html" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="docsearch:language" content="en">
+  </head>
+  
+  
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="180" data-default-mode="light">
+    <div class="bd-header-announcement container-fluid" id="banner">
+      
+
+    </div>
+
+    
+    <nav class="bd-header navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="bd-header__inner container-xl">
+
+  <div id="navbar-start">
+    
+    
+  
+
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+    <img src="../_static/numpylogo.svg" class="logo__image only-light" alt="Logo image">
+    <img src="../_static/numpylogo_dark.svg" class="logo__image only-dark" alt="Logo image">
+  
+  
+</a>
+    
+  </div>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapsible" aria-controls="navbar-collapsible" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="fas fa-bars"></span>
+  </button>
+
+  
+  <div id="navbar-collapsible" class="col-lg-9 collapse navbar-collapse">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <ul id="navbar-main-elements" class="navbar-nav">
+    <li class="toctree-l1 current active nav-item">
+ <a class="reference internal nav-link" href="../user/index.html">
+  User Guide
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../reference/index.html">
+  API reference
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../dev/index.html">
+  Development
+ </a>
+</li>
+
+<li class="toctree-l1 current active nav-item">
+ <a class="reference internal nav-link" href="../release.html">
+  Release notes
+ </a>
+</li>
+
+    
+    <li class="nav-item">
+        <a class="nav-link nav-external" href="https://numpy.org/numpy-tutorials/">Learn<i class="fas fa-external-link-alt"></i></a>
+    </li>
+    
+</ul>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      
+      <div class="navbar-end-item">
+        <span id="theme-switch" class="btn btn-sm btn-outline-primary navbar-btn rounded-circle">
+    <a class="theme-switch" data-mode="light"><i class="fas fa-sun"></i></a>
+    <a class="theme-switch" data-mode="dark"><i class="far fa-moon"></i></a>
+    <a class="theme-switch" data-mode="auto"><i class="fas fa-adjust"></i></a>
+</span>
+      </div>
+      
+      <div class="navbar-end-item">
+        <div class="dropdown" id="version_switcher">
+    <button type="button" class="btn btn-sm navbar-btn dropdown-toggle" id="version_switcher_button" data-toggle="dropdown">
+        1.24  <!-- this text may get changed later by javascript -->
+        <span class="caret"></span>
+    </button>
+    <div id="version_switcher_menu" class="dropdown-menu list-group-flush py-0" aria-labelledby="version_switcher_button">
+    <!-- dropdown will be populated by javascript on page load -->
+    </div>
+</div>
+
+<!-- NOTE: this JS must live here (not in our global JS file) because it relies
+     on being processed by Jinja before it is run (specifically for replacing
+     variables release/1.16.1-notes and {'version_match': '1.24', 'json_url': 'https://numpy.org/doc/_static/versions.json'}.
+-->
+
+<script type="text/javascript">
+// Check if corresponding page path exists in other version of docs
+// and, if so, go there instead of the homepage of the other docs version
+function checkPageExistsAndRedirect(event) {
+    const currentFilePath = "release/1.16.1-notes.html",
+          tryUrl = event.target.getAttribute("href");
+    let otherDocsHomepage = tryUrl.replace(currentFilePath, "");
+    $.ajax({
+        type: 'HEAD',
+        url: tryUrl,
+        // if the page exists, go there
+        success: function() {
+            location.href = tryUrl;
+        }
+    }).fail(function() {
+        location.href = otherDocsHomepage;
+    });
+    // this prevents the browser from following the href of the clicked node
+    // (which is fine because this function takes care of redirecting)
+    return false;
+}
+
+// Populate the version switcher from the JSON config file
+(function () {
+    $.getJSON("https://numpy.org/doc/_static/versions.json", function(data, textStatus, jqXHR) {
+        const currentFilePath = "release/1.16.1-notes.html";
+        let btn = document.getElementById("version_switcher_button");
+        // Set empty strings by default so that these attributes exist and can be used in CSS selectors
+        btn.dataset["activeVersionName"] = "";
+        btn.dataset["activeVersion"] = "";
+        // create links to the corresponding page in the other docs versions
+        $.each(data, function(index, entry) {
+            // if no custom name specified (e.g., "latest"), use version string
+            if (!("name" in entry)) {
+                entry.name = entry.version;
+            }
+            // create the node
+            const node = document.createElement("a");
+            node.setAttribute("class", "list-group-item list-group-item-action py-1");
+            node.textContent = `${entry.name}`;
+            node.setAttribute("href", `${entry.url}${currentFilePath}`);
+            // on click, AJAX calls will check if the linked page exists before
+            // trying to redirect, and if not, will redirect to the homepage
+            // for that version of the docs.
+            node.onclick = checkPageExistsAndRedirect;
+            // Add dataset values for the version and name in case people want
+            // to apply CSS styling based on this information.
+            node.dataset["versionName"] = entry.name;
+            node.dataset["version"] = entry.version;
+
+            $("#version_switcher_menu").append(node);
+            // replace dropdown button text with the preferred display name of
+            // this version, rather than using sphinx's 1.24 variable.
+            // also highlight the dropdown entry for the currently-viewed
+            // version's entry
+            if (entry.version == "1.24") {
+                node.classList.add("active");
+                btn.innerText = btn.dataset["activeVersionName"] = entry.name;
+                btn.dataset["activeVersion"] = entry.version;
+            }
+        });
+    });
+})();
+</script>
+      </div>
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+        <li class="nav-item">
+          <a class="nav-link" href="https://github.com/numpy/numpy" rel="noopener" target="_blank" title="GitHub"><span><i class="fab fa-github-square"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="https://twitter.com/numpy_team" rel="noopener" target="_blank" title="Twitter"><span><i class="fab fa-twitter-square"></i></span>
+            <label class="sr-only">Twitter</label></a>
+        </li>
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+</div>
+    </nav>
+    
+
+    <div class="bd-container container-xl">
+      <div class="bd-container__inner row">
+          
+
+<!-- Only show if we have sidebars configured, else just a small margin  -->
+<div class="bd-sidebar-primary col-12 col-md-3 bd-sidebar">
+  <div class="sidebar-start-items"><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <div class="bd-toc-item active">
+    <p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Getting started
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../user/whatisnumpy.html">
+   What is NumPy?
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference external" href="https://numpy.org/install/">
+   Installation
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../user/quickstart.html">
+   NumPy quickstart
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../user/absolute_beginners.html">
+   NumPy: the absolute basics for beginners
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Fundamentals and usage
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../user/basics.html">
+   NumPy fundamentals
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../user/numpy-for-matlab-users.html">
+   NumPy for MATLAB users
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference external" href="https://numpy.org/numpy-tutorials/features.html">
+   NumPy Tutorials
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../user/howtos_index.html">
+   NumPy How Tos
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Advanced usage and interoperability
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../user/building.html">
+   Building from source
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../user/c-info.html">
+   Using NumPy C-API
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../f2py/index.html">
+   F2PY user guide and reference manual
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../dev/underthehood.html">
+   Under-the-hood documentation for developers
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../user/basics.interoperability.html">
+   Interoperability with NumPy
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Extras
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../glossary.html">
+   Glossary
+  </a>
+ </li>
+ <li class="toctree-l1 current active has-children">
+  <a class="reference internal" href="../release.html">
+   Release notes
+  </a>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul class="current">
+   <li class="toctree-l2">
+    <a class="reference internal" href="1.24.0-notes.html">
+     1.24.0
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="1.23.5-notes.html">
+     1.23.5
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="1.23.4-notes.html">
+     1.23.4
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="1.23.3-notes.html">
+     1.23.3
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="1.23.2-notes.html">
+     1.23.2
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="1.23.1-notes.html">
+     1.23.1
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="1.23.0-notes.html">
+     1.23.0
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="1.22.4-notes.html">
+     1.22.4
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="1.22.3-notes.html">
+     1.22.3
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="1.22.2-notes.html">
+     1.22.2
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="1.22.1-notes.html">
+     1.22.1
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="1.22.0-notes.html">
+     1.22.0
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="1.21.6-notes.html">
+     1.21.6
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="1.21.5-notes.html">
+     1.21.5
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="1.21.4-notes.html">
+     1.21.4
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="1.21.3-notes.html">
+     1.21.3
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="1.21.2-notes.html">
+     1.21.2
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="1.21.1-notes.html">
+     1.21.1
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="1.21.0-notes.html">
+     1.21.0
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="1.20.3-notes.html">
+     1.20.3
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="1.20.2-notes.html">
+     1.20.2
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="1.20.1-notes.html">
+     1.20.1
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="1.20.0-notes.html">
+     1.20.0
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="1.19.5-notes.html">
+     1.19.5
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="1.19.4-notes.html">
+     1.19.4
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="1.19.3-notes.html">
+     1.19.3
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="1.19.2-notes.html">
+     1.19.2
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="1.19.1-notes.html">
+     1.19.1
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="1.19.0-notes.html">
+     1.19.0
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="1.18.5-notes.html">
+     1.18.5
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="1.18.4-notes.html">
+     1.18.4
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="1.18.3-notes.html">
+     1.18.3
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="1.18.2-notes.html">
+     1.18.2
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="1.18.1-notes.html">
+     1.18.1
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="1.18.0-notes.html">
+     1.18.0
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="1.17.5-notes.html">
+     1.17.5
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="1.17.4-notes.html">
+     1.17.4
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="1.17.3-notes.html">
+     1.17.3
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="1.17.2-notes.html">
+     1.17.2
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="1.17.1-notes.html">
+     1.17.1
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="1.17.0-notes.html">
+     1.17.0
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="1.16.6-notes.html">
+     1.16.6
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="1.16.5-notes.html">
+     1.16.5
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="1.16.4-notes.html">
+     1.16.4
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="1.16.3-notes.html">
+     1.16.3
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="1.16.2-notes.html">
+     1.16.2
+    </a>
+   </li>
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
+     1.16.1
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="1.16.0-notes.html">
+     1.16.0
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="1.15.4-notes.html">
+     1.15.4
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="1.15.3-notes.html">
+     1.15.3
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="1.15.2-notes.html">
+     1.15.2
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="1.15.1-notes.html">
+     1.15.1
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="1.15.0-notes.html">
+     1.15.0
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="1.14.6-notes.html">
+     1.14.6
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="1.14.5-notes.html">
+     1.14.5
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="1.14.4-notes.html">
+     1.14.4
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="1.14.3-notes.html">
+     1.14.3
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="1.14.2-notes.html">
+     1.14.2
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="1.14.1-notes.html">
+     1.14.1
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="1.14.0-notes.html">
+     1.14.0
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="1.13.3-notes.html">
+     1.13.3
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="1.13.2-notes.html">
+     1.13.2
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="1.13.1-notes.html">
+     1.13.1
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="1.13.0-notes.html">
+     1.13.0
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="1.12.1-notes.html">
+     1.12.1
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="1.12.0-notes.html">
+     1.12.0
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="1.11.3-notes.html">
+     1.11.3
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="1.11.2-notes.html">
+     1.11.2
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="1.11.1-notes.html">
+     1.11.1
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="1.11.0-notes.html">
+     1.11.0
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="1.10.4-notes.html">
+     1.10.4
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="1.10.3-notes.html">
+     1.10.3
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="1.10.2-notes.html">
+     1.10.2
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="1.10.1-notes.html">
+     1.10.1
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="1.10.0-notes.html">
+     1.10.0
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="1.9.2-notes.html">
+     1.9.2
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="1.9.1-notes.html">
+     1.9.1
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="1.9.0-notes.html">
+     1.9.0
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="1.8.2-notes.html">
+     1.8.2
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="1.8.1-notes.html">
+     1.8.1
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="1.8.0-notes.html">
+     1.8.0
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="1.7.2-notes.html">
+     1.7.2
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="1.7.1-notes.html">
+     1.7.1
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="1.7.0-notes.html">
+     1.7.0
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="1.6.2-notes.html">
+     1.6.2
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="1.6.1-notes.html">
+     1.6.1
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="1.6.0-notes.html">
+     1.6.0
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="1.5.0-notes.html">
+     1.5.0
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="1.4.0-notes.html">
+     1.4.0
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="1.3.0-notes.html">
+     1.3.0
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../license.html">
+   NumPy license
+  </a>
+ </li>
+</ul>
+
+  </div>
+</nav>
+  </div>
+  <div class="sidebar-end-items">
+  </div>
+</div>
+
+
+          
+
+
+<div class="bd-sidebar-secondary d-none d-xl-block col-xl-2 bd-toc">
+  
+    
+    <div class="toc-item">
+      
+<div class="tocsection onthispage mt-5 pt-1 pb-3">
+    <i class="fas fa-list"></i> On this page
+</div>
+
+<nav id="bd-toc-nav">
+    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#contributors">
+   Contributors
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#enhancements">
+   Enhancements
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#compatibility-notes">
+   Compatibility notes
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#new-features">
+   New Features
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#divmod-operation-is-now-supported-for-two-timedelta64-operands">
+     divmod operation is now supported for two
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       timedelta64
+      </span>
+     </code>
+     operands
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#improvements">
+   Improvements
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#further-improvements-to-ctypes-support-in-np-ctypeslib">
+     Further improvements to
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       ctypes
+      </span>
+     </code>
+     support in
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       np.ctypeslib
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#array-comparison-assertions-include-maximum-differences">
+     Array comparison assertions include maximum differences
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#changes">
+   Changes
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#timedelta64-0-behavior-adjusted-to-return-nat">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       timedelta64
+      </span>
+      <span class="pre">
+       %
+      </span>
+      <span class="pre">
+       0
+      </span>
+     </code>
+     behavior adjusted to return
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       NaT
+      </span>
+     </code>
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+</nav>
+    </div>
+    
+    <div class="toc-item">
+      
+    </div>
+    
+  
+</div>
+
+
+          
+          
+          <div class="bd-content col-12 col-md-9 col-xl-7">
+              
+              <article class="bd-article" role="main">
+                
+  <section id="numpy-1-16-1-release-notes">
+<h1>NumPy 1.16.1 Release Notes<a class="headerlink" href="#numpy-1-16-1-release-notes" title="Permalink to this heading">#</a></h1>
+<p>The NumPy 1.16.1 release fixes bugs reported against the 1.16.0 release, and
+also backports several enhancements from master that seem appropriate for a
+release series that is the last to support Python 2.7. The wheels on PyPI are
+linked with OpenBLAS v0.3.4+,  which should fix the known threading issues
+found in previous OpenBLAS versions.</p>
+<p>Downstream developers building this release should use Cython &gt;= 0.29.2 and, if
+using OpenBLAS, OpenBLAS &gt; v0.3.4.</p>
+<p>If you are installing using pip, you may encounter a problem with older
+installed versions of NumPy that pip did not delete becoming mixed with the
+current version, resulting in an <code class="docutils literal notranslate"><span class="pre">ImportError</span></code>. That problem is particularly
+common on Debian derived distributions due to a modified pip.  The fix is to
+make sure all previous NumPy versions installed by pip have been removed. See
+<a class="reference external" href="https://github.com/numpy/numpy/issues/12736">#12736</a> for discussion of the
+issue. Note that previously this problem resulted in an <code class="docutils literal notranslate"><span class="pre">AttributeError</span></code>.</p>
+<section id="contributors">
+<h2>Contributors<a class="headerlink" href="#contributors" title="Permalink to this heading">#</a></h2>
+<p>A total of 16 people contributed to this release.  People with a “+” by their
+names contributed a patch for the first time.</p>
+<ul class="simple">
+<li><p>Antoine Pitrou</p></li>
+<li><p>Arcesio Castaneda Medina +</p></li>
+<li><p>Charles Harris</p></li>
+<li><p>Chris Markiewicz +</p></li>
+<li><p>Christoph Gohlke</p></li>
+<li><p>Christopher J. Markiewicz +</p></li>
+<li><p>Daniel Hrisca +</p></li>
+<li><p>EelcoPeacs +</p></li>
+<li><p>Eric Wieser</p></li>
+<li><p>Kevin Sheppard</p></li>
+<li><p>Matti Picus</p></li>
+<li><p>OBATA Akio +</p></li>
+<li><p>Ralf Gommers</p></li>
+<li><p>Sebastian Berg</p></li>
+<li><p>Stephan Hoyer</p></li>
+<li><p>Tyler Reddy</p></li>
+</ul>
+</section>
+<section id="enhancements">
+<h2>Enhancements<a class="headerlink" href="#enhancements" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/numpy/numpy/pull/12767">#12767</a>: ENH: add mm-&gt;q floordiv</p></li>
+<li><p><a class="reference external" href="https://github.com/numpy/numpy/pull/12768">#12768</a>: ENH: port np.core.overrides to C for speed</p></li>
+<li><p><a class="reference external" href="https://github.com/numpy/numpy/pull/12769">#12769</a>: ENH: Add np.ctypeslib.as_ctypes_type(dtype), improve <em class="xref py py-obj">np.ctypeslib.as_ctypes</em></p></li>
+<li><p><a class="reference external" href="https://github.com/numpy/numpy/pull/12773">#12773</a>: ENH: add “max difference” messages to np.testing.assert_array_equal…</p></li>
+<li><p><a class="reference external" href="https://github.com/numpy/numpy/pull/12820">#12820</a>: ENH: Add mm-&gt;qm divmod</p></li>
+<li><p><a class="reference external" href="https://github.com/numpy/numpy/pull/12890">#12890</a>: ENH: add _dtype_ctype to namespace for freeze analysis</p></li>
+</ul>
+</section>
+<section id="compatibility-notes">
+<h2>Compatibility notes<a class="headerlink" href="#compatibility-notes" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>The changed error message emitted by array comparison testing functions may
+affect doctests. See below for detail.</p></li>
+<li><p>Casting from double and single denormals to float16 has been corrected.  In
+some rare cases, this may result in results being rounded up instead of down,
+changing the last bit (ULP) of the result.</p></li>
+</ul>
+</section>
+<section id="new-features">
+<h2>New Features<a class="headerlink" href="#new-features" title="Permalink to this heading">#</a></h2>
+<section id="divmod-operation-is-now-supported-for-two-timedelta64-operands">
+<h3>divmod operation is now supported for two <code class="docutils literal notranslate"><span class="pre">timedelta64</span></code> operands<a class="headerlink" href="#divmod-operation-is-now-supported-for-two-timedelta64-operands" title="Permalink to this heading">#</a></h3>
+<p>The divmod operator now handles two <code class="docutils literal notranslate"><span class="pre">np.timedelta64</span></code> operands, with
+type signature <code class="docutils literal notranslate"><span class="pre">mm-&gt;qm</span></code>.</p>
+</section>
+</section>
+<section id="improvements">
+<h2>Improvements<a class="headerlink" href="#improvements" title="Permalink to this heading">#</a></h2>
+<section id="further-improvements-to-ctypes-support-in-np-ctypeslib">
+<h3>Further improvements to <code class="docutils literal notranslate"><span class="pre">ctypes</span></code> support in <code class="docutils literal notranslate"><span class="pre">np.ctypeslib</span></code><a class="headerlink" href="#further-improvements-to-ctypes-support-in-np-ctypeslib" title="Permalink to this heading">#</a></h3>
+<p>A new <a class="reference internal" href="../reference/routines.ctypeslib.html#numpy.ctypeslib.as_ctypes_type" title="numpy.ctypeslib.as_ctypes_type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">numpy.ctypeslib.as_ctypes_type</span></code></a> function has been added, which can be
+used to converts a <em class="xref py py-obj">dtype</em> into a best-guess <a class="reference external" href="https://docs.python.org/3/library/ctypes.html#module-ctypes" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ctypes</span></code></a> type. Thanks to this
+new function, <a class="reference internal" href="../reference/routines.ctypeslib.html#numpy.ctypeslib.as_ctypes" title="numpy.ctypeslib.as_ctypes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">numpy.ctypeslib.as_ctypes</span></code></a> now supports a much wider range of
+array types, including structures, booleans, and integers of non-native
+endianness.</p>
+</section>
+<section id="array-comparison-assertions-include-maximum-differences">
+<h3>Array comparison assertions include maximum differences<a class="headerlink" href="#array-comparison-assertions-include-maximum-differences" title="Permalink to this heading">#</a></h3>
+<p>Error messages from array comparison tests such as
+<em class="xref py py-obj">np.testing.assert_allclose</em> now include “max absolute difference” and
+“max relative difference,” in addition to the previous “mismatch” percentage.
+This information makes it easier to update absolute and relative error
+tolerances.</p>
+</section>
+</section>
+<section id="changes">
+<h2>Changes<a class="headerlink" href="#changes" title="Permalink to this heading">#</a></h2>
+<section id="timedelta64-0-behavior-adjusted-to-return-nat">
+<h3><code class="docutils literal notranslate"><span class="pre">timedelta64</span> <span class="pre">%</span> <span class="pre">0</span></code> behavior adjusted to return <code class="docutils literal notranslate"><span class="pre">NaT</span></code><a class="headerlink" href="#timedelta64-0-behavior-adjusted-to-return-nat" title="Permalink to this heading">#</a></h3>
+<p>The modulus operation with two <code class="docutils literal notranslate"><span class="pre">np.timedelta64</span></code> operands now returns
+<code class="docutils literal notranslate"><span class="pre">NaT</span></code> in the case of division by zero, rather than returning zero</p>
+</section>
+</section>
+</section>
+
+
+              </article>
+              
+
+              
+              <footer class="bd-footer-article">
+                  <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+  <a class='left-prev' id="prev-link" href="1.16.2-notes.html" title="previous page">
+      <i class="fas fa-angle-left"></i>
+      <div class="prev-next-info">
+          <p class="prev-next-subtitle">previous</p>
+          <p class="prev-next-title">NumPy 1.16.2 Release Notes</p>
+      </div>
+  </a>
+  <a class='right-next' id="next-link" href="1.16.0-notes.html" title="next page">
+  <div class="prev-next-info">
+      <p class="prev-next-subtitle">next</p>
+      <p class="prev-next-title">NumPy 1.16.0 Release Notes</p>
+  </div>
+  <i class="fas fa-angle-right"></i>
+  </a>
+</div>
+              </footer>
+              
+          </div>
+          
+      </div>
+    </div>
+
+  
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695"></script>
+
+<footer class="bd-footer"><div class="bd-footer__inner container">
+  
+  <div class="footer-item">
+    <p class="copyright">
+    &copy; Copyright 2008-2022, NumPy Developers.<br>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    <p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.3.0.<br>
+</p>
+  </div>
+  
+</div>
+</footer>
+  </body>
+</html>

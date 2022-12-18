@@ -1,0 +1,796 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>How does the CPU dispatcher work? &#8212; NumPy v1.24 Manual</title>
+<script>
+  document.documentElement.dataset.mode = localStorage.getItem("mode") || "light";
+  document.documentElement.dataset.theme = localStorage.getItem("theme") || "light"
+</script>
+
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=92025949c220c2e29695" rel="stylesheet">
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=92025949c220c2e29695" rel="stylesheet">
+
+
+  <link rel="stylesheet"
+    href="../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/plot_directive.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/numpy.css" />
+
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695">
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    <script src="../../_static/design-tabs.js"></script>
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="NumPy security" href="../security.html" />
+    <link rel="prev" title="CPU build options" href="build-options.html" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="docsearch:language" content="en">
+  </head>
+  
+  
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="180" data-default-mode="light">
+    <div class="bd-header-announcement container-fluid" id="banner">
+      
+
+    </div>
+
+    
+    <nav class="bd-header navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="bd-header__inner container-xl">
+
+  <div id="navbar-start">
+    
+    
+  
+
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+    <img src="../../_static/numpylogo.svg" class="logo__image only-light" alt="Logo image">
+    <img src="../../_static/numpylogo_dark.svg" class="logo__image only-dark" alt="Logo image">
+  
+  
+</a>
+    
+  </div>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapsible" aria-controls="navbar-collapsible" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="fas fa-bars"></span>
+  </button>
+
+  
+  <div id="navbar-collapsible" class="col-lg-9 collapse navbar-collapse">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <ul id="navbar-main-elements" class="navbar-nav">
+    <li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../user/index.html">
+  User Guide
+ </a>
+</li>
+
+<li class="toctree-l1 current active nav-item">
+ <a class="reference internal nav-link" href="../index.html">
+  API reference
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../dev/index.html">
+  Development
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../release.html">
+  Release notes
+ </a>
+</li>
+
+    
+    <li class="nav-item">
+        <a class="nav-link nav-external" href="https://numpy.org/numpy-tutorials/">Learn<i class="fas fa-external-link-alt"></i></a>
+    </li>
+    
+</ul>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      
+      <div class="navbar-end-item">
+        <span id="theme-switch" class="btn btn-sm btn-outline-primary navbar-btn rounded-circle">
+    <a class="theme-switch" data-mode="light"><i class="fas fa-sun"></i></a>
+    <a class="theme-switch" data-mode="dark"><i class="far fa-moon"></i></a>
+    <a class="theme-switch" data-mode="auto"><i class="fas fa-adjust"></i></a>
+</span>
+      </div>
+      
+      <div class="navbar-end-item">
+        <div class="dropdown" id="version_switcher">
+    <button type="button" class="btn btn-sm navbar-btn dropdown-toggle" id="version_switcher_button" data-toggle="dropdown">
+        1.24  <!-- this text may get changed later by javascript -->
+        <span class="caret"></span>
+    </button>
+    <div id="version_switcher_menu" class="dropdown-menu list-group-flush py-0" aria-labelledby="version_switcher_button">
+    <!-- dropdown will be populated by javascript on page load -->
+    </div>
+</div>
+
+<!-- NOTE: this JS must live here (not in our global JS file) because it relies
+     on being processed by Jinja before it is run (specifically for replacing
+     variables reference/simd/how-it-works and {'version_match': '1.24', 'json_url': 'https://numpy.org/doc/_static/versions.json'}.
+-->
+
+<script type="text/javascript">
+// Check if corresponding page path exists in other version of docs
+// and, if so, go there instead of the homepage of the other docs version
+function checkPageExistsAndRedirect(event) {
+    const currentFilePath = "reference/simd/how-it-works.html",
+          tryUrl = event.target.getAttribute("href");
+    let otherDocsHomepage = tryUrl.replace(currentFilePath, "");
+    $.ajax({
+        type: 'HEAD',
+        url: tryUrl,
+        // if the page exists, go there
+        success: function() {
+            location.href = tryUrl;
+        }
+    }).fail(function() {
+        location.href = otherDocsHomepage;
+    });
+    // this prevents the browser from following the href of the clicked node
+    // (which is fine because this function takes care of redirecting)
+    return false;
+}
+
+// Populate the version switcher from the JSON config file
+(function () {
+    $.getJSON("https://numpy.org/doc/_static/versions.json", function(data, textStatus, jqXHR) {
+        const currentFilePath = "reference/simd/how-it-works.html";
+        let btn = document.getElementById("version_switcher_button");
+        // Set empty strings by default so that these attributes exist and can be used in CSS selectors
+        btn.dataset["activeVersionName"] = "";
+        btn.dataset["activeVersion"] = "";
+        // create links to the corresponding page in the other docs versions
+        $.each(data, function(index, entry) {
+            // if no custom name specified (e.g., "latest"), use version string
+            if (!("name" in entry)) {
+                entry.name = entry.version;
+            }
+            // create the node
+            const node = document.createElement("a");
+            node.setAttribute("class", "list-group-item list-group-item-action py-1");
+            node.textContent = `${entry.name}`;
+            node.setAttribute("href", `${entry.url}${currentFilePath}`);
+            // on click, AJAX calls will check if the linked page exists before
+            // trying to redirect, and if not, will redirect to the homepage
+            // for that version of the docs.
+            node.onclick = checkPageExistsAndRedirect;
+            // Add dataset values for the version and name in case people want
+            // to apply CSS styling based on this information.
+            node.dataset["versionName"] = entry.name;
+            node.dataset["version"] = entry.version;
+
+            $("#version_switcher_menu").append(node);
+            // replace dropdown button text with the preferred display name of
+            // this version, rather than using sphinx's 1.24 variable.
+            // also highlight the dropdown entry for the currently-viewed
+            // version's entry
+            if (entry.version == "1.24") {
+                node.classList.add("active");
+                btn.innerText = btn.dataset["activeVersionName"] = entry.name;
+                btn.dataset["activeVersion"] = entry.version;
+            }
+        });
+    });
+})();
+</script>
+      </div>
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+        <li class="nav-item">
+          <a class="nav-link" href="https://github.com/numpy/numpy" rel="noopener" target="_blank" title="GitHub"><span><i class="fab fa-github-square"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="https://twitter.com/numpy_team" rel="noopener" target="_blank" title="Twitter"><span><i class="fab fa-twitter-square"></i></span>
+            <label class="sr-only">Twitter</label></a>
+        </li>
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+</div>
+    </nav>
+    
+
+    <div class="bd-container container-xl">
+      <div class="bd-container__inner row">
+          
+
+<!-- Only show if we have sidebars configured, else just a small margin  -->
+<div class="bd-sidebar-primary col-12 col-md-3 bd-sidebar">
+  <div class="sidebar-start-items"><form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <div class="bd-toc-item active">
+    <ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../arrays.html">
+   Array objects
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../array_api.html">
+   Array API Standard Compatibility
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../constants.html">
+   Constants
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../ufuncs.html">
+   Universal functions (
+   <code class="xref py py-class docutils literal notranslate">
+    <span class="pre">
+     ufunc
+    </span>
+   </code>
+   )
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../routines.html">
+   Routines
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../typing.html">
+   Typing (
+   <code class="xref py py-mod docutils literal notranslate">
+    <span class="pre">
+     numpy.typing
+    </span>
+   </code>
+   )
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../global_state.html">
+   Global State
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../distutils.html">
+   Packaging (
+   <code class="xref py py-mod docutils literal notranslate">
+    <span class="pre">
+     numpy.distutils
+    </span>
+   </code>
+   )
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../distutils_guide.html">
+   NumPy Distutils - Users Guide
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../distutils_status_migration.html">
+   Status of
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     numpy.distutils
+    </span>
+   </code>
+   and migration advice
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../c-api/index.html">
+   NumPy C-API
+  </a>
+ </li>
+ <li class="toctree-l1 current active has-children">
+  <a class="reference internal" href="index.html">
+   CPU/SIMD Optimizations
+  </a>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul class="current">
+   <li class="toctree-l2">
+    <a class="reference internal" href="build-options.html">
+     CPU build options
+    </a>
+   </li>
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
+     How does the CPU dispatcher work?
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../security.html">
+   NumPy security
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../swig.html">
+   NumPy and SWIG
+  </a>
+ </li>
+</ul>
+
+  </div>
+</nav>
+  </div>
+  <div class="sidebar-end-items">
+  </div>
+</div>
+
+
+          
+
+
+<div class="bd-sidebar-secondary d-none d-xl-block col-xl-2 bd-toc">
+  
+    
+    <div class="toc-item">
+      
+<div class="tocsection onthispage mt-5 pt-1 pb-3">
+    <i class="fas fa-list"></i> On this page
+</div>
+
+<nav id="bd-toc-nav">
+    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#configuration">
+   1- Configuration
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#discovering-the-environment">
+   2- Discovering the environment
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#validating-the-requested-optimizations">
+   3- Validating the requested optimizations
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#generating-the-main-configuration-header">
+   4- Generating the main configuration header
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#dispatch-able-sources-and-configuration-statements">
+   5- Dispatch-able sources and configuration statements
+  </a>
+ </li>
+</ul>
+
+</nav>
+    </div>
+    
+    <div class="toc-item">
+      
+    </div>
+    
+  
+</div>
+
+
+          
+          
+          <div class="bd-content col-12 col-md-9 col-xl-7">
+              
+              <article class="bd-article" role="main">
+                
+  <section id="how-does-the-cpu-dispatcher-work">
+<h1>How does the CPU dispatcher work?<a class="headerlink" href="#how-does-the-cpu-dispatcher-work" title="Permalink to this heading">#</a></h1>
+<p>NumPy dispatcher is based on multi-source compiling, which means taking
+a certain source and compiling it multiple times with different compiler
+flags and also with different <strong>C</strong> definitions that affect the code
+paths. This enables certain instruction-sets for each compiled object
+depending on the required optimizations and ends with linking the
+returned objects together.</p>
+<figure class="align-default">
+<img alt="../../_images/opt-infra.png" src="../../_images/opt-infra.png" />
+</figure>
+<p>This mechanism should support all compilers and it doesn’t require any
+compiler-specific extension, but at the same time it adds a few steps to
+normal compilation that are explained as follows.</p>
+<section id="configuration">
+<h2>1- Configuration<a class="headerlink" href="#configuration" title="Permalink to this heading">#</a></h2>
+<p>Configuring the required optimization by the user before starting to build the
+source files via the two command arguments as explained above:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">--cpu-baseline</span></code>: minimal set of required optimizations.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--cpu-dispatch</span></code>: dispatched set of additional optimizations.</p></li>
+</ul>
+</section>
+<section id="discovering-the-environment">
+<h2>2- Discovering the environment<a class="headerlink" href="#discovering-the-environment" title="Permalink to this heading">#</a></h2>
+<p>In this part, we check the compiler and platform architecture
+and cache some of the intermediary results to speed up rebuilding.</p>
+</section>
+<section id="validating-the-requested-optimizations">
+<h2>3- Validating the requested optimizations<a class="headerlink" href="#validating-the-requested-optimizations" title="Permalink to this heading">#</a></h2>
+<p>By testing them against the compiler, and seeing what the compiler can
+support according to the requested optimizations.</p>
+</section>
+<section id="generating-the-main-configuration-header">
+<h2>4- Generating the main configuration header<a class="headerlink" href="#generating-the-main-configuration-header" title="Permalink to this heading">#</a></h2>
+<p>The generated header <code class="docutils literal notranslate"><span class="pre">_cpu_dispatch.h</span></code> contains all the definitions and
+headers of instruction-sets for the required optimizations that have been
+validated during the previous step.</p>
+<p>It also contains extra C definitions that are used for defining NumPy’s
+Python-level module attributes <code class="docutils literal notranslate"><span class="pre">__cpu_baseline__</span></code> and <code class="docutils literal notranslate"><span class="pre">__cpu_dispatch__</span></code>.</p>
+<p><strong>What is in this header?</strong></p>
+<p>The example header was dynamically generated by gcc on an X86 machine.
+The compiler supports <code class="docutils literal notranslate"><span class="pre">--cpu-baseline=&quot;sse</span> <span class="pre">sse2</span> <span class="pre">sse3&quot;</span></code> and
+<code class="docutils literal notranslate"><span class="pre">--cpu-dispatch=&quot;ssse3</span> <span class="pre">sse41&quot;</span></code>, and the result is below.</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="c1">// The header should be located at numpy/numpy/core/src/common/_cpu_dispatch.h</span>
+<span class="cm">/**NOTE</span>
+<span class="cm"> ** C definitions prefixed with &quot;NPY_HAVE_&quot; represent</span>
+<span class="cm"> ** the required optimizations.</span>
+<span class="cm"> **</span>
+<span class="cm"> ** C definitions prefixed with &#39;NPY__CPU_TARGET_&#39; are protected and</span>
+<span class="cm"> ** shouldn&#39;t be used by any NumPy C sources.</span>
+<span class="cm"> */</span><span class="w"></span>
+<span class="cm">/******* baseline features *******/</span><span class="w"></span>
+<span class="cm">/** SSE **/</span><span class="w"></span>
+<span class="cp">#define NPY_HAVE_SSE 1</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;xmmintrin.h&gt;</span><span class="cp"></span>
+<span class="cm">/** SSE2 **/</span><span class="w"></span>
+<span class="cp">#define NPY_HAVE_SSE2 1</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;emmintrin.h&gt;</span><span class="cp"></span>
+<span class="cm">/** SSE3 **/</span><span class="w"></span>
+<span class="cp">#define NPY_HAVE_SSE3 1</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;pmmintrin.h&gt;</span><span class="cp"></span>
+
+<span class="cm">/******* dispatch-able features *******/</span><span class="w"></span>
+<span class="cp">#ifdef NPY__CPU_TARGET_SSSE3</span>
+<span class="w">  </span><span class="cm">/** SSSE3 **/</span><span class="w"></span>
+<span class="w">  </span><span class="cp">#define NPY_HAVE_SSSE3 1</span>
+<span class="w">  </span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;tmmintrin.h&gt;</span><span class="cp"></span>
+<span class="cp">#endif</span>
+<span class="cp">#ifdef NPY__CPU_TARGET_SSE41</span>
+<span class="w">  </span><span class="cm">/** SSE41 **/</span><span class="w"></span>
+<span class="w">  </span><span class="cp">#define NPY_HAVE_SSE41 1</span>
+<span class="w">  </span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;smmintrin.h&gt;</span><span class="cp"></span>
+<span class="cp">#endif</span>
+</pre></div>
+</div>
+<p><strong>Baseline features</strong> are the minimal set of required optimizations configured
+via <code class="docutils literal notranslate"><span class="pre">--cpu-baseline</span></code>. They have no preprocessor guards and they’re
+always on, which means they can be used in any source.</p>
+<p>Does this mean NumPy’s infrastructure passes the compiler’s flags of
+baseline features to all sources?</p>
+<p>Definitely, yes. But the <a class="reference internal" href="#dispatchable-sources"><span class="std std-ref">dispatch-able sources</span></a> are
+treated differently.</p>
+<p>What if the user specifies certain <strong>baseline features</strong> during the
+build but at runtime the machine doesn’t support even these
+features? Will the compiled code be called via one of these definitions, or
+maybe the compiler itself auto-generated/vectorized certain piece of code
+based on the provided command line compiler flags?</p>
+<p>During the loading of the NumPy module, there’s a validation step
+which detects this behavior. It will raise a Python runtime error to inform the
+user. This is to prevent the CPU reaching an illegal instruction error causing
+a segfault.</p>
+<p><strong>Dispatch-able features</strong> are our dispatched set of additional optimizations
+that were configured via <code class="docutils literal notranslate"><span class="pre">--cpu-dispatch</span></code>. They are not activated by
+default and are always guarded by other C definitions prefixed with
+<code class="docutils literal notranslate"><span class="pre">NPY__CPU_TARGET_</span></code>. C definitions <code class="docutils literal notranslate"><span class="pre">NPY__CPU_TARGET_</span></code> are only
+enabled within <strong>dispatch-able sources</strong>.</p>
+</section>
+<section id="dispatch-able-sources-and-configuration-statements">
+<span id="dispatchable-sources"></span><h2>5- Dispatch-able sources and configuration statements<a class="headerlink" href="#dispatch-able-sources-and-configuration-statements" title="Permalink to this heading">#</a></h2>
+<p>Dispatch-able sources are special <strong>C</strong> files that can be compiled multiple
+times with different compiler flags and also with different <strong>C</strong>
+definitions. These affect code paths to enable certain
+instruction-sets for each compiled object according to “<strong>the
+configuration statements</strong>” that must be declared between a <strong>C</strong>
+comment<code class="docutils literal notranslate"><span class="pre">(/**/)</span></code> and start with a special mark <strong>&#64;targets</strong> at the
+top of each dispatch-able source. At the same time, dispatch-able
+sources will be treated as normal <strong>C</strong> sources if the optimization was
+disabled by the command argument <code class="docutils literal notranslate"><span class="pre">--disable-optimization</span></code> .</p>
+<p><strong>What are configuration statements?</strong></p>
+<p>Configuration statements are sort of keywords combined together to
+determine the required optimization for the dispatch-able source.</p>
+<p>Example:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cm">/*@targets avx2 avx512f vsx2 vsx3 asimd asimdhp */</span><span class="w"></span>
+<span class="c1">// C code</span>
+</pre></div>
+</div>
+<p>The keywords mainly represent the additional optimizations configured
+through <code class="docutils literal notranslate"><span class="pre">--cpu-dispatch</span></code>, but it can also represent other options such as:</p>
+<ul class="simple">
+<li><p>Target groups: pre-configured configuration statements used for
+managing the required optimizations from outside the dispatch-able source.</p></li>
+<li><p>Policies: collections of options used for changing the default
+behaviors or forcing the compilers to perform certain things.</p></li>
+<li><p>“baseline”: a unique keyword represents the minimal optimizations
+that configured through <code class="docutils literal notranslate"><span class="pre">--cpu-baseline</span></code></p></li>
+</ul>
+<p><strong>Numpy’s infrastructure handles dispatch-able sources in four steps</strong>:</p>
+<ul>
+<li><p><strong>(A) Recognition</strong>: Just like source templates and F2PY, the
+dispatch-able sources requires a special extension <code class="docutils literal notranslate"><span class="pre">*.dispatch.c</span></code>
+to mark C dispatch-able source files, and for C++
+<code class="docutils literal notranslate"><span class="pre">*.dispatch.cpp</span></code> or <code class="docutils literal notranslate"><span class="pre">*.dispatch.cxx</span></code>
+<strong>NOTE</strong>: C++ not supported yet.</p></li>
+<li><p><strong>(B) Parsing and validating</strong>: In this step, the
+dispatch-able sources that had been filtered by the previous step
+are parsed and validated by the configuration statements for each one
+of them one by one in order to determine the required optimizations.</p></li>
+<li><p><strong>(C) Wrapping</strong>: This is the approach taken by NumPy’s
+infrastructure, which has proved to be sufficiently flexible in order
+to compile a single source multiple times with different <strong>C</strong>
+definitions and flags that affect the code paths. The process is
+achieved by creating a temporary <strong>C</strong> source for each required
+optimization that related to the additional optimization, which
+contains the declarations of the <strong>C</strong> definitions and includes the
+involved source via the <strong>C</strong> directive <strong>#include</strong>. For more
+clarification take a look at the following code for AVX512F :</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cm">/*</span>
+<span class="cm"> * this definition is used by NumPy utilities as suffixes for the</span>
+<span class="cm"> * exported symbols</span>
+<span class="cm"> */</span><span class="w"></span>
+<span class="cp">#define NPY__CPU_TARGET_CURRENT AVX512F</span>
+<span class="cm">/*</span>
+<span class="cm"> * The following definitions enable</span>
+<span class="cm"> * definitions of the dispatch-able features that are defined within the main</span>
+<span class="cm"> * configuration header. These are definitions for the implied features.</span>
+<span class="cm"> */</span><span class="w"></span>
+<span class="cp">#define NPY__CPU_TARGET_SSE</span>
+<span class="cp">#define NPY__CPU_TARGET_SSE2</span>
+<span class="cp">#define NPY__CPU_TARGET_SSE3</span>
+<span class="cp">#define NPY__CPU_TARGET_SSSE3</span>
+<span class="cp">#define NPY__CPU_TARGET_SSE41</span>
+<span class="cp">#define NPY__CPU_TARGET_POPCNT</span>
+<span class="cp">#define NPY__CPU_TARGET_SSE42</span>
+<span class="cp">#define NPY__CPU_TARGET_AVX</span>
+<span class="cp">#define NPY__CPU_TARGET_F16C</span>
+<span class="cp">#define NPY__CPU_TARGET_FMA3</span>
+<span class="cp">#define NPY__CPU_TARGET_AVX2</span>
+<span class="cp">#define NPY__CPU_TARGET_AVX512F</span>
+<span class="c1">// our dispatch-able source</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;/the/absuolate/path/of/hello.dispatch.c&quot;</span><span class="cp"></span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>(D) Dispatch-able configuration header</strong>: The infrastructure
+generates a config header for each dispatch-able source, this header
+mainly contains two abstract <strong>C</strong> macros used for identifying the
+generated objects, so they can be used for runtime dispatching
+certain symbols from the generated objects by any <strong>C</strong> source. It is
+also used for forward declarations.</p>
+<p>The generated header takes the name of the dispatch-able source after
+excluding the extension and replace it with <code class="docutils literal notranslate"><span class="pre">.h</span></code>, for example
+assume we have a dispatch-able source called <code class="docutils literal notranslate"><span class="pre">hello.dispatch.c</span></code> and
+contains the following:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="c1">// hello.dispatch.c</span>
+<span class="cm">/*@targets baseline sse42 avx512f */</span><span class="w"></span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdio.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;numpy/utils.h&quot;</span><span class="c1"> // NPY_CAT, NPY_TOSTR</span><span class="cp"></span>
+
+<span class="cp">#ifndef NPY__CPU_TARGET_CURRENT</span>
+<span class="w">  </span><span class="c1">// wrapping the dispatch-able source only happens to the additional optimizations</span>
+<span class="w">  </span><span class="c1">// but if the keyword &#39;baseline&#39; provided within the configuration statements,</span>
+<span class="w">  </span><span class="c1">// the infrastructure will add extra compiling for the dispatch-able source by</span>
+<span class="w">  </span><span class="c1">// passing it as-is to the compiler without any changes.</span>
+<span class="w">  </span><span class="cp">#define CURRENT_TARGET(X) X</span>
+<span class="w">  </span><span class="cp">#define NPY__CPU_TARGET_CURRENT baseline </span><span class="c1">// for printing only</span>
+<span class="cp">#else</span>
+<span class="w">  </span><span class="c1">// since we reach to this point, that&#39;s mean we&#39;re dealing with</span>
+<span class="w">    </span><span class="c1">// the additional optimizations, so it could be SSE42 or AVX512F</span>
+<span class="w">  </span><span class="cp">#define CURRENT_TARGET(X) NPY_CAT(NPY_CAT(X, _), NPY__CPU_TARGET_CURRENT)</span>
+<span class="cp">#endif</span>
+<span class="c1">// Macro &#39;CURRENT_TARGET&#39; adding the current target as suffux to the exported symbols,</span>
+<span class="c1">// to avoid linking duplications, NumPy already has a macro called</span>
+<span class="c1">// &#39;NPY_CPU_DISPATCH_CURFX&#39; similar to it, located at</span>
+<span class="c1">// numpy/numpy/core/src/common/npy_cpu_dispatch.h</span>
+<span class="c1">// NOTE: we tend to not adding suffixes to the baseline exported symbols</span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">CURRENT_TARGET</span><span class="p">(</span><span class="n">simd_whoami</span><span class="p">)(</span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">extra_info</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;I&#39;m &quot;</span><span class="w"> </span><span class="n">NPY_TOSTR</span><span class="p">(</span><span class="n">NPY__CPU_TARGET_CURRENT</span><span class="p">)</span><span class="w"> </span><span class="s">&quot;, %s</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">extra_info</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Now assume you attached <strong>hello.dispatch.c</strong> to the source tree, then
+the infrastructure should generate a temporary config header called
+<strong>hello.dispatch.h</strong> that can be reached by any source in the source
+tree, and it should contain the following code :</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#ifndef NPY__CPU_DISPATCH_EXPAND_</span>
+<span class="w">  </span><span class="c1">// To expand the macro calls in this header</span>
+<span class="w">    </span><span class="cp">#define NPY__CPU_DISPATCH_EXPAND_(X) X</span>
+<span class="cp">#endif</span>
+<span class="c1">// Undefining the following macros, due to the possibility of including config headers</span>
+<span class="c1">// multiple times within the same source and since each config header represents</span>
+<span class="c1">// different required optimizations according to the specified configuration</span>
+<span class="c1">// statements in the dispatch-able source that derived from it.</span>
+<span class="cp">#undef NPY__CPU_DISPATCH_BASELINE_CALL</span>
+<span class="cp">#undef NPY__CPU_DISPATCH_CALL</span>
+<span class="c1">// nothing strange here, just a normal preprocessor callback</span>
+<span class="c1">// enabled only if &#39;baseline&#39; specified within the configuration statements</span>
+<span class="cp">#define NPY__CPU_DISPATCH_BASELINE_CALL(CB, ...) \</span>
+<span class="cp">  NPY__CPU_DISPATCH_EXPAND_(CB(__VA_ARGS__))</span>
+<span class="c1">// &#39;NPY__CPU_DISPATCH_CALL&#39; is an abstract macro is used for dispatching</span>
+<span class="c1">// the required optimizations that specified within the configuration statements.</span>
+<span class="c1">//</span>
+<span class="c1">// @param CHK, Expected a macro that can be used to detect CPU features</span>
+<span class="c1">// in runtime, which takes a CPU feature name without string quotes and</span>
+<span class="c1">// returns the testing result in a shape of boolean value.</span>
+<span class="c1">// NumPy already has macro called &quot;NPY_CPU_HAVE&quot;, which fits this requirement.</span>
+<span class="c1">//</span>
+<span class="c1">// @param CB, a callback macro that expected to be called multiple times depending</span>
+<span class="c1">// on the required optimizations, the callback should receive the following arguments:</span>
+<span class="c1">//  1- The pending calls of @param CHK filled up with the required CPU features,</span>
+<span class="c1">//     that need to be tested first in runtime before executing call belong to</span>
+<span class="c1">//     the compiled object.</span>
+<span class="c1">//  2- The required optimization name, same as in &#39;NPY__CPU_TARGET_CURRENT&#39;</span>
+<span class="c1">//  3- Extra arguments in the macro itself</span>
+<span class="c1">//</span>
+<span class="c1">// By default the callback calls are sorted depending on the highest interest</span>
+<span class="c1">// unless the policy &quot;$keep_sort&quot; was in place within the configuration statements</span>
+<span class="c1">// see &quot;Dive into the CPU dispatcher&quot; for more clarification.</span>
+<span class="cp">#define NPY__CPU_DISPATCH_CALL(CHK, CB, ...) \</span>
+<span class="cp">  NPY__CPU_DISPATCH_EXPAND_(CB((CHK(AVX512F)), AVX512F, __VA_ARGS__)) \</span>
+<span class="cp">  NPY__CPU_DISPATCH_EXPAND_(CB((CHK(SSE)&amp;&amp;CHK(SSE2)&amp;&amp;CHK(SSE3)&amp;&amp;CHK(SSSE3)&amp;&amp;CHK(SSE41)), SSE41, __VA_ARGS__))</span>
+</pre></div>
+</div>
+<p>An example of using the config header in light of the above:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="c1">// NOTE: The following macros are only defined for demonstration purposes only.</span>
+<span class="c1">// NumPy already has a collections of macros located at</span>
+<span class="c1">// numpy/numpy/core/src/common/npy_cpu_dispatch.h, that covers all dispatching</span>
+<span class="c1">// and declarations scenarios.</span>
+
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;numpy/npy_cpu_features.h&quot;</span><span class="c1"> // NPY_CPU_HAVE</span><span class="cp"></span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;numpy/utils.h&quot;</span><span class="c1"> // NPY_CAT, NPY_EXPAND</span><span class="cp"></span>
+
+<span class="c1">// An example for setting a macro that calls all the exported symbols at once</span>
+<span class="c1">// after checking if they&#39;re supported by the running machine.</span>
+<span class="cp">#define DISPATCH_CALL_ALL(FN, ARGS) \</span>
+<span class="cp">    NPY__CPU_DISPATCH_CALL(NPY_CPU_HAVE, DISPATCH_CALL_ALL_CB, FN, ARGS) \</span>
+<span class="cp">    NPY__CPU_DISPATCH_BASELINE_CALL(DISPATCH_CALL_BASELINE_ALL_CB, FN, ARGS)</span>
+<span class="c1">// The preprocessor callbacks.</span>
+<span class="c1">// The same suffixes as we define it in the dispatch-able source.</span>
+<span class="cp">#define DISPATCH_CALL_ALL_CB(CHECK, TARGET_NAME, FN, ARGS) \</span>
+<span class="cp">  if (CHECK) { NPY_CAT(NPY_CAT(FN, _), TARGET_NAME) ARGS; }</span>
+<span class="cp">#define DISPATCH_CALL_BASELINE_ALL_CB(FN, ARGS) \</span>
+<span class="cp">  FN NPY_EXPAND(ARGS);</span>
+
+<span class="c1">// An example for setting a macro that calls the exported symbols of highest</span>
+<span class="c1">// interest optimization, after checking if they&#39;re supported by the running machine.</span>
+<span class="cp">#define DISPATCH_CALL_HIGH(FN, ARGS) \</span>
+<span class="cp">  if (0) {} \</span>
+<span class="cp">    NPY__CPU_DISPATCH_CALL(NPY_CPU_HAVE, DISPATCH_CALL_HIGH_CB, FN, ARGS) \</span>
+<span class="cp">    NPY__CPU_DISPATCH_BASELINE_CALL(DISPATCH_CALL_BASELINE_HIGH_CB, FN, ARGS)</span>
+<span class="c1">// The preprocessor callbacks</span>
+<span class="c1">// The same suffixes as we define it in the dispatch-able source.</span>
+<span class="cp">#define DISPATCH_CALL_HIGH_CB(CHECK, TARGET_NAME, FN, ARGS) \</span>
+<span class="cp">  else if (CHECK) { NPY_CAT(NPY_CAT(FN, _), TARGET_NAME) ARGS; }</span>
+<span class="cp">#define DISPATCH_CALL_BASELINE_HIGH_CB(FN, ARGS) \</span>
+<span class="cp">  else { FN NPY_EXPAND(ARGS); }</span>
+
+<span class="c1">// NumPy has a macro called &#39;NPY_CPU_DISPATCH_DECLARE&#39; can be used</span>
+<span class="c1">// for forward declarations any kind of prototypes based on</span>
+<span class="c1">// &#39;NPY__CPU_DISPATCH_CALL&#39; and &#39;NPY__CPU_DISPATCH_BASELINE_CALL&#39;.</span>
+<span class="c1">// However in this example, we just handle it manually.</span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">simd_whoami</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">extra_info</span><span class="p">);</span><span class="w"></span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">simd_whoami_AVX512F</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">extra_info</span><span class="p">);</span><span class="w"></span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">simd_whoami_SSE41</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">extra_info</span><span class="p">);</span><span class="w"></span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">trigger_me</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="c1">// bring the auto-generated config header</span>
+<span class="w">    </span><span class="c1">// which contains config macros &#39;NPY__CPU_DISPATCH_CALL&#39; and</span>
+<span class="w">    </span><span class="c1">// &#39;NPY__CPU_DISPATCH_BASELINE_CALL&#39;.</span>
+<span class="w">    </span><span class="c1">// it is highly recommended to include the config header before executing</span>
+<span class="w">  </span><span class="c1">// the dispatching macros in case if there&#39;s another header in the scope.</span>
+<span class="w">    </span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;hello.dispatch.h&quot;</span><span class="cp"></span>
+<span class="w">    </span><span class="n">DISPATCH_CALL_ALL</span><span class="p">(</span><span class="n">simd_whoami</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="s">&quot;all&quot;</span><span class="p">))</span><span class="w"></span>
+<span class="w">    </span><span class="n">DISPATCH_CALL_HIGH</span><span class="p">(</span><span class="n">simd_whoami</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="s">&quot;the highest interest&quot;</span><span class="p">))</span><span class="w"></span>
+<span class="w">    </span><span class="c1">// An example of including multiple config headers in the same source</span>
+<span class="w">    </span><span class="c1">// #include &quot;hello2.dispatch.h&quot;</span>
+<span class="w">    </span><span class="c1">// DISPATCH_CALL_HIGH(another_function, (&quot;the highest interest&quot;))</span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+</li>
+</ul>
+</section>
+</section>
+
+
+              </article>
+              
+
+              
+              <footer class="bd-footer-article">
+                  <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+  <a class='left-prev' id="prev-link" href="build-options.html" title="previous page">
+      <i class="fas fa-angle-left"></i>
+      <div class="prev-next-info">
+          <p class="prev-next-subtitle">previous</p>
+          <p class="prev-next-title">CPU build options</p>
+      </div>
+  </a>
+  <a class='right-next' id="next-link" href="../security.html" title="next page">
+  <div class="prev-next-info">
+      <p class="prev-next-subtitle">next</p>
+      <p class="prev-next-title">NumPy security</p>
+  </div>
+  <i class="fas fa-angle-right"></i>
+  </a>
+</div>
+              </footer>
+              
+          </div>
+          
+      </div>
+    </div>
+
+  
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695"></script>
+
+<footer class="bd-footer"><div class="bd-footer__inner container">
+  
+  <div class="footer-item">
+    <p class="copyright">
+    &copy; Copyright 2008-2022, NumPy Developers.<br>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    <p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.3.0.<br>
+</p>
+  </div>
+  
+</div>
+</footer>
+  </body>
+</html>

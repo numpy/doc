@@ -1,0 +1,1267 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>Signature file &#8212; NumPy v1.24 Manual</title>
+<script>
+  document.documentElement.dataset.mode = localStorage.getItem("mode") || "light";
+  document.documentElement.dataset.theme = localStorage.getItem("theme") || "light"
+</script>
+
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=92025949c220c2e29695" rel="stylesheet">
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=92025949c220c2e29695" rel="stylesheet">
+
+
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/numpy.css" />
+
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695">
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/design-tabs.js"></script>
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Using F2PY bindings in Python" href="python-usage.html" />
+    <link rel="prev" title="F2PY reference manual" href="f2py-reference.html" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="docsearch:language" content="en">
+  </head>
+  
+  
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="180" data-default-mode="light">
+    <div class="bd-header-announcement container-fluid" id="banner">
+      
+
+    </div>
+
+    
+    <nav class="bd-header navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="bd-header__inner container-xl">
+
+  <div id="navbar-start">
+    
+    
+  
+
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+    <img src="../_static/numpylogo.svg" class="logo__image only-light" alt="Logo image">
+    <img src="../_static/numpylogo_dark.svg" class="logo__image only-dark" alt="Logo image">
+  
+  
+</a>
+    
+  </div>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapsible" aria-controls="navbar-collapsible" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="fas fa-bars"></span>
+  </button>
+
+  
+  <div id="navbar-collapsible" class="col-lg-9 collapse navbar-collapse">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <ul id="navbar-main-elements" class="navbar-nav">
+    <li class="toctree-l1 current active nav-item">
+ <a class="reference internal nav-link" href="../user/index.html">
+  User Guide
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../reference/index.html">
+  API reference
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../dev/index.html">
+  Development
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../release.html">
+  Release notes
+ </a>
+</li>
+
+    
+    <li class="nav-item">
+        <a class="nav-link nav-external" href="https://numpy.org/numpy-tutorials/">Learn<i class="fas fa-external-link-alt"></i></a>
+    </li>
+    
+</ul>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      
+      <div class="navbar-end-item">
+        <span id="theme-switch" class="btn btn-sm btn-outline-primary navbar-btn rounded-circle">
+    <a class="theme-switch" data-mode="light"><i class="fas fa-sun"></i></a>
+    <a class="theme-switch" data-mode="dark"><i class="far fa-moon"></i></a>
+    <a class="theme-switch" data-mode="auto"><i class="fas fa-adjust"></i></a>
+</span>
+      </div>
+      
+      <div class="navbar-end-item">
+        <div class="dropdown" id="version_switcher">
+    <button type="button" class="btn btn-sm navbar-btn dropdown-toggle" id="version_switcher_button" data-toggle="dropdown">
+        1.24  <!-- this text may get changed later by javascript -->
+        <span class="caret"></span>
+    </button>
+    <div id="version_switcher_menu" class="dropdown-menu list-group-flush py-0" aria-labelledby="version_switcher_button">
+    <!-- dropdown will be populated by javascript on page load -->
+    </div>
+</div>
+
+<!-- NOTE: this JS must live here (not in our global JS file) because it relies
+     on being processed by Jinja before it is run (specifically for replacing
+     variables f2py/signature-file and {'version_match': '1.24', 'json_url': 'https://numpy.org/doc/_static/versions.json'}.
+-->
+
+<script type="text/javascript">
+// Check if corresponding page path exists in other version of docs
+// and, if so, go there instead of the homepage of the other docs version
+function checkPageExistsAndRedirect(event) {
+    const currentFilePath = "f2py/signature-file.html",
+          tryUrl = event.target.getAttribute("href");
+    let otherDocsHomepage = tryUrl.replace(currentFilePath, "");
+    $.ajax({
+        type: 'HEAD',
+        url: tryUrl,
+        // if the page exists, go there
+        success: function() {
+            location.href = tryUrl;
+        }
+    }).fail(function() {
+        location.href = otherDocsHomepage;
+    });
+    // this prevents the browser from following the href of the clicked node
+    // (which is fine because this function takes care of redirecting)
+    return false;
+}
+
+// Populate the version switcher from the JSON config file
+(function () {
+    $.getJSON("https://numpy.org/doc/_static/versions.json", function(data, textStatus, jqXHR) {
+        const currentFilePath = "f2py/signature-file.html";
+        let btn = document.getElementById("version_switcher_button");
+        // Set empty strings by default so that these attributes exist and can be used in CSS selectors
+        btn.dataset["activeVersionName"] = "";
+        btn.dataset["activeVersion"] = "";
+        // create links to the corresponding page in the other docs versions
+        $.each(data, function(index, entry) {
+            // if no custom name specified (e.g., "latest"), use version string
+            if (!("name" in entry)) {
+                entry.name = entry.version;
+            }
+            // create the node
+            const node = document.createElement("a");
+            node.setAttribute("class", "list-group-item list-group-item-action py-1");
+            node.textContent = `${entry.name}`;
+            node.setAttribute("href", `${entry.url}${currentFilePath}`);
+            // on click, AJAX calls will check if the linked page exists before
+            // trying to redirect, and if not, will redirect to the homepage
+            // for that version of the docs.
+            node.onclick = checkPageExistsAndRedirect;
+            // Add dataset values for the version and name in case people want
+            // to apply CSS styling based on this information.
+            node.dataset["versionName"] = entry.name;
+            node.dataset["version"] = entry.version;
+
+            $("#version_switcher_menu").append(node);
+            // replace dropdown button text with the preferred display name of
+            // this version, rather than using sphinx's 1.24 variable.
+            // also highlight the dropdown entry for the currently-viewed
+            // version's entry
+            if (entry.version == "1.24") {
+                node.classList.add("active");
+                btn.innerText = btn.dataset["activeVersionName"] = entry.name;
+                btn.dataset["activeVersion"] = entry.version;
+            }
+        });
+    });
+})();
+</script>
+      </div>
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+        <li class="nav-item">
+          <a class="nav-link" href="https://github.com/numpy/numpy" rel="noopener" target="_blank" title="GitHub"><span><i class="fab fa-github-square"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="https://twitter.com/numpy_team" rel="noopener" target="_blank" title="Twitter"><span><i class="fab fa-twitter-square"></i></span>
+            <label class="sr-only">Twitter</label></a>
+        </li>
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+</div>
+    </nav>
+    
+
+    <div class="bd-container container-xl">
+      <div class="bd-container__inner row">
+          
+
+<!-- Only show if we have sidebars configured, else just a small margin  -->
+<div class="bd-sidebar-primary col-12 col-md-3 bd-sidebar">
+  <div class="sidebar-start-items"><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <div class="bd-toc-item active">
+    <p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Getting started
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../user/whatisnumpy.html">
+   What is NumPy?
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference external" href="https://numpy.org/install/">
+   Installation
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../user/quickstart.html">
+   NumPy quickstart
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../user/absolute_beginners.html">
+   NumPy: the absolute basics for beginners
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Fundamentals and usage
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../user/basics.html">
+   NumPy fundamentals
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../user/numpy-for-matlab-users.html">
+   NumPy for MATLAB users
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference external" href="https://numpy.org/numpy-tutorials/features.html">
+   NumPy Tutorials
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../user/howtos_index.html">
+   NumPy How Tos
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Advanced usage and interoperability
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../user/building.html">
+   Building from source
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../user/c-info.html">
+   Using NumPy C-API
+  </a>
+ </li>
+ <li class="toctree-l1 current active has-children">
+  <a class="reference internal" href="index.html">
+   F2PY user guide and reference manual
+  </a>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul class="current">
+   <li class="toctree-l2">
+    <a class="reference internal" href="f2py.getting-started.html">
+     Three ways to wrap - getting started
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="f2py-user.html">
+     F2PY user guide
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="f2py-reference.html">
+     F2PY reference manual
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="usage.html">
+     Using F2PY
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="python-usage.html">
+     Using F2PY bindings in Python
+    </a>
+   </li>
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
+     Signature file
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="buildtools/index.html">
+     F2PY and Build Systems
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="advanced.html">
+     Advanced F2PY use cases
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="windows/index.html">
+     F2PY and Windows
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../dev/underthehood.html">
+   Under-the-hood documentation for developers
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../user/basics.interoperability.html">
+   Interoperability with NumPy
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Extras
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../glossary.html">
+   Glossary
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../release.html">
+   Release notes
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../license.html">
+   NumPy license
+  </a>
+ </li>
+</ul>
+
+  </div>
+</nav>
+  </div>
+  <div class="sidebar-end-items">
+  </div>
+</div>
+
+
+          
+
+
+<div class="bd-sidebar-secondary d-none d-xl-block col-xl-2 bd-toc">
+  
+    
+    <div class="toc-item">
+      
+<div class="tocsection onthispage mt-5 pt-1 pb-3">
+    <i class="fas fa-list"></i> On this page
+</div>
+
+<nav id="bd-toc-nav">
+    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#signature-files-syntax">
+   Signature files syntax
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#python-module-block">
+     Python module block
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#fortran-c-routine-signatures">
+     Fortran/C routine signatures
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#type-declarations">
+     Type declarations
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#statements">
+     Statements
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#attribute-statements">
+       Attribute statements
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#use-statements">
+       Use statements
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#common-block-statements">
+       Common block statements
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#other-statements">
+       Other statements
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#f2py-statements">
+       F2PY statements
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#attributes">
+     Attributes
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#extensions">
+     Extensions
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#f2py-directives">
+       F2PY directives
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#c-expressions">
+       C expressions
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#multi-line-blocks">
+       Multi-line blocks
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#extended-char-selector">
+     Extended char-selector
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+</nav>
+    </div>
+    
+    <div class="toc-item">
+      
+    </div>
+    
+  
+</div>
+
+
+          
+          
+          <div class="bd-content col-12 col-md-9 col-xl-7">
+              
+              <article class="bd-article" role="main">
+                
+  <section id="signature-file">
+<h1>Signature file<a class="headerlink" href="#signature-file" title="Permalink to this heading">#</a></h1>
+<p>The interface definition file (.pyf) is how you can fine-tune the interface
+between Python and Fortran. The syntax specification for signature files
+(<code class="docutils literal notranslate"><span class="pre">.pyf</span></code> files) is modeled on the Fortran 90/95 language specification. Almost
+all Fortran 90/95 standard constructs are understood, both in free and fixed
+format (recall that Fortran 77 is a subset of Fortran 90/95). F2PY introduces
+some extensions to the Fortran 90/95 language specification that help in the
+design of the Fortran to Python interface, making it more “Pythonic”.</p>
+<p>Signature files may contain arbitrary Fortran code so that any Fortran 90/95
+codes can be treated as signature files. F2PY silently ignores Fortran
+constructs that are irrelevant for creating the interface. However, this also
+means that syntax errors are not caught by F2PY and will only be caught when the
+library is built.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Currently, F2PY may fail with valid Fortran constructs, such as intrinsic
+modules. If this happens, you can check the
+<a class="reference external" href="https://github.com/numpy/numpy/issues">NumPy GitHub issue tracker</a> for
+possible workarounds or work-in-progress ideas.</p>
+</div>
+<p>In general, the contents of the signature files are case-sensitive. When
+scanning Fortran codes to generate a signature file, F2PY lowers all cases
+automatically except in multi-line blocks or when the <code class="docutils literal notranslate"><span class="pre">--no-lower</span></code> option is
+used.</p>
+<p>The syntax of signature files is presented below.</p>
+<section id="signature-files-syntax">
+<h2>Signature files syntax<a class="headerlink" href="#signature-files-syntax" title="Permalink to this heading">#</a></h2>
+<section id="python-module-block">
+<h3>Python module block<a class="headerlink" href="#python-module-block" title="Permalink to this heading">#</a></h3>
+<p>A signature file may contain one (recommended) or more <code class="docutils literal notranslate"><span class="pre">python</span>
+<span class="pre">module</span></code> blocks. The <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">module</span></code> block describes the contents of
+a Python/C extension module <code class="docutils literal notranslate"><span class="pre">&lt;modulename&gt;module.c</span></code> that F2PY
+generates.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Exception: if <code class="docutils literal notranslate"><span class="pre">&lt;modulename&gt;</span></code> contains a substring <code class="docutils literal notranslate"><span class="pre">__user__</span></code>, then the
+corresponding <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">module</span></code> block describes the signatures of call-back
+functions (see <a class="reference internal" href="python-usage.html#call-back-arguments"><span class="std std-ref">Call-back arguments</span></a>).</p>
+</div>
+<p>A <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">module</span></code> block has the following structure:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">module</span> <span class="o">&lt;</span><span class="n">modulename</span><span class="o">&gt;</span>
+  <span class="p">[</span><span class="o">&lt;</span><span class="n">usercode</span> <span class="n">statement</span><span class="o">&gt;</span><span class="p">]</span><span class="o">...</span>
+  <span class="p">[</span>
+  <span class="n">interface</span>
+    <span class="o">&lt;</span><span class="n">usercode</span> <span class="n">statement</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="n">Fortran</span> <span class="n">block</span> <span class="n">data</span> <span class="n">signatures</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="n">Fortran</span><span class="o">/</span><span class="n">C</span> <span class="n">routine</span> <span class="n">signatures</span><span class="o">&gt;</span>
+  <span class="n">end</span> <span class="p">[</span><span class="n">interface</span><span class="p">]</span>
+  <span class="p">]</span><span class="o">...</span>
+  <span class="p">[</span>
+  <span class="n">interface</span>
+    <span class="n">module</span> <span class="o">&lt;</span><span class="n">F90</span> <span class="n">modulename</span><span class="o">&gt;</span>
+      <span class="p">[</span><span class="o">&lt;</span><span class="n">F90</span> <span class="n">module</span> <span class="n">data</span> <span class="nb">type</span> <span class="n">declarations</span><span class="o">&gt;</span><span class="p">]</span>
+      <span class="p">[</span><span class="o">&lt;</span><span class="n">F90</span> <span class="n">module</span> <span class="n">routine</span> <span class="n">signatures</span><span class="o">&gt;</span><span class="p">]</span>
+    <span class="n">end</span> <span class="p">[</span><span class="n">module</span> <span class="p">[</span><span class="o">&lt;</span><span class="n">F90</span> <span class="n">modulename</span><span class="o">&gt;</span><span class="p">]]</span>
+  <span class="n">end</span> <span class="p">[</span><span class="n">interface</span><span class="p">]</span>
+  <span class="p">]</span><span class="o">...</span>
+<span class="n">end</span> <span class="p">[</span><span class="n">python</span> <span class="n">module</span> <span class="p">[</span><span class="o">&lt;</span><span class="n">modulename</span><span class="o">&gt;</span><span class="p">]]</span>
+</pre></div>
+</div>
+<p>Here brackets <code class="docutils literal notranslate"><span class="pre">[]</span></code> indicate an optional section, dots <code class="docutils literal notranslate"><span class="pre">...</span></code> indicate one or
+more of a previous section. So, <code class="docutils literal notranslate"><span class="pre">[]...</span></code> is to be read as zero or more of a
+previous section.</p>
+</section>
+<section id="fortran-c-routine-signatures">
+<h3>Fortran/C routine signatures<a class="headerlink" href="#fortran-c-routine-signatures" title="Permalink to this heading">#</a></h3>
+<p>The signature of a Fortran routine has the following structure:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="o">&lt;</span><span class="n">typespec</span><span class="o">&gt;</span><span class="p">]</span> <span class="n">function</span> <span class="o">|</span> <span class="n">subroutine</span> <span class="o">&lt;</span><span class="n">routine</span> <span class="n">name</span><span class="o">&gt;</span> \
+              <span class="p">[</span> <span class="p">(</span> <span class="p">[</span><span class="o">&lt;</span><span class="n">arguments</span><span class="o">&gt;</span><span class="p">]</span> <span class="p">)</span> <span class="p">]</span> <span class="p">[</span> <span class="n">result</span> <span class="p">(</span> <span class="o">&lt;</span><span class="n">entityname</span><span class="o">&gt;</span> <span class="p">)</span> <span class="p">]</span>
+  <span class="p">[</span><span class="o">&lt;</span><span class="n">argument</span><span class="o">/</span><span class="n">variable</span> <span class="nb">type</span> <span class="n">declarations</span><span class="o">&gt;</span><span class="p">]</span>
+  <span class="p">[</span><span class="o">&lt;</span><span class="n">argument</span><span class="o">/</span><span class="n">variable</span> <span class="n">attribute</span> <span class="n">statements</span><span class="o">&gt;</span><span class="p">]</span>
+  <span class="p">[</span><span class="o">&lt;</span><span class="n">use</span> <span class="n">statements</span><span class="o">&gt;</span><span class="p">]</span>
+  <span class="p">[</span><span class="o">&lt;</span><span class="n">common</span> <span class="n">block</span> <span class="n">statements</span><span class="o">&gt;</span><span class="p">]</span>
+  <span class="p">[</span><span class="o">&lt;</span><span class="n">other</span> <span class="n">statements</span><span class="o">&gt;</span><span class="p">]</span>
+<span class="n">end</span> <span class="p">[</span> <span class="n">function</span> <span class="o">|</span> <span class="n">subroutine</span> <span class="p">[</span><span class="o">&lt;</span><span class="n">routine</span> <span class="n">name</span><span class="o">&gt;</span><span class="p">]</span> <span class="p">]</span>
+</pre></div>
+</div>
+<p>From a Fortran routine signature F2PY generates a Python/C extension
+function that has the following signature:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="o">&lt;</span><span class="n">routine</span> <span class="n">name</span><span class="o">&gt;</span><span class="p">(</span><span class="o">&lt;</span><span class="n">required</span> <span class="n">arguments</span><span class="o">&gt;</span><span class="p">[,</span><span class="o">&lt;</span><span class="n">optional</span> <span class="n">arguments</span><span class="o">&gt;</span><span class="p">]):</span>
+     <span class="o">...</span>
+     <span class="k">return</span> <span class="o">&lt;</span><span class="k">return</span> <span class="n">variables</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p>The signature of a Fortran block data has the following structure:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">block</span> <span class="n">data</span> <span class="p">[</span> <span class="o">&lt;</span><span class="n">block</span> <span class="n">data</span> <span class="n">name</span><span class="o">&gt;</span> <span class="p">]</span>
+  <span class="p">[</span><span class="o">&lt;</span><span class="n">variable</span> <span class="nb">type</span> <span class="n">declarations</span><span class="o">&gt;</span><span class="p">]</span>
+  <span class="p">[</span><span class="o">&lt;</span><span class="n">variable</span> <span class="n">attribute</span> <span class="n">statements</span><span class="o">&gt;</span><span class="p">]</span>
+  <span class="p">[</span><span class="o">&lt;</span><span class="n">use</span> <span class="n">statements</span><span class="o">&gt;</span><span class="p">]</span>
+  <span class="p">[</span><span class="o">&lt;</span><span class="n">common</span> <span class="n">block</span> <span class="n">statements</span><span class="o">&gt;</span><span class="p">]</span>
+  <span class="p">[</span><span class="o">&lt;</span><span class="n">include</span> <span class="n">statements</span><span class="o">&gt;</span><span class="p">]</span>
+<span class="n">end</span> <span class="p">[</span> <span class="n">block</span> <span class="n">data</span> <span class="p">[</span><span class="o">&lt;</span><span class="n">block</span> <span class="n">data</span> <span class="n">name</span><span class="o">&gt;</span><span class="p">]</span> <span class="p">]</span>
+</pre></div>
+</div>
+</section>
+<section id="type-declarations">
+<span id="id1"></span><h3>Type declarations<a class="headerlink" href="#type-declarations" title="Permalink to this heading">#</a></h3>
+<p>The definition of the <code class="docutils literal notranslate"><span class="pre">&lt;argument/variable</span> <span class="pre">type</span> <span class="pre">declaration&gt;</span></code> part
+is</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">typespec</span><span class="o">&gt;</span> <span class="p">[</span> <span class="p">[</span><span class="o">&lt;</span><span class="n">attrspec</span><span class="o">&gt;</span><span class="p">]</span> <span class="p">::</span> <span class="p">]</span> <span class="o">&lt;</span><span class="n">entitydecl</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p>where</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">typespec</span><span class="o">&gt;</span> <span class="o">:=</span> <span class="n">byte</span> <span class="o">|</span> <span class="n">character</span> <span class="p">[</span><span class="o">&lt;</span><span class="n">charselector</span><span class="o">&gt;</span><span class="p">]</span>
+           <span class="o">|</span> <span class="nb">complex</span> <span class="p">[</span><span class="o">&lt;</span><span class="n">kindselector</span><span class="o">&gt;</span><span class="p">]</span> <span class="o">|</span> <span class="n">real</span> <span class="p">[</span><span class="o">&lt;</span><span class="n">kindselector</span><span class="o">&gt;</span><span class="p">]</span>
+           <span class="o">|</span> <span class="n">double</span> <span class="nb">complex</span> <span class="o">|</span> <span class="n">double</span> <span class="n">precision</span>
+           <span class="o">|</span> <span class="n">integer</span> <span class="p">[</span><span class="o">&lt;</span><span class="n">kindselector</span><span class="o">&gt;</span><span class="p">]</span> <span class="o">|</span> <span class="n">logical</span> <span class="p">[</span><span class="o">&lt;</span><span class="n">kindselector</span><span class="o">&gt;</span><span class="p">]</span>
+
+<span class="o">&lt;</span><span class="n">charselector</span><span class="o">&gt;</span> <span class="o">:=</span> <span class="o">*</span> <span class="o">&lt;</span><span class="n">charlen</span><span class="o">&gt;</span>
+               <span class="o">|</span> <span class="p">(</span> <span class="p">[</span><span class="nb">len</span><span class="o">=</span><span class="p">]</span> <span class="o">&lt;</span><span class="nb">len</span><span class="o">&gt;</span> <span class="p">[</span> <span class="p">,</span> <span class="p">[</span><span class="n">kind</span><span class="o">=</span><span class="p">]</span> <span class="o">&lt;</span><span class="n">kind</span><span class="o">&gt;</span><span class="p">]</span> <span class="p">)</span>
+               <span class="o">|</span> <span class="p">(</span> <span class="n">kind</span><span class="o">=</span> <span class="o">&lt;</span><span class="n">kind</span><span class="o">&gt;</span> <span class="p">[</span> <span class="p">,</span> <span class="nb">len</span><span class="o">=</span> <span class="o">&lt;</span><span class="nb">len</span><span class="o">&gt;</span> <span class="p">]</span> <span class="p">)</span>
+<span class="o">&lt;</span><span class="n">kindselector</span><span class="o">&gt;</span> <span class="o">:=</span> <span class="o">*</span> <span class="o">&lt;</span><span class="n">intlen</span><span class="o">&gt;</span> <span class="o">|</span> <span class="p">(</span> <span class="p">[</span><span class="n">kind</span><span class="o">=</span><span class="p">]</span> <span class="o">&lt;</span><span class="n">kind</span><span class="o">&gt;</span> <span class="p">)</span>
+
+<span class="o">&lt;</span><span class="n">entitydecl</span><span class="o">&gt;</span> <span class="o">:=</span> <span class="o">&lt;</span><span class="n">name</span><span class="o">&gt;</span> <span class="p">[</span> <span class="p">[</span> <span class="o">*</span> <span class="o">&lt;</span><span class="n">charlen</span><span class="o">&gt;</span> <span class="p">]</span> <span class="p">[</span> <span class="p">(</span> <span class="o">&lt;</span><span class="n">arrayspec</span><span class="o">&gt;</span> <span class="p">)</span> <span class="p">]</span>
+                      <span class="o">|</span> <span class="p">[</span> <span class="p">(</span> <span class="o">&lt;</span><span class="n">arrayspec</span><span class="o">&gt;</span> <span class="p">)</span> <span class="p">]</span> <span class="o">*</span> <span class="o">&lt;</span><span class="n">charlen</span><span class="o">&gt;</span> <span class="p">]</span>
+                     <span class="o">|</span> <span class="p">[</span> <span class="o">/</span> <span class="o">&lt;</span><span class="n">init_expr</span><span class="o">&gt;</span> <span class="o">/</span> <span class="o">|</span> <span class="o">=</span> <span class="o">&lt;</span><span class="n">init_expr</span><span class="o">&gt;</span> <span class="p">]</span> \
+                       <span class="p">[</span> <span class="p">,</span> <span class="o">&lt;</span><span class="n">entitydecl</span><span class="o">&gt;</span> <span class="p">]</span>
+</pre></div>
+</div>
+<p>and</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;attrspec&gt;</span></code> is a comma separated list of <a class="reference internal" href="#attributes">attributes</a>;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;arrayspec&gt;</span></code> is a comma separated list of dimension bounds;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;init_expr&gt;</span></code> is a <a class="reference internal" href="#c-expressions"><span class="std std-ref">C expression</span></a>;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;intlen&gt;</span></code> may be negative integer for <code class="docutils literal notranslate"><span class="pre">integer</span></code> type
+specifications. In such cases <code class="docutils literal notranslate"><span class="pre">integer*&lt;negintlen&gt;</span></code> represents
+unsigned C integers;</p></li>
+</ul>
+<p>If an argument has no <code class="docutils literal notranslate"><span class="pre">&lt;argument</span> <span class="pre">type</span> <span class="pre">declaration&gt;</span></code>, its type is
+determined by applying <code class="docutils literal notranslate"><span class="pre">implicit</span></code> rules to its name.</p>
+</section>
+<section id="statements">
+<h3>Statements<a class="headerlink" href="#statements" title="Permalink to this heading">#</a></h3>
+<section id="attribute-statements">
+<h4>Attribute statements<a class="headerlink" href="#attribute-statements" title="Permalink to this heading">#</a></h4>
+<p>The <code class="docutils literal notranslate"><span class="pre">&lt;argument/variable</span> <span class="pre">attribute</span> <span class="pre">statement&gt;</span></code> is similar to the
+<code class="docutils literal notranslate"><span class="pre">&lt;argument/variable</span> <span class="pre">type</span> <span class="pre">declaration&gt;</span></code>, but without <code class="docutils literal notranslate"><span class="pre">&lt;typespec&gt;</span></code>.</p>
+<p>An attribute statement cannot contain other attributes, and <code class="docutils literal notranslate"><span class="pre">&lt;entitydecl&gt;</span></code> can
+be only a list of names. See <a class="reference internal" href="#f2py-attributes"><span class="std std-ref">Attributes</span></a> for more details on the
+attributes that can be used by F2PY.</p>
+</section>
+<section id="use-statements">
+<h4>Use statements<a class="headerlink" href="#use-statements" title="Permalink to this heading">#</a></h4>
+<ul>
+<li><p>The definition of the <code class="docutils literal notranslate"><span class="pre">&lt;use</span> <span class="pre">statement&gt;</span></code> part is</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">use</span> <span class="o">&lt;</span><span class="n">modulename</span><span class="o">&gt;</span> <span class="p">[</span> <span class="p">,</span> <span class="o">&lt;</span><span class="n">rename_list</span><span class="o">&gt;</span> <span class="o">|</span> <span class="p">,</span> <span class="n">ONLY</span> <span class="p">:</span> <span class="o">&lt;</span><span class="n">only_list</span><span class="o">&gt;</span> <span class="p">]</span>
+</pre></div>
+</div>
+<p>where</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">rename_list</span><span class="o">&gt;</span> <span class="o">:=</span> <span class="o">&lt;</span><span class="n">local_name</span><span class="o">&gt;</span> <span class="o">=&gt;</span> <span class="o">&lt;</span><span class="n">use_name</span><span class="o">&gt;</span> <span class="p">[</span> <span class="p">,</span> <span class="o">&lt;</span><span class="n">rename_list</span><span class="o">&gt;</span> <span class="p">]</span>
+</pre></div>
+</div>
+</li>
+<li><p>Currently F2PY uses <code class="docutils literal notranslate"><span class="pre">use</span></code> statements only for linking call-back modules and
+<code class="docutils literal notranslate"><span class="pre">external</span></code> arguments (call-back functions). See <a class="reference internal" href="python-usage.html#call-back-arguments"><span class="std std-ref">Call-back arguments</span></a>.</p></li>
+</ul>
+</section>
+<section id="common-block-statements">
+<h4>Common block statements<a class="headerlink" href="#common-block-statements" title="Permalink to this heading">#</a></h4>
+<ul>
+<li><p>The definition of the <code class="docutils literal notranslate"><span class="pre">&lt;common</span> <span class="pre">block</span> <span class="pre">statement&gt;</span></code> part is</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">common</span> <span class="o">/</span> <span class="o">&lt;</span><span class="n">common</span> <span class="n">name</span><span class="o">&gt;</span> <span class="o">/</span> <span class="o">&lt;</span><span class="n">shortentitydecl</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p>where</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">shortentitydecl</span><span class="o">&gt;</span> <span class="o">:=</span> <span class="o">&lt;</span><span class="n">name</span><span class="o">&gt;</span> <span class="p">[</span> <span class="p">(</span> <span class="o">&lt;</span><span class="n">arrayspec</span><span class="o">&gt;</span> <span class="p">)</span> <span class="p">]</span> <span class="p">[</span> <span class="p">,</span> <span class="o">&lt;</span><span class="n">shortentitydecl</span><span class="o">&gt;</span> <span class="p">]</span>
+</pre></div>
+</div>
+</li>
+<li><p>If a <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">module</span></code> block contains two or more <code class="docutils literal notranslate"><span class="pre">common</span></code> blocks
+with the same name, the variables from the additional declarations
+are appended.  The types of variables in <code class="docutils literal notranslate"><span class="pre">&lt;shortentitydecl&gt;</span></code> are
+defined using <code class="docutils literal notranslate"><span class="pre">&lt;argument</span> <span class="pre">type</span> <span class="pre">declarations&gt;</span></code>. Note that the
+corresponding <code class="docutils literal notranslate"><span class="pre">&lt;argument</span> <span class="pre">type</span> <span class="pre">declarations&gt;</span></code> may contain array
+specifications; then these need not be specified in <code class="docutils literal notranslate"><span class="pre">&lt;shortentitydecl&gt;</span></code>.</p></li>
+</ul>
+</section>
+<section id="other-statements">
+<h4>Other statements<a class="headerlink" href="#other-statements" title="Permalink to this heading">#</a></h4>
+<ul>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">&lt;other</span> <span class="pre">statement&gt;</span></code> part refers to any other Fortran language
+constructs that are not described above. F2PY ignores most of them
+except the following:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">call</span></code> statements and function calls of <code class="docutils literal notranslate"><span class="pre">external</span></code> arguments
+(see <a class="reference internal" href="#external"><span class="std std-ref">more details on external arguments</span></a>);</p></li>
+<li><dl>
+<dt><code class="docutils literal notranslate"><span class="pre">include</span></code> statements</dt><dd><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">include</span> <span class="s1">&#39;&lt;filename&gt;&#39;</span>
+<span class="n">include</span> <span class="s2">&quot;&lt;filename&gt;&quot;</span>
+</pre></div>
+</div>
+<p>If a file <code class="docutils literal notranslate"><span class="pre">&lt;filename&gt;</span></code> does not exist, the <code class="docutils literal notranslate"><span class="pre">include</span></code>
+statement is ignored. Otherwise, the file <code class="docutils literal notranslate"><span class="pre">&lt;filename&gt;</span></code> is
+included to a signature file.  <code class="docutils literal notranslate"><span class="pre">include</span></code> statements can be used
+in any part of a signature file, also outside the Fortran/C
+routine signature blocks.</p>
+</dd>
+</dl>
+</li>
+<li><dl>
+<dt><code class="docutils literal notranslate"><span class="pre">implicit</span></code> statements</dt><dd><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">implicit</span> <span class="n">none</span>
+<span class="n">implicit</span> <span class="o">&lt;</span><span class="nb">list</span> <span class="n">of</span> <span class="n">implicit</span> <span class="n">maps</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p>where</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">implicit</span> <span class="nb">map</span><span class="o">&gt;</span> <span class="o">:=</span> <span class="o">&lt;</span><span class="n">typespec</span><span class="o">&gt;</span> <span class="p">(</span> <span class="o">&lt;</span><span class="nb">list</span> <span class="n">of</span> <span class="n">letters</span> <span class="ow">or</span> <span class="nb">range</span> <span class="n">of</span> <span class="n">letters</span><span class="o">&gt;</span> <span class="p">)</span>
+</pre></div>
+</div>
+<p>Implicit rules are used to determine the type specification of
+a variable (from the first-letter of its name) if the variable
+is not defined using <code class="docutils literal notranslate"><span class="pre">&lt;variable</span> <span class="pre">type</span> <span class="pre">declaration&gt;</span></code>.  Default
+implicit rules are given by:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>implicit real (a-h,o-z,$_), integer (i-m)
+</pre></div>
+</div>
+</dd>
+</dl>
+</li>
+<li><dl>
+<dt><code class="docutils literal notranslate"><span class="pre">entry</span></code> statements</dt><dd><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">entry</span> <span class="o">&lt;</span><span class="n">entry</span> <span class="n">name</span><span class="o">&gt;</span> <span class="p">[([</span><span class="o">&lt;</span><span class="n">arguments</span><span class="o">&gt;</span><span class="p">])]</span>
+</pre></div>
+</div>
+<p>F2PY generates wrappers for all entry names using the signature
+of the routine block.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">entry</span></code> statement can be used to describe the signature of an
+arbitrary subroutine or function allowing F2PY to generate a number of
+wrappers from only one routine block signature. There are few
+restrictions while doing this: <code class="docutils literal notranslate"><span class="pre">fortranname</span></code> cannot be used,
+<code class="docutils literal notranslate"><span class="pre">callstatement</span></code> and <code class="docutils literal notranslate"><span class="pre">callprotoargument</span></code> can be used only if they are
+valid for all entry routines, etc.</p>
+</div>
+</dd>
+</dl>
+</li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="f2py-statements">
+<h4>F2PY statements<a class="headerlink" href="#f2py-statements" title="Permalink to this heading">#</a></h4>
+<p>In addition, F2PY introduces the following statements:</p>
+<dl>
+<dt><code class="docutils literal notranslate"><span class="pre">threadsafe</span></code></dt><dd><p>Uses a <code class="docutils literal notranslate"><span class="pre">Py_BEGIN_ALLOW_THREADS</span> <span class="pre">..</span> <span class="pre">Py_END_ALLOW_THREADS</span></code> block
+around the call to Fortran/C function.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">callstatement</span> <span class="pre">&lt;C-expr|multi-line</span> <span class="pre">block&gt;</span></code></dt><dd><p>Replaces the  F2PY generated call statement to Fortran/C function with
+<code class="docutils literal notranslate"><span class="pre">&lt;C-expr|multi-line</span> <span class="pre">block&gt;</span></code>. The wrapped Fortran/C function is available
+as <code class="docutils literal notranslate"><span class="pre">(*f2py_func)</span></code>.</p>
+<p>To raise an exception, set <code class="docutils literal notranslate"><span class="pre">f2py_success</span> <span class="pre">=</span> <span class="pre">0</span></code> in <code class="docutils literal notranslate"><span class="pre">&lt;C-expr|multi-line</span>
+<span class="pre">block&gt;</span></code>.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">callprotoargument</span> <span class="pre">&lt;C-typespecs&gt;</span></code></dt><dd><p>When the <code class="docutils literal notranslate"><span class="pre">callstatement</span></code> statement is used, F2PY may not generate proper
+prototypes for Fortran/C functions (because <code class="docutils literal notranslate"><span class="pre">&lt;C-expr&gt;</span></code> may contain function
+calls, and F2PY has no way to determine what should be the proper prototype).</p>
+<p>With this statement you can explicitly specify the arguments of the
+corresponding prototype:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">extern</span> <span class="o">&lt;</span><span class="k">return</span> <span class="nb">type</span><span class="o">&gt;</span> <span class="n">FUNC_F</span><span class="p">(</span><span class="o">&lt;</span><span class="n">routine</span> <span class="n">name</span><span class="o">&gt;</span><span class="p">,</span><span class="o">&lt;</span><span class="n">ROUTINE</span> <span class="n">NAME</span><span class="o">&gt;</span><span class="p">)(</span><span class="o">&lt;</span><span class="n">callprotoargument</span><span class="o">&gt;</span><span class="p">);</span>
+</pre></div>
+</div>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">fortranname</span> <span class="pre">[&lt;actual</span> <span class="pre">Fortran/C</span> <span class="pre">routine</span> <span class="pre">name&gt;]</span></code></dt><dd><p>F2PY allows for the use of an arbitrary <code class="docutils literal notranslate"><span class="pre">&lt;routine</span> <span class="pre">name&gt;</span></code> for a given
+Fortran/C function. Then this statement is used for the <code class="docutils literal notranslate"><span class="pre">&lt;actual</span>
+<span class="pre">Fortran/C</span> <span class="pre">routine</span> <span class="pre">name&gt;</span></code>.</p>
+<p>If <code class="docutils literal notranslate"><span class="pre">fortranname</span></code> statement is used without
+<code class="docutils literal notranslate"><span class="pre">&lt;actual</span> <span class="pre">Fortran/C</span> <span class="pre">routine</span> <span class="pre">name&gt;</span></code> then a dummy wrapper is
+generated.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">usercode</span> <span class="pre">&lt;multi-line</span> <span class="pre">block&gt;</span></code></dt><dd><p>When this is used inside a <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">module</span></code> block, the given C code will
+be inserted to generated C/API source just before wrapper function
+definitions.</p>
+<p>Here you can define arbitrary C functions to be used for the
+initialization of optional arguments.</p>
+<p>For example, if <code class="docutils literal notranslate"><span class="pre">usercode</span></code> is used twice inside <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">module</span></code> block
+then the second multi-line block is inserted after the definition of
+the external routines.</p>
+<p>When used inside <code class="docutils literal notranslate"><span class="pre">&lt;routine</span> <span class="pre">signature&gt;</span></code>, then the given C code will be
+inserted into the corresponding wrapper function just after the
+declaration of  variables but before any C statements. So, the
+<code class="docutils literal notranslate"><span class="pre">usercode</span></code> follow-up can contain both declarations and C statements.</p>
+<p>When used inside the first <code class="docutils literal notranslate"><span class="pre">interface</span></code> block, then the given C code will
+be inserted at the end of the initialization function of the extension
+module. This is how the extension modules dictionary can be modified and
+has many use-cases; for example, to define additional variables.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">pymethoddef</span> <span class="pre">&lt;multiline</span> <span class="pre">block&gt;</span></code></dt><dd><p>This is a multi-line block which will be inserted into the definition of a
+module methods <code class="docutils literal notranslate"><span class="pre">PyMethodDef</span></code>-array. It must be a comma-separated list of
+C arrays (see <a class="reference external" href="https://docs.python.org/extending/index.html">Extending and Embedding</a> Python documentation for
+details).  <code class="docutils literal notranslate"><span class="pre">pymethoddef</span></code> statement can be used only inside <code class="docutils literal notranslate"><span class="pre">python</span>
+<span class="pre">module</span></code> block.</p>
+</dd>
+</dl>
+</section>
+</section>
+<section id="attributes">
+<span id="f2py-attributes"></span><h3>Attributes<a class="headerlink" href="#attributes" title="Permalink to this heading">#</a></h3>
+<p>The following attributes can be used by F2PY.</p>
+<dl>
+<dt><code class="docutils literal notranslate"><span class="pre">optional</span></code></dt><dd><p>The corresponding argument is moved to the end of <code class="docutils literal notranslate"><span class="pre">&lt;optional</span> <span class="pre">arguments&gt;</span></code>
+list. A default value for an optional argument can be specified via
+<code class="docutils literal notranslate"><span class="pre">&lt;init_expr&gt;</span></code> (see the <code class="docutils literal notranslate"><span class="pre">entitydecl</span></code> <a class="reference internal" href="#type-declarations"><span class="std std-ref">definition</span></a>)</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<ul class="simple">
+<li><p>The default value must be given as a valid C expression.</p></li>
+<li><p>Whenever <code class="docutils literal notranslate"><span class="pre">&lt;init_expr&gt;</span></code> is used, the <code class="docutils literal notranslate"><span class="pre">optional</span></code> attribute is set
+automatically by F2PY.</p></li>
+<li><p>For an optional array argument, all its dimensions must be bounded.</p></li>
+</ul>
+</div>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">required</span></code></dt><dd><p>The corresponding argument with this attribute is considered mandatory. This
+is the default. <code class="docutils literal notranslate"><span class="pre">required</span></code> should only be specified if there is a need to
+disable the automatic <code class="docutils literal notranslate"><span class="pre">optional</span></code> setting when <code class="docutils literal notranslate"><span class="pre">&lt;init_expr&gt;</span></code> is used.</p>
+<p>If a Python <code class="docutils literal notranslate"><span class="pre">None</span></code> object is used as a required argument, the argument is
+treated as optional. That is, in the case of array arguments, the memory is
+allocated. If <code class="docutils literal notranslate"><span class="pre">&lt;init_expr&gt;</span></code> is given, then the corresponding initialization
+is carried out.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">dimension(&lt;arrayspec&gt;)</span></code></dt><dd><p>The corresponding variable is considered as an array with dimensions given in
+<code class="docutils literal notranslate"><span class="pre">&lt;arrayspec&gt;</span></code>.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">intent(&lt;intentspec&gt;)</span></code></dt><dd><p>This specifies the “intention” of the corresponding argument. <code class="docutils literal notranslate"><span class="pre">&lt;intentspec&gt;</span></code>
+is a comma separated list of the following keys:</p>
+<ul>
+<li><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">in</span></code></dt><dd><p>The corresponding argument is considered to be input-only. This means that
+the value of the argument is passed to a Fortran/C function and that the
+function is expected to not change the value of this argument.</p>
+</dd>
+</dl>
+</li>
+<li><dl>
+<dt><code class="docutils literal notranslate"><span class="pre">inout</span></code></dt><dd><p>The corresponding argument is marked for input/output or as an <em>in situ</em>
+output argument. <code class="docutils literal notranslate"><span class="pre">intent(inout)</span></code> arguments can be only
+<a class="reference internal" href="../glossary.html#term-contiguous"><span class="xref std std-term">contiguous</span></a> NumPy arrays (in either the Fortran or C sense) with
+proper type and size. The latter coincides with the default contiguous
+concept used in NumPy and is effective only if <code class="docutils literal notranslate"><span class="pre">intent(c)</span></code> is used. F2PY
+assumes Fortran contiguous arguments by default.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Using <code class="docutils literal notranslate"><span class="pre">intent(inout)</span></code> is generally not recommended, as it can cause
+unexpected results. For example, scalar arguments using
+<code class="docutils literal notranslate"><span class="pre">intent(inout)</span></code> are assumed to be array objects in order to have
+<em>in situ</em> changes be effective. Use <code class="docutils literal notranslate"><span class="pre">intent(in,out)</span></code> instead.</p>
+</div>
+<p>See also the <code class="docutils literal notranslate"><span class="pre">intent(inplace)</span></code> attribute.</p>
+</dd>
+</dl>
+</li>
+<li><dl>
+<dt><code class="docutils literal notranslate"><span class="pre">inplace</span></code></dt><dd><p>The corresponding argument is considered to be an input/output or <em>in situ</em> output
+argument. <code class="docutils literal notranslate"><span class="pre">intent(inplace)</span></code> arguments must be NumPy arrays of a proper
+size. If the type of an array is not “proper” or the array is
+non-contiguous then the array will be modified in-place to fix the type and
+make it contiguous.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Using <code class="docutils literal notranslate"><span class="pre">intent(inplace)</span></code> is generally not recommended either.</p>
+<p>For example, when slices have been taken from an <code class="docutils literal notranslate"><span class="pre">intent(inplace)</span></code> argument
+then after in-place changes, the data pointers for the slices may point to
+an unallocated memory area.</p>
+</div>
+</dd>
+</dl>
+</li>
+<li><dl>
+<dt><code class="docutils literal notranslate"><span class="pre">out</span></code></dt><dd><p>The corresponding argument is considered to be a return variable. It is appended to the
+<code class="docutils literal notranslate"><span class="pre">&lt;returned</span> <span class="pre">variables&gt;</span></code> list. Using <code class="docutils literal notranslate"><span class="pre">intent(out)</span></code> sets <code class="docutils literal notranslate"><span class="pre">intent(hide)</span></code>
+automatically, unless  <code class="docutils literal notranslate"><span class="pre">intent(in)</span></code> or <code class="docutils literal notranslate"><span class="pre">intent(inout)</span></code> are specified
+as well.</p>
+<p>By default, returned multidimensional arrays are Fortran-contiguous. If
+<code class="docutils literal notranslate"><span class="pre">intent(c)</span></code> attribute is used, then the returned multidimensional arrays
+are C-contiguous.</p>
+</dd>
+</dl>
+</li>
+<li><dl>
+<dt><code class="docutils literal notranslate"><span class="pre">hide</span></code></dt><dd><p>The corresponding argument is removed from the list of required or optional
+arguments. Typically <code class="docutils literal notranslate"><span class="pre">intent(hide)</span></code> is used with <code class="docutils literal notranslate"><span class="pre">intent(out)</span></code>
+or when <code class="docutils literal notranslate"><span class="pre">&lt;init_expr&gt;</span></code> completely determines the value of the
+argument like in the following example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">integer</span> <span class="n">intent</span><span class="p">(</span><span class="n">hide</span><span class="p">),</span><span class="n">depend</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="p">::</span> <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="n">real</span> <span class="n">intent</span><span class="p">(</span><span class="ow">in</span><span class="p">),</span><span class="n">dimension</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="p">::</span> <span class="n">a</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</li>
+<li><dl>
+<dt><code class="docutils literal notranslate"><span class="pre">c</span></code></dt><dd><p>The corresponding argument is treated as a C scalar or C array argument. For the case
+of a scalar argument, its value is passed to a C function as a C scalar
+argument (recall that Fortran scalar arguments are actually C pointer
+arguments).  For array arguments, the wrapper function is assumed to treat
+multidimensional arrays as C-contiguous arrays.</p>
+<p>There is no need to use <code class="docutils literal notranslate"><span class="pre">intent(c)</span></code> for one-dimensional
+arrays, irrespective of whether the wrapped function is in Fortran or C.
+This is because the concepts of Fortran- and C contiguity overlap in
+one-dimensional cases.</p>
+<p>If <code class="docutils literal notranslate"><span class="pre">intent(c)</span></code> is used as a statement but without an entity
+declaration list, then F2PY adds the <code class="docutils literal notranslate"><span class="pre">intent(c)</span></code> attribute to all
+arguments.</p>
+<p>Also, when wrapping C functions, one must use <code class="docutils literal notranslate"><span class="pre">intent(c)</span></code>
+attribute for <code class="docutils literal notranslate"><span class="pre">&lt;routine</span> <span class="pre">name&gt;</span></code> in order to disable Fortran
+specific <code class="docutils literal notranslate"><span class="pre">F_FUNC(..,..)</span></code> macros.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">cache</span></code></dt><dd><p>The corresponding argument is treated as junk memory. No Fortran nor C contiguity
+checks are carried out. Using <code class="docutils literal notranslate"><span class="pre">intent(cache)</span></code> makes sense only for array
+arguments, also in conjunction with <code class="docutils literal notranslate"><span class="pre">intent(hide)</span></code> or <code class="docutils literal notranslate"><span class="pre">optional</span></code>
+attributes.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">copy</span></code></dt><dd><p>Ensures that the original contents of <code class="docutils literal notranslate"><span class="pre">intent(in)</span></code> argument is
+preserved. Typically used with the <code class="docutils literal notranslate"><span class="pre">intent(in,out)</span></code> attribute. F2PY
+creates an optional argument <code class="docutils literal notranslate"><span class="pre">overwrite_&lt;argument</span> <span class="pre">name&gt;</span></code> with the
+default value <code class="docutils literal notranslate"><span class="pre">0</span></code>.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">overwrite</span></code></dt><dd><p>This indicates that the original contents of the <code class="docutils literal notranslate"><span class="pre">intent(in)</span></code> argument
+may be altered by the Fortran/C function.  F2PY creates an optional
+argument <code class="docutils literal notranslate"><span class="pre">overwrite_&lt;argument</span> <span class="pre">name&gt;</span></code> with the default value <code class="docutils literal notranslate"><span class="pre">1</span></code>.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">out=&lt;new</span> <span class="pre">name&gt;</span></code></dt><dd><p>Replaces the returned name with <code class="docutils literal notranslate"><span class="pre">&lt;new</span> <span class="pre">name&gt;</span></code> in the <code class="docutils literal notranslate"><span class="pre">__doc__</span></code> string
+of the wrapper function.</p>
+</dd>
+</dl>
+</li>
+<li><dl>
+<dt><code class="docutils literal notranslate"><span class="pre">callback</span></code></dt><dd><p>Constructs an external function suitable for calling Python functions
+from Fortran. <code class="docutils literal notranslate"><span class="pre">intent(callback)</span></code> must be specified before the
+corresponding <code class="docutils literal notranslate"><span class="pre">external</span></code> statement. If the ‘argument’ is not in
+the argument list then it will be added to Python wrapper but only
+by initializing an external function.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Use <code class="docutils literal notranslate"><span class="pre">intent(callback)</span></code> in situations where the Fortran/C code assumes
+that the user implemented a function with a given prototype and linked
+it to an executable. Don’t use <code class="docutils literal notranslate"><span class="pre">intent(callback)</span></code> if the function
+appears in the argument list of a Fortran routine.</p>
+</div>
+<p>With <code class="docutils literal notranslate"><span class="pre">intent(hide)</span></code> or <code class="docutils literal notranslate"><span class="pre">optional</span></code> attributes specified and using a
+wrapper function without specifying the callback argument in the argument
+list; then the call-back function is assumed to be found in the  namespace
+of the F2PY generated extension module where it can be set as a module
+attribute by a user.</p>
+</dd>
+</dl>
+</li>
+<li><dl>
+<dt><code class="docutils literal notranslate"><span class="pre">aux</span></code></dt><dd><p>Defines an auxiliary C variable in the F2PY generated wrapper function.
+Useful to save parameter values so that they can be accessed in
+initialization expressions for other variables.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><code class="docutils literal notranslate"><span class="pre">intent(aux)</span></code> silently implies <code class="docutils literal notranslate"><span class="pre">intent(c)</span></code>.</p>
+</div>
+</dd>
+</dl>
+</li>
+</ul>
+<p>The following rules apply:</p>
+<ul class="simple">
+<li><p>If none of <code class="docutils literal notranslate"><span class="pre">intent(in</span> <span class="pre">|</span> <span class="pre">inout</span> <span class="pre">|</span> <span class="pre">out</span> <span class="pre">|</span> <span class="pre">hide)</span></code> are specified,
+<code class="docutils literal notranslate"><span class="pre">intent(in)</span></code> is assumed.</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">intent(in,inout)</span></code> is <code class="docutils literal notranslate"><span class="pre">intent(in)</span></code>;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">intent(in,hide)</span></code> or <code class="docutils literal notranslate"><span class="pre">intent(inout,hide)</span></code> is <code class="docutils literal notranslate"><span class="pre">intent(hide)</span></code>;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">intent(out)</span></code> is <code class="docutils literal notranslate"><span class="pre">intent(out,hide)</span></code> unless <code class="docutils literal notranslate"><span class="pre">intent(in)</span></code> or
+<code class="docutils literal notranslate"><span class="pre">intent(inout)</span></code> is specified.</p></li>
+</ul>
+</li>
+<li><p>If <code class="docutils literal notranslate"><span class="pre">intent(copy)</span></code> or <code class="docutils literal notranslate"><span class="pre">intent(overwrite)</span></code> is used, then an additional
+optional argument is introduced with a name <code class="docutils literal notranslate"><span class="pre">overwrite_&lt;argument</span> <span class="pre">name&gt;</span></code>
+and a default value 0 or 1, respectively.</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">intent(inout,inplace)</span></code> is <code class="docutils literal notranslate"><span class="pre">intent(inplace)</span></code>;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">intent(in,inplace)</span></code> is <code class="docutils literal notranslate"><span class="pre">intent(inplace)</span></code>;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">intent(hide)</span></code> disables <code class="docutils literal notranslate"><span class="pre">optional</span></code> and <code class="docutils literal notranslate"><span class="pre">required</span></code>.</p></li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">check([&lt;C-booleanexpr&gt;])</span></code></dt><dd><p>Performs a consistency check on the arguments by evaluating
+<code class="docutils literal notranslate"><span class="pre">&lt;C-booleanexpr&gt;</span></code>; if <code class="docutils literal notranslate"><span class="pre">&lt;C-booleanexpr&gt;</span></code> returns 0, an exception is raised.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If <code class="docutils literal notranslate"><span class="pre">check(..)</span></code> is not used then F2PY automatically generates a few
+standard checks (e.g.  in a case of an array argument, it checks for the
+proper shape and size). Use <code class="docutils literal notranslate"><span class="pre">check()</span></code> to disable checks
+generated by F2PY.</p>
+</div>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">depend([&lt;names&gt;])</span></code></dt><dd><p>This declares that the corresponding argument depends on the values
+of variables in the <code class="docutils literal notranslate"><span class="pre">&lt;names&gt;</span></code> list. For example, <code class="docutils literal notranslate"><span class="pre">&lt;init_expr&gt;</span></code>
+may use the values of other arguments.  Using information given by
+<code class="docutils literal notranslate"><span class="pre">depend(..)</span></code> attributes, F2PY ensures that arguments are
+initialized in a proper order. If the <code class="docutils literal notranslate"><span class="pre">depend(..)</span></code> attribute is not
+used then F2PY determines dependence relations automatically. Use
+<code class="docutils literal notranslate"><span class="pre">depend()</span></code> to disable the dependence relations generated by F2PY.</p>
+<p>When you edit dependence relations that were initially generated by
+F2PY, be careful not to break the dependence relations of other
+relevant variables. Another thing to watch out for is cyclic
+dependencies. F2PY is able to detect cyclic dependencies
+when constructing wrappers and it complains if any are found.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">allocatable</span></code></dt><dd><p>The corresponding variable is a Fortran 90 allocatable array defined as
+Fortran 90 module data.</p>
+</dd>
+</dl>
+<dl id="external">
+<dt><code class="docutils literal notranslate"><span class="pre">external</span></code></dt><dd><p>The corresponding argument is a function provided by user. The
+signature of this call-back function can be defined</p>
+<ul class="simple">
+<li><p>in <code class="docutils literal notranslate"><span class="pre">__user__</span></code> module block,</p></li>
+<li><p>or by demonstrative (or real, if the signature file is a real Fortran
+code) call in the <code class="docutils literal notranslate"><span class="pre">&lt;other</span> <span class="pre">statements&gt;</span></code> block.</p></li>
+</ul>
+<p>For example, F2PY generates from:</p>
+<div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span><span class="k">external </span><span class="n">cb_sub</span><span class="p">,</span><span class="w"> </span><span class="n">cb_fun</span><span class="w"></span>
+<span class="kt">integer </span><span class="n">n</span><span class="w"></span>
+<span class="kt">real </span><span class="n">a</span><span class="p">(</span><span class="n">n</span><span class="p">),</span><span class="n">r</span><span class="w"></span>
+<span class="k">call </span><span class="n">cb_sub</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">n</span><span class="p">)</span><span class="w"></span>
+<span class="n">r</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cb_fun</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span><span class="w"></span>
+</pre></div>
+</div>
+<p>the following call-back signatures:</p>
+<div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span><span class="k">subroutine </span><span class="n">cb_sub</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">n</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="kt">real </span><span class="k">dimension</span><span class="p">(</span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">a</span><span class="w"></span>
+<span class="w">    </span><span class="kt">integer </span><span class="k">optional</span><span class="p">,</span><span class="n">check</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="o">&gt;=</span><span class="n">n</span><span class="p">),</span><span class="n">depend</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">n</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="w"></span>
+<span class="k">end subroutine </span><span class="n">cb_sub</span><span class="w"></span>
+<span class="k">function </span><span class="n">cb_fun</span><span class="p">(</span><span class="n">e_4_e</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="w"> </span><span class="p">(</span><span class="n">r</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">e_4_e</span><span class="w"></span>
+<span class="w">    </span><span class="kt">real</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">r</span><span class="w"></span>
+<span class="k">end function </span><span class="n">cb_fun</span><span class="w"></span>
+</pre></div>
+</div>
+<p>The corresponding user-provided Python function are then:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">cb_sub</span><span class="p">(</span><span class="n">a</span><span class="p">,[</span><span class="n">n</span><span class="p">]):</span>
+    <span class="o">...</span>
+    <span class="k">return</span>
+<span class="k">def</span> <span class="nf">cb_fun</span><span class="p">(</span><span class="n">e_4_e</span><span class="p">):</span>
+    <span class="o">...</span>
+    <span class="k">return</span> <span class="n">r</span>
+</pre></div>
+</div>
+<p>See also the <code class="docutils literal notranslate"><span class="pre">intent(callback)</span></code> attribute.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">parameter</span></code></dt><dd><p>This indicates that the corresponding variable is a parameter and it must have
+a fixed value. F2PY replaces all parameter occurrences by their corresponding
+values.</p>
+</dd>
+</dl>
+</section>
+<section id="extensions">
+<h3>Extensions<a class="headerlink" href="#extensions" title="Permalink to this heading">#</a></h3>
+<section id="f2py-directives">
+<h4>F2PY directives<a class="headerlink" href="#f2py-directives" title="Permalink to this heading">#</a></h4>
+<p>The F2PY directives allow using F2PY signature file constructs in Fortran 77/90
+source codes. With this feature one  can (almost) completely skip the
+intermediate signature file generation and apply F2PY directly to Fortran source
+codes.</p>
+<p>F2PY directives have the following form:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">comment</span> <span class="n">char</span><span class="o">&gt;</span><span class="n">f2py</span> <span class="o">...</span>
+</pre></div>
+</div>
+<p>where allowed comment characters for fixed and free format Fortran
+codes are <code class="docutils literal notranslate"><span class="pre">cC*!#</span></code> and <code class="docutils literal notranslate"><span class="pre">!</span></code>, respectively. Everything that follows
+<code class="docutils literal notranslate"><span class="pre">&lt;comment</span> <span class="pre">char&gt;f2py</span></code> is ignored by a compiler but read by F2PY as a
+normal non-comment  Fortran line:</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>When F2PY finds a line with F2PY directive, the directive is first
+replaced by 5 spaces and then the line is reread.</p>
+</div>
+<p>For fixed format Fortran codes, <code class="docutils literal notranslate"><span class="pre">&lt;comment</span> <span class="pre">char&gt;</span></code> must be at the
+first column of a file, of course. For free format Fortran codes,
+the F2PY directives can appear anywhere in a file.</p>
+</section>
+<section id="c-expressions">
+<span id="id3"></span><h4>C expressions<a class="headerlink" href="#c-expressions" title="Permalink to this heading">#</a></h4>
+<p>C expressions are used in the following parts of signature files:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;init_expr&gt;</span></code> for variable initialization;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;C-booleanexpr&gt;</span></code> of the <code class="docutils literal notranslate"><span class="pre">check</span></code> attribute;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;arrayspec&gt;</span></code> of the <code class="docutils literal notranslate"><span class="pre">dimension</span></code> attribute;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">callstatement</span></code> statement, here also a C multi-line block can be used.</p></li>
+</ul>
+<p>A C expression may contain:</p>
+<ul>
+<li><p>standard C constructs;</p></li>
+<li><p>functions from <code class="docutils literal notranslate"><span class="pre">math.h</span></code> and <code class="docutils literal notranslate"><span class="pre">Python.h</span></code>;</p></li>
+<li><p>variables from the argument list, presumably initialized before
+according to given dependence relations;</p></li>
+<li><p>the following CPP macros:</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">f2py_rank(&lt;name&gt;)</span></code></dt><dd><p>Returns the rank of an array <code class="docutils literal notranslate"><span class="pre">&lt;name&gt;</span></code>.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">f2py_shape(&lt;name&gt;,</span> <span class="pre">&lt;n&gt;)</span></code></dt><dd><p>Returns the <code class="docutils literal notranslate"><span class="pre">&lt;n&gt;</span></code>-th dimension of an array <code class="docutils literal notranslate"><span class="pre">&lt;name&gt;</span></code>.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">f2py_len(&lt;name&gt;)</span></code></dt><dd><p>Returns the length of an array <code class="docutils literal notranslate"><span class="pre">&lt;name&gt;</span></code>.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">f2py_size(&lt;name&gt;)</span></code></dt><dd><p>Returns the size of an array <code class="docutils literal notranslate"><span class="pre">&lt;name&gt;</span></code>.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">f2py_itemsize(&lt;name&gt;)</span></code></dt><dd><p>Returns the itemsize of an array <code class="docutils literal notranslate"><span class="pre">&lt;name&gt;</span></code>.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">f2py_slen(&lt;name&gt;)</span></code></dt><dd><p>Returns the length of a string <code class="docutils literal notranslate"><span class="pre">&lt;name&gt;</span></code>.</p>
+</dd>
+</dl>
+</li>
+</ul>
+<p>For initializing an array <code class="docutils literal notranslate"><span class="pre">&lt;array</span> <span class="pre">name&gt;</span></code>, F2PY generates a loop over
+all indices and dimensions that executes the following
+pseudo-statement:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">array</span> <span class="n">name</span><span class="o">&gt;</span><span class="p">(</span><span class="n">_i</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">_i</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="o">...</span><span class="p">)</span> <span class="o">=</span> <span class="o">&lt;</span><span class="n">init_expr</span><span class="o">&gt;</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>where <code class="docutils literal notranslate"><span class="pre">_i[&lt;i&gt;]</span></code> refers to the <code class="docutils literal notranslate"><span class="pre">&lt;i&gt;</span></code>-th index value and that runs
+from <code class="docutils literal notranslate"><span class="pre">0</span></code> to <code class="docutils literal notranslate"><span class="pre">shape(&lt;array</span> <span class="pre">name&gt;,&lt;i&gt;)-1</span></code>.</p>
+<p>For example, a function <code class="docutils literal notranslate"><span class="pre">myrange(n)</span></code> generated from the following
+signature</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>subroutine myrange(a,n)
+  fortranname        ! myrange is a dummy wrapper
+  integer intent(in) :: n
+  real*8 intent(c,out),dimension(n),depend(n) :: a = _i[0]
+end subroutine myrange
+</pre></div>
+</div>
+<p>is equivalent to <code class="docutils literal notranslate"><span class="pre">numpy.arange(n,dtype=float)</span></code>.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>F2PY may lower cases also in C expressions when scanning Fortran codes
+(see <code class="docutils literal notranslate"><span class="pre">--[no]-lower</span></code> option).</p>
+</div>
+</section>
+<section id="multi-line-blocks">
+<h4>Multi-line blocks<a class="headerlink" href="#multi-line-blocks" title="Permalink to this heading">#</a></h4>
+<p>A multi-line block starts with <code class="docutils literal notranslate"><span class="pre">'''</span></code> (triple single-quotes) and ends
+with <code class="docutils literal notranslate"><span class="pre">'''</span></code> in some <em>strictly</em> subsequent line.  Multi-line blocks can
+be used only within .pyf files. The contents of a multi-line block can
+be arbitrary (except that it cannot contain <code class="docutils literal notranslate"><span class="pre">'''</span></code>) and no
+transformations (e.g. lowering cases) are applied to it.</p>
+<p>Currently, multi-line blocks can be used in the following constructs:</p>
+<ul class="simple">
+<li><p>as a C expression of the <code class="docutils literal notranslate"><span class="pre">callstatement</span></code> statement;</p></li>
+<li><p>as a C type specification of the <code class="docutils literal notranslate"><span class="pre">callprotoargument</span></code> statement;</p></li>
+<li><p>as a C code block of the <code class="docutils literal notranslate"><span class="pre">usercode</span></code> statement;</p></li>
+<li><p>as a list of C arrays of the <code class="docutils literal notranslate"><span class="pre">pymethoddef</span></code> statement;</p></li>
+</ul>
+<ul class="simple">
+<li><p>as documentation string.</p></li>
+</ul>
+</section>
+</section>
+<section id="extended-char-selector">
+<h3>Extended char-selector<a class="headerlink" href="#extended-char-selector" title="Permalink to this heading">#</a></h3>
+<p>F2PY extends char-selector specification, usable within a signature
+file or a F2PY directive, as follows:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">extended</span><span class="o">-</span><span class="n">charselector</span><span class="o">&gt;</span> <span class="o">:=</span> <span class="o">&lt;</span><span class="n">charselector</span><span class="o">&gt;</span>
+                        <span class="o">|</span> <span class="p">(</span><span class="n">f2py_len</span><span class="o">=</span> <span class="o">&lt;</span><span class="nb">len</span><span class="o">&gt;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>See <a class="reference internal" href="advanced.html#character-strings"><span class="std std-ref">Character strings</span></a> for usage.</p>
+</section>
+</section>
+</section>
+
+
+              </article>
+              
+
+              
+              <footer class="bd-footer-article">
+                  <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+  <a class='left-prev' id="prev-link" href="f2py-reference.html" title="previous page">
+      <i class="fas fa-angle-left"></i>
+      <div class="prev-next-info">
+          <p class="prev-next-subtitle">previous</p>
+          <p class="prev-next-title">F2PY reference manual</p>
+      </div>
+  </a>
+  <a class='right-next' id="next-link" href="python-usage.html" title="next page">
+  <div class="prev-next-info">
+      <p class="prev-next-subtitle">next</p>
+      <p class="prev-next-title">Using F2PY bindings in Python</p>
+  </div>
+  <i class="fas fa-angle-right"></i>
+  </a>
+</div>
+              </footer>
+              
+          </div>
+          
+      </div>
+    </div>
+
+  
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695"></script>
+
+<footer class="bd-footer"><div class="bd-footer__inner container">
+  
+  <div class="footer-item">
+    <p class="copyright">
+    &copy; Copyright 2008-2022, NumPy Developers.<br>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    <p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.3.0.<br>
+</p>
+  </div>
+  
+</div>
+</footer>
+  </body>
+</html>

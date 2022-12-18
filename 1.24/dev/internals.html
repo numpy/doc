@@ -1,0 +1,651 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>Internal organization of NumPy arrays &#8212; NumPy v1.24 Manual</title>
+<script>
+  document.documentElement.dataset.mode = localStorage.getItem("mode") || "light";
+  document.documentElement.dataset.theme = localStorage.getItem("theme") || "light"
+</script>
+
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=92025949c220c2e29695" rel="stylesheet">
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=92025949c220c2e29695" rel="stylesheet">
+
+
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/numpy.css" />
+
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695">
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/design-tabs.js"></script>
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="NumPy C code explanations" href="internals.code-explanations.html" />
+    <link rel="prev" title="Under-the-hood documentation for developers" href="underthehood.html" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="docsearch:language" content="en">
+  </head>
+  
+  
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="180" data-default-mode="light">
+    <div class="bd-header-announcement container-fluid" id="banner">
+      
+
+    </div>
+
+    
+    <nav class="bd-header navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="bd-header__inner container-xl">
+
+  <div id="navbar-start">
+    
+    
+  
+
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+    <img src="../_static/numpylogo.svg" class="logo__image only-light" alt="Logo image">
+    <img src="../_static/numpylogo_dark.svg" class="logo__image only-dark" alt="Logo image">
+  
+  
+</a>
+    
+  </div>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapsible" aria-controls="navbar-collapsible" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="fas fa-bars"></span>
+  </button>
+
+  
+  <div id="navbar-collapsible" class="col-lg-9 collapse navbar-collapse">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <ul id="navbar-main-elements" class="navbar-nav">
+    <li class="toctree-l1 current active nav-item">
+ <a class="reference internal nav-link" href="../user/index.html">
+  User Guide
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../reference/index.html">
+  API reference
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="index.html">
+  Development
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../release.html">
+  Release notes
+ </a>
+</li>
+
+    
+    <li class="nav-item">
+        <a class="nav-link nav-external" href="https://numpy.org/numpy-tutorials/">Learn<i class="fas fa-external-link-alt"></i></a>
+    </li>
+    
+</ul>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      
+      <div class="navbar-end-item">
+        <span id="theme-switch" class="btn btn-sm btn-outline-primary navbar-btn rounded-circle">
+    <a class="theme-switch" data-mode="light"><i class="fas fa-sun"></i></a>
+    <a class="theme-switch" data-mode="dark"><i class="far fa-moon"></i></a>
+    <a class="theme-switch" data-mode="auto"><i class="fas fa-adjust"></i></a>
+</span>
+      </div>
+      
+      <div class="navbar-end-item">
+        <div class="dropdown" id="version_switcher">
+    <button type="button" class="btn btn-sm navbar-btn dropdown-toggle" id="version_switcher_button" data-toggle="dropdown">
+        1.24  <!-- this text may get changed later by javascript -->
+        <span class="caret"></span>
+    </button>
+    <div id="version_switcher_menu" class="dropdown-menu list-group-flush py-0" aria-labelledby="version_switcher_button">
+    <!-- dropdown will be populated by javascript on page load -->
+    </div>
+</div>
+
+<!-- NOTE: this JS must live here (not in our global JS file) because it relies
+     on being processed by Jinja before it is run (specifically for replacing
+     variables dev/internals and {'version_match': '1.24', 'json_url': 'https://numpy.org/doc/_static/versions.json'}.
+-->
+
+<script type="text/javascript">
+// Check if corresponding page path exists in other version of docs
+// and, if so, go there instead of the homepage of the other docs version
+function checkPageExistsAndRedirect(event) {
+    const currentFilePath = "dev/internals.html",
+          tryUrl = event.target.getAttribute("href");
+    let otherDocsHomepage = tryUrl.replace(currentFilePath, "");
+    $.ajax({
+        type: 'HEAD',
+        url: tryUrl,
+        // if the page exists, go there
+        success: function() {
+            location.href = tryUrl;
+        }
+    }).fail(function() {
+        location.href = otherDocsHomepage;
+    });
+    // this prevents the browser from following the href of the clicked node
+    // (which is fine because this function takes care of redirecting)
+    return false;
+}
+
+// Populate the version switcher from the JSON config file
+(function () {
+    $.getJSON("https://numpy.org/doc/_static/versions.json", function(data, textStatus, jqXHR) {
+        const currentFilePath = "dev/internals.html";
+        let btn = document.getElementById("version_switcher_button");
+        // Set empty strings by default so that these attributes exist and can be used in CSS selectors
+        btn.dataset["activeVersionName"] = "";
+        btn.dataset["activeVersion"] = "";
+        // create links to the corresponding page in the other docs versions
+        $.each(data, function(index, entry) {
+            // if no custom name specified (e.g., "latest"), use version string
+            if (!("name" in entry)) {
+                entry.name = entry.version;
+            }
+            // create the node
+            const node = document.createElement("a");
+            node.setAttribute("class", "list-group-item list-group-item-action py-1");
+            node.textContent = `${entry.name}`;
+            node.setAttribute("href", `${entry.url}${currentFilePath}`);
+            // on click, AJAX calls will check if the linked page exists before
+            // trying to redirect, and if not, will redirect to the homepage
+            // for that version of the docs.
+            node.onclick = checkPageExistsAndRedirect;
+            // Add dataset values for the version and name in case people want
+            // to apply CSS styling based on this information.
+            node.dataset["versionName"] = entry.name;
+            node.dataset["version"] = entry.version;
+
+            $("#version_switcher_menu").append(node);
+            // replace dropdown button text with the preferred display name of
+            // this version, rather than using sphinx's 1.24 variable.
+            // also highlight the dropdown entry for the currently-viewed
+            // version's entry
+            if (entry.version == "1.24") {
+                node.classList.add("active");
+                btn.innerText = btn.dataset["activeVersionName"] = entry.name;
+                btn.dataset["activeVersion"] = entry.version;
+            }
+        });
+    });
+})();
+</script>
+      </div>
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+        <li class="nav-item">
+          <a class="nav-link" href="https://github.com/numpy/numpy" rel="noopener" target="_blank" title="GitHub"><span><i class="fab fa-github-square"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="https://twitter.com/numpy_team" rel="noopener" target="_blank" title="Twitter"><span><i class="fab fa-twitter-square"></i></span>
+            <label class="sr-only">Twitter</label></a>
+        </li>
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+</div>
+    </nav>
+    
+
+    <div class="bd-container container-xl">
+      <div class="bd-container__inner row">
+          
+
+<!-- Only show if we have sidebars configured, else just a small margin  -->
+<div class="bd-sidebar-primary col-12 col-md-3 bd-sidebar">
+  <div class="sidebar-start-items"><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <div class="bd-toc-item active">
+    <p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Getting started
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../user/whatisnumpy.html">
+   What is NumPy?
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference external" href="https://numpy.org/install/">
+   Installation
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../user/quickstart.html">
+   NumPy quickstart
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../user/absolute_beginners.html">
+   NumPy: the absolute basics for beginners
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Fundamentals and usage
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../user/basics.html">
+   NumPy fundamentals
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../user/numpy-for-matlab-users.html">
+   NumPy for MATLAB users
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference external" href="https://numpy.org/numpy-tutorials/features.html">
+   NumPy Tutorials
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../user/howtos_index.html">
+   NumPy How Tos
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Advanced usage and interoperability
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../user/building.html">
+   Building from source
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../user/c-info.html">
+   Using NumPy C-API
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../f2py/index.html">
+   F2PY user guide and reference manual
+  </a>
+ </li>
+ <li class="toctree-l1 current active has-children">
+  <a class="reference internal" href="underthehood.html">
+   Under-the-hood documentation for developers
+  </a>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul class="current">
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
+     Internal organization of NumPy arrays
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="internals.code-explanations.html">
+     NumPy C code explanations
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="alignment.html">
+     Memory Alignment
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../user/byteswapping.html">
+     Byte-swapping
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../user/basics.dispatch.html">
+     Writing custom array containers
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../user/basics.subclassing.html">
+     Subclassing ndarray
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../user/basics.interoperability.html">
+   Interoperability with NumPy
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Extras
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../glossary.html">
+   Glossary
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../release.html">
+   Release notes
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../license.html">
+   NumPy license
+  </a>
+ </li>
+</ul>
+
+  </div>
+</nav>
+  </div>
+  <div class="sidebar-end-items">
+  </div>
+</div>
+
+
+          
+
+
+<div class="bd-sidebar-secondary d-none d-xl-block col-xl-2 bd-toc">
+  
+    
+    <div class="toc-item">
+      
+<div class="tocsection onthispage mt-5 pt-1 pb-3">
+    <i class="fas fa-list"></i> On this page
+</div>
+
+<nav id="bd-toc-nav">
+    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#multidimensional-array-indexing-order-issues">
+   Multidimensional array indexing order issues
+  </a>
+ </li>
+</ul>
+
+</nav>
+    </div>
+    
+    <div class="toc-item">
+      
+    </div>
+    
+  
+</div>
+
+
+          
+          
+          <div class="bd-content col-12 col-md-9 col-xl-7">
+              
+              <article class="bd-article" role="main">
+                
+  <section id="internal-organization-of-numpy-arrays">
+<span id="numpy-internals"></span><h1>Internal organization of NumPy arrays<a class="headerlink" href="#internal-organization-of-numpy-arrays" title="Permalink to this heading">#</a></h1>
+<p>It helps to understand a bit about how NumPy arrays are handled under the covers
+to help understand NumPy better. This section will not go into great detail.
+Those wishing to understand the full details are requested to refer to Travis
+Oliphant’s book <a class="reference external" href="http://web.mit.edu/dvp/Public/numpybook.pdf">Guide to NumPy</a>.</p>
+<p>NumPy arrays consist of two major components: the raw array data (from now on,
+referred to as the data buffer), and the information about the raw array data.
+The data buffer is typically what people think of as arrays in C or Fortran,
+a <a class="reference internal" href="../glossary.html#term-contiguous"><span class="xref std std-term">contiguous</span></a> (and fixed) block of memory containing fixed-sized data
+items. NumPy also contains a significant set of data that describes how to
+interpret the data in the data buffer. This extra information contains (among
+other things):</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>The basic data element’s size in bytes.</p></li>
+<li><p>The start of the data within the data buffer (an offset relative to the
+beginning of the data buffer).</p></li>
+<li><p>The number of <a class="reference internal" href="../glossary.html#term-dimension"><span class="xref std std-term">dimensions</span></a> and the size of each dimension.</p></li>
+<li><p>The separation between elements for each dimension (the <a class="reference internal" href="../glossary.html#term-stride"><span class="xref std std-term">stride</span></a>).
+This does not have to be a multiple of the element size.</p></li>
+<li><p>The byte order of the data (which may not be the native byte order).</p></li>
+<li><p>Whether the buffer is read-only.</p></li>
+<li><p>Information (via the <a class="reference internal" href="../reference/generated/numpy.dtype.html#numpy.dtype" title="numpy.dtype"><code class="xref py py-class docutils literal notranslate"><span class="pre">dtype</span></code></a> object) about the interpretation of the
+basic data element. The basic data element may be as simple as an int or a
+float, or it may be a compound object (e.g.,
+<a class="reference internal" href="../glossary.html#term-structured-data-type"><span class="xref std std-term">struct-like</span></a>), a fixed character field,
+or Python object pointers.</p></li>
+<li><p>Whether the array is to be interpreted as <a class="reference internal" href="../glossary.html#term-C-order"><span class="xref std std-term">C-order</span></a>
+or <a class="reference internal" href="../glossary.html#term-Fortran-order"><span class="xref std std-term">Fortran-order</span></a>.</p></li>
+</ol>
+</div></blockquote>
+<p>This arrangement allows for the very flexible use of arrays. One thing that it
+allows is simple changes to the metadata to change the interpretation of the
+array buffer. Changing the byteorder of the array is a simple change involving
+no rearrangement of the data. The <a class="reference internal" href="../glossary.html#term-shape"><span class="xref std std-term">shape</span></a> of the array can be changed very
+easily without changing anything in the data buffer or any data copying at all.</p>
+<p>Among other things that are made possible is one can create a new array metadata
+object that uses the same data buffer
+to create a new <a class="reference internal" href="../glossary.html#term-view"><span class="xref std std-term">view</span></a> of that data buffer that has a different
+interpretation of the buffer (e.g., different shape, offset, byte order,
+strides, etc) but shares the same data bytes. Many operations in NumPy do just
+this such as <a class="reference external" href="https://docs.python.org/3/glossary.html#term-slice" title="(in Python v3.11)"><span class="xref std std-term">slicing</span></a>. Other operations, such as
+transpose, don’t move data elements around in the array, but rather change the
+information about the shape and strides so that the indexing of the array
+changes, but the data in the doesn’t move.</p>
+<p>Typically these new versions of the array metadata but the same data buffer are
+new views into the data buffer. There is a different <a class="reference internal" href="../reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a> object,
+but it uses the same data buffer. This is why it is necessary to force copies
+through the use of the <a class="reference internal" href="../reference/generated/numpy.copy.html#numpy.copy" title="numpy.copy"><code class="xref py py-func docutils literal notranslate"><span class="pre">copy</span></code></a> method if one really wants to make a new
+and independent copy of the data buffer.</p>
+<p>New views into arrays mean the object reference counts for the data buffer
+increase. Simply doing away with the original array object will not remove the
+data buffer if other views of it still exist.</p>
+<section id="multidimensional-array-indexing-order-issues">
+<h2>Multidimensional array indexing order issues<a class="headerlink" href="#multidimensional-array-indexing-order-issues" title="Permalink to this heading">#</a></h2>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="../user/basics.indexing.html#basics-indexing"><span class="std std-ref">Indexing on ndarrays</span></a></p>
+</div>
+<p>What is the right way to index
+multi-dimensional arrays? Before you jump to conclusions about the one and
+true way to index multi-dimensional arrays, it pays to understand why this is
+a confusing issue. This section will try to explain in detail how NumPy
+indexing works and why we adopt the convention we do for images, and when it
+may be appropriate to adopt other conventions.</p>
+<p>The first thing to understand is
+that there are two conflicting conventions for indexing 2-dimensional arrays.
+Matrix notation uses the first index to indicate which row is being selected and
+the second index to indicate which column is selected. This is opposite the
+geometrically oriented-convention for images where people generally think the
+first index represents x position (i.e., column) and the second represents y
+position (i.e., row). This alone is the source of much confusion;
+matrix-oriented users and image-oriented users expect two different things with
+regard to indexing.</p>
+<p>The second issue to understand is how indices correspond
+to the order in which the array is stored in memory. In Fortran, the first index
+is the most rapidly varying index when moving through the elements of a
+two-dimensional array as it is stored in memory. If you adopt the matrix
+convention for indexing, then this means the matrix is stored one column at a
+time (since the first index moves to the next row as it changes). Thus Fortran
+is considered a Column-major language. C has just the opposite convention. In
+C, the last index changes most rapidly as one moves through the array as
+stored in memory. Thus C is a Row-major language. The matrix is stored by
+rows. Note that in both cases it presumes that the matrix convention for
+indexing is being used, i.e., for both Fortran and C, the first index is the
+row. Note this convention implies that the indexing convention is invariant
+and that the data order changes to keep that so.</p>
+<p>But that’s not the only way
+to look at it. Suppose one has large two-dimensional arrays (images or
+matrices) stored in data files. Suppose the data are stored by rows rather than
+by columns. If we are to preserve our index convention (whether matrix or
+image) that means that depending on the language we use, we may be forced to
+reorder the data if it is read into memory to preserve our indexing
+convention. For example, if we read row-ordered data into memory without
+reordering, it will match the matrix indexing convention for C, but not for
+Fortran. Conversely, it will match the image indexing convention for Fortran,
+but not for C. For C, if one is using data stored in row order, and one wants
+to preserve the image index convention, the data must be reordered when
+reading into memory.</p>
+<p>In the end, what you do for Fortran or C depends on
+which is more important, not reordering data or preserving the indexing
+convention. For large images, reordering data is potentially expensive, and
+often the indexing convention is inverted to avoid that.</p>
+<p>The situation with
+NumPy makes this issue yet more complicated. The internal machinery of NumPy
+arrays is flexible enough to accept any ordering of indices. One can simply
+reorder indices by manipulating the internal <a class="reference internal" href="../glossary.html#term-stride"><span class="xref std std-term">stride</span></a> information for
+arrays without reordering the data at all. NumPy will know how to map the new
+index order to the data without moving the data.</p>
+<p>So if this is true, why not choose
+the index order that matches what you most expect? In particular, why not define
+row-ordered images to use the image convention? (This is sometimes referred
+to as the Fortran convention vs the C convention, thus the ‘C’ and ‘FORTRAN’
+order options for array ordering in NumPy.) The drawback of doing this is
+potential performance penalties. It’s common to access the data sequentially,
+either implicitly in array operations or explicitly by looping over rows of an
+image. When that is done, then the data will be accessed in non-optimal order.
+As the first index is incremented, what is actually happening is that elements
+spaced far apart in memory are being sequentially accessed, with usually poor
+memory access speeds. For example, for a two-dimensional image <code class="docutils literal notranslate"><span class="pre">im</span></code> defined so
+that <code class="docutils literal notranslate"><span class="pre">im[0,</span> <span class="pre">10]</span></code> represents the value at <code class="docutils literal notranslate"><span class="pre">x</span> <span class="pre">=</span> <span class="pre">0</span></code>, <code class="docutils literal notranslate"><span class="pre">y</span> <span class="pre">=</span> <span class="pre">10</span></code>. To be
+consistent with usual Python behavior then <code class="docutils literal notranslate"><span class="pre">im[0]</span></code> would represent a column
+at <code class="docutils literal notranslate"><span class="pre">x</span> <span class="pre">=</span> <span class="pre">0</span></code>. Yet that data would be spread over the whole array since the data
+are stored in row order. Despite the flexibility of NumPy’s indexing, it can’t
+really paper over the fact basic operations are rendered inefficient because of
+data order or that getting contiguous subarrays is still awkward (e.g.,
+<code class="docutils literal notranslate"><span class="pre">im[:,</span> <span class="pre">0]</span></code> for the first row, vs <code class="docutils literal notranslate"><span class="pre">im[0]</span></code>). Thus one can’t use an idiom such
+as for row in <code class="docutils literal notranslate"><span class="pre">im</span></code>; for col in <code class="docutils literal notranslate"><span class="pre">im</span></code> does work, but doesn’t yield contiguous
+column data.</p>
+<p>As it turns out, NumPy is
+smart enough when dealing with <a class="reference internal" href="internals.code-explanations.html#ufuncs-internals"><span class="std std-ref">ufuncs</span></a> to determine
+which index is the most rapidly varying one in memory and uses that for the
+innermost loop. Thus for ufuncs, there is no large intrinsic advantage to
+either approach in most cases. On the other hand, use of <a class="reference internal" href="../reference/generated/numpy.ndarray.flat.html#numpy.ndarray.flat" title="numpy.ndarray.flat"><code class="xref py py-attr docutils literal notranslate"><span class="pre">ndarray.flat</span></code></a>
+with a FORTRAN ordered array will lead to non-optimal memory access as adjacent
+elements in the flattened array (iterator, actually) are not contiguous in
+memory.</p>
+<p>Indeed, the fact is that Python
+indexing on lists and other sequences naturally leads to an outside-to-inside
+ordering (the first index gets the largest grouping, the next largest,
+and the last gets the smallest element). Since image data are normally stored
+in rows, this corresponds to the position within rows being the last item
+indexed.</p>
+<p>If you do want to use Fortran ordering realize that
+there are two approaches to consider: 1) accept that the first index is just not
+the most rapidly changing in memory and have all your I/O routines reorder
+your data when going from memory to disk or visa versa, or use NumPy’s
+mechanism for mapping the first index to the most rapidly varying data. We
+recommend the former if possible. The disadvantage of the latter is that many
+of NumPy’s functions will yield arrays without Fortran ordering unless you are
+careful to use the <code class="docutils literal notranslate"><span class="pre">order</span></code> keyword. Doing this would be highly inconvenient.</p>
+<p>Otherwise, we recommend simply learning to reverse the usual order of indices
+when accessing elements of an array. Granted, it goes against the grain, but
+it is more in line with Python semantics and the natural order of the data.</p>
+</section>
+</section>
+
+
+              </article>
+              
+
+              
+              <footer class="bd-footer-article">
+                  <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+  <a class='left-prev' id="prev-link" href="underthehood.html" title="previous page">
+      <i class="fas fa-angle-left"></i>
+      <div class="prev-next-info">
+          <p class="prev-next-subtitle">previous</p>
+          <p class="prev-next-title">Under-the-hood documentation for developers</p>
+      </div>
+  </a>
+  <a class='right-next' id="next-link" href="internals.code-explanations.html" title="next page">
+  <div class="prev-next-info">
+      <p class="prev-next-subtitle">next</p>
+      <p class="prev-next-title">NumPy C code explanations</p>
+  </div>
+  <i class="fas fa-angle-right"></i>
+  </a>
+</div>
+              </footer>
+              
+          </div>
+          
+      </div>
+    </div>
+
+  
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695"></script>
+
+<footer class="bd-footer"><div class="bd-footer__inner container">
+  
+  <div class="footer-item">
+    <p class="copyright">
+    &copy; Copyright 2008-2022, NumPy Developers.<br>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    <p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.3.0.<br>
+</p>
+  </div>
+  
+</div>
+</footer>
+  </body>
+</html>

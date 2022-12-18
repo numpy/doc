@@ -1,0 +1,813 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>Universal functions (ufunc) basics &#8212; NumPy v1.24 Manual</title>
+<script>
+  document.documentElement.dataset.mode = localStorage.getItem("mode") || "light";
+  document.documentElement.dataset.theme = localStorage.getItem("theme") || "light"
+</script>
+
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=92025949c220c2e29695" rel="stylesheet">
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=92025949c220c2e29695" rel="stylesheet">
+
+
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/numpy.css" />
+
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695">
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/design-tabs.js"></script>
+    <script async="async" src="../_static/scipy-mathjax/MathJax.js?config=scipy-mathjax"></script>
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="NumPy for MATLAB users" href="numpy-for-matlab-users.html" />
+    <link rel="prev" title="Structured arrays" href="basics.rec.html" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="docsearch:language" content="en">
+  </head>
+  
+  
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="180" data-default-mode="light">
+    <div class="bd-header-announcement container-fluid" id="banner">
+      
+
+    </div>
+
+    
+    <nav class="bd-header navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="bd-header__inner container-xl">
+
+  <div id="navbar-start">
+    
+    
+  
+
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+    <img src="../_static/numpylogo.svg" class="logo__image only-light" alt="Logo image">
+    <img src="../_static/numpylogo_dark.svg" class="logo__image only-dark" alt="Logo image">
+  
+  
+</a>
+    
+  </div>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapsible" aria-controls="navbar-collapsible" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="fas fa-bars"></span>
+  </button>
+
+  
+  <div id="navbar-collapsible" class="col-lg-9 collapse navbar-collapse">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <ul id="navbar-main-elements" class="navbar-nav">
+    <li class="toctree-l1 current active nav-item">
+ <a class="reference internal nav-link" href="index.html">
+  User Guide
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../reference/index.html">
+  API reference
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../dev/index.html">
+  Development
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../release.html">
+  Release notes
+ </a>
+</li>
+
+    
+    <li class="nav-item">
+        <a class="nav-link nav-external" href="https://numpy.org/numpy-tutorials/">Learn<i class="fas fa-external-link-alt"></i></a>
+    </li>
+    
+</ul>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      
+      <div class="navbar-end-item">
+        <span id="theme-switch" class="btn btn-sm btn-outline-primary navbar-btn rounded-circle">
+    <a class="theme-switch" data-mode="light"><i class="fas fa-sun"></i></a>
+    <a class="theme-switch" data-mode="dark"><i class="far fa-moon"></i></a>
+    <a class="theme-switch" data-mode="auto"><i class="fas fa-adjust"></i></a>
+</span>
+      </div>
+      
+      <div class="navbar-end-item">
+        <div class="dropdown" id="version_switcher">
+    <button type="button" class="btn btn-sm navbar-btn dropdown-toggle" id="version_switcher_button" data-toggle="dropdown">
+        1.24  <!-- this text may get changed later by javascript -->
+        <span class="caret"></span>
+    </button>
+    <div id="version_switcher_menu" class="dropdown-menu list-group-flush py-0" aria-labelledby="version_switcher_button">
+    <!-- dropdown will be populated by javascript on page load -->
+    </div>
+</div>
+
+<!-- NOTE: this JS must live here (not in our global JS file) because it relies
+     on being processed by Jinja before it is run (specifically for replacing
+     variables user/basics.ufuncs and {'version_match': '1.24', 'json_url': 'https://numpy.org/doc/_static/versions.json'}.
+-->
+
+<script type="text/javascript">
+// Check if corresponding page path exists in other version of docs
+// and, if so, go there instead of the homepage of the other docs version
+function checkPageExistsAndRedirect(event) {
+    const currentFilePath = "user/basics.ufuncs.html",
+          tryUrl = event.target.getAttribute("href");
+    let otherDocsHomepage = tryUrl.replace(currentFilePath, "");
+    $.ajax({
+        type: 'HEAD',
+        url: tryUrl,
+        // if the page exists, go there
+        success: function() {
+            location.href = tryUrl;
+        }
+    }).fail(function() {
+        location.href = otherDocsHomepage;
+    });
+    // this prevents the browser from following the href of the clicked node
+    // (which is fine because this function takes care of redirecting)
+    return false;
+}
+
+// Populate the version switcher from the JSON config file
+(function () {
+    $.getJSON("https://numpy.org/doc/_static/versions.json", function(data, textStatus, jqXHR) {
+        const currentFilePath = "user/basics.ufuncs.html";
+        let btn = document.getElementById("version_switcher_button");
+        // Set empty strings by default so that these attributes exist and can be used in CSS selectors
+        btn.dataset["activeVersionName"] = "";
+        btn.dataset["activeVersion"] = "";
+        // create links to the corresponding page in the other docs versions
+        $.each(data, function(index, entry) {
+            // if no custom name specified (e.g., "latest"), use version string
+            if (!("name" in entry)) {
+                entry.name = entry.version;
+            }
+            // create the node
+            const node = document.createElement("a");
+            node.setAttribute("class", "list-group-item list-group-item-action py-1");
+            node.textContent = `${entry.name}`;
+            node.setAttribute("href", `${entry.url}${currentFilePath}`);
+            // on click, AJAX calls will check if the linked page exists before
+            // trying to redirect, and if not, will redirect to the homepage
+            // for that version of the docs.
+            node.onclick = checkPageExistsAndRedirect;
+            // Add dataset values for the version and name in case people want
+            // to apply CSS styling based on this information.
+            node.dataset["versionName"] = entry.name;
+            node.dataset["version"] = entry.version;
+
+            $("#version_switcher_menu").append(node);
+            // replace dropdown button text with the preferred display name of
+            // this version, rather than using sphinx's 1.24 variable.
+            // also highlight the dropdown entry for the currently-viewed
+            // version's entry
+            if (entry.version == "1.24") {
+                node.classList.add("active");
+                btn.innerText = btn.dataset["activeVersionName"] = entry.name;
+                btn.dataset["activeVersion"] = entry.version;
+            }
+        });
+    });
+})();
+</script>
+      </div>
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+        <li class="nav-item">
+          <a class="nav-link" href="https://github.com/numpy/numpy" rel="noopener" target="_blank" title="GitHub"><span><i class="fab fa-github-square"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="https://twitter.com/numpy_team" rel="noopener" target="_blank" title="Twitter"><span><i class="fab fa-twitter-square"></i></span>
+            <label class="sr-only">Twitter</label></a>
+        </li>
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+</div>
+    </nav>
+    
+
+    <div class="bd-container container-xl">
+      <div class="bd-container__inner row">
+          
+
+<!-- Only show if we have sidebars configured, else just a small margin  -->
+<div class="bd-sidebar-primary col-12 col-md-3 bd-sidebar">
+  <div class="sidebar-start-items"><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <div class="bd-toc-item active">
+    <p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Getting started
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="whatisnumpy.html">
+   What is NumPy?
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference external" href="https://numpy.org/install/">
+   Installation
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="quickstart.html">
+   NumPy quickstart
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="absolute_beginners.html">
+   NumPy: the absolute basics for beginners
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Fundamentals and usage
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1 current active has-children">
+  <a class="reference internal" href="basics.html">
+   NumPy fundamentals
+  </a>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul class="current">
+   <li class="toctree-l2">
+    <a class="reference internal" href="basics.creation.html">
+     Array creation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="basics.indexing.html">
+     Indexing on
+     <code class="xref py py-class docutils literal notranslate">
+      <span class="pre">
+       ndarrays
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="basics.io.html">
+     I/O with NumPy
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="basics.types.html">
+     Data types
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="basics.broadcasting.html">
+     Broadcasting
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="basics.copies.html">
+     Copies and views
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="basics.rec.html">
+     Structured arrays
+    </a>
+   </li>
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
+     Universal functions (
+     <code class="xref py py-class docutils literal notranslate">
+      <span class="pre">
+       ufunc
+      </span>
+     </code>
+     ) basics
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="numpy-for-matlab-users.html">
+   NumPy for MATLAB users
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference external" href="https://numpy.org/numpy-tutorials/features.html">
+   NumPy Tutorials
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="howtos_index.html">
+   NumPy How Tos
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Advanced usage and interoperability
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="building.html">
+   Building from source
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="c-info.html">
+   Using NumPy C-API
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../f2py/index.html">
+   F2PY user guide and reference manual
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../dev/underthehood.html">
+   Under-the-hood documentation for developers
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="basics.interoperability.html">
+   Interoperability with NumPy
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Extras
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../glossary.html">
+   Glossary
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../release.html">
+   Release notes
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../license.html">
+   NumPy license
+  </a>
+ </li>
+</ul>
+
+  </div>
+</nav>
+  </div>
+  <div class="sidebar-end-items">
+  </div>
+</div>
+
+
+          
+
+
+<div class="bd-sidebar-secondary d-none d-xl-block col-xl-2 bd-toc">
+  
+    
+    <div class="toc-item">
+      
+<div class="tocsection onthispage mt-5 pt-1 pb-3">
+    <i class="fas fa-list"></i> On this page
+</div>
+
+<nav id="bd-toc-nav">
+    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#ufunc-methods">
+   Ufunc methods
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#output-type-determination">
+   Output type determination
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#broadcasting">
+   Broadcasting
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#type-casting-rules">
+   Type casting rules
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#use-of-internal-buffers">
+   Use of internal buffers
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#error-handling">
+   Error handling
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#overriding-ufunc-behavior">
+   Overriding ufunc behavior
+  </a>
+ </li>
+</ul>
+
+</nav>
+    </div>
+    
+    <div class="toc-item">
+      
+    </div>
+    
+  
+</div>
+
+
+          
+          
+          <div class="bd-content col-12 col-md-9 col-xl-7">
+              
+              <article class="bd-article" role="main">
+                
+  <section id="universal-functions-ufunc-basics">
+<span id="ufuncs-basics"></span><h1>Universal functions (<a class="reference internal" href="../reference/generated/numpy.ufunc.html#numpy.ufunc" title="numpy.ufunc"><code class="xref py py-class docutils literal notranslate"><span class="pre">ufunc</span></code></a>) basics<a class="headerlink" href="#universal-functions-ufunc-basics" title="Permalink to this heading">#</a></h1>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="../reference/ufuncs.html#ufuncs"><span class="std std-ref">Universal functions (ufunc)</span></a></p>
+</div>
+<p>A universal function (or <a class="reference internal" href="../glossary.html#term-ufunc"><span class="xref std std-term">ufunc</span></a> for short) is a function that
+operates on <a class="reference internal" href="../reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarrays</span></code></a> in an element-by-element fashion,
+supporting <a class="reference internal" href="#ufuncs-broadcasting"><span class="std std-ref">array broadcasting</span></a>, <a class="reference internal" href="#ufuncs-casting"><span class="std std-ref">type
+casting</span></a>, and several other standard features. That
+is, a ufunc is a “<a class="reference internal" href="../glossary.html#term-vectorization"><span class="xref std std-term">vectorized</span></a>” wrapper for a function
+that takes a fixed number of specific inputs and produces a fixed number of
+specific outputs.</p>
+<p>In NumPy, universal functions are instances of the
+<a class="reference internal" href="../reference/generated/numpy.ufunc.html#numpy.ufunc" title="numpy.ufunc"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ufunc</span></code></a> class. Many of the built-in functions are
+implemented in compiled C code. The basic ufuncs operate on scalars, but
+there is also a generalized kind for which the basic elements are sub-arrays
+(vectors, matrices, etc.), and broadcasting is done over other dimensions.
+The simplest example is the addition operator:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">])</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span>
+<span class="go">array([1, 3, 2, 6])</span>
+</pre></div>
+</div>
+<p>One can also produce custom <a class="reference internal" href="../reference/generated/numpy.ufunc.html#numpy.ufunc" title="numpy.ufunc"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ufunc</span></code></a> instances using the
+<a class="reference internal" href="../reference/generated/numpy.frompyfunc.html#numpy.frompyfunc" title="numpy.frompyfunc"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.frompyfunc</span></code></a> factory function.</p>
+<section id="ufunc-methods">
+<h2>Ufunc methods<a class="headerlink" href="#ufunc-methods" title="Permalink to this heading">#</a></h2>
+<p>All ufuncs have four methods. They can be found at
+<a class="reference internal" href="../reference/ufuncs.html#ufuncs-methods"><span class="std std-ref">Methods</span></a>. However, these methods only make sense on scalar
+ufuncs that take two input arguments and return one output argument.
+Attempting to call these methods on other ufuncs will cause a
+<a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.11)"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code></a>.</p>
+<p>The reduce-like methods all take an <em>axis</em> keyword, a <em>dtype</em>
+keyword, and an <em>out</em> keyword, and the arrays must all have dimension &gt;= 1.
+The <em>axis</em> keyword specifies the axis of the array over which the reduction
+will take place (with negative values counting backwards). Generally, it is an
+integer, though for <a class="reference internal" href="../reference/generated/numpy.ufunc.reduce.html#numpy.ufunc.reduce" title="numpy.ufunc.reduce"><code class="xref py py-meth docutils literal notranslate"><span class="pre">numpy.ufunc.reduce</span></code></a>, it can also be a tuple of
+<code class="docutils literal notranslate"><span class="pre">int</span></code> to reduce over several axes at once, or <code class="docutils literal notranslate"><span class="pre">None</span></code>, to reduce over all
+axes. For example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">9</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span>
+<span class="go">array([[0, 1, 2],</span>
+<span class="go">      [3, 4, 5],</span>
+<span class="go">      [6, 7, 8]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">add</span><span class="o">.</span><span class="n">reduce</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="go">array([ 3, 12, 21])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">add</span><span class="o">.</span><span class="n">reduce</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+<span class="go">36</span>
+</pre></div>
+</div>
+<p>The <em>dtype</em> keyword allows you to manage a very common problem that arises
+when naively using <a class="reference internal" href="../reference/generated/numpy.ufunc.reduce.html#numpy.ufunc.reduce" title="numpy.ufunc.reduce"><code class="xref py py-meth docutils literal notranslate"><span class="pre">ufunc.reduce</span></code></a>. Sometimes you may
+have an array of a certain data type and wish to add up all of its
+elements, but the result does not fit into the data type of the
+array. This commonly happens if you have an array of single-byte
+integers. The <em>dtype</em> keyword allows you to alter the data type over which
+the reduction takes place (and therefore the type of the output). Thus,
+you can ensure that the output is a data type with precision large enough
+to handle your output. The responsibility of altering the reduce type is
+mostly up to you. There is one exception: if no <em>dtype</em> is given for a
+reduction on the “add” or “multiply” operations, then if the input type is
+an integer (or Boolean) data-type and smaller than the size of the
+<a class="reference internal" href="../reference/arrays.scalars.html#numpy.int_" title="numpy.int_"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.int_</span></code></a> data type, it will be internally upcast to the <a class="reference internal" href="../reference/arrays.scalars.html#numpy.int_" title="numpy.int_"><code class="xref py py-class docutils literal notranslate"><span class="pre">int_</span></code></a>
+(or <a class="reference internal" href="../reference/arrays.scalars.html#numpy.uint" title="numpy.uint"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.uint</span></code></a>) data-type. In the previous example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="o">.</span><span class="n">dtype</span>
+<span class="go">dtype(&#39;int64&#39;)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">multiply</span><span class="o">.</span><span class="n">reduce</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+<span class="go">array([ 0., 28., 80.])</span>
+</pre></div>
+</div>
+<p>Finally, the <em>out</em> keyword allows you to
+provide an output array (for single-output ufuncs, which are currently the only
+ones supported; for future extension, however, a tuple with a single argument
+can be passed in). If <em>out</em> is given, the <em>dtype</em> argument is ignored.
+Considering <code class="docutils literal notranslate"><span class="pre">x</span></code> from the previous example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">y</span>
+<span class="go">array([0, 0, 0])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">multiply</span><span class="o">.</span><span class="n">reduce</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="n">y</span><span class="p">)</span>
+<span class="go">array([ 0, 28, 80])</span>
+</pre></div>
+</div>
+<p>Ufuncs also have a fifth method, <a class="reference internal" href="../reference/generated/numpy.ufunc.at.html#numpy.ufunc.at" title="numpy.ufunc.at"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.ufunc.at</span></code></a>, that allows in place
+operations to be performed using advanced indexing. No
+<a class="reference internal" href="#use-of-internal-buffers"><span class="std std-ref">buffering</span></a> is used on the dimensions where
+advanced indexing is used, so the advanced index can
+list an item more than once and the operation will be performed on the result
+of the previous operation for that item.</p>
+</section>
+<section id="output-type-determination">
+<span id="ufuncs-output-type"></span><h2>Output type determination<a class="headerlink" href="#output-type-determination" title="Permalink to this heading">#</a></h2>
+<p>The output of the ufunc (and its methods) is not necessarily an
+<a class="reference internal" href="../reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>, if all input arguments are not
+<a class="reference internal" href="../reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarrays</span></code></a>. Indeed, if any input defines an
+<a class="reference internal" href="../reference/arrays.classes.html#numpy.class.__array_ufunc__" title="numpy.class.__array_ufunc__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__array_ufunc__</span></code></a> method,
+control will be passed completely to that function, i.e., the ufunc is
+<a class="reference internal" href="#ufuncs-overrides"><span class="std std-ref">overridden</span></a>.</p>
+<p>If none of the inputs overrides the ufunc, then
+all output arrays will be passed to the
+<a class="reference internal" href="../reference/arrays.classes.html#numpy.class.__array_prepare__" title="numpy.class.__array_prepare__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__array_prepare__</span></code></a> and
+<a class="reference internal" href="../reference/arrays.classes.html#numpy.class.__array_wrap__" title="numpy.class.__array_wrap__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__array_wrap__</span></code></a> methods of the input (besides
+<a class="reference internal" href="../reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarrays</span></code></a>, and scalars) that defines it <strong>and</strong> has
+the highest <a class="reference internal" href="../reference/arrays.classes.html#numpy.class.__array_priority__" title="numpy.class.__array_priority__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__array_priority__</span></code></a>
+of any other input to the universal function. The default
+<a class="reference internal" href="../reference/arrays.classes.html#numpy.class.__array_priority__" title="numpy.class.__array_priority__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__array_priority__</span></code></a> of the
+ndarray is 0.0, and the default <a class="reference internal" href="../reference/arrays.classes.html#numpy.class.__array_priority__" title="numpy.class.__array_priority__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__array_priority__</span></code></a> of a subtype
+is 0.0. Matrices have <a class="reference internal" href="../reference/arrays.classes.html#numpy.class.__array_priority__" title="numpy.class.__array_priority__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__array_priority__</span></code></a> equal to 10.0.</p>
+<p>All ufuncs can also take output arguments. If necessary, output will
+be cast to the data-type(s) of the provided output array(s). If a class
+with an <a class="reference internal" href="../reference/arrays.classes.html#numpy.class.__array__" title="numpy.class.__array__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__array__</span></code></a> method is used for the output,
+results will be written to the object returned by <a class="reference internal" href="../reference/arrays.classes.html#numpy.class.__array__" title="numpy.class.__array__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__array__</span></code></a>.
+Then, if the class also has an <a class="reference internal" href="../reference/arrays.classes.html#numpy.class.__array_prepare__" title="numpy.class.__array_prepare__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__array_prepare__</span></code></a> method, it is
+called so metadata may be determined based on the context of the ufunc (the
+context consisting of the ufunc itself, the arguments passed to the ufunc, and
+the ufunc domain.) The array object returned by
+<a class="reference internal" href="../reference/arrays.classes.html#numpy.class.__array_prepare__" title="numpy.class.__array_prepare__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__array_prepare__</span></code></a> is passed to the ufunc for computation.
+Finally, if the class also has an <a class="reference internal" href="../reference/arrays.classes.html#numpy.class.__array_wrap__" title="numpy.class.__array_wrap__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__array_wrap__</span></code></a> method, the
+returned <a class="reference internal" href="../reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a> result will be passed to that method just before
+passing control back to the caller.</p>
+</section>
+<section id="broadcasting">
+<span id="ufuncs-broadcasting"></span><h2>Broadcasting<a class="headerlink" href="#broadcasting" title="Permalink to this heading">#</a></h2>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="basics.broadcasting.html"><span class="doc">Broadcasting basics</span></a></p>
+</div>
+<p id="index-0">Each universal function takes array inputs and produces array outputs
+by performing the core function element-wise on the inputs (where an
+element is generally a scalar, but can be a vector or higher-order
+sub-array for generalized ufuncs). Standard
+<a class="reference internal" href="basics.broadcasting.html#general-broadcasting-rules"><span class="std std-ref">broadcasting rules</span></a> are applied
+so that inputs not sharing exactly the
+same shapes can still be usefully operated on.</p>
+<p>By these rules, if an input has a dimension size of 1 in its shape, the
+first data entry in that dimension will be used for all calculations along
+that dimension. In other words, the stepping machinery of the
+<a class="reference internal" href="../glossary.html#term-ufunc"><span class="xref std std-term">ufunc</span></a> will simply not step along that dimension (the
+<a class="reference internal" href="../reference/arrays.ndarray.html#memory-layout"><span class="std std-ref">stride</span></a> will be 0 for that dimension).</p>
+</section>
+<section id="type-casting-rules">
+<span id="ufuncs-casting"></span><h2>Type casting rules<a class="headerlink" href="#type-casting-rules" title="Permalink to this heading">#</a></h2>
+<div class="admonition note" id="index-1">
+<p class="admonition-title">Note</p>
+<p>In NumPy 1.6.0, a type promotion API was created to encapsulate the
+mechanism for determining output types. See the functions
+<a class="reference internal" href="../reference/generated/numpy.result_type.html#numpy.result_type" title="numpy.result_type"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.result_type</span></code></a>, <a class="reference internal" href="../reference/generated/numpy.promote_types.html#numpy.promote_types" title="numpy.promote_types"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.promote_types</span></code></a>, and
+<a class="reference internal" href="../reference/generated/numpy.min_scalar_type.html#numpy.min_scalar_type" title="numpy.min_scalar_type"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.min_scalar_type</span></code></a> for more details.</p>
+</div>
+<p>At the core of every ufunc is a one-dimensional strided loop that
+implements the actual function for a specific type combination. When a
+ufunc is created, it is given a static list of inner loops and a
+corresponding list of type signatures over which the ufunc operates.
+The ufunc machinery uses this list to determine which inner loop to
+use for a particular case. You can inspect the <a class="reference internal" href="../reference/generated/numpy.ufunc.types.html#numpy.ufunc.types" title="numpy.ufunc.types"><code class="xref py py-attr docutils literal notranslate"><span class="pre">.types</span></code></a> attribute for a particular ufunc to see which type
+combinations have a defined inner loop and which output type they
+produce (<a class="reference internal" href="../reference/arrays.scalars.html#arrays-scalars-character-codes"><span class="std std-ref">character codes</span></a> are used
+in said output for brevity).</p>
+<p>Casting must be done on one or more of the inputs whenever the ufunc
+does not have a core loop implementation for the input types provided.
+If an implementation for the input types cannot be found, then the
+algorithm searches for an implementation with a type signature to
+which all of the inputs can be cast “safely.” The first one it finds
+in its internal list of loops is selected and performed, after all
+necessary type casting. Recall that internal copies during ufuncs (even
+for casting) are limited to the size of an internal buffer (which is user
+settable).</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Universal functions in NumPy are flexible enough to have mixed type
+signatures. Thus, for example, a universal function could be defined
+that works with floating-point and integer values. See
+<a class="reference internal" href="../reference/generated/numpy.ldexp.html#numpy.ldexp" title="numpy.ldexp"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.ldexp</span></code></a> for an example.</p>
+</div>
+<p>By the above description, the casting rules are essentially
+implemented by the question of when a data type can be cast “safely”
+to another data type. The answer to this question can be determined in
+Python with a function call: <a class="reference internal" href="../reference/generated/numpy.can_cast.html#numpy.can_cast" title="numpy.can_cast"><code class="xref py py-func docutils literal notranslate"><span class="pre">can_cast(fromtype,</span> <span class="pre">totype)</span></code></a>. The example below shows the results of this call for
+the 24 internally supported types on the author’s 64-bit system. You
+can generate this table for your system with the code given in the example.</p>
+<p class="rubric">Example</p>
+<p>Code segment showing the “can cast safely” table for a 64-bit system.
+Generally the output depends on the system; your system might result in
+a different table.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mark</span> <span class="o">=</span> <span class="p">{</span><span class="kc">False</span><span class="p">:</span> <span class="s1">&#39; -&#39;</span><span class="p">,</span> <span class="kc">True</span><span class="p">:</span> <span class="s1">&#39; Y&#39;</span><span class="p">}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">print_table</span><span class="p">(</span><span class="n">ntypes</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;X &#39;</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">ntypes</span><span class="p">))</span>
+<span class="gp">... </span>    <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">ntypes</span><span class="p">:</span>
+<span class="gp">... </span>        <span class="nb">print</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+<span class="gp">... </span>        <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">ntypes</span><span class="p">:</span>
+<span class="gp">... </span>            <span class="nb">print</span><span class="p">(</span><span class="n">mark</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">can_cast</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">)],</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+<span class="gp">... </span>        <span class="nb">print</span><span class="p">()</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">print_table</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">typecodes</span><span class="p">[</span><span class="s1">&#39;All&#39;</span><span class="p">])</span>
+<span class="go">X ? b h i l q p B H I L Q P e f d g F D G S U V O M m</span>
+<span class="go">? Y Y Y Y Y Y Y Y Y Y Y Y Y Y Y Y Y Y Y Y Y Y Y Y - Y</span>
+<span class="go">b - Y Y Y Y Y Y - - - - - - Y Y Y Y Y Y Y Y Y Y Y - Y</span>
+<span class="go">h - - Y Y Y Y Y - - - - - - - Y Y Y Y Y Y Y Y Y Y - Y</span>
+<span class="go">i - - - Y Y Y Y - - - - - - - - Y Y - Y Y Y Y Y Y - Y</span>
+<span class="go">l - - - - Y Y Y - - - - - - - - Y Y - Y Y Y Y Y Y - Y</span>
+<span class="go">q - - - - Y Y Y - - - - - - - - Y Y - Y Y Y Y Y Y - Y</span>
+<span class="go">p - - - - Y Y Y - - - - - - - - Y Y - Y Y Y Y Y Y - Y</span>
+<span class="go">B - - Y Y Y Y Y Y Y Y Y Y Y Y Y Y Y Y Y Y Y Y Y Y - Y</span>
+<span class="go">H - - - Y Y Y Y - Y Y Y Y Y - Y Y Y Y Y Y Y Y Y Y - Y</span>
+<span class="go">I - - - - Y Y Y - - Y Y Y Y - - Y Y - Y Y Y Y Y Y - Y</span>
+<span class="go">L - - - - - - - - - - Y Y Y - - Y Y - Y Y Y Y Y Y - -</span>
+<span class="go">Q - - - - - - - - - - Y Y Y - - Y Y - Y Y Y Y Y Y - -</span>
+<span class="go">P - - - - - - - - - - Y Y Y - - Y Y - Y Y Y Y Y Y - -</span>
+<span class="go">e - - - - - - - - - - - - - Y Y Y Y Y Y Y Y Y Y Y - -</span>
+<span class="go">f - - - - - - - - - - - - - - Y Y Y Y Y Y Y Y Y Y - -</span>
+<span class="go">d - - - - - - - - - - - - - - - Y Y - Y Y Y Y Y Y - -</span>
+<span class="go">g - - - - - - - - - - - - - - - - Y - - Y Y Y Y Y - -</span>
+<span class="go">F - - - - - - - - - - - - - - - - - Y Y Y Y Y Y Y - -</span>
+<span class="go">D - - - - - - - - - - - - - - - - - - Y Y Y Y Y Y - -</span>
+<span class="go">G - - - - - - - - - - - - - - - - - - - Y Y Y Y Y - -</span>
+<span class="go">S - - - - - - - - - - - - - - - - - - - - Y Y Y Y - -</span>
+<span class="go">U - - - - - - - - - - - - - - - - - - - - - Y Y Y - -</span>
+<span class="go">V - - - - - - - - - - - - - - - - - - - - - - Y Y - -</span>
+<span class="go">O - - - - - - - - - - - - - - - - - - - - - - - Y - -</span>
+<span class="go">M - - - - - - - - - - - - - - - - - - - - - - Y Y Y -</span>
+<span class="go">m - - - - - - - - - - - - - - - - - - - - - - Y Y - Y</span>
+</pre></div>
+</div>
+<p>You should note that, while included in the table for completeness,
+the ‘S’, ‘U’, and ‘V’ types cannot be operated on by ufuncs. Also,
+note that on a 32-bit system the integer types may have different
+sizes, resulting in a slightly altered table.</p>
+<p>Mixed scalar-array operations use a different set of casting rules
+that ensure that a scalar cannot “upcast” an array unless the scalar is
+of a fundamentally different kind of data (i.e., under a different
+hierarchy in the data-type hierarchy) than the array.  This rule
+enables you to use scalar constants in your code (which, as Python
+types, are interpreted accordingly in ufuncs) without worrying about
+whether the precision of the scalar constant will cause upcasting on
+your large (small precision) array.</p>
+</section>
+<section id="use-of-internal-buffers">
+<span id="id1"></span><h2>Use of internal buffers<a class="headerlink" href="#use-of-internal-buffers" title="Permalink to this heading">#</a></h2>
+<p id="index-2">Internally, buffers are used for misaligned data, swapped data, and
+data that has to be converted from one data type to another. The size
+of internal buffers is settable on a per-thread basis. There can
+be up to <span class="math notranslate nohighlight">\(2 (n_{\mathrm{inputs}} + n_{\mathrm{outputs}})\)</span>
+buffers of the specified size created to handle the data from all the
+inputs and outputs of a ufunc. The default size of a buffer is
+10,000 elements. Whenever buffer-based calculation would be needed,
+but all input arrays are smaller than the buffer size, those
+misbehaved or incorrectly-typed arrays will be copied before the
+calculation proceeds. Adjusting the size of the buffer may therefore
+alter the speed at which ufunc calculations of various sorts are
+completed. A simple interface for setting this variable is accessible
+using the function <a class="reference internal" href="../reference/generated/numpy.setbufsize.html#numpy.setbufsize" title="numpy.setbufsize"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.setbufsize</span></code></a>.</p>
+</section>
+<section id="error-handling">
+<h2>Error handling<a class="headerlink" href="#error-handling" title="Permalink to this heading">#</a></h2>
+<p id="index-3">Universal functions can trip special floating-point status registers
+in your hardware (such as divide-by-zero). If available on your
+platform, these registers will be regularly checked during
+calculation. Error handling is controlled on a per-thread basis,
+and can be configured using the functions <a class="reference internal" href="../reference/generated/numpy.seterr.html#numpy.seterr" title="numpy.seterr"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.seterr</span></code></a> and
+<a class="reference internal" href="../reference/generated/numpy.seterrcall.html#numpy.seterrcall" title="numpy.seterrcall"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.seterrcall</span></code></a>.</p>
+</section>
+<section id="overriding-ufunc-behavior">
+<span id="ufuncs-overrides"></span><h2>Overriding ufunc behavior<a class="headerlink" href="#overriding-ufunc-behavior" title="Permalink to this heading">#</a></h2>
+<p>Classes (including ndarray subclasses) can override how ufuncs act on
+them by defining certain special methods.  For details, see
+<a class="reference internal" href="../reference/arrays.classes.html#arrays-classes"><span class="std std-ref">Standard array subclasses</span></a>.</p>
+</section>
+</section>
+
+
+              </article>
+              
+
+              
+              <footer class="bd-footer-article">
+                  <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+  <a class='left-prev' id="prev-link" href="basics.rec.html" title="previous page">
+      <i class="fas fa-angle-left"></i>
+      <div class="prev-next-info">
+          <p class="prev-next-subtitle">previous</p>
+          <p class="prev-next-title">Structured arrays</p>
+      </div>
+  </a>
+  <a class='right-next' id="next-link" href="numpy-for-matlab-users.html" title="next page">
+  <div class="prev-next-info">
+      <p class="prev-next-subtitle">next</p>
+      <p class="prev-next-title">NumPy for MATLAB users</p>
+  </div>
+  <i class="fas fa-angle-right"></i>
+  </a>
+</div>
+              </footer>
+              
+          </div>
+          
+      </div>
+    </div>
+
+  
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695"></script>
+
+<footer class="bd-footer"><div class="bd-footer__inner container">
+  
+  <div class="footer-item">
+    <p class="copyright">
+    &copy; Copyright 2008-2022, NumPy Developers.<br>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    <p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.3.0.<br>
+</p>
+  </div>
+  
+</div>
+</footer>
+  </body>
+</html>

@@ -1,0 +1,1220 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>numpy.recarray &#8212; NumPy v1.24 Manual</title>
+<script>
+  document.documentElement.dataset.mode = localStorage.getItem("mode") || "light";
+  document.documentElement.dataset.theme = localStorage.getItem("theme") || "light"
+</script>
+
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=92025949c220c2e29695" rel="stylesheet">
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=92025949c220c2e29695" rel="stylesheet">
+
+
+  <link rel="stylesheet"
+    href="../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/plot_directive.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/numpy.css" />
+
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695">
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    <script src="../../_static/design-tabs.js"></script>
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="numpy.recarray.all" href="numpy.recarray.all.html" />
+    <link rel="prev" title="numpy.core.defchararray.array" href="numpy.core.defchararray.array.html" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="docsearch:language" content="en">
+  </head>
+  
+  
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="180" data-default-mode="light">
+    <div class="bd-header-announcement container-fluid" id="banner">
+      
+
+    </div>
+
+    
+    <nav class="bd-header navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="bd-header__inner container-xl">
+
+  <div id="navbar-start">
+    
+    
+  
+
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+    <img src="../../_static/numpylogo.svg" class="logo__image only-light" alt="Logo image">
+    <img src="../../_static/numpylogo_dark.svg" class="logo__image only-dark" alt="Logo image">
+  
+  
+</a>
+    
+  </div>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapsible" aria-controls="navbar-collapsible" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="fas fa-bars"></span>
+  </button>
+
+  
+  <div id="navbar-collapsible" class="col-lg-9 collapse navbar-collapse">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <ul id="navbar-main-elements" class="navbar-nav">
+    <li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../user/index.html">
+  User Guide
+ </a>
+</li>
+
+<li class="toctree-l1 current active nav-item">
+ <a class="reference internal nav-link" href="../index.html">
+  API reference
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../dev/index.html">
+  Development
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../release.html">
+  Release notes
+ </a>
+</li>
+
+    
+    <li class="nav-item">
+        <a class="nav-link nav-external" href="https://numpy.org/numpy-tutorials/">Learn<i class="fas fa-external-link-alt"></i></a>
+    </li>
+    
+</ul>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      
+      <div class="navbar-end-item">
+        <span id="theme-switch" class="btn btn-sm btn-outline-primary navbar-btn rounded-circle">
+    <a class="theme-switch" data-mode="light"><i class="fas fa-sun"></i></a>
+    <a class="theme-switch" data-mode="dark"><i class="far fa-moon"></i></a>
+    <a class="theme-switch" data-mode="auto"><i class="fas fa-adjust"></i></a>
+</span>
+      </div>
+      
+      <div class="navbar-end-item">
+        <div class="dropdown" id="version_switcher">
+    <button type="button" class="btn btn-sm navbar-btn dropdown-toggle" id="version_switcher_button" data-toggle="dropdown">
+        1.24  <!-- this text may get changed later by javascript -->
+        <span class="caret"></span>
+    </button>
+    <div id="version_switcher_menu" class="dropdown-menu list-group-flush py-0" aria-labelledby="version_switcher_button">
+    <!-- dropdown will be populated by javascript on page load -->
+    </div>
+</div>
+
+<!-- NOTE: this JS must live here (not in our global JS file) because it relies
+     on being processed by Jinja before it is run (specifically for replacing
+     variables reference/generated/numpy.recarray and {'version_match': '1.24', 'json_url': 'https://numpy.org/doc/_static/versions.json'}.
+-->
+
+<script type="text/javascript">
+// Check if corresponding page path exists in other version of docs
+// and, if so, go there instead of the homepage of the other docs version
+function checkPageExistsAndRedirect(event) {
+    const currentFilePath = "reference/generated/numpy.recarray.html",
+          tryUrl = event.target.getAttribute("href");
+    let otherDocsHomepage = tryUrl.replace(currentFilePath, "");
+    $.ajax({
+        type: 'HEAD',
+        url: tryUrl,
+        // if the page exists, go there
+        success: function() {
+            location.href = tryUrl;
+        }
+    }).fail(function() {
+        location.href = otherDocsHomepage;
+    });
+    // this prevents the browser from following the href of the clicked node
+    // (which is fine because this function takes care of redirecting)
+    return false;
+}
+
+// Populate the version switcher from the JSON config file
+(function () {
+    $.getJSON("https://numpy.org/doc/_static/versions.json", function(data, textStatus, jqXHR) {
+        const currentFilePath = "reference/generated/numpy.recarray.html";
+        let btn = document.getElementById("version_switcher_button");
+        // Set empty strings by default so that these attributes exist and can be used in CSS selectors
+        btn.dataset["activeVersionName"] = "";
+        btn.dataset["activeVersion"] = "";
+        // create links to the corresponding page in the other docs versions
+        $.each(data, function(index, entry) {
+            // if no custom name specified (e.g., "latest"), use version string
+            if (!("name" in entry)) {
+                entry.name = entry.version;
+            }
+            // create the node
+            const node = document.createElement("a");
+            node.setAttribute("class", "list-group-item list-group-item-action py-1");
+            node.textContent = `${entry.name}`;
+            node.setAttribute("href", `${entry.url}${currentFilePath}`);
+            // on click, AJAX calls will check if the linked page exists before
+            // trying to redirect, and if not, will redirect to the homepage
+            // for that version of the docs.
+            node.onclick = checkPageExistsAndRedirect;
+            // Add dataset values for the version and name in case people want
+            // to apply CSS styling based on this information.
+            node.dataset["versionName"] = entry.name;
+            node.dataset["version"] = entry.version;
+
+            $("#version_switcher_menu").append(node);
+            // replace dropdown button text with the preferred display name of
+            // this version, rather than using sphinx's 1.24 variable.
+            // also highlight the dropdown entry for the currently-viewed
+            // version's entry
+            if (entry.version == "1.24") {
+                node.classList.add("active");
+                btn.innerText = btn.dataset["activeVersionName"] = entry.name;
+                btn.dataset["activeVersion"] = entry.version;
+            }
+        });
+    });
+})();
+</script>
+      </div>
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+        <li class="nav-item">
+          <a class="nav-link" href="https://github.com/numpy/numpy" rel="noopener" target="_blank" title="GitHub"><span><i class="fab fa-github-square"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="https://twitter.com/numpy_team" rel="noopener" target="_blank" title="Twitter"><span><i class="fab fa-twitter-square"></i></span>
+            <label class="sr-only">Twitter</label></a>
+        </li>
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+</div>
+    </nav>
+    
+
+    <div class="bd-container container-xl">
+      <div class="bd-container__inner row">
+          
+
+<!-- Only show if we have sidebars configured, else just a small margin  -->
+<div class="bd-sidebar-primary col-12 col-md-3 bd-sidebar">
+  <div class="sidebar-start-items"><form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <div class="bd-toc-item active">
+    <ul class="current nav bd-sidenav">
+ <li class="toctree-l1 current active has-children">
+  <a class="reference internal" href="../arrays.html">
+   Array objects
+  </a>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul class="current">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../arrays.ndarray.html">
+     The N-dimensional array (
+     <code class="xref py py-class docutils literal notranslate">
+      <span class="pre">
+       ndarray
+      </span>
+     </code>
+     )
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../arrays.scalars.html">
+     Scalars
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../arrays.dtypes.html">
+     Data type objects (
+     <code class="xref py py-class docutils literal notranslate">
+      <span class="pre">
+       dtype
+      </span>
+     </code>
+     )
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../arrays.indexing.html">
+     Indexing routines
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../arrays.nditer.html">
+     Iterating Over Arrays
+    </a>
+   </li>
+   <li class="toctree-l2 current active has-children">
+    <a class="reference internal" href="../arrays.classes.html">
+     Standard array subclasses
+    </a>
+    <input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+    <label for="toctree-checkbox-2">
+     <i class="fas fa-chevron-down">
+     </i>
+    </label>
+    <ul class="current">
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.matrix.T.html">
+       numpy.matrix.T
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.matrix.H.html">
+       numpy.matrix.H
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.matrix.I.html">
+       numpy.matrix.I
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.matrix.A.html">
+       numpy.matrix.A
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.matrix.html">
+       numpy.matrix
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.asmatrix.html">
+       numpy.asmatrix
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.bmat.html">
+       numpy.bmat
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.memmap.html">
+       numpy.memmap
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.memmap.flush.html">
+       numpy.memmap.flush
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.chararray.html">
+       numpy.chararray
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.core.defchararray.array.html">
+       numpy.core.defchararray.array
+      </a>
+     </li>
+     <li class="toctree-l3 current active has-children">
+      <a class="current reference internal" href="#">
+       numpy.recarray
+      </a>
+      <input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+      <label for="toctree-checkbox-3">
+       <i class="fas fa-chevron-down">
+       </i>
+      </label>
+      <ul>
+       <li class="toctree-l4">
+        <a class="reference internal" href="numpy.recarray.all.html">
+         numpy.recarray.all
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="numpy.recarray.any.html">
+         numpy.recarray.any
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="numpy.recarray.argmax.html">
+         numpy.recarray.argmax
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="numpy.recarray.argmin.html">
+         numpy.recarray.argmin
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="numpy.recarray.argpartition.html">
+         numpy.recarray.argpartition
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="numpy.recarray.argsort.html">
+         numpy.recarray.argsort
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="numpy.recarray.astype.html">
+         numpy.recarray.astype
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="numpy.recarray.byteswap.html">
+         numpy.recarray.byteswap
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="numpy.recarray.choose.html">
+         numpy.recarray.choose
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="numpy.recarray.clip.html">
+         numpy.recarray.clip
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="numpy.recarray.compress.html">
+         numpy.recarray.compress
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="numpy.recarray.conj.html">
+         numpy.recarray.conj
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="numpy.recarray.conjugate.html">
+         numpy.recarray.conjugate
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="numpy.recarray.copy.html">
+         numpy.recarray.copy
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="numpy.recarray.cumprod.html">
+         numpy.recarray.cumprod
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="numpy.recarray.cumsum.html">
+         numpy.recarray.cumsum
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="numpy.recarray.diagonal.html">
+         numpy.recarray.diagonal
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="numpy.recarray.dump.html">
+         numpy.recarray.dump
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="numpy.recarray.dumps.html">
+         numpy.recarray.dumps
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="numpy.recarray.fill.html">
+         numpy.recarray.fill
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="numpy.recarray.flatten.html">
+         numpy.recarray.flatten
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="numpy.recarray.getfield.html">
+         numpy.recarray.getfield
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="numpy.recarray.item.html">
+         numpy.recarray.item
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="numpy.recarray.itemset.html">
+         numpy.recarray.itemset
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="numpy.recarray.max.html">
+         numpy.recarray.max
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="numpy.recarray.mean.html">
+         numpy.recarray.mean
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="numpy.recarray.min.html">
+         numpy.recarray.min
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="numpy.recarray.newbyteorder.html">
+         numpy.recarray.newbyteorder
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="numpy.recarray.nonzero.html">
+         numpy.recarray.nonzero
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="numpy.recarray.partition.html">
+         numpy.recarray.partition
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="numpy.recarray.prod.html">
+         numpy.recarray.prod
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="numpy.recarray.ptp.html">
+         numpy.recarray.ptp
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="numpy.recarray.put.html">
+         numpy.recarray.put
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="numpy.recarray.ravel.html">
+         numpy.recarray.ravel
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="numpy.recarray.repeat.html">
+         numpy.recarray.repeat
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="numpy.recarray.reshape.html">
+         numpy.recarray.reshape
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="numpy.recarray.resize.html">
+         numpy.recarray.resize
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="numpy.recarray.round.html">
+         numpy.recarray.round
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="numpy.recarray.searchsorted.html">
+         numpy.recarray.searchsorted
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="numpy.recarray.setfield.html">
+         numpy.recarray.setfield
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="numpy.recarray.setflags.html">
+         numpy.recarray.setflags
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="numpy.recarray.sort.html">
+         numpy.recarray.sort
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="numpy.recarray.squeeze.html">
+         numpy.recarray.squeeze
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="numpy.recarray.std.html">
+         numpy.recarray.std
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="numpy.recarray.sum.html">
+         numpy.recarray.sum
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="numpy.recarray.swapaxes.html">
+         numpy.recarray.swapaxes
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="numpy.recarray.take.html">
+         numpy.recarray.take
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="numpy.recarray.tobytes.html">
+         numpy.recarray.tobytes
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="numpy.recarray.tofile.html">
+         numpy.recarray.tofile
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="numpy.recarray.tolist.html">
+         numpy.recarray.tolist
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="numpy.recarray.tostring.html">
+         numpy.recarray.tostring
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="numpy.recarray.trace.html">
+         numpy.recarray.trace
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="numpy.recarray.transpose.html">
+         numpy.recarray.transpose
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="numpy.recarray.var.html">
+         numpy.recarray.var
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="numpy.recarray.view.html">
+         numpy.recarray.view
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.record.html">
+       numpy.record
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.lib.user_array.container.html">
+       numpy.lib.user_array.container
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ndarray.flat.html">
+       numpy.ndarray.flat
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.ndenumerate.html">
+       numpy.ndenumerate
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="numpy.broadcast.html">
+       numpy.broadcast
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../maskedarray.html">
+     Masked arrays
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../arrays.interface.html">
+     The array interface protocol
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../arrays.datetime.html">
+     Datetimes and Timedeltas
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../array_api.html">
+   Array API Standard Compatibility
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../constants.html">
+   Constants
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../ufuncs.html">
+   Universal functions (
+   <code class="xref py py-class docutils literal notranslate">
+    <span class="pre">
+     ufunc
+    </span>
+   </code>
+   )
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../routines.html">
+   Routines
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../typing.html">
+   Typing (
+   <code class="xref py py-mod docutils literal notranslate">
+    <span class="pre">
+     numpy.typing
+    </span>
+   </code>
+   )
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../global_state.html">
+   Global State
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../distutils.html">
+   Packaging (
+   <code class="xref py py-mod docutils literal notranslate">
+    <span class="pre">
+     numpy.distutils
+    </span>
+   </code>
+   )
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../distutils_guide.html">
+   NumPy Distutils - Users Guide
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../distutils_status_migration.html">
+   Status of
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     numpy.distutils
+    </span>
+   </code>
+   and migration advice
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../c-api/index.html">
+   NumPy C-API
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../simd/index.html">
+   CPU/SIMD Optimizations
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../security.html">
+   NumPy security
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../swig.html">
+   NumPy and SWIG
+  </a>
+ </li>
+</ul>
+
+  </div>
+</nav>
+  </div>
+  <div class="sidebar-end-items">
+  </div>
+</div>
+
+
+          
+
+
+<div class="bd-sidebar-secondary d-none d-xl-block col-xl-2 bd-toc">
+  
+    
+    <div class="toc-item">
+      
+<div class="tocsection onthispage mt-5 pt-1 pb-3">
+    <i class="fas fa-list"></i> On this page
+</div>
+
+<nav id="bd-toc-nav">
+    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#numpy.recarray">
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     recarray
+    </span>
+   </code>
+  </a>
+ </li>
+</ul>
+
+</nav>
+    </div>
+    
+    <div class="toc-item">
+      
+    </div>
+    
+  
+</div>
+
+
+          
+          
+          <div class="bd-content col-12 col-md-9 col-xl-7">
+              
+              <article class="bd-article" role="main">
+                
+  <section id="numpy-recarray">
+<h1>numpy.recarray<a class="headerlink" href="#numpy-recarray" title="Permalink to this heading">#</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="numpy.recarray">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">numpy.</span></span><span class="sig-name descname"><span class="pre">recarray</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">shape</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">buf</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">offset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strides</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">formats</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">titles</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">byteorder</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">aligned</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">order</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'C'</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/numpy/numpy/blob/v1.24.0/numpy/__init__.py"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#numpy.recarray" title="Permalink to this definition">#</a></dt>
+<dd><p>Construct an ndarray that allows field access using attributes.</p>
+<p>Arrays may have a data-types containing fields, analogous
+to columns in a spread sheet.  An example is <code class="docutils literal notranslate"><span class="pre">[(x,</span> <span class="pre">int),</span> <span class="pre">(y,</span> <span class="pre">float)]</span></code>,
+where each entry in the array is a pair of <code class="docutils literal notranslate"><span class="pre">(int,</span> <span class="pre">float)</span></code>.  Normally,
+these attributes are accessed using dictionary lookups such as <code class="docutils literal notranslate"><span class="pre">arr['x']</span></code>
+and <code class="docutils literal notranslate"><span class="pre">arr['y']</span></code>.  Record arrays allow the fields to be accessed as members
+of the array, using <code class="docutils literal notranslate"><span class="pre">arr.x</span></code> and <code class="docutils literal notranslate"><span class="pre">arr.y</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>shape</strong><span class="classifier">tuple</span></dt><dd><p>Shape of output array.</p>
+</dd>
+<dt><strong>dtype</strong><span class="classifier">data-type, optional</span></dt><dd><p>The desired data-type.  By default, the data-type is determined
+from <em class="xref py py-obj">formats</em>, <em class="xref py py-obj">names</em>, <em class="xref py py-obj">titles</em>, <em class="xref py py-obj">aligned</em> and <em class="xref py py-obj">byteorder</em>.</p>
+</dd>
+<dt><strong>formats</strong><span class="classifier">list of data-types, optional</span></dt><dd><p>A list containing the data-types for the different columns, e.g.
+<code class="docutils literal notranslate"><span class="pre">['i4',</span> <span class="pre">'f8',</span> <span class="pre">'i4']</span></code>.  <em class="xref py py-obj">formats</em> does <em>not</em> support the new
+convention of using types directly, i.e. <code class="docutils literal notranslate"><span class="pre">(int,</span> <span class="pre">float,</span> <span class="pre">int)</span></code>.
+Note that <em class="xref py py-obj">formats</em> must be a list, not a tuple.
+Given that <em class="xref py py-obj">formats</em> is somewhat limited, we recommend specifying
+<a class="reference internal" href="numpy.dtype.html#numpy.dtype" title="numpy.dtype"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dtype</span></code></a> instead.</p>
+</dd>
+<dt><strong>names</strong><span class="classifier">tuple of str, optional</span></dt><dd><p>The name of each column, e.g. <code class="docutils literal notranslate"><span class="pre">('x',</span> <span class="pre">'y',</span> <span class="pre">'z')</span></code>.</p>
+</dd>
+<dt><strong>buf</strong><span class="classifier">buffer, optional</span></dt><dd><p>By default, a new array is created of the given shape and data-type.
+If <em class="xref py py-obj">buf</em> is specified and is an object exposing the buffer interface,
+the array will use the memory from the existing buffer.  In this case,
+the <em class="xref py py-obj">offset</em> and <a class="reference internal" href="numpy.recarray.strides.html#numpy.recarray.strides" title="numpy.recarray.strides"><code class="xref py py-obj docutils literal notranslate"><span class="pre">strides</span></code></a> keywords are available.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>rec</strong><span class="classifier">recarray</span></dt><dd><p>Empty array of the given shape and type.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-odd">Other Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>titles</strong><span class="classifier">tuple of str, optional</span></dt><dd><p>Aliases for column names.  For example, if <em class="xref py py-obj">names</em> were
+<code class="docutils literal notranslate"><span class="pre">('x',</span> <span class="pre">'y',</span> <span class="pre">'z')</span></code> and <em class="xref py py-obj">titles</em> is
+<code class="docutils literal notranslate"><span class="pre">('x_coordinate',</span> <span class="pre">'y_coordinate',</span> <span class="pre">'z_coordinate')</span></code>, then
+<code class="docutils literal notranslate"><span class="pre">arr['x']</span></code> is equivalent to both <code class="docutils literal notranslate"><span class="pre">arr.x</span></code> and <code class="docutils literal notranslate"><span class="pre">arr.x_coordinate</span></code>.</p>
+</dd>
+<dt><strong>byteorder</strong><span class="classifier">{‘&lt;’, ‘&gt;’, ‘=’}, optional</span></dt><dd><p>Byte-order for all fields.</p>
+</dd>
+<dt><strong>aligned</strong><span class="classifier">bool, optional</span></dt><dd><p>Align the fields in memory as the C-compiler would.</p>
+</dd>
+<dt><strong>strides</strong><span class="classifier">tuple of ints, optional</span></dt><dd><p>Buffer (<em class="xref py py-obj">buf</em>) is interpreted according to these strides (strides
+define how many bytes each array element, row, column, etc.
+occupy in memory).</p>
+</dd>
+<dt><strong>offset</strong><span class="classifier">int, optional</span></dt><dd><p>Start reading buffer (<em class="xref py py-obj">buf</em>) from this offset onwards.</p>
+</dd>
+<dt><strong>order</strong><span class="classifier">{‘C’, ‘F’}, optional</span></dt><dd><p>Row-major (C-style) or column-major (Fortran-style) order.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><a class="reference internal" href="numpy.core.records.fromrecords.html#numpy.core.records.fromrecords" title="numpy.core.records.fromrecords"><code class="xref py py-obj docutils literal notranslate"><span class="pre">core.records.fromrecords</span></code></a></dt><dd><p>Construct a record array from data.</p>
+</dd>
+<dt><a class="reference internal" href="numpy.record.html#numpy.record" title="numpy.record"><code class="xref py py-obj docutils literal notranslate"><span class="pre">record</span></code></a></dt><dd><p>fundamental data-type for <a class="reference internal" href="#numpy.recarray" title="numpy.recarray"><code class="xref py py-obj docutils literal notranslate"><span class="pre">recarray</span></code></a>.</p>
+</dd>
+<dt><a class="reference internal" href="numpy.format_parser.html#numpy.format_parser" title="numpy.format_parser"><code class="xref py py-obj docutils literal notranslate"><span class="pre">format_parser</span></code></a></dt><dd><p>determine a data-type from formats, names, titles.</p>
+</dd>
+</dl>
+</div>
+<p class="rubric">Notes</p>
+<p>This constructor can be compared to <code class="docutils literal notranslate"><span class="pre">empty</span></code>: it creates a new record
+array but does not fill it with data.  To create a record array from data,
+use one of the following methods:</p>
+<ol class="arabic simple">
+<li><p>Create a standard ndarray and convert it to a record array,
+using <code class="docutils literal notranslate"><span class="pre">arr.view(np.recarray)</span></code></p></li>
+<li><p>Use the <em class="xref py py-obj">buf</em> keyword.</p></li>
+<li><p>Use <em class="xref py py-obj">np.rec.fromrecords</em>.</p></li>
+</ol>
+<p class="rubric">Examples</p>
+<p>Create an array with two fields, <code class="docutils literal notranslate"><span class="pre">x</span></code> and <code class="docutils literal notranslate"><span class="pre">y</span></code>:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="mf">3.0</span><span class="p">,</span> <span class="mi">4</span><span class="p">)],</span> <span class="n">dtype</span><span class="o">=</span><span class="p">[(</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;f8&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;i8&#39;</span><span class="p">)])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span>
+<span class="go">array([(1., 2), (3., 4)], dtype=[(&#39;x&#39;, &#39;&lt;f8&#39;), (&#39;y&#39;, &#39;&lt;i8&#39;)])</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">]</span>
+<span class="go">array([1., 3.])</span>
+</pre></div>
+</div>
+<p>View the array as a record array:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">recarray</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="o">.</span><span class="n">x</span>
+<span class="go">array([1., 3.])</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="o">.</span><span class="n">y</span>
+<span class="go">array([2, 4])</span>
+</pre></div>
+</div>
+<p>Create a new, empty record array:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">recarray</span><span class="p">((</span><span class="mi">2</span><span class="p">,),</span>
+<span class="gp">... </span><span class="n">dtype</span><span class="o">=</span><span class="p">[(</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="nb">int</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="nb">float</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;z&#39;</span><span class="p">,</span> <span class="nb">int</span><span class="p">)])</span> 
+<span class="go">rec.array([(-1073741821, 1.2249118382103472e-301, 24547520),</span>
+<span class="go">       (3471280, 1.2134086255804012e-316, 0)],</span>
+<span class="go">      dtype=[(&#39;x&#39;, &#39;&lt;i4&#39;), (&#39;y&#39;, &#39;&lt;f8&#39;), (&#39;z&#39;, &#39;&lt;i4&#39;)])</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Attributes<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><a class="reference internal" href="numpy.recarray.T.html#numpy.recarray.T" title="numpy.recarray.T"><code class="xref py py-obj docutils literal notranslate"><span class="pre">T</span></code></a></dt><dd><p>View of the transposed array.</p>
+</dd>
+<dt><a class="reference internal" href="numpy.recarray.base.html#numpy.recarray.base" title="numpy.recarray.base"><code class="xref py py-obj docutils literal notranslate"><span class="pre">base</span></code></a></dt><dd><p>Base object if memory is from some other object.</p>
+</dd>
+<dt><a class="reference internal" href="numpy.recarray.ctypes.html#numpy.recarray.ctypes" title="numpy.recarray.ctypes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ctypes</span></code></a></dt><dd><p>An object to simplify the interaction of the array with the ctypes module.</p>
+</dd>
+<dt><a class="reference internal" href="numpy.recarray.data.html#numpy.recarray.data" title="numpy.recarray.data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">data</span></code></a></dt><dd><p>Python buffer object pointing to the start of the array’s data.</p>
+</dd>
+<dt><a class="reference internal" href="numpy.dtype.html#numpy.dtype" title="numpy.dtype"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dtype</span></code></a></dt><dd><p>Data-type of the array’s elements.</p>
+</dd>
+<dt><a class="reference internal" href="numpy.recarray.flags.html#numpy.recarray.flags" title="numpy.recarray.flags"><code class="xref py py-obj docutils literal notranslate"><span class="pre">flags</span></code></a></dt><dd><p>Information about the memory layout of the array.</p>
+</dd>
+<dt><a class="reference internal" href="numpy.recarray.flat.html#numpy.recarray.flat" title="numpy.recarray.flat"><code class="xref py py-obj docutils literal notranslate"><span class="pre">flat</span></code></a></dt><dd><p>A 1-D iterator over the array.</p>
+</dd>
+<dt><a class="reference internal" href="numpy.imag.html#numpy.imag" title="numpy.imag"><code class="xref py py-obj docutils literal notranslate"><span class="pre">imag</span></code></a></dt><dd><p>The imaginary part of the array.</p>
+</dd>
+<dt><a class="reference internal" href="numpy.recarray.itemsize.html#numpy.recarray.itemsize" title="numpy.recarray.itemsize"><code class="xref py py-obj docutils literal notranslate"><span class="pre">itemsize</span></code></a></dt><dd><p>Length of one array element in bytes.</p>
+</dd>
+<dt><a class="reference internal" href="numpy.recarray.nbytes.html#numpy.recarray.nbytes" title="numpy.recarray.nbytes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">nbytes</span></code></a></dt><dd><p>Total bytes consumed by the elements of the array.</p>
+</dd>
+<dt><a class="reference internal" href="numpy.recarray.ndim.html#numpy.recarray.ndim" title="numpy.recarray.ndim"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ndim</span></code></a></dt><dd><p>Number of array dimensions.</p>
+</dd>
+<dt><a class="reference internal" href="numpy.real.html#numpy.real" title="numpy.real"><code class="xref py py-obj docutils literal notranslate"><span class="pre">real</span></code></a></dt><dd><p>The real part of the array.</p>
+</dd>
+<dt><a class="reference internal" href="numpy.shape.html#numpy.shape" title="numpy.shape"><code class="xref py py-obj docutils literal notranslate"><span class="pre">shape</span></code></a></dt><dd><p>Tuple of array dimensions.</p>
+</dd>
+<dt><a class="reference internal" href="numpy.recarray.size.html#numpy.recarray.size" title="numpy.recarray.size"><code class="xref py py-obj docutils literal notranslate"><span class="pre">size</span></code></a></dt><dd><p>Number of elements in the array.</p>
+</dd>
+<dt><a class="reference internal" href="numpy.recarray.strides.html#numpy.recarray.strides" title="numpy.recarray.strides"><code class="xref py py-obj docutils literal notranslate"><span class="pre">strides</span></code></a></dt><dd><p>Tuple of bytes to step in each dimension when traversing an array.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Methods</p>
+<table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="numpy.recarray.all.html#numpy.recarray.all" title="numpy.recarray.all"><code class="xref py py-obj docutils literal notranslate"><span class="pre">all</span></code></a>([axis, out, keepdims, where])</p></td>
+<td><p>Returns True if all elements evaluate to True.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="numpy.recarray.any.html#numpy.recarray.any" title="numpy.recarray.any"><code class="xref py py-obj docutils literal notranslate"><span class="pre">any</span></code></a>([axis, out, keepdims, where])</p></td>
+<td><p>Returns True if any of the elements of <em class="xref py py-obj">a</em> evaluate to True.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="numpy.recarray.argmax.html#numpy.recarray.argmax" title="numpy.recarray.argmax"><code class="xref py py-obj docutils literal notranslate"><span class="pre">argmax</span></code></a>([axis, out, keepdims])</p></td>
+<td><p>Return indices of the maximum values along the given axis.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="numpy.recarray.argmin.html#numpy.recarray.argmin" title="numpy.recarray.argmin"><code class="xref py py-obj docutils literal notranslate"><span class="pre">argmin</span></code></a>([axis, out, keepdims])</p></td>
+<td><p>Return indices of the minimum values along the given axis.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="numpy.recarray.argpartition.html#numpy.recarray.argpartition" title="numpy.recarray.argpartition"><code class="xref py py-obj docutils literal notranslate"><span class="pre">argpartition</span></code></a>(kth[, axis, kind, order])</p></td>
+<td><p>Returns the indices that would partition this array.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="numpy.recarray.argsort.html#numpy.recarray.argsort" title="numpy.recarray.argsort"><code class="xref py py-obj docutils literal notranslate"><span class="pre">argsort</span></code></a>([axis, kind, order])</p></td>
+<td><p>Returns the indices that would sort this array.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="numpy.recarray.astype.html#numpy.recarray.astype" title="numpy.recarray.astype"><code class="xref py py-obj docutils literal notranslate"><span class="pre">astype</span></code></a>(dtype[, order, casting, subok, copy])</p></td>
+<td><p>Copy of the array, cast to a specified type.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="numpy.recarray.byteswap.html#numpy.recarray.byteswap" title="numpy.recarray.byteswap"><code class="xref py py-obj docutils literal notranslate"><span class="pre">byteswap</span></code></a>([inplace])</p></td>
+<td><p>Swap the bytes of the array elements</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="numpy.recarray.choose.html#numpy.recarray.choose" title="numpy.recarray.choose"><code class="xref py py-obj docutils literal notranslate"><span class="pre">choose</span></code></a>(choices[, out, mode])</p></td>
+<td><p>Use an index array to construct a new array from a set of choices.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="numpy.recarray.clip.html#numpy.recarray.clip" title="numpy.recarray.clip"><code class="xref py py-obj docutils literal notranslate"><span class="pre">clip</span></code></a>([min, max, out])</p></td>
+<td><p>Return an array whose values are limited to <code class="docutils literal notranslate"><span class="pre">[min,</span> <span class="pre">max]</span></code>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="numpy.recarray.compress.html#numpy.recarray.compress" title="numpy.recarray.compress"><code class="xref py py-obj docutils literal notranslate"><span class="pre">compress</span></code></a>(condition[, axis, out])</p></td>
+<td><p>Return selected slices of this array along given axis.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="numpy.recarray.conj.html#numpy.recarray.conj" title="numpy.recarray.conj"><code class="xref py py-obj docutils literal notranslate"><span class="pre">conj</span></code></a>()</p></td>
+<td><p>Complex-conjugate all elements.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="numpy.recarray.conjugate.html#numpy.recarray.conjugate" title="numpy.recarray.conjugate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">conjugate</span></code></a>()</p></td>
+<td><p>Return the complex conjugate, element-wise.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="numpy.recarray.copy.html#numpy.recarray.copy" title="numpy.recarray.copy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">copy</span></code></a>([order])</p></td>
+<td><p>Return a copy of the array.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="numpy.recarray.cumprod.html#numpy.recarray.cumprod" title="numpy.recarray.cumprod"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cumprod</span></code></a>([axis, dtype, out])</p></td>
+<td><p>Return the cumulative product of the elements along the given axis.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="numpy.recarray.cumsum.html#numpy.recarray.cumsum" title="numpy.recarray.cumsum"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cumsum</span></code></a>([axis, dtype, out])</p></td>
+<td><p>Return the cumulative sum of the elements along the given axis.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="numpy.recarray.diagonal.html#numpy.recarray.diagonal" title="numpy.recarray.diagonal"><code class="xref py py-obj docutils literal notranslate"><span class="pre">diagonal</span></code></a>([offset, axis1, axis2])</p></td>
+<td><p>Return specified diagonals.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="numpy.recarray.dump.html#numpy.recarray.dump" title="numpy.recarray.dump"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dump</span></code></a>(file)</p></td>
+<td><p>Dump a pickle of the array to the specified file.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="numpy.recarray.dumps.html#numpy.recarray.dumps" title="numpy.recarray.dumps"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dumps</span></code></a>()</p></td>
+<td><p>Returns the pickle of the array as a string.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="numpy.recarray.fill.html#numpy.recarray.fill" title="numpy.recarray.fill"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fill</span></code></a>(value)</p></td>
+<td><p>Fill the array with a scalar value.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="numpy.recarray.flatten.html#numpy.recarray.flatten" title="numpy.recarray.flatten"><code class="xref py py-obj docutils literal notranslate"><span class="pre">flatten</span></code></a>([order])</p></td>
+<td><p>Return a copy of the array collapsed into one dimension.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="numpy.recarray.getfield.html#numpy.recarray.getfield" title="numpy.recarray.getfield"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getfield</span></code></a>(dtype[, offset])</p></td>
+<td><p>Returns a field of the given array as a certain type.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="numpy.recarray.item.html#numpy.recarray.item" title="numpy.recarray.item"><code class="xref py py-obj docutils literal notranslate"><span class="pre">item</span></code></a>(*args)</p></td>
+<td><p>Copy an element of an array to a standard Python scalar and return it.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="numpy.recarray.itemset.html#numpy.recarray.itemset" title="numpy.recarray.itemset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">itemset</span></code></a>(*args)</p></td>
+<td><p>Insert scalar into an array (scalar is cast to array's dtype, if possible)</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="numpy.recarray.max.html#numpy.recarray.max" title="numpy.recarray.max"><code class="xref py py-obj docutils literal notranslate"><span class="pre">max</span></code></a>([axis, out, keepdims, initial, where])</p></td>
+<td><p>Return the maximum along a given axis.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="numpy.recarray.mean.html#numpy.recarray.mean" title="numpy.recarray.mean"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mean</span></code></a>([axis, dtype, out, keepdims, where])</p></td>
+<td><p>Returns the average of the array elements along given axis.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="numpy.recarray.min.html#numpy.recarray.min" title="numpy.recarray.min"><code class="xref py py-obj docutils literal notranslate"><span class="pre">min</span></code></a>([axis, out, keepdims, initial, where])</p></td>
+<td><p>Return the minimum along a given axis.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="numpy.recarray.newbyteorder.html#numpy.recarray.newbyteorder" title="numpy.recarray.newbyteorder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">newbyteorder</span></code></a>([new_order])</p></td>
+<td><p>Return the array with the same data viewed with a different byte order.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="numpy.recarray.nonzero.html#numpy.recarray.nonzero" title="numpy.recarray.nonzero"><code class="xref py py-obj docutils literal notranslate"><span class="pre">nonzero</span></code></a>()</p></td>
+<td><p>Return the indices of the elements that are non-zero.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="numpy.recarray.partition.html#numpy.recarray.partition" title="numpy.recarray.partition"><code class="xref py py-obj docutils literal notranslate"><span class="pre">partition</span></code></a>(kth[, axis, kind, order])</p></td>
+<td><p>Rearranges the elements in the array in such a way that the value of the element in kth position is in the position it would be in a sorted array.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="numpy.recarray.prod.html#numpy.recarray.prod" title="numpy.recarray.prod"><code class="xref py py-obj docutils literal notranslate"><span class="pre">prod</span></code></a>([axis, dtype, out, keepdims, initial, ...])</p></td>
+<td><p>Return the product of the array elements over the given axis</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="numpy.recarray.ptp.html#numpy.recarray.ptp" title="numpy.recarray.ptp"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ptp</span></code></a>([axis, out, keepdims])</p></td>
+<td><p>Peak to peak (maximum - minimum) value along a given axis.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="numpy.recarray.put.html#numpy.recarray.put" title="numpy.recarray.put"><code class="xref py py-obj docutils literal notranslate"><span class="pre">put</span></code></a>(indices, values[, mode])</p></td>
+<td><p>Set <code class="docutils literal notranslate"><span class="pre">a.flat[n]</span> <span class="pre">=</span> <span class="pre">values[n]</span></code> for all <em class="xref py py-obj">n</em> in indices.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="numpy.recarray.ravel.html#numpy.recarray.ravel" title="numpy.recarray.ravel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ravel</span></code></a>([order])</p></td>
+<td><p>Return a flattened array.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="numpy.recarray.repeat.html#numpy.recarray.repeat" title="numpy.recarray.repeat"><code class="xref py py-obj docutils literal notranslate"><span class="pre">repeat</span></code></a>(repeats[, axis])</p></td>
+<td><p>Repeat elements of an array.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="numpy.recarray.reshape.html#numpy.recarray.reshape" title="numpy.recarray.reshape"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reshape</span></code></a>(shape[, order])</p></td>
+<td><p>Returns an array containing the same data with a new shape.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="numpy.recarray.resize.html#numpy.recarray.resize" title="numpy.recarray.resize"><code class="xref py py-obj docutils literal notranslate"><span class="pre">resize</span></code></a>(new_shape[, refcheck])</p></td>
+<td><p>Change shape and size of array in-place.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="numpy.recarray.round.html#numpy.recarray.round" title="numpy.recarray.round"><code class="xref py py-obj docutils literal notranslate"><span class="pre">round</span></code></a>([decimals, out])</p></td>
+<td><p>Return <em class="xref py py-obj">a</em> with each element rounded to the given number of decimals.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="numpy.recarray.searchsorted.html#numpy.recarray.searchsorted" title="numpy.recarray.searchsorted"><code class="xref py py-obj docutils literal notranslate"><span class="pre">searchsorted</span></code></a>(v[, side, sorter])</p></td>
+<td><p>Find indices where elements of v should be inserted in a to maintain order.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="numpy.recarray.setfield.html#numpy.recarray.setfield" title="numpy.recarray.setfield"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setfield</span></code></a>(val, dtype[, offset])</p></td>
+<td><p>Put a value into a specified place in a field defined by a data-type.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="numpy.recarray.setflags.html#numpy.recarray.setflags" title="numpy.recarray.setflags"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setflags</span></code></a>([write, align, uic])</p></td>
+<td><p>Set array flags WRITEABLE, ALIGNED, WRITEBACKIFCOPY, respectively.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="numpy.recarray.sort.html#numpy.recarray.sort" title="numpy.recarray.sort"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sort</span></code></a>([axis, kind, order])</p></td>
+<td><p>Sort an array in-place.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="numpy.recarray.squeeze.html#numpy.recarray.squeeze" title="numpy.recarray.squeeze"><code class="xref py py-obj docutils literal notranslate"><span class="pre">squeeze</span></code></a>([axis])</p></td>
+<td><p>Remove axes of length one from <em class="xref py py-obj">a</em>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="numpy.recarray.std.html#numpy.recarray.std" title="numpy.recarray.std"><code class="xref py py-obj docutils literal notranslate"><span class="pre">std</span></code></a>([axis, dtype, out, ddof, keepdims, where])</p></td>
+<td><p>Returns the standard deviation of the array elements along given axis.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="numpy.recarray.sum.html#numpy.recarray.sum" title="numpy.recarray.sum"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sum</span></code></a>([axis, dtype, out, keepdims, initial, where])</p></td>
+<td><p>Return the sum of the array elements over the given axis.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="numpy.recarray.swapaxes.html#numpy.recarray.swapaxes" title="numpy.recarray.swapaxes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">swapaxes</span></code></a>(axis1, axis2)</p></td>
+<td><p>Return a view of the array with <em class="xref py py-obj">axis1</em> and <em class="xref py py-obj">axis2</em> interchanged.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="numpy.recarray.take.html#numpy.recarray.take" title="numpy.recarray.take"><code class="xref py py-obj docutils literal notranslate"><span class="pre">take</span></code></a>(indices[, axis, out, mode])</p></td>
+<td><p>Return an array formed from the elements of <em class="xref py py-obj">a</em> at the given indices.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="numpy.recarray.tobytes.html#numpy.recarray.tobytes" title="numpy.recarray.tobytes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tobytes</span></code></a>([order])</p></td>
+<td><p>Construct Python bytes containing the raw data bytes in the array.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="numpy.recarray.tofile.html#numpy.recarray.tofile" title="numpy.recarray.tofile"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tofile</span></code></a>(fid[, sep, format])</p></td>
+<td><p>Write array to a file as text or binary (default).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="numpy.recarray.tolist.html#numpy.recarray.tolist" title="numpy.recarray.tolist"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tolist</span></code></a>()</p></td>
+<td><p>Return the array as an <code class="docutils literal notranslate"><span class="pre">a.ndim</span></code>-levels deep nested list of Python scalars.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="numpy.recarray.tostring.html#numpy.recarray.tostring" title="numpy.recarray.tostring"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tostring</span></code></a>([order])</p></td>
+<td><p>A compatibility alias for <a class="reference internal" href="numpy.recarray.tobytes.html#numpy.recarray.tobytes" title="numpy.recarray.tobytes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tobytes</span></code></a>, with exactly the same behavior.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="numpy.recarray.trace.html#numpy.recarray.trace" title="numpy.recarray.trace"><code class="xref py py-obj docutils literal notranslate"><span class="pre">trace</span></code></a>([offset, axis1, axis2, dtype, out])</p></td>
+<td><p>Return the sum along diagonals of the array.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="numpy.recarray.transpose.html#numpy.recarray.transpose" title="numpy.recarray.transpose"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transpose</span></code></a>(*axes)</p></td>
+<td><p>Returns a view of the array with axes transposed.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="numpy.recarray.var.html#numpy.recarray.var" title="numpy.recarray.var"><code class="xref py py-obj docutils literal notranslate"><span class="pre">var</span></code></a>([axis, dtype, out, ddof, keepdims, where])</p></td>
+<td><p>Returns the variance of the array elements, along given axis.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="numpy.recarray.view.html#numpy.recarray.view" title="numpy.recarray.view"><code class="xref py py-obj docutils literal notranslate"><span class="pre">view</span></code></a>([dtype][, type])</p></td>
+<td><p>New view of array with the same data.</p></td>
+</tr>
+</tbody>
+</table>
+<table class="table">
+<tbody>
+<tr class="row-odd"><td><p><strong>dot</strong></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><strong>field</strong></p></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</section>
+
+
+              </article>
+              
+
+              
+              <footer class="bd-footer-article">
+                  <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+  <a class='left-prev' id="prev-link" href="numpy.core.defchararray.array.html" title="previous page">
+      <i class="fas fa-angle-left"></i>
+      <div class="prev-next-info">
+          <p class="prev-next-subtitle">previous</p>
+          <p class="prev-next-title">numpy.core.defchararray.array</p>
+      </div>
+  </a>
+  <a class='right-next' id="next-link" href="numpy.recarray.all.html" title="next page">
+  <div class="prev-next-info">
+      <p class="prev-next-subtitle">next</p>
+      <p class="prev-next-title">numpy.recarray.all</p>
+  </div>
+  <i class="fas fa-angle-right"></i>
+  </a>
+</div>
+              </footer>
+              
+          </div>
+          
+      </div>
+    </div>
+
+  
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695"></script>
+
+<footer class="bd-footer"><div class="bd-footer__inner container">
+  
+  <div class="footer-item">
+    <p class="copyright">
+    &copy; Copyright 2008-2022, NumPy Developers.<br>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    <p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.3.0.<br>
+</p>
+  </div>
+  
+</div>
+</footer>
+  </body>
+</html>

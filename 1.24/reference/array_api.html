@@ -1,0 +1,1550 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>Array API Standard Compatibility &#8212; NumPy v1.24 Manual</title>
+<script>
+  document.documentElement.dataset.mode = localStorage.getItem("mode") || "light";
+  document.documentElement.dataset.theme = localStorage.getItem("theme") || "light"
+</script>
+
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=92025949c220c2e29695" rel="stylesheet">
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=92025949c220c2e29695" rel="stylesheet">
+
+
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/numpy.css" />
+
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695">
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/design-tabs.js"></script>
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Constants" href="constants.html" />
+    <link rel="prev" title="Datetimes and Timedeltas" href="arrays.datetime.html" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="docsearch:language" content="en">
+  </head>
+  
+  
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="180" data-default-mode="light">
+    <div class="bd-header-announcement container-fluid" id="banner">
+      
+
+    </div>
+
+    
+    <nav class="bd-header navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="bd-header__inner container-xl">
+
+  <div id="navbar-start">
+    
+    
+  
+
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+    <img src="../_static/numpylogo.svg" class="logo__image only-light" alt="Logo image">
+    <img src="../_static/numpylogo_dark.svg" class="logo__image only-dark" alt="Logo image">
+  
+  
+</a>
+    
+  </div>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapsible" aria-controls="navbar-collapsible" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="fas fa-bars"></span>
+  </button>
+
+  
+  <div id="navbar-collapsible" class="col-lg-9 collapse navbar-collapse">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <ul id="navbar-main-elements" class="navbar-nav">
+    <li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../user/index.html">
+  User Guide
+ </a>
+</li>
+
+<li class="toctree-l1 current active nav-item">
+ <a class="reference internal nav-link" href="index.html">
+  API reference
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../dev/index.html">
+  Development
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../release.html">
+  Release notes
+ </a>
+</li>
+
+    
+    <li class="nav-item">
+        <a class="nav-link nav-external" href="https://numpy.org/numpy-tutorials/">Learn<i class="fas fa-external-link-alt"></i></a>
+    </li>
+    
+</ul>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      
+      <div class="navbar-end-item">
+        <span id="theme-switch" class="btn btn-sm btn-outline-primary navbar-btn rounded-circle">
+    <a class="theme-switch" data-mode="light"><i class="fas fa-sun"></i></a>
+    <a class="theme-switch" data-mode="dark"><i class="far fa-moon"></i></a>
+    <a class="theme-switch" data-mode="auto"><i class="fas fa-adjust"></i></a>
+</span>
+      </div>
+      
+      <div class="navbar-end-item">
+        <div class="dropdown" id="version_switcher">
+    <button type="button" class="btn btn-sm navbar-btn dropdown-toggle" id="version_switcher_button" data-toggle="dropdown">
+        1.24  <!-- this text may get changed later by javascript -->
+        <span class="caret"></span>
+    </button>
+    <div id="version_switcher_menu" class="dropdown-menu list-group-flush py-0" aria-labelledby="version_switcher_button">
+    <!-- dropdown will be populated by javascript on page load -->
+    </div>
+</div>
+
+<!-- NOTE: this JS must live here (not in our global JS file) because it relies
+     on being processed by Jinja before it is run (specifically for replacing
+     variables reference/array_api and {'version_match': '1.24', 'json_url': 'https://numpy.org/doc/_static/versions.json'}.
+-->
+
+<script type="text/javascript">
+// Check if corresponding page path exists in other version of docs
+// and, if so, go there instead of the homepage of the other docs version
+function checkPageExistsAndRedirect(event) {
+    const currentFilePath = "reference/array_api.html",
+          tryUrl = event.target.getAttribute("href");
+    let otherDocsHomepage = tryUrl.replace(currentFilePath, "");
+    $.ajax({
+        type: 'HEAD',
+        url: tryUrl,
+        // if the page exists, go there
+        success: function() {
+            location.href = tryUrl;
+        }
+    }).fail(function() {
+        location.href = otherDocsHomepage;
+    });
+    // this prevents the browser from following the href of the clicked node
+    // (which is fine because this function takes care of redirecting)
+    return false;
+}
+
+// Populate the version switcher from the JSON config file
+(function () {
+    $.getJSON("https://numpy.org/doc/_static/versions.json", function(data, textStatus, jqXHR) {
+        const currentFilePath = "reference/array_api.html";
+        let btn = document.getElementById("version_switcher_button");
+        // Set empty strings by default so that these attributes exist and can be used in CSS selectors
+        btn.dataset["activeVersionName"] = "";
+        btn.dataset["activeVersion"] = "";
+        // create links to the corresponding page in the other docs versions
+        $.each(data, function(index, entry) {
+            // if no custom name specified (e.g., "latest"), use version string
+            if (!("name" in entry)) {
+                entry.name = entry.version;
+            }
+            // create the node
+            const node = document.createElement("a");
+            node.setAttribute("class", "list-group-item list-group-item-action py-1");
+            node.textContent = `${entry.name}`;
+            node.setAttribute("href", `${entry.url}${currentFilePath}`);
+            // on click, AJAX calls will check if the linked page exists before
+            // trying to redirect, and if not, will redirect to the homepage
+            // for that version of the docs.
+            node.onclick = checkPageExistsAndRedirect;
+            // Add dataset values for the version and name in case people want
+            // to apply CSS styling based on this information.
+            node.dataset["versionName"] = entry.name;
+            node.dataset["version"] = entry.version;
+
+            $("#version_switcher_menu").append(node);
+            // replace dropdown button text with the preferred display name of
+            // this version, rather than using sphinx's 1.24 variable.
+            // also highlight the dropdown entry for the currently-viewed
+            // version's entry
+            if (entry.version == "1.24") {
+                node.classList.add("active");
+                btn.innerText = btn.dataset["activeVersionName"] = entry.name;
+                btn.dataset["activeVersion"] = entry.version;
+            }
+        });
+    });
+})();
+</script>
+      </div>
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+        <li class="nav-item">
+          <a class="nav-link" href="https://github.com/numpy/numpy" rel="noopener" target="_blank" title="GitHub"><span><i class="fab fa-github-square"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="https://twitter.com/numpy_team" rel="noopener" target="_blank" title="Twitter"><span><i class="fab fa-twitter-square"></i></span>
+            <label class="sr-only">Twitter</label></a>
+        </li>
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+</div>
+    </nav>
+    
+
+    <div class="bd-container container-xl">
+      <div class="bd-container__inner row">
+          
+
+<!-- Only show if we have sidebars configured, else just a small margin  -->
+<div class="bd-sidebar-primary col-12 col-md-3 bd-sidebar">
+  <div class="sidebar-start-items"><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <div class="bd-toc-item active">
+    <ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="arrays.html">
+   Array objects
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Array API Standard Compatibility
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="constants.html">
+   Constants
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="ufuncs.html">
+   Universal functions (
+   <code class="xref py py-class docutils literal notranslate">
+    <span class="pre">
+     ufunc
+    </span>
+   </code>
+   )
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="routines.html">
+   Routines
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="typing.html">
+   Typing (
+   <code class="xref py py-mod docutils literal notranslate">
+    <span class="pre">
+     numpy.typing
+    </span>
+   </code>
+   )
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="global_state.html">
+   Global State
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="distutils.html">
+   Packaging (
+   <code class="xref py py-mod docutils literal notranslate">
+    <span class="pre">
+     numpy.distutils
+    </span>
+   </code>
+   )
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="distutils_guide.html">
+   NumPy Distutils - Users Guide
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="distutils_status_migration.html">
+   Status of
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     numpy.distutils
+    </span>
+   </code>
+   and migration advice
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="c-api/index.html">
+   NumPy C-API
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="simd/index.html">
+   CPU/SIMD Optimizations
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="security.html">
+   NumPy security
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="swig.html">
+   NumPy and SWIG
+  </a>
+ </li>
+</ul>
+
+  </div>
+</nav>
+  </div>
+  <div class="sidebar-end-items">
+  </div>
+</div>
+
+
+          
+
+
+<div class="bd-sidebar-secondary d-none d-xl-block col-xl-2 bd-toc">
+  
+    
+    <div class="toc-item">
+      
+<div class="tocsection onthispage mt-5 pt-1 pb-3">
+    <i class="fas fa-list"></i> On this page
+</div>
+
+<nav id="bd-toc-nav">
+    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#table-of-differences-between-numpy-array-api-and-numpy">
+   Table of Differences between
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     numpy.array_api
+    </span>
+   </code>
+   and
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     numpy
+    </span>
+   </code>
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#name-differences">
+     Name Differences
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#function-name-changes">
+       Function Name Changes
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#function-instead-of-method">
+       Function instead of method
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#linalg-namespace-differences">
+       <code class="docutils literal notranslate">
+        <span class="pre">
+         linalg
+        </span>
+       </code>
+       Namespace Differences
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#keyword-argument-renames">
+       Keyword Argument Renames
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#type-promotion-differences">
+     Type Promotion Differences
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#indexing-differences">
+     Indexing Differences
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#type-strictness">
+     Type Strictness
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#elementwise-functions">
+       Elementwise Functions
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#creation-functions">
+       Creation Functions
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#linear-algebra-functions">
+       Linear Algebra Functions
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#array-object">
+       Array Object
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#array-object-differences">
+     Array Object Differences
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#creation-functions-differences">
+     Creation Functions Differences
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#elementwise-functions-differences">
+     Elementwise Functions Differences
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#linear-algebra-differences">
+     Linear Algebra Differences
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#manipulation-functions-differences">
+     Manipulation Functions Differences
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#set-functions-differences">
+     Set Functions Differences
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#array-api-set-functions-differences">
+     Set Functions Differences
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#statistical-functions-differences">
+     Statistical Functions Differences
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#other-differences">
+     Other Differences
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+</nav>
+    </div>
+    
+    <div class="toc-item">
+      
+    </div>
+    
+  
+</div>
+
+
+          
+          
+          <div class="bd-content col-12 col-md-9 col-xl-7">
+              
+              <article class="bd-article" role="main">
+                
+  <section id="array-api-standard-compatibility">
+<span id="array-api"></span><h1>Array API Standard Compatibility<a class="headerlink" href="#array-api-standard-compatibility" title="Permalink to this heading">#</a></h1>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">numpy.array_api</span></code> module is still experimental. See <a class="reference external" href="https://numpy.org/neps/nep-0047-array-api-standard.html">NEP 47</a>.</p>
+</div>
+<p>NumPy includes a reference implementation of the <a class="reference external" href="https://data-apis.org/array-api/latest/">array API standard</a> in <code class="docutils literal notranslate"><span class="pre">numpy.array_api</span></code>. <a class="reference external" href="https://numpy.org/neps/nep-0047-array-api-standard.html">NEP 47</a> describes the
+motivation and scope for implementing the array API standard in NumPy.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">numpy.array_api</span></code> module serves as a minimal, reference implementation
+of the array API standard. In being minimal, the module only implements those
+things that are explicitly required by the specification. Certain things are
+allowed by the specification but are explicitly disallowed in
+<code class="docutils literal notranslate"><span class="pre">numpy.array_api</span></code>. This is so that the module can serve as a reference
+implementation for users of the array API standard. Any consumer of the array
+API can test their code against <code class="docutils literal notranslate"><span class="pre">numpy.array_api</span></code> and be sure that they
+aren’t using any features that aren’t guaranteed by the spec, and which may
+not be present in other conforming libraries.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">numpy.array_api</span></code> module is not documented here. For a listing of the
+functions present in the array API specification, refer to the <a class="reference external" href="https://data-apis.org/array-api/latest/">array API
+standard</a>. The <code class="docutils literal notranslate"><span class="pre">numpy.array_api</span></code>
+implementation is functionally complete, so all functionality described in the
+standard is implemented.</p>
+<section id="table-of-differences-between-numpy-array-api-and-numpy">
+<span id="array-api-differences"></span><h2>Table of Differences between <code class="docutils literal notranslate"><span class="pre">numpy.array_api</span></code> and <code class="docutils literal notranslate"><span class="pre">numpy</span></code><a class="headerlink" href="#table-of-differences-between-numpy-array-api-and-numpy" title="Permalink to this heading">#</a></h2>
+<p>This table outlines the primary differences between <code class="docutils literal notranslate"><span class="pre">numpy.array_api</span></code> from
+the main <code class="docutils literal notranslate"><span class="pre">numpy</span></code> namespace. There are three types of differences:</p>
+<ol class="arabic simple">
+<li><p><strong>Strictness</strong>. Things that are only done so that <code class="docutils literal notranslate"><span class="pre">numpy.array_api</span></code> is a
+strict, minimal implementation. They aren’t actually required by the spec,
+and other conforming libraries may not follow them. In most cases, spec
+does not specify or require any behavior outside of the given domain. The
+main <code class="docutils literal notranslate"><span class="pre">numpy</span></code> namespace would not need to change in any way to be
+spec-compatible for these.</p></li>
+<li><p><strong>Compatible</strong>. Things that could be added to the main <code class="docutils literal notranslate"><span class="pre">numpy</span></code> namespace
+without breaking backwards compatibility.</p></li>
+<li><p><strong>Breaking</strong>. Things that would break backwards compatibility if
+implemented in the main <code class="docutils literal notranslate"><span class="pre">numpy</span></code> namespace.</p></li>
+</ol>
+<section id="name-differences">
+<h3>Name Differences<a class="headerlink" href="#name-differences" title="Permalink to this heading">#</a></h3>
+<p>Many functions have been renamed in the spec from NumPy. These are otherwise
+identical in behavior, and are thus all <strong>compatible</strong> changes, unless
+otherwise noted.</p>
+<section id="function-name-changes">
+<span id="array-api-name-changes"></span><h4>Function Name Changes<a class="headerlink" href="#function-name-changes" title="Permalink to this heading">#</a></h4>
+<p>The following functions are named differently in the array API</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Array API name</p></th>
+<th class="head"><p>NumPy namespace name</p></th>
+<th class="head"><p>Notes</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">acos</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">arccos</span></code></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">acosh</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">arccosh</span></code></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">asin</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">arcsin</span></code></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">asinh</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">arcsinh</span></code></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">atan</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">arctan</span></code></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">atan2</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">arctan2</span></code></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">atanh</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">arctanh</span></code></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">bitwise_left_shift</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">left_shift</span></code></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">bitwise_invert</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">invert</span></code></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">bitwise_right_shift</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">right_shift</span></code></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">bool</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">bool_</span></code></p></td>
+<td><p>This is <strong>breaking</strong> because <code class="docutils literal notranslate"><span class="pre">np.bool</span></code> is currently a deprecated
+alias for the built-in <code class="docutils literal notranslate"><span class="pre">bool</span></code>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">concat</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">concatenate</span></code></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">matrix_norm</span></code> and <code class="docutils literal notranslate"><span class="pre">vector_norm</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">norm</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">matrix_norm</span></code> and <code class="docutils literal notranslate"><span class="pre">vector_norm</span></code> each do a limited subset of what
+<code class="docutils literal notranslate"><span class="pre">np.norm</span></code> does.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">permute_dims</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">transpose</span></code></p></td>
+<td><p>Unlike <code class="docutils literal notranslate"><span class="pre">np.transpose</span></code>, the <code class="docutils literal notranslate"><span class="pre">axis</span></code> keyword-argument to
+<code class="docutils literal notranslate"><span class="pre">permute_dims</span></code> is required.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">pow</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">power</span></code></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">unique_all</span></code>, <code class="docutils literal notranslate"><span class="pre">unique_counts</span></code>, <code class="docutils literal notranslate"><span class="pre">unique_inverse</span></code>, and
+<code class="docutils literal notranslate"><span class="pre">unique_values</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">unique</span></code></p></td>
+<td><p>Each is equivalent to <code class="docutils literal notranslate"><span class="pre">np.unique</span></code> with certain flags set.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="function-instead-of-method">
+<h4>Function instead of method<a class="headerlink" href="#function-instead-of-method" title="Permalink to this heading">#</a></h4>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">astype</span></code> is a function in the array API, whereas it is a method on
+<code class="docutils literal notranslate"><span class="pre">ndarray</span></code> in <code class="docutils literal notranslate"><span class="pre">numpy</span></code>.</p></li>
+</ul>
+</section>
+<section id="linalg-namespace-differences">
+<h4><code class="docutils literal notranslate"><span class="pre">linalg</span></code> Namespace Differences<a class="headerlink" href="#linalg-namespace-differences" title="Permalink to this heading">#</a></h4>
+<p>These functions are in the <code class="docutils literal notranslate"><span class="pre">linalg</span></code> sub-namespace in the array API, but are
+only in the top-level namespace in NumPy:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">cross</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">diagonal</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">matmul</span></code> (*)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">outer</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">tensordot</span></code> (*)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">trace</span></code></p></li>
+</ul>
+<p>(*): These functions are also in the top-level namespace in the array API.</p>
+</section>
+<section id="keyword-argument-renames">
+<h4>Keyword Argument Renames<a class="headerlink" href="#keyword-argument-renames" title="Permalink to this heading">#</a></h4>
+<p>The following functions have keyword arguments that have been renamed. The
+functionality of the keyword argument is identical unless otherwise stated.
+Renamed keyword arguments with the same semantic definition may be considered
+either <strong>compatible</strong> or <strong>breaking</strong>, depending on how the change is
+implemented.</p>
+<p>Note, this page does not list function keyword arguments that are in the main
+<code class="docutils literal notranslate"><span class="pre">numpy</span></code> namespace but not in the array API. Such keyword arguments are
+omitted from <code class="docutils literal notranslate"><span class="pre">numpy.array_api</span></code> for <strong>strictness</strong>, as the spec allows
+functions to include additional keyword arguments from those required.</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Function</p></th>
+<th class="head"><p>Array API keyword name</p></th>
+<th class="head"><p>NumPy keyword name</p></th>
+<th class="head"><p>Notes</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">argsort</span></code> and <code class="docutils literal notranslate"><span class="pre">sort</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">stable</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">kind</span></code></p></td>
+<td><p>The definitions of <code class="docutils literal notranslate"><span class="pre">stable</span></code> and <code class="docutils literal notranslate"><span class="pre">kind</span></code> differ, as do the default
+values. The change of the default value makes this <strong>breaking</strong>. See
+<a class="reference internal" href="#array-api-set-functions-differences"><span class="std std-ref">Set Functions Differences</span></a>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">matrix_rank</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">rtol</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">tol</span></code></p></td>
+<td><p>The definitions of <code class="docutils literal notranslate"><span class="pre">rtol</span></code> and <code class="docutils literal notranslate"><span class="pre">tol</span></code> differ, as do the default
+values. The change of the default value makes this <strong>breaking</strong>. See
+<a class="reference internal" href="#array-api-linear-algebra-differences"><span class="std std-ref">Linear Algebra Differences</span></a>.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">pinv</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">rtol</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">rcond</span></code></p></td>
+<td><p>The definitions of <code class="docutils literal notranslate"><span class="pre">rtol</span></code> and <code class="docutils literal notranslate"><span class="pre">rcond</span></code> are the same, but their
+default values differ, making this <strong>breaking</strong>. See
+<a class="reference internal" href="#array-api-linear-algebra-differences"><span class="std std-ref">Linear Algebra Differences</span></a>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">std</span></code> and <code class="docutils literal notranslate"><span class="pre">var</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">correction</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">ddof</span></code></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">reshape</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">shape</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">newshape</span></code></p></td>
+<td><p>The argument may be passed as a positional or keyword argument for both
+NumPy and the array API.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="type-promotion-differences">
+<span id="array-api-type-promotion-differences"></span><h3>Type Promotion Differences<a class="headerlink" href="#type-promotion-differences" title="Permalink to this heading">#</a></h3>
+<p>Type promotion is the biggest area where NumPy deviates from the spec. The
+most notable difference is that NumPy does value-based casting in many cases.
+The spec explicitly disallows value-based casting. In the array API, the
+result type of any operation is always determined entirely by the input types,
+independently of values or shapes.</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Feature</p></th>
+<th class="head"><p>Type</p></th>
+<th class="head"><p>Notes</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Limited set of dtypes.</p></td>
+<td><p><strong>Strictness</strong></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">numpy.array_api</span></code> only implements those <a class="reference external" href="https://data-apis.org/array-api/latest/API_specification/data_types.html">dtypes that are required by
+the spec</a>.</p></td>
+</tr>
+<tr class="row-odd"><td><p>Operators (like <code class="docutils literal notranslate"><span class="pre">+</span></code>) with Python scalars only accept matching
+scalar types.</p></td>
+<td><p><strong>Strictness</strong></p></td>
+<td><p>For example, <code class="docutils literal notranslate"><span class="pre">&lt;int32</span> <span class="pre">array&gt;</span> <span class="pre">+</span> <span class="pre">1.0</span></code> is not allowed. See <a class="reference external" href="https://data-apis.org/array-api/latest/API_specification/type_promotion.html#mixing-arrays-with-python-scalars">the spec
+rules for mixing arrays and Python scalars</a>.</p></td>
+</tr>
+<tr class="row-even"><td><p>Operators (like <code class="docutils literal notranslate"><span class="pre">+</span></code>) with Python scalars always return the same dtype
+as the array.</p></td>
+<td><p><strong>Breaking</strong></p></td>
+<td><p>For example, <code class="docutils literal notranslate"><span class="pre">numpy.array_api.asarray(0.,</span> <span class="pre">dtype=float32)</span> <span class="pre">+</span> <span class="pre">1e64</span></code> is a
+<code class="docutils literal notranslate"><span class="pre">float32</span></code> array.</p></td>
+</tr>
+<tr class="row-odd"><td><p>In-place operators are disallowed when the left-hand side would be
+promoted.</p></td>
+<td><p><strong>Breaking</strong></p></td>
+<td><p>Example: <code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">=</span> <span class="pre">np.array(1,</span> <span class="pre">dtype=np.int8);</span> <span class="pre">a</span> <span class="pre">+=</span> <span class="pre">np.array(1,</span> <span class="pre">dtype=np.int16)</span></code>. The spec explicitly disallows this.</p></td>
+</tr>
+<tr class="row-even"><td><p>In-place operators are disallowed when the right-hand side operand
+cannot broadcast to the shape of the left-hand side operand.</p></td>
+<td><p><strong>Strictness</strong></p></td>
+<td><p>This so-called “reverse broadcasting” should not be allowed. Example:
+<code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">=</span> <span class="pre">np.empty((2,</span> <span class="pre">3,</span> <span class="pre">4));</span> <span class="pre">a</span> <span class="pre">+=</span> <span class="pre">np.empty((3,</span> <span class="pre">4))</span></code> should error. See
+<a class="reference external" href="https://github.com/numpy/numpy/issues/10404">https://github.com/numpy/numpy/issues/10404</a>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">int</span></code> promotion for operators is only specified for integers within
+the bounds of the dtype.</p></td>
+<td><p><strong>Strictness</strong></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">numpy.array_api</span></code> fallsback to <code class="docutils literal notranslate"><span class="pre">np.ndarray</span></code> behavior (either
+cast or raise <code class="docutils literal notranslate"><span class="pre">OverflowError</span></code>).</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">__pow__</span></code> and <code class="docutils literal notranslate"><span class="pre">__rpow__</span></code> do not do value-based casting for 0-D
+arrays.</p></td>
+<td><p><strong>Breaking</strong></p></td>
+<td><p>For example, <code class="docutils literal notranslate"><span class="pre">np.array(0.,</span> <span class="pre">dtype=float32)**np.array(0.,</span>
+<span class="pre">dtype=float64)</span></code> is <code class="docutils literal notranslate"><span class="pre">float32</span></code>. Note that this is value-based casting
+on 0-D arrays, not scalars.</p></td>
+</tr>
+<tr class="row-odd"><td><p>No cross-kind casting.</p></td>
+<td><p><strong>Strictness</strong></p></td>
+<td><p>Namely, boolean, integer, and floating-point data types do not cast to
+each other, except explicitly with <code class="docutils literal notranslate"><span class="pre">astype</span></code> (this is separate from
+the behavior with Python scalars).</p></td>
+</tr>
+<tr class="row-even"><td><p>No casting unsigned integer dtypes to floating dtypes (e.g., <code class="docutils literal notranslate"><span class="pre">int64</span> <span class="pre">+</span>
+<span class="pre">uint64</span> <span class="pre">-&gt;</span> <span class="pre">float64</span></code>.</p></td>
+<td><p><strong>Strictness</strong></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">can_cast</span></code> and <code class="docutils literal notranslate"><span class="pre">result_type</span></code> are restricted.</p></td>
+<td><p><strong>Strictness</strong></p></td>
+<td><p>The <code class="docutils literal notranslate"><span class="pre">numpy.array_api</span></code> implementations disallow cross-kind casting.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">sum</span></code> and <code class="docutils literal notranslate"><span class="pre">prod</span></code> always upcast <code class="docutils literal notranslate"><span class="pre">float32</span></code> to <code class="docutils literal notranslate"><span class="pre">float64</span></code> when
+<code class="docutils literal notranslate"><span class="pre">dtype=None</span></code>.</p></td>
+<td><p><strong>Breaking</strong></p></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="indexing-differences">
+<h3>Indexing Differences<a class="headerlink" href="#indexing-differences" title="Permalink to this heading">#</a></h3>
+<p>The spec requires only a subset of indexing, but all indexing rules in the
+spec are compatible with NumPy’s more broad indexing rules.</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Feature</p></th>
+<th class="head"><p>Type</p></th>
+<th class="head"><p>Notes</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>No implicit ellipses (<code class="docutils literal notranslate"><span class="pre">...</span></code>).</p></td>
+<td><p><strong>Strictness</strong></p></td>
+<td><p>If an index does not include an ellipsis, all axes must be indexed.</p></td>
+</tr>
+<tr class="row-odd"><td><p>The start and stop of a slice may not be out of bounds.</p></td>
+<td><p><strong>Strictness</strong></p></td>
+<td><p>For a slice <code class="docutils literal notranslate"><span class="pre">i:j:k</span></code>, only the following are allowed:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">i</span></code> or <code class="docutils literal notranslate"><span class="pre">j</span></code> omitted (<code class="docutils literal notranslate"><span class="pre">None</span></code>).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">-n</span> <span class="pre">&lt;=</span> <span class="pre">i</span> <span class="pre">&lt;=</span> <span class="pre">max(0,</span> <span class="pre">n</span> <span class="pre">-</span> <span class="pre">1)</span></code>.</p></li>
+<li><p>For <code class="docutils literal notranslate"><span class="pre">k</span> <span class="pre">&gt;</span> <span class="pre">0</span></code> or <code class="docutils literal notranslate"><span class="pre">k</span></code> omitted (<code class="docutils literal notranslate"><span class="pre">None</span></code>), <code class="docutils literal notranslate"><span class="pre">-n</span> <span class="pre">&lt;=</span> <span class="pre">j</span> <span class="pre">&lt;=</span> <span class="pre">n</span></code>.</p></li>
+<li><p>For <code class="docutils literal notranslate"><span class="pre">k</span> <span class="pre">&lt;</span> <span class="pre">0</span></code>, <code class="docutils literal notranslate"><span class="pre">-n</span> <span class="pre">-</span> <span class="pre">1</span> <span class="pre">&lt;=</span> <span class="pre">j</span> <span class="pre">&lt;=</span> <span class="pre">max(0,</span> <span class="pre">n</span> <span class="pre">-</span> <span class="pre">1)</span></code>.</p></li>
+</ul>
+</td>
+</tr>
+<tr class="row-even"><td><p>Boolean array indices are only allowed as the sole index.</p></td>
+<td><p><strong>Strictness</strong></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>Integer array indices are not allowed at all.</p></td>
+<td><p><strong>Strictness</strong></p></td>
+<td><p>With the exception of 0-D arrays, which are treated like integers.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="type-strictness">
+<span id="array-api-type-strictness"></span><h3>Type Strictness<a class="headerlink" href="#type-strictness" title="Permalink to this heading">#</a></h3>
+<p>Functions in <code class="docutils literal notranslate"><span class="pre">numpy.array_api</span></code> restrict their inputs to only those dtypes
+that are explicitly required by the spec, even when the wrapped corresponding
+NumPy function would allow a broader set. Here, we list each function and the
+dtypes that are allowed in <code class="docutils literal notranslate"><span class="pre">numpy.array_api</span></code>. These are <strong>strictness</strong>
+differences because the spec does not require that other dtypes result in an
+error. The categories here are defined as follows:</p>
+<ul class="simple">
+<li><p><strong>Floating-point</strong>: <code class="docutils literal notranslate"><span class="pre">float32</span></code> or <code class="docutils literal notranslate"><span class="pre">float64</span></code>.</p></li>
+<li><p><strong>Integer</strong>: Any signed or unsigned integer dtype (<code class="docutils literal notranslate"><span class="pre">int8</span></code>, <code class="docutils literal notranslate"><span class="pre">int16</span></code>,
+<code class="docutils literal notranslate"><span class="pre">int32</span></code>, <code class="docutils literal notranslate"><span class="pre">int64</span></code>, <code class="docutils literal notranslate"><span class="pre">uint8</span></code>, <code class="docutils literal notranslate"><span class="pre">uint16</span></code>, <code class="docutils literal notranslate"><span class="pre">uint32</span></code>, or <code class="docutils literal notranslate"><span class="pre">uint64</span></code>).</p></li>
+<li><p><strong>Boolean</strong>: <code class="docutils literal notranslate"><span class="pre">bool</span></code>.</p></li>
+<li><p><strong>Integer or boolean</strong>: Any signed or unsigned integer dtype, or <code class="docutils literal notranslate"><span class="pre">bool</span></code>.
+For two-argument functions, both arguments must be integer or both must be
+<code class="docutils literal notranslate"><span class="pre">bool</span></code>.</p></li>
+<li><p><strong>Numeric</strong>: Any integer or floating-point dtype. For two-argument
+functions, both arguments must be integer or both must be
+floating-point.</p></li>
+<li><p><strong>All</strong>: Any of the above dtype categories. For two-argument functions, both
+arguments must be the same kind (integer, floating-point, or boolean).</p></li>
+</ul>
+<p>In all cases, the return dtype is chosen according to <a class="reference external" href="https://data-apis.org/array-api/latest/API_specification/type_promotion.html">the rules outlined in
+the spec</a>,
+and does not differ from NumPy’s return dtype for any of the allowed input
+dtypes, except in the cases mentioned specifically in the subsections below.</p>
+<section id="elementwise-functions">
+<h4>Elementwise Functions<a class="headerlink" href="#elementwise-functions" title="Permalink to this heading">#</a></h4>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Function Name</p></th>
+<th class="head"><p>Dtypes</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">abs</span></code></p></td>
+<td><p>Numeric</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">acos</span></code></p></td>
+<td><p>Floating-point</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">acosh</span></code></p></td>
+<td><p>Floating-point</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">add</span></code></p></td>
+<td><p>Numeric</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">asin</span></code> (*)</p></td>
+<td><p>Floating-point</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">asinh</span></code> (*)</p></td>
+<td><p>Floating-point</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">atan</span></code> (*)</p></td>
+<td><p>Floating-point</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">atan2</span></code> (*)</p></td>
+<td><p>Floating-point</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">atanh</span></code> (*)</p></td>
+<td><p>Floating-point</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">bitwise_and</span></code></p></td>
+<td><p>Integer or boolean</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">bitwise_invert</span></code></p></td>
+<td><p>Integer or boolean</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">bitwise_left_shift</span></code> (*)</p></td>
+<td><p>Integer</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">bitwise_or</span></code></p></td>
+<td><p>Integer or boolean</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">bitwise_right_shift</span></code> (*)</p></td>
+<td><p>Integer</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">bitwise_xor</span></code></p></td>
+<td><p>Integer or boolean</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">ceil</span></code></p></td>
+<td><p>Numeric</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">cos</span></code></p></td>
+<td><p>Floating-point</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">cosh</span></code></p></td>
+<td><p>Floating-point</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">divide</span></code></p></td>
+<td><p>Floating-point</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">equal</span></code></p></td>
+<td><p>All</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">exp</span></code></p></td>
+<td><p>Floating-point</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">expm1</span></code></p></td>
+<td><p>Floating-point</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">floor</span></code></p></td>
+<td><p>Numeric</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">floor_divide</span></code></p></td>
+<td><p>Numeric</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">greater</span></code></p></td>
+<td><p>Numeric</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">greater_equal</span></code></p></td>
+<td><p>Numeric</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">isfinite</span></code></p></td>
+<td><p>Numeric</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">isinf</span></code></p></td>
+<td><p>Numeric</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">isnan</span></code></p></td>
+<td><p>Numeric</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">less</span></code></p></td>
+<td><p>Numeric</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">less_equal</span></code></p></td>
+<td><p>Numeric</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">log</span></code></p></td>
+<td><p>Floating-point</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">logaddexp</span></code></p></td>
+<td><p>Floating-point</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">log10</span></code></p></td>
+<td><p>Floating-point</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">log1p</span></code></p></td>
+<td><p>Floating-point</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">log2</span></code></p></td>
+<td><p>Floating-point</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">logical_and</span></code></p></td>
+<td><p>Boolean</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">logical_not</span></code></p></td>
+<td><p>Boolean</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">logical_or</span></code></p></td>
+<td><p>Boolean</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">logical_xor</span></code></p></td>
+<td><p>Boolean</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">multiply</span></code></p></td>
+<td><p>Numeric</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">negative</span></code></p></td>
+<td><p>Numeric</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">not_equal</span></code></p></td>
+<td><p>All</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">positive</span></code></p></td>
+<td><p>Numeric</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">pow</span></code> (*)</p></td>
+<td><p>Numeric</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">remainder</span></code></p></td>
+<td><p>Numeric</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">round</span></code></p></td>
+<td><p>Numeric</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">sign</span></code></p></td>
+<td><p>Numeric</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">sin</span></code></p></td>
+<td><p>Floating-point</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">sinh</span></code></p></td>
+<td><p>Floating-point</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">sqrt</span></code></p></td>
+<td><p>Floating-point</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">square</span></code></p></td>
+<td><p>Numeric</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">subtract</span></code></p></td>
+<td><p>Numeric</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">tan</span></code></p></td>
+<td><p>Floating-point</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">tanh</span></code></p></td>
+<td><p>Floating-point</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">trunc</span></code></p></td>
+<td><p>Numeric</p></td>
+</tr>
+</tbody>
+</table>
+<p>(*) These functions have different names from the main <code class="docutils literal notranslate"><span class="pre">numpy</span></code> namespace.
+See <a class="reference internal" href="#array-api-name-changes"><span class="std std-ref">Function Name Changes</span></a>.</p>
+</section>
+<section id="creation-functions">
+<h4>Creation Functions<a class="headerlink" href="#creation-functions" title="Permalink to this heading">#</a></h4>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Function Name</p></th>
+<th class="head"><p>Dtypes</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">meshgrid</span></code></p></td>
+<td><p>Any (all input dtypes must be the same)</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="linear-algebra-functions">
+<h4>Linear Algebra Functions<a class="headerlink" href="#linear-algebra-functions" title="Permalink to this heading">#</a></h4>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Function Name</p></th>
+<th class="head"><p>Dtypes</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">cholesky</span></code></p></td>
+<td><p>Floating-point</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">cross</span></code></p></td>
+<td><p>Numeric</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">det</span></code></p></td>
+<td><p>Floating-point</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">diagonal</span></code></p></td>
+<td><p>Any</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">eigh</span></code></p></td>
+<td><p>Floating-point</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">eighvals</span></code></p></td>
+<td><p>Floating-point</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">inv</span></code></p></td>
+<td><p>Floating-point</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">matmul</span></code></p></td>
+<td><p>Numeric</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">matrix_norm</span></code> (*)</p></td>
+<td><p>Floating-point</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">matrix_power</span></code></p></td>
+<td><p>Floating-point</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">matrix_rank</span></code></p></td>
+<td><p>Floating-point</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">matrix_transpose</span></code> (**)</p></td>
+<td><p>Any</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">outer</span></code></p></td>
+<td><p>Numeric</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">pinv</span></code></p></td>
+<td><p>Floating-point</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">qr</span></code></p></td>
+<td><p>Floating-point</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">slogdet</span></code></p></td>
+<td><p>Floating-point</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">solve</span></code></p></td>
+<td><p>Floating-point</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">svd</span></code></p></td>
+<td><p>Floating-point</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">svdvals</span></code> (**)</p></td>
+<td><p>Floating-point</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">tensordot</span></code></p></td>
+<td><p>Numeric</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">trace</span></code></p></td>
+<td><p>Numeric</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">vecdot</span></code> (**)</p></td>
+<td><p>Numeric</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">vector_norm</span></code> (*)</p></td>
+<td><p>Floating-point</p></td>
+</tr>
+</tbody>
+</table>
+<p>(*) These functions are split from <code class="docutils literal notranslate"><span class="pre">norm</span></code> from the main <code class="docutils literal notranslate"><span class="pre">numpy</span></code> namespace.
+See <a class="reference internal" href="#array-api-name-changes"><span class="std std-ref">Function Name Changes</span></a>.</p>
+<p>(**) These functions are new in the array API and are not in the main
+<code class="docutils literal notranslate"><span class="pre">numpy</span></code> namespace.</p>
+</section>
+<section id="array-object">
+<h4>Array Object<a class="headerlink" href="#array-object" title="Permalink to this heading">#</a></h4>
+<p>All the special <code class="docutils literal notranslate"><span class="pre">__operator__</span></code> methods on the array object behave
+identically to their corresponding functions (see <a class="reference external" href="https://data-apis.org/array-api/latest/API_specification/array_object.html#methods">the spec</a>
+for a list of which methods correspond to which functions). The exception is
+that operators explicitly allow Python scalars according to the <a class="reference external" href="https://data-apis.org/array-api/latest/API_specification/type_promotion.html#mixing-arrays-with-python-scalars">rules
+outlined in the spec</a>
+(see <a class="reference internal" href="#array-api-type-promotion-differences"><span class="std std-ref">Type Promotion Differences</span></a>).</p>
+</section>
+</section>
+<section id="array-object-differences">
+<h3>Array Object Differences<a class="headerlink" href="#array-object-differences" title="Permalink to this heading">#</a></h3>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Feature</p></th>
+<th class="head"><p>Type</p></th>
+<th class="head"><p>Notes</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>No array scalars</p></td>
+<td><p><strong>Strictness</strong></p></td>
+<td><p>The spec does not have array scalars, only 0-D arrays. However, other
+than the promotion differences outlined in
+<a class="reference internal" href="#array-api-type-promotion-differences"><span class="std std-ref">Type Promotion Differences</span></a>, scalars duck type as 0-D
+arrays for the purposes of the spec. The are immutable, but the spec
+<a class="reference external" href="https://data-apis.org/array-api/latest/design_topics/copies_views_and_mutation.html">does not require mutability</a>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">bool()</span></code>, <code class="docutils literal notranslate"><span class="pre">int()</span></code>, and <code class="docutils literal notranslate"><span class="pre">float()</span></code> only work on 0-D arrays.</p></td>
+<td><p><strong>Strictness</strong></p></td>
+<td><p>See <a class="reference external" href="https://github.com/numpy/numpy/issues/10404">https://github.com/numpy/numpy/issues/10404</a>.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">__imatmul__</span></code></p></td>
+<td><p><strong>Compatible</strong></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">np.ndarray</span></code> does not currently implement <code class="docutils literal notranslate"><span class="pre">__imatmul</span></code>. Note that
+<code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">&#64;=</span> <span class="pre">b</span></code> should only defined when it does not change the shape of
+<code class="docutils literal notranslate"><span class="pre">a</span></code>.</p></td>
+</tr>
+<tr class="row-odd"><td><p>The <code class="docutils literal notranslate"><span class="pre">mT</span></code> attribute for matrix transpose.</p></td>
+<td><p><strong>Compatible</strong></p></td>
+<td><p>See <a class="reference external" href="https://data-apis.org/array-api/latest/API_specification/generated/signatures.array_object.array.mT.html">the spec definition</a>
+for <code class="docutils literal notranslate"><span class="pre">mT</span></code>.</p></td>
+</tr>
+<tr class="row-even"><td><p>The <code class="docutils literal notranslate"><span class="pre">T</span></code> attribute should error if the input is not 2-dimensional.</p></td>
+<td><p><strong>Breaking</strong></p></td>
+<td><p>See <a class="reference external" href="https://data-apis.org/array-api/latest/API_specification/generated/signatures.array_object.array.T.html">the note in the spec</a>.</p></td>
+</tr>
+<tr class="row-odd"><td><p>New method <code class="docutils literal notranslate"><span class="pre">to_device</span></code> and attribute <code class="docutils literal notranslate"><span class="pre">device</span></code></p></td>
+<td><p><strong>Compatible</strong></p></td>
+<td><p>The methods would effectively not do anything since NumPy is CPU only</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="creation-functions-differences">
+<h3>Creation Functions Differences<a class="headerlink" href="#creation-functions-differences" title="Permalink to this heading">#</a></h3>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Feature</p></th>
+<th class="head"><p>Type</p></th>
+<th class="head"><p>Notes</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">copy</span></code> keyword argument to <code class="docutils literal notranslate"><span class="pre">asarray</span></code></p></td>
+<td><p><strong>Compatible</strong></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>New <code class="docutils literal notranslate"><span class="pre">device</span></code> keyword argument to all array creation functions
+(<code class="docutils literal notranslate"><span class="pre">asarray</span></code>, <code class="docutils literal notranslate"><span class="pre">arange</span></code>, <code class="docutils literal notranslate"><span class="pre">empty</span></code>, <code class="docutils literal notranslate"><span class="pre">empty_like</span></code>, <code class="docutils literal notranslate"><span class="pre">eye</span></code>, <code class="docutils literal notranslate"><span class="pre">full</span></code>,
+<code class="docutils literal notranslate"><span class="pre">full_like</span></code>, <code class="docutils literal notranslate"><span class="pre">linspace</span></code>, <code class="docutils literal notranslate"><span class="pre">ones</span></code>, <code class="docutils literal notranslate"><span class="pre">ones_like</span></code>, <code class="docutils literal notranslate"><span class="pre">zeros</span></code>, and
+<code class="docutils literal notranslate"><span class="pre">zeros_like</span></code>).</p></td>
+<td><p><strong>Compatible</strong></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">device</span></code> would effectively do nothing, since NumPy is CPU only.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="elementwise-functions-differences">
+<h3>Elementwise Functions Differences<a class="headerlink" href="#elementwise-functions-differences" title="Permalink to this heading">#</a></h3>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Feature</p></th>
+<th class="head"><p>Type</p></th>
+<th class="head"><p>Notes</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Various functions have been renamed.</p></td>
+<td><p><strong>Compatible</strong></p></td>
+<td><p>See <a class="reference internal" href="#array-api-name-changes"><span class="std std-ref">Function Name Changes</span></a>.</p></td>
+</tr>
+<tr class="row-odd"><td><p>Elementwise functions are only defined for given input type
+combinations.</p></td>
+<td><p><strong>Strictness</strong></p></td>
+<td><p>See <a class="reference internal" href="#array-api-type-strictness"><span class="std std-ref">Type Strictness</span></a>.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">bitwise_left_shift</span></code> and <code class="docutils literal notranslate"><span class="pre">bitwise_right_shift</span></code> are only defined for
+<code class="docutils literal notranslate"><span class="pre">x2</span></code> nonnegative.</p></td>
+<td><p><strong>Strictness</strong></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">ceil</span></code>, <code class="docutils literal notranslate"><span class="pre">floor</span></code>, and <code class="docutils literal notranslate"><span class="pre">trunc</span></code> return an integer with integer
+input.</p></td>
+<td><p><strong>Breaking</strong></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">np.ceil</span></code>, <code class="docutils literal notranslate"><span class="pre">np.floor</span></code>, and <code class="docutils literal notranslate"><span class="pre">np.trunc</span></code> return a floating-point
+dtype on integer dtype input.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="linear-algebra-differences">
+<span id="array-api-linear-algebra-differences"></span><h3>Linear Algebra Differences<a class="headerlink" href="#linear-algebra-differences" title="Permalink to this heading">#</a></h3>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Feature</p></th>
+<th class="head"><p>Type</p></th>
+<th class="head"><p>Notes</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">cholesky</span></code> includes an <code class="docutils literal notranslate"><span class="pre">upper</span></code> keyword argument.</p></td>
+<td><p><strong>Compatible</strong></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">cross</span></code> does not allow size 2 vectors (only size 3).</p></td>
+<td><p><strong>Breaking</strong></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">diagonal</span></code> operates on the last two axes.</p></td>
+<td><p><strong>Breaking</strong></p></td>
+<td><p>Strictly speaking this can be <strong>compatible</strong> because <code class="docutils literal notranslate"><span class="pre">diagonal</span></code> is
+moved to the <code class="docutils literal notranslate"><span class="pre">linalg</span></code> namespace.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">eigh</span></code>, <code class="docutils literal notranslate"><span class="pre">qr</span></code>, <code class="docutils literal notranslate"><span class="pre">slogdet</span></code> and <code class="docutils literal notranslate"><span class="pre">svd</span></code> return a named tuple.</p></td>
+<td><p><strong>Compatible</strong></p></td>
+<td><p>The corresponding <code class="docutils literal notranslate"><span class="pre">numpy</span></code> functions return a <code class="docutils literal notranslate"><span class="pre">tuple</span></code>, with the
+resulting arrays in the same order.</p></td>
+</tr>
+<tr class="row-even"><td><p>New functions <code class="docutils literal notranslate"><span class="pre">matrix_norm</span></code> and <code class="docutils literal notranslate"><span class="pre">vector_norm</span></code>.</p></td>
+<td><p><strong>Compatible</strong></p></td>
+<td><p>The <code class="docutils literal notranslate"><span class="pre">norm</span></code> function has been omitted from the array API and split
+into <code class="docutils literal notranslate"><span class="pre">matrix_norm</span></code> for matrix norms and <code class="docutils literal notranslate"><span class="pre">vector_norm</span></code> for vector
+norms. Note that <code class="docutils literal notranslate"><span class="pre">vector_norm</span></code> supports any number of axes, whereas
+<code class="docutils literal notranslate"><span class="pre">np.linalg.norm</span></code> only supports a single axis for vector norms.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">matrix_rank</span></code> has an <code class="docutils literal notranslate"><span class="pre">rtol</span></code> keyword argument instead of <code class="docutils literal notranslate"><span class="pre">tol</span></code>.</p></td>
+<td><p><strong>Breaking</strong></p></td>
+<td><p>In the array API, <code class="docutils literal notranslate"><span class="pre">rtol</span></code> filters singular values smaller than
+<code class="docutils literal notranslate"><span class="pre">rtol</span> <span class="pre">*</span> <span class="pre">largest_singular_value</span></code>. In <code class="docutils literal notranslate"><span class="pre">np.linalg.matrix_rank</span></code>,
+<code class="docutils literal notranslate"><span class="pre">tol</span></code> filters singular values smaller than <code class="docutils literal notranslate"><span class="pre">tol</span></code>. Furthermore, the
+default value for <code class="docutils literal notranslate"><span class="pre">rtol</span></code> is <code class="docutils literal notranslate"><span class="pre">max(M,</span> <span class="pre">N)</span> <span class="pre">*</span> <span class="pre">eps</span></code>, whereas the default
+value of <code class="docutils literal notranslate"><span class="pre">tol</span></code> in <code class="docutils literal notranslate"><span class="pre">np.linalg.matrix_rank</span></code> is <code class="docutils literal notranslate"><span class="pre">S.max()</span> <span class="pre">*</span>
+<span class="pre">max(M,</span> <span class="pre">N)</span> <span class="pre">*</span> <span class="pre">eps</span></code>, where <code class="docutils literal notranslate"><span class="pre">S</span></code> is the singular values of the input. The
+new flag name is compatible but the default change is breaking</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">matrix_rank</span></code> does not support 1-dimensional arrays.</p></td>
+<td><p><strong>Breaking</strong></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>New function <code class="docutils literal notranslate"><span class="pre">matrix_transpose</span></code>.</p></td>
+<td><p><strong>Compatible</strong></p></td>
+<td><p>Unlike <code class="docutils literal notranslate"><span class="pre">np.transpose</span></code>, <code class="docutils literal notranslate"><span class="pre">matrix_transpose</span></code> only transposes the last
+two axes. See <a class="reference external" href="https://data-apis.org/array-api/latest/API_specification/generated/signatures.linear_algebra_functions.matrix_transpose.html#signatures.linear_algebra_functions.matrix_transpose">the spec definition</a></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">outer</span></code> only supports 1-dimensional arrays.</p></td>
+<td><p><strong>Breaking</strong></p></td>
+<td><p>The spec currently only specifies behavior on 1-D arrays but future
+behavior will likely be to broadcast, rather than flatten, which is
+what <code class="docutils literal notranslate"><span class="pre">np.outer</span></code> does.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">pinv</span></code> has an <code class="docutils literal notranslate"><span class="pre">rtol</span></code> keyword argument instead of <code class="docutils literal notranslate"><span class="pre">rcond</span></code></p></td>
+<td><p><strong>Breaking</strong></p></td>
+<td><p>The meaning of <code class="docutils literal notranslate"><span class="pre">rtol</span></code> and <code class="docutils literal notranslate"><span class="pre">rcond</span></code> is the same, but the default
+value for <code class="docutils literal notranslate"><span class="pre">rtol</span></code> is <code class="docutils literal notranslate"><span class="pre">max(M,</span> <span class="pre">N)</span> <span class="pre">*</span> <span class="pre">eps</span></code>, whereas the default value
+for <code class="docutils literal notranslate"><span class="pre">rcond</span></code> is <code class="docutils literal notranslate"><span class="pre">1e-15</span></code>. The new flag name is compatible but the
+default change is breaking.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">solve</span></code> only accepts <code class="docutils literal notranslate"><span class="pre">x2</span></code> as a vector when it is exactly
+1-dimensional.</p></td>
+<td><p><strong>Breaking</strong></p></td>
+<td><p>The <code class="docutils literal notranslate"><span class="pre">np.linalg.solve</span></code> behavior is ambiguous. See <a class="reference external" href="https://github.com/numpy/numpy/issues/15349">this numpy issue</a> and <a class="reference external" href="https://github.com/data-apis/array-api/issues/285">this array API
+specification issue</a> for more
+details.</p></td>
+</tr>
+<tr class="row-odd"><td><p>New function <code class="docutils literal notranslate"><span class="pre">svdvals</span></code>.</p></td>
+<td><p><strong>Compatible</strong></p></td>
+<td><p>Equivalent to <code class="docutils literal notranslate"><span class="pre">np.linalg.svd(compute_uv=False)</span></code>.</p></td>
+</tr>
+<tr class="row-even"><td><p>The <code class="docutils literal notranslate"><span class="pre">axis</span></code> keyword to <code class="docutils literal notranslate"><span class="pre">tensordot</span></code> must be a tuple.</p></td>
+<td><p><strong>Compatible</strong></p></td>
+<td><p>In <code class="docutils literal notranslate"><span class="pre">np.tensordot</span></code>, it can also be an array or array-like.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">trace</span></code> operates on the last two axes.</p></td>
+<td><p><strong>Breaking</strong></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">np.trace</span></code> operates on the first two axes by default. Note that the
+array API <code class="docutils literal notranslate"><span class="pre">trace</span></code> does not allow specifying which axes to operate on.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="manipulation-functions-differences">
+<h3>Manipulation Functions Differences<a class="headerlink" href="#manipulation-functions-differences" title="Permalink to this heading">#</a></h3>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Feature</p></th>
+<th class="head"><p>Type</p></th>
+<th class="head"><p>Notes</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Various functions have been renamed</p></td>
+<td><p><strong>Compatible</strong></p></td>
+<td><p>See <a class="reference internal" href="#array-api-name-changes"><span class="std std-ref">Function Name Changes</span></a>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">concat</span></code> has different default casting rules from <code class="docutils literal notranslate"><span class="pre">np.concatenate</span></code></p></td>
+<td><p><strong>Strictness</strong></p></td>
+<td><p>No cross-kind casting. No value-based casting on scalars (when axis=None).</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">stack</span></code> has different default casting rules from <code class="docutils literal notranslate"><span class="pre">np.stack</span></code></p></td>
+<td><p><strong>Strictness</strong></p></td>
+<td><p>No cross-kind casting.</p></td>
+</tr>
+<tr class="row-odd"><td><p>New function <code class="docutils literal notranslate"><span class="pre">permute_dims</span></code>.</p></td>
+<td><p><strong>Compatible</strong></p></td>
+<td><p>Unlike <code class="docutils literal notranslate"><span class="pre">np.transpose</span></code>, the <code class="docutils literal notranslate"><span class="pre">axis</span></code> keyword argument to
+<code class="docutils literal notranslate"><span class="pre">permute_dims</span></code> is required.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">reshape</span></code> function has a <code class="docutils literal notranslate"><span class="pre">copy</span></code> keyword argument</p></td>
+<td><p><strong>Compatible</strong></p></td>
+<td><p>See <a class="reference external" href="https://github.com/numpy/numpy/issues/9818">https://github.com/numpy/numpy/issues/9818</a>.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="set-functions-differences">
+<h3>Set Functions Differences<a class="headerlink" href="#set-functions-differences" title="Permalink to this heading">#</a></h3>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Feature</p></th>
+<th class="head"><p>Type</p></th>
+<th class="head"><p>Notes</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>New functions <code class="docutils literal notranslate"><span class="pre">unique_all</span></code>, <code class="docutils literal notranslate"><span class="pre">unique_counts</span></code>, <code class="docutils literal notranslate"><span class="pre">unique_inverse</span></code>,
+and <code class="docutils literal notranslate"><span class="pre">unique_values</span></code>.</p></td>
+<td><p><strong>Compatible</strong></p></td>
+<td><p>See <a class="reference internal" href="#array-api-name-changes"><span class="std std-ref">Function Name Changes</span></a>.</p></td>
+</tr>
+<tr class="row-odd"><td><p>The four <code class="docutils literal notranslate"><span class="pre">unique_*</span></code> functions return a named tuple.</p></td>
+<td><p><strong>Compatible</strong></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">unique_all</span></code> and <code class="docutils literal notranslate"><span class="pre">unique_indices</span></code> return indices with the same
+shape as <code class="docutils literal notranslate"><span class="pre">x</span></code>.</p></td>
+<td><p><strong>Compatible</strong></p></td>
+<td><p>See <a class="reference external" href="https://github.com/numpy/numpy/issues/20638">https://github.com/numpy/numpy/issues/20638</a>.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="array-api-set-functions-differences">
+<span id="id1"></span><h3>Set Functions Differences<a class="headerlink" href="#array-api-set-functions-differences" title="Permalink to this heading">#</a></h3>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Feature</p></th>
+<th class="head"><p>Type</p></th>
+<th class="head"><p>Notes</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">argsort</span></code> and <code class="docutils literal notranslate"><span class="pre">sort</span></code> have a <code class="docutils literal notranslate"><span class="pre">stable</span></code> keyword argument instead of
+<code class="docutils literal notranslate"><span class="pre">kind</span></code>.</p></td>
+<td><p><strong>Breaking</strong></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">stable</span></code> is a boolean keyword argument, defaulting to <code class="docutils literal notranslate"><span class="pre">True</span></code>.
+<code class="docutils literal notranslate"><span class="pre">kind</span></code> takes a string, defaulting to <code class="docutils literal notranslate"><span class="pre">&quot;quicksort&quot;</span></code>. <code class="docutils literal notranslate"><span class="pre">stable=True</span></code>
+is equivalent to <code class="docutils literal notranslate"><span class="pre">kind=&quot;stable&quot;</span></code> and <code class="docutils literal notranslate"><span class="pre">kind=False</span></code> is equivalent to
+<code class="docutils literal notranslate"><span class="pre">kind=&quot;quicksort&quot;</span></code>, although any sorting algorithm is allowed by the
+spec when <code class="docutils literal notranslate"><span class="pre">stable=False</span></code>. The new flag name is compatible but the
+default change is breaking.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">argsort</span></code> and <code class="docutils literal notranslate"><span class="pre">sort</span></code> have a <code class="docutils literal notranslate"><span class="pre">descending</span></code> keyword argument.</p></td>
+<td><p><strong>Compatible</strong></p></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="statistical-functions-differences">
+<h3>Statistical Functions Differences<a class="headerlink" href="#statistical-functions-differences" title="Permalink to this heading">#</a></h3>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Feature</p></th>
+<th class="head"><p>Type</p></th>
+<th class="head"><p>Notes</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">sum</span></code> and <code class="docutils literal notranslate"><span class="pre">prod</span></code> always upcast <code class="docutils literal notranslate"><span class="pre">float32</span></code> to <code class="docutils literal notranslate"><span class="pre">float64</span></code> when
+<code class="docutils literal notranslate"><span class="pre">dtype=None</span></code>.</p></td>
+<td><p><strong>Breaking</strong></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>The <code class="docutils literal notranslate"><span class="pre">std</span></code> and <code class="docutils literal notranslate"><span class="pre">var</span></code> functions have a <code class="docutils literal notranslate"><span class="pre">correction</span></code> keyword
+argument instead of <code class="docutils literal notranslate"><span class="pre">ddof</span></code>.</p></td>
+<td><p><strong>Compatible</strong></p></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="other-differences">
+<h3>Other Differences<a class="headerlink" href="#other-differences" title="Permalink to this heading">#</a></h3>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Feature</p></th>
+<th class="head"><p>Type</p></th>
+<th class="head"><p>Notes</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Dtypes can only be spelled as dtype objects.</p></td>
+<td><p><strong>Strictness</strong></p></td>
+<td><p>For example, <code class="docutils literal notranslate"><span class="pre">numpy.array_api.asarray([0],</span> <span class="pre">dtype='int32')</span></code> is not
+allowed.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">asarray</span></code> is not implicitly called in any function.</p></td>
+<td><p><strong>Strictness</strong></p></td>
+<td><p>The exception is Python operators, which accept Python scalars in
+certain cases (see <a class="reference internal" href="#array-api-type-promotion-differences"><span class="std std-ref">Type Promotion Differences</span></a>).</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">tril</span></code> and <code class="docutils literal notranslate"><span class="pre">triu</span></code> require the input to be at least 2-D.</p></td>
+<td><p><strong>Strictness</strong></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>finfo() return type uses <code class="docutils literal notranslate"><span class="pre">float</span></code> for the various attributes.</p></td>
+<td><p><strong>Strictness</strong></p></td>
+<td><p>The spec allows duck typing, so <code class="docutils literal notranslate"><span class="pre">finfo</span></code> returning dtype
+scalars is considered type compatible with <code class="docutils literal notranslate"><span class="pre">float</span></code>.</p></td>
+</tr>
+<tr class="row-even"><td><p>Positional arguments in every function are positional-only.</p></td>
+<td><p><strong>Breaking</strong></p></td>
+<td><p>See the spec for the exact signature of each function. Note that NumPy
+ufuncs already use positional-only arguments, but non-ufuncs like
+<code class="docutils literal notranslate"><span class="pre">asarray</span></code> generally do not.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+</section>
+
+
+              </article>
+              
+
+              
+              <footer class="bd-footer-article">
+                  <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+  <a class='left-prev' id="prev-link" href="arrays.datetime.html" title="previous page">
+      <i class="fas fa-angle-left"></i>
+      <div class="prev-next-info">
+          <p class="prev-next-subtitle">previous</p>
+          <p class="prev-next-title">Datetimes and Timedeltas</p>
+      </div>
+  </a>
+  <a class='right-next' id="next-link" href="constants.html" title="next page">
+  <div class="prev-next-info">
+      <p class="prev-next-subtitle">next</p>
+      <p class="prev-next-title">Constants</p>
+  </div>
+  <i class="fas fa-angle-right"></i>
+  </a>
+</div>
+              </footer>
+              
+          </div>
+          
+      </div>
+    </div>
+
+  
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695"></script>
+
+<footer class="bd-footer"><div class="bd-footer__inner container">
+  
+  <div class="footer-item">
+    <p class="copyright">
+    &copy; Copyright 2008-2022, NumPy Developers.<br>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    <p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.3.0.<br>
+</p>
+  </div>
+  
+</div>
+</footer>
+  </body>
+</html>

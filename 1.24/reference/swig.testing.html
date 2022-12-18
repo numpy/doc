@@ -1,0 +1,644 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>Testing the numpy.i Typemaps &#8212; NumPy v1.24 Manual</title>
+<script>
+  document.documentElement.dataset.mode = localStorage.getItem("mode") || "light";
+  document.documentElement.dataset.theme = localStorage.getItem("theme") || "light"
+</script>
+
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=92025949c220c2e29695" rel="stylesheet">
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=92025949c220c2e29695" rel="stylesheet">
+
+
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/numpy.css" />
+
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695">
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/design-tabs.js"></script>
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Contributing to NumPy" href="../dev/index.html" />
+    <link rel="prev" title="numpy.i: a SWIG Interface File for NumPy" href="swig.interface-file.html" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="docsearch:language" content="en">
+  </head>
+  
+  
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="180" data-default-mode="light">
+    <div class="bd-header-announcement container-fluid" id="banner">
+      
+
+    </div>
+
+    
+    <nav class="bd-header navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="bd-header__inner container-xl">
+
+  <div id="navbar-start">
+    
+    
+  
+
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+    <img src="../_static/numpylogo.svg" class="logo__image only-light" alt="Logo image">
+    <img src="../_static/numpylogo_dark.svg" class="logo__image only-dark" alt="Logo image">
+  
+  
+</a>
+    
+  </div>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapsible" aria-controls="navbar-collapsible" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="fas fa-bars"></span>
+  </button>
+
+  
+  <div id="navbar-collapsible" class="col-lg-9 collapse navbar-collapse">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <ul id="navbar-main-elements" class="navbar-nav">
+    <li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../user/index.html">
+  User Guide
+ </a>
+</li>
+
+<li class="toctree-l1 current active nav-item">
+ <a class="reference internal nav-link" href="index.html">
+  API reference
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../dev/index.html">
+  Development
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../release.html">
+  Release notes
+ </a>
+</li>
+
+    
+    <li class="nav-item">
+        <a class="nav-link nav-external" href="https://numpy.org/numpy-tutorials/">Learn<i class="fas fa-external-link-alt"></i></a>
+    </li>
+    
+</ul>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      
+      <div class="navbar-end-item">
+        <span id="theme-switch" class="btn btn-sm btn-outline-primary navbar-btn rounded-circle">
+    <a class="theme-switch" data-mode="light"><i class="fas fa-sun"></i></a>
+    <a class="theme-switch" data-mode="dark"><i class="far fa-moon"></i></a>
+    <a class="theme-switch" data-mode="auto"><i class="fas fa-adjust"></i></a>
+</span>
+      </div>
+      
+      <div class="navbar-end-item">
+        <div class="dropdown" id="version_switcher">
+    <button type="button" class="btn btn-sm navbar-btn dropdown-toggle" id="version_switcher_button" data-toggle="dropdown">
+        1.24  <!-- this text may get changed later by javascript -->
+        <span class="caret"></span>
+    </button>
+    <div id="version_switcher_menu" class="dropdown-menu list-group-flush py-0" aria-labelledby="version_switcher_button">
+    <!-- dropdown will be populated by javascript on page load -->
+    </div>
+</div>
+
+<!-- NOTE: this JS must live here (not in our global JS file) because it relies
+     on being processed by Jinja before it is run (specifically for replacing
+     variables reference/swig.testing and {'version_match': '1.24', 'json_url': 'https://numpy.org/doc/_static/versions.json'}.
+-->
+
+<script type="text/javascript">
+// Check if corresponding page path exists in other version of docs
+// and, if so, go there instead of the homepage of the other docs version
+function checkPageExistsAndRedirect(event) {
+    const currentFilePath = "reference/swig.testing.html",
+          tryUrl = event.target.getAttribute("href");
+    let otherDocsHomepage = tryUrl.replace(currentFilePath, "");
+    $.ajax({
+        type: 'HEAD',
+        url: tryUrl,
+        // if the page exists, go there
+        success: function() {
+            location.href = tryUrl;
+        }
+    }).fail(function() {
+        location.href = otherDocsHomepage;
+    });
+    // this prevents the browser from following the href of the clicked node
+    // (which is fine because this function takes care of redirecting)
+    return false;
+}
+
+// Populate the version switcher from the JSON config file
+(function () {
+    $.getJSON("https://numpy.org/doc/_static/versions.json", function(data, textStatus, jqXHR) {
+        const currentFilePath = "reference/swig.testing.html";
+        let btn = document.getElementById("version_switcher_button");
+        // Set empty strings by default so that these attributes exist and can be used in CSS selectors
+        btn.dataset["activeVersionName"] = "";
+        btn.dataset["activeVersion"] = "";
+        // create links to the corresponding page in the other docs versions
+        $.each(data, function(index, entry) {
+            // if no custom name specified (e.g., "latest"), use version string
+            if (!("name" in entry)) {
+                entry.name = entry.version;
+            }
+            // create the node
+            const node = document.createElement("a");
+            node.setAttribute("class", "list-group-item list-group-item-action py-1");
+            node.textContent = `${entry.name}`;
+            node.setAttribute("href", `${entry.url}${currentFilePath}`);
+            // on click, AJAX calls will check if the linked page exists before
+            // trying to redirect, and if not, will redirect to the homepage
+            // for that version of the docs.
+            node.onclick = checkPageExistsAndRedirect;
+            // Add dataset values for the version and name in case people want
+            // to apply CSS styling based on this information.
+            node.dataset["versionName"] = entry.name;
+            node.dataset["version"] = entry.version;
+
+            $("#version_switcher_menu").append(node);
+            // replace dropdown button text with the preferred display name of
+            // this version, rather than using sphinx's 1.24 variable.
+            // also highlight the dropdown entry for the currently-viewed
+            // version's entry
+            if (entry.version == "1.24") {
+                node.classList.add("active");
+                btn.innerText = btn.dataset["activeVersionName"] = entry.name;
+                btn.dataset["activeVersion"] = entry.version;
+            }
+        });
+    });
+})();
+</script>
+      </div>
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+        <li class="nav-item">
+          <a class="nav-link" href="https://github.com/numpy/numpy" rel="noopener" target="_blank" title="GitHub"><span><i class="fab fa-github-square"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="https://twitter.com/numpy_team" rel="noopener" target="_blank" title="Twitter"><span><i class="fab fa-twitter-square"></i></span>
+            <label class="sr-only">Twitter</label></a>
+        </li>
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+</div>
+    </nav>
+    
+
+    <div class="bd-container container-xl">
+      <div class="bd-container__inner row">
+          
+
+<!-- Only show if we have sidebars configured, else just a small margin  -->
+<div class="bd-sidebar-primary col-12 col-md-3 bd-sidebar">
+  <div class="sidebar-start-items"><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <div class="bd-toc-item active">
+    <ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="arrays.html">
+   Array objects
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="array_api.html">
+   Array API Standard Compatibility
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="constants.html">
+   Constants
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="ufuncs.html">
+   Universal functions (
+   <code class="xref py py-class docutils literal notranslate">
+    <span class="pre">
+     ufunc
+    </span>
+   </code>
+   )
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="routines.html">
+   Routines
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="typing.html">
+   Typing (
+   <code class="xref py py-mod docutils literal notranslate">
+    <span class="pre">
+     numpy.typing
+    </span>
+   </code>
+   )
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="global_state.html">
+   Global State
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="distutils.html">
+   Packaging (
+   <code class="xref py py-mod docutils literal notranslate">
+    <span class="pre">
+     numpy.distutils
+    </span>
+   </code>
+   )
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="distutils_guide.html">
+   NumPy Distutils - Users Guide
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="distutils_status_migration.html">
+   Status of
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     numpy.distutils
+    </span>
+   </code>
+   and migration advice
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="c-api/index.html">
+   NumPy C-API
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="simd/index.html">
+   CPU/SIMD Optimizations
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="security.html">
+   NumPy security
+  </a>
+ </li>
+ <li class="toctree-l1 current active has-children">
+  <a class="reference internal" href="swig.html">
+   NumPy and SWIG
+  </a>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul class="current">
+   <li class="toctree-l2">
+    <a class="reference internal" href="swig.interface-file.html">
+     numpy.i: a SWIG Interface File for NumPy
+    </a>
+   </li>
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
+     Testing the numpy.i Typemaps
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+  </div>
+</nav>
+  </div>
+  <div class="sidebar-end-items">
+  </div>
+</div>
+
+
+          
+
+
+<div class="bd-sidebar-secondary d-none d-xl-block col-xl-2 bd-toc">
+  
+    
+    <div class="toc-item">
+      
+<div class="tocsection onthispage mt-5 pt-1 pb-3">
+    <i class="fas fa-list"></i> On this page
+</div>
+
+<nav id="bd-toc-nav">
+    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#introduction">
+   Introduction
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#testing-organization">
+   Testing Organization
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#testing-header-files">
+   Testing Header Files
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#testing-source-files">
+   Testing Source Files
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#testing-swig-interface-files">
+   Testing SWIG Interface Files
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#testing-python-scripts">
+   Testing Python Scripts
+  </a>
+ </li>
+</ul>
+
+</nav>
+    </div>
+    
+    <div class="toc-item">
+      
+    </div>
+    
+  
+</div>
+
+
+          
+          
+          <div class="bd-content col-12 col-md-9 col-xl-7">
+              
+              <article class="bd-article" role="main">
+                
+  <section id="testing-the-numpy-i-typemaps">
+<h1>Testing the numpy.i Typemaps<a class="headerlink" href="#testing-the-numpy-i-typemaps" title="Permalink to this heading">#</a></h1>
+<section id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading">#</a></h2>
+<p>Writing tests for the <code class="docutils literal notranslate"><span class="pre">numpy.i</span></code> <a class="reference external" href="http://www.swig.org">SWIG</a>
+interface file is a combinatorial headache.  At present, 12 different
+data types are supported, each with 74 different argument signatures,
+for a total of 888 typemaps supported “out of the box”.  Each of these
+typemaps, in turn, might require several unit tests in order to verify
+expected behavior for both proper and improper inputs.  Currently,
+this results in more than 1,000 individual unit tests executed when
+<code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">test</span></code> is run in the <code class="docutils literal notranslate"><span class="pre">numpy/tools/swig</span></code> subdirectory.</p>
+<p>To facilitate this many similar unit tests, some high-level
+programming techniques are employed, including C and <a class="reference external" href="http://www.swig.org">SWIG</a> macros,
+as well as Python inheritance.  The purpose of this document is to describe
+the testing infrastructure employed to verify that the <code class="docutils literal notranslate"><span class="pre">numpy.i</span></code>
+typemaps are working as expected.</p>
+</section>
+<section id="testing-organization">
+<h2>Testing Organization<a class="headerlink" href="#testing-organization" title="Permalink to this heading">#</a></h2>
+<p>There are three independent testing frameworks supported, for one-,
+two-, and three-dimensional arrays respectively.  For one-dimensional
+arrays, there are two C++ files, a header and a source, named:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Vector</span><span class="o">.</span><span class="n">h</span>
+<span class="n">Vector</span><span class="o">.</span><span class="n">cxx</span>
+</pre></div>
+</div>
+<p>that contain prototypes and code for a variety of functions that have
+one-dimensional arrays as function arguments.  The file:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Vector</span><span class="o">.</span><span class="n">i</span>
+</pre></div>
+</div>
+<p>is a <a class="reference external" href="http://www.swig.org">SWIG</a> interface file that defines a python module <code class="docutils literal notranslate"><span class="pre">Vector</span></code>
+that wraps the functions in <code class="docutils literal notranslate"><span class="pre">Vector.h</span></code> while utilizing the typemaps
+in <code class="docutils literal notranslate"><span class="pre">numpy.i</span></code> to correctly handle the C arrays.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">Makefile</span></code> calls <code class="docutils literal notranslate"><span class="pre">swig</span></code> to generate <code class="docutils literal notranslate"><span class="pre">Vector.py</span></code> and
+<code class="docutils literal notranslate"><span class="pre">Vector_wrap.cxx</span></code>, and also executes the <code class="docutils literal notranslate"><span class="pre">setup.py</span></code> script that
+compiles <code class="docutils literal notranslate"><span class="pre">Vector_wrap.cxx</span></code> and links together the extension module
+<code class="docutils literal notranslate"><span class="pre">_Vector.so</span></code> or <code class="docutils literal notranslate"><span class="pre">_Vector.dylib</span></code>, depending on the platform.  This
+extension module and the proxy file <code class="docutils literal notranslate"><span class="pre">Vector.py</span></code> are both placed in a
+subdirectory under the <code class="docutils literal notranslate"><span class="pre">build</span></code> directory.</p>
+<p>The actual testing takes place with a Python script named:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">testVector</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+<p>that uses the standard Python library module <code class="docutils literal notranslate"><span class="pre">unittest</span></code>, which
+performs several tests of each function defined in <code class="docutils literal notranslate"><span class="pre">Vector.h</span></code> for
+each data type supported.</p>
+<p>Two-dimensional arrays are tested in exactly the same manner.  The
+above description applies, but with <code class="docutils literal notranslate"><span class="pre">Matrix</span></code> substituted for
+<code class="docutils literal notranslate"><span class="pre">Vector</span></code>.  For three-dimensional tests, substitute <code class="docutils literal notranslate"><span class="pre">Tensor</span></code> for
+<code class="docutils literal notranslate"><span class="pre">Vector</span></code>.  For four-dimensional tests, substitute <code class="docutils literal notranslate"><span class="pre">SuperTensor</span></code>
+for <code class="docutils literal notranslate"><span class="pre">Vector</span></code>. For flat in-place array tests, substitute <code class="docutils literal notranslate"><span class="pre">Flat</span></code>
+for <code class="docutils literal notranslate"><span class="pre">Vector</span></code>.
+For the descriptions that follow, we will reference the
+<code class="docutils literal notranslate"><span class="pre">Vector</span></code> tests, but the same information applies to <code class="docutils literal notranslate"><span class="pre">Matrix</span></code>,
+<code class="docutils literal notranslate"><span class="pre">Tensor</span></code> and <code class="docutils literal notranslate"><span class="pre">SuperTensor</span></code> tests.</p>
+<p>The command <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">test</span></code> will ensure that all of the test software is
+built and then run all three test scripts.</p>
+</section>
+<section id="testing-header-files">
+<h2>Testing Header Files<a class="headerlink" href="#testing-header-files" title="Permalink to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">Vector.h</span></code> is a C++ header file that defines a C macro called
+<code class="docutils literal notranslate"><span class="pre">TEST_FUNC_PROTOS</span></code> that takes two arguments: <code class="docutils literal notranslate"><span class="pre">TYPE</span></code>, which is a
+data type name such as <code class="docutils literal notranslate"><span class="pre">unsigned</span> <span class="pre">int</span></code>; and <code class="docutils literal notranslate"><span class="pre">SNAME</span></code>, which is a
+short name for the same data type with no spaces, e.g. <code class="docutils literal notranslate"><span class="pre">uint</span></code>.  This
+macro defines several function prototypes that have the prefix
+<code class="docutils literal notranslate"><span class="pre">SNAME</span></code> and have at least one argument that is an array of type
+<code class="docutils literal notranslate"><span class="pre">TYPE</span></code>.  Those functions that have return arguments return a
+<code class="docutils literal notranslate"><span class="pre">TYPE</span></code> value.</p>
+<p><code class="docutils literal notranslate"><span class="pre">TEST_FUNC_PROTOS</span></code> is then implemented for all of the data types
+supported by <code class="docutils literal notranslate"><span class="pre">numpy.i</span></code>:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">signed</span> <span class="pre">char</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">unsigned</span> <span class="pre">char</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">short</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">unsigned</span> <span class="pre">short</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">int</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">unsigned</span> <span class="pre">int</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">long</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">unsigned</span> <span class="pre">long</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">long</span> <span class="pre">long</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">unsigned</span> <span class="pre">long</span> <span class="pre">long</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">float</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">double</span></code></p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="testing-source-files">
+<h2>Testing Source Files<a class="headerlink" href="#testing-source-files" title="Permalink to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">Vector.cxx</span></code> is a C++ source file that implements compilable code
+for each of the function prototypes specified in <code class="docutils literal notranslate"><span class="pre">Vector.h</span></code>.  It
+defines a C macro <code class="docutils literal notranslate"><span class="pre">TEST_FUNCS</span></code> that has the same arguments and works
+in the same way as <code class="docutils literal notranslate"><span class="pre">TEST_FUNC_PROTOS</span></code> does in <code class="docutils literal notranslate"><span class="pre">Vector.h</span></code>.
+<code class="docutils literal notranslate"><span class="pre">TEST_FUNCS</span></code> is implemented for each of the 12 data types as above.</p>
+</section>
+<section id="testing-swig-interface-files">
+<h2>Testing SWIG Interface Files<a class="headerlink" href="#testing-swig-interface-files" title="Permalink to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">Vector.i</span></code> is a <a class="reference external" href="http://www.swig.org">SWIG</a> interface file that defines python module
+<code class="docutils literal notranslate"><span class="pre">Vector</span></code>.  It follows the conventions for using <code class="docutils literal notranslate"><span class="pre">numpy.i</span></code> as
+described in this chapter.  It defines a <a class="reference external" href="http://www.swig.org">SWIG</a> macro
+<code class="docutils literal notranslate"><span class="pre">%apply_numpy_typemaps</span></code> that has a single argument <code class="docutils literal notranslate"><span class="pre">TYPE</span></code>.
+It uses the <a class="reference external" href="http://www.swig.org">SWIG</a> directive <code class="docutils literal notranslate"><span class="pre">%apply</span></code> to apply the provided
+typemaps to the argument signatures found in <code class="docutils literal notranslate"><span class="pre">Vector.h</span></code>.  This macro
+is then implemented for all of the data types supported by
+<code class="docutils literal notranslate"><span class="pre">numpy.i</span></code>.  It then does a <code class="docutils literal notranslate"><span class="pre">%include</span> <span class="pre">&quot;Vector.h&quot;</span></code> to wrap all of
+the function prototypes in <code class="docutils literal notranslate"><span class="pre">Vector.h</span></code> using the typemaps in
+<code class="docutils literal notranslate"><span class="pre">numpy.i</span></code>.</p>
+</section>
+<section id="testing-python-scripts">
+<h2>Testing Python Scripts<a class="headerlink" href="#testing-python-scripts" title="Permalink to this heading">#</a></h2>
+<p>After <code class="docutils literal notranslate"><span class="pre">make</span></code> is used to build the testing extension modules,
+<code class="docutils literal notranslate"><span class="pre">testVector.py</span></code> can be run to execute the tests.  As with other
+scripts that use <code class="docutils literal notranslate"><span class="pre">unittest</span></code> to facilitate unit testing,
+<code class="docutils literal notranslate"><span class="pre">testVector.py</span></code> defines a class that inherits from
+<code class="docutils literal notranslate"><span class="pre">unittest.TestCase</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">VectorTestCase</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
+</pre></div>
+</div>
+<p>However, this class is not run directly.  Rather, it serves as a base
+class to several other python classes, each one specific to a
+particular data type.  The <code class="docutils literal notranslate"><span class="pre">VectorTestCase</span></code> class stores two strings
+for typing information:</p>
+<blockquote>
+<div><dl class="simple">
+<dt><strong>self.typeStr</strong></dt><dd><p>A string that matches one of the <code class="docutils literal notranslate"><span class="pre">SNAME</span></code> prefixes used in
+<code class="docutils literal notranslate"><span class="pre">Vector.h</span></code> and <code class="docutils literal notranslate"><span class="pre">Vector.cxx</span></code>.  For example, <code class="docutils literal notranslate"><span class="pre">&quot;double&quot;</span></code>.</p>
+</dd>
+<dt><strong>self.typeCode</strong></dt><dd><p>A short (typically single-character) string that represents a
+data type in numpy and corresponds to <code class="docutils literal notranslate"><span class="pre">self.typeStr</span></code>.  For
+example, if <code class="docutils literal notranslate"><span class="pre">self.typeStr</span></code> is <code class="docutils literal notranslate"><span class="pre">&quot;double&quot;</span></code>, then
+<code class="docutils literal notranslate"><span class="pre">self.typeCode</span></code> should be <code class="docutils literal notranslate"><span class="pre">&quot;d&quot;</span></code>.</p>
+</dd>
+</dl>
+</div></blockquote>
+<p>Each test defined by the <code class="docutils literal notranslate"><span class="pre">VectorTestCase</span></code> class extracts the python
+function it is trying to test by accessing the <code class="docutils literal notranslate"><span class="pre">Vector</span></code> module’s
+dictionary:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">length</span> <span class="o">=</span> <span class="n">Vector</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">typeStr</span> <span class="o">+</span> <span class="s2">&quot;Length&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>In the case of double precision tests, this will return the python
+function <code class="docutils literal notranslate"><span class="pre">Vector.doubleLength</span></code>.</p>
+<p>We then define a new test case class for each supported data type with
+a short definition such as:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">doubleTestCase</span><span class="p">(</span><span class="n">VectorTestCase</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">methodName</span><span class="o">=</span><span class="s2">&quot;runTest&quot;</span><span class="p">):</span>
+        <span class="n">VectorTestCase</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">methodName</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">typeStr</span>  <span class="o">=</span> <span class="s2">&quot;double&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">typeCode</span> <span class="o">=</span> <span class="s2">&quot;d&quot;</span>
+</pre></div>
+</div>
+<p>Each of these 12 classes is collected into a <code class="docutils literal notranslate"><span class="pre">unittest.TestSuite</span></code>,
+which is then executed.  Errors and failures are summed together and
+returned as the exit argument.  Any non-zero result indicates that at
+least one test did not pass.</p>
+</section>
+</section>
+
+
+              </article>
+              
+
+              
+              <footer class="bd-footer-article">
+                  <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+  <a class='left-prev' id="prev-link" href="swig.interface-file.html" title="previous page">
+      <i class="fas fa-angle-left"></i>
+      <div class="prev-next-info">
+          <p class="prev-next-subtitle">previous</p>
+          <p class="prev-next-title">numpy.i: a SWIG Interface File for NumPy</p>
+      </div>
+  </a>
+  <a class='right-next' id="next-link" href="../dev/index.html" title="next page">
+  <div class="prev-next-info">
+      <p class="prev-next-subtitle">next</p>
+      <p class="prev-next-title">Contributing to NumPy</p>
+  </div>
+  <i class="fas fa-angle-right"></i>
+  </a>
+</div>
+              </footer>
+              
+          </div>
+          
+      </div>
+    </div>
+
+  
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695"></script>
+
+<footer class="bd-footer"><div class="bd-footer__inner container">
+  
+  <div class="footer-item">
+    <p class="copyright">
+    &copy; Copyright 2008-2022, NumPy Developers.<br>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    <p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.3.0.<br>
+</p>
+  </div>
+  
+</div>
+</footer>
+  </body>
+</html>

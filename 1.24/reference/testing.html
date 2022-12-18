@@ -1,0 +1,1356 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>Testing Guidelines &#8212; NumPy v1.24 Manual</title>
+<script>
+  document.documentElement.dataset.mode = localStorage.getItem("mode") || "light";
+  document.documentElement.dataset.theme = localStorage.getItem("theme") || "light"
+</script>
+
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=92025949c220c2e29695" rel="stylesheet">
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=92025949c220c2e29695" rel="stylesheet">
+
+
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/numpy.css" />
+
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695">
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/design-tabs.js"></script>
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Window functions" href="routines.window.html" />
+    <link rel="prev" title="numpy.testing.suppress_warnings.record" href="generated/numpy.testing.suppress_warnings.record.html" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="docsearch:language" content="en">
+  </head>
+  
+  
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="180" data-default-mode="light">
+    <div class="bd-header-announcement container-fluid" id="banner">
+      
+
+    </div>
+
+    
+    <nav class="bd-header navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="bd-header__inner container-xl">
+
+  <div id="navbar-start">
+    
+    
+  
+
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+    <img src="../_static/numpylogo.svg" class="logo__image only-light" alt="Logo image">
+    <img src="../_static/numpylogo_dark.svg" class="logo__image only-dark" alt="Logo image">
+  
+  
+</a>
+    
+  </div>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapsible" aria-controls="navbar-collapsible" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="fas fa-bars"></span>
+  </button>
+
+  
+  <div id="navbar-collapsible" class="col-lg-9 collapse navbar-collapse">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <ul id="navbar-main-elements" class="navbar-nav">
+    <li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../user/index.html">
+  User Guide
+ </a>
+</li>
+
+<li class="toctree-l1 current active nav-item">
+ <a class="reference internal nav-link" href="index.html">
+  API reference
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../dev/index.html">
+  Development
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../release.html">
+  Release notes
+ </a>
+</li>
+
+    
+    <li class="nav-item">
+        <a class="nav-link nav-external" href="https://numpy.org/numpy-tutorials/">Learn<i class="fas fa-external-link-alt"></i></a>
+    </li>
+    
+</ul>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      
+      <div class="navbar-end-item">
+        <span id="theme-switch" class="btn btn-sm btn-outline-primary navbar-btn rounded-circle">
+    <a class="theme-switch" data-mode="light"><i class="fas fa-sun"></i></a>
+    <a class="theme-switch" data-mode="dark"><i class="far fa-moon"></i></a>
+    <a class="theme-switch" data-mode="auto"><i class="fas fa-adjust"></i></a>
+</span>
+      </div>
+      
+      <div class="navbar-end-item">
+        <div class="dropdown" id="version_switcher">
+    <button type="button" class="btn btn-sm navbar-btn dropdown-toggle" id="version_switcher_button" data-toggle="dropdown">
+        1.24  <!-- this text may get changed later by javascript -->
+        <span class="caret"></span>
+    </button>
+    <div id="version_switcher_menu" class="dropdown-menu list-group-flush py-0" aria-labelledby="version_switcher_button">
+    <!-- dropdown will be populated by javascript on page load -->
+    </div>
+</div>
+
+<!-- NOTE: this JS must live here (not in our global JS file) because it relies
+     on being processed by Jinja before it is run (specifically for replacing
+     variables reference/testing and {'version_match': '1.24', 'json_url': 'https://numpy.org/doc/_static/versions.json'}.
+-->
+
+<script type="text/javascript">
+// Check if corresponding page path exists in other version of docs
+// and, if so, go there instead of the homepage of the other docs version
+function checkPageExistsAndRedirect(event) {
+    const currentFilePath = "reference/testing.html",
+          tryUrl = event.target.getAttribute("href");
+    let otherDocsHomepage = tryUrl.replace(currentFilePath, "");
+    $.ajax({
+        type: 'HEAD',
+        url: tryUrl,
+        // if the page exists, go there
+        success: function() {
+            location.href = tryUrl;
+        }
+    }).fail(function() {
+        location.href = otherDocsHomepage;
+    });
+    // this prevents the browser from following the href of the clicked node
+    // (which is fine because this function takes care of redirecting)
+    return false;
+}
+
+// Populate the version switcher from the JSON config file
+(function () {
+    $.getJSON("https://numpy.org/doc/_static/versions.json", function(data, textStatus, jqXHR) {
+        const currentFilePath = "reference/testing.html";
+        let btn = document.getElementById("version_switcher_button");
+        // Set empty strings by default so that these attributes exist and can be used in CSS selectors
+        btn.dataset["activeVersionName"] = "";
+        btn.dataset["activeVersion"] = "";
+        // create links to the corresponding page in the other docs versions
+        $.each(data, function(index, entry) {
+            // if no custom name specified (e.g., "latest"), use version string
+            if (!("name" in entry)) {
+                entry.name = entry.version;
+            }
+            // create the node
+            const node = document.createElement("a");
+            node.setAttribute("class", "list-group-item list-group-item-action py-1");
+            node.textContent = `${entry.name}`;
+            node.setAttribute("href", `${entry.url}${currentFilePath}`);
+            // on click, AJAX calls will check if the linked page exists before
+            // trying to redirect, and if not, will redirect to the homepage
+            // for that version of the docs.
+            node.onclick = checkPageExistsAndRedirect;
+            // Add dataset values for the version and name in case people want
+            // to apply CSS styling based on this information.
+            node.dataset["versionName"] = entry.name;
+            node.dataset["version"] = entry.version;
+
+            $("#version_switcher_menu").append(node);
+            // replace dropdown button text with the preferred display name of
+            // this version, rather than using sphinx's 1.24 variable.
+            // also highlight the dropdown entry for the currently-viewed
+            // version's entry
+            if (entry.version == "1.24") {
+                node.classList.add("active");
+                btn.innerText = btn.dataset["activeVersionName"] = entry.name;
+                btn.dataset["activeVersion"] = entry.version;
+            }
+        });
+    });
+})();
+</script>
+      </div>
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+        <li class="nav-item">
+          <a class="nav-link" href="https://github.com/numpy/numpy" rel="noopener" target="_blank" title="GitHub"><span><i class="fab fa-github-square"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="https://twitter.com/numpy_team" rel="noopener" target="_blank" title="Twitter"><span><i class="fab fa-twitter-square"></i></span>
+            <label class="sr-only">Twitter</label></a>
+        </li>
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+</div>
+    </nav>
+    
+
+    <div class="bd-container container-xl">
+      <div class="bd-container__inner row">
+          
+
+<!-- Only show if we have sidebars configured, else just a small margin  -->
+<div class="bd-sidebar-primary col-12 col-md-3 bd-sidebar">
+  <div class="sidebar-start-items"><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <div class="bd-toc-item active">
+    <ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="arrays.html">
+   Array objects
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="array_api.html">
+   Array API Standard Compatibility
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="constants.html">
+   Constants
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="ufuncs.html">
+   Universal functions (
+   <code class="xref py py-class docutils literal notranslate">
+    <span class="pre">
+     ufunc
+    </span>
+   </code>
+   )
+  </a>
+ </li>
+ <li class="toctree-l1 current active has-children">
+  <a class="reference internal" href="routines.html">
+   Routines
+  </a>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul class="current">
+   <li class="toctree-l2">
+    <a class="reference internal" href="routines.array-creation.html">
+     Array creation routines
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="routines.array-manipulation.html">
+     Array manipulation routines
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="routines.bitwise.html">
+     Binary operations
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="routines.char.html">
+     String operations
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="routines.ctypeslib.html">
+     C-Types Foreign Function Interface (
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       numpy.ctypeslib
+      </span>
+     </code>
+     )
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="routines.datetime.html">
+     Datetime Support Functions
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="routines.dtype.html">
+     Data type routines
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="routines.dual.html">
+     Optionally SciPy-accelerated routines (
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       numpy.dual
+      </span>
+     </code>
+     )
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="routines.emath.html">
+     Mathematical functions with automatic domain
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="routines.err.html">
+     Floating point error handling
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="routines.fft.html">
+     Discrete Fourier Transform (
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       numpy.fft
+      </span>
+     </code>
+     )
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="routines.functional.html">
+     Functional programming
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="routines.help.html">
+     NumPy-specific help functions
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="routines.io.html">
+     Input and output
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="routines.linalg.html">
+     Linear algebra (
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       numpy.linalg
+      </span>
+     </code>
+     )
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="routines.logic.html">
+     Logic functions
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="routines.ma.html">
+     Masked array operations
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="routines.math.html">
+     Mathematical functions
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="routines.matlib.html">
+     Matrix library (
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       numpy.matlib
+      </span>
+     </code>
+     )
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="routines.other.html">
+     Miscellaneous routines
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="routines.padding.html">
+     Padding Arrays
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="routines.polynomials.html">
+     Polynomials
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="random/index.html">
+     Random sampling (
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       numpy.random
+      </span>
+     </code>
+     )
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="routines.set.html">
+     Set routines
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="routines.sort.html">
+     Sorting, searching, and counting
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="routines.statistics.html">
+     Statistics
+    </a>
+   </li>
+   <li class="toctree-l2 current active has-children">
+    <a class="reference internal" href="routines.testing.html">
+     Test Support (
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       numpy.testing
+      </span>
+     </code>
+     )
+    </a>
+    <input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+    <label for="toctree-checkbox-2">
+     <i class="fas fa-chevron-down">
+     </i>
+    </label>
+    <ul class="current">
+     <li class="toctree-l3">
+      <a class="reference internal" href="generated/numpy.testing.assert_allclose.html">
+       numpy.testing.assert_allclose
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="generated/numpy.testing.assert_array_almost_equal_nulp.html">
+       numpy.testing.assert_array_almost_equal_nulp
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="generated/numpy.testing.assert_array_max_ulp.html">
+       numpy.testing.assert_array_max_ulp
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="generated/numpy.testing.assert_array_equal.html">
+       numpy.testing.assert_array_equal
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="generated/numpy.testing.assert_array_less.html">
+       numpy.testing.assert_array_less
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="generated/numpy.testing.assert_equal.html">
+       numpy.testing.assert_equal
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="generated/numpy.testing.assert_raises.html">
+       numpy.testing.assert_raises
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="generated/numpy.testing.assert_raises_regex.html">
+       numpy.testing.assert_raises_regex
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="generated/numpy.testing.assert_warns.html">
+       numpy.testing.assert_warns
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="generated/numpy.testing.assert_no_warnings.html">
+       numpy.testing.assert_no_warnings
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="generated/numpy.testing.assert_no_gc_cycles.html">
+       numpy.testing.assert_no_gc_cycles
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="generated/numpy.testing.assert_string_equal.html">
+       numpy.testing.assert_string_equal
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="generated/numpy.testing.assert_.html">
+       numpy.testing.assert_
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="generated/numpy.testing.assert_almost_equal.html">
+       numpy.testing.assert_almost_equal
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="generated/numpy.testing.assert_approx_equal.html">
+       numpy.testing.assert_approx_equal
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="generated/numpy.testing.assert_array_almost_equal.html">
+       numpy.testing.assert_array_almost_equal
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="generated/numpy.testing.print_assert_equal.html">
+       numpy.testing.print_assert_equal
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="generated/numpy.testing.dec.deprecated.html">
+       numpy.testing.dec.deprecated
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="generated/numpy.testing.dec.knownfailureif.html">
+       numpy.testing.dec.knownfailureif
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="generated/numpy.testing.dec.setastest.html">
+       numpy.testing.dec.setastest
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="generated/numpy.testing.dec.skipif.html">
+       numpy.testing.dec.skipif
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="generated/numpy.testing.dec.slow.html">
+       numpy.testing.dec.slow
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="generated/numpy.testing.decorate_methods.html">
+       numpy.testing.decorate_methods
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="generated/numpy.testing.Tester.html">
+       numpy.testing.Tester
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="generated/numpy.testing.clear_and_catch_warnings.html">
+       numpy.testing.clear_and_catch_warnings
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="generated/numpy.testing.measure.html">
+       numpy.testing.measure
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="generated/numpy.testing.run_module_suite.html">
+       numpy.testing.run_module_suite
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="generated/numpy.testing.rundocs.html">
+       numpy.testing.rundocs
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="generated/numpy.testing.suppress_warnings.html">
+       numpy.testing.suppress_warnings
+      </a>
+     </li>
+     <li class="toctree-l3 current active">
+      <a class="current reference internal" href="#">
+       Testing Guidelines
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="routines.window.html">
+     Window functions
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="typing.html">
+   Typing (
+   <code class="xref py py-mod docutils literal notranslate">
+    <span class="pre">
+     numpy.typing
+    </span>
+   </code>
+   )
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="global_state.html">
+   Global State
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="distutils.html">
+   Packaging (
+   <code class="xref py py-mod docutils literal notranslate">
+    <span class="pre">
+     numpy.distutils
+    </span>
+   </code>
+   )
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="distutils_guide.html">
+   NumPy Distutils - Users Guide
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="distutils_status_migration.html">
+   Status of
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     numpy.distutils
+    </span>
+   </code>
+   and migration advice
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="c-api/index.html">
+   NumPy C-API
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="simd/index.html">
+   CPU/SIMD Optimizations
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="security.html">
+   NumPy security
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="swig.html">
+   NumPy and SWIG
+  </a>
+ </li>
+</ul>
+
+  </div>
+</nav>
+  </div>
+  <div class="sidebar-end-items">
+  </div>
+</div>
+
+
+          
+
+
+<div class="bd-sidebar-secondary d-none d-xl-block col-xl-2 bd-toc">
+  
+    
+    <div class="toc-item">
+      
+<div class="tocsection onthispage mt-5 pt-1 pb-3">
+    <i class="fas fa-list"></i> On this page
+</div>
+
+<nav id="bd-toc-nav">
+    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#introduction">
+   Introduction
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#testing-numpy">
+   Testing NumPy
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#running-tests-from-inside-python">
+     Running tests from inside Python
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#running-tests-from-the-command-line">
+     Running tests from the command line
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#other-methods-of-running-tests">
+     Other methods of running tests
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#writing-your-own-tests">
+   Writing your own tests
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#using-c-code-in-tests">
+     Using C code in tests
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#numpy.testing.extbuild.build_and_import_extension">
+       <code class="docutils literal notranslate">
+        <span class="pre">
+         build_and_import_extension
+        </span>
+       </code>
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#labeling-tests">
+     Labeling tests
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#easier-setup-and-teardown-functions-methods">
+     Easier setup and teardown functions / methods
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#parametric-tests">
+     Parametric tests
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#doctests">
+     Doctests
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#tests">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       tests/
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#init-py-and-setup-py">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       __init__.py
+      </span>
+     </code>
+     and
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       setup.py
+      </span>
+     </code>
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#tips-tricks">
+   Tips &amp; Tricks
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#creating-many-similar-tests">
+     Creating many similar tests
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#known-failures-skipping-tests">
+     Known failures &amp; skipping tests
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#tests-on-random-data">
+     Tests on random data
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#documentation-for-numpy-test">
+     Documentation for
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       numpy.test
+      </span>
+     </code>
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#numpy.test">
+       <code class="docutils literal notranslate">
+        <span class="pre">
+         test
+        </span>
+       </code>
+      </a>
+     </li>
+    </ul>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+</nav>
+    </div>
+    
+    <div class="toc-item">
+      
+    </div>
+    
+  
+</div>
+
+
+          
+          
+          <div class="bd-content col-12 col-md-9 col-xl-7">
+              
+              <article class="bd-article" role="main">
+                
+  <section id="testing-guidelines">
+<span id="id1"></span><h1>Testing Guidelines<a class="headerlink" href="#testing-guidelines" title="Permalink to this heading">#</a></h1>
+<section id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading">#</a></h2>
+<p>Until the 1.15 release, NumPy used the <a class="reference external" href="https://nose.readthedocs.io/en/latest/">nose</a> testing framework, it now uses
+the <a class="reference external" href="https://pytest.readthedocs.io">pytest</a> framework. The older framework is still maintained in order to
+support downstream projects that use the old numpy framework, but all tests
+for NumPy should use pytest.</p>
+<p>Our goal is that every module and package in NumPy
+should have a thorough set of unit
+tests. These tests should exercise the full functionality of a given
+routine as well as its robustness to erroneous or unexpected input
+arguments. Well-designed tests with good coverage make
+an enormous difference to the ease of refactoring. Whenever a new bug
+is found in a routine, you should write a new test for that specific
+case and add it to the test suite to prevent that bug from creeping
+back in unnoticed.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>SciPy uses the testing framework from <a class="reference internal" href="routines.testing.html#module-numpy.testing" title="numpy.testing"><code class="xref py py-mod docutils literal notranslate"><span class="pre">numpy.testing</span></code></a>,
+so all of the NumPy examples shown below are also applicable to SciPy</p>
+</div>
+</section>
+<section id="testing-numpy">
+<h2>Testing NumPy<a class="headerlink" href="#testing-numpy" title="Permalink to this heading">#</a></h2>
+<p>NumPy can be tested in a number of ways, choose any way you feel comfortable.</p>
+<section id="running-tests-from-inside-python">
+<h3>Running tests from inside Python<a class="headerlink" href="#running-tests-from-inside-python" title="Permalink to this heading">#</a></h3>
+<p>You can test an installed NumPy by <a class="reference internal" href="#numpy.test" title="numpy.test"><code class="xref py py-obj docutils literal notranslate"><span class="pre">numpy.test</span></code></a>, for example,
+To run NumPy’s full test suite, use the following:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">numpy</span><span class="o">.</span><span class="n">test</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;slow&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The test method may take two or more arguments; the first <code class="docutils literal notranslate"><span class="pre">label</span></code> is a
+string specifying what should be tested and the second <code class="docutils literal notranslate"><span class="pre">verbose</span></code> is an
+integer giving the level of output verbosity. See the docstring
+<a class="reference internal" href="#numpy.test" title="numpy.test"><code class="xref py py-obj docutils literal notranslate"><span class="pre">numpy.test</span></code></a>
+for details. The default value for <code class="docutils literal notranslate"><span class="pre">label</span></code> is ‘fast’ - which
+will run the standard tests.  The string ‘full’ will run the full battery
+of tests, including those identified as being slow to run. If <code class="docutils literal notranslate"><span class="pre">verbose</span></code>
+is 1 or less, the tests will just show information messages about the tests
+that are run; but if it is greater than 1, then the tests will also provide
+warnings on missing tests. So if you want to run every test and get
+messages about which modules don’t have tests:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">numpy</span><span class="o">.</span><span class="n">test</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;full&#39;</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>  <span class="c1"># or numpy.test(&#39;full&#39;, 2)</span>
+</pre></div>
+</div>
+<p>Finally, if you are only interested in testing a subset of NumPy, for
+example, the <code class="docutils literal notranslate"><span class="pre">core</span></code> module, use the following:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">numpy</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">test</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="running-tests-from-the-command-line">
+<h3>Running tests from the command line<a class="headerlink" href="#running-tests-from-the-command-line" title="Permalink to this heading">#</a></h3>
+<p>If you want to build NumPy in order to work on NumPy itself, use
+<code class="docutils literal notranslate"><span class="pre">runtests.py</span></code>.To run NumPy’s full test suite:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ python runtests.py
+</pre></div>
+</div>
+<p>Testing a subset of NumPy:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$python runtests.py -t numpy/core/tests
+</pre></div>
+</div>
+<p>For detailed info on testing, see <a class="reference internal" href="../dev/development_environment.html#testing-builds"><span class="std std-ref">Testing builds</span></a></p>
+</section>
+<section id="other-methods-of-running-tests">
+<h3>Other methods of running tests<a class="headerlink" href="#other-methods-of-running-tests" title="Permalink to this heading">#</a></h3>
+<p>Run tests using your favourite IDE such as <a class="reference external" href="https://code.visualstudio.com/docs/python/testing#_enable-a-test-framework">vscode</a> or <a class="reference external" href="https://www.jetbrains.com/help/pycharm/testing-your-first-python-application.html">pycharm</a></p>
+</section>
+</section>
+<section id="writing-your-own-tests">
+<h2>Writing your own tests<a class="headerlink" href="#writing-your-own-tests" title="Permalink to this heading">#</a></h2>
+<p>If you are writing a package that you’d like to become part of NumPy,
+please write the tests as you develop the package.
+Every Python module, extension module, or subpackage in the NumPy
+package directory should have a corresponding <code class="docutils literal notranslate"><span class="pre">test_&lt;name&gt;.py</span></code> file.
+Pytest examines these files for test methods (named <code class="docutils literal notranslate"><span class="pre">test*</span></code>) and test
+classes (named <code class="docutils literal notranslate"><span class="pre">Test*</span></code>).</p>
+<p>Suppose you have a NumPy module <code class="docutils literal notranslate"><span class="pre">numpy/xxx/yyy.py</span></code> containing a
+function <code class="docutils literal notranslate"><span class="pre">zzz()</span></code>.  To test this function you would create a test
+module called <code class="docutils literal notranslate"><span class="pre">test_yyy.py</span></code>.  If you only need to test one aspect of
+<code class="docutils literal notranslate"><span class="pre">zzz</span></code>, you can simply add a test function:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">test_zzz</span><span class="p">():</span>
+    <span class="k">assert</span> <span class="n">zzz</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;Hello from zzz&#39;</span>
+</pre></div>
+</div>
+<p>More often, we need to group a number of tests together, so we create
+a test class:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pytest</span>
+
+<span class="c1"># import xxx symbols</span>
+<span class="kn">from</span> <span class="nn">numpy.xxx.yyy</span> <span class="kn">import</span> <span class="n">zzz</span>
+<span class="kn">import</span> <span class="nn">pytest</span>
+
+<span class="k">class</span> <span class="nc">TestZzz</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">test_simple</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">assert</span> <span class="n">zzz</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;Hello from zzz&#39;</span>
+
+    <span class="k">def</span> <span class="nf">test_invalid_parameter</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="n">match</span><span class="o">=</span><span class="s1">&#39;.*some matching regex.*&#39;</span><span class="p">):</span>
+            <span class="o">...</span>
+</pre></div>
+</div>
+<p>Within these test methods, <code class="docutils literal notranslate"><span class="pre">assert</span></code> and related functions are used to test
+whether a certain assumption is valid. If the assertion fails, the test fails.
+<code class="docutils literal notranslate"><span class="pre">pytest</span></code> internally rewrites the <code class="docutils literal notranslate"><span class="pre">assert</span></code> statement to give informative
+output when it fails, so should be preferred over the legacy variant
+<code class="docutils literal notranslate"><span class="pre">numpy.testing.assert_</span></code>. Whereas plain <code class="docutils literal notranslate"><span class="pre">assert</span></code> statements are ignored
+when running Python in optimized mode with <code class="docutils literal notranslate"><span class="pre">-O</span></code>, this is not an issue when
+running tests with pytest.</p>
+<p>Similarly, the pytest functions <a class="reference external" href="https://docs.pytest.org/en/stable/reference/reference.html#pytest.raises" title="(in pytest v7.2.0)"><code class="xref py py-func docutils literal notranslate"><span class="pre">pytest.raises</span></code></a> and <a class="reference external" href="https://docs.pytest.org/en/stable/reference/reference.html#pytest.warns" title="(in pytest v7.2.0)"><code class="xref py py-func docutils literal notranslate"><span class="pre">pytest.warns</span></code></a>
+should be preferred over their legacy counterparts
+<a class="reference internal" href="generated/numpy.testing.assert_raises.html#numpy.testing.assert_raises" title="numpy.testing.assert_raises"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.testing.assert_raises</span></code></a> and <a class="reference internal" href="generated/numpy.testing.assert_warns.html#numpy.testing.assert_warns" title="numpy.testing.assert_warns"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.testing.assert_warns</span></code></a>,
+since the pytest variants are more broadly used and allow more explicit
+targeting of warnings and errors when used with the <code class="docutils literal notranslate"><span class="pre">match</span></code> regex.</p>
+<p>Note that <code class="docutils literal notranslate"><span class="pre">test_</span></code> functions or methods should not have a docstring, because
+that makes it hard to identify the test from the output of running the test
+suite with <code class="docutils literal notranslate"><span class="pre">verbose=2</span></code> (or similar verbosity setting).  Use plain comments
+(<code class="docutils literal notranslate"><span class="pre">#</span></code>) if necessary.</p>
+<p>Also since much of NumPy is legacy code that was
+originally written without unit tests, there are still several modules
+that don’t have tests yet. Please feel free to choose one of these
+modules and develop tests for it.</p>
+<section id="using-c-code-in-tests">
+<h3>Using C code in tests<a class="headerlink" href="#using-c-code-in-tests" title="Permalink to this heading">#</a></h3>
+<p>NumPy exposes a rich <a class="reference internal" href="c-api/index.html#c-api"><span class="std std-ref">C-API</span></a> . These are tested using c-extension
+modules written “as-if” they know nothing about the internals of NumPy, rather
+using the official C-API interfaces only. Examples of such modules are tests
+for a user-defined <code class="docutils literal notranslate"><span class="pre">rational</span></code> dtype in <code class="docutils literal notranslate"><span class="pre">_rational_tests</span></code> or the ufunc
+machinery tests in <code class="docutils literal notranslate"><span class="pre">_umath_tests</span></code> which are part of the binary distribution.
+Starting from version 1.21, you can also write snippets of C code in tests that
+will be compiled locally into c-extension modules and loaded into python.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="numpy.testing.extbuild.build_and_import_extension">
+<span class="sig-prename descclassname"><span class="pre">numpy.testing.extbuild.</span></span><span class="sig-name descname"><span class="pre">build_and_import_extension</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">modname</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">functions</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prologue</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">build_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_dirs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">more_init</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#numpy.testing.extbuild.build_and_import_extension" title="Permalink to this definition">#</a></dt>
+<dd><p>Build and imports a c-extension module <em class="xref py py-obj">modname</em> from a list of function
+fragments <em class="xref py py-obj">functions</em>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>functions</strong><span class="classifier">list of fragments</span></dt><dd><p>Each fragment is a sequence of func_name, calling convention, snippet.</p>
+</dd>
+<dt><strong>prologue</strong><span class="classifier">string</span></dt><dd><p>Code to precede the rest, usually extra <code class="docutils literal notranslate"><span class="pre">#include</span></code> or <code class="docutils literal notranslate"><span class="pre">#define</span></code>
+macros.</p>
+</dd>
+<dt><strong>build_dir</strong><span class="classifier">pathlib.Path</span></dt><dd><p>Where to build the module, usually a temporary directory</p>
+</dd>
+<dt><strong>include_dirs</strong><span class="classifier">list</span></dt><dd><p>Extra directories to find include files when compiling</p>
+</dd>
+<dt><strong>more_init</strong><span class="classifier">string</span></dt><dd><p>Code to appear in the module PyMODINIT_FUNC</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>out: module</dt><dd><p>The module will have been loaded and is ready for use</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">functions</span> <span class="o">=</span> <span class="p">[(</span><span class="s2">&quot;test_bytes&quot;</span><span class="p">,</span> <span class="s2">&quot;METH_O&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="go">    if ( !PyBytesCheck(args)) {</span>
+<span class="go">        Py_RETURN_FALSE;</span>
+<span class="go">    }</span>
+<span class="go">    Py_RETURN_TRUE;</span>
+<span class="go">&quot;&quot;&quot;)]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mod</span> <span class="o">=</span> <span class="n">build_and_import_extension</span><span class="p">(</span><span class="s2">&quot;testme&quot;</span><span class="p">,</span> <span class="n">functions</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="ow">not</span> <span class="n">mod</span><span class="o">.</span><span class="n">test_bytes</span><span class="p">(</span><span class="sa">u</span><span class="s1">&#39;abc&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="n">mod</span><span class="o">.</span><span class="n">test_bytes</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;abc&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</section>
+<section id="labeling-tests">
+<h3>Labeling tests<a class="headerlink" href="#labeling-tests" title="Permalink to this heading">#</a></h3>
+<p>Unlabeled tests like the ones above are run in the default
+<code class="docutils literal notranslate"><span class="pre">numpy.test()</span></code> run.  If you want to label your test as slow - and
+therefore reserved for a full <code class="docutils literal notranslate"><span class="pre">numpy.test(label='full')</span></code> run, you
+can label it with <code class="docutils literal notranslate"><span class="pre">pytest.mark.slow</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pytest</span>
+
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">slow</span>
+<span class="k">def</span> <span class="nf">test_big</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Big, slow test&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Similarly for methods:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">test_zzz</span><span class="p">:</span>
+    <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">slow</span>
+    <span class="k">def</span> <span class="nf">test_simple</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">assert_</span><span class="p">(</span><span class="n">zzz</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;Hello from zzz&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="easier-setup-and-teardown-functions-methods">
+<h3>Easier setup and teardown functions / methods<a class="headerlink" href="#easier-setup-and-teardown-functions-methods" title="Permalink to this heading">#</a></h3>
+<p>Testing looks for module-level or class method-level setup and teardown
+functions by name; thus:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">setup_module</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Module-level setup&quot;&quot;&quot;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;doing setup&#39;</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">teardown_module</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Module-level teardown&quot;&quot;&quot;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;doing teardown&#39;</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">TestMe</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">setup_method</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Class-level setup&quot;&quot;&quot;</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;doing setup&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">teardown_method</span><span class="p">():</span>
+        <span class="sd">&quot;&quot;&quot;Class-level teardown&quot;&quot;&quot;</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;doing teardown&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Setup and teardown functions to functions and methods are known as “fixtures”,
+and they should be used sparingly.
+<code class="docutils literal notranslate"><span class="pre">pytest</span></code> supports more general fixture at various scopes which may be used
+automatically via special arguments.  For example,  the special argument name
+<code class="docutils literal notranslate"><span class="pre">tmpdir</span></code> is used in test to create a temporary directory.</p>
+</section>
+<section id="parametric-tests">
+<h3>Parametric tests<a class="headerlink" href="#parametric-tests" title="Permalink to this heading">#</a></h3>
+<p>One very nice feature of testing is allowing easy testing across a range
+of parameters - a nasty problem for standard unit tests. Use the
+<code class="docutils literal notranslate"><span class="pre">pytest.mark.parametrize</span></code> decorator.</p>
+</section>
+<section id="doctests">
+<h3>Doctests<a class="headerlink" href="#doctests" title="Permalink to this heading">#</a></h3>
+<p>Doctests are a convenient way of documenting the behavior of a function
+and allowing that behavior to be tested at the same time.  The output
+of an interactive Python session can be included in the docstring of a
+function, and the test framework can run the example and compare the
+actual output to the expected output.</p>
+<p>The doctests can be run by adding the <code class="docutils literal notranslate"><span class="pre">doctests</span></code> argument to the
+<code class="docutils literal notranslate"><span class="pre">test()</span></code> call; for example, to run all tests (including doctests)
+for numpy.lib:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">lib</span><span class="o">.</span><span class="n">test</span><span class="p">(</span><span class="n">doctests</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The doctests are run as if they are in a fresh Python instance which
+has executed <code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">numpy</span> <span class="pre">as</span> <span class="pre">np</span></code>. Tests that are part of a NumPy
+subpackage will have that subpackage already imported. E.g. for a test
+in <code class="docutils literal notranslate"><span class="pre">numpy/linalg/tests/</span></code>, the namespace will be created such that
+<code class="docutils literal notranslate"><span class="pre">from</span> <span class="pre">numpy</span> <span class="pre">import</span> <span class="pre">linalg</span></code> has already executed.</p>
+</section>
+<section id="tests">
+<h3><code class="docutils literal notranslate"><span class="pre">tests/</span></code><a class="headerlink" href="#tests" title="Permalink to this heading">#</a></h3>
+<p>Rather than keeping the code and the tests in the same directory, we
+put all the tests for a given subpackage in a <code class="docutils literal notranslate"><span class="pre">tests/</span></code>
+subdirectory. For our example, if it doesn’t already exist you will
+need to create a <code class="docutils literal notranslate"><span class="pre">tests/</span></code> directory in <code class="docutils literal notranslate"><span class="pre">numpy/xxx/</span></code>. So the path
+for <code class="docutils literal notranslate"><span class="pre">test_yyy.py</span></code> is <code class="docutils literal notranslate"><span class="pre">numpy/xxx/tests/test_yyy.py</span></code>.</p>
+<p>Once the <code class="docutils literal notranslate"><span class="pre">numpy/xxx/tests/test_yyy.py</span></code> is written, its possible to
+run the tests by going to the <code class="docutils literal notranslate"><span class="pre">tests/</span></code> directory and typing:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">test_yyy</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+<p>Or if you add <code class="docutils literal notranslate"><span class="pre">numpy/xxx/tests/</span></code> to the Python path, you could run
+the tests interactively in the interpreter like this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">test_yyy</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">test_yyy</span><span class="o">.</span><span class="n">test</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="init-py-and-setup-py">
+<h3><code class="docutils literal notranslate"><span class="pre">__init__.py</span></code> and <code class="docutils literal notranslate"><span class="pre">setup.py</span></code><a class="headerlink" href="#init-py-and-setup-py" title="Permalink to this heading">#</a></h3>
+<p>Usually, however, adding the <code class="docutils literal notranslate"><span class="pre">tests/</span></code> directory to the python path
+isn’t desirable. Instead it would better to invoke the test straight
+from the module <code class="docutils literal notranslate"><span class="pre">xxx</span></code>. To this end, simply place the following lines
+at the end of your package’s <code class="docutils literal notranslate"><span class="pre">__init__.py</span></code> file:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">...</span>
+<span class="k">def</span> <span class="nf">test</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">verbosity</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+    <span class="kn">from</span> <span class="nn">numpy.testing</span> <span class="kn">import</span> <span class="n">Tester</span>
+    <span class="k">return</span> <span class="n">Tester</span><span class="p">()</span><span class="o">.</span><span class="n">test</span><span class="p">(</span><span class="n">level</span><span class="p">,</span> <span class="n">verbosity</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>You will also need to add the tests directory in the configuration
+section of your setup.py:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">...</span>
+<span class="k">def</span> <span class="nf">configuration</span><span class="p">(</span><span class="n">parent_package</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">top_path</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="o">...</span>
+    <span class="n">config</span><span class="o">.</span><span class="n">add_subpackage</span><span class="p">(</span><span class="s1">&#39;tests&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">config</span>
+<span class="o">...</span>
+</pre></div>
+</div>
+<p>Now you can do the following to test your module:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">numpy</span><span class="o">.</span><span class="n">xxx</span><span class="o">.</span><span class="n">test</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Also, when invoking the entire NumPy test suite, your tests will be
+found and run:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">numpy</span><span class="o">.</span><span class="n">test</span><span class="p">()</span>
+<span class="go"># your tests are included and run automatically!</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="tips-tricks">
+<h2>Tips &amp; Tricks<a class="headerlink" href="#tips-tricks" title="Permalink to this heading">#</a></h2>
+<section id="creating-many-similar-tests">
+<h3>Creating many similar tests<a class="headerlink" href="#creating-many-similar-tests" title="Permalink to this heading">#</a></h3>
+<p>If you have a collection of tests that must be run multiple times with
+minor variations, it can be helpful to create a base class containing
+all the common tests, and then create a subclass for each variation.
+Several examples of this technique exist in NumPy; below are excerpts
+from one in <a class="reference external" href="https://github.com/numpy/numpy/blob/main/numpy/linalg/tests/test_linalg.py">numpy/linalg/tests/test_linalg.py</a>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">LinalgTestCase</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">test_single</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">a</span> <span class="o">=</span> <span class="n">array</span><span class="p">([[</span><span class="mf">1.</span><span class="p">,</span> <span class="mf">2.</span><span class="p">],</span> <span class="p">[</span><span class="mf">3.</span><span class="p">,</span> <span class="mf">4.</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">single</span><span class="p">)</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="n">array</span><span class="p">([</span><span class="mf">2.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">single</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">do</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">test_double</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">a</span> <span class="o">=</span> <span class="n">array</span><span class="p">([[</span><span class="mf">1.</span><span class="p">,</span> <span class="mf">2.</span><span class="p">],</span> <span class="p">[</span><span class="mf">3.</span><span class="p">,</span> <span class="mf">4.</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">double</span><span class="p">)</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="n">array</span><span class="p">([</span><span class="mf">2.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">double</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">do</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+
+    <span class="o">...</span>
+
+<span class="k">class</span> <span class="nc">TestSolve</span><span class="p">(</span><span class="n">LinalgTestCase</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">do</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">linalg</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+        <span class="n">assert_allclose</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">dot</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">x</span><span class="p">))</span>
+        <span class="k">assert</span> <span class="n">imply</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">matrix</span><span class="p">),</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">matrix</span><span class="p">))</span>
+
+<span class="k">class</span> <span class="nc">TestInv</span><span class="p">(</span><span class="n">LinalgTestCase</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">do</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+        <span class="n">a_inv</span> <span class="o">=</span> <span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+        <span class="n">assert_allclose</span><span class="p">(</span><span class="n">dot</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">a_inv</span><span class="p">),</span> <span class="n">identity</span><span class="p">(</span><span class="n">asarray</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+        <span class="k">assert</span> <span class="n">imply</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">matrix</span><span class="p">),</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">a_inv</span><span class="p">,</span> <span class="n">matrix</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>In this case, we wanted to test solving a linear algebra problem using
+matrices of several data types, using <code class="docutils literal notranslate"><span class="pre">linalg.solve</span></code> and
+<code class="docutils literal notranslate"><span class="pre">linalg.inv</span></code>.  The common test cases (for single-precision,
+double-precision, etc. matrices) are collected in <code class="docutils literal notranslate"><span class="pre">LinalgTestCase</span></code>.</p>
+</section>
+<section id="known-failures-skipping-tests">
+<h3>Known failures &amp; skipping tests<a class="headerlink" href="#known-failures-skipping-tests" title="Permalink to this heading">#</a></h3>
+<p>Sometimes you might want to skip a test or mark it as a known failure,
+such as when the test suite is being written before the code it’s
+meant to test, or if a test only fails on a particular architecture.</p>
+<p>To skip a test, simply use <code class="docutils literal notranslate"><span class="pre">skipif</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pytest</span>
+
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">skipif</span><span class="p">(</span><span class="n">SkipMyTest</span><span class="p">,</span> <span class="n">reason</span><span class="o">=</span><span class="s2">&quot;Skipping this test because...&quot;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">test_something</span><span class="p">(</span><span class="n">foo</span><span class="p">):</span>
+    <span class="o">...</span>
+</pre></div>
+</div>
+<p>The test is marked as skipped if <code class="docutils literal notranslate"><span class="pre">SkipMyTest</span></code> evaluates to nonzero,
+and the message in verbose test output is the second argument given to
+<code class="docutils literal notranslate"><span class="pre">skipif</span></code>.  Similarly, a test can be marked as a known failure by
+using <code class="docutils literal notranslate"><span class="pre">xfail</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pytest</span>
+
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">xfail</span><span class="p">(</span><span class="n">MyTestFails</span><span class="p">,</span> <span class="n">reason</span><span class="o">=</span><span class="s2">&quot;This test is known to fail because...&quot;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">test_something_else</span><span class="p">(</span><span class="n">foo</span><span class="p">):</span>
+    <span class="o">...</span>
+</pre></div>
+</div>
+<p>Of course, a test can be unconditionally skipped or marked as a known
+failure by using <code class="docutils literal notranslate"><span class="pre">skip</span></code> or <code class="docutils literal notranslate"><span class="pre">xfail</span></code> without argument, respectively.</p>
+<p>A total of the number of skipped and known failing tests is displayed
+at the end of the test run.  Skipped tests are marked as <code class="docutils literal notranslate"><span class="pre">'S'</span></code> in
+the test results (or <code class="docutils literal notranslate"><span class="pre">'SKIPPED'</span></code> for <code class="docutils literal notranslate"><span class="pre">verbose</span> <span class="pre">&gt;</span> <span class="pre">1</span></code>), and known
+failing tests are marked as <code class="docutils literal notranslate"><span class="pre">'x'</span></code> (or <code class="docutils literal notranslate"><span class="pre">'XFAIL'</span></code> if <code class="docutils literal notranslate"><span class="pre">verbose</span> <span class="pre">&gt;</span>
+<span class="pre">1</span></code>).</p>
+</section>
+<section id="tests-on-random-data">
+<h3>Tests on random data<a class="headerlink" href="#tests-on-random-data" title="Permalink to this heading">#</a></h3>
+<p>Tests on random data are good, but since test failures are meant to expose
+new bugs or regressions, a test that passes most of the time but fails
+occasionally with no code changes is not helpful. Make the random data
+deterministic by setting the random number seed before generating it.  Use
+either Python’s <code class="docutils literal notranslate"><span class="pre">random.seed(some_number)</span></code> or NumPy’s
+<code class="docutils literal notranslate"><span class="pre">numpy.random.seed(some_number)</span></code>, depending on the source of random numbers.</p>
+<p>Alternatively, you can use <a class="reference external" href="https://hypothesis.readthedocs.io/en/latest/">Hypothesis</a> to generate arbitrary data.
+Hypothesis manages both Python’s and Numpy’s random seeds for you, and
+provides a very concise and powerful way to describe data (including
+<code class="docutils literal notranslate"><span class="pre">hypothesis.extra.numpy</span></code>, e.g. for a set of mutually-broadcastable shapes).</p>
+<p>The advantages over random generation include tools to replay and share
+failures without requiring a fixed seed, reporting <em>minimal</em> examples for
+each failure, and better-than-naive-random techniques for triggering bugs.</p>
+</section>
+<section id="documentation-for-numpy-test">
+<h3>Documentation for <code class="docutils literal notranslate"><span class="pre">numpy.test</span></code><a class="headerlink" href="#documentation-for-numpy-test" title="Permalink to this heading">#</a></h3>
+<dl class="py function">
+<dt class="sig sig-object py" id="numpy.test">
+<span class="sig-prename descclassname"><span class="pre">numpy.</span></span><span class="sig-name descname"><span class="pre">test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'fast'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extra_argv</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">doctests</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coverage</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">durations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tests</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#numpy.test" title="Permalink to this definition">#</a></dt>
+<dd><p>Pytest test runner.</p>
+<p>A test function is typically added to a package’s __init__.py like so:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">numpy._pytesttester</span> <span class="kn">import</span> <span class="n">PytestTester</span>
+<span class="n">test</span> <span class="o">=</span> <span class="n">PytestTester</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span><span class="o">.</span><span class="n">test</span>
+<span class="k">del</span> <span class="n">PytestTester</span>
+</pre></div>
+</div>
+<p>Calling this test function finds and runs all tests associated with the
+module and all its sub-modules.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>module_name</strong><span class="classifier">module name</span></dt><dd><p>The name of the module to test.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>Unlike the previous <code class="docutils literal notranslate"><span class="pre">nose</span></code>-based implementation, this class is not
+publicly exposed as it performs some <code class="docutils literal notranslate"><span class="pre">numpy</span></code>-specific warning
+suppression.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attributes<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>module_name</strong><span class="classifier">str</span></dt><dd><p>Full path to the package to test.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+</section>
+
+
+              </article>
+              
+
+              
+              <footer class="bd-footer-article">
+                  <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+  <a class='left-prev' id="prev-link" href="generated/numpy.testing.suppress_warnings.record.html" title="previous page">
+      <i class="fas fa-angle-left"></i>
+      <div class="prev-next-info">
+          <p class="prev-next-subtitle">previous</p>
+          <p class="prev-next-title">numpy.testing.suppress_warnings.record</p>
+      </div>
+  </a>
+  <a class='right-next' id="next-link" href="routines.window.html" title="next page">
+  <div class="prev-next-info">
+      <p class="prev-next-subtitle">next</p>
+      <p class="prev-next-title">Window functions</p>
+  </div>
+  <i class="fas fa-angle-right"></i>
+  </a>
+</div>
+              </footer>
+              
+          </div>
+          
+      </div>
+    </div>
+
+  
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695"></script>
+
+<footer class="bd-footer"><div class="bd-footer__inner container">
+  
+  <div class="footer-item">
+    <p class="copyright">
+    &copy; Copyright 2008-2022, NumPy Developers.<br>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    <p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.3.0.<br>
+</p>
+  </div>
+  
+</div>
+</footer>
+  </body>
+</html>
