@@ -1,0 +1,882 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-theme="light">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>numpy.record &#8212; NumPy v1.25 Manual</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "light";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/plot_directive.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/numpy.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    <script src="../../_static/design-tabs.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'reference/generated/numpy.record';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://numpy.org/doc/_static/versions.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '1.25';
+        </script>
+    <link rel="icon" href="../../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="numpy.record.all" href="numpy.record.all.html" />
+    <link rel="prev" title="numpy.recarray.view" href="numpy.recarray.view.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="light">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
+  </label>
+  
+  <div class="navbar-header-items__start">
+    
+      <div class="navbar-item">
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+    
+    
+    
+    <img src="../../_static/numpylogo.svg" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="../../_static/numpylogo_dark.svg" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+    
+  </div>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../user/index.html">
+                        User Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="../index.html">
+                        API reference
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../dev/index.html">
+                        Development
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../release.html">
+                        Release notes
+                      </a>
+                    </li>
+                
+
+                <li class="nav-item">
+                  <a class="nav-link nav-external" href="https://numpy.org/numpy-tutorials/">
+                    Learn
+                  </a>
+                </li>
+                
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button type="button" class="version-switcher__button btn btn-sm navbar-btn dropdown-toggle" data-bs-toggle="dropdown">
+      1.25  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div class="version-switcher__menu dropdown-menu list-group-flush py-0">
+    <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/numpy/numpy" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://twitter.com/numpy_team" title="Twitter" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-twitter"></i></span>
+            <label class="sr-only">Twitter</label></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+    </div>
+  
+
+  
+    <label class="sidebar-toggle secondary-toggle" for="__secondary">
+      <span class="fa-solid fa-outdent"></span>
+    </label>
+  
+</div>
+
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../user/index.html">
+                        User Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="../index.html">
+                        API reference
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../dev/index.html">
+                        Development
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../release.html">
+                        Release notes
+                      </a>
+                    </li>
+                
+
+                <li class="nav-item">
+                  <a class="nav-link nav-external" href="https://numpy.org/numpy-tutorials/">
+                    Learn
+                  </a>
+                </li>
+                
+  </ul>
+</nav></div>
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button type="button" class="version-switcher__button btn btn-sm navbar-btn dropdown-toggle" data-bs-toggle="dropdown">
+      1.25  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div class="version-switcher__menu dropdown-menu list-group-flush py-0">
+    <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/numpy/numpy" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://twitter.com/numpy_team" title="Twitter" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-twitter"></i></span>
+            <label class="sr-only">Twitter</label></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item"><nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../arrays.html">Array objects</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../arrays.ndarray.html">The N-dimensional array (<code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../arrays.scalars.html">Scalars</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../arrays.dtypes.html">Data type objects (<code class="xref py py-class docutils literal notranslate"><span class="pre">dtype</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../arrays.indexing.html">Indexing routines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../arrays.nditer.html">Iterating over arrays</a></li>
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="../arrays.classes.html">Standard array subclasses</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="numpy.matrix.T.html">numpy.matrix.T</a></li>
+<li class="toctree-l3"><a class="reference internal" href="numpy.matrix.H.html">numpy.matrix.H</a></li>
+<li class="toctree-l3"><a class="reference internal" href="numpy.matrix.I.html">numpy.matrix.I</a></li>
+<li class="toctree-l3"><a class="reference internal" href="numpy.matrix.A.html">numpy.matrix.A</a></li>
+<li class="toctree-l3"><a class="reference internal" href="numpy.matrix.html">numpy.matrix</a></li>
+<li class="toctree-l3"><a class="reference internal" href="numpy.asmatrix.html">numpy.asmatrix</a></li>
+<li class="toctree-l3"><a class="reference internal" href="numpy.bmat.html">numpy.bmat</a></li>
+<li class="toctree-l3"><a class="reference internal" href="numpy.memmap.html">numpy.memmap</a></li>
+<li class="toctree-l3"><a class="reference internal" href="numpy.memmap.flush.html">numpy.memmap.flush</a></li>
+<li class="toctree-l3"><a class="reference internal" href="numpy.chararray.html">numpy.chararray</a></li>
+<li class="toctree-l3"><a class="reference internal" href="numpy.core.defchararray.array.html">numpy.core.defchararray.array</a></li>
+<li class="toctree-l3"><a class="reference internal" href="numpy.recarray.html">numpy.recarray</a></li>
+<li class="toctree-l3 current active has-children"><a class="current reference internal" href="#">numpy.record</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="numpy.record.all.html">numpy.record.all</a></li>
+<li class="toctree-l4"><a class="reference internal" href="numpy.record.any.html">numpy.record.any</a></li>
+<li class="toctree-l4"><a class="reference internal" href="numpy.record.argmax.html">numpy.record.argmax</a></li>
+<li class="toctree-l4"><a class="reference internal" href="numpy.record.argmin.html">numpy.record.argmin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="numpy.record.argsort.html">numpy.record.argsort</a></li>
+<li class="toctree-l4"><a class="reference internal" href="numpy.record.astype.html">numpy.record.astype</a></li>
+<li class="toctree-l4"><a class="reference internal" href="numpy.record.byteswap.html">numpy.record.byteswap</a></li>
+<li class="toctree-l4"><a class="reference internal" href="numpy.record.choose.html">numpy.record.choose</a></li>
+<li class="toctree-l4"><a class="reference internal" href="numpy.record.clip.html">numpy.record.clip</a></li>
+<li class="toctree-l4"><a class="reference internal" href="numpy.record.compress.html">numpy.record.compress</a></li>
+<li class="toctree-l4"><a class="reference internal" href="numpy.record.conjugate.html">numpy.record.conjugate</a></li>
+<li class="toctree-l4"><a class="reference internal" href="numpy.record.copy.html">numpy.record.copy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="numpy.record.cumprod.html">numpy.record.cumprod</a></li>
+<li class="toctree-l4"><a class="reference internal" href="numpy.record.cumsum.html">numpy.record.cumsum</a></li>
+<li class="toctree-l4"><a class="reference internal" href="numpy.record.diagonal.html">numpy.record.diagonal</a></li>
+<li class="toctree-l4"><a class="reference internal" href="numpy.record.dump.html">numpy.record.dump</a></li>
+<li class="toctree-l4"><a class="reference internal" href="numpy.record.dumps.html">numpy.record.dumps</a></li>
+<li class="toctree-l4"><a class="reference internal" href="numpy.record.fill.html">numpy.record.fill</a></li>
+<li class="toctree-l4"><a class="reference internal" href="numpy.record.flatten.html">numpy.record.flatten</a></li>
+<li class="toctree-l4"><a class="reference internal" href="numpy.record.getfield.html">numpy.record.getfield</a></li>
+<li class="toctree-l4"><a class="reference internal" href="numpy.record.item.html">numpy.record.item</a></li>
+<li class="toctree-l4"><a class="reference internal" href="numpy.record.itemset.html">numpy.record.itemset</a></li>
+<li class="toctree-l4"><a class="reference internal" href="numpy.record.max.html">numpy.record.max</a></li>
+<li class="toctree-l4"><a class="reference internal" href="numpy.record.mean.html">numpy.record.mean</a></li>
+<li class="toctree-l4"><a class="reference internal" href="numpy.record.min.html">numpy.record.min</a></li>
+<li class="toctree-l4"><a class="reference internal" href="numpy.record.newbyteorder.html">numpy.record.newbyteorder</a></li>
+<li class="toctree-l4"><a class="reference internal" href="numpy.record.nonzero.html">numpy.record.nonzero</a></li>
+<li class="toctree-l4"><a class="reference internal" href="numpy.record.pprint.html">numpy.record.pprint</a></li>
+<li class="toctree-l4"><a class="reference internal" href="numpy.record.prod.html">numpy.record.prod</a></li>
+<li class="toctree-l4"><a class="reference internal" href="numpy.record.ptp.html">numpy.record.ptp</a></li>
+<li class="toctree-l4"><a class="reference internal" href="numpy.record.put.html">numpy.record.put</a></li>
+<li class="toctree-l4"><a class="reference internal" href="numpy.record.ravel.html">numpy.record.ravel</a></li>
+<li class="toctree-l4"><a class="reference internal" href="numpy.record.repeat.html">numpy.record.repeat</a></li>
+<li class="toctree-l4"><a class="reference internal" href="numpy.record.reshape.html">numpy.record.reshape</a></li>
+<li class="toctree-l4"><a class="reference internal" href="numpy.record.resize.html">numpy.record.resize</a></li>
+<li class="toctree-l4"><a class="reference internal" href="numpy.record.round.html">numpy.record.round</a></li>
+<li class="toctree-l4"><a class="reference internal" href="numpy.record.searchsorted.html">numpy.record.searchsorted</a></li>
+<li class="toctree-l4"><a class="reference internal" href="numpy.record.setfield.html">numpy.record.setfield</a></li>
+<li class="toctree-l4"><a class="reference internal" href="numpy.record.setflags.html">numpy.record.setflags</a></li>
+<li class="toctree-l4"><a class="reference internal" href="numpy.record.sort.html">numpy.record.sort</a></li>
+<li class="toctree-l4"><a class="reference internal" href="numpy.record.squeeze.html">numpy.record.squeeze</a></li>
+<li class="toctree-l4"><a class="reference internal" href="numpy.record.std.html">numpy.record.std</a></li>
+<li class="toctree-l4"><a class="reference internal" href="numpy.record.sum.html">numpy.record.sum</a></li>
+<li class="toctree-l4"><a class="reference internal" href="numpy.record.swapaxes.html">numpy.record.swapaxes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="numpy.record.take.html">numpy.record.take</a></li>
+<li class="toctree-l4"><a class="reference internal" href="numpy.record.tofile.html">numpy.record.tofile</a></li>
+<li class="toctree-l4"><a class="reference internal" href="numpy.record.tolist.html">numpy.record.tolist</a></li>
+<li class="toctree-l4"><a class="reference internal" href="numpy.record.tostring.html">numpy.record.tostring</a></li>
+<li class="toctree-l4"><a class="reference internal" href="numpy.record.trace.html">numpy.record.trace</a></li>
+<li class="toctree-l4"><a class="reference internal" href="numpy.record.transpose.html">numpy.record.transpose</a></li>
+<li class="toctree-l4"><a class="reference internal" href="numpy.record.var.html">numpy.record.var</a></li>
+<li class="toctree-l4"><a class="reference internal" href="numpy.record.view.html">numpy.record.view</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="numpy.lib.user_array.container.html">numpy.lib.user_array.container</a></li>
+<li class="toctree-l3"><a class="reference internal" href="numpy.ndarray.flat.html">numpy.ndarray.flat</a></li>
+<li class="toctree-l3"><a class="reference internal" href="numpy.ndenumerate.html">numpy.ndenumerate</a></li>
+<li class="toctree-l3"><a class="reference internal" href="numpy.broadcast.html">numpy.broadcast</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../maskedarray.html">Masked arrays</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../arrays.interface.html">The array interface protocol</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../arrays.datetime.html">Datetimes and Timedeltas</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../array_api.html">Array API Standard Compatibility</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../constants.html">Constants</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ufuncs.html">Universal functions (<code class="xref py py-class docutils literal notranslate"><span class="pre">ufunc</span></code>)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../routines.html">Routines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../typing.html">Typing (<code class="xref py py-mod docutils literal notranslate"><span class="pre">numpy.typing</span></code>)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../global_state.html">Global state</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../distutils.html">Packaging (<code class="xref py py-mod docutils literal notranslate"><span class="pre">numpy.distutils</span></code>)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../distutils_guide.html">NumPy distutils - users guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../distutils_status_migration.html">Status of <code class="docutils literal notranslate"><span class="pre">numpy.distutils</span></code> and migration advice</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../c-api/index.html">NumPy C-API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../simd/index.html">CPU/SIMD Optimizations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../security.html">NumPy security</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../swig.html">NumPy and SWIG</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+
+
+<nav aria-label="Breadcrumbs">
+  <ul class="bd-breadcrumbs" role="navigation" aria-label="Breadcrumb">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../index.html" class="nav-link">NumPy reference</a></li>
+    
+    
+    <li class="breadcrumb-item"><i class="fa-solid fa-ellipsis"></i></li>
+    
+    
+    <li class="breadcrumb-item"><a href="../arrays.classes.html" class="nav-link">Standard array subclasses</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">numpy.record</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section id="numpy-record">
+<h1>numpy.record<a class="headerlink" href="#numpy-record" title="Permalink to this heading">#</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="numpy.record">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">numpy.</span></span><span class="sig-name descname"><span class="pre">record</span></span><a class="reference external" href="https://github.com/numpy/numpy/blob/v1.25.0/numpy/core/src/multiarray/scalartypes.c.src"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#numpy.record" title="Permalink to this definition">#</a></dt>
+<dd><p>A data-type scalar that allows field access as attribute lookup.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attributes<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><a class="reference internal" href="numpy.record.T.html#numpy.record.T" title="numpy.record.T"><code class="xref py py-obj docutils literal notranslate"><span class="pre">T</span></code></a></dt><dd><p>Scalar attribute identical to the corresponding array attribute.</p>
+</dd>
+<dt><a class="reference internal" href="numpy.record.base.html#numpy.record.base" title="numpy.record.base"><code class="xref py py-obj docutils literal notranslate"><span class="pre">base</span></code></a></dt><dd><p>base object</p>
+</dd>
+<dt><a class="reference internal" href="numpy.record.data.html#numpy.record.data" title="numpy.record.data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">data</span></code></a></dt><dd><p>Pointer to start of data.</p>
+</dd>
+<dt><a class="reference internal" href="numpy.dtype.html#numpy.dtype" title="numpy.dtype"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dtype</span></code></a></dt><dd><p>dtype object</p>
+</dd>
+<dt><a class="reference internal" href="numpy.record.flags.html#numpy.record.flags" title="numpy.record.flags"><code class="xref py py-obj docutils literal notranslate"><span class="pre">flags</span></code></a></dt><dd><p>integer value of flags</p>
+</dd>
+<dt><a class="reference internal" href="numpy.record.flat.html#numpy.record.flat" title="numpy.record.flat"><code class="xref py py-obj docutils literal notranslate"><span class="pre">flat</span></code></a></dt><dd><p>A 1-D view of the scalar.</p>
+</dd>
+<dt><a class="reference internal" href="numpy.imag.html#numpy.imag" title="numpy.imag"><code class="xref py py-obj docutils literal notranslate"><span class="pre">imag</span></code></a></dt><dd><p>The imaginary part of the scalar.</p>
+</dd>
+<dt><a class="reference internal" href="numpy.record.itemsize.html#numpy.record.itemsize" title="numpy.record.itemsize"><code class="xref py py-obj docutils literal notranslate"><span class="pre">itemsize</span></code></a></dt><dd><p>The length of one element in bytes.</p>
+</dd>
+<dt><a class="reference internal" href="numpy.record.nbytes.html#numpy.record.nbytes" title="numpy.record.nbytes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">nbytes</span></code></a></dt><dd><p>The length of the scalar in bytes.</p>
+</dd>
+<dt><a class="reference internal" href="numpy.record.ndim.html#numpy.record.ndim" title="numpy.record.ndim"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ndim</span></code></a></dt><dd><p>The number of array dimensions.</p>
+</dd>
+<dt><a class="reference internal" href="numpy.real.html#numpy.real" title="numpy.real"><code class="xref py py-obj docutils literal notranslate"><span class="pre">real</span></code></a></dt><dd><p>The real part of the scalar.</p>
+</dd>
+<dt><a class="reference internal" href="numpy.shape.html#numpy.shape" title="numpy.shape"><code class="xref py py-obj docutils literal notranslate"><span class="pre">shape</span></code></a></dt><dd><p>Tuple of array dimensions.</p>
+</dd>
+<dt><a class="reference internal" href="numpy.record.size.html#numpy.record.size" title="numpy.record.size"><code class="xref py py-obj docutils literal notranslate"><span class="pre">size</span></code></a></dt><dd><p>The number of elements in the gentype.</p>
+</dd>
+<dt><a class="reference internal" href="numpy.record.strides.html#numpy.record.strides" title="numpy.record.strides"><code class="xref py py-obj docutils literal notranslate"><span class="pre">strides</span></code></a></dt><dd><p>Tuple of bytes steps in each dimension.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Methods</p>
+<table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="numpy.record.all.html#numpy.record.all" title="numpy.record.all"><code class="xref py py-obj docutils literal notranslate"><span class="pre">all</span></code></a></p></td>
+<td><p>Scalar method identical to the corresponding array attribute.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="numpy.record.any.html#numpy.record.any" title="numpy.record.any"><code class="xref py py-obj docutils literal notranslate"><span class="pre">any</span></code></a></p></td>
+<td><p>Scalar method identical to the corresponding array attribute.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="numpy.record.argmax.html#numpy.record.argmax" title="numpy.record.argmax"><code class="xref py py-obj docutils literal notranslate"><span class="pre">argmax</span></code></a></p></td>
+<td><p>Scalar method identical to the corresponding array attribute.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="numpy.record.argmin.html#numpy.record.argmin" title="numpy.record.argmin"><code class="xref py py-obj docutils literal notranslate"><span class="pre">argmin</span></code></a></p></td>
+<td><p>Scalar method identical to the corresponding array attribute.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="numpy.record.argsort.html#numpy.record.argsort" title="numpy.record.argsort"><code class="xref py py-obj docutils literal notranslate"><span class="pre">argsort</span></code></a></p></td>
+<td><p>Scalar method identical to the corresponding array attribute.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="numpy.record.astype.html#numpy.record.astype" title="numpy.record.astype"><code class="xref py py-obj docutils literal notranslate"><span class="pre">astype</span></code></a></p></td>
+<td><p>Scalar method identical to the corresponding array attribute.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="numpy.record.byteswap.html#numpy.record.byteswap" title="numpy.record.byteswap"><code class="xref py py-obj docutils literal notranslate"><span class="pre">byteswap</span></code></a></p></td>
+<td><p>Scalar method identical to the corresponding array attribute.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="numpy.record.choose.html#numpy.record.choose" title="numpy.record.choose"><code class="xref py py-obj docutils literal notranslate"><span class="pre">choose</span></code></a></p></td>
+<td><p>Scalar method identical to the corresponding array attribute.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="numpy.record.clip.html#numpy.record.clip" title="numpy.record.clip"><code class="xref py py-obj docutils literal notranslate"><span class="pre">clip</span></code></a></p></td>
+<td><p>Scalar method identical to the corresponding array attribute.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="numpy.record.compress.html#numpy.record.compress" title="numpy.record.compress"><code class="xref py py-obj docutils literal notranslate"><span class="pre">compress</span></code></a></p></td>
+<td><p>Scalar method identical to the corresponding array attribute.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="numpy.record.conjugate.html#numpy.record.conjugate" title="numpy.record.conjugate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">conjugate</span></code></a></p></td>
+<td><p>Scalar method identical to the corresponding array attribute.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="numpy.record.copy.html#numpy.record.copy" title="numpy.record.copy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">copy</span></code></a></p></td>
+<td><p>Scalar method identical to the corresponding array attribute.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="numpy.record.cumprod.html#numpy.record.cumprod" title="numpy.record.cumprod"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cumprod</span></code></a></p></td>
+<td><p>Scalar method identical to the corresponding array attribute.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="numpy.record.cumsum.html#numpy.record.cumsum" title="numpy.record.cumsum"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cumsum</span></code></a></p></td>
+<td><p>Scalar method identical to the corresponding array attribute.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="numpy.record.diagonal.html#numpy.record.diagonal" title="numpy.record.diagonal"><code class="xref py py-obj docutils literal notranslate"><span class="pre">diagonal</span></code></a></p></td>
+<td><p>Scalar method identical to the corresponding array attribute.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="numpy.record.dump.html#numpy.record.dump" title="numpy.record.dump"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dump</span></code></a></p></td>
+<td><p>Scalar method identical to the corresponding array attribute.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="numpy.record.dumps.html#numpy.record.dumps" title="numpy.record.dumps"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dumps</span></code></a></p></td>
+<td><p>Scalar method identical to the corresponding array attribute.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="numpy.record.fill.html#numpy.record.fill" title="numpy.record.fill"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fill</span></code></a></p></td>
+<td><p>Scalar method identical to the corresponding array attribute.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="numpy.record.flatten.html#numpy.record.flatten" title="numpy.record.flatten"><code class="xref py py-obj docutils literal notranslate"><span class="pre">flatten</span></code></a></p></td>
+<td><p>Scalar method identical to the corresponding array attribute.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="numpy.record.getfield.html#numpy.record.getfield" title="numpy.record.getfield"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getfield</span></code></a></p></td>
+<td><p>Scalar method identical to the corresponding array attribute.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="numpy.record.item.html#numpy.record.item" title="numpy.record.item"><code class="xref py py-obj docutils literal notranslate"><span class="pre">item</span></code></a></p></td>
+<td><p>Scalar method identical to the corresponding array attribute.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="numpy.record.itemset.html#numpy.record.itemset" title="numpy.record.itemset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">itemset</span></code></a></p></td>
+<td><p>Scalar method identical to the corresponding array attribute.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="numpy.record.max.html#numpy.record.max" title="numpy.record.max"><code class="xref py py-obj docutils literal notranslate"><span class="pre">max</span></code></a></p></td>
+<td><p>Scalar method identical to the corresponding array attribute.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="numpy.record.mean.html#numpy.record.mean" title="numpy.record.mean"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mean</span></code></a></p></td>
+<td><p>Scalar method identical to the corresponding array attribute.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="numpy.record.min.html#numpy.record.min" title="numpy.record.min"><code class="xref py py-obj docutils literal notranslate"><span class="pre">min</span></code></a></p></td>
+<td><p>Scalar method identical to the corresponding array attribute.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="numpy.record.newbyteorder.html#numpy.record.newbyteorder" title="numpy.record.newbyteorder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">newbyteorder</span></code></a>([new_order])</p></td>
+<td><p>Return a new <a class="reference internal" href="numpy.dtype.html#numpy.dtype" title="numpy.dtype"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dtype</span></code></a> with a different byte order.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="numpy.record.nonzero.html#numpy.record.nonzero" title="numpy.record.nonzero"><code class="xref py py-obj docutils literal notranslate"><span class="pre">nonzero</span></code></a></p></td>
+<td><p>Scalar method identical to the corresponding array attribute.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="numpy.record.pprint.html#numpy.record.pprint" title="numpy.record.pprint"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pprint</span></code></a>()</p></td>
+<td><p>Pretty-print all fields.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="numpy.record.prod.html#numpy.record.prod" title="numpy.record.prod"><code class="xref py py-obj docutils literal notranslate"><span class="pre">prod</span></code></a></p></td>
+<td><p>Scalar method identical to the corresponding array attribute.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="numpy.record.ptp.html#numpy.record.ptp" title="numpy.record.ptp"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ptp</span></code></a></p></td>
+<td><p>Scalar method identical to the corresponding array attribute.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="numpy.record.put.html#numpy.record.put" title="numpy.record.put"><code class="xref py py-obj docutils literal notranslate"><span class="pre">put</span></code></a></p></td>
+<td><p>Scalar method identical to the corresponding array attribute.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="numpy.record.ravel.html#numpy.record.ravel" title="numpy.record.ravel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ravel</span></code></a></p></td>
+<td><p>Scalar method identical to the corresponding array attribute.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="numpy.record.repeat.html#numpy.record.repeat" title="numpy.record.repeat"><code class="xref py py-obj docutils literal notranslate"><span class="pre">repeat</span></code></a></p></td>
+<td><p>Scalar method identical to the corresponding array attribute.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="numpy.record.reshape.html#numpy.record.reshape" title="numpy.record.reshape"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reshape</span></code></a></p></td>
+<td><p>Scalar method identical to the corresponding array attribute.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="numpy.record.resize.html#numpy.record.resize" title="numpy.record.resize"><code class="xref py py-obj docutils literal notranslate"><span class="pre">resize</span></code></a></p></td>
+<td><p>Scalar method identical to the corresponding array attribute.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="numpy.record.round.html#numpy.record.round" title="numpy.record.round"><code class="xref py py-obj docutils literal notranslate"><span class="pre">round</span></code></a></p></td>
+<td><p>Scalar method identical to the corresponding array attribute.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="numpy.record.searchsorted.html#numpy.record.searchsorted" title="numpy.record.searchsorted"><code class="xref py py-obj docutils literal notranslate"><span class="pre">searchsorted</span></code></a></p></td>
+<td><p>Scalar method identical to the corresponding array attribute.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="numpy.record.setfield.html#numpy.record.setfield" title="numpy.record.setfield"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setfield</span></code></a></p></td>
+<td><p>Scalar method identical to the corresponding array attribute.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="numpy.record.setflags.html#numpy.record.setflags" title="numpy.record.setflags"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setflags</span></code></a></p></td>
+<td><p>Scalar method identical to the corresponding array attribute.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="numpy.record.sort.html#numpy.record.sort" title="numpy.record.sort"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sort</span></code></a></p></td>
+<td><p>Scalar method identical to the corresponding array attribute.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="numpy.record.squeeze.html#numpy.record.squeeze" title="numpy.record.squeeze"><code class="xref py py-obj docutils literal notranslate"><span class="pre">squeeze</span></code></a></p></td>
+<td><p>Scalar method identical to the corresponding array attribute.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="numpy.record.std.html#numpy.record.std" title="numpy.record.std"><code class="xref py py-obj docutils literal notranslate"><span class="pre">std</span></code></a></p></td>
+<td><p>Scalar method identical to the corresponding array attribute.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="numpy.record.sum.html#numpy.record.sum" title="numpy.record.sum"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sum</span></code></a></p></td>
+<td><p>Scalar method identical to the corresponding array attribute.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="numpy.record.swapaxes.html#numpy.record.swapaxes" title="numpy.record.swapaxes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">swapaxes</span></code></a></p></td>
+<td><p>Scalar method identical to the corresponding array attribute.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="numpy.record.take.html#numpy.record.take" title="numpy.record.take"><code class="xref py py-obj docutils literal notranslate"><span class="pre">take</span></code></a></p></td>
+<td><p>Scalar method identical to the corresponding array attribute.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="numpy.record.tofile.html#numpy.record.tofile" title="numpy.record.tofile"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tofile</span></code></a></p></td>
+<td><p>Scalar method identical to the corresponding array attribute.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="numpy.record.tolist.html#numpy.record.tolist" title="numpy.record.tolist"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tolist</span></code></a></p></td>
+<td><p>Scalar method identical to the corresponding array attribute.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="numpy.record.tostring.html#numpy.record.tostring" title="numpy.record.tostring"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tostring</span></code></a></p></td>
+<td><p>Scalar method identical to the corresponding array attribute.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="numpy.record.trace.html#numpy.record.trace" title="numpy.record.trace"><code class="xref py py-obj docutils literal notranslate"><span class="pre">trace</span></code></a></p></td>
+<td><p>Scalar method identical to the corresponding array attribute.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="numpy.record.transpose.html#numpy.record.transpose" title="numpy.record.transpose"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transpose</span></code></a></p></td>
+<td><p>Scalar method identical to the corresponding array attribute.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="numpy.record.var.html#numpy.record.var" title="numpy.record.var"><code class="xref py py-obj docutils literal notranslate"><span class="pre">var</span></code></a></p></td>
+<td><p>Scalar method identical to the corresponding array attribute.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="numpy.record.view.html#numpy.record.view" title="numpy.record.view"><code class="xref py py-obj docutils literal notranslate"><span class="pre">view</span></code></a></p></td>
+<td><p>Scalar method identical to the corresponding array attribute.</p></td>
+</tr>
+</tbody>
+</table>
+<table class="table">
+<tbody>
+<tr class="row-odd"><td><p><strong>conj</strong></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><strong>tobytes</strong></p></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</section>
+
+
+                </article>
+              
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="numpy.recarray.view.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">numpy.recarray.view</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="numpy.record.all.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">numpy.record.all</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#numpy.record"><code class="docutils literal notranslate"><span class="pre">record</span></code></a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+  <p class="copyright">
+    
+      © Copyright 2008-2022, NumPy Developers.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.2.1.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.13.3.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>
