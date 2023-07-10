@@ -668,6 +668,16 @@ interpolation results are meaningless.</p>
 </pre></div>
 </div>
 </div>
+  
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p> Numpy.interp does not take fill_value as an argument. So when passing fill_value as a keyword argument to xarray.Dataset.interpolate_na 
+with method="linear", it does not use numpy.interp but it uses scipy.interpolate.interp1d(), which provides the fill_value parameter.</p>
+<p>Note that, since NaN is unsortable, <em class="xref py py-obj">xp</em> also cannot contain NaNs.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">xp</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
 <dl class="simple">
