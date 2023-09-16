@@ -1,0 +1,891 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>Random sampling (numpy.random) &#8212; NumPy v1.26 Manual</title>
+<script>
+  document.documentElement.dataset.mode = localStorage.getItem("mode") || "light";
+  document.documentElement.dataset.theme = localStorage.getItem("theme") || "light"
+</script>
+
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=92025949c220c2e29695" rel="stylesheet">
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=92025949c220c2e29695" rel="stylesheet">
+
+
+  <link rel="stylesheet"
+    href="../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/plot_directive.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/numpy.css" />
+
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695">
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    <script src="../../_static/design-tabs.js"></script>
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Random Generator" href="generator.html" />
+    <link rel="prev" title="numpy.RankWarning" href="../generated/numpy.RankWarning.html" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="docsearch:language" content="en">
+  </head>
+  
+  
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="180" data-default-mode="light">
+    <div class="bd-header-announcement container-fluid" id="banner">
+      
+
+    </div>
+
+    
+    <nav class="bd-header navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="bd-header__inner container-xl">
+
+  <div id="navbar-start">
+    
+    
+  
+
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+    <img src="../../_static/numpylogo.svg" class="logo__image only-light" alt="Logo image">
+    <img src="../../_static/numpylogo_dark.svg" class="logo__image only-dark" alt="Logo image">
+  
+  
+</a>
+    
+  </div>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapsible" aria-controls="navbar-collapsible" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="fas fa-bars"></span>
+  </button>
+
+  
+  <div id="navbar-collapsible" class="col-lg-9 collapse navbar-collapse">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <ul id="navbar-main-elements" class="navbar-nav">
+    <li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../user/index.html">
+  User Guide
+ </a>
+</li>
+
+<li class="toctree-l1 current active nav-item">
+ <a class="reference internal nav-link" href="../index.html">
+  API reference
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../dev/index.html">
+  Development
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../release.html">
+  Release notes
+ </a>
+</li>
+
+    
+    <li class="nav-item">
+        <a class="nav-link nav-external" href="https://numpy.org/numpy-tutorials/">Learn<i class="fas fa-external-link-alt"></i></a>
+    </li>
+    
+</ul>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      
+      <div class="navbar-end-item">
+        <span id="theme-switch" class="btn btn-sm btn-outline-primary navbar-btn rounded-circle">
+    <a class="theme-switch" data-mode="light"><i class="fas fa-sun"></i></a>
+    <a class="theme-switch" data-mode="dark"><i class="far fa-moon"></i></a>
+    <a class="theme-switch" data-mode="auto"><i class="fas fa-adjust"></i></a>
+</span>
+      </div>
+      
+      <div class="navbar-end-item">
+        <div class="dropdown" id="version_switcher">
+    <button type="button" class="btn btn-sm navbar-btn dropdown-toggle" id="version_switcher_button" data-toggle="dropdown">
+        1.26  <!-- this text may get changed later by javascript -->
+        <span class="caret"></span>
+    </button>
+    <div id="version_switcher_menu" class="dropdown-menu list-group-flush py-0" aria-labelledby="version_switcher_button">
+    <!-- dropdown will be populated by javascript on page load -->
+    </div>
+</div>
+
+<!-- NOTE: this JS must live here (not in our global JS file) because it relies
+     on being processed by Jinja before it is run (specifically for replacing
+     variables reference/random/index and {'version_match': '1.26', 'json_url': 'https://numpy.org/doc/_static/versions.json'}.
+-->
+
+<script type="text/javascript">
+// Check if corresponding page path exists in other version of docs
+// and, if so, go there instead of the homepage of the other docs version
+function checkPageExistsAndRedirect(event) {
+    const currentFilePath = "reference/random/index.html",
+          tryUrl = event.target.getAttribute("href");
+    let otherDocsHomepage = tryUrl.replace(currentFilePath, "");
+    $.ajax({
+        type: 'HEAD',
+        url: tryUrl,
+        // if the page exists, go there
+        success: function() {
+            location.href = tryUrl;
+        }
+    }).fail(function() {
+        location.href = otherDocsHomepage;
+    });
+    // this prevents the browser from following the href of the clicked node
+    // (which is fine because this function takes care of redirecting)
+    return false;
+}
+
+// Populate the version switcher from the JSON config file
+(function () {
+    $.getJSON("https://numpy.org/doc/_static/versions.json", function(data, textStatus, jqXHR) {
+        const currentFilePath = "reference/random/index.html";
+        let btn = document.getElementById("version_switcher_button");
+        // Set empty strings by default so that these attributes exist and can be used in CSS selectors
+        btn.dataset["activeVersionName"] = "";
+        btn.dataset["activeVersion"] = "";
+        // create links to the corresponding page in the other docs versions
+        $.each(data, function(index, entry) {
+            // if no custom name specified (e.g., "latest"), use version string
+            if (!("name" in entry)) {
+                entry.name = entry.version;
+            }
+            // create the node
+            const node = document.createElement("a");
+            node.setAttribute("class", "list-group-item list-group-item-action py-1");
+            node.textContent = `${entry.name}`;
+            node.setAttribute("href", `${entry.url}${currentFilePath}`);
+            // on click, AJAX calls will check if the linked page exists before
+            // trying to redirect, and if not, will redirect to the homepage
+            // for that version of the docs.
+            node.onclick = checkPageExistsAndRedirect;
+            // Add dataset values for the version and name in case people want
+            // to apply CSS styling based on this information.
+            node.dataset["versionName"] = entry.name;
+            node.dataset["version"] = entry.version;
+
+            $("#version_switcher_menu").append(node);
+            // replace dropdown button text with the preferred display name of
+            // this version, rather than using sphinx's 1.26 variable.
+            // also highlight the dropdown entry for the currently-viewed
+            // version's entry
+            if (entry.version == "1.26") {
+                node.classList.add("active");
+                btn.innerText = btn.dataset["activeVersionName"] = entry.name;
+                btn.dataset["activeVersion"] = entry.version;
+            }
+        });
+    });
+})();
+</script>
+      </div>
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+        <li class="nav-item">
+          <a class="nav-link" href="https://github.com/numpy/numpy" rel="noopener" target="_blank" title="GitHub"><span><i class="fab fa-github-square"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="https://twitter.com/numpy_team" rel="noopener" target="_blank" title="Twitter"><span><i class="fab fa-twitter-square"></i></span>
+            <label class="sr-only">Twitter</label></a>
+        </li>
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+</div>
+    </nav>
+    
+
+    <div class="bd-container container-xl">
+      <div class="bd-container__inner row">
+          
+
+<!-- Only show if we have sidebars configured, else just a small margin  -->
+<div class="bd-sidebar-primary col-12 col-md-3 bd-sidebar">
+  <div class="sidebar-start-items"><form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <div class="bd-toc-item active">
+    <ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../arrays.html">
+   Array objects
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../array_api.html">
+   Array API Standard Compatibility
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../constants.html">
+   Constants
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../ufuncs.html">
+   Universal functions (
+   <code class="xref py py-class docutils literal notranslate">
+    <span class="pre">
+     ufunc
+    </span>
+   </code>
+   )
+  </a>
+ </li>
+ <li class="toctree-l1 current active has-children">
+  <a class="reference internal" href="../routines.html">
+   Routines
+  </a>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul class="current">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../routines.array-creation.html">
+     Array creation routines
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../routines.array-manipulation.html">
+     Array manipulation routines
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../routines.bitwise.html">
+     Binary operations
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../routines.char.html">
+     String operations
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../routines.ctypeslib.html">
+     C-Types foreign function interface (
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       numpy.ctypeslib
+      </span>
+     </code>
+     )
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../routines.datetime.html">
+     Datetime support functions
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../routines.dtype.html">
+     Data type routines
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../routines.emath.html">
+     Mathematical functions with automatic domain
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../routines.err.html">
+     Floating point error handling
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../routines.fft.html">
+     Discrete Fourier Transform (
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       numpy.fft
+      </span>
+     </code>
+     )
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../routines.functional.html">
+     Functional programming
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../routines.help.html">
+     NumPy-specific help functions
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../routines.io.html">
+     Input and output
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../routines.linalg.html">
+     Linear algebra (
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       numpy.linalg
+      </span>
+     </code>
+     )
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../routines.logic.html">
+     Logic functions
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../routines.ma.html">
+     Masked array operations
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../routines.math.html">
+     Mathematical functions
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../routines.matlib.html">
+     Matrix library (
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       numpy.matlib
+      </span>
+     </code>
+     )
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../routines.other.html">
+     Miscellaneous routines
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../routines.padding.html">
+     Padding Arrays
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../routines.polynomials.html">
+     Polynomials
+    </a>
+   </li>
+   <li class="toctree-l2 current active has-children">
+    <a class="current reference internal" href="#">
+     Random sampling (
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       numpy.random
+      </span>
+     </code>
+     )
+    </a>
+    <input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+    <label for="toctree-checkbox-2">
+     <i class="fas fa-chevron-down">
+     </i>
+    </label>
+    <ul>
+     <li class="toctree-l3">
+      <a class="reference internal" href="generator.html">
+       Random Generator
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="legacy.html">
+       Legacy Generator (RandomState)
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="bit_generators/index.html">
+       Bit Generators
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="upgrading-pcg64.html">
+       Upgrading PCG64 with PCG64DXSM
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="compatibility.html">
+       Compatibility Policy
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="parallel.html">
+       Parallel Applications
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="multithreading.html">
+       Multithreaded Generation
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="new-or-different.html">
+       What’s New or Different
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="performance.html">
+       Comparing Performance
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="c-api.html">
+       C API for random
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="extending.html">
+       Examples of using Numba, Cython, CFFI
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../routines.set.html">
+     Set routines
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../routines.sort.html">
+     Sorting, searching, and counting
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../routines.statistics.html">
+     Statistics
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../routines.testing.html">
+     Test Support (
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       numpy.testing
+      </span>
+     </code>
+     )
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../routines.testing.overrides.html">
+     Support for testing overrides (
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       numpy.testing.overrides
+      </span>
+     </code>
+     )
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../routines.window.html">
+     Window functions
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../typing.html">
+   Typing (
+   <code class="xref py py-mod docutils literal notranslate">
+    <span class="pre">
+     numpy.typing
+    </span>
+   </code>
+   )
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../global_state.html">
+   Global state
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../distutils.html">
+   Packaging (
+   <code class="xref py py-mod docutils literal notranslate">
+    <span class="pre">
+     numpy.distutils
+    </span>
+   </code>
+   )
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../distutils_guide.html">
+   NumPy distutils - users guide
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../distutils_status_migration.html">
+   Status of
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     numpy.distutils
+    </span>
+   </code>
+   and migration advice
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../c-api/index.html">
+   NumPy C-API
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../simd/index.html">
+   CPU/SIMD Optimizations
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../security.html">
+   NumPy security
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../swig.html">
+   NumPy and SWIG
+  </a>
+ </li>
+</ul>
+
+  </div>
+</nav>
+  </div>
+  <div class="sidebar-end-items">
+  </div>
+</div>
+
+
+          
+
+
+<div class="bd-sidebar-secondary d-none d-xl-block col-xl-2 bd-toc">
+  
+    
+    <div class="toc-item">
+      
+<div class="tocsection onthispage mt-5 pt-1 pb-3">
+    <i class="fas fa-list"></i> On this page
+</div>
+
+<nav id="bd-toc-nav">
+    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#quick-start">
+   Quick Start
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#design">
+   Design
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#parallel-generation">
+     Parallel Generation
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#concepts">
+   Concepts
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#features">
+   Features
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#original-source-of-the-generator-and-bitgenerators">
+     Original Source of the Generator and BitGenerators
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+</nav>
+    </div>
+    
+    <div class="toc-item">
+      
+    </div>
+    
+  
+</div>
+
+
+          
+          
+          <div class="bd-content col-12 col-md-9 col-xl-7">
+              
+              <article class="bd-article" role="main">
+                
+  <span class="target" id="module-numpy.random"><span id="numpyrandom"></span></span><section id="random-sampling-numpy-random">
+<h1>Random sampling (<a class="reference internal" href="#module-numpy.random" title="numpy.random"><code class="xref py py-mod docutils literal notranslate"><span class="pre">numpy.random</span></code></a>)<a class="headerlink" href="#random-sampling-numpy-random" title="Permalink to this heading">#</a></h1>
+<section id="quick-start">
+<span id="random-quick-start"></span><h2>Quick Start<a class="headerlink" href="#quick-start" title="Permalink to this heading">#</a></h2>
+<p>The <a class="reference internal" href="#module-numpy.random" title="numpy.random"><code class="xref py py-mod docutils literal notranslate"><span class="pre">numpy.random</span></code></a> module implements pseudo-random number generators
+(PRNGs or RNGs, for short) with the ability to draw samples from a variety of
+probability distributions. In general, users will create a <a class="reference internal" href="generator.html#numpy.random.Generator" title="numpy.random.Generator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Generator</span></code></a> instance
+with <a class="reference internal" href="generator.html#numpy.random.default_rng" title="numpy.random.default_rng"><code class="xref py py-obj docutils literal notranslate"><span class="pre">default_rng</span></code></a> and call the various methods on it to obtain samples from
+different distributions.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">()</span>
+<span class="go"># Generate one random float uniformly distributed over the range [0, 1)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rng</span><span class="o">.</span><span class="n">random</span><span class="p">()</span>  
+<span class="go">0.06369197489564249  # may vary</span>
+<span class="go"># Generate an array of 10 numbers according to a unit Gaussian distribution.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rng</span><span class="o">.</span><span class="n">standard_normal</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>  
+<span class="go">array([-0.31018314, -1.8922078 , -0.3628523 , -0.63526532,  0.43181166,  # may vary</span>
+<span class="go">        0.51640373,  1.25693945,  0.07779185,  0.84090247, -2.13406828])</span>
+<span class="go"># Generate an array of 5 integers uniformly over the range [0, 10).</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rng</span><span class="o">.</span><span class="n">integers</span><span class="p">(</span><span class="n">low</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">high</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>  
+<span class="go">array([8, 7, 6, 2, 0])  # may vary</span>
+</pre></div>
+</div>
+<p>Our RNGs are deterministic sequences and can be reproduced by specifying a seed integer to
+derive its initial state. By default, with no seed provided, <a class="reference internal" href="generator.html#numpy.random.default_rng" title="numpy.random.default_rng"><code class="xref py py-obj docutils literal notranslate"><span class="pre">default_rng</span></code></a> will create
+seed the RNG from nondeterministic data from the operating system and therefore
+generate different numbers each time. The pseudo-random sequences will be
+independent for all practical purposes, at least those purposes for which our
+pseudo-randomness was good for in the first place.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rng1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rng1</span><span class="o">.</span><span class="n">random</span><span class="p">()</span>  
+<span class="go">0.6596288841243357  # may vary</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rng2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rng2</span><span class="o">.</span><span class="n">random</span><span class="p">()</span>  
+<span class="go">0.11885628817151628  # may vary</span>
+</pre></div>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The pseudo-random number generators implemented in this module are designed
+for statistical modeling and simulation. They are not suitable for security
+or cryptographic purposes. See the <a class="reference external" href="https://docs.python.org/3/library/secrets.html#module-secrets" title="(in Python v3.11)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">secrets</span></code></a> module from the
+standard library for such use cases.</p>
+</div>
+<p>Seeds should be large positive integers. <a class="reference internal" href="generator.html#numpy.random.default_rng" title="numpy.random.default_rng"><code class="xref py py-obj docutils literal notranslate"><span class="pre">default_rng</span></code></a> can take positive
+integers of any size. We recommend using very large, unique numbers to ensure
+that your seed is different from anyone else’s. This is good practice to ensure
+that your results are statistically independent from theirs unless you are
+intentionally <em>trying</em> to reproduce their result. A convenient way to get
+such a seed number is to use <a class="reference external" href="https://docs.python.org/3/library/secrets.html#secrets.randbits" title="(in Python v3.11)"><code class="xref py py-func docutils literal notranslate"><span class="pre">secrets.randbits</span></code></a> to get an
+arbitrary 128-bit integer.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">secrets</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">secrets</span><span class="o">.</span><span class="n">randbits</span><span class="p">(</span><span class="mi">128</span><span class="p">)</span>  
+<span class="go">122807528840384100672342137672332424406  # may vary</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rng1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">122807528840384100672342137672332424406</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rng1</span><span class="o">.</span><span class="n">random</span><span class="p">()</span>
+<span class="go">0.5363922081269535</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rng2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">122807528840384100672342137672332424406</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rng2</span><span class="o">.</span><span class="n">random</span><span class="p">()</span>
+<span class="go">0.5363922081269535</span>
+</pre></div>
+</div>
+<p>See the documentation on <a class="reference internal" href="generator.html#numpy.random.default_rng" title="numpy.random.default_rng"><code class="xref py py-obj docutils literal notranslate"><span class="pre">default_rng</span></code></a> and <a class="reference internal" href="bit_generators/generated/numpy.random.SeedSequence.html#numpy.random.SeedSequence" title="numpy.random.SeedSequence"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SeedSequence</span></code></a> for more advanced
+options for controlling the seed in specialized scenarios.</p>
+<p><a class="reference internal" href="generator.html#numpy.random.Generator" title="numpy.random.Generator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Generator</span></code></a> and its associated infrastructure was introduced in NumPy version
+1.17.0. There is still a lot of code that uses the older <a class="reference internal" href="legacy.html#numpy.random.RandomState" title="numpy.random.RandomState"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RandomState</span></code></a> and the
+functions in <a class="reference internal" href="#module-numpy.random" title="numpy.random"><code class="xref py py-obj docutils literal notranslate"><span class="pre">numpy.random</span></code></a>. While there are no plans to remove them at this
+time, we do recommend transitioning to <a class="reference internal" href="generator.html#numpy.random.Generator" title="numpy.random.Generator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Generator</span></code></a> as you can. The algorithms
+are faster, more flexible, and will receive more improvements in the future.
+For the most part, <a class="reference internal" href="generator.html#numpy.random.Generator" title="numpy.random.Generator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Generator</span></code></a> can be used as a replacement for <a class="reference internal" href="legacy.html#numpy.random.RandomState" title="numpy.random.RandomState"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RandomState</span></code></a>.
+See <a class="reference internal" href="legacy.html#legacy"><span class="std std-ref">Legacy Random Generation</span></a> for information on the legacy infrastructure,
+<a class="reference internal" href="new-or-different.html#new-or-different"><span class="std std-ref">What’s New or Different</span></a> for information on transitioning, and <a class="reference external" href="https://numpy.org/neps/nep-0019-rng-policy.html#nep19" title="(in NumPy Enhancement Proposals)"><span class="xref std std-ref">NEP 19</span></a> for some of the reasoning for the transition.</p>
+</section>
+<section id="design">
+<h2>Design<a class="headerlink" href="#design" title="Permalink to this heading">#</a></h2>
+<p>Users primarily interact with <a class="reference internal" href="generator.html#numpy.random.Generator" title="numpy.random.Generator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Generator</span></code></a> instances. Each <a class="reference internal" href="generator.html#numpy.random.Generator" title="numpy.random.Generator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Generator</span></code></a> instance
+owns a <a class="reference internal" href="bit_generators/generated/numpy.random.BitGenerator.html#numpy.random.BitGenerator" title="numpy.random.BitGenerator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BitGenerator</span></code></a> instance that implements the core RNG algorithm. The
+<a class="reference internal" href="bit_generators/generated/numpy.random.BitGenerator.html#numpy.random.BitGenerator" title="numpy.random.BitGenerator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BitGenerator</span></code></a> has a limited set of responsibilities. It manages state and
+provides functions to produce random doubles and random unsigned 32- and 64-bit
+values.</p>
+<p>The <a class="reference internal" href="generator.html#numpy.random.Generator" title="numpy.random.Generator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Generator</span></code></a> takes the bit generator-provided stream and transforms them
+into more useful distributions, e.g., simulated normal random values. This
+structure allows alternative bit generators to be used with little code
+duplication.</p>
+<p>NumPy implements several different <a class="reference internal" href="bit_generators/generated/numpy.random.BitGenerator.html#numpy.random.BitGenerator" title="numpy.random.BitGenerator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BitGenerator</span></code></a> classes implementing
+different RNG algorithms. <a class="reference internal" href="generator.html#numpy.random.default_rng" title="numpy.random.default_rng"><code class="xref py py-obj docutils literal notranslate"><span class="pre">default_rng</span></code></a> currently uses <a class="reference internal" href="bit_generators/pcg64.html#numpy.random.PCG64" title="numpy.random.PCG64"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PCG64</span></code></a> as the
+default <a class="reference internal" href="bit_generators/generated/numpy.random.BitGenerator.html#numpy.random.BitGenerator" title="numpy.random.BitGenerator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BitGenerator</span></code></a>. It has better statistical properties and performance
+than the <a class="reference internal" href="bit_generators/mt19937.html#numpy.random.MT19937" title="numpy.random.MT19937"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MT19937</span></code></a> algorithm used in the legacy <a class="reference internal" href="legacy.html#numpy.random.RandomState" title="numpy.random.RandomState"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RandomState</span></code></a>. See
+<a class="reference internal" href="bit_generators/index.html#random-bit-generators"><span class="std std-ref">Bit Generators</span></a> for more details on the supported BitGenerators.</p>
+<p><a class="reference internal" href="generator.html#numpy.random.default_rng" title="numpy.random.default_rng"><code class="xref py py-obj docutils literal notranslate"><span class="pre">default_rng</span></code></a> and BitGenerators delegate the conversion of seeds into RNG
+states to <a class="reference internal" href="bit_generators/generated/numpy.random.SeedSequence.html#numpy.random.SeedSequence" title="numpy.random.SeedSequence"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SeedSequence</span></code></a> internally. <a class="reference internal" href="bit_generators/generated/numpy.random.SeedSequence.html#numpy.random.SeedSequence" title="numpy.random.SeedSequence"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SeedSequence</span></code></a> implements a sophisticated
+algorithm that intermediates between the user’s input and the internal
+implementation details of each <a class="reference internal" href="bit_generators/generated/numpy.random.BitGenerator.html#numpy.random.BitGenerator" title="numpy.random.BitGenerator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BitGenerator</span></code></a> algorithm, each of which can
+require different amounts of bits for its state. Importantly, it lets you use
+arbitrary-sized integers and arbitrary sequences of such integers to mix
+together into the RNG state. This is a useful primitive for constructing
+a <a class="reference internal" href="parallel.html#seedsequence-spawn"><span class="std std-ref">flexible pattern for parallel RNG streams</span></a>.</p>
+<p>For backward compatibility, we still maintain the legacy <a class="reference internal" href="legacy.html#numpy.random.RandomState" title="numpy.random.RandomState"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RandomState</span></code></a> class.
+It continues to use the <a class="reference internal" href="bit_generators/mt19937.html#numpy.random.MT19937" title="numpy.random.MT19937"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MT19937</span></code></a> algorithm by default, and old seeds continue
+to reproduce the same results. The convenience <a class="reference internal" href="legacy.html#functions-in-numpy-random"><span class="std std-ref">Functions in numpy.random</span></a>
+are still aliases to the methods on a single global <a class="reference internal" href="legacy.html#numpy.random.RandomState" title="numpy.random.RandomState"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RandomState</span></code></a> instance. See
+<a class="reference internal" href="legacy.html#legacy"><span class="std std-ref">Legacy Random Generation</span></a> for the complete details. See <a class="reference internal" href="new-or-different.html#new-or-different"><span class="std std-ref">What’s New or Different</span></a> for
+a detailed comparison between <a class="reference internal" href="generator.html#numpy.random.Generator" title="numpy.random.Generator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Generator</span></code></a> and <a class="reference internal" href="legacy.html#numpy.random.RandomState" title="numpy.random.RandomState"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RandomState</span></code></a>.</p>
+<section id="parallel-generation">
+<h3>Parallel Generation<a class="headerlink" href="#parallel-generation" title="Permalink to this heading">#</a></h3>
+<p>The included generators can be used in parallel, distributed applications in
+a number of ways:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="parallel.html#seedsequence-spawn"><span class="std std-ref">SeedSequence spawning</span></a></p></li>
+<li><p><a class="reference internal" href="parallel.html#sequence-of-seeds"><span class="std std-ref">Sequence of Integer Seeds</span></a></p></li>
+<li><p><a class="reference internal" href="parallel.html#independent-streams"><span class="std std-ref">Independent Streams</span></a></p></li>
+<li><p><a class="reference internal" href="parallel.html#parallel-jumped"><span class="std std-ref">Jumping the BitGenerator state</span></a></p></li>
+</ul>
+<p>Users with a very large amount of parallelism will want to consult
+<a class="reference internal" href="upgrading-pcg64.html#upgrading-pcg64"><span class="std std-ref">Upgrading PCG64 with PCG64DXSM</span></a>.</p>
+</section>
+</section>
+<section id="concepts">
+<h2>Concepts<a class="headerlink" href="#concepts" title="Permalink to this heading">#</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="generator.html">Random Generator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="legacy.html">Legacy Generator (RandomState)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bit_generators/index.html">Bit Generators</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bit_generators/index.html#seeding-and-entropy">Seeding and Entropy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="upgrading-pcg64.html">Upgrading PCG64 with PCG64DXSM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="compatibility.html">Compatibility Policy</a></li>
+</ul>
+</div>
+</section>
+<section id="features">
+<h2>Features<a class="headerlink" href="#features" title="Permalink to this heading">#</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="parallel.html">Parallel Applications</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="parallel.html#seedsequence-spawning"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SeedSequence</span></code> spawning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="parallel.html#sequence-of-integer-seeds">Sequence of Integer Seeds</a></li>
+<li class="toctree-l2"><a class="reference internal" href="parallel.html#independent-streams">Independent Streams</a></li>
+<li class="toctree-l2"><a class="reference internal" href="parallel.html#jumping-the-bitgenerator-state">Jumping the BitGenerator state</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="multithreading.html">Multithreaded Generation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="new-or-different.html">What’s New or Different</a></li>
+<li class="toctree-l1"><a class="reference internal" href="performance.html">Comparing Performance</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="performance.html#recommendation">Recommendation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="performance.html#timings">Timings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="performance.html#performance-on-different-operating-systems">Performance on different Operating Systems</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="c-api.html">C API for random</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extending.html">Examples of using Numba, Cython, CFFI</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="extending.html#numba">Numba</a></li>
+<li class="toctree-l2"><a class="reference internal" href="extending.html#cython">Cython</a></li>
+<li class="toctree-l2"><a class="reference internal" href="extending.html#cffi">CFFI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="extending.html#new-bit-generators">New Bit Generators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="extending.html#examples">Examples</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<section id="original-source-of-the-generator-and-bitgenerators">
+<h3>Original Source of the Generator and BitGenerators<a class="headerlink" href="#original-source-of-the-generator-and-bitgenerators" title="Permalink to this heading">#</a></h3>
+<p>This package was developed independently of NumPy and was integrated in version
+1.17.0. The original repo is at <a class="reference external" href="https://github.com/bashtage/randomgen">https://github.com/bashtage/randomgen</a>.</p>
+</section>
+</section>
+</section>
+
+
+              </article>
+              
+
+              
+              <footer class="bd-footer-article">
+                  <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+  <a class='left-prev' id="prev-link" href="../generated/numpy.RankWarning.html" title="previous page">
+      <i class="fas fa-angle-left"></i>
+      <div class="prev-next-info">
+          <p class="prev-next-subtitle">previous</p>
+          <p class="prev-next-title">numpy.RankWarning</p>
+      </div>
+  </a>
+  <a class='right-next' id="next-link" href="generator.html" title="next page">
+  <div class="prev-next-info">
+      <p class="prev-next-subtitle">next</p>
+      <p class="prev-next-title">Random Generator</p>
+  </div>
+  <i class="fas fa-angle-right"></i>
+  </a>
+</div>
+              </footer>
+              
+          </div>
+          
+      </div>
+    </div>
+
+  
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695"></script>
+
+<footer class="bd-footer"><div class="bd-footer__inner container">
+  
+  <div class="footer-item">
+    <p class="copyright">
+    &copy; Copyright 2008-2022, NumPy Developers.<br>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    <p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.3.0.<br>
+</p>
+  </div>
+  
+</div>
+</footer>
+  </body>
+</html>

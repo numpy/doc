@@ -1,0 +1,601 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>Building from source &#8212; NumPy v1.26 Manual</title>
+<script>
+  document.documentElement.dataset.mode = localStorage.getItem("mode") || "light";
+  document.documentElement.dataset.theme = localStorage.getItem("theme") || "light"
+</script>
+
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=92025949c220c2e29695" rel="stylesheet">
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=92025949c220c2e29695" rel="stylesheet">
+
+
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/numpy.css" />
+
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695">
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/design-tabs.js"></script>
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Using NumPy C-API" href="c-info.html" />
+    <link rel="prev" title="How to create arrays with regularly-spaced values" href="how-to-partition.html" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="docsearch:language" content="en">
+  </head>
+  
+  
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="180" data-default-mode="light">
+    <div class="bd-header-announcement container-fluid" id="banner">
+      
+
+    </div>
+
+    
+    <nav class="bd-header navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="bd-header__inner container-xl">
+
+  <div id="navbar-start">
+    
+    
+  
+
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+    <img src="../_static/numpylogo.svg" class="logo__image only-light" alt="Logo image">
+    <img src="../_static/numpylogo_dark.svg" class="logo__image only-dark" alt="Logo image">
+  
+  
+</a>
+    
+  </div>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapsible" aria-controls="navbar-collapsible" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="fas fa-bars"></span>
+  </button>
+
+  
+  <div id="navbar-collapsible" class="col-lg-9 collapse navbar-collapse">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <ul id="navbar-main-elements" class="navbar-nav">
+    <li class="toctree-l1 current active nav-item">
+ <a class="reference internal nav-link" href="index.html">
+  User Guide
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../reference/index.html">
+  API reference
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../dev/index.html">
+  Development
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../release.html">
+  Release notes
+ </a>
+</li>
+
+    
+    <li class="nav-item">
+        <a class="nav-link nav-external" href="https://numpy.org/numpy-tutorials/">Learn<i class="fas fa-external-link-alt"></i></a>
+    </li>
+    
+</ul>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      
+      <div class="navbar-end-item">
+        <span id="theme-switch" class="btn btn-sm btn-outline-primary navbar-btn rounded-circle">
+    <a class="theme-switch" data-mode="light"><i class="fas fa-sun"></i></a>
+    <a class="theme-switch" data-mode="dark"><i class="far fa-moon"></i></a>
+    <a class="theme-switch" data-mode="auto"><i class="fas fa-adjust"></i></a>
+</span>
+      </div>
+      
+      <div class="navbar-end-item">
+        <div class="dropdown" id="version_switcher">
+    <button type="button" class="btn btn-sm navbar-btn dropdown-toggle" id="version_switcher_button" data-toggle="dropdown">
+        1.26  <!-- this text may get changed later by javascript -->
+        <span class="caret"></span>
+    </button>
+    <div id="version_switcher_menu" class="dropdown-menu list-group-flush py-0" aria-labelledby="version_switcher_button">
+    <!-- dropdown will be populated by javascript on page load -->
+    </div>
+</div>
+
+<!-- NOTE: this JS must live here (not in our global JS file) because it relies
+     on being processed by Jinja before it is run (specifically for replacing
+     variables user/building and {'version_match': '1.26', 'json_url': 'https://numpy.org/doc/_static/versions.json'}.
+-->
+
+<script type="text/javascript">
+// Check if corresponding page path exists in other version of docs
+// and, if so, go there instead of the homepage of the other docs version
+function checkPageExistsAndRedirect(event) {
+    const currentFilePath = "user/building.html",
+          tryUrl = event.target.getAttribute("href");
+    let otherDocsHomepage = tryUrl.replace(currentFilePath, "");
+    $.ajax({
+        type: 'HEAD',
+        url: tryUrl,
+        // if the page exists, go there
+        success: function() {
+            location.href = tryUrl;
+        }
+    }).fail(function() {
+        location.href = otherDocsHomepage;
+    });
+    // this prevents the browser from following the href of the clicked node
+    // (which is fine because this function takes care of redirecting)
+    return false;
+}
+
+// Populate the version switcher from the JSON config file
+(function () {
+    $.getJSON("https://numpy.org/doc/_static/versions.json", function(data, textStatus, jqXHR) {
+        const currentFilePath = "user/building.html";
+        let btn = document.getElementById("version_switcher_button");
+        // Set empty strings by default so that these attributes exist and can be used in CSS selectors
+        btn.dataset["activeVersionName"] = "";
+        btn.dataset["activeVersion"] = "";
+        // create links to the corresponding page in the other docs versions
+        $.each(data, function(index, entry) {
+            // if no custom name specified (e.g., "latest"), use version string
+            if (!("name" in entry)) {
+                entry.name = entry.version;
+            }
+            // create the node
+            const node = document.createElement("a");
+            node.setAttribute("class", "list-group-item list-group-item-action py-1");
+            node.textContent = `${entry.name}`;
+            node.setAttribute("href", `${entry.url}${currentFilePath}`);
+            // on click, AJAX calls will check if the linked page exists before
+            // trying to redirect, and if not, will redirect to the homepage
+            // for that version of the docs.
+            node.onclick = checkPageExistsAndRedirect;
+            // Add dataset values for the version and name in case people want
+            // to apply CSS styling based on this information.
+            node.dataset["versionName"] = entry.name;
+            node.dataset["version"] = entry.version;
+
+            $("#version_switcher_menu").append(node);
+            // replace dropdown button text with the preferred display name of
+            // this version, rather than using sphinx's 1.26 variable.
+            // also highlight the dropdown entry for the currently-viewed
+            // version's entry
+            if (entry.version == "1.26") {
+                node.classList.add("active");
+                btn.innerText = btn.dataset["activeVersionName"] = entry.name;
+                btn.dataset["activeVersion"] = entry.version;
+            }
+        });
+    });
+})();
+</script>
+      </div>
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+        <li class="nav-item">
+          <a class="nav-link" href="https://github.com/numpy/numpy" rel="noopener" target="_blank" title="GitHub"><span><i class="fab fa-github-square"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="https://twitter.com/numpy_team" rel="noopener" target="_blank" title="Twitter"><span><i class="fab fa-twitter-square"></i></span>
+            <label class="sr-only">Twitter</label></a>
+        </li>
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+</div>
+    </nav>
+    
+
+    <div class="bd-container container-xl">
+      <div class="bd-container__inner row">
+          
+
+<!-- Only show if we have sidebars configured, else just a small margin  -->
+<div class="bd-sidebar-primary col-12 col-md-3 bd-sidebar">
+  <div class="sidebar-start-items"><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <div class="bd-toc-item active">
+    <p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Getting started
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="whatisnumpy.html">
+   What is NumPy?
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference external" href="https://numpy.org/install/">
+   Installation
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="quickstart.html">
+   NumPy quickstart
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="absolute_beginners.html">
+   NumPy: the absolute basics for beginners
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Fundamentals and usage
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="basics.html">
+   NumPy fundamentals
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="numpy-for-matlab-users.html">
+   NumPy for MATLAB users
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference external" href="https://numpy.org/numpy-tutorials/features.html">
+   NumPy Tutorials
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="howtos_index.html">
+   NumPy how-tos
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Advanced usage and interoperability
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Building from source
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="c-info.html">
+   Using NumPy C-API
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../f2py/index.html">
+   F2PY user guide and reference manual
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../dev/underthehood.html">
+   Under-the-hood documentation for developers
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="basics.interoperability.html">
+   Interoperability with NumPy
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Extras
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../glossary.html">
+   Glossary
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../release.html">
+   Release notes
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../license.html">
+   NumPy license
+  </a>
+ </li>
+</ul>
+
+  </div>
+</nav>
+  </div>
+  <div class="sidebar-end-items">
+  </div>
+</div>
+
+
+          
+
+
+<div class="bd-sidebar-secondary d-none d-xl-block col-xl-2 bd-toc">
+  
+    
+    <div class="toc-item">
+      
+<div class="tocsection onthispage mt-5 pt-1 pb-3">
+    <i class="fas fa-list"></i> On this page
+</div>
+
+<nav id="bd-toc-nav">
+    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#prerequisites">
+   Prerequisites
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#basic-installation">
+   Basic installation
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#advanced-building-with-meson">
+     Advanced building with Meson
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#testing">
+   Testing
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#accelerated-blas-lapack-libraries">
+   Accelerated BLAS/LAPACK libraries
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#cross-compilation">
+   Cross compilation
+  </a>
+ </li>
+</ul>
+
+</nav>
+    </div>
+    
+    <div class="toc-item">
+      
+    </div>
+    
+  
+</div>
+
+
+          
+          
+          <div class="bd-content col-12 col-md-9 col-xl-7">
+              
+              <article class="bd-article" role="main">
+                
+  <section id="building-from-source">
+<span id="id1"></span><h1>Building from source<a class="headerlink" href="#building-from-source" title="Permalink to this heading">#</a></h1>
+<p>Building locally on your machine gives you complete control over build options.
+If you are a MacOS or Linux user familiar with using the
+command line, you can continue with building NumPy locally by following the
+instructions below.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If you want to build NumPy for development purposes, please refer to
+<a class="reference internal" href="../dev/development_environment.html#development-environment"><span class="std std-ref">Setting up and using your development environment</span></a> for additional information.</p>
+</div>
+<section id="prerequisites">
+<h2>Prerequisites<a class="headerlink" href="#prerequisites" title="Permalink to this heading">#</a></h2>
+<p>Building NumPy requires the following software installed:</p>
+<ol class="arabic">
+<li><p>Python 3.9.x or newer</p>
+<p>Please note that the Python development headers also need to be installed,
+e.g., on Debian/Ubuntu one needs to install both <em class="xref py py-obj">python3</em> and
+<em class="xref py py-obj">python3-dev</em>. On Windows and macOS this is normally not an issue.</p>
+</li>
+<li><p>Compilers</p>
+<p>Much of NumPy is written in C and C++.  You will need a C compiler that
+complies with the C99 standard, and a C++ compiler that complies with the
+C++17 standard.</p>
+<p>While a FORTRAN 77 compiler is not necessary for building NumPy, it is
+needed to run the <code class="docutils literal notranslate"><span class="pre">numpy.f2py</span></code> tests. These tests are skipped if the
+compiler is not auto-detected.</p>
+<p>Note that NumPy is developed mainly using GNU compilers and tested on
+MSVC and Clang compilers. Compilers from other vendors such as Intel,
+Absoft, Sun, NAG, Compaq, Vast, Portland, Lahey, HP, IBM are only
+supported in the form of community feedback, and may not work out of the
+box.  GCC 6.5 (and later) compilers are recommended. On ARM64 (aarch64)
+GCC 8.x (and later) are recommended.</p>
+</li>
+<li><p>Linear Algebra libraries</p>
+<p>NumPy does not require any external linear algebra libraries to be
+installed. However, if these are available, NumPy’s setup script can detect
+them and use them for building. A number of different LAPACK library setups
+can be used, including optimized LAPACK libraries such as OpenBLAS or MKL.
+The choice and location of these libraries as well as include paths and
+other such build options can be specified in a <code class="docutils literal notranslate"><span class="pre">.pc</span></code> file, as documented in
+<a class="reference external" href="https://docs.scipy.org/doc/scipy/building/blas_lapack.html#building-blas-and-lapack" title="(in SciPy v1.11.2)"><span>BLAS and LAPACK</span></a>.</p>
+</li>
+<li><p>Cython</p>
+<p>For building NumPy, you’ll need a recent version of Cython.</p>
+</li>
+<li><p>The NumPy source code</p>
+<p>Clone the repository following the instructions in <a class="reference internal" href="../dev/index.html"><span class="doc">Contributing to NumPy</span></a>.</p>
+</li>
+</ol>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Starting on version 1.26, NumPy will adopt Meson as its build system (see
+<a class="reference internal" href="../reference/distutils_status_migration.html#distutils-status-migration"><span class="std std-ref">Status of numpy.distutils and migration advice</span></a> and
+<a class="reference external" href="https://docs.scipy.org/doc/scipy/building/understanding_meson.html" title="(in SciPy v1.11.2)"><span>Understanding Meson</span></a> for more details.)</p>
+</div>
+</section>
+<section id="basic-installation">
+<h2>Basic installation<a class="headerlink" href="#basic-installation" title="Permalink to this heading">#</a></h2>
+<p>To build and install NumPy from a local copy of the source code, run:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="o">.</span>
+</pre></div>
+</div>
+<p>This will install all build dependencies and use Meson to compile and install
+the NumPy C-extensions and Python modules. If you need more control of build
+options and commands, see the following sections.</p>
+<p>To perform an in-place build that can be run from the source folder run:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">r</span> <span class="n">build_requirements</span><span class="o">.</span><span class="n">txt</span>
+<span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">e</span> <span class="o">.</span> <span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">build</span><span class="o">-</span><span class="n">isolation</span>
+</pre></div>
+</div>
+<p><em>Note: for build instructions to do development work on NumPy itself, see</em>
+<a class="reference internal" href="../dev/development_environment.html#development-environment"><span class="std std-ref">Setting up and using your development environment</span></a>.</p>
+<section id="advanced-building-with-meson">
+<h3>Advanced building with Meson<a class="headerlink" href="#advanced-building-with-meson" title="Permalink to this heading">#</a></h3>
+<p>Meson supports the standard environment variables <code class="docutils literal notranslate"><span class="pre">CC</span></code>, <code class="docutils literal notranslate"><span class="pre">CXX</span></code> and <code class="docutils literal notranslate"><span class="pre">FC</span></code> to
+select specific C, C++ and/or Fortran compilers. These environment variables are
+documented in <a class="reference external" href="https://mesonbuild.com/Reference-tables.html#compiler-and-linker-flag-environment-variables">the reference tables in the Meson docs</a>.</p>
+<p>Note that environment variables only get applied from a clean build, because
+they affect the configure stage (i.e., meson setup). An incremental rebuild does
+not react to changes in environment variables - you have to run
+<code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">clean</span> <span class="pre">-xdf</span></code> and do a full rebuild, or run <code class="docutils literal notranslate"><span class="pre">meson</span> <span class="pre">setup</span> <span class="pre">--reconfigure</span></code>.</p>
+<p>For more options including selecting compilers, setting custom compiler flags
+and controlling parallelism, see <a class="reference external" href="https://docs.scipy.org/doc/scipy/building/compilers_and_options.html" title="(in SciPy v1.11.2)"><span>Compiler selection and customizing a build</span></a>
+(from the SciPy documentation) and <a class="reference external" href="https://mesonbuild.com/howtox.html#set-extra-compiler-and-linker-flags-from-the-outside-when-eg-building-distro-packages">the Meson FAQ</a>.</p>
+</section>
+</section>
+<section id="testing">
+<h2>Testing<a class="headerlink" href="#testing" title="Permalink to this heading">#</a></h2>
+<p>Make sure to test your builds. To ensure everything stays in shape, see if
+all tests pass.</p>
+<p>The test suite requires additional dependencies, which can easily be
+installed with:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">r</span> <span class="n">test_requirements</span><span class="o">.</span><span class="n">txt</span>
+</pre></div>
+</div>
+<p>Run the full test suite with:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="o">..</span>  <span class="c1"># avoid picking up the source tree</span>
+<span class="n">pytest</span> <span class="o">--</span><span class="n">pyargs</span> <span class="n">numpy</span>
+</pre></div>
+</div>
+<p>For detailed info on testing, see <a class="reference internal" href="../dev/development_environment.html#testing-builds"><span class="std std-ref">Testing builds</span></a>.</p>
+</section>
+<section id="accelerated-blas-lapack-libraries">
+<span id="id2"></span><h2>Accelerated BLAS/LAPACK libraries<a class="headerlink" href="#accelerated-blas-lapack-libraries" title="Permalink to this heading">#</a></h2>
+<p>NumPy searches for optimized linear algebra libraries such as BLAS and LAPACK.
+There are specific orders for searching these libraries, as described below and
+in the
+<a class="reference external" href="https://github.com/numpy/numpy/blob/main/meson_options.txt">meson_options.txt</a>
+file.</p>
+</section>
+<section id="cross-compilation">
+<h2>Cross compilation<a class="headerlink" href="#cross-compilation" title="Permalink to this heading">#</a></h2>
+<p>For cross compilation instructions, see <a class="reference external" href="https://docs.scipy.org/doc/scipy/building/cross_compilation.html" title="(in SciPy v1.11.2)"><span>Cross compilation</span></a>
+and the <a class="reference external" href="meson">Meson documentation</a>.</p>
+</section>
+</section>
+
+
+              </article>
+              
+
+              
+              <footer class="bd-footer-article">
+                  <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+  <a class='left-prev' id="prev-link" href="how-to-partition.html" title="previous page">
+      <i class="fas fa-angle-left"></i>
+      <div class="prev-next-info">
+          <p class="prev-next-subtitle">previous</p>
+          <p class="prev-next-title">How to create arrays with regularly-spaced values</p>
+      </div>
+  </a>
+  <a class='right-next' id="next-link" href="c-info.html" title="next page">
+  <div class="prev-next-info">
+      <p class="prev-next-subtitle">next</p>
+      <p class="prev-next-title">Using NumPy C-API</p>
+  </div>
+  <i class="fas fa-angle-right"></i>
+  </a>
+</div>
+              </footer>
+              
+          </div>
+          
+      </div>
+    </div>
+
+  
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695"></script>
+
+<footer class="bd-footer"><div class="bd-footer__inner container">
+  
+  <div class="footer-item">
+    <p class="copyright">
+    &copy; Copyright 2008-2022, NumPy Developers.<br>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    <p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.3.0.<br>
+</p>
+  </div>
+  
+</div>
+</footer>
+  </body>
+</html>
