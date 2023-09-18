@@ -7,7 +7,7 @@ import re
 import os
 import argparse
 import html.parser
-from pkg_resources import parse_version
+from packaging.version import parse as parse_version
 
 
 class Scaper(html.parser.HTMLParser):
