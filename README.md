@@ -23,4 +23,4 @@ To add documentation for a version:
   `<!-- insert here -->` comment, and changing the `href` locations
   appropriately.
 
-- Finally, run `python3 update.py` and commit all changes.
+- Finally, run `pip install packaging; python3 update.py` and commit all changes.
