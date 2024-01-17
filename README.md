@@ -23,4 +23,6 @@ To add documentation for a version:
   `<!-- insert here -->` comment, and changing the `href` locations
   appropriately.
 
+- Edit the `_static/versions.json` to reflect the new version.
+
 - Finally, run `pip install packaging; python3 update.py` and commit all changes.
