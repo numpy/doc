@@ -4,7 +4,7 @@ This repo holds the generated documentation for historical versions of NumPy.
 
 To add documentation for a version:
 
-- Run [`make dist`](http://www.numpy.org/devdocs/docs/howto_build_docs.html) in
+- Run [`make dist`](https://stackoverflow.com/questions/43197756/what-is-the-difference-between-make-and-make-dist) in
   the `doc` directory of a numpy source checkout
 
 - Expand the resulting `build/dist.tar.gz in the appropriately-named top-level
