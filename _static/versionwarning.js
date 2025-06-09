@@ -13,7 +13,7 @@
 $(document).ready(function() {
     const pathPattern = /^\/doc\/()([0-9.]+)(.*)/;
     const latestStable = {
-        "": "2.2"
+        "": "2.3"
     };
     const names = {
         "": "NumPy"
